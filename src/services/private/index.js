@@ -16,5 +16,11 @@ export const privateApi = createApi({
       return headers;
     },
   }),
-  endpoints: () => ({}),
+  endpoints: builder => ({
+    getRecentActivity: builder.query({
+      query: () => 'api/user/recent/activity/',
+    }),
+  }),
 });
+
+export const { useGetRecentActivityQuery } = privateApi;
