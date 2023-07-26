@@ -1,10 +1,11 @@
-import { PropTypes } from 'prop-types';
+import React from 'react';
+import { Outlet } from 'react-router';
 
-function PublicRoutes({ children }) {
-  return children;
+function PublicRoutes() {
+  return <Outlet />;
 }
-PublicRoutes.propTypes = {
-  children: PropTypes.element.isRequired,
-};
+// PublicRoutes.propTypes = {
+//   children: PropTypes.element.isRequired,
+// };
 
 export default PublicRoutes;

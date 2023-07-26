@@ -3,7 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DoneIcon from '@mui/icons-material/Done';
-import useClickOutside from './custom-hooks/useClickOutside';
+import { Box, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import 'styles/topbar-search-menu.scss';
+import useClickOutside from '../custom-hooks/useClickOutside';
 
 const searchOptions = [
   { link: 'items', label: 'Items' },
@@ -36,8 +38,14 @@ function SearchBar() {
   const [showMenu, setMenu] = useState(false);
   const [searchText, setSearchText] = useState(searchQuery || '');
   const [showResetBtn, setResetBtn] = useState(!!searchQuery);
-
-  const toggleMenu = () => setMenu(prevState => !prevState);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const closeDropDown = () => setMenu(false);
 
@@ -49,6 +57,9 @@ function SearchBar() {
       setSearchText('');
     }
   }, [searchQuery]);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [anchorEl]);
 
   useEffect(() => {
     const currentPage = searchOptions.find(item => pathname.includes(item.link));
@@ -62,8 +73,7 @@ function SearchBar() {
 
   const handleSelect = item => {
     setSelectedPage(item);
-    setMenu(false);
-    inputRef.current.focus();
+    handleClose();
   };
 
   const handleSearch = keyCode => {
@@ -90,21 +100,33 @@ function SearchBar() {
 
   return (
     <div ref={componentRef} className="topbar__search px-3">
-      <span className="topbar__search-dropdown">
-        <span className="topbar__search-dropdown--head" role="button" tabIndex={0} onClick={toggleMenu}>
-          <SearchIcon sx={{ fontSize: 18 }} className="clr-add" />
-          <ArrowDropDownIcon sx={{ fontSize: 20 }} className="clr-add menudown-icon" />
-          <span className="dropdown-label">{selectedPage.label}</span>
-        </span>
-        <div className={`topbar__search-dropdown--menu${showMenu ? ' show' : ''}`}>
+      <Stack direction="row" className="search-menu-dropdown" onClick={handleClick}>
+        <SearchIcon sx={{ fontSize: 18 }} className="clr-add" />
+        <ArrowDropDownIcon sx={{ fontSize: 20 }} className="clr-add menudown-icon" />
+        <Typography className="dropdown-label">{selectedPage.label}</Typography>
+      </Stack>
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <Box className="search-option-menu">
           {searchOptions.map(item => (
-            <button key={item.link} type="button" onClick={() => handleSelect(item)}>
-              {selectedPage.link === item.link && <DoneIcon className="check-icon" x={{ fontSize: 18 }} />}
-              {item.label}
-            </button>
+            <MenuItem key={item.link} onClick={() => handleSelect(item)}>
+              <DoneIcon
+                className="check-icon"
+                sx={{ fontSize: 18, opacity: selectedPage.link === item.link ? 1 : 0 }}
+              />
+              <Typography sx={{ fontSize: 14 }}>{item.label}</Typography>
+            </MenuItem>
           ))}
-        </div>
-      </span>
+        </Box>
+      </Menu>
       <input
         className="topbar__search-field"
         name="search"

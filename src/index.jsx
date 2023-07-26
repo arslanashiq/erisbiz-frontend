@@ -8,7 +8,7 @@ import store from './store/index';
 
 // GLOBAL STYLESHEETS
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import './index.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

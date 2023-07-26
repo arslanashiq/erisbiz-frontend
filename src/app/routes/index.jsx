@@ -13,27 +13,28 @@ const ForgetPasswordPage = lazy(() => import('../../containers/ForgotPassword'))
 function AppRoutes() {
   return (
     <BrowserRouter>
-      <PublicRoutes>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/forgotpassword" element={<ForgetPasswordPage />} />
-          <Route path="/resetpassword" element={<>resetpassword</>} />
-        </Routes>
-      </PublicRoutes>
-      <PrivateRoutes>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/" element={<>dashboard</>} />
-            <Route path="/pages/reports" element={<>Reports</>} />
-
-            <Route path="/pages/accounting/items" element={<>items</>} />
-            <Route path="/pages/accounting/banking" element={<>banking</>} />
-
-            <Route path="/pages/accounting/sales/customers" element={<>customers</>} />
-            <Route path="/pages/accounting/sales/accounts" element={<>accounts</>} />
+      <Routes>
+        <Route path="/">
+          <Route path="auth" element={<PublicRoutes />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="forgot-password" element={<ForgetPasswordPage />} />
+            <Route path="reset-password" element={<>resetpassword</>} />
           </Route>
-        </Routes>
-      </PrivateRoutes>
+
+          <Route path="/" element={<PrivateRoutes />}>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<>dashboard</>} />
+              <Route path="/pages/reports" element={<>Reports</>} />
+
+              <Route path="/pages/accounting/items" element={<>items</>} />
+              <Route path="/pages/accounting/banking" element={<>banking</>} />
+
+              <Route path="/pages/accounting/sales/customers" element={<>customers</>} />
+              <Route path="/pages/accounting/sales/accounts" element={<>accounts</>} />
+            </Route>
+          </Route>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

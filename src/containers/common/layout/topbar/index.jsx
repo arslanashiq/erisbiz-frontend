@@ -1,25 +1,19 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import { Link } from 'react-router-dom';
 import QuickCreateMenu from './components/QuickCreateMenu';
 import RecentActivity from './components/RecentActivity';
 import SearchBar from './components/SearchBar';
 import TopbarSettings from './components/TopbarSettings';
 import TopbarProfile from './components/TopbarProfile';
-import './styles/topbar.scss';
+import 'styles/topbar.scss';
 
 function TopBar() {
   return (
     <Toolbar>
-      {/* <Box>
-            <div className="topbar__left">
-              <TopbarSidebarButton
-                changeMobileSidebarVisibility={() => {}}
-                changeSidebarVisibility={() => {}}
-              />
-              <Link className="topbar__logo" to="/" />
-            </div>
-          </Box> */}
+      <Link className="topbar__logo" to="/" />
+
       <Box sx={{ width: '100%' }}>
         <div className="topbar__middle">
           <div className="d-flex align-items-center">

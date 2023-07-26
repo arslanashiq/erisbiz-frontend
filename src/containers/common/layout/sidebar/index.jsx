@@ -116,7 +116,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
   }),
 }));
 
-export default function MiniDrawer() {
+function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
@@ -215,3 +215,5 @@ export default function MiniDrawer() {
     </Box>
   );
 }
+
+export default Sidebar;

@@ -1,62 +1,67 @@
-/* eslint react/forbid-prop-types: 0 */
-/* eslint no-script-url: 0 */
-
-import React, { useState } from 'react';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Collapse } from 'reactstrap';
-// import PropTypes from 'prop-types';
-import { IconButton, Tooltip } from '@mui/material';
-// import { useNavigate } from 'react-router';
-import TopbarMenuLink from './TopbarMenuLink';
+import { Box, IconButton, Tooltip, Typography, Menu, MenuItem } from '@mui/material';
+import 'styles/topbar-setting.scss';
 
+const settingOptions = [
+  {
+    title: 'Opening Balance',
+    path: '/pages/accounting/openingBalance',
+  },
+  {
+    title: 'Stamp and Signature',
+    path: '/pages/accounting/stampAndSignature',
+  },
+  {
+    title: 'Requester Signature',
+    path: '/pages/accounting/uploadSignature',
+  },
+];
 function TopbarSettings() {
-  const [isOpen, setOpen] = useState(false);
-  // const { department } = props;
-  // const navigate = useNavigate();
-  const toggle = () => {
-    setOpen(!isOpen);
-    // if (isHrDepart) navigate('/pages/settings');
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
-    <div className="topbar__profile">
-      <button className="topbar__avatar" type="button" onClick={toggle}>
-        <Tooltip title="Setting" placement="bottom" arrow>
-          <IconButton>
-            <SettingsIcon sx={{ fontSize: 20 }} />
-          </IconButton>
-        </Tooltip>
-      </button>
-      {isOpen && (
-        <button className="topbar__back" type="button" onClick={toggle}>
-          {' '}
-        </button>
-      )}
-
-      <Collapse isOpen={isOpen} className="topbar__menu-wrap">
-        <div className="topbar__menu">
-          {/* <TopbarMenuLink
-            title="General Settings"
-            path="/pages/settings"
-            onClick={toggle}
-          /> */}
-          <TopbarMenuLink title="Opening Balance" path="/pages/accounting/openingBalance" onClick={toggle} />
-          <TopbarMenuLink
-            title="Stamp and Signature"
-            path="/pages/accounting/stampAndSignature"
-            onClick={toggle}
-          />
-          <TopbarMenuLink
-            title="Requester Signature"
-            path="/pages/accounting/uploadSignature"
-            onClick={toggle}
-          />
-        </div>
-      </Collapse>
-    </div>
+    <>
+      <Tooltip title="Setting" placement="bottom" arrow>
+        <IconButton
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <SettingsIcon className="clr-add" />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <Box className="topbar-setting">
+          {settingOptions.map(option => (
+            <MenuItem className="topbar-setting-menu-item">
+              <Link className="topbar-setting-menu-item-link" to={option.path}>
+                <Typography className="topbar-setting-menu-item-option">{option.title}</Typography>
+              </Link>
+            </MenuItem>
+          ))}
+        </Box>
+      </Menu>
+    </>
   );
 }
-TopbarSettings.propTypes = {
-  // department: PropTypes.string.isRequired,
-};
+
 export default TopbarSettings;

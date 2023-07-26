@@ -1,15 +1,16 @@
+/*eslint-disable*/
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 // import Layout from 'containers/common/layout';
 
-function PrivateRoutes({ children }) {
-  const isAuthenticated = true;
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+function PrivateRoutes() {
+  const user = useSelector(state => state.user);
+  if (!user.isAuthenticated) {
+    return <Navigate to="/auth/login" />;
   }
-
-  return <div className="p-3">{children}</div>;
+  return <Outlet />;
 }
 PrivateRoutes.propTypes = {
   children: PropTypes.element.isRequired,

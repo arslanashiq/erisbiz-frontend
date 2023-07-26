@@ -1,11 +1,11 @@
-/*eslint-disable */
+/* eslint-disable */
 import React from 'react';
 import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LogInForm from './components/LogInForm';
-import 'styles/auth-form-cards.scss';
 import 'styles/form.scss';
+import 'styles/auth-form-cards.scss';
 
 const LogIn = props => {
   const { isAuthenticated, allowSystemAccess } = props;

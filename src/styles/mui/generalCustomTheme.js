@@ -12,7 +12,14 @@ const theme = createTheme({
     },
   },
 
+  palette: {
+    primary: {
+      main: '#29547d',
+    },
+  },
+
   components: {
+    // AppBar
     MuiAppBar: {
       styleOverrides: {
         root: {
@@ -20,6 +27,8 @@ const theme = createTheme({
         },
       },
     },
+
+    // List
     MuiList: {
       styleOverrides: {
         root: {
@@ -27,16 +36,33 @@ const theme = createTheme({
         },
       },
     },
+
+    // ListItem
     MuiListItem: {
       styleOverrides: {
         root: ({ ownerState }) => ({
           ...(ownerState.selected === true && {
-            backgroundColor: 'lightblue !important',
+            backgroundColor: '#29547d !important',
             color: '#ffff',
           }),
           '&:hover': {
-            backgroundColor: 'lightblue',
+            backgroundColor: '#29547d',
             color: '#ffff',
+          },
+        }),
+      },
+    },
+
+    // IconButton
+    MuiIconButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          ...(ownerState.selected === true &&
+            {
+              // code here
+            }),
+          '&:hover': {
+            backgroundColor: '#f2f4f7',
           },
         }),
       },

@@ -1,79 +1,77 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
 // import { Link } from 'react-router-dom';
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import HistoryIcon from '@mui/icons-material/History';
+import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 import ArticleIcon from '@mui/icons-material/Article';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PersonIcon from '@mui/icons-material/Person';
-// import { getRecentActivity } from '../../../redux/actions/usersActions';
-// import getLinkAddress from '../../../utils/getLinkAddress';
-// import ToolTip from 'containers/common/ToolTip';
-// import { useSelector } from 'react-redux';
-import { useGetRecentActivityQuery } from 'services/private';
-import { IconButton, Tooltip } from '@mui/material';
+import { useGetRecentActivityQuery } from 'services/private/user';
+import 'styles/recent-activity.scss';
 
 function RecentActivity() {
-  // const dispatch = useDispatch();
-  // const { recentActivity } = useSelector(state => state.users);
-
-  useEffect(() => {
-    // dispatch(getRecentActivity());
-  }, []);
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const recentActivity = useGetRecentActivityQuery();
   const getActivityIcon = type => {
     switch (type) {
       case 'Invoice' || 'Invoice Payment' || 'Credit Note' || 'Payment Made':
-        return <ArticleIcon sx={{ fontSize: 28 }} color="#808080" />;
+        return <ArticleIcon className="recent-activity-menu-list-icon" />;
       case 'Account' || 'Customer' || 'Supplier':
-        return <PersonIcon sx={{ fontSize: 28 }} color="#808080" />;
+        return <PersonIcon className="recent-activity-menu-list-icon" />;
       default:
-        return <AssignmentIcon sx={{ fontSize: 28 }} color="#808080" />;
+        return <AssignmentIcon className="recent-activity-menu-list-icon" />;
     }
   };
 
   return (
-    <UncontrolledDropdown className="mr-0 recent-activity-dropdown " style={{ cursor: 'pointer' }}>
-      {/* <ToolTip text="Recent Activity" position="bottom" className="mr-3 text-nowrap"> */}
-      <DropdownToggle tag="div" className="nav-link p-0 m-0">
-        <Tooltip title="Recent Activity" placement="bottom" arrow>
-          <IconButton>
-            <HistoryIcon sx={{ fontSize: 28 }} color="#BABBBC" />
-          </IconButton>
-        </Tooltip>
-      </DropdownToggle>
-      {/* </ToolTip> */}
-      <DropdownMenu className="dropdown__menu recent-activity-menu">
-        <div className="container px-0">
+    <div>
+      <Tooltip title="Recent Activity" placement="bottom" arrow>
+        <IconButton
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <SettingsBackupRestoreIcon className="clr-add" />
+        </IconButton>
+      </Tooltip>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <Box className="recent-activity-menu">
           {recentActivity.isLoading === false &&
             recentActivity?.data?.results.slice(0, 10).map(activity => (
-              <div className="row m-0 px-0" key={activity.id}>
-                <div className="col-12 m-0 p-0">
-                  {/* <Link to="/"> */}
-                  <DropdownItem className="d-flex align-items-center">
-                    <div className="icon d-flex custom-w-15">{getActivityIcon(activity.type)}</div>
-                    <div className="data custom-w-85 ps-2">
-                      <div className="header">{activity.title}</div>
-                      <div
-                        className="description text-uppercase"
-                        style={{ fontSize: 10, textTransform: 'uppercase' }}
-                      >
-                        {activity.type}
-                      </div>
-                    </div>
-                  </DropdownItem>
-                  {/* </Link> */}
-                </div>
-              </div>
+              <MenuItem className="recent-activity-menu-list">
+                {getActivityIcon(activity.type)}
+                <Stack>
+                  <Typography className="recent-activity-menu-list-title">{activity.title}</Typography>
+                  <Typography className="recent-activity-menu-list-activity-type">{activity.type}</Typography>
+                </Stack>
+              </MenuItem>
             ))}
-        </div>
-        {recentActivity.length === 0 && (
-          <DropdownItem className="d-flex justify-content-center">
-            <span>No activity found</span>
-          </DropdownItem>
-        )}
-      </DropdownMenu>
-    </UncontrolledDropdown>
+          {recentActivity.length === 0 && (
+            <MenuItem disabled className="recent-activity-menu-list">
+              <Typography className="recent-activity-menu-list-title">No activity found</Typography>
+            </MenuItem>
+          )}
+        </Box>
+      </Menu>
+    </div>
   );
 }
 

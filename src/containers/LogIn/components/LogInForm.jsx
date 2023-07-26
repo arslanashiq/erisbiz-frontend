@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/*eslint-disable*/
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import { Button } from 'reactstrap';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -7,24 +8,43 @@ import PersonIcon from '@mui/icons-material/Person';
 import * as Yup from 'yup';
 import { FormikField } from 'shared/components/form/Field';
 import { EMAIL_REGEX } from 'utilities/constants';
+import { useNavigate } from 'react-router-dom';
+import { useAdminLoginMutation } from 'services/public/auth';
+import { useDispatch } from 'react-redux';
+import { setUser } from 'store/slices/userSlice';
 
 function LogInForm() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [state, setState] = useState({
     showPassword: false,
   });
-
+  const [adminLogin, response] = useAdminLoginMutation();
   const showPassword = e => {
     e.preventDefault();
     setState(prevState => ({ ...prevState, showPassword: !prevState.showPassword }));
   };
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={Yup.object({
         email: Yup.string().matches(EMAIL_REGEX, 'Invalid email address').required('Required'),
       })}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }) => {
+        const payload = {
+          email: values.email,
+          password: values.password,
+        };
+        const resp = await adminLogin(payload);
         setSubmitting(false);
+        if (resp.data) {
+          await dispatch(setUser({ user: resp.data, isAuthenticated: true }));
+          localStorage.setItem('token', resp.data.token);
+          setTimeout(() => {
+            navigate('/');
+          }, 10);
+        }
       }}
     >
       {({ isSubmitting }) => (
@@ -59,7 +79,7 @@ function LogInForm() {
               </button>
             </div>
             <div className="account__forgot-password">
-              <a href="/forgotpassword">Forgot a password?</a>
+              <a href="/auth/forgot-password">Forgot a password?</a>
             </div>
           </div>
           <Button
