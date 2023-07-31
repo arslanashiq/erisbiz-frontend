@@ -1,17 +1,8 @@
-/*eslint-disable*/
 import * as React from 'react';
 import Sidebar from './sidebar';
 
-function Layout({ children }) {
-  return (
-    <Sidebar
-      children={children}
-      sidebar={true}
-      changeToDark={() => {}}
-      changeToLight={() => {}}
-      changeMobileSidebarVisibility={() => {}}
-    />
-  );
+function Layout() {
+  return <Sidebar />;
 }
 
 export default Layout;

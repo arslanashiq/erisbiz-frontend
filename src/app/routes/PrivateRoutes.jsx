@@ -12,7 +12,5 @@ function PrivateRoutes() {
   }
   return <Outlet />;
 }
-PrivateRoutes.propTypes = {
-  children: PropTypes.element.isRequired,
-};
+
 export default PrivateRoutes;

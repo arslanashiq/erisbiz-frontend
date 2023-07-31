@@ -42,11 +42,11 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ ownerState }) => ({
           ...(ownerState.selected === true && {
-            backgroundColor: '#29547d !important',
+            backgroundColor: '#08517e !important',
             color: '#ffff',
           }),
           '&:hover': {
-            backgroundColor: '#29547d',
+            backgroundColor: '#08517e',
             color: '#ffff',
           },
         }),
@@ -65,6 +65,20 @@ const theme = createTheme({
             backgroundColor: '#f2f4f7',
           },
         }),
+      },
+    },
+    // Button
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+      },
+    },
+    // TableContainer
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {
+          height: '77vh',
+        },
       },
     },
   },

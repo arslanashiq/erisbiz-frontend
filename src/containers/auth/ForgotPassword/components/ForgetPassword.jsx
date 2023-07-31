@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Formik, Form, ErrorMessage } from 'formik';
-// import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
 import PersonIcon from '@mui/icons-material/Person';
 import * as Yup from 'yup';
 import { FormikField } from 'shared/components/form/Field';
 import { EMAIL_REGEX } from 'utilities/constants';
 import InfoPopup from 'containers/common/InfoPopup';
+import { Button } from '@mui/material';
 
 function ForgetPassword() {
   const navigate = useNavigate(0);
@@ -51,7 +50,6 @@ function ForgetPassword() {
               <ErrorMessage className="form__form-group-error" component="span" name="email" />
             </div>
             <Button
-              color="primary"
               type="submit"
               className="btn btn-primary account__btn account__btn--small mt-3"
               disabled={isSubmitting}

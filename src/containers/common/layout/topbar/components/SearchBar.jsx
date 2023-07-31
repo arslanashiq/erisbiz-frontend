@@ -57,9 +57,6 @@ function SearchBar() {
       setSearchText('');
     }
   }, [searchQuery]);
-  useEffect(() => {
-    inputRef.current.focus();
-  }, [anchorEl]);
 
   useEffect(() => {
     const currentPage = searchOptions.find(item => pathname.includes(item.link));

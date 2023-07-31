@@ -1,0 +1,17 @@
+@import './variables.scss';
+
+.MuiTablePagination-selectLabel,
+.MuiTablePagination-displayedRows {
+  margin: 0px;
+}
+.icon-btn {
+  margin-bottom: 0px;
+  padding: 3px 4px;
+  text-align: center;
+  vertical-align: middle;
+  display: inherit;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  line-height: 1.42857;
+  background-color: $primary-color;
+}

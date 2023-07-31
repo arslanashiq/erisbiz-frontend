@@ -33,14 +33,14 @@ const AccountantSideBarLinks = [
     divider: true,
   },
   {
-    name: 'Item Master',
-    icon: <ShoppingBasketIcon />,
-    link: '/pages/accounting/items',
-  },
-  {
     name: 'Banking',
     icon: <AccountBalanceIcon />,
     link: '/pages/accounting/banking',
+  },
+  {
+    name: 'Item Master',
+    icon: <ShoppingBasketIcon />,
+    link: '/pages/accounting/items',
   },
   {
     name: 'Sales',
@@ -126,6 +126,9 @@ function Sidebar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleToggleDrawer = () => {
+    setOpen(!open);
+  };
   const checkActive = link => {
     if (location.pathname === link) return true;
     return false;
@@ -135,7 +138,7 @@ function Sidebar() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <TopBar />
+        <TopBar handleToggleDrawer={handleToggleDrawer} />
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
@@ -208,7 +211,7 @@ function Sidebar() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1 }} className="container-fluid main-wrapper">
         <DrawerHeader />
         <Outlet />
       </Box>

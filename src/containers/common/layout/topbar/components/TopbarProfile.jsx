@@ -39,7 +39,7 @@ function TopbarProfile() {
     <>
       <Stack direction="row" className="topbar-profile" onClick={handleClick}>
         {user.profile && user.profile.photo && <Avatar alt="Remy Sharp" src={user.profile.photo} />}
-        <Typography className="topbar-profile-name">
+        <Typography className="topbar-profile-name d-none d-md-block">
           {user.profile ? user.profile.employee_name : 'Admin User'}
         </Typography>
         <ArrowDropDownIcon className="topbar__icon clr-add" />

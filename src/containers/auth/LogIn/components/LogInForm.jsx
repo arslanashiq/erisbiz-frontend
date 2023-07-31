@@ -1,7 +1,6 @@
 /*eslint-disable*/
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
-import { Button } from 'reactstrap';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import KeyIcon from '@mui/icons-material/Key';
 import PersonIcon from '@mui/icons-material/Person';
@@ -12,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAdminLoginMutation } from 'services/public/auth';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'store/slices/userSlice';
+import { Button } from '@mui/material';
 
 function LogInForm() {
   const dispatch = useDispatch();
@@ -82,8 +82,8 @@ function LogInForm() {
               <a href="/auth/forgot-password">Forgot a password?</a>
             </div>
           </div>
+
           <Button
-            color="primary"
             type="submit"
             className="btn btn-primary account__btn account__btn--small mt-5"
             disabled={isSubmitting}

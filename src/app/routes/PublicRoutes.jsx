@@ -1,7 +1,13 @@
 import React from 'react';
-import { Outlet } from 'react-router';
+import { useSelector } from 'react-redux';
+import { Navigate, Outlet } from 'react-router';
 
 function PublicRoutes() {
+  const user = useSelector(state => state.user);
+  if (user.isAuthenticated) {
+    // return <Navigate to="/" />;
+    return <Navigate to="/pages/accounting/banking" />;
+  }
   return <Outlet />;
 }
 // PublicRoutes.propTypes = {

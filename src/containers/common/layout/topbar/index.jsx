@@ -1,7 +1,10 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
+import { IconButton } from '@mui/material';
 import QuickCreateMenu from './components/QuickCreateMenu';
 import RecentActivity from './components/RecentActivity';
 import SearchBar from './components/SearchBar';
@@ -9,9 +12,12 @@ import TopbarSettings from './components/TopbarSettings';
 import TopbarProfile from './components/TopbarProfile';
 import 'styles/topbar.scss';
 
-function TopBar() {
+function TopBar({ handleToggleDrawer }) {
   return (
     <Toolbar>
+      <IconButton onClick={handleToggleDrawer}>
+        <MenuIcon sx={{ color: 'black' }} />
+      </IconButton>
       <Link className="topbar__logo" to="/" />
 
       <Box sx={{ width: '100%' }}>
@@ -46,5 +52,8 @@ function TopBar() {
     </Toolbar>
   );
 }
+TopBar.propTypes = {
+  handleToggleDrawer: PropTypes.func.isRequired,
+};
 
 export default TopBar;

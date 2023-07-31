@@ -16,12 +16,6 @@
   color: $sub-heading-color;
 }
 
-@media screen and (max-width: 768px) {
-  .topbar__search {
-    display: none;
-  }
-}
-
 @media screen and (min-width: 768px) {
   .topbar__search {
     display: flex;
