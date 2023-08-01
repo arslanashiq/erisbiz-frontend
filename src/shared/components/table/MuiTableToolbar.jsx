@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, Stack, Toolbar, Typography } from '@mui/material';
 
 function MuiTableToolbar(props) {
-  const { numSelected, TableHeading, otherOptions } = props;
-  console.log(otherOptions, 'otherOptionsotherOptionsotherOptions');
+  const { numSelected, TableHeading, otherOptions, handleClearSelection, handleEditSelection } = props;
   return (
     <Toolbar
       sx={{
@@ -20,13 +19,15 @@ function MuiTableToolbar(props) {
       {numSelected > 0 ? (
         <>
           <Stack direction="row" spacing={3} alignItems="center">
-            <Button size="small" className="text-capitalize ">
-              Edit
-            </Button>
+            {numSelected === 1 && (
+              <Button onClick={handleEditSelection} size="small" className="text-capitalize ">
+                Edit
+              </Button>
+            )}
             <Button size="small" className="text-capitalize ">
               Delete
             </Button>
-            <Button size="small" className="text-capitalize">
+            <Button onClick={handleClearSelection} size="small" className="text-capitalize">
               Clear
             </Button>
           </Stack>
@@ -54,6 +55,8 @@ MuiTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
   TableHeading: PropTypes.string.isRequired,
   otherOptions: PropTypes.arrayOf(PropTypes.object),
+  handleClearSelection: PropTypes.func.isRequired,
+  handleEditSelection: PropTypes.func.isRequired,
 };
 MuiTableToolbar.defaultProps = {
   otherOptions: [],

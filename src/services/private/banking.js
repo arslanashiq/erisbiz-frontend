@@ -1,6 +1,6 @@
 import { privateApi } from './index';
 
-const authApi = privateApi.injectEndpoints({
+const bankingApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getBankAccounts: builder.query({
       query: () => 'api/accounting/accountant/bankAccounts/',
@@ -17,4 +17,4 @@ const authApi = privateApi.injectEndpoints({
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const { useGetBankAccountsQuery, useChangeBankAccountStatusMutation } = authApi;
+export const { useGetBankAccountsQuery, useChangeBankAccountStatusMutation } = bankingApi;

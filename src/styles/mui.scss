@@ -15,3 +15,8 @@
   line-height: 1.42857;
   background-color: $primary-color;
 }
+
+// info popup adjust to top center
+.css-hz1bth-MuiDialog-container {
+  height: auto !important;
+}

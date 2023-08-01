@@ -27,41 +27,34 @@ export const BankingHeadCells = [
     false_value: 'In Active',
   },
 ];
-export const headCells = [
+export const itemsHeadCell = [
   {
-    id: 'name',
+    id: 'item_name',
     numeric: false,
     disablePadding: true,
-    label: 'Dessert (100g serving)',
+    label: 'Item Name',
     align: 'left',
     isLink: true,
   },
   {
-    id: 'calories',
+    id: 'item_type',
     numeric: true,
     disablePadding: false,
-    label: 'Calories',
+    label: 'Item Type',
     align: 'right',
   },
   {
-    id: 'fat',
+    id: 'sale_description',
     numeric: true,
     disablePadding: false,
-    label: 'Fat (g)',
+    label: 'Description',
     align: 'right',
   },
   {
-    id: 'carbs',
+    id: 'is_active',
     numeric: true,
     disablePadding: false,
-    label: 'Carbs (g)',
-    align: 'right',
-  },
-  {
-    id: 'protein',
-    numeric: true,
-    disablePadding: false,
-    label: 'Protein (g)',
+    label: 'Status',
     align: 'right',
   },
 ];

@@ -1,6 +1,6 @@
 import { privateApi } from './index';
 
-const authApi = privateApi.injectEndpoints({
+const userApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     loadUser: builder.query({
       query: () => 'api/auth/user',
@@ -12,4 +12,4 @@ const authApi = privateApi.injectEndpoints({
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const { useLoadUserQuery, useGetRecentActivityQuery } = authApi;
+export const { useLoadUserQuery, useGetRecentActivityQuery } = userApi;

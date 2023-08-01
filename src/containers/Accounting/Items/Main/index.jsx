@@ -1,36 +1,36 @@
 import React from 'react';
-import { useChangeBankAccountStatusMutation, useGetBankAccountsQuery } from 'services/private/banking';
+import { useChangeItemStatusMutation, useGetItemsListQuery } from 'services/private/items';
 import MuiTable from 'shared/components/table/MuiTable';
 import AddIcon from '@mui/icons-material/Add';
-import { BankingHeadCells } from 'utilities/tableHeadCells';
+import { itemsHeadCell } from 'utilities/tableHeadCells';
 import { useNavigate } from 'react-router';
 import { Helmet } from 'react-helmet';
 import 'styles/mui.scss';
 
-function BankListing() {
+function ItemsListing() {
   const navigate = useNavigate();
-  const resp = useGetBankAccountsQuery();
-  const [handleChangeBankAccountStatus] = useChangeBankAccountStatusMutation();
+  const resp = useGetItemsListQuery();
+  const [handleChangeItemStatus] = useChangeItemStatusMutation();
   return (
     <>
       <Helmet>
-        <title>Banking - ErisBiz</title>
+        <title>Items - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       {resp.isSuccess && resp?.data?.results?.length > 0 && (
         <MuiTable
           data={resp.data.results}
-          TableHeading="Banking"
-          headCells={BankingHeadCells}
+          TableHeading="Items"
+          showCheckbox
+          headCells={itemsHeadCell}
           actionButtonKey="is_active"
-          handleTableBodyActionButton={handleChangeBankAccountStatus}
+          handleTableBodyActionButton={handleChangeItemStatus}
           otherOptions={[
-            { label: 'Import Statemanet', handleClick: () => navigate('import') },
             {
               label: (
                 <>
                   <AddIcon sx={{ fontSize: 15 }} />
-                  New Bank Account
+                  Add New Item{' '}
                 </>
               ),
               handleClick: () => navigate('add'),
@@ -42,4 +42,4 @@ function BankListing() {
   );
 }
 
-export default BankListing;
+export default ItemsListing;

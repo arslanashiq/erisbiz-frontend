@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import { ROWS_PER_PAGE } from 'utilities/constants';
 import Paper from '@mui/material/Paper';
 import MuiTableHead from './MuiTableHead';
 import MuiTableBody from './MuiTableBody';
@@ -51,7 +52,7 @@ export default function MuiTable({
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(ROWS_PER_PAGE);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -93,6 +94,10 @@ export default function MuiTable({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  const handleEditSelection = () => {};
+  const handleClearSelection = () => {
+    setSelected([]);
+  };
 
   // Avoid a layout jump when reaching the last page with empty data.
   //   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -111,6 +116,8 @@ export default function MuiTable({
         numSelected={selected.length}
         TableHeading={TableHeading}
         otherOptions={otherOptions}
+        handleEditSelection={handleEditSelection}
+        handleClearSelection={handleClearSelection}
       />
       <Paper sx={{ width: '100%', mb: 2 }}>
         <TableContainer>
@@ -138,7 +145,7 @@ export default function MuiTable({
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[20, 50, 100]}
           component="div"
           count={data.length}
           rowsPerPage={rowsPerPage}

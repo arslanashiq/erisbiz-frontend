@@ -14,7 +14,7 @@ const theme = createTheme({
 
   palette: {
     primary: {
-      main: '#29547d',
+      main: '#08517e',
     },
   },
 
@@ -67,6 +67,7 @@ const theme = createTheme({
         }),
       },
     },
+
     // Button
     MuiButton: {
       defaultProps: {

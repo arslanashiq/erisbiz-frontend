@@ -6,7 +6,7 @@ function PublicRoutes() {
   const user = useSelector(state => state.user);
   if (user.isAuthenticated) {
     // return <Navigate to="/" />;
-    return <Navigate to="/pages/accounting/banking" />;
+    return <Navigate to="/pages/accounting/banking/add" />;
   }
   return <Outlet />;
 }

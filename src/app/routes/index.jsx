@@ -12,6 +12,10 @@ const ForgetPasswordPage = lazy(() => import('containers/auth/ForgotPassword'));
 const DashboardPage = lazy(() => import('containers/dashboard'));
 // Bank
 const BankListing = lazy(() => import('containers/Accounting/Banking/Main'));
+const AddBankPage = lazy(() => import('containers/Accounting/Banking/Add'));
+
+// Items
+const ItemsListing = lazy(() => import('containers/Accounting/Items/Main'));
 
 function AppRoutes() {
   return (
@@ -42,8 +46,9 @@ function AppRoutes() {
                 <Route path="/" element={<DashboardPage />} />
                 <Route path="/pages/reports" element={<>Reports</>} />
 
+                <Route path="/pages/accounting/banking/add" element={<AddBankPage />} />
                 <Route path="/pages/accounting/banking" element={<BankListing />} />
-                <Route path="/pages/accounting/items" element={<>items</>} />
+                <Route path="/pages/accounting/items" element={<ItemsListing />} />
 
                 <Route path="/pages/accounting/sales/customers" element={<>customers</>} />
                 <Route path="/pages/accounting/sales/accounts" element={<>accounts</>} />
