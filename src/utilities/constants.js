@@ -1,6 +1,7 @@
 // API URL for the backend
 // export const API_URL = process.env.REACT_APP_API_URL;
-export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
+// export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
+export const API_URL = 'https://erisbiz.beyonderissolutions.com';
 
 export const test = '';
 export const ROWS_PER_PAGE = '20';

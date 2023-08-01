@@ -38,7 +38,7 @@ function ForgetPassword() {
         // }}
       >
         {({ isSubmitting }) => (
-          <Form className="form">
+          <Form className="form auth-form">
             <div className="form__form-group">
               <span className="form__form-group-label">Email</span>
               <div className="form__form-group-field">

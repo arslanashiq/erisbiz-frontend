@@ -4,10 +4,25 @@
   text-align: left;
   direction: ltr;
 }
-.form__form-group {
-  margin-bottom: 20px;
-  width: 100%;
-  position: relative;
+.form--horizontal {
+  .form__form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    // width: 100%;
+    position: relative;
+  }
+  .form__form-group-icon {
+    background-color: $background-color;
+    border: 1px solid $background-color;
+  }
+}
+.auth-form {
+  .form__form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    position: relative;
+  }
 }
 .form__form-group-label {
   font-size: 0.9rem;
