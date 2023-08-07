@@ -2,19 +2,43 @@ import { privateApi } from './index';
 
 const bankingApi = privateApi.injectEndpoints({
   endpoints: builder => ({
-    getBankAccounts: builder.query({
-      query: () => 'api/accounting/accountant/bankAccounts/',
-      providesTags: ['GetBankAccount'],
+    getBankAccountsList: builder.query({
+      query: (params = {}) => ({
+        url: 'api/accounting/accountant/bankAccounts',
+        params: {
+          limit: params.limit,
+          offset: params.offset,
+        },
+      }),
+      providesTags: ['getBankAccountsList'],
     }),
+
+    getSingleBankAccount: builder.query({
+      query: id => ({
+        url: `api/accounting/accountant/bankAccounts/${id}/`,
+        method: 'GET',
+      }),
+    }),
+
     changeBankAccountStatus: builder.mutation({
       query: id => ({
         url: `api/accounting/bank/account/${id}/status`,
         method: 'GET',
       }),
-      invalidatesTags: ['GetBankAccount'],
+      invalidatesTags: ['getBankAccountsList'],
+    }),
+    addBankAccount: builder.mutation({
+      query: () => ({
+        url: 'api/accounting/accountant/bankAccounts',
+        method: 'POST',
+      }),
     }),
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const { useGetBankAccountsQuery, useChangeBankAccountStatusMutation } = bankingApi;
+export const {
+  useGetBankAccountsListQuery,
+  useGetSingleBankAccountQuery,
+  useChangeBankAccountStatusMutation,
+  useAddBankAccountMutation,
+} = bankingApi;

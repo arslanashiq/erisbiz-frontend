@@ -1,24 +1,25 @@
-import { ListItem, ListItemButton, ListItemText } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { ListItemButton, ListItemText } from '@mui/material';
+import SideBarListItem from 'styles/mui/component/SideBarListItem';
 
 function SideBarChildLinks({ childList, open, checkActive }) {
   const navigate = useNavigate();
   return childList.map(child => (
-    <ListItem
+    <SideBarListItem
       // onMouseEnter={() => {
       //   setOpen(true);
       // }}
       // onMouseLeave={() => {
       //   setOpen(false);
       // }}
-      key={child.name}
+      selected={checkActive(child.link)}
+      key={child.link}
       disablePadding
       sx={{ display: open ? 'auto' : 'none' }}
     >
       <ListItemButton
         divider={child.divider}
-        selected={checkActive(child.link)}
         sx={{
           minHeight: 48,
           justifyContent: open ? 'initial' : 'center',
@@ -32,7 +33,7 @@ function SideBarChildLinks({ childList, open, checkActive }) {
       >
         <ListItemText primary={child.name} sx={{ opacity: open ? 1 : 0 }} />
       </ListItemButton>
-    </ListItem>
+    </SideBarListItem>
   ));
 }
 

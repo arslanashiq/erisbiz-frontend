@@ -56,7 +56,7 @@ function RecentActivity() {
         <Box className="recent-activity-menu">
           {recentActivity.isLoading === false &&
             recentActivity?.data?.results.slice(0, 10).map(activity => (
-              <MenuItem className="recent-activity-menu-list">
+              <MenuItem key={activity.id} className="recent-activity-menu-list">
                 {getActivityIcon(activity.type)}
                 <Stack>
                   <Typography className="recent-activity-menu-list-title">{activity.title}</Typography>

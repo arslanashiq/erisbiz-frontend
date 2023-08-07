@@ -3,7 +3,15 @@ import { privateApi } from './index';
 const itemApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getItemsList: builder.query({
-      query: () => 'api/accounting/list/items?limit=20&offset=0',
+      query: params => ({
+        url: 'api/accounting/list/items',
+        params: {
+          limit: params.limit,
+          offset: params.offset || 0,
+          is_active: params.is_active,
+          item_type: params.item_type,
+        },
+      }),
       providesTags: ['getItemsList'],
     }),
     changeItemStatus: builder.mutation({
@@ -13,8 +21,19 @@ const itemApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getItemsList'],
     }),
+    getSingleItem: builder.query({
+      query: id => ({ url: `api/accounting/items/${id}/`, method: 'GET' }),
+    }),
+    deleteItem: builder.mutation({
+      query: id => ({ url: `/api/accounting/items/${id}/`, method: 'DELETE' }),
+      invalidatesTags: ['getItemsList'],
+    }),
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const { useGetItemsListQuery, useChangeItemStatusMutation } = itemApi;
+export const {
+  useGetItemsListQuery,
+  useChangeItemStatusMutation,
+  useGetSingleItemQuery,
+  useDeleteItemMutation,
+} = itemApi;

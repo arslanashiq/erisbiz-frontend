@@ -10,7 +10,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -19,8 +18,11 @@ import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+// import GridViewIcon from '@mui/icons-material/GridView';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
+import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import SideBarChildLinks from './components/SideBarChildLinks';
 import TopBar from '../topbar';
 
@@ -37,20 +39,41 @@ const AccountantSideBarLinks = [
     icon: <AccountBalanceIcon />,
     link: '/pages/accounting/banking',
   },
+  // {
+  //   name: 'Brands',
+  //   icon: <GridViewIcon />,
+  //   link: '/pages/accounting/brands',
+  // },
   {
     name: 'Item Master',
     icon: <ShoppingBasketIcon />,
     link: '/pages/accounting/items',
   },
   {
-    name: 'Sales',
+    name: 'Purchase',
     icon: <CardGiftcardIcon />,
-    // link: '/pages/accounting/sales',
     index: 0,
     children: [
-      { name: 'Accounts', link: '/pages/accounting/sales/accounts' },
-      { name: 'Customers', link: '/pages/accounting/sales/customers' },
+      { name: 'Suppliers', link: '/pages/accounting/purchase/suppliers' },
+      { name: 'Purchase Order', link: '/pages/accounting/purchase/purchase-orders' },
+      { name: 'Purchase Invoice', link: '/pages/accounting/purchase/purchase-invoice' },
+      { name: 'Debit Notes', link: '/pages/accounting/purchase/debit-notes' },
+      { name: 'Expense Entry', link: '/pages/accounting/purchase/expenses' },
     ],
+  },
+  // {
+  //   name: 'Sales',
+  //   icon: <CardGiftcardIcon />,
+  //   index: 1,
+  //   children: [
+  //     { name: 'Accounts', link: '/pages/accounting/sales/accounts' },
+  //     { name: 'Customers', link: '/pages/accounting/sales/customers' },
+  //   ],
+  // },
+  {
+    name: 'Reports',
+    icon: <DocumentScannerIcon />,
+    link: '/pages/reports',
   },
 ];
 
@@ -121,7 +144,7 @@ function Sidebar() {
   const location = useLocation();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [showSideBarChildLink, setShowSideBarChildLink] = React.useState([false]);
+  const [showSideBarChildLink, setShowSideBarChildLink] = React.useState([false, false]);
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -150,14 +173,14 @@ function Sidebar() {
         <List>
           {AccountantSideBarLinks.map(sideBar => (
             <>
-              <ListItem
+              <SideBarListItem
                 // onMouseEnter={() => {
                 //   setOpen(true);
                 // }}
                 // onMouseLeave={() => {
                 //   setOpen(false);
                 // }}
-                key={sideBar.name}
+                key={sideBar.link}
                 disablePadding
                 selected={checkActive(sideBar.link)}
                 sx={{ display: 'block' }}
@@ -196,7 +219,7 @@ function Sidebar() {
                     <KeyboardArrowDownIcon sx={{ display: open ? 'auto' : 'none' }} />
                   )}
                 </ListItemButton>
-              </ListItem>
+              </SideBarListItem>
               {sideBar.children &&
                 sideBar.children.length > 0 &&
                 showSideBarChildLink[sideBar.index] === true && (
@@ -204,6 +227,7 @@ function Sidebar() {
                     childList={sideBar.children}
                     open={open}
                     setOpen={setOpen}
+                    index={sideBar.index}
                     checkActive={checkActive}
                   />
                 )}

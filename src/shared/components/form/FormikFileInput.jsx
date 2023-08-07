@@ -1,28 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
-import FileIcon from 'mdi-react/FileIcon';
-import TrashCanOutlineIcon from 'mdi-react/TrashCanOutlineIcon';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const FormikFileInput = props => {
+function FormikFileInput(props) {
   // added accept prop in field
-  const {
-    name,
-    fileBase64,
-    onRemoveFile,
-    accept,
-    className,
-    multiple,
-    onChange,
-    ...restProps
-  } = props;
+  const { name, fileBase64, onRemoveFile, accept, className, multiple, onChange, ...restProps } = props;
   const [field, meta, helpers] = useField(props);
   const { value, onChange: onFieldValueChange, ...restFieldProps } = field;
   const { touched, error } = meta;
   const { setValue } = helpers;
 
-  const hasPreviewableImage =
-    value && !Array.isArray(value) && value.type.includes('image');
+  const hasPreviewableImage = value && !Array.isArray(value) && value.type.includes('image');
 
   return (
     <div className="form__form-group-input-wrap">
@@ -37,9 +27,7 @@ const FormikFileInput = props => {
           className="inputfile inputfile-4"
           onChange={event => {
             event.preventDefault();
-            const target = multiple
-              ? [...event.target.files]
-              : event.target.files[0];
+            const target = multiple ? [...event.target.files] : event.target.files[0];
             // eslint-disable-next-line no-param-reassign
             event.target.value = null;
             setValue(target);
@@ -55,11 +43,7 @@ const FormikFileInput = props => {
               <label htmlFor={name} className="text-primary cursor-pointer">
                 Change Image
               </label>
-              <TrashCanOutlineIcon
-                size={20}
-                className="cursor-pointer"
-                onClick={() => setValue(null)}
-              />
+              <DeleteIcon size={20} className="cursor-pointer" onClick={() => setValue(null)} />
             </div>
           </div>
         )}
@@ -71,11 +55,7 @@ const FormikFileInput = props => {
               <label htmlFor={name} className="text-primary cursor-pointer">
                 Change Image
               </label>
-              <TrashCanOutlineIcon
-                size={20}
-                className="cursor-pointer"
-                onClick={onRemoveFile}
-              />
+              <DeleteIcon size={20} className="cursor-pointer" onClick={onRemoveFile} />
             </div>
           </div>
         )}
@@ -83,19 +63,13 @@ const FormikFileInput = props => {
         {!hasPreviewableImage && !fileBase64 && (
           <label htmlFor={name}>
             <figure>
-              <FileIcon size={100} />
+              <InsertDriveFileIcon size={100} />
             </figure>
-            <span>
-              {multiple
-                ? 'Choose Files'
-                : (value && value.name) || 'Choose a file'}
-            </span>
+            <span>{multiple ? 'Choose Files' : (value && value.name) || 'Choose a file'}</span>
           </label>
         )}
       </div>
-      {touched && error && (
-        <span className="form__form-group-error">{error}</span>
-      )}
+      {touched && error && <span className="form__form-group-error">{error}</span>}
       {multiple && value.length > 0 && (
         <div className="mt-5 d-flex flex-column">
           <h4 className="font-weight-bold">Selected Files</h4>
@@ -108,7 +82,7 @@ const FormikFileInput = props => {
       )}
     </div>
   );
-};
+}
 
 FormikFileInput.propTypes = {
   name: PropTypes.string.isRequired,

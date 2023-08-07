@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LogInForm from './components/LogInForm';
-import 'styles/form.scss';
+import 'styles/auth-form.scss';
 import 'styles/auth-form-cards.scss';
 
 const LogIn = props => {

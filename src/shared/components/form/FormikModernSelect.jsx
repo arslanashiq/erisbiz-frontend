@@ -11,7 +11,7 @@ const commonStyles = {
     ...baseStyles,
     zIndex: 10,
   }),
-  option: (styles, { isDisabled }) => ({
+  option: ({ isDisabled }) => ({
     cursor: isDisabled ? 'not-allowed' : 'default',
     color: isDisabled ? '#aaa !important' : '#000',
   }),
@@ -35,7 +35,7 @@ const groupedStyles = {
   }),
 };
 
-const FormikModernSelect = ({
+function FormikModernSelect({
   name,
   options,
   customClass,
@@ -47,7 +47,7 @@ const FormikModernSelect = ({
   onMenuCustomButtonClick,
   menuCustomButtonLabel,
   ...restProps
-}) => {
+}) {
   const [field, meta] = useField(name || '');
   const { setFieldValue, setFieldTouched } = useFormikContext();
 
@@ -68,19 +68,12 @@ const FormikModernSelect = ({
     if (onBlur) onBlur(name, event.target.value);
   };
 
-  const allOptions = isGrouped
-    ? options.map(item => item.options).flatMap(item => item)
-    : [...options];
+  const allOptions = isGrouped ? options.map(item => item.options).flatMap(item => item) : [...options];
   const selectedOption = allOptions.find(option => option.value === value);
 
   const customButtonOption = {
     label: (
-      <Button
-        block
-        color="primary"
-        className="icon-btn"
-        onClick={onMenuCustomButtonClick}
-      >
+      <Button block color="primary" className="icon-btn" onClick={onMenuCustomButtonClick}>
         {menuCustomButtonLabel}
       </Button>
     ),
@@ -93,11 +86,7 @@ const FormikModernSelect = ({
   ]);
 
   return (
-    <div
-      styles={{ height: 22 }}
-      className={`form__form-group-input-wrap ${customClass}`}
-      id={name}
-    >
+    <div className={`form__form-group-input-wrap ${customClass}`} id={name}>
       <Select
         {...restProps}
         id="select"
@@ -112,12 +101,10 @@ const FormikModernSelect = ({
         isClearable={isClearable}
         styles={{ ...commonStyles, ...(isGrouped ? groupedStyles : {}) }}
       />
-      {touched && error && (
-        <span className="form__form-group-error">{error}</span>
-      )}
+      {touched && error && <span className="form__form-group-error">{error}</span>}
     </div>
   );
-};
+}
 
 FormikModernSelect.propTypes = {
   name: PropTypes.string.isRequired,

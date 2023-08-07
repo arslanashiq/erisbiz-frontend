@@ -50,6 +50,7 @@ function ForgetPassword() {
               <ErrorMessage className="form__form-group-error" component="span" name="email" />
             </div>
             <Button
+              size="large"
               type="submit"
               className="btn btn-primary account__btn account__btn--small mt-3"
               disabled={isSubmitting}

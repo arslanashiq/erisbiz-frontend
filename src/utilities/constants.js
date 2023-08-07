@@ -1,10 +1,12 @@
 // API URL for the backend
 // export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
-export const API_URL = 'https://erisbiz.beyonderissolutions.com';
+// export const API_URL = 'https://erisbiz.beyonderissolutions.com';
+export const API_URL = 'http://16.24.36.173:8000';
+// export const API_URL = 'http://192.168.0.152:8000';
 
 export const test = '';
-export const ROWS_PER_PAGE = '20';
+export const ROWS_PER_PAGE = 20;
 
 export const EMAIL_REGEX =
   /^(([^`~!$%^&*?/|}{#=<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -27,3 +29,18 @@ export const OPERATIONS_STAFF = 'operations_staff';
 
 // SUPER USER
 export const SUPER_USER = 'superuser';
+
+export const DATE_FORMAT = 'DD-MMMM-YYYY';
+
+// ITEM TYPE
+export const itemTypes = [
+  { value: 'Goods', label: 'Goods' },
+  { value: 'Service', label: 'Service' },
+];
+
+export const itemStatusOptions = [
+  { value: 'true', label: 'Active' },
+  { value: 'false', label: 'Inactive' },
+];
+
+export const currencyID = 78;

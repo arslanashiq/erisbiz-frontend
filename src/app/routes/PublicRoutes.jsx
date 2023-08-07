@@ -5,8 +5,11 @@ import { Navigate, Outlet } from 'react-router';
 function PublicRoutes() {
   const user = useSelector(state => state.user);
   if (user.isAuthenticated) {
-    // return <Navigate to="/" />;
-    return <Navigate to="/pages/accounting/banking/add" />;
+    const url = sessionStorage.getItem('lastUrl');
+    if (url) {
+      return <Navigate to={url} />;
+    }
+    return <Navigate to="/" />;
   }
   return <Outlet />;
 }

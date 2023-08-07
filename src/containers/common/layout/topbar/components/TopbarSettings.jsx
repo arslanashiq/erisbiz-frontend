@@ -52,7 +52,7 @@ function TopbarSettings() {
       >
         <Box className="topbar-setting">
           {settingOptions.map(option => (
-            <MenuItem className="topbar-setting-menu-item">
+            <MenuItem key={option.title} className="topbar-setting-menu-item">
               <Link className="topbar-setting-menu-item-link" to={option.path}>
                 <Typography className="topbar-setting-menu-item-option">{option.title}</Typography>
               </Link>

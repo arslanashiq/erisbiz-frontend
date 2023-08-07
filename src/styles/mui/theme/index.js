@@ -1,5 +1,5 @@
-/* eslint-disable */
 import { createTheme } from '@mui/material';
+import palette from './palette';
 
 const theme = createTheme({
   breakpoints: {
@@ -12,44 +12,15 @@ const theme = createTheme({
     },
   },
 
-  palette: {
-    primary: {
-      main: '#08517e',
-    },
-  },
+  palette,
 
   components: {
     // AppBar
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#ffff',
+          backgroundColor: palette.primary.contrastText,
         },
-      },
-    },
-
-    // List
-    MuiList: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#ffff',
-        },
-      },
-    },
-
-    // ListItem
-    MuiListItem: {
-      styleOverrides: {
-        root: ({ ownerState }) => ({
-          ...(ownerState.selected === true && {
-            backgroundColor: '#08517e !important',
-            color: '#ffff',
-          }),
-          '&:hover': {
-            backgroundColor: '#08517e',
-            color: '#ffff',
-          },
-        }),
       },
     },
 
@@ -62,7 +33,7 @@ const theme = createTheme({
               // code here
             }),
           '&:hover': {
-            backgroundColor: '#f2f4f7',
+            backgroundColor: palette.primary.backgroundColor,
           },
         }),
       },
@@ -71,6 +42,7 @@ const theme = createTheme({
     // Button
     MuiButton: {
       defaultProps: {
+        size: 'small',
         variant: 'contained',
       },
     },
@@ -78,7 +50,7 @@ const theme = createTheme({
     MuiTableContainer: {
       styleOverrides: {
         root: {
-          height: '77vh',
+          height: '64vh',
         },
       },
     },

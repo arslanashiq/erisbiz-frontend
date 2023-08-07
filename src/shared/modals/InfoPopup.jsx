@@ -16,10 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-function AlertDialogSlide({ open, setOpen, infoTitle, infoDescription }) {
-  const handleClose = () => {
-    setOpen(false);
-  };
+function InfoPopup({ open, handleClose, infoTitle, infoDescription, showActionButton, handleYes }) {
   return (
     <div>
       <Dialog
@@ -50,23 +47,44 @@ function AlertDialogSlide({ open, setOpen, infoTitle, infoDescription }) {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} className="text-capitalize">
-              Ok
-            </Button>
+            {showActionButton ? (
+              <>
+                <Button onClick={handleClose} className="text-capitalize">
+                  No
+                </Button>
+                <Button
+                  onClick={() => {
+                    handleClose();
+                    handleYes();
+                  }}
+                  className="text-capitalize"
+                >
+                  Yes
+                </Button>
+              </>
+            ) : (
+              <Button onClick={handleClose} className="text-capitalize">
+                Ok
+              </Button>
+            )}
           </DialogActions>
         </Stack>
       </Dialog>
     </div>
   );
 }
-AlertDialogSlide.propTypes = {
+InfoPopup.propTypes = {
   open: PropTypes.bool.isRequired,
-  setOpen: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   infoTitle: PropTypes.string,
   infoDescription: PropTypes.string,
+  showActionButton: PropTypes.bool,
+  handleYes: PropTypes.func,
 };
-AlertDialogSlide.defaultProps = {
-  infoTitle: 'Attention',
-  infoDescription: '',
+InfoPopup.defaultProps = {
+  infoTitle: 'Attention!',
+  infoDescription: 'This item is used in transactions, please delete them first',
+  showActionButton: false,
+  handleYes: () => {},
 };
-export default AlertDialogSlide;
+export default InfoPopup;

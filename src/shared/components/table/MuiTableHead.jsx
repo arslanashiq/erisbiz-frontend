@@ -70,7 +70,7 @@ function MuiTableHead(props) {
 }
 
 MuiTableHead.propTypes = {
-  headCells: PropTypes.object.isRequired,
+  headCells: PropTypes.arrayOf(PropTypes.object).isRequired,
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,

@@ -71,7 +71,7 @@ function QuickCreateMenu() {
             </Stack>
 
             {generalOptions.map(option => (
-              <MenuItem className="menu-item">
+              <MenuItem key={option.label} className="menu-item">
                 <AddIcon className="menu-item-icon" />
                 <Link style={{ textDecoration: 'none' }} to={option.to}>
                   <Typography className="menu-item-label">{option.label}</Typography>
@@ -87,7 +87,7 @@ function QuickCreateMenu() {
             </Stack>
 
             {salesOptions.map(option => (
-              <MenuItem className="menu-item">
+              <MenuItem key={option.label} className="menu-item">
                 <AddIcon className="menu-item-icon" />
                 <Link style={{ textDecoration: 'none' }} to={option.to}>
                   <Typography className="menu-item-label">{option.label}</Typography>
@@ -102,7 +102,7 @@ function QuickCreateMenu() {
             </Stack>
 
             {purchaseOptions.map(option => (
-              <MenuItem className="menu-item">
+              <MenuItem key={option.label} className="menu-item">
                 <AddIcon className="menu-item-icon" />
                 <Link style={{ textDecoration: 'none' }} to={option.to}>
                   <Typography className="menu-item-label">{option.label}</Typography>
