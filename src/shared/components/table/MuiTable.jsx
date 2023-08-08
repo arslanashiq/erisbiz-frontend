@@ -5,7 +5,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
-import { CircularProgress } from '@mui/material';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import { ROWS_PER_PAGE } from 'utilities/constants';
@@ -16,6 +15,7 @@ import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import MuiTableHead from './MuiTableHead';
 import MuiTableBody from './MuiTableBody';
 import MuiTableToolbar from './MuiTableToolbar';
+import Loader from '../loader/Loader';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -57,6 +57,8 @@ export default function MuiTable({
   handleConfirmDelete,
   filterButton,
   totalDataCount,
+  tableHeight,
+  customRows,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -149,12 +151,8 @@ export default function MuiTable({
     [data, otherOptions, order, orderBy, page, rowsPerPage]
   );
 
-  if (data === undefined || data === null) {
-    return (
-      <Box sx={{ position: 'absolute', top: '50%', left: '50%' }}>
-        <CircularProgress />
-      </Box>
-    );
+  if (data === undefined || data === null || data === []) {
+    return <Loader />;
   }
   return (
     <Box sx={{ width: '100%' }}>
@@ -165,17 +163,19 @@ export default function MuiTable({
         showActionButton={openInfoPopup.actionButton}
         handleYes={() => handleConfirmDelete(selected)}
       />
-      <MuiTableToolbar
-        filterButton={filterButton}
-        numSelected={selected.length}
-        TableHeading={TableHeading}
-        otherOptions={otherOptions}
-        handleEditSelection={() => handleEdit(data, selected, openInfoPopup, setOpenInfoPopup)}
-        handleClearSelection={handleClearSelection}
-        handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
-      />
+      {TableHeading && (
+        <MuiTableToolbar
+          filterButton={filterButton}
+          numSelected={selected.length}
+          TableHeading={TableHeading}
+          otherOptions={otherOptions}
+          handleEditSelection={() => handleEdit(data, selected, openInfoPopup, setOpenInfoPopup)}
+          handleClearSelection={handleClearSelection}
+          handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
+        />
+      )}
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer>
+        <TableContainer sx={{ height: tableHeight || 'auto' }}>
           <Table stickyHeader sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="small">
             <MuiTableHead
               showCheckbox={showCheckbox}
@@ -196,6 +196,7 @@ export default function MuiTable({
               handleClick={handleClick}
               actionButtonKey={actionButtonKey}
               handleTableBodyButtonAction={handleTableBodyActionButton}
+              customRows={customRows}
             />
           </Table>
         </TableContainer>
@@ -214,8 +215,8 @@ export default function MuiTable({
 }
 
 MuiTable.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  TableHeading: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  TableHeading: PropTypes.string,
   headCells: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleTableBodyActionButton: PropTypes.func,
   actionButtonKey: PropTypes.string,
@@ -226,9 +227,12 @@ MuiTable.propTypes = {
   handleConfirmDelete: PropTypes.func,
   filterButton: PropTypes.element,
   totalDataCount: PropTypes.number,
+  tableHeight: PropTypes.string,
+  customRows: PropTypes.array,
 };
 MuiTable.defaultProps = {
   actionButtonKey: '',
+  TableHeading: '',
   handleTableBodyActionButton: () => {},
   showCheckbox: false,
   otherOptions: [],
@@ -237,4 +241,6 @@ MuiTable.defaultProps = {
   handleEdit: () => {},
   filterButton: null,
   totalDataCount: ROWS_PER_PAGE,
+  tableHeight: '65vh',
+  customRows: null,
 };

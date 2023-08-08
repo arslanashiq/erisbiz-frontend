@@ -12,7 +12,11 @@ import { setUser } from 'store/slices/userSlice';
 import { Button } from '@mui/material';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import { useSnackbar } from 'notistack';
+// import ReCAPTCHA from 'react-google-recaptcha';
 
+// function onChange(value) {
+//   console.log('Captcha value:', value);
+// }
 function LogInForm() {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -68,6 +72,7 @@ function LogInForm() {
     >
       {({ isSubmitting }) => (
         <Form className="form auth-form">
+          {/* <ReCAPTCHA sitekey="6Lfsp4knAAAAAFVz-OCwMRgQurPb0HU8fPgYCkod" onChange={onChange} /> */}
           <div className="form__form-group">
             <span className="form__form-group-label">Email</span>
             <div className="form__form-group-field">
@@ -101,7 +106,6 @@ function LogInForm() {
               <a href="/auth/forgot-password">Forgot a password?</a>
             </div>
           </div>
-
           <Button
             size="large"
             type="submit"

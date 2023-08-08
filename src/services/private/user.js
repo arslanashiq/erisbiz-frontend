@@ -11,5 +11,4 @@ const userApi = privateApi.injectEndpoints({
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const { useLoadUserQuery, useGetRecentActivityQuery } = userApi;

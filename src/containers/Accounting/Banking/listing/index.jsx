@@ -28,7 +28,6 @@ function BankListing() {
         actionButtonKey="is_active"
         handleTableBodyActionButton={handleChangeBankAccountStatus}
         otherOptions={[
-          { label: 'Import Statemanet', handleClick: () => navigate('import') },
           {
             label: (
               <>

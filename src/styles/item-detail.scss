@@ -1,0 +1,36 @@
+@import './variables.scss';
+
+.item-overview-wrapper {
+  margin-bottom: 15px;
+}
+.item-overview-heading {
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+}
+.item-overview-title {
+  width: 40%;
+  font-weight: 600;
+  font-size: 14px;
+  color: $color-additional;
+}
+.item-overview-value {
+  width: 55%;
+  font-size: 14px;
+  //   font-weight: 200;
+  color: #000;
+}
+
+.rotate-icon {
+  transform: rotate(-90deg);
+}
+.icon {
+  font-size: 20px;
+}
+.item-name-wrapper {
+  font-size: 24px;
+  color: $heading-color;
+  font-weight: 300 !important;
+}

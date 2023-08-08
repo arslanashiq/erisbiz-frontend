@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import {
   useChangeItemStatusMutation,
@@ -111,7 +110,7 @@ function ItemsListing() {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
-        // filterButton={<ItemFilter />}
+        filterButton={<ItemFilter />}
       />
     </>
   );

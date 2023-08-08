@@ -2,3 +2,17 @@
   content: '*';
   color: $required-color;
 }
+
+.color-danger {
+  color: red;
+}
+.color-success {
+  color: green;
+}
+
+.color-dark {
+  color: black;
+}
+.color-light {
+  color: rgba(0, 0, 0, 0.87);
+}

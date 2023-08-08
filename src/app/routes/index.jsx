@@ -14,11 +14,13 @@ const ForgetPasswordPage = lazy(() => import('containers/auth/ForgotPassword'));
 const DashboardPage = lazy(() => import('containers/dashboard'));
 // Bank
 const BankListing = lazy(() => import('containers/accounting/banking/listing'));
+const BankDetailPage = lazy(() => import('containers/accounting/banking/detail'));
 const AddBankPage = lazy(() => import('containers/accounting/banking/add'));
 
 // Items
 const ItemsListing = lazy(() => import('containers/accounting/items/listing'));
 const AddItemPage = lazy(() => import('containers/accounting/items/add'));
+const ItemDetailPage = lazy(() => import('containers/accounting/items/detail'));
 
 // Brands
 const BrandsListingPage = lazy(() => import('containers/accounting/brands/listing'));
@@ -78,6 +80,7 @@ function AppRoutes() {
                 {/* Banking Master */}
                 <Route path="/pages/accounting/banking/add" element={<AddBankPage />} />
                 <Route path="/pages/accounting/banking/edit/:id" element={<AddBankPage />} />
+                <Route path="/pages/accounting/banking/:id/detail" element={<BankDetailPage />} />
                 <Route path="/pages/accounting/banking" element={<BankListing />} />
 
                 {/* Brands */}
@@ -87,6 +90,7 @@ function AppRoutes() {
                 <Route path="/pages/accounting/items/add" element={<AddItemPage />} />
                 <Route path="/pages/accounting/items/edit/:id" element={<AddItemPage />} />
                 <Route path="/pages/accounting/items" element={<ItemsListing />} />
+                <Route path="/pages/accounting/items/:id/detail" element={<ItemDetailPage />} />
 
                 {/* supplier */}
                 <Route path="/pages/accounting/purchase/suppliers" element={<SuppliersListingPage />} />

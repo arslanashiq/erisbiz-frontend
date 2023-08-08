@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-/* eslint-disable jsx-a11y/label-has-for */
 import React, { useEffect } from 'react';
 import CheckIcon from 'mdi-react/CheckIcon';
 import CloseIcon from 'mdi-react/CloseIcon';

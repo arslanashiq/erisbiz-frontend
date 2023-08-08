@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 export const BankingHeadCells = [
   {
     id: 'bank_account_name',
@@ -27,6 +28,37 @@ export const BankingHeadCells = [
       if (value === true) return 'Activated';
       return 'Deactivated';
     },
+  },
+];
+export const bankTransactionsHeadCells = [
+  {
+    id: 'transaction_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    // date: true,
+  },
+  {
+    id: 'reference_number',
+    disablePadding: false,
+    label: 'Reference Number',
+    align: 'left',
+  },
+  {
+    id: 'bcy_debit',
+    disablePadding: false,
+    label: 'Debit',
+  },
+  {
+    id: 'bcy_credit',
+    disablePadding: false,
+    label: 'Credit',
+  },
+  {
+    id: 'amount_without_tax',
+    disablePadding: false,
+    label: 'Amount',
   },
 ];
 export const itemsHeadCell = [
@@ -148,7 +180,7 @@ export const purchaseOrderHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Purchase Order Number',
-    align: 'left',
+    align: 'center',
   },
 
   {
@@ -186,6 +218,17 @@ export const purchaseOrderHeadCells = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
+    style: value => {
+      if (value === 'issued') {
+        return {
+          color: 'green',
+        };
+      } else if (value === 'closed') {
+        return { color: 'red' };
+      } else {
+        return {};
+      }
+    },
   },
 ];
 
@@ -404,6 +447,335 @@ export const expensesHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Amount',
+    align: 'left',
+  },
+];
+
+export const itemInventoryAdjustmentTransactionHeadCells = [
+  {
+    id: 'qutation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'inventory_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Inventory Number',
+    align: 'left',
+  },
+  {
+    id: 'reason',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reason',
+    align: 'left',
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+    align: 'left',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'left',
+  },
+];
+export const itemQuotationTransactionHeadCells = [
+  {
+    id: 'quotation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'quotation_formatted_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Qutation #',
+    align: 'left',
+  },
+  {
+    id: 'event',
+    numeric: true,
+    disablePadding: false,
+    label: 'Event',
+    align: 'left',
+  },
+  {
+    id: 'grand_total_aed',
+    numeric: true,
+    disablePadding: false,
+    label: 'Amount',
+    align: 'center',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'center',
+  },
+];
+export const itemPerformaInvoiceTransactionHeadCells = [
+  {
+    id: 'qutation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'performa-Invoice',
+    numeric: true,
+    disablePadding: false,
+    label: 'Performa Invoice #',
+    align: 'left',
+  },
+  {
+    id: 'reason',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reason',
+    align: 'left',
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+    align: 'left',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'left',
+  },
+];
+export const itemInvoiceTransactionHeadCells = [
+  {
+    id: 'qutation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'invoice',
+    numeric: true,
+    disablePadding: false,
+    label: 'Invoice #',
+    align: 'left',
+  },
+  {
+    id: 'reason',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reason',
+    align: 'left',
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+    align: 'left',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'left',
+  },
+];
+export const itemCreditNoteTransactionHeadCells = [
+  {
+    id: 'qutation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'credit_note',
+    numeric: true,
+    disablePadding: false,
+    label: 'Credit Note #',
+    align: 'left',
+  },
+  {
+    id: 'reason',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reason',
+    align: 'left',
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+    align: 'left',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'left',
+  },
+];
+export const itemPurchaseOrderTransactionHeadCells = [
+  {
+    id: 'qutation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'purchase_order',
+    numeric: true,
+    disablePadding: false,
+    label: 'Purchase Order #',
+    align: 'left',
+  },
+  {
+    id: 'reason',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reason',
+    align: 'left',
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+    align: 'left',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'left',
+  },
+];
+export const itemBillTransactionHeadCells = [
+  {
+    id: 'qutation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'bill',
+    numeric: true,
+    disablePadding: false,
+    label: 'Bill #',
+    align: 'left',
+  },
+  {
+    id: 'reason',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reason',
+    align: 'left',
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+    align: 'left',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'left',
+  },
+];
+export const itemDebitNoteTransactionHeadCells = [
+  {
+    id: 'qutation_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    isLink: false,
+    date: true,
+  },
+
+  {
+    id: 'debit_note',
+    numeric: true,
+    disablePadding: false,
+    label: 'Debit Note #',
+    align: 'left',
+  },
+  {
+    id: 'reason',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reason',
+    align: 'left',
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Type',
+    align: 'left',
+  },
+
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
     align: 'left',
   },
 ];

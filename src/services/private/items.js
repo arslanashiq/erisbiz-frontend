@@ -28,6 +28,18 @@ const itemApi = privateApi.injectEndpoints({
       query: id => ({ url: `/api/accounting/items/${id}/`, method: 'DELETE' }),
       invalidatesTags: ['getItemsList'],
     }),
+    getItemInventoryTransactions: builder.query({
+      query: id => ({ url: `api/accounting/item/${id}/inventory/transactions`, method: 'GET' }),
+    }),
+    getItemQuotationTransactions: builder.query({
+      query: id => ({
+        url: `api/accounting/item/${id}/quotation/transactions`,
+        method: 'GET',
+      }),
+    }),
+    getItemPerformaInvoiceTransaction: builder.query({
+      query: id => ({ url: ` api/accounting/item/${id}/proinvoice/transactions`, method: 'GET' }),
+    }),
   }),
 });
 
@@ -36,4 +48,7 @@ export const {
   useChangeItemStatusMutation,
   useGetSingleItemQuery,
   useDeleteItemMutation,
+  useGetItemInventoryTransactionsQuery,
+  useGetItemQuotationTransactionsQuery,
+  useGetItemPerformaInvoiceTransactionQuery,
 } = itemApi;

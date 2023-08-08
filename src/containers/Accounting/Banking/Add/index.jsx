@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Form, Formik } from 'formik';
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import { FormikField } from 'shared/components/form/Field';
-import { bankFormValidationSchema } from 'utilities/validationSchema';
 import { useAddBankAccountMutation, useGetSingleBankAccountQuery } from 'services/private/banking';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import 'styles/form.scss';
@@ -15,7 +12,7 @@ function AddBankAccountPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [addBankAccount, addBankAccountResponse] = useAddBankAccountMutation();
+  const [addBankAccount] = useAddBankAccountMutation();
 
   const [initialValues, setInitialValues] = useState({
     bank_name: '',
@@ -28,13 +25,11 @@ function AddBankAccountPage() {
 
     // extra
   });
-  console.log(addBankAccountResponse, 'addBankAccountResponse');
   if (id) {
     const singleBankAccount = useGetSingleBankAccountQuery(id);
     useEffect(() => {
-      if (id) {
-        const fetched = {};
-        setInitialValues({ ...fetched });
+      if (id && singleBankAccount.isSuccess) {
+        setInitialValues({ ...singleBankAccount.data });
       }
     }, [id]);
   }
@@ -82,7 +77,6 @@ function AddBankAccountPage() {
             // setFieldTouched,
             resetForm,
             values,
-            errors,
           }) => (
             <Form className="form form--horizontal mt-5 row">
               {/* Bank Name */}

@@ -1,3 +1,5 @@
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -14,6 +16,7 @@ function MuiTableBody({
   handleClick,
   actionButtonKey,
   handleTableBodyButtonAction,
+  customRows,
 }) {
   const handlegetCellStyle = (cell, value) => {
     if (cell && cell.style) {
@@ -121,6 +124,13 @@ function MuiTableBody({
           </TableRow>
         );
       })}
+      {customRows &&
+        customRows.map(row => (
+          <TableRow>
+            {row.column.map(col =>
+              col.colSpan ? <TableCell colSpan={col.colSpan} /> : <TableCell>{col.data}</TableCell>)}
+          </TableRow>
+        ))}
       {/* {emptyRows > 0 && (
         <TableRow
           style={{
@@ -141,10 +151,12 @@ MuiTableBody.propTypes = {
   handleClick: PropTypes.func.isRequired,
   handleTableBodyButtonAction: PropTypes.func,
   actionButtonKey: PropTypes.string,
+  customRows: PropTypes.array,
 };
 MuiTableBody.defaultProps = {
   showCheckbox: false,
   actionButtonKey: '',
   handleTableBodyButtonAction: () => {},
+  customRows: null,
 };
 export default MuiTableBody;

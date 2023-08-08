@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';

@@ -1,5 +1,5 @@
-/* eslint-disable react/no-unescaped-entities */
 import * as React from 'react';
+import { Helmet } from 'react-helmet';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -53,18 +53,24 @@ const cardsList = [
 ];
 function Dasbboard() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Typography sx={{ fontWeight: 500, fontSize: 19 }}>Dashboard</Typography>
-      <Grid
-        container
-        spacing={2}
-        sx={{ backgroundColor: 'white', marginTop: 0.3, borderRadius: 3, padding: '1px 8px 15px 1px' }}
-      >
-        {cardsList.map(card => (
-          <DashboardCards card={card} />
-        ))}
-      </Grid>
-    </Box>
+    <>
+      <Helmet>
+        <title>Dashboard - ErisBiz</title>
+        <meta name="description" content="ErisBiz" />
+      </Helmet>
+      <Box sx={{ flexGrow: 1 }}>
+        <Typography sx={{ fontWeight: 500, fontSize: 19 }}>Dashboard</Typography>
+        <Grid
+          container
+          spacing={2}
+          sx={{ backgroundColor: 'white', marginTop: 0.3, borderRadius: 3, padding: '1px 8px 15px 1px' }}
+        >
+          {cardsList.map(card => (
+            <DashboardCards card={card} />
+          ))}
+        </Grid>
+      </Box>
+    </>
   );
 }
 

@@ -1,9 +1,8 @@
-/* eslint-disable*/
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 
-const FormikTextArea = ({ className, ...props }) => {
+function FormikTextArea({ className, ...props }) {
   FormikTextArea.propTypes = {
     className: PropTypes.string,
   };
@@ -13,14 +12,10 @@ const FormikTextArea = ({ className, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   // which we can spread on <input> and also replace ErrorMessage entirely.
   const [field] = useField(props);
-  return (
-    <>
-      <textarea {...field} className={className} {...props} />
-    </>
-  );
-};
+  return <textarea {...field} className={className} {...props} />;
+}
 
-const FormikField = ({
+function FormikField({
   textArea,
   textRight,
   className,
@@ -30,7 +25,7 @@ const FormikField = ({
   placeholder,
   type,
   ...props
-}) => {
+}) {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   // which we can spread on <input> and also replace ErrorMessage entirely.
   const [field] = useField(props);
@@ -56,9 +51,7 @@ const FormikField = ({
 
   return (
     <div className={`form__form-group-input-wrap ${className}`}>
-      {textArea && (
-        <textarea {...field} disabled={disabled} placeholder={placeholder} />
-      )}
+      {textArea && <textarea {...field} disabled={disabled} placeholder={placeholder} />}
       {!textArea && (
         <input
           {...field}
@@ -70,12 +63,10 @@ const FormikField = ({
           // onChange={handleChange}
         />
       )}
-      {touched && error && (
-        <span className="form__form-group-error">{error}</span>
-      )}
+      {touched && error && <span className="form__form-group-error">{error}</span>}
     </div>
   );
-};
+}
 
 FormikField.propTypes = {
   textArea: PropTypes.bool,
@@ -102,13 +93,7 @@ FormikField.defaultProps = {
   // inputType: null,
 };
 
-const renderFormikFieldWithLabel = ({
-  label,
-  id,
-  name,
-  className,
-  ...props
-}) => {
+function renderFormikFieldWithLabel({ label, id, name, className, ...props }) {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   // which we can spread on <input> and also replace ErrorMessage entirely.
   renderFormikFieldWithLabel.propTypes = {
@@ -128,14 +113,12 @@ const renderFormikFieldWithLabel = ({
     <div className={`form__form-group-input-wrap ${className}`}>
       <label htmlFor={id || name}>{label}</label>
       <input className="text-input" {...field} {...props} />
-      {meta.touched && meta.error ? (
-        <span className="form__form-group-error">{meta.error}</span>
-      ) : null}
+      {meta.touched && meta.error ? <span className="form__form-group-error">{meta.error}</span> : null}
     </div>
   );
-};
+}
 
-const renderField = ({
+function renderField({
   input,
   // label,
   placeholder,
@@ -145,23 +128,23 @@ const renderField = ({
   textArea,
   textRight,
   disabled,
-}) => (
-  <div className={`form__form-group-input-wrap ${className}`}>
-    {textArea && <textarea {...input} placeholder={placeholder} type={type} />}
-    {!textArea && (
-      <input
-        {...input}
-        placeholder={placeholder}
-        type={type}
-        className={textRight ? 'text-right' : ''}
-        disabled={disabled}
-      />
-    )}
-    {touched && error && (
-      <span className="form__form-group-error">{error}</span>
-    )}
-  </div>
-);
+}) {
+  return (
+    <div className={`form__form-group-input-wrap ${className}`}>
+      {textArea && <textarea {...input} placeholder={placeholder} type={type} />}
+      {!textArea && (
+        <input
+          {...input}
+          placeholder={placeholder}
+          type={type}
+          className={textRight ? 'text-right' : ''}
+          disabled={disabled}
+        />
+      )}
+      {touched && error && <span className="form__form-group-error">{error}</span>}
+    </div>
+  );
+}
 
 renderField.propTypes = {
   input: PropTypes.shape({
