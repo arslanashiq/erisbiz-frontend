@@ -29,7 +29,7 @@ export default function ItemDetailTabs({ itemDetail }) {
     { label: 'overview', content: <ItemOverViewTab itemDetail={customItemDetail} /> },
     { label: 'transactions', content: <ItemTransactionsTab /> },
   ];
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   const handleChange = (_, newValue) => {
     setValue(newValue);

@@ -144,7 +144,7 @@ function MuiTableBody({
   );
 }
 MuiTableBody.propTypes = {
-  dataList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  dataList: PropTypes.array,
   headCells: PropTypes.arrayOf(PropTypes.object).isRequired,
   showCheckbox: PropTypes.bool,
   selected: PropTypes.array.isRequired,
@@ -154,6 +154,7 @@ MuiTableBody.propTypes = {
   customRows: PropTypes.array,
 };
 MuiTableBody.defaultProps = {
+  dataList: [],
   showCheckbox: false,
   actionButtonKey: '',
   handleTableBodyButtonAction: () => {},

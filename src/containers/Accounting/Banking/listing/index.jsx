@@ -2,10 +2,10 @@ import React from 'react';
 import { useChangeBankAccountStatusMutation, useGetBankAccountsListQuery } from 'services/private/banking';
 import MuiTable from 'shared/components/table/MuiTable';
 import AddIcon from '@mui/icons-material/Add';
-import { BankingHeadCells } from 'utilities/tableHeadCells';
 import { useLocation, useNavigate } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { BankingHeadCells } from '../utils/head-cells';
 import 'styles/mui.scss';
 
 function BankListing() {

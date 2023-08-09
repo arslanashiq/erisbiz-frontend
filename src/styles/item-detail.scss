@@ -34,3 +34,8 @@
   color: $heading-color;
   font-weight: 300 !important;
 }
+.transaction-accordion {
+  .MuiAccordionSummary-root {
+    cursor: default !important;
+  }
+}

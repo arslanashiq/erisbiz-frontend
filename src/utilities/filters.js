@@ -47,5 +47,3 @@ export const getItemSearchQueryParams = location => {
   query = { ...filters, ...limit };
   return query;
 };
-
-//

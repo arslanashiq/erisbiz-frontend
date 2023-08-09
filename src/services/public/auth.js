@@ -4,7 +4,7 @@ const authApi = publicApi.injectEndpoints({
   endpoints: builder => ({
     adminLogin: builder.mutation({
       query: payload => ({
-        url: '/api/auth/login',
+        url: '/api/auth/login/',
         method: 'POST',
         body: payload,
       }),

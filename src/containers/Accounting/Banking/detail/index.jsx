@@ -118,6 +118,7 @@ function BankDetail() {
             >
               {activeTab === '1' && (
                 <FilterDropdown
+                  className="mt-2 mt-md-0"
                   initialValue={transactionFilter}
                   setFilterValue={setTransactionFilter}
                   filterList={bankTransactionFilterList}

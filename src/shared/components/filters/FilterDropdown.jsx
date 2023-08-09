@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function FilterDropdown({ initialValue, filterList, setFilterValue }) {
+export default function FilterDropdown({ initialValue, filterList, setFilterValue, className }) {
   const [value, setValue] = React.useState(initialValue);
 
   const handleChange = event => {
@@ -14,7 +14,7 @@ export default function FilterDropdown({ initialValue, filterList, setFilterValu
   };
 
   return (
-    <FormControl fullWidth variant="standard">
+    <FormControl fullWidth variant="standard" className={className}>
       <InputLabel id="demo-simple-select-label">Filter</InputLabel>
       <Select
         labelId="demo-simple-select-label"
@@ -34,8 +34,10 @@ FilterDropdown.propTypes = {
   initialValue: PropTypes.string,
   filterList: PropTypes.array,
   setFilterValue: PropTypes.func,
+  className: PropTypes.string,
 };
 FilterDropdown.defaultProps = {
+  className: '',
   initialValue: '',
   filterList: [],
   setFilterValue: () => {},

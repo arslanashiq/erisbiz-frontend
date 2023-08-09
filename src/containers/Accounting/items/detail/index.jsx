@@ -2,12 +2,13 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Helmet } from 'react-helmet';
-import { Button, Card, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import { Button, Card, Stack, Typography } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useGetSingleItemQuery } from 'services/private/items';
 import InfoPopup from 'shared/modals/InfoPopup';
 import ItemDetailTabs from './components/ItemDetailTabs';
 import 'styles/item-detail.scss';
+import ActionMenu from './components/ActionMenu';
 
 function ItemDetail() {
   const navigate = useNavigate();
@@ -32,11 +33,21 @@ function ItemDetail() {
     });
   };
   const itemDetail = itemDetailResponse?.data;
+  const handleClickEdit = () => {
+    if (itemDetail.is_active) {
+      handleClose();
+      setPopup({ ...popup, open: true, message: 'Item is Active please Deactivate it first' });
+    } else if (itemDetail.is_item_used) {
+      handleClose();
+      setPopup({ ...popup, open: true, message: 'Item is used in Transections' });
+    } else navigate('/pages/accounting/items/edit/243');
+  };
   return (
     <>
       <Helmet>
         <title>Item Detail - ErisBiz</title>
       </Helmet>
+      <ActionMenu anchorEl={anchorEl} handleClose={handleClose} handleClickEdit={handleClickEdit} />
       <InfoPopup open={popup.open} handleClose={handleClosePopup} infoDescription={popup.message} />
       <Stack direction="row" justifyContent="space-between" sx={{ margin: '10px auto' }}>
         <Typography className="item-name-wrapper">{itemDetail?.item_name}</Typography>
@@ -51,30 +62,6 @@ function ItemDetail() {
           >
             Perform Action <KeyboardArrowDownIcon />
           </Button>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              'aria-labelledby': 'basic-button',
-            }}
-          >
-            <MenuItem
-              onClick={() => {
-                if (itemDetail.is_active) {
-                  handleClose();
-                  setPopup({ ...popup, open: true, message: 'Item is Active please Deactivate it first' });
-                } else if (itemDetail.is_item_used) {
-                  handleClose();
-                  setPopup({ ...popup, open: true, message: 'Item is used in Transections' });
-                } else navigate('/pages/accounting/items/edit/243');
-              }}
-            >
-              Edit
-            </MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
-          </Menu>
           <Button
             onClick={() => {
               navigate(-1);
