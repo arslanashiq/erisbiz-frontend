@@ -20,3 +20,8 @@
 .css-hz1bth-MuiDialog-container {
   height: auto !important;
 }
+
+// timeline
+.MuiTimeline-root .MuiTimelineItem-root:before {
+  flex: 0.2 !important;
+}

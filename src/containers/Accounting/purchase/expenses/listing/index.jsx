@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { Helmet } from 'react-helmet';
 import MuiTable from 'shared/components/table/MuiTable';
-import { expensesHeadCells } from 'utilities/tableHeadCells';
 import { useGetExpensesListQuery } from 'services/private/expenses';
+import { expensesHeadCells } from '../utils/head-cells';
 
 function ExpensesListing() {
   const navigate = useNavigate();

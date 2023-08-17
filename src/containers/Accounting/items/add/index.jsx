@@ -13,10 +13,13 @@ import FormikModernSelect from 'shared/components/form/FormikModernSelect';
 import GroupedOptionsFormikSelect from 'shared/components/form/GroupedOptionsFormikSelect';
 import 'styles/form.scss';
 import { useNavigate, useParams } from 'react-router';
-// import getSorting from 'utilities/getSorting';
 import { useGetBankAccountsListQuery } from 'services/private/banking';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
-import { useGetSingleItemQuery } from 'services/private/items';
+import { useAddItemMutation, useEditItemMutation, useGetSingleItemQuery } from 'services/private/items';
+import copyFetchedValues from 'utilities/copyFetchedValues';
+import FormHeader from 'shared/components/form-header/FormHeader';
+import Loader from 'shared/components/loader/Loader';
+import { useGetBrandsListQuery } from 'services/private/brands';
 
 function AddItemPage() {
   const [itemFormInitialValues, setItemFormInitialValues] = useState({
@@ -30,7 +33,7 @@ function AddItemPage() {
     bar_code: '',
     unit: 'kg',
     recorder: '',
-    item_image: '',
+    // item_image: '',
     part_number: '',
     supplier: '',
     brand: '',
@@ -40,7 +43,11 @@ function AddItemPage() {
 
   const bankApiResponse = useGetBankAccountsListQuery();
   const supplierApiResponse = useGetSuppliersListQuery();
+  const brandsApiResponse = useGetBrandsListQuery();
   const itemDetailResponse = id ? useGetSingleItemQuery(id) : '';
+
+  const [addItem] = useAddItemMutation();
+  const [editItem] = useEditItemMutation();
   const suppliersOptions = supplierApiResponse?.data?.results?.map(supplier => ({
     value: `${supplier.id}`,
     label: supplier.supplier_name,
@@ -49,32 +56,60 @@ function AddItemPage() {
     value: `${bank.id}`,
     label: bank.IBAN,
   }));
-  // const brandsOptions = brands.sort(getSorting('desc', 'brand_name')).map(brand => ({
-  //   value: `${brand.uid}`,
-  //   label: brand.brand_name,
-  // }));
-
+  const brandsOptions = brandsApiResponse?.data?.results?.map(brand => ({
+    value: `${brand.uid}`,
+    label: brand.brand_name,
+  }));
   useEffect(() => {
     if (id && itemDetailResponse.isSuccess) {
-      console.log(itemDetailResponse.data, 'itemDetailResponseitemDetailResponse');
       setItemFormInitialValues({
-        ...itemDetailResponse.data,
-        is_active: itemDetailResponse.data.is_active.toString(),
+        ...itemFormInitialValues,
+        ...copyFetchedValues(itemFormInitialValues, itemDetailResponse.data),
         item_type: itemDetailResponse.data.item_type.toString(),
+        is_active: itemDetailResponse.data.is_active.toString(),
       });
     }
-  }, []);
-  if (bankApiResponse.isLoading || supplierApiResponse.isLoading) {
-    return <>Loading</>;
+  }, [itemDetailResponse]);
+  if (bankApiResponse.isLoading || supplierApiResponse.isLoading || brandsApiResponse.isLoading) {
+    return <Loader />;
   }
 
   return (
     <Card>
       <CardContent>
+        <FormHeader title="Item Master" />
         <Formik
           enableReinitialize
           initialValues={itemFormInitialValues}
           // validationSchema={itemFormValidationSchema}
+          onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
+            try {
+              let response = null;
+              if (id) {
+                const payload = { ...values, id };
+                await editItem({ id, payload });
+              } else {
+                response = await addItem(values);
+              }
+              if (response.data) {
+                setSubmitting(false);
+                resetForm(itemFormInitialValues);
+                navigate(-1);
+              }
+              if (response.error) {
+                setSubmitting(false);
+                setErrors(response.error.data);
+              }
+            } catch (err) {
+              if (err.response && err.response.status === 400) {
+                setSubmitting(true);
+                setErrors(err.response.data);
+                setSubmitting(false);
+              } else {
+                // doReturnErrors(err.response.data, err.response.status);
+              }
+            }
+          }}
         >
           {({ isSubmitting, touched, setFieldValue, setFieldTouched, resetForm, values, errors }) => (
             <Form className="form form--horizontal row pt-3">
@@ -244,12 +279,7 @@ function AddItemPage() {
                 <div className="form__form-group col-12">
                   <span className="form__form-group-label col-lg-3 required">Brand</span>
                   <div className="form__form-group-field ">
-                    <FormikModernSelect
-                      placeholder="Select Brand"
-                      name="brand"
-                      options={[]}
-                      // options={brandsOptions}
-                    />
+                    <FormikModernSelect placeholder="Select Brand" name="brand" options={brandsOptions} />
 
                     <Tooltip title="Add Brand" placement="top" arrow>
                       <div

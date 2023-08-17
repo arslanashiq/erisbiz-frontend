@@ -1,8 +1,22 @@
+@import './variables.scss';
 .required:after {
   content: '*';
   color: $required-color;
 }
+.accordion-icon {
+  font-size: 20px !important;
+}
+.accordion-close-icon {
+  transform: rotate(-90deg);
+}
+.small-screen-drawer {
+  .MuiBackdrop-root {
+    opacity: 0 !important;
+  }
+}
 
+// <=======================common Styles===============================>
+// colors
 .color-danger {
   color: red;
 }
@@ -16,11 +30,19 @@
 .color-light {
   color: rgba(0, 0, 0, 0.87);
 }
-.accordion-icon {
-  font-size: 20px !important;
+
+// background-color
+.bg-grey {
+  background-color: #f4f4f9 !important;
 }
-.accordion-expand-icon {
+
+// text-align
+.text-left {
+  text-align: left;
 }
-.accordion-close-icon {
-  transform: rotate(-90deg);
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
 }

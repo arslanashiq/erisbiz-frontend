@@ -1,0 +1,17 @@
+@import './variables.scss';
+.purchase-item-head {
+  background-color: $background-color;
+}
+.purchase-item-table-cell {
+  border: 1px solid $color-additional;
+  min-width: 120px;
+}
+.purchase-item-total-amount-wrapper {
+  border-radius: 5px;
+  padding: 10px;
+  background-color: $background-color;
+}
+.purchase-item-total-amount {
+  font-size: 16px;
+  font-weight: 600;
+}

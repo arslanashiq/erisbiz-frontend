@@ -25,12 +25,11 @@ const salesOptions = [
   { label: 'Credit Note', to: '/pages/accounting/sales/credit-notes/add' },
 ];
 const purchaseOptions = [
-  { label: 'Supplier', to: '/pages/accounting/purchases/suppliers/add' },
-  { label: 'Expense', to: '/pages/accounting/purchases/expenses/add' },
-  { label: 'Purchase Order', to: '/pages/accounting/purchases/purchase-order/add' },
-  { label: 'Bill', to: '/pages/accounting/purchases/bills/add' },
-  { label: 'Payment Made', to: '/pages/accounting/purchases/payments-made/add' },
-  { label: 'Debit Note', to: '/pages/accounting/purchases/supplier-credits/add' },
+  { label: 'Supplier', to: '/pages/accounting/purchase/suppliers/add' },
+  { label: 'Expense', to: '/pages/accounting/purchase/expenses/add' },
+  { label: 'Purchase Order', to: '/pages/accounting/purchase/purchase-orders/add' },
+  { label: 'Debit Notes', to: '/pages/accounting/purchase/debit-notes/add' },
+  { label: 'Payment Made', to: '/pages/accounting/purchase/-made/add' },
 ];
 function QuickCreateMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);

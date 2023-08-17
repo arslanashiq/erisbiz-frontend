@@ -1,3 +1,35 @@
+export const itemsHeadCell = [
+  {
+    id: 'item_name',
+    numeric: false,
+    disablePadding: true,
+    label: 'Item Name',
+    align: 'left',
+    isLink: true,
+  },
+  {
+    id: 'item_type',
+    numeric: true,
+    disablePadding: false,
+    label: 'Item Type',
+    align: 'right',
+  },
+  {
+    id: 'sale_description',
+    numeric: true,
+    disablePadding: false,
+    label: 'Description',
+    align: 'right',
+  },
+  {
+    id: 'is_active',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
+    align: 'right',
+  },
+];
+
 // item transactions cells
 export const itemInventoryAdjustmentTransactionHeadCells = [
   {
@@ -298,17 +330,17 @@ export const itemDebitNoteTransactionHeadCells = [
     align: 'left',
   },
   {
-    id: 'reason',
+    id: 'supplier_name',
     numeric: true,
     disablePadding: false,
-    label: 'Reason',
+    label: 'Supplier Name',
     align: 'left',
   },
   {
-    id: 'item_type',
+    id: 'amount_due_debit_currency',
     numeric: true,
     disablePadding: false,
-    label: 'Type',
+    label: 'Amount',
     align: 'left',
   },
 

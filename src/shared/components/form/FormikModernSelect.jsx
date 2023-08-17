@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { Button } from 'reactstrap';
 import { useField, useFormikContext } from 'formik';
+import 'styles/react-select.scss';
 
 const CUSTOM_BUTTON_VALUE = 'custom-menu-button';
 
@@ -130,7 +131,7 @@ FormikModernSelect.defaultProps = {
   customClass: '',
   placeholder: '',
   disabled: false,
-  menuPosition: 'absolute',
+  menuPosition: 'fixed',
   menuPlacement: 'auto',
   menuShouldBlockScroll: false,
   components: undefined,

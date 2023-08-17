@@ -6,13 +6,13 @@ import {
 } from 'services/private/items';
 import MuiTable from 'shared/components/table/MuiTable';
 import AddIcon from '@mui/icons-material/Add';
-import { itemsHeadCell } from 'utilities/tableHeadCells';
 import { useLocation, useNavigate } from 'react-router';
 import { Helmet } from 'react-helmet';
 import 'styles/mui.scss';
 import { useSnackbar } from 'notistack';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
+import { itemsHeadCell } from '../utils/head-cells';
 import ItemFilter from './components/ItemFilter';
 
 function ItemsListing() {

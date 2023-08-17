@@ -2,10 +2,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
-import { purchaseOrderHeadCells } from 'utilities/tableHeadCells';
 import { useLocation, useNavigate } from 'react-router';
 import { useGetPurchaseOrdersListQuery } from 'services/private/purchase-orders';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { purchaseOrderHeadCells } from '../utils/head-cells';
 
 function PurchaseOrderListing() {
   const navigate = useNavigate();

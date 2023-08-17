@@ -3,10 +3,10 @@ import { Helmet } from 'react-helmet';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
 import { useLocation, useNavigate } from 'react-router';
-import { supplierHeadCells } from 'utilities/tableHeadCells';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { supplierHeadCells } from '../utils/head-cells';
 
 function SupplierListing() {
   const navigate = useNavigate();

@@ -1,14 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 import MuiTable from 'shared/components/table/MuiTable';
 import AddIcon from '@mui/icons-material/Add';
-import { brandsHeadCells } from 'utilities/tableHeadCells';
+import { useGetBrandsListQuery } from 'services/private/brands';
+import { brandsHeadCells } from '../utils/head-cells';
 
 function BrandsListing() {
   const navigate = useNavigate();
-  const brandsListResponse = useGetBankAccountsListQuery();
+  const brandsListResponse = useGetBrandsListQuery();
   return (
     <>
       <Helmet>

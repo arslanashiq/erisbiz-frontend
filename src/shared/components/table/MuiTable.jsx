@@ -12,37 +12,11 @@ import InfoPopup from 'shared/modals/InfoPopup';
 import Paper from '@mui/material/Paper';
 import { useLocation, useNavigate } from 'react-router';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { getComparator, stableSort } from 'utilities/sort';
 import MuiTableHead from './MuiTableHead';
 import MuiTableBody from './MuiTableBody';
 import MuiTableToolbar from './MuiTableToolbar';
 import Loader from '../loader/Loader';
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
-}
 
 export default function MuiTable({
   data,
@@ -57,7 +31,6 @@ export default function MuiTable({
   handleConfirmDelete,
   filterButton,
   totalDataCount,
-  tableHeight,
   customRows,
 }) {
   const location = useLocation();
@@ -174,9 +147,9 @@ export default function MuiTable({
           handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
         />
       )}
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <TableContainer sx={{ height: tableHeight || 'auto' }}>
-          <Table stickyHeader sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size="small">
+      <Paper>
+        <TableContainer>
+          <Table stickyHeader size="small" sx={{ minWidth: 650 }}>
             <MuiTableHead
               showCheckbox={showCheckbox}
               headCells={headCells}
@@ -200,6 +173,7 @@ export default function MuiTable({
             />
           </Table>
         </TableContainer>
+
         <TablePagination
           rowsPerPageOptions={[20, 50, 100]}
           component="div"
@@ -215,7 +189,7 @@ export default function MuiTable({
 }
 
 MuiTable.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   TableHeading: PropTypes.string,
   headCells: PropTypes.arrayOf(PropTypes.object).isRequired,
   handleTableBodyActionButton: PropTypes.func,
@@ -227,10 +201,11 @@ MuiTable.propTypes = {
   handleConfirmDelete: PropTypes.func,
   filterButton: PropTypes.element,
   totalDataCount: PropTypes.number,
-  tableHeight: PropTypes.string,
+  // tableHeight: PropTypes.string,
   customRows: PropTypes.array,
 };
 MuiTable.defaultProps = {
+  data: null,
   actionButtonKey: '',
   TableHeading: '',
   handleTableBodyActionButton: () => {},
@@ -241,6 +216,6 @@ MuiTable.defaultProps = {
   handleEdit: () => {},
   filterButton: null,
   totalDataCount: ROWS_PER_PAGE,
-  tableHeight: '65vh',
+  // tableHeight: '65vh',
   customRows: null,
 };

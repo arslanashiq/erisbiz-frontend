@@ -12,8 +12,18 @@ const suppliersApi = privateApi.injectEndpoints({
         },
       }),
     }),
+    getSupplierTransactions: builder.query({
+      query: ({ id }) => ({
+        url: `api/accounting/purchase/supplier/${id}/transaction`,
+        method: 'GET',
+        // params: {
+        //   offset: params.offset,
+        //   limit: params.limit,
+        // },
+      }),
+    }),
   }),
 });
 
 // eslint-disable-next-line import/prefer-default-export
-export const { useGetSuppliersListQuery } = suppliersApi;
+export const { useGetSuppliersListQuery, useGetSupplierTransactionsQuery } = suppliersApi;

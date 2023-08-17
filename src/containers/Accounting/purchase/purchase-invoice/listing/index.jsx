@@ -2,10 +2,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import MuiTable from 'shared/components/table/MuiTable';
 import AddIcon from '@mui/icons-material/Add';
-import { purchaseInvoiceHeadCells } from 'utilities/tableHeadCells';
 import { useLocation, useNavigate } from 'react-router';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { useGetPurchaseInvoiceListQuery } from 'services/private/purchase-invoice';
+import { purchaseInvoiceHeadCells } from '../utils/head-cells';
 
 function SupplierCreditListing() {
   const navigate = useNavigate();

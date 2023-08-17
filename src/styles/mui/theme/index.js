@@ -45,12 +45,17 @@ const theme = createTheme({
         size: 'small',
         variant: 'contained',
       },
+      styleOverrides: {
+        root: {
+          textTransform: 'capitalize',
+        },
+      },
     },
     // TableContainer
     MuiTableContainer: {
       styleOverrides: {
         root: {
-          height: '64vh',
+          maxHeight: '63vh',
         },
       },
     },

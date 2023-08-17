@@ -30,3 +30,35 @@ export const BankingHeadCells = [
     },
   },
 ];
+
+export const bankTransactionsHeadCells = [
+  {
+    id: 'transaction_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    // date: true,
+  },
+  {
+    id: 'reference_number',
+    disablePadding: false,
+    label: 'Reference Number',
+    align: 'left',
+  },
+  {
+    id: 'bcy_debit',
+    disablePadding: false,
+    label: 'Debit',
+  },
+  {
+    id: 'bcy_credit',
+    disablePadding: false,
+    label: 'Credit',
+  },
+  {
+    id: 'amount_without_tax',
+    disablePadding: false,
+    label: 'Amount',
+  },
+];

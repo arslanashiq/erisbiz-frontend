@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import 'styles/react-select.scss';
 
 class FormikSelect extends Component {
   handleChange = value => {
@@ -32,11 +33,7 @@ class FormikSelect extends Component {
       formatOptionLabel,
     } = this.props;
     return (
-      <div
-        styles={{ height: 22 }}
-        className={`form__form-group-input-wrap ${customClass}`}
-        id={name}
-      >
+      <div className={`form__form-group-input-wrap ${customClass}`} id={name}>
         <Select
           {...this.props}
           id="color"
@@ -62,9 +59,7 @@ class FormikSelect extends Component {
           formatOptionLabel={formatOptionLabel}
           disabled={disabled}
         />
-        {touched && error && (
-          <span className="form__form-group-error">{error}</span>
-        )}
+        {touched && error && <span className="form__form-group-error">{error}</span>}
       </div>
     );
   }
@@ -95,7 +90,7 @@ FormikSelect.defaultProps = {
   customClass: null,
   placeholder: null,
   disabled: false,
-  menuPosition: 'absolute',
+  menuPosition: 'fixed',
   menuPlacement: 'auto',
   menuShouldBlockScroll: false,
   formatOptionLabel: null,

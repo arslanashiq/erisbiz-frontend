@@ -12,12 +12,29 @@ const bankingApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getBankAccountsList'],
     }),
+    addBankAccount: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/accountant/bankAccounts/',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getBankAccountsList'],
+    }),
+    editBankAccount: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/accountant/bankAccounts/${id}/`,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: ['getBankAccountsList', 'getSingleBankAccount'],
+    }),
 
     getSingleBankAccount: builder.query({
       query: id => ({
         url: `api/accounting/accountant/bankAccounts/${id}/`,
         method: 'GET',
       }),
+      providesTags: ['getSingleBankAccount'],
     }),
 
     changeBankAccountStatus: builder.mutation({
@@ -27,12 +44,7 @@ const bankingApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getBankAccountsList'],
     }),
-    addBankAccount: builder.mutation({
-      query: () => ({
-        url: 'api/accounting/accountant/bankAccounts/',
-        method: 'POST',
-      }),
-    }),
+
     getBankTransactions: builder.query({
       query: ({ id, params }) => ({
         url: `api/accountant/chart/of/account/report/${id}/detail`,
@@ -53,9 +65,10 @@ const bankingApi = privateApi.injectEndpoints({
 
 export const {
   useGetBankAccountsListQuery,
+  useAddBankAccountMutation,
+  useEditBankAccountMutation,
   useGetSingleBankAccountQuery,
   useChangeBankAccountStatusMutation,
-  useAddBankAccountMutation,
   useGetBankTransactionsQuery,
   useDeleteBankMutation,
 } = bankingApi;

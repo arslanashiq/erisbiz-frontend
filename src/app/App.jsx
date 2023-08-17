@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from '@mui/material';
 import { isUserAuthenticated } from 'store/slices/userSlice';
-import { useLoadUserQuery } from 'services/private/user';
+import { useLoadUserMutation } from 'services/private/user';
 import { useDispatch } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
+import Loader from 'shared/components/loader/Loader';
 import AppRoutes from './routes';
 import theme from '../styles/mui/theme';
 
 function App() {
   const dispatch = useDispatch();
 
-  const userResponse = useLoadUserQuery();
-  if (userResponse.isSuccess) {
-    dispatch(isUserAuthenticated({ isAuthenticated: true }));
-  }
-  if (userResponse.isError) {
-    dispatch(isUserAuthenticated({ isAuthenticated: false }));
+  const [verifyUser, userResponse] = useLoadUserMutation();
+
+  const handleVerifyUser = async () => {
+    const res = await verifyUser();
+
+    if (res.data) {
+      dispatch(isUserAuthenticated({ isAuthenticated: true }));
+    } else {
+      dispatch(isUserAuthenticated({ isAuthenticated: false }));
+    }
+  };
+  useEffect(() => {
+    handleVerifyUser();
+  }, []);
+
+  if (userResponse.isLoading || userResponse.isUninitialized) {
+    return <Loader />;
   }
   return (
     <ThemeProvider theme={theme}>

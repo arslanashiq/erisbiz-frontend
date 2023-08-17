@@ -21,6 +21,7 @@ function BankListing() {
       </Helmet>
       {/* {bankAccountListResponse.isSuccess && bankAccountListResponse?.data?.results?.length > 0 && ( */}
       <MuiTable
+        showCheckbox
         data={bankAccountListResponse?.data?.results}
         totalDataCount={bankAccountListResponse?.data?.count}
         TableHeading="Banking"

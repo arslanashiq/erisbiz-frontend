@@ -1,3 +1,4 @@
+/* eslint-disable function-paren-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable no-nested-ternary */
@@ -24,6 +25,7 @@ function MuiTableBody({
     }
     return {};
   };
+
   const renderCellValue = (row, cell) => {
     if (cell.cellValueAction) {
       return cell.cellValueAction(row[cell.id]);
@@ -44,7 +46,9 @@ function MuiTableBody({
       `${row[cell.id] || '-'}`
     );
   };
+
   const isSelected = id => selected.indexOf(id) !== -1;
+
   if (dataList.length === 0) {
     return (
       <TableRow>
@@ -88,6 +92,7 @@ function MuiTableBody({
                   inputProps={{
                     'aria-labelledby': labelId,
                   }}
+                  size="small"
                 />
               </TableCell>
             )}
@@ -96,13 +101,13 @@ function MuiTableBody({
             {headCells.map(cell => (
               <TableCell
                 key={cell.id}
-                component="th"
+                component="td"
                 id={labelId}
                 scope="row"
                 padding="normal"
                 align={cell.align || 'left'}
                 className="text-capitalize"
-                style={handlegetCellStyle(cell, row[cell.id])}
+                style={{ ...handlegetCellStyle(cell, row[cell.id]), fontSize: '0.80rem' }}
               >
                 {renderCellValue(row, cell)}
               </TableCell>
@@ -110,7 +115,14 @@ function MuiTableBody({
 
             {/* Action Button */}
             {actionButtonKey && (
-              <TableCell component="th" id={labelId} scope="row" padding="normal" align="center">
+              <TableCell
+                component="th"
+                id={labelId}
+                scope="row"
+                padding="normal"
+                align="center"
+                style={{ fontSize: '0.80rem' }}
+              >
                 <Button
                   size="small"
                   className="text-capitalize"
@@ -128,7 +140,12 @@ function MuiTableBody({
         customRows.map(row => (
           <TableRow>
             {row.column.map(col =>
-              col.colSpan ? <TableCell colSpan={col.colSpan} /> : <TableCell>{col.data}</TableCell>)}
+              col.colSpan ? (
+                <TableCell colSpan={col.colSpan} />
+              ) : (
+                <TableCell sx={{ fontSize: '0.80rem' }}>{col.data}</TableCell>
+              )
+            )}
           </TableRow>
         ))}
       {/* {emptyRows > 0 && (

@@ -6,7 +6,7 @@
   align-items: center;
 }
 .topbar__logo {
-  width: 13%;
+  width: 30%;
   height: 55px;
   margin: auto 0;
   background-repeat: no-repeat;
@@ -16,7 +16,7 @@
   display: none;
   background-image: $topbar-logo;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 648px) {
     display: block;
   }
 }
@@ -26,10 +26,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  @media screen and (max-width: 768px) {
-    left: 60px;
-  }
 }
 .topbar__right {
   display: flex;
@@ -41,10 +37,6 @@
   right: 20px;
   font-size: 10px;
   line-height: 14px;
-
-  // @include themify($themes) {
-  //   color: themed('colorIcon');
-  // }
 }
 
 .topbar__submenu {

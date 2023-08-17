@@ -1,10 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect } from 'react';
-import CheckIcon from 'mdi-react/CheckIcon';
-import CloseIcon from 'mdi-react/CloseIcon';
+import CheckIcon from '@mui/icons-material/Check';
+// import CloseIcon from 'mdi-react/CloseIcon';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useField } from 'formik';
+import 'styles/check-box.scss';
 
 function CheckBoxField(props) {
   const { defaultChecked, changeOnMount, disabled, className, name, value, onChange, onClick, label, color } =
@@ -38,7 +39,7 @@ function CheckBoxField(props) {
       {className === 'button' ? (
         <span className="checkbox-btn__label-svg">
           <CheckIcon className="checkbox-btn__label-check" />
-          <CloseIcon className="checkbox-btn__label-uncheck" />
+          {/* <CloseIcon className="checkbox-btn__label-uncheck" /> */}
         </span>
       ) : (
         ''

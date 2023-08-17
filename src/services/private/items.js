@@ -3,7 +3,7 @@ import { privateApi } from './index';
 const itemApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getItemsList: builder.query({
-      query: params => ({
+      query: (params = {}) => ({
         url: 'api/accounting/list/items',
         params: {
           limit: params.limit,
@@ -13,6 +13,20 @@ const itemApi = privateApi.injectEndpoints({
         },
       }),
       providesTags: ['getItemsList'],
+    }),
+    addItem: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/items/',
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    editItem: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/items/${id}/`,
+        method: 'PATCH',
+        body: payload,
+      }),
     }),
     changeItemStatus: builder.mutation({
       query: id => ({
@@ -95,11 +109,24 @@ const itemApi = privateApi.injectEndpoints({
         },
       }),
     }),
+    getItemDebitNote: builder.query({
+      query: ({ id, params }) => ({
+        url: `api/accounting/item/${id}/debitnote/transactions`,
+        method: 'GET',
+        params: {
+          status: params.status,
+          limit: params.limit,
+          offset: params.offset,
+        },
+      }),
+    }),
   }),
 });
 
 export const {
   useGetItemsListQuery,
+  useAddItemMutation,
+  useEditItemMutation,
   useChangeItemStatusMutation,
   useGetSingleItemQuery,
   useDeleteItemMutation,
@@ -109,4 +136,5 @@ export const {
   useGetItemCreditNoteQuery,
   useGetItemPurchaseOrderQuery,
   useGetItemBillQuery,
+  useGetItemDebitNoteQuery,
 } = itemApi;

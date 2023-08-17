@@ -14,7 +14,7 @@ function SideBarChildLinks({ childList, open, checkActive }) {
       //   setOpen(false);
       // }}
       selected={checkActive(child.link)}
-      key={child.link}
+      key={child.name}
       disablePadding
       sx={{ display: open ? 'auto' : 'none' }}
     >
@@ -23,7 +23,7 @@ function SideBarChildLinks({ childList, open, checkActive }) {
         sx={{
           minHeight: 48,
           justifyContent: open ? 'initial' : 'center',
-          px: 8.5,
+          paddingLeft: 8.5,
         }}
         onClick={() => {
           if (child.link) {

@@ -1,0 +1,197 @@
+@import './variables.scss';
+
+.react-select {
+  width: 100%;
+  height: 40px;
+  font-size: 12px;
+}
+.css-qbdosj-Input {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+
+.react-select__control {
+  height: 38px;
+  border-radius: 0 !important;
+  transition: all 0.3s;
+
+  //   @include themify($themes) {
+  //     border: 1px solid themed('colorFieldsBorder');
+  //     background-color: themed('colorBackground');
+  //   }
+
+  &.react-select__control--is-disabled,
+  &:disabled {
+    // @include themify($themes) {
+    //   background-color: themed('colorBackgroundBody');
+    // }
+  }
+
+  &.react-select__control--is-focused,
+  &:hover {
+    border-color: $color-accent !important;
+    box-shadow: none;
+    // background: transparent;
+  }
+}
+
+.react-select__input {
+  height: 30px;
+}
+
+.react-select__indicator-separator {
+  display: none;
+}
+
+.react-select__dropdown-indicator,
+.react-select__clear-indicator {
+  cursor: pointer;
+
+  //   @include themify($themes) {
+  //     color: themed('colorIcon');
+  //   }
+
+  svg {
+    height: 16px;
+    width: 16px;
+  }
+}
+
+.react-select__multi-value {
+  background-color: transparent;
+  border: 1px solid blue;
+
+  .react-select__multi-value__label {
+    // @include directify($directions) {
+    //   #{directed('border-right')}: 1px solid $color-blue;
+    // }
+    padding: 3px 6px;
+
+    // @include themify($themes) {
+    //   color: themed('colorText');
+    // }
+  }
+}
+
+.react-select__multi-value__remove {
+  opacity: 0.8;
+  transition: 0.3s;
+  cursor: pointer;
+
+  //   @include themify($themes) {
+  //     color: themed('colorText');
+  //   }
+}
+
+.react-select__multi-value__label,
+.react-select__multi-value__remove {
+  //   @include themify($themes) {
+  //     background: themed('colorBackground');
+  //   }
+}
+
+.react-select__single-value {
+  //   @include themify($themes) {
+  //     color: themed('colorText');
+  //   }
+}
+
+.react-select__menu {
+  box-shadow:
+    2px 2px 5px lighten($color-accent, 25%),
+    -2px -2px 5px lighten($color-accent, 25%) !important;
+  // margin-top: 6px;
+  // margin-bottom: 6px;
+}
+
+.react-select__menu-list {
+  top: calc(100% + 1px);
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 12px;
+  // animation: open 0.3s ease-out;
+  overflow: auto;
+
+  //   @include themify($themes) {
+  //     background: themed('colorBackground');
+  //     border: 1px solid themed('colorFieldsBorder');
+  //   }
+
+  scrollbar-color: #c9bdbd #fff;
+  scrollbar-width: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #c9bdbd;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #a79595;
+  }
+}
+
+@keyframes open {
+  0% {
+    max-height: 0;
+  }
+  100% {
+    max-height: 200px;
+  }
+}
+
+.react-select__option {
+  transition: all 0.3s;
+  border-radius: 0;
+  display: flex;
+  cursor: pointer;
+  padding: 8px 10px;
+
+  //   @include themify($themes) {
+  //     background: themed('colorBackground');
+  //     color: themed('colorText');
+  //   }
+
+  &.react-select__option--is-focused {
+    // @include themify($themes) {
+    //   background: darken(themed('colorHover'), 3%);
+    // }
+  }
+}
+.react-select__option:hover {
+  background-color: $primary-hover-color-light;
+}
+
+.react-select__color {
+  display: block;
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  //   @include directify($directions) {
+  //     #{directed('margin-right')}: 0px;
+  //     #{directed('margin-left')}: 5px;
+  //   }
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.form__select-color {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 84px;
+  //   @include directify($directions) {
+  //     #{directed('margin-right')}: 40px;
+  //   }
+}
+
+.multi-select-options {
+  .react-select__control {
+    height: auto;
+    min-height: 32px;
+    // padding: 2px 0px;
+  }
+}

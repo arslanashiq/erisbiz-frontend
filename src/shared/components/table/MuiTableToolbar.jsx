@@ -22,11 +22,10 @@ function MuiTableToolbar(props) {
   };
   return (
     <>
-      {filterButton && (
-        <FilterDrawer open={openFiterDrawer} setOpen={setOpenFiterDrawer}>
-          {filterButton}
-        </FilterDrawer>
-      )}
+      <FilterDrawer open={openFiterDrawer} setOpen={setOpenFiterDrawer}>
+        {filterButton}
+      </FilterDrawer>
+
       <Toolbar
         sx={{
           justifyContent: 'space-between',
@@ -55,30 +54,34 @@ function MuiTableToolbar(props) {
             <Typography sx={{ fontSize: 12 }}>{numSelected} Row Selected</Typography>
           </>
         ) : (
-          <>
-            <Typography sx={{ fontWeight: 'bold' }} variant="h6" id="tableTitle" component="div">
-              {TableHeading}
-            </Typography>
-            <Stack direction="row" spacing={2}>
-              {filterButton && (
-                <Tooltip title="Search" arrow placement="top">
-                  <Button size="small" className="text-capitalize " onClick={handleOpenFilterDrawer}>
-                    <SearchIcon />
+          <div className="row w-100">
+            <div className="col-md-6">
+              <Typography sx={{ fontWeight: 'bold' }} variant="h6" id="tableTitle" component="div">
+                {TableHeading}
+              </Typography>
+            </div>
+            <div className="col-md-6 d-flex justify-content-md-end mb-3 mb-md-0 p-0">
+              <Stack direction="row" spacing={2}>
+                {filterButton && (
+                  <Tooltip title="Search" arrow placement="top">
+                    <Button size="small" className="text-capitalize " onClick={handleOpenFilterDrawer}>
+                      <SearchIcon />
+                    </Button>
+                  </Tooltip>
+                )}
+                {otherOptions.map(option => (
+                  <Button
+                    key={option.label}
+                    size="small"
+                    className="text-capitalize "
+                    onClick={option.handleClick}
+                  >
+                    {option.label}
                   </Button>
-                </Tooltip>
-              )}
-              {otherOptions.map(option => (
-                <Button
-                  key={option.label}
-                  size="small"
-                  className="text-capitalize "
-                  onClick={option.handleClick}
-                >
-                  {option.label}
-                </Button>
-              ))}
-            </Stack>
-          </>
+                ))}
+              </Stack>
+            </div>
+          </div>
         )}
       </Toolbar>
     </>

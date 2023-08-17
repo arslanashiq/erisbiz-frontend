@@ -20,8 +20,8 @@ function LogIn() {
                 Welcome to
                 <span className="account__logo">
                   {' '}
-                  Luxury
-                  <span className="account__logo-accent">Explorers</span>
+                  ErisBiz
+                  {/* <span className="account__logo-accent">Explorers</span> */}
                 </span>
               </h3>
               <h4 className="account__subhead subhead">Redefined Luxury</h4>

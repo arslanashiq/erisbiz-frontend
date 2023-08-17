@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router';
@@ -16,18 +17,27 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { getComparator, stableSort } from 'utilities/sort';
 import MuiTableHead from '../table/MuiTableHead';
 import MuiTableBody from '../table/MuiTableBody';
 import Loader from '../loader/Loader';
 
-export default function TransactionAccordionWithFilter({ title, fetchData, headCells, FiltersList }) {
+export default function TransactionAccordionWithFilter({
+  title,
+  fetchData,
+  headCells,
+  FiltersList,
+  addNewRoute,
+  keyName,
+}) {
   const { id } = useParams();
 
   const [expanded, setExpanded] = React.useState(false);
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState(headCells[0].id);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(keyName ? 10 : 5);
   const [filter, setFilter] = React.useState(' ');
 
   const handleChangeFilter = event => {
@@ -58,15 +68,24 @@ export default function TransactionAccordionWithFilter({ title, fetchData, headC
   const handleChange = () => {
     setExpanded(!expanded);
   };
-
+  const data = keyName ? response?.data?.[keyName] : response?.data?.results;
+  const visibleRows = React.useMemo(
+    () =>
+      stableSort(data || [], getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
+    [data, order, orderBy, page, rowsPerPage]
+  );
   if (response.isLoading) {
     return <Loader />;
   }
+
   return (
     <Accordion
       className="transaction-accordion"
       sx={{
-        padding: '10px 0px',
+        // padding: '10px 0px',
         boxShadow: 'none',
         borderBottom: 1,
         borderRadius: '0px !important',
@@ -83,20 +102,28 @@ export default function TransactionAccordionWithFilter({ title, fetchData, headC
           </Typography>
         </Stack>
         <Stack direction="row" sx={{ position: 'absolute', top: 2, right: 10, zIndex: 100 }}>
-          <Stack direction="row" justifyContent="center" alignItems="center">
-            <Typography sx={{ fontSize: 10 }}>Status:</Typography>
-            <FormControl variant="standard" sx={{ fontSize: 8, minWidth: 50 }}>
-              <Select sx={{ fontSize: 10 }} value={filter} onChange={handleChangeFilter}>
-                <MenuItem index value=" ">
-                  All
-                </MenuItem>
-                {FiltersList.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+          {FiltersList && (
+            <Stack direction="row" justifyContent="center" alignItems="center">
+              <Typography sx={{ fontSize: 10, marginRight: 1 }}>Status:</Typography>
+              <FormControl variant="standard" sx={{ fontSize: 8, minWidth: 30 }}>
+                <Select sx={{ fontSize: 10 }} value={filter} onChange={handleChangeFilter}>
+                  <MenuItem index value=" ">
+                    All
                   </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                  {FiltersList.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Stack>
+          )}
+          <Stack sx={{ margin: '0px 3px' }}> | </Stack>
+          <Stack direction="row" justifyContent="center" alignItems="center">
+            <Link to={addNewRoute} style={{ textDecoration: 'none', fontSize: 10, marginRight: 1 }}>
+              Add New
+            </Link>
           </Stack>
         </Stack>
       </AccordionSummary>
@@ -112,13 +139,13 @@ export default function TransactionAccordionWithFilter({ title, fetchData, headC
                 onRequestSort={handleRequestSort}
                 rowCount={0}
               />
-              <MuiTableBody dataList={response?.data?.results} headCells={headCells} selected={[]} />
+              <MuiTableBody dataList={visibleRows} headCells={headCells} selected={[]} />
             </Table>
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5, 10, 15]}
             component="div"
-            count={response?.data?.count}
+            count={keyName ? response?.data?.[keyName]?.length : response?.data?.count}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -135,7 +162,11 @@ TransactionAccordionWithFilter.propTypes = {
   fetchData: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   FiltersList: PropTypes.array,
+  addNewRoute: PropTypes.string,
+  keyName: PropTypes.string,
 };
 TransactionAccordionWithFilter.defaultProps = {
-  FiltersList: [],
+  FiltersList: null,
+  addNewRoute: '#',
+  keyName: null,
 };

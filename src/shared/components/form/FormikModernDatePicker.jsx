@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
-import { isMobileOnly } from 'react-device-detect';
 import { useField, useFormikContext } from 'formik';
 import moment from 'moment';
-import CalendarBlankIcon from 'mdi-react/CalendarBlankIcon';
+import 'react-datepicker/dist/react-datepicker.css';
+import 'styles/date-picker.scss';
 
-const FormikModernDatePicker = ({
+function FormikModernDatePicker({
   name,
   placeholder,
   dateDisplayFormat,
@@ -15,7 +15,7 @@ const FormikModernDatePicker = ({
   onBlur,
   showCalenderIcon,
   ...restProps
-}) => {
+}) {
   const [field, meta] = useField(name || '');
   const { setFieldValue } = useFormikContext();
 
@@ -38,36 +38,27 @@ const FormikModernDatePicker = ({
   const selectedDate = value ? moment(value, dateValueFormat).toDate() : null;
 
   return (
-    <React.Fragment>
-      <div className="date-picker">
-        <DatePicker
-          {...restProps}
-          className="form__form-group-datepicker"
-          name={name}
-          selected={selectedDate}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          showYearDropdown
-          dateFormat={dateDisplayFormat}
-          dropDownMode="select"
-          popperPlacement="center"
-          withPortal={isMobileOnly}
-          placeholderText={placeholder}
-          shouldCloseOnSelect
-          autoComplete="off"
-        />
-        {touched && error && (
-          <span className="form__form-group-error">{error}</span>
-        )}
-      </div>
-      {showCalenderIcon && (
-        <div className="form__form-group-icon">
-          <CalendarBlankIcon />
-        </div>
-      )}
-    </React.Fragment>
+    <div className="date-picker">
+      <DatePicker
+        {...restProps}
+        className="form__form-group-datepicker"
+        name={name}
+        selected={selectedDate}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        showYearDropdown
+        dateFormat={dateDisplayFormat}
+        dropDownMode="select"
+        popperPlacement="center"
+        // withPortal={isMobileOnly}
+        placeholderText={placeholder}
+        shouldCloseOnSelect
+        autoComplete="off"
+      />
+      {touched && error && <span className="form__form-group-error">{error}</span>}
+    </div>
   );
-};
+}
 
 FormikModernDatePicker.propTypes = {
   name: PropTypes.string.isRequired,

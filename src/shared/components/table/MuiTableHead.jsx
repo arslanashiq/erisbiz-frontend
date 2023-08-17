@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
@@ -32,16 +33,18 @@ function MuiTableHead(props) {
               inputProps={{
                 'aria-label': 'select all table',
               }}
+              size="small"
             />
           </TableCell>
         )}
         {headCells.map(headCell => (
           <TableCell
+            component="td"
             key={headCell.id}
             align={headCell.align ? headCell.align : 'left'}
             padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ fontWeight: 'bold', fontSize: '0.875rem' }}
+            sx={{ fontWeight: 'bold', fontSize: '0.80rem' }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -49,11 +52,11 @@ function MuiTableHead(props) {
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
+              {/* {orderBy === headCell.id ? (
+                <span component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
+                </span>
+              ) : null} */}
             </TableSortLabel>
           </TableCell>
         ))}

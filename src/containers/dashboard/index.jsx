@@ -3,9 +3,9 @@ import { Helmet } from 'react-helmet';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import 'styles/dashboard.scss';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import DashboardCards from './components/DashboardCards';
+import 'styles/dashboard.scss';
 
 const cardsList = [
   {
@@ -63,7 +63,14 @@ function Dasbboard() {
         <Grid
           container
           spacing={2}
-          sx={{ backgroundColor: 'white', marginTop: 0.3, borderRadius: 3, padding: '1px 8px 15px 1px' }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: 'white',
+            marginTop: 0.3,
+            borderRadius: 3,
+            padding: '1px 8px 15px 1px',
+          }}
         >
           {cardsList.map(card => (
             <DashboardCards card={card} />

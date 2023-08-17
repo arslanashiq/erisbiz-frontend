@@ -1,25 +1,27 @@
-/* eslint-disable*/
 import React from 'react';
 import {
   useGetItemBillQuery,
   useGetItemCreditNoteQuery,
+  useGetItemDebitNoteQuery,
   useGetItemInvoiceQuery,
   useGetItemPerformaInvoiceQuery,
   useGetItemPurchaseOrderQuery,
   useGetItemQuotationQuery,
 } from 'services/private/items';
+import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
 import {
   itemBillTransactionHeadCells,
   itemCreditNoteTransactionHeadCells,
+  itemDebitNoteTransactionHeadCells,
   itemInvoiceTransactionHeadCells,
   itemPerformaInvoiceTransactionHeadCells,
   itemPurchaseOrderTransactionHeadCells,
   itemQuotationTransactionHeadCells,
 } from '../../utils/head-cells';
-import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
 import {
   billFilters,
   creditNoteFilters,
+  debitNoteFilters,
   invoiceFilters,
   proformaInvoiceFilterList,
   purchaseOrderFilters,
@@ -34,6 +36,7 @@ function ItemTransactionsTab() {
         fetchData={useGetItemQuotationQuery}
         headCells={itemQuotationTransactionHeadCells}
         FiltersList={quotationFilterList}
+        addNewRoute="/pages/accounting/sales/quotations/add"
       />
       <TransactionAccordionWithFilter
         title="Proforma Invoice"
@@ -64,6 +67,12 @@ function ItemTransactionsTab() {
         fetchData={useGetItemBillQuery}
         headCells={itemBillTransactionHeadCells}
         FiltersList={billFilters}
+      />
+      <TransactionAccordionWithFilter
+        title="Debit Note"
+        fetchData={useGetItemDebitNoteQuery}
+        headCells={itemDebitNoteTransactionHeadCells}
+        FiltersList={debitNoteFilters}
       />
     </>
   );

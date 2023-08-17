@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Button, ButtonGroup, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
-import { useGetBankTransactionsQuery, useGetSingleBankAccountQuery } from 'services/private/banking';
 import { useParams } from 'react-router';
 import MuiTable from 'shared/components/table/MuiTable';
 import Loader from 'shared/components/loader/Loader';
-import { bankTransactionsHeadCells } from 'utilities/tableHeadCells';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Button, ButtonGroup, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { useGetBankTransactionsQuery, useGetSingleBankAccountQuery } from 'services/private/banking';
 import FilterDropdown from 'shared/components/filters/FilterDropdown';
+import { bankTransactionsHeadCells } from '../utils/head-cells';
 import BankDetailPopup from './components/BankDetailPopup';
 
 const bankTransactionFilterList = [
@@ -29,7 +29,7 @@ function BankDetail() {
   const bankAccountDetail = useGetSingleBankAccountQuery(id);
 
   const bankTransactionsResponse = useGetBankTransactionsQuery({
-    id: bankAccountDetail?.data?.chart_of_account?.id,
+    id: bankAccountDetail?.data?.chart_of_account,
     params: {
       duration: transactionFilter,
     },

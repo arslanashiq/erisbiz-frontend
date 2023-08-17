@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 function DashboardCards({ card }) {
   return (
-    <Grid item md={4}>
+    <Grid key={card.number} item sm={4} sx={{ width: '100%' }}>
       <Card
         sx={{
           backgroundColor: card.number % 2 === 0 ? '#08517e' : 'grey',

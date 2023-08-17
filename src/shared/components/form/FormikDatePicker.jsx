@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import { useField } from 'formik';
+import { useField, useFormikContext } from 'formik';
+
 import PropTypes from 'prop-types';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -91,7 +92,12 @@ DatePickerField.defaultProps = {
 
 function FormikDatePicker(props) {
   const [field] = useField(props);
-  return <DatePickerField {...field} {...props} />;
+  const { setFieldValue } = useFormikContext();
+
+  const handleOnChange = (key, value) => {
+    setFieldValue(key, value);
+  };
+  return <DatePickerField {...field} onChange={handleOnChange} {...props} />;
 }
 FormikDatePicker.propTypes = {
   error: PropTypes.string,
