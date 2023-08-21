@@ -25,3 +25,25 @@
 .MuiTimeline-root .MuiTimelineItem-root:before {
   flex: 0.2 !important;
 }
+
+// styled drawer
+.MuiDrawer-root {
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: $background-color-white;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}

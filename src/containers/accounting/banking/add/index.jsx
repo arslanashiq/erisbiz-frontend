@@ -13,6 +13,7 @@ import FormikModernField from 'shared/components/form/FormikModernField';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import 'styles/form.scss';
 import { bankFormValidationSchema } from 'containers/accounting/items/utils/validationSchema';
+import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 
 function AddBankAccountPage() {
   const { id } = useParams();
@@ -150,7 +151,7 @@ function AddBankAccountPage() {
                 </div>
               </div>
 
-              {/* <ErrorFocus /> */}
+              <ErrorFocus />
               <Stack spacing={2} direction="row">
                 <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
                   Save

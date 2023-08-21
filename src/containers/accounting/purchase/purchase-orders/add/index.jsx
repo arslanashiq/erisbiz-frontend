@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable implicit-arrow-linebreak */
 import React, { useState } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import moment from 'moment';
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import FormikModernField from 'shared/components/form/FormikModernField';
-import TagIcon from '@mui/icons-material/Tag';
+// import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
@@ -15,76 +14,57 @@ import { useGetItemsListQuery } from 'services/private/items';
 import Loader from 'shared/components/loader/Loader';
 import { VAT_CHARGES } from 'utilities/constants';
 import FormHeader from 'shared/components/form-header/FormHeader';
+// import { useGetLatestPurchaseOrderNumberQuery } from 'services/private/purchase-orders';
+import { useGetSuppliersListQuery } from 'services/private/suppliers';
 import 'styles/form.scss';
 
 function AddPurchaseOrder() {
   const itemsListResponse = useGetItemsListQuery();
+  const supplierListResponse = useGetSuppliersListQuery();
   const [initialValues, setInitialValues] = useState({
-    // pur_order_num: lastPurOrderNum ? lastPurOrderNum + 1 : 1000,
     date: moment().format('YYYY-MM-DD'),
     location: '',
-    supplier: '',
-    refrence_number: '',
+    supplier_id: '',
+    reference_num: '',
+    exchange_rate: 1,
     attachment: '',
+    remarks: '',
+    currency: 'AED',
     pur_order_items: [
       {
-        item: '',
-        quantity: 0,
-        price: 0,
-        total: 0,
-        discount: 0,
-        vat: 0,
-        net_amount: 0,
+        service_type: 'Apple',
+        currency: 78,
+        num_units: 1,
+        num_nights: 1,
+        unit_price_ex_vat: 100,
+        gross_amount: 1155,
+        discount: 12,
+        vat_amount: 55,
+        net_amount: 15330,
       },
     ],
-    requestor_signature_show: true,
-    // requestor_signature: requestorSign,
-    show_stamp: true,
-    // stamp: user.profile.stamp,
 
-    // latest_pur_order_num: lastPurOrderNum != null ? lastPurOrderNum : 0,
-    // pur_order_num: lastPurOrderNum ? lastPurOrderNum + 1 : 1000,
     pur_order_suffix: 'LPO',
-    customer_type_suffix: '',
-    currency: 'AED',
-    currency_symbol: 'AED',
-    currency_id: null,
-    convert_to_aed: true,
-    exchange_rate: 1,
-    pur_order_date: moment().format('YYYY-MM-DD'),
-    event: '',
-    tax_treatment: '',
-    trn: '',
-    place_of_supply: '',
-    requestor_name: '',
-    period_start: '',
-    period_end: '',
-    notes: '',
-    account_num: '',
-    iban: '',
-    advance_pyments: '',
-    payment_notes: '',
-    discount: 0,
-    amount_total: 0,
-    amount_total_aed: 0,
-    vat_total: 0,
-    vat_total_aed: 0,
-    grand_total: 0,
-    grand_total_aed: 0,
-    sub_total: 0,
-    address: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    country: '',
+    pur_order_docs: [
+      {
+        doc_file: '',
+        doc_type: '',
+        doc_name: '',
+        doc_size_bytes: 0,
+      },
+    ],
   });
-
   console.log(setInitialValues);
+
   if (itemsListResponse.isLoading) {
     return <Loader />;
   }
 
-  const itemsListOptions = itemsListResponse.data.results.map((item, index) => ({
+  const suppliersOptions = supplierListResponse?.data?.results?.map(supplier => ({
+    value: `${supplier.id}`,
+    label: supplier.supplier_name,
+  }));
+  const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
     value: item.item_name,
     label: item.item_name,
     price: index + 1,
@@ -130,11 +110,10 @@ function AddPurchaseOrder() {
           initialValues={initialValues}
           // validationSchema={bankFormValidationSchema}
           onSubmit={async values => {
-            console.log(values);
+            console.log(values, 'values');
           }}
         >
           {({
-            values,
             isSubmitting,
             touched,
 
@@ -142,9 +121,8 @@ function AddPurchaseOrder() {
             resetForm,
           }) => (
             <Form className="form form--horizontal mt-3 row">
-              {console.log(values, 'akjsdhkj')}
               {/* Purchase */}
-              <div className="form__form-group col-md-6">
+              {/* <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Po Number</span>
                 <div className="form__form-group-field ">
                   <div className="form__form-group-icon cursor-pointer">
@@ -154,10 +132,11 @@ function AddPurchaseOrder() {
                   <FormikModernField
                     name="purchase_order_number"
                     type="text"
+                    disabled
                     placeholder="Purchase Order Number"
                   />
                 </div>
-              </div>
+              </div> */}
               {/* date */}
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Date</span>
@@ -169,19 +148,11 @@ function AddPurchaseOrder() {
                 </div>
               </div>
 
-              {/* Location */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Location</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="location" type="text" placeholder="Location" />
-                </div>
-              </div>
-
               {/* Supplier */}
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Supplier</span>
                 <div className="form__form-group-field ">
-                  <FormikModernSelect options={[]} name="supplier" placeholder="Supplier" />
+                  <FormikModernSelect options={suppliersOptions} name="supplier_id" placeholder="Supplier" />
                 </div>
               </div>
 
@@ -189,7 +160,7 @@ function AddPurchaseOrder() {
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Ref No</span>
                 <div className="form__form-group-field ">
-                  <FormikModernField name="refrence_no" type="text" placeholder="Refrence Number" />
+                  <FormikModernField name="reference_num" type="text" placeholder="Reference Number" />
                 </div>
               </div>
 
@@ -201,6 +172,13 @@ function AddPurchaseOrder() {
                     <AttachFileIcon />
                   </div>
                   <FormikModernField name="attachment" type="file" placeholder="Attachment" />
+                </div>
+              </div>
+              {/* Location */}
+              <div className="form__form-group">
+                <span className="form__form-group-label col-lg-3 required">Location</span>
+                <div className="form__form-group-field ">
+                  <FormikModernField name="location" type="text" placeholder="Location" />
                 </div>
               </div>
 

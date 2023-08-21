@@ -1,10 +1,11 @@
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import { Formik, Form } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
-import { useAddBrandMutation } from 'services/private/brands';
+import { useAddBrandMutation, useEditBrandMutation, useGetSingleBrandQuery } from 'services/private/brands';
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
+import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
@@ -12,13 +13,24 @@ import 'styles/form.scss';
 
 function AddBrand() {
   const { id } = useParams();
-  const { navigate } = useNavigate;
+  const navigate = useNavigate();
+  const [initialValues, setInitialValues] = useState({ brand_name: '', brand_region: '' });
   const countriesResponse = useGetAllCountriesListQuery();
   const [addBrand] = useAddBrandMutation();
+  const [editBrand] = useEditBrandMutation();
   const brandsRegionOptions = countriesResponse?.data?.data?.map(country => ({
     value: `${country.iso2}`,
     label: country.country,
   }));
+
+  if (id) {
+    const singleBrandResponse = useGetSingleBrandQuery(id);
+    useEffect(() => {
+      if (id && singleBrandResponse.isSuccess) {
+        setInitialValues({ ...singleBrandResponse?.data });
+      }
+    }, [id, singleBrandResponse]);
+  }
   return (
     <>
       <Helmet>
@@ -30,13 +42,13 @@ function AddBrand() {
           <FormHeader title="Brands" />
           <Formik
             enableReinitialize
-            initialValues={{ brand_name: '', brand_region: '' }}
+            initialValues={initialValues}
             // validationSchema={bankFormValidationSchema}
             onSubmit={async (values, { setSubmitting, setErrors }) => {
               try {
                 let response = null;
                 if (id) {
-                  // response = await editBankAccount({ id, payload: values });
+                  response = await editBrand({ id, payload: values });
                 } else {
                   response = await addBrand(values);
                 }
@@ -59,13 +71,7 @@ function AddBrand() {
               }
             }}
           >
-            {({
-              isSubmitting,
-              touched,
-              // setFieldValue,
-              // setFieldTouched,
-              resetForm,
-            }) => (
+            {({ isSubmitting, touched, resetForm }) => (
               <Form className="form form--horizontal row mt-3">
                 {/* Brand Name */}
                 <div className="form__form-group col-md-6">
@@ -86,7 +92,7 @@ function AddBrand() {
                   </div>
                 </div>
 
-                {/* <ErrorFocus /> */}
+                <ErrorFocus />
                 <Stack spacing={2} direction="row">
                   <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
                     Save
@@ -94,7 +100,7 @@ function AddBrand() {
 
                   <Button
                     color="secondary"
-                    onClick={() => resetForm()}
+                    onClick={() => resetForm(initialValues)}
                     disabled={!touched || isSubmitting}
                     className="text-capitalize"
                   >

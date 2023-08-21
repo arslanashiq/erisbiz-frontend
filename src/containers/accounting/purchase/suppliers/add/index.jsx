@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
@@ -9,34 +9,111 @@ import FormHeader from 'shared/components/form-header/FormHeader';
 import { FieldArray, Form, Formik } from 'formik';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import FormTabs from 'shared/components/tabs/FormTabs';
-import FormikSelect from 'shared/components/form/FormikSelect';
 import { CheckBoxField } from 'shared/components/form/CheckBox';
+import FormikModernSelect from 'shared/components/form/FormikModernSelect';
+import { useGetAllCountriesListQuery } from 'services/third-party/countries';
+import moment from 'moment';
+import { useNavigate, useParams } from 'react-router';
+import {
+  useAddSupplierMutation,
+  useEditSupplierMutation,
+  useGetLatestTransactionNumberQuery,
+  useGetSingleSupplierQuery,
+} from 'services/private/suppliers';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
+import copyFetchedValues from 'utilities/copyFetchedValues';
 import { supplierFormTabsList } from '../utils/constants';
+import CreditTermsRadioButtons from './components/CreditTermsRadioButtons';
+// import ImportantAgentRadioButtons from './components/ImportantAgentRadioButtons';
+
 import 'styles/form.scss';
-import CreditLimitRadioButtons from './components/CreditLimitRadioButtons';
-import ImportantAgentRadioButtons from './components/ImportantAgentRadioButtons';
-import SupplierContacts from './components/SupplierContacts';
+import ContactInfo from '../../../../../shared/components/form/ContactInfo';
 
 function SupplierAddPage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [supplierFormInitialValues, setSupplierFormInitialValues] = useState({
-    item_name: '',
-    sku_hs_code: '',
-    sale_price: '',
-    cost_price: '',
-    item_type: 'Goods',
-    is_active: 'true',
-    account_no: '',
-    bar_code: '',
-    unit: 'kg',
-    recorder: '',
-    item_image: '',
-    part_number: '',
-    supplier: '',
-    brand: '',
+    supplier_name: '',
+    website: '',
+    notes: '',
+    bank_name: '',
+    contact_person: '',
+    email: '',
+    reference_num: '',
+    account_number: '',
+    IBAN: '',
+    swift_code: '',
+    mobile_num: '',
+    bank_branch: '',
+    bank_country: '',
+    limit: 1,
+    tax_treatment: '',
+    trn: '',
+    source_of_supply: '',
+    currency: 'AED',
+    currency_id: '',
+    opening_balance: 0,
+    is_credit: 'true',
+    opening_balance_date: moment().format('YYYY-MM-DD'),
+    exchange_rate: 1,
+    payment_terms: 'Net 0',
+    bill_addr_street_one: '',
+    bill_addr_country: '',
+    bill_addr_city: '',
+    bill_addr_state: '',
+    bill_addr_zipcode: '',
+    ship_addr_street_one: '',
+    ship_addr_country: '',
+    ship_addr_city: '',
+    ship_addr_state: '',
+    ship_addr_zipcode: '',
+    remarks: '',
     supplier_contacts: [],
+    vat_number: '',
+    comments_on_transactions: '',
+    address_line1: '',
+    address_line2: '',
+    latitude: '',
+    longitude: '',
+    city: '',
+    set_credit_limit: false,
+    set_credit_terms: false,
+    days_after_invoice: 0,
+    is_import_agent: false,
+    is_reverse_charge: false,
   });
   const [activeTab, setActiveTab] = useState(supplierFormTabsList[0]);
-  console.log(setSupplierFormInitialValues, 'setSupplierFormInitialValues');
+  const countriesListResponse = useGetAllCountriesListQuery();
+  const bankAccountResponse = useGetBankAccountsListQuery();
+  const latestTransactionNumber = useGetLatestTransactionNumberQuery();
+
+  const [addSupplier] = useAddSupplierMutation();
+  const [editSupplier] = useEditSupplierMutation();
+
+  if (id) {
+    const supplierDetail = useGetSingleSupplierQuery(id);
+    useEffect(() => {
+      if (supplierDetail.isSuccess) {
+        setSupplierFormInitialValues({
+          ...supplierFormInitialValues,
+          ...copyFetchedValues(supplierFormInitialValues, supplierDetail.data),
+          account_payee: supplierDetail.data.supplier_name,
+          account_default: supplierDetail.data.account_default?.toString() || '',
+          country: supplierDetail.data.country?.toString() || '',
+          credit_limit: supplierDetail.data.set_credit_limit || false,
+          credit_terms: supplierDetail.data.set_credit_terms || false,
+        });
+      }
+    }, [supplierDetail]);
+  }
+  const countryOptions = countriesListResponse?.data?.data?.map(country => ({
+    value: `${country.iso2}`,
+    label: country.country,
+  }));
+  const bankAccountOptions = bankAccountResponse?.data?.results?.map(account => ({
+    value: `${account.chart_of_account}`,
+    label: account.bank_account_name,
+  }));
   return (
     <Card>
       <CardContent>
@@ -44,8 +121,27 @@ function SupplierAddPage() {
         <Formik
           enableReinitialize
           initialValues={supplierFormInitialValues}
-          onSubmit={async values => {
-            console.log(values, 'aslkjdakdjsakdlsa');
+          onSubmit={async (values, { setSubmitting, setErrors }) => {
+            let response = null;
+            if (id) {
+              response = await editSupplier({ id, payload: values });
+            } else {
+              const payload = {
+                ...values,
+                transaction_num: latestTransactionNumber.data?.latest_num
+                  ? latestTransactionNumber.data.latest_num + 1
+                  : 1,
+              };
+
+              response = await addSupplier(payload);
+            }
+            console.log(response, 'response');
+            if (response.data) {
+              navigate(-1);
+            } else {
+              setErrors(response.error.data);
+            }
+            setSubmitting(false);
           }}
         >
           {({ values, isSubmitting, touched, resetForm, setFieldValue, setFieldTouched, errors }) => (
@@ -57,7 +153,14 @@ function SupplierAddPage() {
                   <div className="form__form-group-icon cursor-pointer">
                     <PersonOutlineIcon />
                   </div>
-                  <FormikModernField name="supplier_name" type="text" placeholder="Supplier Name" />
+                  <FormikModernField
+                    name="supplier_name"
+                    type="text"
+                    placeholder="Supplier Name"
+                    onChange={value => {
+                      setFieldValue('account_payee', value);
+                    }}
+                  />
                 </div>
               </div>
               {/* Refrence */}
@@ -204,7 +307,7 @@ function SupplierAddPage() {
                       }
                       className="form__form-group-field"
                     >
-                      <CreditLimitRadioButtons
+                      <CreditTermsRadioButtons
                         name="set_credit_terms"
                         onChange={value => {
                           setFieldValue('days_after_invoice', '');
@@ -220,21 +323,12 @@ function SupplierAddPage() {
                   <div className="form__form-group col-md-6">
                     <span className="form__form-group-label col-lg-2 required">Country</span>
                     <div className="form__form-group-field">
-                      <FormikSelect
-                        name="country"
-                        itemOptions={[]}
-                        placeholder="Country"
-                        onChange={setFieldValue}
-                        onBlur={setFieldTouched}
-                        value={values.country}
-                        touched={touched.country}
-                        error={errors.country}
-                      />
+                      <FormikModernSelect options={countryOptions} name="country" placeholder="Country" />
                     </div>
                   </div>
                   {/* CIty */}
                   <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2 text-right">City</span>
+                    <span className="form__form-group-label col-lg-2 ">City</span>
                     <div className="form__form-group-field">
                       <FormikModernField name="city" type="text" placeholder="City" />
                     </div>
@@ -248,7 +342,7 @@ function SupplierAddPage() {
                   </div>
                   {/* Latitude */}
                   <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2 text-right" />
+                    <span className="form__form-group-label col-lg-2" />
                     <div className="form__form-group-field">
                       <FormikModernField name="latitude" type="text" placeholder="Latitude" />
                     </div>
@@ -262,7 +356,12 @@ function SupplierAddPage() {
                   <div className="form__form-group col-md-6">
                     <span className="form__form-group-label col-lg-2">Account Payee</span>
                     <div className="form__form-group-field">
-                      <FormikModernField name="account_payee" type="text" placeholder="Account Payee" />
+                      <FormikModernField
+                        name="account_payee"
+                        disabled
+                        type="text"
+                        placeholder="Account Payee"
+                      />
                     </div>
                   </div>
 
@@ -274,15 +373,16 @@ function SupplierAddPage() {
                         className="d-flex align-items-center"
                         name="currency"
                         type="text"
+                        disabled
                         placeholder="Currency"
                       />
                     </div>
                   </div>
                   {/* Swift Code */}
                   <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2 text-right">Swift Code</span>
+                    <span className="form__form-group-label col-lg-2">Swift Code</span>
                     <div className="form__form-group-field">
-                      <FormikModernField name="swift_code" type="text" placeholder="Swift Code" />
+                      <FormikModernField name="swift_code" type="number" placeholder="Swift Code" />
                     </div>
                   </div>
                   {/* IBAN */}
@@ -302,9 +402,9 @@ function SupplierAddPage() {
                       </div>
                     </div>
                     <div className="form__form-group ">
-                      <span className="form__form-group-label col-lg-2 text-right">Accout Name</span>
+                      <span className="form__form-group-label col-lg-2">Accout Number</span>
                       <div className="form__form-group-field">
-                        <FormikModernField name="Account Name" type="text" placeholder="Accout Name" />
+                        <FormikModernField name="account_number" type="text" placeholder="Account Number" />
                       </div>
                     </div>
                   </div>
@@ -313,29 +413,39 @@ function SupplierAddPage() {
                     <span className="form__form-group-label col-lg-2" />
 
                     <div className="form__form-group ">
-                      <span className="form__form-group-label col-lg-2">Account Detail</span>
+                      <span className="form__form-group-label col-lg-2">Account Default</span>
                       <div className="form__form-group-field">
-                        <FormikModernField name="account_detail" placeholder="Account Detail" />
+                        <FormikModernSelect
+                          options={bankAccountOptions}
+                          name="account_default"
+                          placeholder="Account Default"
+                        />
                       </div>
                     </div>
                     <div className="form__form-group ">
                       <span className="form__form-group-label col-lg-2">VAT Reverse Charges</span>
                       <div className="form__form-group-field">
-                        <FormikModernField name="vat_reverse_charges" placeholder="VAT Reverse Charges" />
+                        <FormikModernField
+                          name="vat_number"
+                          type="number"
+                          placeholder="VAT Reverse Charges"
+                        />
                       </div>
                     </div>
                     <div className="form__form-group">
                       <span className="form__form-group-label col-lg-2" />
                       <div className="form__form-group-field">
-                        <ImportantAgentRadioButtons
+                        <CheckBoxField
                           setFieldValue={setFieldValue}
-                          values={values.important_agent}
-                          touched={touched}
-                          errors={errors}
-                          onChange={value => {
-                            setFieldValue('important_agent', value);
-                          }}
+                          name="is_import_agent"
+                          label="Supplier is Important Agent"
                         />
+                      </div>
+                    </div>
+                    <div className="form__form-group">
+                      <span className="form__form-group-label col-lg-2" />
+                      <div className="form__form-group-field">
+                        <CheckBoxField name="is_reverse_charge" label="VAT Reverse Charges" />
                       </div>
                     </div>
                   </div>
@@ -343,7 +453,7 @@ function SupplierAddPage() {
               )}
               {/* COntact Info */}
               {activeTab === supplierFormTabsList[2] && (
-                <FieldArray name="supplier_contacts" component={SupplierContacts} />
+                <FieldArray name="supplier_contacts" component={ContactInfo} />
               )}
               {/* Comments and Notes */}
               {activeTab === supplierFormTabsList[3] && (
@@ -352,7 +462,12 @@ function SupplierAddPage() {
                   <div className="form__form-group">
                     <span className="form__form-group-label col-lg-2">Comment on Transaction</span>
                     <div className="form__form-group-field">
-                      <FormikModernField name="comment" type="text" textArea placeholder="comment" />
+                      <FormikModernField
+                        name="comments_on_transactions"
+                        type="text"
+                        textArea
+                        placeholder="comment"
+                      />
                     </div>
                   </div>
                   {/* Notes */}

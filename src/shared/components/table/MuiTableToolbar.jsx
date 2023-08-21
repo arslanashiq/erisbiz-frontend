@@ -22,9 +22,11 @@ function MuiTableToolbar(props) {
   };
   return (
     <>
-      <FilterDrawer open={openFiterDrawer} setOpen={setOpenFiterDrawer}>
-        {filterButton}
-      </FilterDrawer>
+      {filterButton && (
+        <FilterDrawer open={openFiterDrawer} setOpen={setOpenFiterDrawer}>
+          {filterButton}
+        </FilterDrawer>
+      )}
 
       <Toolbar
         sx={{

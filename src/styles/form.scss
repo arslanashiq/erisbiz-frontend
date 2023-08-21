@@ -42,6 +42,8 @@
   // react-select end
 
   input[type='file'] {
+    color: transparent;
+    background-color: $background-color;
     &::file-upload-button {
       width: 0;
       visibility: hidden;
@@ -74,6 +76,14 @@
       margin-left: -20px;
       margin-top: 5px;
     }
+  }
+  .input-file {
+    position: absolute;
+    top: 30%;
+    left: 40%;
+  }
+  .input-file:hover {
+    color: $primary-color;
   }
 
   input,
@@ -122,6 +132,17 @@
     }
     .form__form-group-icon-button {
       background-color: $background-color;
+      max-height: 38px;
+    }
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: silver;
+      padding: 4px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 2px;
     }
 
     .form__form-group-field {
@@ -223,6 +244,9 @@
 }
 .form__form-group-input-wrap {
   width: 100%;
+  .box {
+    position: relative;
+  }
 }
 .form input {
   background: #fff;
@@ -259,6 +283,14 @@
 
 .form__form-group-error {
   font-size: 10px;
+  line-height: 13px;
+  color: #ad4444;
+  display: block;
+  margin-top: 1px;
+  text-align: left;
+}
+.form__form-group-non_field_errors {
+  font-size: 13px;
   line-height: 13px;
   color: #ad4444;
   display: block;

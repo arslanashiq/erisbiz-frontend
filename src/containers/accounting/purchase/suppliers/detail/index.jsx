@@ -1,17 +1,19 @@
 import { Button, Card, Stack, Typography } from '@mui/material';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import InfoPopup from 'shared/modals/InfoPopup';
 import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
+import { useGetSingleSupplierQuery } from 'services/private/suppliers';
 import SupplierOverview from './components/SupplierOverview';
-import 'styles/supplier-detail.scss';
 import SupplierTransactions from './components/SupplierTransactions';
 import SupplierStatement from './components/SupplierStatement';
 import SupplierComment from './components/SupplierComment';
+import 'styles/supplier-detail.scss';
 
 function SupplierDetail() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = React.useState(0);
 
@@ -21,10 +23,11 @@ function SupplierDetail() {
     actionButton: false,
   });
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const supplierDetailResponse = useGetSingleSupplierQuery(id);
   const handleClosePopup = () => {
     setPopup({ ...popup, open: false });
   };
+
   return (
     <>
       <Helmet>
@@ -64,7 +67,7 @@ function SupplierDetail() {
           setActiveTab={setActiveTab}
           tabsList={['Overview', 'Transactions', 'Statement', 'Comments', 'Contacts', 'Mails']}
         >
-          {activeTab === 0 && <SupplierOverview />}
+          {activeTab === 0 && <SupplierOverview supplierDetail={supplierDetailResponse?.data} />}
           {activeTab === 1 && <SupplierTransactions />}
           {activeTab === 2 && <SupplierStatement />}
           {activeTab === 3 && <SupplierComment />}

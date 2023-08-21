@@ -12,8 +12,13 @@ const purchaseOrdersApi = privateApi.injectEndpoints({
         },
       }),
     }),
+    getLatestPurchaseOrderNumber: builder.query({
+      query: () => ({
+        url: 'api/accounting/purchases/purOrders/latest',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const { useGetPurchaseOrdersListQuery } = purchaseOrdersApi;
+export const { useGetPurchaseOrdersListQuery, useGetLatestPurchaseOrderNumberQuery } = purchaseOrdersApi;

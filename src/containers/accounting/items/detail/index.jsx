@@ -130,7 +130,9 @@ function ItemDetail() {
           setActiveTab={setActiveTab}
           tabsList={['Overview', 'Transactions']}
         >
-          {activeTab === 0 && <ItemOverViewTab itemDetail={customItemDetail} />}
+          {activeTab === 0 && (
+            <ItemOverViewTab itemDetail={customItemDetail} itemImage={itemDetail.item_image} />
+          )}
           {activeTab === 1 && <ItemTransactionsTab />}
         </DetailTabsWrapper>
       </Card>

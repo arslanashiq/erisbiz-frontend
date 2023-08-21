@@ -1,8 +1,8 @@
 // API URL for the backend
 // export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
-export const API_URL = 'https://erisbiz.beyonderissolutions.com';
-// export const API_URL = 'http://16.24.36.173:8000';
+// export const API_URL = 'https://erisbiz.beyonderissolutions.com';
+export const API_URL = 'http://16.24.36.173:8000';
 // export const API_URL = 'http://192.168.0.137:8000/';
 
 export const test = '';
@@ -45,11 +45,6 @@ export const itemStatusOptions = [
 
 export const currencyID = 78;
 
-export const supplierPaymentInfo = [
-  { value: 'invoice_date', label: 'Day After Invoice Date' },
-  { value: 'next_month', label: 'End of Next Month' },
-  { value: 'immediately', label: 'Imedietly' },
-];
 export const vatReverseCharges = [
   { value: '0', label: 'The Supplier is an important Agent' },
   { value: '1', label: 'VAT Reverse Charges' },

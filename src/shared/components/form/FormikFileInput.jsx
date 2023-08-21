@@ -18,13 +18,14 @@ function FormikFileInput(props) {
     <div className="form__form-group-input-wrap">
       <div className="text-center box">
         <input
+          style={{ height: 150 }}
           {...restProps}
           {...restFieldProps}
           type="file"
           id={name}
           accept={accept}
           multiple={multiple}
-          className="inputfile inputfile-4"
+          className={`${hasPreviewableImage || fileBase64 ? 'd-none' : 'd-auto'} inputfile inputfile-4`}
           onChange={event => {
             event.preventDefault();
             const target = multiple ? [...event.target.files] : event.target.files[0];
@@ -37,8 +38,13 @@ function FormikFileInput(props) {
 
         {/* Will preview only single image */}
         {hasPreviewableImage && (
-          <div>
-            <img className="h-100" src={URL.createObjectURL(value)} alt="" />
+          <div className="border border-1">
+            <img
+              className="w-100"
+              src={URL.createObjectURL(value)}
+              alt=""
+              style={{ height: 150, objectFit: 'contain' }}
+            />
             <div className="w-100 d-flex justify-content-between mt-2">
               <label htmlFor={name} className="text-primary cursor-pointer">
                 Change Image
@@ -61,9 +67,9 @@ function FormikFileInput(props) {
         )}
 
         {!hasPreviewableImage && !fileBase64 && (
-          <label htmlFor={name}>
+          <label className="input-file" htmlFor={name}>
             <figure>
-              <InsertDriveFileIcon size={100} />
+              <InsertDriveFileIcon className="input-file-icon" />
             </figure>
             <span>{multiple ? 'Choose Files' : (value && value.name) || 'Choose a file'}</span>
           </label>
@@ -86,7 +92,7 @@ function FormikFileInput(props) {
 
 FormikFileInput.propTypes = {
   name: PropTypes.string.isRequired,
-  onRemoveFile: PropTypes.func.isRequired,
+  onRemoveFile: PropTypes.func,
   fileBase64: PropTypes.string,
   multiple: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -102,6 +108,7 @@ FormikFileInput.defaultProps = {
   className: '',
   accept: null,
   onChange: null,
+  onRemoveFile: () => {},
 };
 
 export default FormikFileInput;

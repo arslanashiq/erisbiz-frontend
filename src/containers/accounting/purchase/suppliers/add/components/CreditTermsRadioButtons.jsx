@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'formik';
-import { supplierPaymentInfo } from 'utilities/constants';
 import FormikModernField from 'shared/components/form/FormikModernField';
+import { supplierPaymentInfo } from '../../utils/constants';
 import 'styles/radio-btn.scss';
 
-function CreditLimitRadioButtons({ name, values, touched, errors, onChange, ...restProps }) {
+function CreditTermsRadioButtons({ name, values, touched, errors, onChange, ...restProps }) {
   return (
     <Field name={name}>
       {({ field: { value: fieldValue, onChange: onFieldChange, ...restFieldProps } }) => (
@@ -31,7 +31,7 @@ function CreditLimitRadioButtons({ name, values, touched, errors, onChange, ...r
           <div className="col-lg-4">
             <FormikModernField
               name="days_after_invoice"
-              type="text"
+              type="nnumber"
               placeholder="Days"
               value={values.days_after_invoice}
               touched={touched.days_after_invoice}
@@ -78,7 +78,7 @@ function CreditLimitRadioButtons({ name, values, touched, errors, onChange, ...r
     </Field>
   );
 }
-CreditLimitRadioButtons.propTypes = {
+CreditTermsRadioButtons.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   values: PropTypes.object,
@@ -86,11 +86,11 @@ CreditLimitRadioButtons.propTypes = {
   errors: PropTypes.object,
 };
 
-CreditLimitRadioButtons.defaultProps = {
+CreditTermsRadioButtons.defaultProps = {
   name: '',
   onChange: () => {},
   values: {},
   touched: {},
   errors: {},
 };
-export default CreditLimitRadioButtons;
+export default CreditTermsRadioButtons;

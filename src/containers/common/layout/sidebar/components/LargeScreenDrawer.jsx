@@ -13,7 +13,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import StyledDrawer from 'styles/mui/component/StyledDrawer';
 import SideBarChildLinks from './SideBarChildLinks';
@@ -39,7 +39,7 @@ function LargeScreenDrawer({
       <Divider />
       <List>
         {AccountantSideBarLinks.map(sideBar => (
-          <>
+          <div key={sideBar.name}>
             <SideBarListItem
               // onMouseEnter={() => {
               //   setOpen(true);
@@ -63,11 +63,11 @@ function LargeScreenDrawer({
                   if (sideBar.link) {
                     navigate(sideBar.link);
                   } else {
+                    setOpen(true);
                     const temp = showSideBarChildLink;
                     temp[sideBar.index] = !showSideBarChildLink[sideBar.index];
                     setShowSideBarChildLink([...showSideBarChildLink]);
                   }
-                  setOpen(true);
                 }}
               >
                 <ListItemIcon
@@ -80,11 +80,10 @@ function LargeScreenDrawer({
                   {sideBar.icon}
                 </ListItemIcon>
                 <ListItemText primary={sideBar.name} sx={{ opacity: open ? 1 : 0 }} />
-                {sideBar.children && showSideBarChildLink[sideBar.index] === false && (
-                  <KeyboardArrowRightIcon sx={{ display: open ? 'auto' : 'none' }} />
-                )}
-                {sideBar.children && showSideBarChildLink[sideBar.index] === true && (
-                  <KeyboardArrowDownIcon sx={{ display: open ? 'auto' : 'none' }} />
+                {sideBar.children && open && (
+                  <KeyboardArrowRightIcon
+                    className={showSideBarChildLink[sideBar.index] ? 'sidebar-parent-list-icon' : ''}
+                  />
                 )}
               </ListItemButton>
             </SideBarListItem>
@@ -99,7 +98,7 @@ function LargeScreenDrawer({
                   checkActive={checkActive}
                 />
               )}
-          </>
+          </div>
         ))}
       </List>
     </StyledDrawer>
@@ -110,7 +109,7 @@ LargeScreenDrawer.propTypes = {
   setOpen: PropTypes.func.isRequired,
   AccountantSideBarLinks: PropTypes.array.isRequired,
   checkActive: PropTypes.func.isRequired,
-  showSideBarChildLink: PropTypes.bool.isRequired,
+  showSideBarChildLink: PropTypes.array.isRequired,
   setShowSideBarChildLink: PropTypes.func.isRequired,
   handleDrawerClose: PropTypes.func.isRequired,
 };

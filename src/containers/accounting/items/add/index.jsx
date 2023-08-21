@@ -10,8 +10,6 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Button, Card, CardContent, IconButton, Stack, Tooltip } from '@mui/material';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
-import GroupedOptionsFormikSelect from 'shared/components/form/GroupedOptionsFormikSelect';
-import 'styles/form.scss';
 import { useNavigate, useParams } from 'react-router';
 import { useGetBankAccountsListQuery } from 'services/private/banking';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
@@ -20,6 +18,9 @@ import copyFetchedValues from 'utilities/copyFetchedValues';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import Loader from 'shared/components/loader/Loader';
 import { useGetBrandsListQuery } from 'services/private/brands';
+import FormikFileInput from 'shared/components/form/FormikFileInput';
+import 'styles/form.scss';
+import { convertURLToFile } from 'utilities/helpers';
 
 function AddItemPage() {
   const [itemFormInitialValues, setItemFormInitialValues] = useState({
@@ -33,10 +34,26 @@ function AddItemPage() {
     bar_code: '',
     unit: 'kg',
     recorder: '',
+    description: '',
     // item_image: '',
     part_number: '',
     supplier: '',
     brand: '',
+
+    current_value: 0.0,
+    sale_account_label: 'Cash in Bank -  MCB AED',
+    cost_account_label: 'Cash in Bank -  MCB AED',
+    inventory_coa_label: 'Cash in Bank -  MCB AED',
+    is_digital_service: false,
+    item_sale_amount_prefix: 'AED',
+    sale_description: null,
+    item_cost_amount_prefix: 'AED',
+    cost_description: null,
+    is_tracking_inventory: false,
+    opening_stock: 0.0,
+    opening_stock_per_unit: 0.0,
+    dynamic_opening_stock: 0.0,
+    dynamic_opening_stock_per_unit: 0.0,
   });
   const navigate = useNavigate();
   const { id } = useParams();
@@ -60,15 +77,25 @@ function AddItemPage() {
     value: `${brand.uid}`,
     label: brand.brand_name,
   }));
-  useEffect(() => {
+  const setResponseToInitialValues = async () => {
     if (id && itemDetailResponse.isSuccess) {
+      let itemImageFile = null;
+      if (itemDetailResponse.data.item_image) {
+        itemImageFile = await convertURLToFile(itemDetailResponse.data.item_image);
+      }
       setItemFormInitialValues({
         ...itemFormInitialValues,
         ...copyFetchedValues(itemFormInitialValues, itemDetailResponse.data),
         item_type: itemDetailResponse.data.item_type.toString(),
         is_active: itemDetailResponse.data.is_active.toString(),
+        supplier: itemDetailResponse.data.supplier.toString(),
+        account_no: itemDetailResponse.data.account_no.toString(),
+        item_image: itemImageFile,
       });
     }
+  };
+  useEffect(() => {
+    setResponseToInitialValues();
   }, [itemDetailResponse]);
   if (bankApiResponse.isLoading || supplierApiResponse.isLoading || brandsApiResponse.isLoading) {
     return <Loader />;
@@ -85,12 +112,20 @@ function AddItemPage() {
           onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
             try {
               let response = null;
+              const formData = new FormData();
+              Object.keys(itemFormInitialValues).forEach(key => {
+                formData.append(key, values[key]);
+              });
+              formData.append('sale_account', values.account_no);
+              formData.append('cost_account', values.account_no);
+              formData.append('inventory_coa', values.account_no);
+
               if (id) {
-                const payload = { ...values, id };
-                await editItem({ id, payload });
+                response = await editItem({ id, formData });
               } else {
-                response = await addItem(values);
+                response = await addItem(formData);
               }
+              console.log(response);
               if (response.data) {
                 setSubmitting(false);
                 resetForm(itemFormInitialValues);
@@ -105,13 +140,11 @@ function AddItemPage() {
                 setSubmitting(true);
                 setErrors(err.response.data);
                 setSubmitting(false);
-              } else {
-                // doReturnErrors(err.response.data, err.response.status);
               }
             }
           }}
         >
-          {({ isSubmitting, touched, setFieldValue, setFieldTouched, resetForm, values, errors }) => (
+          {({ isSubmitting, touched, resetForm }) => (
             <Form className="form form--horizontal row pt-3">
               {/* item name */}
               <div className="form__form-group col-md-6">
@@ -155,16 +188,7 @@ function AddItemPage() {
                     <CategoryIcon />
                   </div>
 
-                  <GroupedOptionsFormikSelect
-                    name="item_type"
-                    type="text"
-                    itemOptions={itemTypes}
-                    onChange={setFieldValue}
-                    onBlur={setFieldTouched}
-                    value={values.item_type}
-                    touched={touched.item_type}
-                    error={errors.item_type}
-                  />
+                  <FormikModernSelect name="item_type" type="text" options={itemTypes} />
                 </div>
               </div>
               {/* Item Status */}
@@ -174,16 +198,7 @@ function AddItemPage() {
                   <div className="form__form-group-icon cursor-pointer">
                     <CheckCircleOutlineIcon />
                   </div>
-                  <GroupedOptionsFormikSelect
-                    name="is_active"
-                    type="text"
-                    itemOptions={itemStatusOptions}
-                    onChange={setFieldValue}
-                    value={values.is_active}
-                    onBlur={setFieldTouched}
-                    touched={touched.is_active}
-                    error={errors.is_active}
-                  />
+                  <FormikModernSelect name="is_active" type="text" options={itemStatusOptions} />
                 </div>
               </div>
 
@@ -191,16 +206,7 @@ function AddItemPage() {
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Account Number</span>
                 <div className="form__form-group-field">
-                  <GroupedOptionsFormikSelect
-                    name="account_no"
-                    itemOptions={bankOptions}
-                    placeholder="Account Number"
-                    onChange={setFieldValue}
-                    onBlur={setFieldTouched}
-                    value={values.account_no}
-                    touched={touched.account_no}
-                    error={errors.account_no}
-                  />
+                  <FormikModernSelect name="account_no" options={bankOptions} placeholder="Account Number" />
                 </div>
               </div>
 
@@ -223,14 +229,7 @@ function AddItemPage() {
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Recoder</span>
                 <div className="form__form-group-field ">
-                  <FormikModernField
-                    name="recorder"
-                    type="text"
-                    placeholder="Recorder"
-                    value={values.recorder}
-                    touched={touched.recorder}
-                    error={errors.recorder}
-                  />
+                  <FormikModernField name="recorder" type="text" placeholder="Recorder" />
                 </div>
               </div>
 
@@ -238,14 +237,14 @@ function AddItemPage() {
               <div className="form__form-group">
                 <span className="form__form-group-label col-lg-3">Description</span>
                 <div className="form__form-group-field ">
-                  <FormikModernField name="sale_description" textArea />
+                  <FormikModernField name="description" textArea />
                 </div>
               </div>
               {/* item image */}
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3">Item Image</span>
                 <div className="form__form-group-field">
-                  <FormikModernField name="item_image" type="file" accept="image/*" />
+                  <FormikFileInput name="item_image" type="file" accept="image/*" />
                 </div>
               </div>
 
@@ -263,15 +262,10 @@ function AddItemPage() {
                 <div className="col-12 form__form-group">
                   <span className="form__form-group-label col-lg-2">Supplier</span>
                   <div className="form__form-group-field ">
-                    <GroupedOptionsFormikSelect
+                    <FormikModernSelect
                       name="supplier"
-                      itemOptions={suppliersOptions}
+                      options={suppliersOptions}
                       placeholder="Select Supplier"
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                      value={values.supplier}
-                      touched={touched.supplier}
-                      error={errors.supplier}
                     />
                   </div>
                 </div>

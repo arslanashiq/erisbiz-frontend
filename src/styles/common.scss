@@ -9,6 +9,10 @@
 .accordion-close-icon {
   transform: rotate(-90deg);
 }
+
+.sidebar-parent-list-icon {
+  transform: rotate((90deg));
+}
 .small-screen-drawer {
   .MuiBackdrop-root {
     opacity: 0 !important;
@@ -17,8 +21,14 @@
 
 // <=======================common Styles===============================>
 // colors
+.color-primary {
+  color: $primary-color;
+}
 .color-danger {
   color: red;
+}
+.color-silver {
+  color: silver;
 }
 .color-success {
   color: green;
@@ -45,4 +55,9 @@
 }
 .text-right {
   text-align: right;
+}
+
+// cursor
+.cursor-pointer {
+  cursor: pointer;
 }

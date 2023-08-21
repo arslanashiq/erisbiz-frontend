@@ -1,64 +1,92 @@
 /* eslint-disable import/prefer-default-export */
 import React, { useEffect } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
-// import CloseIcon from 'mdi-react/CloseIcon';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useField } from 'formik';
+import { useField, useFormikContext } from 'formik';
 import 'styles/check-box.scss';
 
-function CheckBoxField(props) {
-  const { defaultChecked, changeOnMount, disabled, className, name, value, onChange, onClick, label, color } =
-    props;
-  useEffect(() => {
-    if (changeOnMount) onChange(name, !defaultChecked);
-  }, []);
+function CheckBoxField({
+  name,
+  defaultChecked,
+  disabled,
+  color,
+  className,
+  label,
+  onChange,
+  onBlur,
+  ...restProps
+}) {
+  const [field, meta] = useField(name || '');
+  const { onChange: onValueChange, onBlur: onFieldBlur, value } = field;
+  const { touched, error } = meta;
+  const { setFieldValue } = useFormikContext();
+
   const CheckboxClass = classNames({
     'checkbox-btn': true,
     disabled,
   });
+  const handleChange = event => {
+    onValueChange(event);
+    if (onChange) onChange(event.target.value);
+  };
+  const handleBlur = event => {
+    onFieldBlur(event);
+    if (onBlur) onBlur(name, event.target.value);
+  };
+  useEffect(() => {
+    if (defaultChecked || value === true || value === 'true') {
+      setFieldValue(name, true);
+    } else {
+      setFieldValue(name, false);
+    }
+  }, [defaultChecked]);
 
   return (
-    <label className={`${CheckboxClass} ${className ? ` checkbox-btn--${className}` : ''}`} htmlFor={name}>
-      <input
-        className="checkbox-btn__checkbox"
-        type="checkbox"
-        id={name}
-        name={name}
-        onChange={onChange}
-        onClick={onClick}
-        checked={value}
-        disabled={disabled}
-      />
-      <span
-        className="checkbox-btn__checkbox-custom"
-        style={color ? { background: color, borderColor: color } : {}}
-      >
-        <CheckIcon />
-      </span>
-      {className === 'button' ? (
-        <span className="checkbox-btn__label-svg">
-          <CheckIcon className="checkbox-btn__label-check" />
-          {/* <CloseIcon className="checkbox-btn__label-uncheck" /> */}
+    <div>
+      <label className={`${CheckboxClass} ${className ? ` checkbox-btn--${className}` : ''}`} htmlFor={name}>
+        <input
+          className="checkbox-btn__checkbox"
+          type="checkbox"
+          {...field}
+          {...restProps}
+          id={name}
+          name={name}
+          onChange={handleChange}
+          checked={value}
+          disabled={disabled}
+          onBlur={handleBlur}
+        />
+        <span
+          className="checkbox-btn__checkbox-custom"
+          style={color ? { background: color, borderColor: color } : {}}
+        >
+          <CheckIcon />
         </span>
-      ) : (
-        ''
-      )}
-      <span className="checkbox-btn__label">{label}</span>
-    </label>
+        {className === 'button' ? (
+          <span className="checkbox-btn__label-svg">
+            <CheckIcon className="checkbox-btn__label-check" />
+            {/* <CloseIcon className="checkbox-btn__label-uncheck" /> */}
+          </span>
+        ) : (
+          ''
+        )}
+        <span className="checkbox-btn__label">{label}</span>
+      </label>
+      {touched && error && <span className="form__form-group-error">{error}</span>}
+    </div>
   );
 }
 CheckBoxField.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  onClick: PropTypes.func,
   label: PropTypes.string,
   defaultChecked: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,
   color: PropTypes.string,
-  changeOnMount: PropTypes.bool,
 };
 CheckBoxField.defaultProps = {
   label: '',
@@ -66,60 +94,9 @@ CheckBoxField.defaultProps = {
   disabled: false,
   className: '',
   color: '',
-  changeOnMount: true,
-};
-
-function FormikCheckBoxField(props) {
-  const [field] = useField(props);
-  const { disabled, color, className } = props;
-  return <CheckBoxField {...field} color={color} className={className} disabled={disabled} />;
-}
-FormikCheckBoxField.propTypes = {
-  disabled: PropTypes.bool,
-  color: PropTypes.string,
-  className: PropTypes.string,
-};
-
-FormikCheckBoxField.defaultProps = {
-  disabled: false,
-  color: '',
-  className: '',
-};
-
-function renderCheckBoxField(props) {
-  const { input, label, defaultChecked, disabled, className, color } = props;
-  return (
-    <CheckBoxField
-      {...input}
-      label={label}
-      defaultChecked={defaultChecked}
-      disabled={disabled}
-      className={className}
-      color={color}
-    />
-  );
-}
-
-renderCheckBoxField.propTypes = {
-  input: PropTypes.shape({
-    onChange: PropTypes.func,
-    onClick: PropTypes.func,
-    name: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  }).isRequired,
-  label: PropTypes.string,
-  defaultChecked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  color: PropTypes.string,
-};
-
-renderCheckBoxField.defaultProps = {
-  label: '',
-  defaultChecked: false,
-  disabled: false,
-  className: '',
-  color: '',
+  onChange: null,
+  onBlur: null,
+  onClick: null,
 };
 
 export { CheckBoxField };

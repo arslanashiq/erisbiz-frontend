@@ -30,7 +30,7 @@ function SmallScreenDrawer({
       <Divider />
       <List sx={{ width: drawerWidth }}>
         {AccountantSideBarLinks.map(sideBar => (
-          <>
+          <div key={sideBar.name}>
             <SideBarListItem
               key={sideBar.name}
               disablePadding
@@ -84,7 +84,7 @@ function SmallScreenDrawer({
                   checkActive={checkActive}
                 />
               )}
-          </>
+          </div>
         ))}
       </List>
     </Drawer>
@@ -96,7 +96,7 @@ SmallScreenDrawer.propTypes = {
   setOpen: PropTypes.func.isRequired,
   AccountantSideBarLinks: PropTypes.array.isRequired,
   checkActive: PropTypes.func.isRequired,
-  showSideBarChildLink: PropTypes.bool.isRequired,
+  showSideBarChildLink: PropTypes.array.isRequired,
   setShowSideBarChildLink: PropTypes.func.isRequired,
 };
 

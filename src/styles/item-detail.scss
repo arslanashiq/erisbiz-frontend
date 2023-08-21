@@ -2,6 +2,7 @@
 
 .item-overview-wrapper {
   margin-bottom: 15px;
+  align-items: center;
 }
 .item-overview-heading {
   width: 100%;
@@ -11,13 +12,11 @@
   color: #000;
 }
 .item-overview-title {
-  width: 40%;
   font-weight: 600;
   font-size: 14px;
   color: $color-additional;
 }
 .item-overview-value {
-  width: 55%;
   font-size: 14px;
   //   font-weight: 200;
   color: #000;

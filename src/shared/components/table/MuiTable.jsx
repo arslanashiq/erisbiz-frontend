@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-unreachable */
 // /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable implicit-arrow-linebreak */
@@ -55,7 +56,7 @@ export default function MuiTable({
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelected = data.map(n => n.id);
+      const newSelected = data.map(n => n.id || n.uid);
       setSelected(newSelected);
       return;
     }
@@ -111,7 +112,9 @@ export default function MuiTable({
     const filters = getsearchQueryOffsetAndLimitParams(location);
     return filters;
   };
-
+  const handleEditSelectedData = () => {
+    navigate(`edit/${selected[0]}`);
+  };
   // Avoid a layout jump when reaching the last page with empty data.
   //   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
@@ -134,7 +137,10 @@ export default function MuiTable({
         handleClose={handleCloseInfoPopup}
         infoDescription={openInfoPopup.message}
         showActionButton={openInfoPopup.actionButton}
-        handleYes={() => handleConfirmDelete(selected)}
+        handleYes={() => {
+          handleConfirmDelete(selected);
+          handleClearSelection();
+        }}
       />
       {TableHeading && (
         <MuiTableToolbar
@@ -142,7 +148,9 @@ export default function MuiTable({
           numSelected={selected.length}
           TableHeading={TableHeading}
           otherOptions={otherOptions}
-          handleEditSelection={() => handleEdit(data, selected, openInfoPopup, setOpenInfoPopup)}
+          handleEditSelection={() =>
+            handleEdit(data, selected, openInfoPopup, setOpenInfoPopup) || handleEditSelectedData()
+          }
           handleClearSelection={handleClearSelection}
           handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
         />

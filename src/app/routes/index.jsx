@@ -54,6 +54,14 @@ const AddSupplierCreditPage = lazy(() => import('containers/accounting/purchase/
 const ExpensesListingPage = lazy(() => import('containers/accounting/purchase/expenses/listing'));
 const AddExpensesPage = lazy(() => import('containers/accounting/purchase/expenses/add'));
 
+// Customer Master
+const CustomerListingPage = lazy(() => import('containers/accounting/sale/customers/listing'));
+const AddCustomerPage = lazy(() => import('containers/accounting/sale/customers/add'));
+
+// quotations
+const QuotationListingPage = lazy(() => import('containers/accounting/sale/quotation/listing'));
+const AddQuotationPage = lazy(() => import('containers/accounting/sale/quotation/add'));
+
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/page-not-found'));
 
@@ -96,6 +104,7 @@ function AppRoutes() {
                 {/* Brands */}
                 <Route path="/pages/accounting/brands" element={<BrandsListingPage />} />
                 <Route path="/pages/accounting/brands/add" element={<AddBrandPage />} />
+                <Route path="/pages/accounting/brands/edit/:id" element={<AddBrandPage />} />
 
                 {/* Item Master */}
                 <Route path="/pages/accounting/items/add" element={<AddItemPage />} />
@@ -143,8 +152,15 @@ function AppRoutes() {
                 <Route path="/pages/accounting/purchase/expenses" element={<ExpensesListingPage />} />
                 <Route path="/pages/accounting/purchase/expenses/add" element={<AddExpensesPage />} />
 
-                <Route path="/pages/accounting/sales/customers" element={<>customers</>} />
-                <Route path="/pages/accounting/sales/accounts" element={<>accounts</>} />
+                {/* Customers */}
+                <Route path="/pages/accounting/sales/customers/add" element={<AddCustomerPage />} />
+                <Route path="/pages/accounting/sales/customers/edit/:id" element={<AddCustomerPage />} />
+                <Route path="/pages/accounting/sales/customers" element={<CustomerListingPage />} />
+
+                {/* quotation */}
+                <Route path="/pages/accounting/sales/quotations/add" element={<AddQuotationPage />} />
+                <Route path="/pages/accounting/sales/quotations/edit/:id" element={<AddQuotationPage />} />
+                <Route path="/pages/accounting/sales/quotations" element={<QuotationListingPage />} />
               </Route>
             </Route>
             <Route path="*" element={<PageNotFound />} />

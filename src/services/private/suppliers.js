@@ -12,6 +12,19 @@ const suppliersApi = privateApi.injectEndpoints({
         },
       }),
     }),
+    editSupplier: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/purchases/suppliers/${id}/`,
+        method: 'PATCH',
+        body: payload,
+      }),
+    }),
+    getSingleSupplier: builder.query({
+      query: id => ({
+        url: `api/accounting/purchases/suppliers/${id}/`,
+        method: 'GET',
+      }),
+    }),
     getSupplierTransactions: builder.query({
       query: ({ id }) => ({
         url: `api/accounting/purchase/supplier/${id}/transaction`,
@@ -22,8 +35,27 @@ const suppliersApi = privateApi.injectEndpoints({
         // },
       }),
     }),
+    addSupplier: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/purchases/suppliers/',
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+    getLatestTransactionNumber: builder.query({
+      query: () => ({
+        url: 'api/accounting/purchases/suppliers/latest',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
-export const { useGetSuppliersListQuery, useGetSupplierTransactionsQuery } = suppliersApi;
+export const {
+  useGetSuppliersListQuery,
+  useEditSupplierMutation,
+  useGetSupplierTransactionsQuery,
+  useGetSingleSupplierQuery,
+  useAddSupplierMutation,
+  useGetLatestTransactionNumberQuery,
+} = suppliersApi;

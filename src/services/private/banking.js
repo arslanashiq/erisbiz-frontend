@@ -42,7 +42,7 @@ const bankingApi = privateApi.injectEndpoints({
         url: `api/accounting/bank/account/${id}/status`,
         method: 'GET',
       }),
-      invalidatesTags: ['getBankAccountsList'],
+      invalidatesTags: ['getBankAccountsList', 'getSingleBankAccount'],
     }),
 
     getBankTransactions: builder.query({
@@ -56,7 +56,7 @@ const bankingApi = privateApi.injectEndpoints({
     }),
     deleteBank: builder.mutation({
       query: id => ({
-        url: `api/accounting/accountant/bankAccounts/${id}`,
+        url: `api/accounting/accountant/bankAccounts/${id}/`,
         method: 'DELETE',
       }),
     }),

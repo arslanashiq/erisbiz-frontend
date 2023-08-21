@@ -25,6 +25,12 @@ function MuiTableBody({
     }
     return {};
   };
+  const handlegetCellClass = (cell, value) => {
+    if (cell && cell.class) {
+      return cell.className(value);
+    }
+    return {};
+  };
 
   const renderCellValue = (row, cell) => {
     if (cell.cellValueAction) {
@@ -63,10 +69,10 @@ function MuiTableBody({
   }
   return (
     <TableBody>
-      {dataList.map((row, index) => {
-        const isItemSelected = isSelected(row.id);
-        const labelId = `enhanced-table-checkbox-${index}`;
-
+      {dataList.map(row => {
+        const id = row.id || row.uid;
+        const isItemSelected = isSelected(id);
+        const labelId = `enhanced-table-checkbox-${id}`;
         return (
           <TableRow
             hover
@@ -85,7 +91,7 @@ function MuiTableBody({
               <TableCell padding="checkbox">
                 <Checkbox
                   onClick={event => {
-                    if (showCheckbox) handleClick(event, row.id);
+                    if (showCheckbox) handleClick(event, id);
                   }}
                   color="primary"
                   checked={isItemSelected}
@@ -106,7 +112,7 @@ function MuiTableBody({
                 scope="row"
                 padding="normal"
                 align={cell.align || 'left'}
-                className="text-capitalize"
+                className={`${handlegetCellClass(cell, row[cell.id])}text-capitalize`}
                 style={{ ...handlegetCellStyle(cell, row[cell.id]), fontSize: '0.80rem' }}
               >
                 {renderCellValue(row, cell)}
@@ -138,7 +144,7 @@ function MuiTableBody({
       })}
       {customRows &&
         customRows.map(row => (
-          <TableRow>
+          <TableRow key={row.id}>
             {row.column.map(col =>
               col.colSpan ? (
                 <TableCell colSpan={col.colSpan} />

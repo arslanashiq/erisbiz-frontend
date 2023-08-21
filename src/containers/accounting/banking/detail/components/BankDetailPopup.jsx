@@ -22,6 +22,8 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
   const [infoPopup, setInfoPopup] = React.useState({
     open: false,
     infoDescription: 'Active banks cannot be deleted. Please inactive them first in order to delete',
+
+    actionButton: false,
   });
   const { enqueueSnackbar } = useSnackbar();
 
@@ -52,9 +54,18 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
       setInfoPopup({
         open: true,
         infoDescription: 'Active banks cannot be deleted. Please inactive them first in order to delete',
+        actionButton: false,
       });
       return;
     }
+    setInfoPopup({
+      ...infoPopup,
+      open: true,
+      actionButton: true,
+      infoDescription: 'Are you sure you want to delete this bank?',
+    });
+  };
+  const handleConfirmDelete = async () => {
     const res = await deleteBank(id);
     if (res.error) {
       enqueueSnackbar(res.error.error, { variant: 'error' });
@@ -69,6 +80,8 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
         open={infoPopup.open}
         infoDescription={infoPopup.infoDescription}
         handleClose={handleClosePopup}
+        showActionButton={infoPopup.actionButton}
+        handleYes={handleConfirmDelete}
       />
       <Dialog
         sx={{ zIndex: 1201 }}

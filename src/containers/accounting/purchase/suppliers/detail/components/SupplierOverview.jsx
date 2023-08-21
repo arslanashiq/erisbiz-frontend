@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
 import SupplierOverviewPayables from './SupplierOverviewPayables';
 
-function SupplierOverview() {
+function SupplierOverview({ supplierDetail }) {
   const graphData = [
     {
       name: 'Jan 2023',
@@ -51,7 +52,7 @@ function SupplierOverview() {
     <div className="container-fluid w-100">
       <div className="row">
         <div className="col-12 col-lg-5 col-xl-4">
-          <SupplierOverviewCard />
+          <SupplierOverviewCard supplierDetail={supplierDetail} />
         </div>
         <div className="col-12 col-lg-7 col-xl-8 mt-5">
           <SupplierOverviewPayables />
@@ -62,5 +63,10 @@ function SupplierOverview() {
     </div>
   );
 }
-
+SupplierOverview.propTypes = {
+  supplierDetail: PropTypes.object,
+};
+SupplierOverview.defaultProps = {
+  supplierDetail: null,
+};
 export default SupplierOverview;

@@ -46,15 +46,19 @@ const AccountantSideBarLinks = [
       { name: 'Expense Entry', link: '/pages/accounting/purchase/expenses' },
     ],
   },
-  // {
-  //   name: 'Sales',
-  //   icon: <CardGiftcardIcon />,
-  //   index: 1,
-  //   children: [
-  //     { name: 'Accounts', link: '/pages/accounting/sales/accounts' },
-  //     { name: 'Customers', link: '/pages/accounting/sales/customers' },
-  //   ],
-  // },
+  {
+    name: 'Sales',
+    icon: <CardGiftcardIcon />,
+    index: 1,
+    children: [
+      { name: 'Customer Master', link: '/pages/accounting/sales/customers' },
+      { name: 'Quotation', link: '/pages/accounting/sales/quotations' },
+      { name: 'Performa Invoice', link: '/pages/accounting/sales/performa-invoice' },
+      { name: 'Invoice', link: '/pages/accounting/sales/invoice' },
+      { name: 'Receipt Voucher', link: '/pages/accounting/sales/receipt-voucher' },
+      { name: 'Credit Note', link: '/pages/accounting/sales/credit-note' },
+    ],
+  },
   {
     name: 'Reports',
     icon: <DocumentScannerIcon />,

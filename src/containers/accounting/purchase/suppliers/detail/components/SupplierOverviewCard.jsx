@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Avatar, Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
 import SupplierAddress from './SupplierAddress';
 import SupplierOtherInfo from './SupplierOtherInfo';
 
-function SupplierOverviewCard() {
+function SupplierOverviewCard({ supplierDetail }) {
+  console.log(supplierDetail, 'supplierDetail');
   return (
     <Card sx={{ borderRadius: 0, boxShadow: 'none', backgroundColor: '#FBFAFA', height: '100%' }}>
       <CardContent>
@@ -31,5 +33,10 @@ function SupplierOverviewCard() {
     </Card>
   );
 }
-
+SupplierOverviewCard.propTypes = {
+  supplierDetail: PropTypes.object,
+};
+SupplierOverviewCard.defaultProps = {
+  supplierDetail: null,
+};
 export default SupplierOverviewCard;
