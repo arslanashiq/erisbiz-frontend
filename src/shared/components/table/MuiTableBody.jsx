@@ -27,9 +27,9 @@ function MuiTableBody({
   };
   const handlegetCellClass = (cell, value) => {
     if (cell && cell.class) {
-      return cell.className(value);
+      return cell.class(value);
     }
-    return {};
+    return '';
   };
 
   const renderCellValue = (row, cell) => {
@@ -112,7 +112,7 @@ function MuiTableBody({
                 scope="row"
                 padding="normal"
                 align={cell.align || 'left'}
-                className={`${handlegetCellClass(cell, row[cell.id])}text-capitalize`}
+                className={`text-capitalize ${handlegetCellClass(cell, row[cell.id])}`}
                 style={{ ...handlegetCellStyle(cell, row[cell.id]), fontSize: '0.80rem' }}
               >
                 {renderCellValue(row, cell)}

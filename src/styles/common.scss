@@ -22,13 +22,13 @@
 // <=======================common Styles===============================>
 // colors
 .color-primary {
-  color: $primary-color;
+  color: $primary-color !important;
 }
 .color-danger {
-  color: red;
+  color: red !important;
 }
 .color-silver {
-  color: silver;
+  color: silver !important;
 }
 .color-success {
   color: green;

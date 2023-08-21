@@ -43,7 +43,7 @@ export const quotationsHeadCell = [
     disablePadding: false,
     label: 'Status',
     align: 'right',
-    className: value => {
+    class: value => {
       const temp = value.toLowerCase();
       if (temp === 'invoiced') return 'color-primary';
       else if (temp === 'draft') return 'color-silver';
