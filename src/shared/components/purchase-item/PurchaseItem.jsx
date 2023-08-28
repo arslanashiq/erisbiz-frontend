@@ -11,21 +11,18 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-// import { useField } from 'formik';
 import FormikModernField from '../form/FormikModernField';
 import FormikSelect from '../form/FormikSelect';
 import 'styles/purchase-item.scss';
 
 function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
-  //   const [field] = useField(name || '');
-  //   const { onChange } = field;
   const getTotalAmount = () => {
-    let total = 0;
+    let total = 0.0;
     form.values[name].forEach(item => {
-      total += item.net_amount;
+      total += parseFloat(item.net_amount);
     });
 
-    return total;
+    return total.toFixed(2);
   };
   return (
     <Box sx={{ width: '100%' }}>
@@ -39,6 +36,7 @@ function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
             </TableRow>
           </TableHead>
           <TableBody>
+            {console.log(form.values, 'akjdlksadjksad')}
             {form.values[name].map((item, index) => (
               <TableRow>
                 {inputList.map(input => (
@@ -53,7 +51,15 @@ function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
                         onChange={(key, value) => {
                           form.setFieldValue(key, value);
                           if (input.onChange) {
-                            input.onChange(name, index, input.name, value, item, form.setFieldValue);
+                            input.onChange(
+                              name,
+                              index,
+                              input.name,
+                              value,
+                              item,
+                              form.setFieldValue,
+                              input.options
+                            );
                           }
                         }}
                         onBlur={onBlur}
@@ -63,7 +69,7 @@ function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
                         name={`${name}.${index}.${input.name}`}
                         placeholder={input.placeholder}
                         disabled={input.disabled || false}
-                        type={input.type || 'text'}
+                        type={input.type || 'number'}
                         onChange={(key, value) => {
                           form.setFieldValue(key, value);
                           if (input.onChange) {

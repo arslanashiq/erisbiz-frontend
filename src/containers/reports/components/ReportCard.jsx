@@ -5,10 +5,10 @@ import ReportCardItem from './ReportCardItem';
 
 function ReportCard({ cardData }) {
   return (
-    <Card sx={{ padding: '10px 0px' }}>
-      <Typography sx={{ padding: '5px 20px', fontWeight: 500, fontSize: 18 }}>{cardData.title}</Typography>
+    <Card sx={{ padding: 0, height: '100%' }}>
+      <Typography sx={{ padding: '5px 20px', fontWeight: 500, fontSize: 16 }}>{cardData.title}</Typography>
       <Divider sx={{ height: 2, backgroundColor: '#000' }} />
-      <CardContent>
+      <CardContent className="pb-0">
         {/* <Stack spacing={1}> */}
         {cardData.reports.map(report => (
           <ReportCardItem report={report} />

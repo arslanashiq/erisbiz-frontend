@@ -7,7 +7,7 @@ import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { drawerWidth } from 'utilities/constants';
+import { DRAWER_WIDTH } from 'utilities/constants';
 import SideBarChildLinks from './SideBarChildLinks';
 
 function SmallScreenDrawer({
@@ -22,13 +22,13 @@ function SmallScreenDrawer({
   return (
     <Drawer
       className="small-screen-drawer d-block d-md-none"
-      variant="persistent"
+      variant="temporary"
       open={open}
       onClose={() => setOpen(false)}
     >
       <DrawerHeader />
       <Divider />
-      <List sx={{ width: drawerWidth }}>
+      <List sx={{ width: DRAWER_WIDTH }}>
         {AccountantSideBarLinks.map(sideBar => (
           <div key={sideBar.name}>
             <SideBarListItem
@@ -42,7 +42,7 @@ function SmallScreenDrawer({
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  pl: 2.5,
                 }}
                 onClick={() => {
                   if (sideBar.link) {
@@ -58,7 +58,7 @@ function SmallScreenDrawer({
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
+                    mr: open ? 1 : 'auto',
                     justifyContent: 'center',
                   }}
                 >

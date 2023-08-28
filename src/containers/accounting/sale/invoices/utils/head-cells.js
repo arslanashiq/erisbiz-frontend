@@ -1,7 +1,7 @@
 /* eslint-disable */
-export const quotationsHeadCell = [
+export const invoiceHeadCell = [
   {
-    id: 'quotation_date',
+    id: 'invoice_date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -9,10 +9,10 @@ export const quotationsHeadCell = [
     date: true,
   },
   {
-    id: 'quotation_num',
+    id: 'invoice_formatted_number',
     numeric: false,
     disablePadding: true,
-    label: 'Quotation Number',
+    label: 'Invoice Number',
     align: 'left',
     isLink: true,
   },
@@ -31,7 +31,7 @@ export const quotationsHeadCell = [
     align: 'right',
   },
   {
-    id: 'sales_person',
+    id: 'sales_person_name',
     numeric: true,
     disablePadding: false,
     label: 'Sale Person',
@@ -51,5 +51,43 @@ export const quotationsHeadCell = [
 
       return '';
     },
+  },
+  {
+    id: 'created_by_employee_name',
+    numeric: true,
+    disablePadding: false,
+    label: 'Added By',
+    align: 'right',
+  },
+  {
+    id: 'without_change_amount_total',
+    numeric: true,
+    disablePadding: false,
+    label: 'Gross Total',
+    align: 'center',
+    mergeCell: true,
+  },
+  {
+    id: 'without_change_vat_total',
+    numeric: true,
+    disablePadding: false,
+    label: 'VAT',
+    align: 'center',
+    mergeCell: true,
+  },
+  {
+    id: 'without_change_grand_total',
+    numeric: true,
+    disablePadding: false,
+    label: 'Total (FCY)',
+    align: 'center',
+    mergeCell: true,
+  },
+  {
+    id: 'bcy_grand_total_invoice_currency',
+    disablePadding: false,
+    label: 'Total (BCY)',
+    align: 'center',
+    mergeCell: true,
   },
 ];

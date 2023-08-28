@@ -23,7 +23,7 @@ function SideBarChildLinks({ childList, open, checkActive }) {
         sx={{
           minHeight: 48,
           justifyContent: open ? 'initial' : 'center',
-          paddingLeft: 8.5,
+          paddingLeft: 6.5,
         }}
         onClick={() => {
           if (child.link) {

@@ -8,25 +8,25 @@ export const supplierHeadCells = [
     isLink: true,
   },
   {
-    id: 'primary_contact_phone',
+    id: 'contact_person',
     numeric: true,
     disablePadding: false,
-    label: 'Phone',
+    label: 'Contact Person',
     align: 'left',
   },
   {
-    id: 'primary_contact_mobile',
+    id: 'email',
     numeric: true,
     disablePadding: false,
-    label: 'Mobile',
+    label: 'Email',
     align: 'left',
   },
 
   {
-    id: 'primary_contact_email',
+    id: 'mobile_num',
     numeric: true,
     disablePadding: false,
-    label: 'Email',
+    label: 'Mobile',
     align: 'left',
   },
 
@@ -96,6 +96,46 @@ export const supplierBillTransactionHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Status',
+    align: 'left',
+  },
+];
+
+export const supplierContactHeadCells = [
+  {
+    id: 'first_name',
+    numeric: false,
+    disablePadding: true,
+    label: 'Name',
+    align: 'left',
+  },
+  {
+    id: 'designation',
+    numeric: true,
+    disablePadding: false,
+    label: 'Designation',
+    align: 'left',
+  },
+  {
+    id: 'email',
+    numeric: true,
+    disablePadding: false,
+    label: 'Email',
+    align: 'left',
+  },
+
+  {
+    id: 'mobile_num',
+    numeric: true,
+    disablePadding: false,
+    label: 'Mobile Number',
+    align: 'left',
+  },
+
+  {
+    id: 'notes',
+    numeric: true,
+    disablePadding: false,
+    label: 'Remarks',
     align: 'left',
   },
 ];

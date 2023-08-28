@@ -1,7 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  user: localStorage.getItem('token'),
+  token: localStorage.getItem('token'),
+  email: '',
+  groups: [],
+  profile: {},
   isAuthenticated: false,
 };
 
@@ -9,11 +12,12 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    getUser: state => state,
     setUser: (state, actions) => {
       const newData = {
         ...state,
-        user: actions.payload.user,
+        email: actions.payload.user.email,
+        groups: actions.payload.user.groups,
+        profile: actions.payload.user.profile,
         isAuthenticated: actions.payload.isAuthenticated,
       };
       return newData;
@@ -27,4 +31,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { getUser, setUser, isUserAuthenticated } = userSlice.actions;
+export const { setUser, isUserAuthenticated } = userSlice.actions;

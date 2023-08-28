@@ -11,6 +11,7 @@ function FormikModernField({
   startIcon,
   onChange,
   onBlur,
+  type,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
@@ -20,7 +21,10 @@ function FormikModernField({
 
   const handleChange = event => {
     onValueChange(event);
-    if (onChange) onChange(event.target.value);
+    if (onChange) {
+      if (type === 'file') onChange(event.target.files);
+      else onChange(event.target.value);
+    }
   };
 
   const handleBlur = event => {
@@ -46,6 +50,7 @@ function FormikModernField({
           <input
             {...field}
             {...restProps}
+            type={type}
             className={`${textRight ? 'text-right' : ''} ${inputClassName}`}
             value={value}
             onChange={handleChange}
@@ -53,9 +58,7 @@ function FormikModernField({
           />
         </>
       )}
-      {touched && error && (
-        <span className="form__form-group-error">{error}</span>
-      )}
+      {touched && error && <span className="form__form-group-error">{error}</span>}
     </div>
   );
 }

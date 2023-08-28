@@ -1,16 +1,18 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
 import { useDeleteCutomerMutation, useGetCustomersListQuery } from 'services/private/customers';
+import { getItemSearchQueryParams } from 'utilities/filters';
 import { customersHeadCell } from '../utils/head-cells';
 
 function CustomerListing() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const customersListResponse = useGetCustomersListQuery();
+  const location = useLocation();
+  const customersListResponse = useGetCustomersListQuery(getItemSearchQueryParams(location));
   const [deleteCustomer] = useDeleteCutomerMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {

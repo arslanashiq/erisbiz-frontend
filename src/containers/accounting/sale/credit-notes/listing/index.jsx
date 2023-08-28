@@ -1,16 +1,19 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
-import { useDeleteQuotationMutation, useGetQuotationsListQuery } from 'services/private/quotations';
-import { quotationsHeadCell } from '../utils/head-cells';
+import { useGetCreditNotesListQuery } from 'services/private/credit-notes';
+import { useDeleteQuotationMutation } from 'services/private/quotations';
+import { getItemSearchQueryParams } from 'utilities/filters';
+import { quotationsHeadCell } from '../../quotations/utils/head-cells';
 
-function QuotationListing() {
+function CreditNotesListing() {
   const { enqueueSnackbar } = useSnackbar();
+  const location = useLocation();
   const navigate = useNavigate();
-  const customersListResponse = useGetQuotationsListQuery();
+  const creditNotesListResponse = useGetCreditNotesListQuery(getItemSearchQueryParams(location));
   const [deleteQuotation] = useDeleteQuotationMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
@@ -41,9 +44,9 @@ function QuotationListing() {
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
-        data={customersListResponse?.data?.results}
-        totalDataCount={customersListResponse?.data?.count}
-        TableHeading="Quotations"
+        data={creditNotesListResponse?.data?.results}
+        totalDataCount={creditNotesListResponse?.data?.count}
+        TableHeading="Credit Notes"
         headCells={quotationsHeadCell}
         showCheckbox
         otherOptions={[
@@ -64,4 +67,4 @@ function QuotationListing() {
   );
 }
 
-export default QuotationListing;
+export default CreditNotesListing;

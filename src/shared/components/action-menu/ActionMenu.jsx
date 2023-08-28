@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Button, Menu, MenuItem, Stack } from '@mui/material';
 
-function ActionMenu({ anchorEl, setAnchorEl, actionsList }) {
+function ActionMenu({ buttonTitle, actionsList, variant }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -20,13 +22,23 @@ function ActionMenu({ anchorEl, setAnchorEl, actionsList }) {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
         className="text-capitalize"
+        variant={variant}
       >
-        Perform Action <KeyboardArrowDownIcon />
+        {buttonTitle} <KeyboardArrowDownIcon />
       </Button>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <Stack sx={{ minWidth: 130 }}>
           {actionsList.map(action => (
-            <MenuItem onClick={action.handleClick}>{action.label}</MenuItem>
+            <MenuItem
+              className="text-capitalize"
+              key={action.label}
+              onClick={() => {
+                handleClose();
+                action.handleClick(action.label);
+              }}
+            >
+              {action.label}
+            </MenuItem>
           ))}
         </Stack>
       </Menu>
@@ -34,8 +46,13 @@ function ActionMenu({ anchorEl, setAnchorEl, actionsList }) {
   );
 }
 ActionMenu.propTypes = {
-  anchorEl: PropTypes.element.isRequired,
-  setAnchorEl: PropTypes.func.isRequired,
-  actionsList: PropTypes.array.isRequired,
+  buttonTitle: PropTypes.string,
+  actionsList: PropTypes.array,
+  variant: PropTypes.string,
+};
+ActionMenu.defaultProps = {
+  buttonTitle: 'Perform Action',
+  actionsList: [],
+  variant: 'contained',
 };
 export default ActionMenu;

@@ -3,51 +3,15 @@ import PropTypes from 'prop-types';
 import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
-import SupplierOverviewPayables from './SupplierOverviewPayables';
+// import SupplierOverviewPayables from './SupplierOverviewPayables';
 
-function SupplierOverview({ supplierDetail }) {
-  const graphData = [
-    {
-      name: 'Jan 2023',
-      CNH: 0,
-      amt: 0,
-    },
-    {
-      name: 'Feb 2023',
-      CNH: 0,
-      amt: 0,
-    },
-    {
-      name: 'Mar 2023',
-      CNH: 0,
-      amt: 0,
-    },
-    {
-      name: 'Apr 2023',
-      CNH: 0,
-      amt: 0,
-    },
-    {
-      name: 'May 2023',
-      CNH: 0,
-      amt: 0,
-    },
-    {
-      name: 'Jun 2023',
-      CNH: 0,
-      amt: 0,
-    },
-    {
-      name: 'Jul 2023',
-      CNH: 0,
-      amt: 0,
-    },
-    {
-      name: 'Aug 2023',
-      CNH: 10,
-      amt: 10,
-    },
-  ];
+function SupplierOverview({
+  supplierIncome,
+  activityLogDuration,
+  supplierDetail,
+  supplierActivity,
+  handleClickMenu,
+}) {
   return (
     <div className="container-fluid w-100">
       <div className="row">
@@ -55,18 +19,31 @@ function SupplierOverview({ supplierDetail }) {
           <SupplierOverviewCard supplierDetail={supplierDetail} />
         </div>
         <div className="col-12 col-lg-7 col-xl-8 mt-5">
-          <SupplierOverviewPayables />
-          <SupplierOverviewCharts graphData={graphData} />
-          <SupplierOverviewTimeline />
+          {/* <SupplierOverviewPayables /> */}
+          <SupplierOverviewCharts
+            supplierDetail={supplierDetail}
+            activityLogDuration={activityLogDuration}
+            supplierIncome={supplierIncome}
+            handleClickMenu={handleClickMenu}
+          />
+          <SupplierOverviewTimeline supplierActivity={supplierActivity} />
         </div>
       </div>
     </div>
   );
 }
 SupplierOverview.propTypes = {
+  supplierIncome: PropTypes.array,
+  activityLogDuration: PropTypes.string,
   supplierDetail: PropTypes.object,
+  supplierActivity: PropTypes.array,
+  handleClickMenu: PropTypes.func,
 };
 SupplierOverview.defaultProps = {
   supplierDetail: null,
+  activityLogDuration: '',
+  supplierActivity: [],
+  handleClickMenu: () => {},
+  supplierIncome: [],
 };
 export default SupplierOverview;

@@ -1,72 +1,9 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
+import PropTypes from 'prop-types';
 import 'styles/template-styles.scss';
 
-const transactions = [
-  {
-    id: 1660078,
-    date: '26 Jul 2023',
-    transactions: 'Supplier Opening Balance',
-    details: '-',
-    amount: '10.00',
-    payment: '',
-    balance: '10.00',
-  },
-  {
-    id: 1659990,
-    date: '03 Aug 2023',
-    transactions: 'Bill',
-    details: 'Bill-1014',
-    amount: '10.00',
-    payment: '',
-    balance: '20.00',
-  },
-  {
-    id: 1660027,
-    date: '09 Aug 2023',
-    transactions: 'Supplier Payment',
-    details: 'PM-2',
-    amount: '',
-    payment: '30.00',
-    balance: '-10.00',
-  },
-  {
-    id: 1660081,
-    date: '10 Aug 2023',
-    transactions: 'Supplier Payment',
-    details: '-',
-    amount: '',
-    payment: '20.30',
-    balance: '-30.30',
-  },
-  {
-    id: 1660082,
-    date: '15 Aug 2023',
-    transactions: 'Supplier Payment',
-    details: 'PM-6',
-    amount: '',
-    payment: '30.20',
-    balance: '-60.50',
-  },
-];
-const basicInfo = {
-  supplierId: 1489,
-  supplierName: 'Aleem',
-  supplierAddress: '',
-  supplierCity: '',
-  supplierState: '',
-  supplierCountry: 'Albania',
-  trn: '',
-  currency_symbol: 'CNH',
-  openingBalance: '60.50',
-  totalBilledAmount: '0.00',
-  totalPaymentAmount: '60.50',
-  totalBalanceDue: '-60.50',
-  startDate: '16 Aug 2023',
-  endDate: '16 Aug 2023',
-  filterType: 'all',
-};
-function SupplierStatement() {
+function SupplierStatement({ basicInfo, transactions }) {
   return (
     <div className="statement-template">
       <div className="d-flex justify-content-between">
@@ -91,7 +28,7 @@ function SupplierStatement() {
           <div className="w-100">
             <p className="font-weight-bold m-0 p-0">To</p>
             <a
-              href={`/pages/accounting/purchases/suppliers/${basicInfo.supplierId}/detail`}
+              href={`/pages/accounting/purchase/suppliers/${basicInfo.supplierId}/detail`}
               className="font-weight-bold m-0 p-0"
             >
               {basicInfo.supplierName}
@@ -323,4 +260,12 @@ function SupplierStatement() {
   );
 }
 
+SupplierStatement.propTypes = {
+  transactions: PropTypes.array,
+  basicInfo: PropTypes.object,
+};
+SupplierStatement.defaultProps = {
+  transactions: [],
+  basicInfo: {},
+};
 export default SupplierStatement;

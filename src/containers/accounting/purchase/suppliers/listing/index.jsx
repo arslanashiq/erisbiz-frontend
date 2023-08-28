@@ -1,18 +1,22 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
+import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
-import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import { useDeleteSupplierMutation, useGetSuppliersListQuery } from 'services/private/suppliers';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
-import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 import { supplierHeadCells } from '../utils/head-cells';
+import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utils/constants';
 
 function SupplierListing() {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
-  const suppliersListingResponse = useGetSuppliersListQuery(getsearchQueryOffsetAndLimitParams(location));
-
+  const suppliersListingResponse = useGetSuppliersListQuery(location.search);
+  const [deleteSupplier] = useDeleteSupplierMutation();
   const handleEdit = (data, selected) => {
     navigate(`edit/${selected[0]}`);
   };
@@ -51,7 +55,19 @@ function SupplierListing() {
       actionButton,
     });
   };
-  const handleConfirmDelete = () => {};
+  const deleteSingleSupplier = async id => {
+    await deleteSupplier(id);
+    // if (deleteItemResp.data) {
+    enqueueSnackbar('Supplier Deleted Successfully', { variant: 'success' });
+    // } else {
+    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    // }
+  };
+  const handleConfirmDelete = list => {
+    list.forEach(id => {
+      deleteSingleSupplier(id);
+    });
+  };
   return (
     <>
       <Helmet>
@@ -79,6 +95,12 @@ function SupplierListing() {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
+        filterButton={
+          <PersonlizedFilter
+            filterInitialValues={supplierFilterInitialValues}
+            filtersList={supplierFiltersOptionsList}
+          />
+        }
       />
       {/* )} */}
     </>

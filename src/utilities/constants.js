@@ -1,11 +1,10 @@
 // API URL for the backend
 // export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
-export const API_URL = 'https://erisbiz.beyonderissolutions.com';
-// export const API_URL = 'http://16.24.36.173:8000';
+// export const API_URL = 'https://erisbiz.beyonderissolutions.com';
+export const API_URL = 'http://16.24.36.173:8000';
 // export const API_URL = 'http://192.168.0.137:8000/';
 
-export const test = '';
 export const ROWS_PER_PAGE = 20;
 
 export const EMAIL_REGEX =
@@ -33,19 +32,19 @@ export const SUPER_USER = 'superuser';
 export const DATE_FORMAT = 'DD-MMMM-YYYY';
 
 // ITEM TYPE
-export const itemTypes = [
+export const ITEM_TYPES = [
   { value: 'Goods', label: 'Goods' },
   { value: 'Service', label: 'Service' },
 ];
 
-export const itemStatusOptions = [
+export const ITEM_STATUS_OOPTIONS = [
   { value: 'true', label: 'Active' },
   { value: 'false', label: 'Inactive' },
 ];
 
-export const currencyID = 78;
+export const CURRENCY_ID = 1;
 
-export const vatReverseCharges = [
+export const VAT_RERVERSE_CHARGES = [
   { value: '0', label: 'The Supplier is an important Agent' },
   { value: '1', label: 'VAT Reverse Charges' },
 ];
@@ -55,4 +54,16 @@ export const VAT_CHARGES = [
   { label: 'Standard Rate (5%)', value: '1', percent: 5 },
   { label: 'Zero Rate (0%)', value: '2', percent: 0 },
 ];
-export const drawerWidth = 240;
+export const DRAWER_WIDTH = 240;
+
+export const DEFAULT_IMG = 'https://stagingcrm.beyonderissolutions.com/img/avatar.png';
+
+export const NEW_PURCHASE_ITEM_OBJECT = {
+  item: '',
+  quantity: 0,
+  price: 0,
+  total: 0,
+  discount: 0,
+  vat: 0,
+  net_amount: 0,
+};

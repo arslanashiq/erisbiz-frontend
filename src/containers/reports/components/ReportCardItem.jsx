@@ -6,23 +6,18 @@ import { useNavigate } from 'react-router';
 function ReportCardItem({ report }) {
   const navigate = useNavigate(0);
   return (
-    <>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography sx={{ fontSize: 14, fontWeight: 600 }}>{report.label}</Typography>
-        <Button
-          onClick={() => {
-            navigate(report.link);
-          }}
-          className="text-capitalize"
-          sx={{ padding: '1px 14px' }}
-        >
-          Go
-        </Button>
-      </Stack>
-      <Typography sx={{ fontSize: 11, paddingBottom: 1.5, paddingRight: 10 }}>
-        Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document.
-      </Typography>
-    </>
+    <Stack direction="row" className="justify-content-between align-items-center mb-2">
+      <Typography sx={{ fontSize: 12 }}>{report.label}</Typography>
+      <Button
+        onClick={() => {
+          navigate(report.link);
+        }}
+        className="text-capitalize"
+        sx={{ padding: '1px 10px', fontSize: 12 }}
+      >
+        Go
+      </Button>
+    </Stack>
   );
 }
 ReportCardItem.propTypes = {

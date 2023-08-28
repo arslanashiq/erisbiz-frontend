@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable consistent-return */
+
+import React, { useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import { FieldArray, Form, Formik } from 'formik';
 import { Button, Card, CardContent, Stack } from '@mui/material';
@@ -13,113 +16,221 @@ import FormikModernField from 'shared/components/form/FormikModernField';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
 import Loader from 'shared/components/loader/Loader';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
-import { VAT_CHARGES } from 'utilities/constants';
+import {
+  handleCalculateTotalAmount,
+  handleChangeDiscount,
+  handleChangeItem,
+  handleChangeQuantity,
+  hanldeVATChange,
+} from 'shared/components/purchase-item/utils/helpers';
+import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import 'styles/form.scss';
+import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import { useGetPurchaseOrdersListQuery } from 'services/private/purchase-orders';
+import {
+  useAddPurchaseInvoceMutation,
+  useEditPurchaseInvoceMutation,
+  useGetSinglePurchaseInvoiceQuery,
+} from 'services/private/purchase-invoice';
+import { useNavigate, useParams } from 'react-router';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
 
 function AddPurchaseInvoice() {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [initialValues, setInitialValues] = useState({
-    // pur_order_num: lastPurOrderNum ? lastPurOrderNum + 1 : 1000,
-    date: moment().format('YYYY-MM-DD'),
+    supplier_id: '',
+    pur_order_formatted_number: '',
+    due_date: moment().format('YYYY-MM-DD'),
+    credit_account: '',
     location: '',
-    supplier: '',
-    refrence_number: '',
     attachment: '',
-    pur_order_items: [
+    supplier_invoice_num: '',
+    invoice_num: '',
+    bill_items: [
       {
-        item: '',
-        quantity: 0,
-        price: 0,
-        total: 0,
+        num_units: 0,
+        num_nights: 0,
+        unit_price_ex_vat: 0,
+        gross_amount: 0,
         discount: 0,
-        vat: 0,
+        vat_amount: 0,
         net_amount: 0,
+        account_code: '',
+        service_type: '',
+        currency: 1,
       },
     ],
-    requestor_signature_show: true,
-    // requestor_signature: requestorSign,
-    show_stamp: true,
-    // stamp: user.profile.stamp,
-
-    // latest_pur_order_num: lastPurOrderNum != null ? lastPurOrderNum : 0,
-    // pur_order_num: lastPurOrderNum ? lastPurOrderNum + 1 : 1000,
-    pur_order_suffix: 'LPO',
-    customer_type_suffix: '',
-    currency: 'AED',
-    currency_symbol: 'AED',
-    currency_id: null,
-    convert_to_aed: true,
-    exchange_rate: 1,
-    pur_order_date: moment().format('YYYY-MM-DD'),
-    event: '',
-    tax_treatment: '',
-    trn: '',
-    place_of_supply: '',
-    requestor_name: '',
-    period_start: '',
-    period_end: '',
     notes: '',
-    account_num: '',
-    iban: '',
-    advance_pyments: '',
-    payment_notes: '',
-    discount: 0,
-    amount_total: 0,
-    amount_total_aed: 0,
-    vat_total: 0,
-    vat_total_aed: 0,
-    grand_total: 0,
-    grand_total_aed: 0,
-    sub_total: 0,
-    address: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    country: '',
+
+    // extra
+    currency: 'AED',
   });
-  console.log(setInitialValues, 'sjdlksadjlksa');
+  const [purchaseOrdersListOptions, setPurchaseOrdersListOptions] = useState([]);
+
+  const suppliersListResponse = useGetSuppliersListQuery();
+  const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery();
   const itemsListResponse = useGetItemsListQuery();
-  if (itemsListResponse.isLoading) {
+  const bankAccountsListsponse = useGetBankAccountsListQuery();
+  const [addPurchaseInvoice] = useAddPurchaseInvoceMutation();
+  const [editPurchaseInvoice] = useEditPurchaseInvoceMutation();
+  const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
+    value: supplier.id,
+    label: supplier.supplier_name,
+    credit_account: supplier.account_default,
+  }));
+  const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
+    value: item.item_name,
+    label: item.item_name,
+    price: item.sale_price,
+    type: item.item_type,
+  }));
+  const purchaseItemsInputList = useMemo(
+    () => [
+      {
+        name: 'item',
+        placeholder: 'Item',
+        isSelect: true,
+        options: itemsListOptions || [],
+        width: '15%',
+        onChange: handleChangeItem,
+      },
+      {
+        name: 'quantity',
+        placeholder: 'Quanitiy',
+        type: 'number',
+        onChange: handleChangeQuantity,
+      },
+      {
+        name: 'price',
+        placeholder: 'Unit Price',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'total',
+        placeholder: 'Gross Total',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'discount',
+        placeholder: 'Discount',
+        type: 'number',
+        onChange: handleChangeDiscount,
+      },
+      {
+        name: 'vat',
+        placeholder: 'VAT',
+        isSelect: true,
+        options: VAT_CHARGES,
+        width: '15%',
+        onChange: hanldeVATChange,
+      },
+      {
+        name: 'net_amount',
+        placeholder: 'Net Amount',
+        type: 'number',
+        disabled: true,
+      },
+    ],
+    [suppliersListResponse, purchaseOrdersListResponse, itemsListResponse]
+  );
+  const bankAccountOptions = bankAccountsListsponse?.data?.results?.map(account => ({
+    value: account.chart_of_account,
+    label: account.bank_account_name,
+  }));
+  const handleGetPurchaseOrderAgainstSupplier = (value, setFieldValue = () => {}) => {
+    if (!value) return;
+    const purchaseOrderAgainstSupplier = purchaseOrdersListResponse.data.results.filter(
+      purchaseOrder => value === purchaseOrder.supplier_id
+    );
+    const selectedSupplier = suppliersListOptions.filter(supplier => supplier.value === value)[0];
+    setFieldValue('bill_items', [
+      {
+        item: '',
+        quantity: '',
+        units: '',
+        price: '',
+        total: '',
+        discount: '',
+        vat: '',
+        net_amount: '',
+        vat_amount: '',
+        service_type: '',
+        vat_rate: '',
+      },
+    ]);
+    setFieldValue('pur_order', '');
+
+    setPurchaseOrdersListOptions(
+      purchaseOrderAgainstSupplier.map(purchaseOrder => ({
+        label: purchaseOrder.pur_order_formatted_number,
+        value: purchaseOrder.id,
+        pur_order_items: purchaseOrder.pur_order_items,
+      }))
+    );
+  };
+  const handlegetAttachment = (files, setFieldValue) => {
+    if (files && files.length > 0) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      reader.onload = () => {
+        setFieldValue('attachment_file', reader.result);
+      };
+    }
+  };
+  const handleChangePurchaseOrderItem = (value, setFieldValue = () => {}) => {
+    const selecteditem = purchaseOrdersListResponse.data.results.filter(
+      purchaseOrder => purchaseOrder.id === value
+    )[0];
+    if (!selecteditem) return;
+    const selectedOrderItems = selecteditem.pur_order_items.map(item => ({
+      item: item.service_type,
+      quantity: item.num_nights,
+      units: item.num_nights,
+      price: item.unit_price_ex_vat,
+      total: item.gross_amount,
+      discount: item.discount,
+      vat: item.vat_rate && VAT_CHARGES[item.vat_rate]?.value ? VAT_CHARGES[item.vat_rate].value : '0',
+      net_amount: item.net_amount,
+      vat_amount: item.vat_amount,
+      service_type: item.service_type,
+      vat_rate: item.vat_rate,
+    }));
+    setFieldValue('bill_items', selectedOrderItems);
+    return selectedOrderItems;
+  };
+
+  if (id) {
+    const purchaseInvoiceDetail = useGetSinglePurchaseInvoiceQuery(id);
+    useEffect(() => {
+      if (
+        purchaseInvoiceDetail.data &&
+        purchaseOrdersListResponse.data &&
+        suppliersListResponse.data &&
+        itemsListResponse.data
+      ) {
+        const purchaseOrderItems = handleChangePurchaseOrderItem(purchaseInvoiceDetail.data.pur_order);
+        setInitialValues({
+          ...purchaseInvoiceDetail.data,
+          attachment: null,
+          credit_account: purchaseInvoiceDetail.data.credit_account,
+          pur_order: purchaseInvoiceDetail.data.pur_order,
+          bill_items: purchaseOrderItems || [{}],
+        });
+        handleGetPurchaseOrderAgainstSupplier(purchaseInvoiceDetail.data.supplier_id);
+      }
+    }, [purchaseInvoiceDetail, suppliersListResponse, purchaseOrdersListResponse, itemsListResponse]);
+  }
+  if (
+    suppliersListResponse.isLoading ||
+    purchaseOrdersListResponse.isLoading ||
+    itemsListResponse.isLoading
+  ) {
     return <Loader />;
   }
 
-  const itemsListOptions = itemsListResponse.data.results.map((item, index) => ({
-    value: item.item_name,
-    label: item.item_name,
-    price: index + 1,
-  }));
-
-  const handleChangeValues = (name, index, values, setFieldValue) => {
-    const grossTotal = values.price * values.quantity;
-    let netAmount = grossTotal + (grossTotal / 100) * VAT_CHARGES[values.vat].percent;
-    if (values.discount < netAmount) {
-      netAmount -= values.discount;
-    }
-    if (grossTotal < 0) return;
-    setFieldValue(`${name}.${index}.total`, grossTotal);
-    setFieldValue(`${name}.${index}.net_amount`, netAmount);
-  };
-  const handleChangeItem = (name, index, key, value, values, setFieldValue) => {
-    const selectedItem = itemsListOptions.filter(item => item.label === value);
-    setFieldValue(`${name}.${index}.price`, selectedItem[0].price);
-    const newValues = {
-      ...values,
-      price: selectedItem[0].price,
-    };
-
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const handleChangeQuantity = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, quantity: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const hanldeVATChange = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, vat: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const handleChangeDiscount = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, discount: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
   return (
     <Card>
       <CardContent>
@@ -128,18 +239,68 @@ function AddPurchaseInvoice() {
           enableReinitialize
           initialValues={initialValues}
           // validationSchema={bankFormValidationSchema}
-          //   onSubmit={async values => {
-          //     console.log(values);
-          //   }}
+          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+            const purchaseOrderItems = values.bill_items.map(item => ({
+              service_type: item.name && item.name.length > 0 ? item.name : item.item,
+              currency: 1,
+              num_units: item.quantity,
+              num_nights: item.quantity,
+              unit_price_ex_vat: item.price,
+              gross_amount: item.total,
+              discount: item.discount || 0,
+              vat_amount: item.vat_amount.toFixed(2) ? item.vat_amount.toFixed(2) : item.vat_amount,
+              vat_rate: item.vat_rate,
+              net_amount: item.net_amount,
+            }));
+            let response = null;
+            if (id) {
+              const payload = {
+                ...values,
+                bill_items: purchaseOrderItems,
+                bill_date: values.due_date,
+                invoice_date: values.due_date,
+                bill_notes: [],
+                attachment: values.attachment_file,
+                ...handleCalculateTotalAmount(values.bill_items),
+              };
+              response = await editPurchaseInvoice({ id, payload });
+            } else {
+              const payload = {
+                ...values,
+                bill_items: purchaseOrderItems,
+                bill_date: values.due_date,
+                invoice_date: values.due_date,
+                bill_notes: [],
+                bill_num: `#${values.invoice_num}`,
+                attachment: values.attachment_file,
+                ...handleCalculateTotalAmount(values.bill_items),
+              };
+              response = await addPurchaseInvoice(payload);
+            }
+            setSubmitting(false);
+            if (response.data) {
+              resetForm(initialValues);
+              navigate(-1);
+            }
+            if (response.error) {
+              setErrors(response.error.data);
+            }
+          }}
         >
-          {({
-            isSubmitting,
-            touched,
-
-            // setFieldTouched,
-            resetForm,
-          }) => (
+          {({ isSubmitting, touched, setFieldValue, resetForm }) => (
             <Form className="form form--horizontal mt-3 row">
+              {/* Supplier */}
+              <div className="form__form-group col-md-6">
+                <span className="form__form-group-label col-lg-3 required">Supplier</span>
+                <div className="form__form-group-field ">
+                  <FormikModernSelect
+                    options={suppliersListOptions}
+                    name="supplier_id"
+                    placeholder="Supplier"
+                    onChange={value => handleGetPurchaseOrderAgainstSupplier(value, setFieldValue)}
+                  />
+                </div>
+              </div>
               {/* Purchase */}
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Po Number</span>
@@ -148,10 +309,11 @@ function AddPurchaseInvoice() {
                     {' '}
                     <TagIcon />
                   </div>
-                  <FormikModernField
-                    name="purchase_order_number"
-                    type="text"
+                  <FormikModernSelect
+                    name="pur_order"
                     placeholder="Purchase Order Number"
+                    options={purchaseOrdersListOptions}
+                    onChange={value => handleChangePurchaseOrderItem(value, setFieldValue)}
                   />
                 </div>
               </div>
@@ -162,7 +324,7 @@ function AddPurchaseInvoice() {
                   <div className="form__form-group-icon cursor-pointer">
                     <CalendarMonthIcon />
                   </div>
-                  <FormikDatePicker name="date" type="text" placeholder="Date" />
+                  <FormikDatePicker name="due_date" type="text" placeholder="Date" />
                 </div>
               </div>
 
@@ -170,15 +332,11 @@ function AddPurchaseInvoice() {
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Credit Account</span>
                 <div className="form__form-group-field ">
-                  <FormikModernField name="Credit Acocunt" type="text" placeholder="Credit Account" />
-                </div>
-              </div>
-
-              {/* Supplier */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Supplier</span>
-                <div className="form__form-group-field ">
-                  <FormikModernSelect itemOptions={[]} name="supplier" placeholder="Supplier" />
+                  <FormikModernSelect
+                    name="credit_account"
+                    options={bankAccountOptions}
+                    placeholder="Credit Account"
+                  />
                 </div>
               </div>
 
@@ -201,7 +359,12 @@ function AddPurchaseInvoice() {
                   <div className="form__form-group-icon cursor-pointer">
                     <AttachFileIcon />
                   </div>
-                  <FormikModernField name="attachment" type="file" placeholder="Attachment" />
+                  <FormikModernField
+                    name="attachment"
+                    type="file"
+                    placeholder="Attachment"
+                    onChange={files => handlegetAttachment(files, setFieldValue)}
+                  />
                 </div>
               </div>
               {/* Supplier Inv Number */}
@@ -209,8 +372,8 @@ function AddPurchaseInvoice() {
                 <span className="form__form-group-label col-lg-3 required">Supplier Inv No</span>
                 <div className="form__form-group-field ">
                   <FormikModernField
-                    name="supplier_inv_number"
-                    type="text"
+                    name="supplier_invoice_num"
+                    type="number"
                     placeholder="Supplier Invoice Number"
                   />
                 </div>
@@ -220,74 +383,19 @@ function AddPurchaseInvoice() {
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Supplier Invo</span>
                 <div className="form__form-group-field ">
-                  <FormikModernField name="supplier_inv" placeholder="Supplier Invo" />
+                  <FormikModernField name="invoice_num" type="number" placeholder="Supplier Invo" />
                 </div>
               </div>
 
               {/* Item detail */}
               <div className="form__form-group w-100">
                 <FieldArray
-                  name="pur_order_items"
+                  name="bill_items"
                   render={props => (
                     <PurchaseItem
                       name="pur_order_items"
-                      inputList={[
-                        {
-                          name: 'item',
-                          placeholder: 'Item',
-                          isSelect: true,
-                          options: itemsListOptions,
-                          width: '15%',
-                          onChange: handleChangeItem,
-                        },
-                        {
-                          name: 'quantity',
-                          placeholder: 'Quanitiy',
-                          type: 'number',
-                          onChange: handleChangeQuantity,
-                        },
-                        {
-                          name: 'price',
-                          placeholder: 'Unit Price',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'total',
-                          placeholder: 'Gross Total',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'discount',
-                          placeholder: 'Discount',
-                          type: 'number',
-                          onChange: handleChangeDiscount,
-                        },
-                        {
-                          name: 'vat',
-                          placeholder: 'VAT',
-                          isSelect: true,
-                          options: VAT_CHARGES,
-                          width: '15%',
-                          onChange: hanldeVATChange,
-                        },
-                        {
-                          name: 'net_amount',
-                          placeholder: 'Net Amount',
-                          type: 'number',
-                          disabled: true,
-                        },
-                      ]}
-                      newList={{
-                        item: '',
-                        quantity: 0,
-                        price: 0,
-                        total: 0,
-                        discount: 0,
-                        vat: 0,
-                        net_amount: 0,
-                      }}
+                      inputList={purchaseItemsInputList}
+                      newList={NEW_PURCHASE_ITEM_OBJECT}
                       {...props}
                     />
                   )}
@@ -298,7 +406,7 @@ function AddPurchaseInvoice() {
               <div className="form__form-group">
                 <span className="form__form-group-label col-lg-3 required">Remarks</span>
                 <div className="form__form-group-field ">
-                  <FormikModernField name="remarks" textArea placeholder="Remarks" />
+                  <FormikModernField name="notes" textArea placeholder="Remarks" />
                 </div>
               </div>
 

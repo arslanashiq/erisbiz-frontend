@@ -73,7 +73,7 @@ function LargeScreenDrawer({
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
+                    mr: open ? 1.2 : 'auto',
                     justifyContent: 'center',
                   }}
                 >

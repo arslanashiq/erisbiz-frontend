@@ -23,6 +23,7 @@ export const purchaseInvoiceHeadCells = [
     disablePadding: false,
     label: 'Bill Number',
     align: 'left',
+    isLink: true,
   },
 
   {
@@ -68,13 +69,6 @@ export const purchaseInvoiceHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Amount',
-    align: 'left',
-  },
-  {
-    id: 'amount_due_bill_currency',
-    numeric: true,
-    disablePadding: false,
-    label: 'Due Amount',
     align: 'left',
   },
 ];

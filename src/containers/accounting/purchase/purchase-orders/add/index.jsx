@@ -1,10 +1,9 @@
 /* eslint-disable implicit-arrow-linebreak */
-import React, { useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
-import moment from 'moment';
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import FormikModernField from 'shared/components/form/FormikModernField';
-// import TagIcon from '@mui/icons-material/Tag';
+import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
@@ -12,131 +11,196 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import { useGetItemsListQuery } from 'services/private/items';
 import Loader from 'shared/components/loader/Loader';
-import { VAT_CHARGES } from 'utilities/constants';
+import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import FormHeader from 'shared/components/form-header/FormHeader';
-// import { useGetLatestPurchaseOrderNumberQuery } from 'services/private/purchase-orders';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
 import 'styles/form.scss';
+import {
+  useAddPurchaseOrderMutation,
+  useEditPurchaseOrderMutation,
+  useGetLatestPurchaseOrderNumberQuery,
+} from 'services/private/purchase-orders';
+import {
+  handleCalculateTotalAmount,
+  handleChangeDiscount,
+  handleChangeItem,
+  handleChangeQuantity,
+  hanldeVATChange,
+} from 'shared/components/purchase-item/utils/helpers';
+import { useNavigate, useParams } from 'react-router';
+import usePurchaseOrderInitialValues from '../utils/custom-hooks/usePurchaseOrderInitialValues';
 
 function AddPurchaseOrder() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const itemsListResponse = useGetItemsListQuery();
   const supplierListResponse = useGetSuppliersListQuery();
-  const [initialValues, setInitialValues] = useState({
-    date: moment().format('YYYY-MM-DD'),
-    location: '',
-    supplier_id: '',
-    reference_num: '',
-    exchange_rate: 1,
-    attachment: '',
-    remarks: '',
-    currency: 'AED',
-    pur_order_items: [
-      {
-        service_type: 'Apple',
-        currency: 78,
-        num_units: 1,
-        num_nights: 1,
-        unit_price_ex_vat: 100,
-        gross_amount: 1155,
-        discount: 12,
-        vat_amount: 55,
-        net_amount: 15330,
-      },
-    ],
 
-    pur_order_suffix: 'LPO',
-    pur_order_docs: [
-      {
-        doc_file: '',
-        doc_type: '',
-        doc_name: '',
-        doc_size_bytes: 0,
-      },
-    ],
-  });
-  console.log(setInitialValues);
-
-  if (itemsListResponse.isLoading) {
-    return <Loader />;
-  }
-
+  const [addPurchaseOrder] = useAddPurchaseOrderMutation();
+  const [editPurchaseOrder] = useEditPurchaseOrderMutation();
+  const latestPurchaseOrder = useGetLatestPurchaseOrderNumberQuery();
   const suppliersOptions = supplierListResponse?.data?.results?.map(supplier => ({
     value: `${supplier.id}`,
     label: supplier.supplier_name,
   }));
-  const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
+  const itemsListOptions = itemsListResponse?.data?.results?.map(item => ({
     value: item.item_name,
     label: item.item_name,
-    price: index + 1,
+    price: item.sale_price,
+    type: item.item_type,
   }));
-  const handleChangeValues = (name, index, values, setFieldValue) => {
-    const grossTotal = values.price * values.quantity;
-    let netAmount = grossTotal + (grossTotal / 100) * VAT_CHARGES[values.vat].percent;
-    if (values.discount < netAmount) {
-      netAmount -= values.discount;
-    }
-    if (grossTotal < 0) return;
-    setFieldValue(`${name}.${index}.total`, grossTotal);
-    setFieldValue(`${name}.${index}.net_amount`, netAmount);
-  };
-  const handleChangeItem = (name, index, key, value, values, setFieldValue) => {
-    const selectedItem = itemsListOptions.filter(item => item.label === value);
-    setFieldValue(`${name}.${index}.price`, selectedItem[0].price);
-    const newValues = {
-      ...values,
-      price: selectedItem[0].price,
-    };
 
-    handleChangeValues(name, index, newValues, setFieldValue);
+  const purchaseItemsInputList = useMemo(
+    () => [
+      {
+        name: 'item',
+        placeholder: 'Item',
+        isSelect: true,
+        options: itemsListOptions || [],
+        width: '15%',
+        onChange: handleChangeItem,
+      },
+      {
+        name: 'quantity',
+        placeholder: 'Quanitiy',
+        type: 'number',
+        onChange: handleChangeQuantity,
+      },
+      {
+        name: 'price',
+        placeholder: 'Unit Price',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'total',
+        placeholder: 'Gross Total',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'discount',
+        placeholder: 'Discount',
+        type: 'number',
+        onChange: handleChangeDiscount,
+      },
+      {
+        name: 'vat',
+        placeholder: 'VAT',
+        isSelect: true,
+        options: VAT_CHARGES,
+        width: '15%',
+        onChange: hanldeVATChange,
+      },
+      {
+        name: 'net_amount',
+        placeholder: 'Net Amount',
+        type: 'number',
+        disabled: true,
+      },
+    ],
+    [itemsListOptions]
+  );
+
+  const handleAddDocument = (setFieldValue, file = null) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        setFieldValue('pur_order_docs[0].doc_file', reader.result);
+        setFieldValue('pur_order_docs[0].doc_type', file.type);
+        setFieldValue('pur_order_docs[0].doc_name', file.name);
+        setFieldValue('pur_order_docs[0].doc_size_bytes', file.size);
+      };
+    } else {
+      setFieldValue('pur_order_docs[0].doc_file', '');
+      setFieldValue('pur_order_docs[0].doc_type', '');
+      setFieldValue('pur_order_docs[0].doc_name', '');
+      setFieldValue('pur_order_docs[0].doc_size_bytes', '');
+    }
   };
-  const handleChangeQuantity = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, quantity: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const hanldeVATChange = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, vat: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const handleChangeDiscount = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, discount: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
+  const { initialValues, setInitialValues } = usePurchaseOrderInitialValues(id);
+  useEffect(() => {
+    if (!id) {
+      setInitialValues({
+        ...initialValues,
+        pur_order_num: latestPurchaseOrder?.data?.latest_num ? latestPurchaseOrder.data.latest_num + 1 : 1,
+      });
+    }
+  }, [latestPurchaseOrder]);
+
+  if (itemsListResponse.isLoading) {
+    return <Loader />;
+  }
   return (
     <Card>
       <CardContent>
         <FormHeader title="Purchase Order" />
         <Formik
           enableReinitialize
-          initialValues={initialValues}
+          initialValues={{
+            ...initialValues,
+          }}
           // validationSchema={bankFormValidationSchema}
-          onSubmit={async values => {
-            console.log(values, 'values');
+          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+            let response = null;
+            const calculatedValue = handleCalculateTotalAmount(values.pur_order_items);
+            const purchaseOrderItems = values.pur_order_items.map(item => ({
+              service_type: item.name && item.name.length > 0 ? item.name : item.item,
+              currency: 1,
+              num_units: item.units,
+              num_nights: item.quantity,
+              unit_price_ex_vat: item.price,
+              gross_amount: item.total,
+              discount: item.discount,
+              vat_amount: item.vat_amount.toFixed(2) ? item.vat_amount.toFixed(2) : item.vat_amount,
+              vat_rate: item.vat_rate,
+              net_amount: item.net_amount,
+            }));
+
+            const payload = {
+              ...values,
+              pur_order_items: [...purchaseOrderItems],
+              without_change_amount_total: calculatedValue.without_change_amount_total,
+              without_change_vat_total: calculatedValue.without_change_vat_total,
+              without_change_grand_total: calculatedValue.without_change_grand_total,
+              without_change_discount_total: calculatedValue.without_change_discount_total,
+            };
+            if (id) {
+              response = await editPurchaseOrder({ id, payload });
+            } else {
+              response = await addPurchaseOrder(payload);
+            }
+            setSubmitting(false);
+            if (response.data) {
+              resetForm(initialValues);
+              navigate(-1);
+            }
+            if (response.error) {
+              setErrors(response.error.data);
+            }
           }}
         >
           {({
+            // values,
             isSubmitting,
             touched,
-
+            setFieldValue,
             // setFieldTouched,
             resetForm,
           }) => (
             <Form className="form form--horizontal mt-3 row">
               {/* Purchase */}
-              {/* <div className="form__form-group col-md-6">
+              <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Po Number</span>
                 <div className="form__form-group-field ">
                   <div className="form__form-group-icon cursor-pointer">
                     {' '}
                     <TagIcon />
                   </div>
-                  <FormikModernField
-                    name="purchase_order_number"
-                    type="text"
-                    disabled
-                    placeholder="Purchase Order Number"
-                  />
+                  <FormikModernField name="pur_order_num" placeholder="Purchase Order Number" disabled />
                 </div>
-              </div> */}
+              </div>
               {/* date */}
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Date</span>
@@ -144,7 +208,7 @@ function AddPurchaseOrder() {
                   <div className="form__form-group-icon cursor-pointer">
                     <CalendarMonthIcon />
                   </div>
-                  <FormikDatePicker name="date" type="text" placeholder="Date" />
+                  <FormikDatePicker name="date" type="text" placeholder="Date" displayFormat="yyyy-MM-dd" />
                 </div>
               </div>
 
@@ -171,11 +235,22 @@ function AddPurchaseOrder() {
                   <div className="form__form-group-icon cursor-pointer">
                     <AttachFileIcon />
                   </div>
-                  <FormikModernField name="attachment" type="file" placeholder="Attachment" />
+                  <FormikModernField
+                    name="attachment"
+                    type="file"
+                    placeholder="Attachment"
+                    onChange={files => {
+                      if (files.length > 0) {
+                        handleAddDocument(setFieldValue, files[0]);
+                      } else {
+                        handleAddDocument(setFieldValue);
+                      }
+                    }}
+                  />
                 </div>
               </div>
               {/* Location */}
-              <div className="form__form-group">
+              <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Location</span>
                 <div className="form__form-group-field ">
                   <FormikModernField name="location" type="text" placeholder="Location" />
@@ -189,63 +264,8 @@ function AddPurchaseOrder() {
                   render={props => (
                     <PurchaseItem
                       name="pur_order_items"
-                      inputList={[
-                        {
-                          name: 'item',
-                          placeholder: 'Item',
-                          isSelect: true,
-                          options: itemsListOptions,
-                          width: '15%',
-                          onChange: handleChangeItem,
-                        },
-                        {
-                          name: 'quantity',
-                          placeholder: 'Quanitiy',
-                          type: 'number',
-                          onChange: handleChangeQuantity,
-                        },
-                        {
-                          name: 'price',
-                          placeholder: 'Unit Price',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'total',
-                          placeholder: 'Gross Total',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'discount',
-                          placeholder: 'Discount',
-                          type: 'number',
-                          onChange: handleChangeDiscount,
-                        },
-                        {
-                          name: 'vat',
-                          placeholder: 'VAT',
-                          isSelect: true,
-                          options: VAT_CHARGES,
-                          width: '15%',
-                          onChange: hanldeVATChange,
-                        },
-                        {
-                          name: 'net_amount',
-                          placeholder: 'Net Amount',
-                          type: 'number',
-                          disabled: true,
-                        },
-                      ]}
-                      newList={{
-                        item: '',
-                        quantity: 0,
-                        price: 0,
-                        total: 0,
-                        discount: 0,
-                        vat: 0,
-                        net_amount: 0,
-                      }}
+                      inputList={purchaseItemsInputList}
+                      newList={NEW_PURCHASE_ITEM_OBJECT}
                       {...props}
                     />
                   )}

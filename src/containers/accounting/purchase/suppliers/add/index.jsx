@@ -1,19 +1,19 @@
-/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
 import LanguageIcon from '@mui/icons-material/Language';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import FormHeader from 'shared/components/form-header/FormHeader';
 import { FieldArray, Form, Formik } from 'formik';
+import { useNavigate, useParams } from 'react-router';
+
+// COMPONENTS & UTILIITES
+import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import FormTabs from 'shared/components/tabs/FormTabs';
 import { CheckBoxField } from 'shared/components/form/CheckBox';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
-import moment from 'moment';
-import { useNavigate, useParams } from 'react-router';
 import {
   useAddSupplierMutation,
   useEditSupplierMutation,
@@ -21,67 +21,16 @@ import {
   useGetSingleSupplierQuery,
 } from 'services/private/suppliers';
 import { useGetBankAccountsListQuery } from 'services/private/banking';
-import copyFetchedValues from 'utilities/copyFetchedValues';
+import ContactInfo from 'shared/components/form/ContactInfo';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import { supplierFormTabsList } from '../utils/constants';
 import CreditTermsRadioButtons from './components/CreditTermsRadioButtons';
-// import ImportantAgentRadioButtons from './components/ImportantAgentRadioButtons';
-
 import 'styles/form.scss';
-import ContactInfo from '../../../../../shared/components/form/ContactInfo';
+import { supplierInitialValues } from '../utils/constant';
 
 function SupplierAddPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [supplierFormInitialValues, setSupplierFormInitialValues] = useState({
-    supplier_name: '',
-    website: '',
-    notes: '',
-    bank_name: '',
-    contact_person: '',
-    email: '',
-    reference_num: '',
-    account_number: '',
-    IBAN: '',
-    swift_code: '',
-    mobile_num: '',
-    bank_branch: '',
-    bank_country: '',
-    limit: 1,
-    tax_treatment: '',
-    trn: '',
-    source_of_supply: '',
-    currency: 'AED',
-    currency_id: '',
-    opening_balance: 0,
-    is_credit: 'true',
-    opening_balance_date: moment().format('YYYY-MM-DD'),
-    exchange_rate: 1,
-    payment_terms: 'Net 0',
-    bill_addr_street_one: '',
-    bill_addr_country: '',
-    bill_addr_city: '',
-    bill_addr_state: '',
-    bill_addr_zipcode: '',
-    ship_addr_street_one: '',
-    ship_addr_country: '',
-    ship_addr_city: '',
-    ship_addr_state: '',
-    ship_addr_zipcode: '',
-    remarks: '',
-    supplier_contacts: [],
-    vat_number: '',
-    comments_on_transactions: '',
-    address_line1: '',
-    address_line2: '',
-    latitude: '',
-    longitude: '',
-    city: '',
-    set_credit_limit: false,
-    set_credit_terms: false,
-    days_after_invoice: 0,
-    is_import_agent: false,
-    is_reverse_charge: false,
-  });
   const [activeTab, setActiveTab] = useState(supplierFormTabsList[0]);
   const countriesListResponse = useGetAllCountriesListQuery();
   const bankAccountResponse = useGetBankAccountsListQuery();
@@ -89,31 +38,41 @@ function SupplierAddPage() {
 
   const [addSupplier] = useAddSupplierMutation();
   const [editSupplier] = useEditSupplierMutation();
+  const { initialValues: supplierFormInitialValues, setInitialValues } = useInitialValues(
+    supplierInitialValues,
+    useGetSingleSupplierQuery
+  );
 
-  if (id) {
-    const supplierDetail = useGetSingleSupplierQuery(id);
-    useEffect(() => {
-      if (supplierDetail.isSuccess) {
-        setSupplierFormInitialValues({
-          ...supplierFormInitialValues,
-          ...copyFetchedValues(supplierFormInitialValues, supplierDetail.data),
-          account_payee: supplierDetail.data.supplier_name,
-          account_default: supplierDetail.data.account_default?.toString() || '',
-          country: supplierDetail.data.country?.toString() || '',
-          credit_limit: supplierDetail.data.set_credit_limit || false,
-          credit_terms: supplierDetail.data.set_credit_terms || false,
-        });
-      }
-    }, [supplierDetail]);
-  }
+  useEffect(() => {
+    if (supplierFormInitialValues.set_credit_limit) {
+      setInitialValues({ ...supplierFormInitialValues, credit_limit: true });
+    }
+    if (supplierFormInitialValues.set_credit_terms) {
+      setInitialValues({ ...supplierFormInitialValues, credit_terms: true });
+    }
+  }, [supplierFormInitialValues]);
+
   const countryOptions = countriesListResponse?.data?.data?.map(country => ({
-    value: `${country.iso2}`,
+    value: `${country.country}`,
     label: country.country,
   }));
   const bankAccountOptions = bankAccountResponse?.data?.results?.map(account => ({
-    value: `${account.chart_of_account}`,
+    value: account.chart_of_account.toString(),
     label: account.bank_account_name,
+    swift_code: account.swift_code,
+    bank_name: account.bank_name,
+    account_number: account.account_number,
+    IBAN: account.IBAN,
   }));
+
+  const handleChangeBank = (setFieldValue, value) => {
+    const selectedBank = bankAccountOptions.filter(account => value === account.value)[0];
+    setFieldValue('swift_code', selectedBank.swift_code);
+    setFieldValue('bank_name', selectedBank.bank_name);
+    setFieldValue('account_number', selectedBank.account_number);
+    setFieldValue('IBAN', selectedBank.IBAN);
+  };
+
   return (
     <Card>
       <CardContent>
@@ -135,7 +94,7 @@ function SupplierAddPage() {
 
               response = await addSupplier(payload);
             }
-            console.log(response, 'response');
+            setSubmitting(false);
             if (response.data) {
               navigate(-1);
             } else {
@@ -163,6 +122,7 @@ function SupplierAddPage() {
                   />
                 </div>
               </div>
+
               {/* Refrence */}
               <div className="form__form-group col-md-6">
                 <span className="form__form-group-label col-lg-3 required">Refrence</span>
@@ -297,13 +257,16 @@ function SupplierAddPage() {
 
                     <div
                       disabled={!values?.credit_terms}
+                      // style={{
+                      //   pointerEvents: values?.credit_terms
+                      // }}
                       style={
                         values?.credit_terms
                           ? { pointerEvents: 'auto', opacity: 1 }
                           : {
-                              pointerEvents: 'none',
-                              opacity: 0.2,
-                            }
+                            pointerEvents: 'none',
+                            opacity: 0.2,
+                          }
                       }
                       className="form__form-group-field"
                     >
@@ -378,13 +341,18 @@ function SupplierAddPage() {
                       />
                     </div>
                   </div>
-                  {/* Swift Code */}
                   <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2">Swift Code</span>
+                    <span className="form__form-group-label col-lg-2">Account Default</span>
                     <div className="form__form-group-field">
-                      <FormikModernField name="swift_code" type="number" placeholder="Swift Code" />
+                      <FormikModernSelect
+                        options={bankAccountOptions}
+                        name="account_default"
+                        placeholder="Account Default"
+                        onChange={value => handleChangeBank(setFieldValue, value)}
+                      />
                     </div>
                   </div>
+
                   {/* IBAN */}
                   <div className="form__form-group col-md-6">
                     <span className="form__form-group-label col-lg-2 required">IBAN</span>
@@ -411,15 +379,11 @@ function SupplierAddPage() {
                   {/* Account Detail,Vat Reverse and radio Button */}
                   <div className="form__form-group col-md-6 row p-0 m-0">
                     <span className="form__form-group-label col-lg-2" />
-
+                    {/* Swift Code */}
                     <div className="form__form-group ">
-                      <span className="form__form-group-label col-lg-2">Account Default</span>
+                      <span className="form__form-group-label col-lg-2">Swift Code</span>
                       <div className="form__form-group-field">
-                        <FormikModernSelect
-                          options={bankAccountOptions}
-                          name="account_default"
-                          placeholder="Account Default"
-                        />
+                        <FormikModernField name="swift_code" type="number" placeholder="Swift Code" />
                       </div>
                     </div>
                     <div className="form__form-group ">
@@ -485,6 +449,7 @@ function SupplierAddPage() {
                   <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
                     Save
                   </Button>
+
                   <Button
                     type="button"
                     disabled={!touched || isSubmitting}

@@ -5,14 +5,24 @@ import SupplierOverviewAccordionWrapper from './SupplierOverviewAccordionWrapper
 function SupplierAddress({ address }) {
   return (
     <SupplierOverviewAccordionWrapper title="Address">
-      <div className="row">
-        <p className="item-overview-value">{address}</p>
-      </div>
+      {address.map(item => (
+        <div className="row justify-content-center align-items-center mb-3">
+          <div className="col-5">
+            <h5 className="supplier-overview-title">{item.label}</h5>
+          </div>
+          <div className="col-7">
+            <p className="supplier-overview-value">{item.value}</p>
+          </div>
+        </div>
+      ))}
     </SupplierOverviewAccordionWrapper>
   );
 }
 SupplierAddress.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.array,
+};
+SupplierAddress.defaultProps = {
+  address: [],
 };
 
 export default SupplierAddress;

@@ -1,18 +1,51 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import MuiTable from 'shared/components/table/MuiTable';
+import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
+import MuiTable from 'shared/components/table/MuiTable';
 import { useLocation, useNavigate } from 'react-router';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
-import { useGetPurchaseInvoiceListQuery } from 'services/private/purchase-invoice';
+import {
+  useDeletePurchaseInvoceMutation,
+  useGetPurchaseInvoiceListQuery,
+} from 'services/private/purchase-invoice';
 import { purchaseInvoiceHeadCells } from '../utils/head-cells';
 
 function SupplierCreditListing() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const location = useLocation();
   const purchaseInvoiceResponse = useGetPurchaseInvoiceListQuery(
     getsearchQueryOffsetAndLimitParams(location)
   );
+  const [deleteInvoice] = useDeletePurchaseInvoceMutation();
+  const deleteSingleItem = async id => {
+    await deleteInvoice(id);
+    // if (deleteItemResp.data) {
+    enqueueSnackbar('Invoice Deleted Successfully', { variant: 'success' });
+    // } else {
+    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    // }
+  };
+  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message = 'You cannot delete these items because some of the selected items is used in transactions';
+    let actionButton = false;
+
+    message = 'Are you sure you want to delete?';
+    actionButton = true;
+
+    setOpenInfoPopup({
+      ...openInfoPopup,
+      status: true,
+      message,
+      actionButton,
+    });
+  };
+  const handleConfirmDelete = list => {
+    list.forEach(id => {
+      deleteSingleItem(id);
+    });
+  };
   return (
     <>
       <Helmet>
@@ -37,9 +70,8 @@ function SupplierCreditListing() {
             handleClick: () => navigate('add'),
           },
         ]}
-        // handleEdit={handleEdit}
-        // handleDelete={handleDelete}
-        // handleConfirmDelete={handleConfirmDelete}
+        handleDelete={handleDelete}
+        handleConfirmDelete={handleConfirmDelete}
       />
       {/* )} */}
     </>

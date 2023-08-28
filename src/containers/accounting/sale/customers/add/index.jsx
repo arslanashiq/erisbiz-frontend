@@ -72,10 +72,7 @@ function AddCustomer() {
     is_import_agent: false,
     is_reverse_charge: false,
   });
-  const handleCopyValue = (values, setFieldValue) => {
-    console.log(values, 'valuesvalues');
-    setFieldValue();
-  };
+  const handleCopyValue = () => {};
   console.log(setInitialValues, 'setSupplierFormInitialValues');
   return (
     <Card>
@@ -84,9 +81,8 @@ function AddCustomer() {
         <Formik
           enableReinitialize
           initialValues={initialValues}
-          onSubmit={async values => {
-            console.log(values, 'values');
-          }}
+          // onSubmit={async values => {
+          // }}
         >
           {({ values, isSubmitting, errors, touched, resetForm, setFieldValue }) => (
             <Form className="form form--horizontal row pt-3">

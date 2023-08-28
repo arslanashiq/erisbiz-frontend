@@ -1,68 +1,33 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Form, Formik } from 'formik';
-import { itemStatusOptions, itemTypes } from 'utilities/constants';
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import CategoryIcon from '@mui/icons-material/Category';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { Button, Card, CardContent, IconButton, Stack, Tooltip } from '@mui/material';
+import Loader from 'shared/components/loader/Loader';
+import { useNavigate, useParams } from 'react-router';
+import CategoryIcon from '@mui/icons-material/Category';
+import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
+import { useGetBrandsListQuery } from 'services/private/brands';
+import FormHeader from 'shared/components/form-header/FormHeader';
+import FormikFileInput from 'shared/components/form/FormikFileInput';
+import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
-import { useNavigate, useParams } from 'react-router';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
-import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useAddItemMutation, useEditItemMutation, useGetSingleItemQuery } from 'services/private/items';
-import copyFetchedValues from 'utilities/copyFetchedValues';
-import FormHeader from 'shared/components/form-header/FormHeader';
-import Loader from 'shared/components/loader/Loader';
-import { useGetBrandsListQuery } from 'services/private/brands';
-import FormikFileInput from 'shared/components/form/FormikFileInput';
+import { Button, Card, CardContent, IconButton, Stack, Tooltip } from '@mui/material';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import { itemsInitialValues } from '../utils/constants';
 import 'styles/form.scss';
-import { convertURLToFile } from 'utilities/helpers';
 
 function AddItemPage() {
-  const [itemFormInitialValues, setItemFormInitialValues] = useState({
-    item_name: '',
-    sku_hs_code: '',
-    sale_price: '',
-    cost_price: '',
-    item_type: 'Goods',
-    is_active: 'true',
-    account_no: '',
-    bar_code: '',
-    unit: 'kg',
-    recorder: '',
-    description: '',
-    // item_image: '',
-    part_number: '',
-    supplier: '',
-    brand: '',
-
-    current_value: 0.0,
-    sale_account_label: 'Cash in Bank -  MCB AED',
-    cost_account_label: 'Cash in Bank -  MCB AED',
-    inventory_coa_label: 'Cash in Bank -  MCB AED',
-    is_digital_service: false,
-    item_sale_amount_prefix: 'AED',
-    sale_description: null,
-    item_cost_amount_prefix: 'AED',
-    cost_description: null,
-    is_tracking_inventory: false,
-    opening_stock: 0.0,
-    opening_stock_per_unit: 0.0,
-    dynamic_opening_stock: 0.0,
-    dynamic_opening_stock_per_unit: 0.0,
-  });
   const navigate = useNavigate();
   const { id } = useParams();
-
   const bankApiResponse = useGetBankAccountsListQuery();
   const supplierApiResponse = useGetSuppliersListQuery();
   const brandsApiResponse = useGetBrandsListQuery();
-  const itemDetailResponse = id ? useGetSingleItemQuery(id) : '';
-
+  const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
   const [addItem] = useAddItemMutation();
   const [editItem] = useEditItemMutation();
   const suppliersOptions = supplierApiResponse?.data?.results?.map(supplier => ({
@@ -70,33 +35,13 @@ function AddItemPage() {
     label: supplier.supplier_name,
   }));
   const bankOptions = bankApiResponse?.data?.results?.map(bank => ({
-    value: `${bank.id}`,
+    value: `${bank.chart_of_account}`,
     label: bank.IBAN,
   }));
   const brandsOptions = brandsApiResponse?.data?.results?.map(brand => ({
     value: `${brand.uid}`,
     label: brand.brand_name,
   }));
-  const setResponseToInitialValues = async () => {
-    if (id && itemDetailResponse.isSuccess) {
-      let itemImageFile = null;
-      if (itemDetailResponse.data.item_image) {
-        itemImageFile = await convertURLToFile(itemDetailResponse.data.item_image);
-      }
-      setItemFormInitialValues({
-        ...itemFormInitialValues,
-        ...copyFetchedValues(itemFormInitialValues, itemDetailResponse.data),
-        item_type: itemDetailResponse.data.item_type.toString(),
-        is_active: itemDetailResponse.data.is_active.toString(),
-        supplier: itemDetailResponse.data.supplier.toString(),
-        account_no: itemDetailResponse.data.account_no.toString(),
-        item_image: itemImageFile,
-      });
-    }
-  };
-  useEffect(() => {
-    setResponseToInitialValues();
-  }, [itemDetailResponse]);
   if (bankApiResponse.isLoading || supplierApiResponse.isLoading || brandsApiResponse.isLoading) {
     return <Loader />;
   }
@@ -107,32 +52,32 @@ function AddItemPage() {
         <FormHeader title="Item Master" />
         <Formik
           enableReinitialize
-          initialValues={itemFormInitialValues}
+          initialValues={initialValues}
           // validationSchema={itemFormValidationSchema}
           onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
             try {
               let response = null;
               const formData = new FormData();
-              Object.keys(itemFormInitialValues).forEach(key => {
+              Object.keys(initialValues).forEach(key => {
                 formData.append(key, values[key]);
               });
+              formData.append('item_image', values.item_image);
               formData.append('sale_account', values.account_no);
               formData.append('cost_account', values.account_no);
               formData.append('inventory_coa', values.account_no);
+              const postData = { item_image: values.item_image };
 
               if (id) {
-                response = await editItem({ id, formData });
+                response = await editItem({ id, formData, postData });
               } else {
                 response = await addItem(formData);
               }
-              console.log(response);
+              setSubmitting(false);
               if (response.data) {
-                setSubmitting(false);
-                resetForm(itemFormInitialValues);
+                resetForm(initialValues);
                 navigate(-1);
               }
               if (response.error) {
-                setSubmitting(false);
                 setErrors(response.error.data);
               }
             } catch (err) {
@@ -188,7 +133,7 @@ function AddItemPage() {
                     <CategoryIcon />
                   </div>
 
-                  <FormikModernSelect name="item_type" type="text" options={itemTypes} />
+                  <FormikModernSelect name="item_type" type="text" options={ITEM_TYPES} />
                 </div>
               </div>
               {/* Item Status */}
@@ -198,7 +143,7 @@ function AddItemPage() {
                   <div className="form__form-group-icon cursor-pointer">
                     <CheckCircleOutlineIcon />
                   </div>
-                  <FormikModernSelect name="is_active" type="text" options={itemStatusOptions} />
+                  <FormikModernSelect name="is_active" type="text" options={ITEM_STATUS_OOPTIONS} />
                 </div>
               </div>
 
@@ -276,7 +221,7 @@ function AddItemPage() {
                     <FormikModernSelect placeholder="Select Brand" name="brand" options={brandsOptions} />
 
                     <Tooltip title="Add Brand" placement="top" arrow>
-                      <div
+                      <Stack
                         className="form__form-group-icon-button"
                         onClick={() => {
                           navigate('/pages/accounting/brands/add');
@@ -285,7 +230,7 @@ function AddItemPage() {
                         <IconButton>
                           <AddBoxIcon />
                         </IconButton>
-                      </div>
+                      </Stack>
                     </Tooltip>
                   </div>
                 </div>
@@ -301,7 +246,7 @@ function AddItemPage() {
 
                 <Button
                   color="secondary"
-                  onClick={() => resetForm(itemFormInitialValues)}
+                  onClick={() => resetForm(initialValues)}
                   disabled={!touched || isSubmitting}
                   className="text-capitalize"
                 >

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Form, Formik } from 'formik';
 import { Button, Card, CardContent, Stack } from '@mui/material';
@@ -14,6 +14,9 @@ import FormHeader from 'shared/components/form-header/FormHeader';
 import 'styles/form.scss';
 import { bankFormValidationSchema } from 'containers/accounting/items/utils/validationSchema';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import { bankingInitialValues } from '../utils/constants';
+// import useBankingInitialValues from '../utils/custom-hooks/useBankingInitialValues';
 
 function AddBankAccountPage() {
   const { id } = useParams();
@@ -21,27 +24,7 @@ function AddBankAccountPage() {
 
   const [addBankAccount] = useAddBankAccountMutation();
   const [editBankAccount] = useEditBankAccountMutation();
-
-  const [initialValues, setInitialValues] = useState({
-    bank_name: '',
-    account_number: '',
-    branch_name: '',
-    IBAN: '',
-    swift_code: '',
-    gl_number: '',
-    notes: '',
-
-    // extra
-  });
-  if (id) {
-    const singleBankAccount = useGetSingleBankAccountQuery(id);
-    useEffect(() => {
-      if (id && singleBankAccount.isSuccess) {
-        setInitialValues({ ...singleBankAccount?.data });
-      }
-    }, [id, singleBankAccount]);
-  }
-
+  const { initialValues } = useInitialValues(bankingInitialValues, useGetSingleBankAccountQuery);
   return (
     <Card>
       <CardContent>
@@ -58,12 +41,11 @@ function AddBankAccountPage() {
               } else {
                 response = await addBankAccount(values);
               }
+              setSubmitting(false);
               if (response.data) {
-                setSubmitting(false);
                 navigate(-1);
               }
               if (response.error) {
-                setSubmitting(false);
                 setErrors(response.error.data);
               }
             } catch (err) {

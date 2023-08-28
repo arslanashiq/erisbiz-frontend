@@ -2,7 +2,7 @@
 
 export const purchaseOrderHeadCells = [
   {
-    id: 'pur_order_date',
+    id: 'date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -23,6 +23,7 @@ export const purchaseOrderHeadCells = [
     disablePadding: false,
     label: 'Purchase Order Number',
     align: 'center',
+    isLink: true,
   },
 
   {

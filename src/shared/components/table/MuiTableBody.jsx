@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 /* eslint-disable function-paren-newline */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-confusing-arrow */
@@ -5,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
 
@@ -18,6 +19,8 @@ function MuiTableBody({
   actionButtonKey,
   handleTableBodyButtonAction,
   customRows,
+  customActionButton,
+  hoverEffect,
 }) {
   const handlegetCellStyle = (cell, value) => {
     if (cell && cell.style) {
@@ -32,24 +35,37 @@ function MuiTableBody({
     return '';
   };
 
+  const getValue = (row, cell) => {
+    let value = '';
+    if (cell.mergeCell) {
+      value = 'AED ';
+    }
+    value += cell.date ? moment(row[cell.id]).format(DATE_FORMAT) : row[cell.id];
+
+    return value;
+  };
   const renderCellValue = (row, cell) => {
+    // for null or undefined values
+    if (row[cell.id] === null || row[cell.id] === undefined) {
+      return '-';
+    }
+    // for custom actions based on values values
     if (cell.cellValueAction) {
       return cell.cellValueAction(row[cell.id]);
     }
-    return row[cell.id] === true || row[cell.id] === false ? (
-      row[cell.id] === true ? (
-        'Activated'
-      ) : (
-        'Deactivated'
-      )
-    ) : cell.isLink ? (
+
+    // to show active status
+    if (typeof row[cell.id] === 'boolean') {
+      return row[cell.id] ? 'Activated' : 'Inactive';
+    }
+
+    // simple value
+    return cell.isLink ? (
       <Link className="text-decoration-none" to={`${window.location.pathname}/${row.id}/detail`}>
-        {row[cell.id]}
+        {getValue(row, cell)}
       </Link>
-    ) : cell.date ? (
-      moment(`${row[cell.id] || '-'}`).format(DATE_FORMAT)
     ) : (
-      `${row[cell.id] || '-'}`
+      getValue(row, cell)
     );
   };
 
@@ -75,7 +91,7 @@ function MuiTableBody({
         const labelId = `enhanced-table-checkbox-${id}`;
         return (
           <TableRow
-            hover
+            hover={hoverEffect}
             role="checkbox"
             // onClick={event => {
             //   if (showCheckbox) handleClick(event, row.id);
@@ -119,6 +135,20 @@ function MuiTableBody({
               </TableCell>
             ))}
 
+            {/* Action Button */}
+            {customActionButton &&
+              customActionButton.map(btn => (
+                <TableCell
+                  component="th"
+                  id={labelId}
+                  scope="row"
+                  padding="normal"
+                  align="center"
+                  style={{ fontSize: '0.80rem' }}
+                >
+                  <Box onClick={() => btn.handleClick(row.id)}>{btn.element}</Box>
+                </TableCell>
+              ))}
             {/* Action Button */}
             {actionButtonKey && (
               <TableCell
@@ -175,6 +205,8 @@ MuiTableBody.propTypes = {
   handleTableBodyButtonAction: PropTypes.func,
   actionButtonKey: PropTypes.string,
   customRows: PropTypes.array,
+  customActionButton: PropTypes.array,
+  hoverEffect: PropTypes.bool,
 };
 MuiTableBody.defaultProps = {
   dataList: [],
@@ -182,5 +214,7 @@ MuiTableBody.defaultProps = {
   actionButtonKey: '',
   handleTableBodyButtonAction: () => {},
   customRows: null,
+  customActionButton: null,
+  hoverEffect: true,
 };
 export default MuiTableBody;

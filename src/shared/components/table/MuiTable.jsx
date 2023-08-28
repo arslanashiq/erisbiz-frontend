@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable react/jsx-curly-newline */
 /* eslint-disable no-unreachable */
 // /* eslint-disable implicit-arrow-linebreak */
@@ -33,6 +34,8 @@ export default function MuiTable({
   filterButton,
   totalDataCount,
   customRows,
+  customActionButton,
+  hoverEffect,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -148,9 +151,11 @@ export default function MuiTable({
           numSelected={selected.length}
           TableHeading={TableHeading}
           otherOptions={otherOptions}
-          handleEditSelection={() =>
-            handleEdit(data, selected, openInfoPopup, setOpenInfoPopup) || handleEditSelectedData()
-          }
+          handleEditSelection={() => {
+            handleEdit
+              ? handleEdit(data, selected, openInfoPopup, setOpenInfoPopup)
+              : handleEditSelectedData();
+          }}
           handleClearSelection={handleClearSelection}
           handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
         />
@@ -168,6 +173,7 @@ export default function MuiTable({
               onRequestSort={handleRequestSort}
               rowCount={data.length}
               actionButtonKey={actionButtonKey}
+              customActionButton={customActionButton}
             />
             <MuiTableBody
               showCheckbox={showCheckbox}
@@ -178,6 +184,8 @@ export default function MuiTable({
               actionButtonKey={actionButtonKey}
               handleTableBodyButtonAction={handleTableBodyActionButton}
               customRows={customRows}
+              customActionButton={customActionButton}
+              hoverEffect={hoverEffect}
             />
           </Table>
         </TableContainer>
@@ -211,6 +219,8 @@ MuiTable.propTypes = {
   totalDataCount: PropTypes.number,
   // tableHeight: PropTypes.string,
   customRows: PropTypes.array,
+  customActionButton: PropTypes.array,
+  hoverEffect: PropTypes.bool,
 };
 MuiTable.defaultProps = {
   data: null,
@@ -221,9 +231,11 @@ MuiTable.defaultProps = {
   otherOptions: [],
   handleDelete: () => {},
   handleConfirmDelete: () => {},
-  handleEdit: () => {},
+  handleEdit: null,
   filterButton: null,
   totalDataCount: ROWS_PER_PAGE,
   // tableHeight: '65vh',
   customRows: null,
+  customActionButton: null,
+  hoverEffect: true,
 };

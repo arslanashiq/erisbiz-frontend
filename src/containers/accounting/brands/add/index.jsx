@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import { Formik, Form } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
 import { useAddBrandMutation, useEditBrandMutation, useGetSingleBrandQuery } from 'services/private/brands';
@@ -9,28 +9,22 @@ import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikModernField from 'shared/components/form/FormikModernField';
 import FormikModernSelect from 'shared/components/form/FormikModernSelect';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import 'styles/form.scss';
+import { brandInitialValue } from '../utils/constants';
 
 function AddBrand() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [initialValues, setInitialValues] = useState({ brand_name: '', brand_region: '' });
   const countriesResponse = useGetAllCountriesListQuery();
   const [addBrand] = useAddBrandMutation();
   const [editBrand] = useEditBrandMutation();
+  const { initialValues } = useInitialValues(brandInitialValue, useGetSingleBrandQuery);
   const brandsRegionOptions = countriesResponse?.data?.data?.map(country => ({
-    value: `${country.iso2}`,
+    value: country.iso2,
     label: country.country,
   }));
 
-  if (id) {
-    const singleBrandResponse = useGetSingleBrandQuery(id);
-    useEffect(() => {
-      if (id && singleBrandResponse.isSuccess) {
-        setInitialValues({ ...singleBrandResponse?.data });
-      }
-    }, [id, singleBrandResponse]);
-  }
   return (
     <>
       <Helmet>
@@ -52,12 +46,11 @@ function AddBrand() {
                 } else {
                   response = await addBrand(values);
                 }
+                setSubmitting(false);
                 if (response.data) {
-                  setSubmitting(false);
                   navigate(-1);
                 }
                 if (response.error) {
-                  setSubmitting(false);
                   setErrors(response.error.data);
                 }
               } catch (err) {

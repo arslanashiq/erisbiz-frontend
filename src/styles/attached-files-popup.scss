@@ -1,0 +1,46 @@
+@import './variables.scss';
+
+.topbar__collapse {
+  position: relative;
+  display: none;
+
+  &.topbar__collapse--language {
+    min-width: 70px;
+    display: block;
+
+    & > button {
+      padding: 0 4px;
+      width: 100%;
+    }
+  }
+
+  @media screen and (min-width: 568px) {
+    display: block;
+  }
+}
+
+.topbar__collapse-content {
+  width: 270px;
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  transform: translateY(100%);
+  box-shadow: 0 10px 25px 0 rgba(33, 36, 50, 0.13);
+  z-index: 101;
+
+  background: $background-color;
+  &.topbar__collapse-content--language {
+    max-width: 70px;
+    padding: 10px 0;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    left: 50%;
+    transform: translate(-50%, 100%);
+  }
+
+  @media screen and (min-width: 520px) {
+    width: 330px;
+  }
+}

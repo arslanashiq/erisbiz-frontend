@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { ROWS_PER_PAGE } from './constants';
 
 // General
@@ -25,6 +26,15 @@ export const getsearchQueryOffsetAndLimitParams = location => {
   query = { ...limit };
   return query;
 };
+export const handlePersonlizedFilterString = values => {
+  let filter = '';
+  Object.keys(values).forEach(key => {
+    if (values[key]) {
+      filter += `${key}=${values[key]}&`;
+    }
+  });
+  return filter;
+};
 
 // Items
 export const getItemStatusAndType = search => {
@@ -47,3 +57,6 @@ export const getItemSearchQueryParams = location => {
   query = { ...filters, ...limit };
   return query;
 };
+
+// Suppliers
+export const getSupplierSearchQueryParams = location => location.search;

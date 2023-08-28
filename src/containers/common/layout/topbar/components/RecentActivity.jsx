@@ -64,7 +64,7 @@ function RecentActivity() {
                 </Stack>
               </MenuItem>
             ))}
-          {recentActivity.length === 0 && (
+          {recentActivity?.data?.results?.length === 0 && (
             <MenuItem disabled className="recent-activity-menu-list">
               <Typography className="recent-activity-menu-list-title">No activity found</Typography>
             </MenuItem>

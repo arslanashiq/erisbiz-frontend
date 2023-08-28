@@ -25,7 +25,9 @@ function FilterDrawer({ open, setOpen, children }) {
         </Stack>
         <Divider sx={{ height: 3, backgroundColor: 'black', marginBottom: 2 }} />
 
-        <Box sx={{ padding: '0px 10px 10px 10px' }}>{children}</Box>
+        <Box component="div" className="container">
+          {children}
+        </Box>
       </Box>
     </Drawer>
   );

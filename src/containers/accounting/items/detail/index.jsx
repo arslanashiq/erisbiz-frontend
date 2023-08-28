@@ -21,7 +21,7 @@ function ItemDetail() {
 
   const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const [popup, setPopup] = React.useState({
     open: false,
     message: '',
@@ -30,9 +30,6 @@ function ItemDetail() {
   const itemDetailResponse = useGetSingleItemQuery(id);
   const [handleDeleteItem] = useDeleteItemMutation();
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const handleClosePopup = () => {
     setPopup({
       ...popup,
@@ -54,7 +51,6 @@ function ItemDetail() {
     },
   ];
   const handleClickEdit = () => {
-    handleClose();
     if (itemDetail.is_active) {
       setPopup({ ...popup, open: true, message: 'Item is Active please Deactivate it first' });
     } else if (itemDetail.is_item_used) {
@@ -62,7 +58,6 @@ function ItemDetail() {
     } else navigate('/pages/accounting/items/edit/243');
   };
   const handleClickDelete = () => {
-    handleClose();
     if (itemDetail.is_active) {
       setPopup({ ...popup, open: true, message: 'Item is Active please Deactivate it first' });
     } else if (itemDetail.is_item_used) {
@@ -106,8 +101,6 @@ function ItemDetail() {
         <Typography className="item-name-wrapper">{itemDetail?.item_name}</Typography>
         <Stack direction="row" spacing={2}>
           <ActionMenu
-            anchorEl={anchorEl}
-            setAnchorEl={setAnchorEl}
             actionsList={[
               { label: 'Edit', handleClick: handleClickEdit },
               { label: 'Delete', handleClick: handleClickDelete },

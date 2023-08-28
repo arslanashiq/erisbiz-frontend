@@ -19,6 +19,18 @@
   }
 }
 
+.custom-box {
+  padding: 10px;
+  width: 100%;
+  margin: 0 auto;
+  border: 0.1px solid $primary-color;
+  border-left: 5px solid $primary-color;
+
+  svg {
+    color: $primary-color;
+  }
+}
+
 // <=======================common Styles===============================>
 // colors
 .color-primary {

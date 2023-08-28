@@ -1,14 +1,16 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { getMenuState } from 'utilities/helpers';
 import Sidebar from './sidebar';
 import TopBar from './topbar';
 
 function Layout() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+
   const handleToggleDrawer = () => {
     setOpen(!open);
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     sessionStorage.setItem('menu-state', open);
   }, [open]);
 

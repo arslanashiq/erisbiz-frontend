@@ -15,7 +15,7 @@ export const itemsHeadCell = [
     align: 'right',
   },
   {
-    id: 'sale_description',
+    id: 'description',
     numeric: true,
     disablePadding: false,
     label: 'Description',

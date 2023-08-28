@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -39,11 +40,11 @@ function LogInForm() {
           password: values.password,
         };
         try {
-          const resp = await adminLogin(payload);
+          const response = await adminLogin(payload);
           setSubmitting(false);
-          if (resp.data) {
-            await dispatch(setUser({ user: resp.data, isAuthenticated: true }));
-            localStorage.setItem('token', resp.data.token);
+          if (response.data) {
+            await dispatch(setUser({ user: response.data, isAuthenticated: true }));
+            localStorage.setItem('token', response.data.token);
             setTimeout(() => {
               if (sessionStorage.getItem('lastUrl')) {
                 navigate(sessionStorage.getItem('lastUrl'));
@@ -53,12 +54,12 @@ function LogInForm() {
             }, 10);
           }
 
-          if (resp.error) {
-            if (resp.error.data.non_field_errors) {
-              enqueueSnackbar(resp.error.data.non_field_errors[0], { variant: 'error' });
+          if (response.error) {
+            if (response.error.data.non_field_errors) {
+              enqueueSnackbar(response.error.data.non_field_errors[0], { variant: 'error' });
             } else {
               setSubmitting(false);
-              setErrors(resp.error.data);
+              setErrors(response.error.data);
             }
           }
         } catch (error) {

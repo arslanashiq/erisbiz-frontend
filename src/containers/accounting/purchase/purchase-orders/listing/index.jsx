@@ -1,16 +1,52 @@
+/* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
 import { useLocation, useNavigate } from 'react-router';
-import { useGetPurchaseOrdersListQuery } from 'services/private/purchase-orders';
-import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import {
+  useDeletePurchaseOrderMutation,
+  useGetPurchaseOrdersListQuery,
+} from 'services/private/purchase-orders';
+import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
+import { useSnackbar } from 'notistack';
 import { purchaseOrderHeadCells } from '../utils/head-cells';
+import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utils/constants';
 
 function PurchaseOrderListing() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const location = useLocation();
-  const purchaseOrdersResponse = useGetPurchaseOrdersListQuery(getsearchQueryOffsetAndLimitParams(location));
+  const purchaseOrdersResponse = useGetPurchaseOrdersListQuery(location.search);
+  const [deletePurchaseOrder] = useDeletePurchaseOrderMutation();
+
+  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message = 'You cannot delete these items because some of the selected items is used in transactions';
+    let actionButton = false;
+
+    message = 'Are you sure you want to delete?';
+    actionButton = true;
+
+    setOpenInfoPopup({
+      ...openInfoPopup,
+      status: true,
+      message,
+      actionButton,
+    });
+  };
+  const deleteSingleItem = async id => {
+    await deletePurchaseOrder(id);
+    // if (deleteItemResp.data) {
+    enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
+    // } else {
+    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    // }
+  };
+  const handleConfirmDelete = list => {
+    list.forEach(id => {
+      deleteSingleItem(id);
+    });
+  };
   return (
     <>
       <Helmet>
@@ -36,8 +72,14 @@ function PurchaseOrderListing() {
           },
         ]}
         // handleEdit={handleEdit}
-        // handleDelete={handleDelete}
-        // handleConfirmDelete={handleConfirmDelete}
+        handleDelete={handleDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        filterButton={
+          <PersonlizedFilter
+            filterInitialValues={purchaseOrderFilterInitialValues}
+            filtersList={purchaseOrderFiltersOptionsList}
+          />
+        }
       />
       {/* )} */}
     </>

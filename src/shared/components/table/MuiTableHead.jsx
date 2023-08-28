@@ -15,6 +15,7 @@ function MuiTableHead(props) {
     onRequestSort,
     showCheckbox,
     actionButtonKey,
+    customActionButton,
   } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
@@ -65,6 +66,12 @@ function MuiTableHead(props) {
             Actions
           </TableCell>
         )}
+        {customActionButton &&
+          customActionButton.map(btn => (
+            <TableCell key="Action-Button" align="center" padding="normal" sx={{ fontWeight: 'bold' }}>
+              {btn.title}
+            </TableCell>
+          ))}
       </TableRow>
     </TableHead>
   );
@@ -80,10 +87,12 @@ MuiTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
   showCheckbox: PropTypes.bool,
   actionButtonKey: PropTypes.string,
+  customActionButton: PropTypes.array,
 };
 
 MuiTableHead.defaultProps = {
   actionButtonKey: '',
   showCheckbox: false,
+  customActionButton: null,
 };
 export default MuiTableHead;

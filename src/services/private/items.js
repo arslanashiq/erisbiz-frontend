@@ -4,7 +4,7 @@ const itemApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getItemsList: builder.query({
       query: (params = {}) => ({
-        url: 'api/accounting/list/items',
+        url: 'api/accounting/items/',
         params: {
           limit: params.limit,
           offset: params.offset || 0,
@@ -20,6 +20,11 @@ const itemApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
+      invalidatesTags: ['getItemsList'],
+    }),
+    getSingleItem: builder.query({
+      query: id => ({ url: `api/accounting/items/${id}/`, method: 'GET' }),
+      providesTags: ['getSingleItem'],
     }),
     editItem: builder.mutation({
       query: ({ id, payload }) => ({
@@ -27,17 +32,16 @@ const itemApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
+      invalidatesTags: ['getItemsList'],
     }),
     changeItemStatus: builder.mutation({
       query: id => ({
         url: `/api/accounting/items/${id}/status`,
         method: 'GET',
       }),
-      invalidatesTags: ['getItemsList'],
+      invalidatesTags: ['getSingleItem', 'getItemsList'],
     }),
-    getSingleItem: builder.query({
-      query: id => ({ url: `api/accounting/items/${id}/`, method: 'GET' }),
-    }),
+
     deleteItem: builder.mutation({
       query: id => ({ url: `/api/accounting/items/${id}/`, method: 'DELETE' }),
       invalidatesTags: ['getItemsList'],

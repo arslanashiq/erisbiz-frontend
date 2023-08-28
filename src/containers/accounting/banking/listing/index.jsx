@@ -44,12 +44,12 @@ function BankListing() {
     });
   };
   const deleteSingleBank = async id => {
-    const deleteResponse = await deletBank(id);
-    if (deleteResponse.data) {
-      enqueueSnackbar('Bank Deleted Successfully', { variant: 'success' });
-    } else {
-      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    }
+    await deletBank(id);
+    // if (deleteResponse.data) {
+    enqueueSnackbar('Bank Deleted Successfully', { variant: 'success' });
+    // } else {
+    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    // }
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {

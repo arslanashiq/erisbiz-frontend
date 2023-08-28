@@ -5,6 +5,12 @@ import { Button, Card, CardContent, Stack } from '@mui/material';
 import { useGetItemsListQuery } from 'services/private/items';
 import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import {
+  handleChangeDiscount,
+  handleChangeItem,
+  handleChangeQuantity,
+  hanldeVATChange,
+} from 'shared/components/purchase-item/utils/helpers';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikModernField from 'shared/components/form/FormikModernField';
@@ -85,40 +91,7 @@ function AddSupplierCredit() {
     label: item.item_name,
     price: index + 1,
   }));
-  console.log(itemsListOptions, 'itemsListOptions');
 
-  const handleChangeValues = (name, index, values, setFieldValue) => {
-    const grossTotal = values.price * values.quantity;
-    let netAmount = grossTotal + (grossTotal / 100) * VAT_CHARGES[values.vat].percent;
-    if (values.discount < netAmount) {
-      netAmount -= values.discount;
-    }
-    if (grossTotal < 0) return;
-    setFieldValue(`${name}.${index}.total`, grossTotal);
-    setFieldValue(`${name}.${index}.net_amount`, netAmount);
-  };
-  const handleChangeItem = (name, index, key, value, values, setFieldValue) => {
-    const selectedItem = itemsListOptions.filter(item => item.label === value);
-    setFieldValue(`${name}.${index}.price`, selectedItem[0].price);
-    const newValues = {
-      ...values,
-      price: selectedItem[0].price,
-    };
-
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const handleChangeQuantity = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, quantity: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const hanldeVATChange = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, vat: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
-  const handleChangeDiscount = (name, index, key, value, values, setFieldValue) => {
-    const newValues = { ...values, discount: value };
-    handleChangeValues(name, index, newValues, setFieldValue);
-  };
   return (
     <Card>
       <CardContent>
@@ -128,7 +101,6 @@ function AddSupplierCredit() {
           initialValues={initialValues}
           // validationSchema={bankFormValidationSchema}
           //   onSubmit={async values => {
-          //     console.log(values);
           //   }}
         >
           {({

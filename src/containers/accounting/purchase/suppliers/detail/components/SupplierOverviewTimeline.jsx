@@ -1,6 +1,8 @@
 /* eslint-disable  */
 
 import * as React from 'react';
+import PropTypes from 'prop-types';
+
 import {
   Timeline,
   TimelineItem,
@@ -210,12 +212,12 @@ const activityLogs = [
     supplier: 1489,
   },
 ];
-export default function SupplierOverviewTimeline() {
+export default function SupplierOverviewTimeline({ supplierActivity }) {
   return (
     <Grid>
       <div className="timeline mx-auto">
-        {activityLogs &&
-          activityLogs.map(item => (
+        {supplierActivity &&
+          supplierActivity.map(item => (
             <div className="timeline__item">
               <TimeLineIcon type="comments" />
 
@@ -232,3 +234,9 @@ export default function SupplierOverviewTimeline() {
     </Grid>
   );
 }
+SupplierOverviewTimeline.propTypes = {
+  supplierActivity: PropTypes.array,
+};
+SupplierOverviewTimeline.defaultProps = {
+  supplierActivity: [],
+};

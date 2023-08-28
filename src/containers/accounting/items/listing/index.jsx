@@ -23,14 +23,6 @@ function ItemsListing() {
   const [ChangeItemStatus] = useChangeItemStatusMutation();
   const [deleteItem] = useDeleteItemMutation();
 
-  const deleteSingleItem = async id => {
-    const deleteItemResp = await deleteItem(id);
-    if (deleteItemResp.data) {
-      enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
-    } else {
-      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    }
-  };
   const handleChangeItemStatus = async id => {
     const chageStatusResp = await ChangeItemStatus(id);
     if (chageStatusResp.data) {
@@ -50,6 +42,14 @@ function ItemsListing() {
       });
     } else {
       navigate(`edit/${selected[0]}`);
+    }
+  };
+  const deleteSingleItem = async id => {
+    const deleteItemResp = await deleteItem(id);
+    if (deleteItemResp.data) {
+      enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
+    } else {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
     }
   };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {

@@ -37,7 +37,7 @@ function ItemFilter() {
       {({ isSubmitting, resetForm, setFieldValue, setFieldTouched, values, touched, errors }) => (
         <Form className="form personlized-search-form row pt-3">
           <div className="form__form-group">
-            <span className="form__form-group-label">Password</span>
+            <span className="form__form-group-label">Items</span>
             <div className="form__form-group-field">
               <GroupedOptionsFormikSelect
                 name="filter"

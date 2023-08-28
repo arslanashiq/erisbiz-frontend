@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const BankingHeadCells = [
   {
     id: 'bank_account_name',

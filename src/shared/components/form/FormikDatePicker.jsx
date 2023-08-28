@@ -25,7 +25,7 @@ function DatePickerField({
 }) {
   const handleChange = (date, e) => {
     e.preventDefault();
-    if (date && moment(date).isValid()) onChange(name, moment(date).format('YYYY/MM/DD'));
+    if (date && moment(date).isValid()) onChange(name, moment(date).format('yyyy-MM-DD'));
     else onChange(name, null);
   };
 
@@ -81,13 +81,13 @@ DatePickerField.defaultProps = {
   id: '',
   touched: false,
   error: '',
-  value: moment().format('YYYY/MM/DD'),
+  value: moment().format('YYYY-MM-DD'),
   minDate: '',
   maxDate: '',
   excludeDates: [],
   highlightDates: [],
   disabled: false,
-  displayFormat: 'yyyy/MM/dd',
+  displayFormat: 'yyyy-mm-dd',
 };
 
 function FormikDatePicker(props) {
