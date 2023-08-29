@@ -64,33 +64,14 @@ function usePurchaseOrderInitialValues(id) {
             vat_rate: item.vat_rate,
           }));
         }
-        if (file) {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => {
-            setInitialValues({
-              ...initialValues,
-              ...purchaseOrderDetailResponse.data,
-              ...copyFetchedValues(initialValues, purchaseOrderDetailResponse.data),
-              supplier_id: purchaseOrderDetailResponse.data.supplier_id.toString(),
-              pur_order_items: [...purchaseOrderItems],
-              attachment: null,
 
-              location: purchaseOrderDetailResponse.data.location,
-              pur_order_docs: [
-                { ...purchaseOrderDetailResponse.data.pur_order_docs[0], doc_file: reader.result },
-              ],
-            });
-          };
-        } else {
-          setInitialValues({
-            ...initialValues,
-            ...copyFetchedValues(initialValues, purchaseOrderDetailResponse.data),
-            supplier_id: purchaseOrderDetailResponse.data.supplier_id.toString(),
-            attachment: null,
-            pur_order_items: [...purchaseOrderItems],
-          });
-        }
+        setInitialValues({
+          ...initialValues,
+          ...copyFetchedValues(initialValues, purchaseOrderDetailResponse.data),
+          supplier_id: purchaseOrderDetailResponse.data.supplier_id.toString(),
+          attachment: file,
+          pur_order_items: [...purchaseOrderItems],
+        });
       }
     };
 

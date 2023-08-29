@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import FormikField from 'shared/components/form/FormikField';
@@ -27,7 +28,7 @@ import {
   handleChangeQuantity,
   hanldeVATChange,
 } from 'shared/components/purchase-item/utilities/helpers';
-import { useNavigate, useParams } from 'react-router';
+import FormikFileField from 'shared/components/form/FormikFileField';
 import usePurchaseOrderInitialValues from '../utilities/custom-hooks/usePurchaseOrderInitialValues';
 
 function AddPurchaseOrder() {
@@ -216,7 +217,7 @@ function AddPurchaseOrder() {
 
                 {/* Attackment */}
 
-                <FormikField
+                <FormikFileField
                   name="attachment"
                   type="file"
                   placeholder="Attachment"
