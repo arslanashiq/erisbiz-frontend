@@ -1,5 +1,4 @@
-import * as React from 'react';
-// import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,10 +7,10 @@ import ArticleIcon from '@mui/icons-material/Article';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PersonIcon from '@mui/icons-material/Person';
 import { useGetRecentActivityQuery } from 'services/private/user';
-import 'styles/recent-activity.scss';
+import 'styles/topbar/recent-activity.scss';
 
 function RecentActivity() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

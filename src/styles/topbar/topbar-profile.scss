@@ -1,0 +1,50 @@
+@import '../variables.scss';
+
+.topbar-profile {
+  height: 100%;
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  border-radius: 0;
+  border: none;
+  transition: all 0.3s;
+  box-shadow: none;
+  padding: 0px 15px;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+
+  .topbar-profile-name {
+    color: black;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 500;
+    margin-left: 10px;
+  }
+}
+.topbar-profile-menu {
+  width: 160px;
+
+  .topbar-profile-menu-item {
+    border-left: 2px solid $background-color;
+  }
+  .topbar-profile-menu-item:hover {
+    border-left: 2px solid $primary-color;
+  }
+  .topbar-profile-menu-item-link {
+    text-decoration: none;
+    color: $heading-color;
+  }
+  .topbar-profile-menu-item-icon {
+    color: $sub-heading-color;
+  }
+  .topbar-profile-menu-item-option {
+    font-size: 14px;
+    line-height: 16px;
+  }
+}
+.topbar__icon {
+  margin-left: 8px;
+  height: 18px;
+  fill: #b1c3c8;
+}

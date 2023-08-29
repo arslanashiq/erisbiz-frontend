@@ -4,7 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useField, useFormikContext } from 'formik';
-import 'styles/check-box.scss';
+import 'styles/form/check-box.scss';
 
 function CheckBoxField({
   name,
@@ -15,6 +15,7 @@ function CheckBoxField({
   label,
   onChange,
   onBlur,
+  paentClass,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
@@ -43,7 +44,7 @@ function CheckBoxField({
   }, [defaultChecked]);
 
   return (
-    <div>
+    <div className={`form__form-group-field ${paentClass}`}>
       <label className={`${CheckboxClass} ${className ? ` checkbox-btn--${className}` : ''}`} htmlFor={name}>
         <input
           className="checkbox-btn__checkbox"
@@ -87,8 +88,10 @@ CheckBoxField.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   color: PropTypes.string,
+  paentClass: PropTypes.string,
 };
 CheckBoxField.defaultProps = {
+  paentClass: 'form__form-group-field',
   label: '',
   defaultChecked: false,
   disabled: false,

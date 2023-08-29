@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Children } from 'react';
 import { Collapse } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
@@ -15,7 +15,7 @@ function SidebarCategory(props) {
 
   const handleCollapse = () => {
     let hasActiveChild = false;
-    React.Children.toArray(children)
+    Children.toArray(children)
       .filter(Boolean)
       .forEach(item => {
         // Check if any of its child' route matches
@@ -32,7 +32,7 @@ function SidebarCategory(props) {
   };
 
   const iterateChildren = () => {
-    React.Children.toArray(children)
+    Children.toArray(children)
       .filter(Boolean)
       .forEach(item => {
         if (item.props.children) {

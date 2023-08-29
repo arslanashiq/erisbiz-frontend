@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Stack } from '@mui/material';
-import 'styles/form-tabs.scss';
+import 'styles/form/form-tabs.scss';
 
 function FormTabs({ tabsList, activeTab, setActiveTab, className }) {
   return (

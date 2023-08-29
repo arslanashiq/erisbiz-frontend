@@ -1,19 +1,19 @@
 import React from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import { useSnackbar } from 'notistack';
+import { Helmet } from 'react-helmet';
+import { useLocation, useNavigate } from 'react-router';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+import MuiTable from 'shared/components/table/MuiTable';
 import {
   useChangeItemStatusMutation,
   useDeleteItemMutation,
   useGetItemsListQuery,
 } from 'services/private/items';
-import MuiTable from 'shared/components/table/MuiTable';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
-import { Helmet } from 'react-helmet';
-import 'styles/mui.scss';
-import { useSnackbar } from 'notistack';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import { itemsHeadCell } from '../utils/head-cells';
 import ItemFilter from './components/ItemFilter';
+import { itemsHeadCell } from '../utilities/head-cells';
 
 function ItemsListing() {
   const location = useLocation();
@@ -83,7 +83,7 @@ function ItemsListing() {
     });
   };
   return (
-    <>
+    <SectionLoader options={[itemsListResponse]}>
       <Helmet>
         <title>Items - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
@@ -112,7 +112,7 @@ function ItemsListing() {
         handleConfirmDelete={handleConfirmDelete}
         filterButton={<ItemFilter />}
       />
-    </>
+    </SectionLoader>
   );
 }
 

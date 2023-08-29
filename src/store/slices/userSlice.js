@@ -12,18 +12,26 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, actions) => {
+    setUser: (
+      state,
+      {
+        payload: {
+          isAuthenticated,
+          user: { email, groups, profile },
+        },
+      }
+    ) => {
       const newData = {
         ...state,
-        email: actions.payload.user.email,
-        groups: actions.payload.user.groups,
-        profile: actions.payload.user.profile,
-        isAuthenticated: actions.payload.isAuthenticated,
+        email,
+        groups,
+        profile,
+        isAuthenticated,
       };
       return newData;
     },
-    isUserAuthenticated: (state, actions) => {
-      const newData = { ...state, isAuthenticated: actions.payload.isAuthenticated };
+    isUserAuthenticated: (state, { payload: { isAuthenticated } }) => {
+      const newData = { ...state, isAuthenticated };
       return newData;
     },
   },

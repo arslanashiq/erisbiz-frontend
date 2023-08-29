@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { Button, Card, CardContent, Stack, Tooltip, Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import Loader from 'shared/components/loader/Loader';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 import PrintIcon from '@mui/icons-material/Print';
 import {
   useChangePurchaseOrderStatusToIssuedMutation,
@@ -32,7 +32,17 @@ function PurchaseOrderDetail() {
   });
   const purchaseOrderResponse = useGetSinglePurchaseOrderQuery(id);
   const [deletePurchaseOrder] = useDeletePurchaseOrderMutation();
-
+  const handleClose = () => {
+    setOpenPopup({ ...openPopup, open: false });
+  };
+  const handleDeletePurchaseOrder = async () => {
+    await deletePurchaseOrder(id);
+    enqueueSnackbar('Purchase Order Deleted', { variant: 'success' });
+    navigate('/pages/accounting/purchase/purchase-orders');
+  };
+  const handleOpenPdfPrintModal = () => {
+    setIsPrintModalOpen(true);
+  };
   const purchaseOrderActionList = useMemo(
     () => [
       {
@@ -50,17 +60,7 @@ function PurchaseOrderDetail() {
     ],
     []
   );
-  const handleClose = () => {
-    setOpenPopup({ ...openPopup, open: false });
-  };
-  const handleDeletePurchaseOrder = async () => {
-    await deletePurchaseOrder(id);
-    enqueueSnackbar('Purchase Order Deleted', { variant: 'success' });
-    navigate('/pages/accounting/purchase/purchase-orders');
-  };
-  const handleOpenPdfPrintModal = () => {
-    setIsPrintModalOpen(true);
-  };
+
   const orderInfo = useMemo(
     () => ({
       type: 'Purchase Order',
@@ -73,12 +73,9 @@ function PurchaseOrderDetail() {
     [purchaseOrderResponse]
   );
   const { actionLoading, handleDownload } = usePdfView(orderInfo, purchaseOrderResponse.data, keyValue);
-  if (purchaseOrderResponse.isLoading) {
-    return <Loader />;
-  }
 
   return (
-    <div>
+    <SectionLoader options={[purchaseOrderResponse.isLoading]}>
       <InfoPopup
         open={openPopup.open}
         showActionButton
@@ -125,7 +122,7 @@ function PurchaseOrderDetail() {
           />
         </CardContent>
       </Card>
-    </div>
+    </SectionLoader>
   );
 }
 

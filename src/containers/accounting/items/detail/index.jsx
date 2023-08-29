@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-expressions */
-import React from 'react';
+import React, { useState } from 'react';
+import moment from 'moment';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import InfoPopup from 'shared/modals/InfoPopup';
@@ -8,21 +8,20 @@ import { Button, Card, Stack, Typography } from '@mui/material';
 import { useDeleteItemMutation, useGetSingleItemQuery } from 'services/private/items';
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
-import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
-import Loader from 'shared/components/loader/Loader';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 import ItemOverViewTab from './components/ItemOverViewTab';
 import ItemTransactionsTab from './components/ItemTransactionsTab';
-import 'styles/item-detail.scss';
+import 'styles/items/item-detail.scss';
 
 function ItemDetail() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = React.useState(0);
+  const [activeTab, setActiveTab] = useState(0);
 
   const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
 
-  const [popup, setPopup] = React.useState({
+  const [popup, setPopup] = useState({
     open: false,
     message: '',
     actionButton: false,
@@ -37,17 +36,14 @@ function ItemDetail() {
     });
   };
 
-  if (itemDetailResponse.isLoading) {
-    return <Loader />;
-  }
   const itemDetail = itemDetailResponse?.data;
   const customItemDetail = [
-    { label: 'Item Type', value: itemDetail.item_type },
-    { label: 'Creation Data', value: moment(itemDetail.created_at).format(DATE_FORMAT) },
+    { label: 'Item Type', value: itemDetail?.item_type },
+    { label: 'Creation Data', value: moment(itemDetail?.created_at).format(DATE_FORMAT) },
     {
       label: 'Item Status',
-      value: itemDetail.is_active ? 'Activated' : 'Deactivated',
-      className: itemDetail.is_active ? 'color-success' : 'color-danger',
+      value: itemDetail?.is_active ? 'Activated' : 'Deactivated',
+      className: itemDetail?.is_active ? 'color-success' : 'color-danger',
     },
   ];
   const handleClickEdit = () => {
@@ -84,8 +80,9 @@ function ItemDetail() {
       enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
     }
   };
+
   return (
-    <>
+    <SectionLoader options={[itemDetailResponse.isLoading]}>
       <Helmet>
         <title>Item Detail - ErisBiz</title>
       </Helmet>
@@ -124,12 +121,12 @@ function ItemDetail() {
           tabsList={['Overview', 'Transactions']}
         >
           {activeTab === 0 && (
-            <ItemOverViewTab itemDetail={customItemDetail} itemImage={itemDetail.item_image} />
+            <ItemOverViewTab itemDetail={customItemDetail} itemImage={itemDetail?.item_image} />
           )}
           {activeTab === 1 && <ItemTransactionsTab />}
         </DetailTabsWrapper>
       </Card>
-    </>
+    </SectionLoader>
   );
 }
 

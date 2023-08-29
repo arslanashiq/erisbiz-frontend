@@ -1,25 +1,30 @@
-/* eslint-disable prefer-arrow-callback */
-import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
+import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, Stack, Table, TableBody, TableCell, TableRow, Tooltip } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import { useNavigate, useParams } from 'react-router';
+import {
+  IconButton,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Tooltip,
+  Slide,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate, useParams } from 'react-router';
 import { useDeleteBankMutation } from 'services/private/banking';
-import { useSnackbar } from 'notistack';
 import InfoPopup from 'shared/modals/InfoPopup';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
+const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
 
 function BankDetailPopup({ open, setOpen, bankDetail }) {
-  const [infoPopup, setInfoPopup] = React.useState({
+  const [infoPopup, setInfoPopup] = useState({
     open: false,
     infoDescription: 'Active banks cannot be deleted. Please inactive them first in order to delete',
 

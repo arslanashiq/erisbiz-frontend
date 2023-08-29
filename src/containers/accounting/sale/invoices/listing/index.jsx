@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
 import { useDeleteInvoiceMutation, useGetInvoicesListQuery } from 'services/private/invoices';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import { invoiceHeadCell } from '../utils/head-cells';
+import { invoiceHeadCell } from '../utilities/head-cells';
 
 function PerformaInvoiceListing() {
   const { enqueueSnackbar } = useSnackbar();

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import KeyIcon from '@mui/icons-material/Key';
 import PersonIcon from '@mui/icons-material/Person';
 import * as Yup from 'yup';
@@ -10,8 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAdminLoginMutation } from 'services/public/auth';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'store/slices/userSlice';
-import { Button } from '@mui/material';
-import FormikModernField from 'shared/components/form/FormikModernField';
+import { Box, Button } from '@mui/material';
+import FormikField from 'shared/components/form/FormikField';
 import { useSnackbar } from 'notistack';
 
 function LogInForm() {
@@ -69,39 +70,27 @@ function LogInForm() {
     >
       {({ isSubmitting }) => (
         <Form className="form auth-form">
-          <div className="form__form-group">
-            <span className="form__form-group-label">Email</span>
-            <div className="form__form-group-field">
-              <div className="form__form-group-icon">
-                <PersonIcon />
-              </div>
-              <FormikModernField name="email" type="text" placeholder="Email" />
-            </div>
-            <ErrorMessage className="form__form-group-error" component="span" name="email" />
+          <FormikField
+            name="email"
+            type="text"
+            placeholder="Email"
+            startIcon={<PersonIcon />}
+            label="Email"
+          />
+
+          <FormikField
+            name="password"
+            type={state.showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            startIcon={<KeyIcon />}
+            label="Password"
+            endIcon={state.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            endIconClick={showPassword}
+          />
+          <div className="account__forgot-password d-flex justify-content-end">
+            <a href="/auth/forgot-password">Forgot a password?</a>
           </div>
-          <div className="form__form-group">
-            <span className="form__form-group-label">Password</span>
-            <div className="form__form-group-field">
-              <div className="form__form-group-icon">
-                <KeyIcon />
-              </div>
-              <FormikModernField
-                name="password"
-                type={state.showPassword ? 'text' : 'password'}
-                placeholder="Password"
-              />
-              <button
-                className={`form__form-group-button${state.showPassword ? ' active' : ''}`}
-                onClick={e => showPassword(e)}
-                type="button"
-              >
-                <VisibilityIcon />
-              </button>
-            </div>
-            <div className="account__forgot-password">
-              <a href="/auth/forgot-password">Forgot a password?</a>
-            </div>
-          </div>
+
           <Button
             size="large"
             type="submit"

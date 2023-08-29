@@ -1,30 +1,18 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable consistent-return */
-
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import moment from 'moment';
 import { FieldArray, Form, Formik } from 'formik';
-import { Button, Card, CardContent, Stack } from '@mui/material';
-import { useGetItemsListQuery } from 'services/private/items';
+import { Card, CardContent } from '@mui/material';
 import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import { useGetItemsListQuery } from 'services/private/items';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
-import FormikModernField from 'shared/components/form/FormikModernField';
-import FormikModernSelect from 'shared/components/form/FormikModernSelect';
-import Loader from 'shared/components/loader/Loader';
+import FormikField from 'shared/components/form/FormikField';
+import FormikSelect from 'shared/components/form/FormikSelect';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
-import {
-  handleCalculateTotalAmount,
-  handleChangeDiscount,
-  handleChangeItem,
-  handleChangeQuantity,
-  hanldeVATChange,
-} from 'shared/components/purchase-item/utils/helpers';
-import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
-import 'styles/form.scss';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
 import { useGetPurchaseOrdersListQuery } from 'services/private/purchase-orders';
 import {
@@ -32,8 +20,18 @@ import {
   useEditPurchaseInvoceMutation,
   useGetSinglePurchaseInvoiceQuery,
 } from 'services/private/purchase-invoice';
-import { useNavigate, useParams } from 'react-router';
+import {
+  handleCalculateTotalAmount,
+  handleChangeDiscount,
+  handleChangeItem,
+  handleChangeQuantity,
+  hanldeVATChange,
+} from 'shared/components/purchase-item/utilities/helpers';
 import { useGetBankAccountsListQuery } from 'services/private/banking';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
+import 'styles/form/form.scss';
 
 function AddPurchaseInvoice() {
   const navigate = useNavigate();
@@ -79,7 +77,7 @@ function AddPurchaseInvoice() {
     label: supplier.supplier_name,
     credit_account: supplier.account_default,
   }));
-  const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
+  const itemsListOptions = itemsListResponse?.data?.results?.map(item => ({
     value: item.item_name,
     label: item.item_name,
     price: item.sale_price,
@@ -145,7 +143,6 @@ function AddPurchaseInvoice() {
     const purchaseOrderAgainstSupplier = purchaseOrdersListResponse.data.results.filter(
       purchaseOrder => value === purchaseOrder.supplier_id
     );
-    const selectedSupplier = suppliersListOptions.filter(supplier => supplier.value === value)[0];
     setFieldValue('bill_items', [
       {
         item: '',
@@ -184,7 +181,7 @@ function AddPurchaseInvoice() {
     const selecteditem = purchaseOrdersListResponse.data.results.filter(
       purchaseOrder => purchaseOrder.id === value
     )[0];
-    if (!selecteditem) return;
+    if (!selecteditem) return [];
     const selectedOrderItems = selecteditem.pur_order_items.map(item => ({
       item: item.service_type,
       quantity: item.num_nights,
@@ -223,212 +220,177 @@ function AddPurchaseInvoice() {
       }
     }, [purchaseInvoiceDetail, suppliersListResponse, purchaseOrdersListResponse, itemsListResponse]);
   }
-  if (
-    suppliersListResponse.isLoading ||
-    purchaseOrdersListResponse.isLoading ||
-    itemsListResponse.isLoading
-  ) {
-    return <Loader />;
-  }
 
   return (
-    <Card>
-      <CardContent>
-        <FormHeader title="Purchase Invoice" />
-        <Formik
-          enableReinitialize
-          initialValues={initialValues}
-          // validationSchema={bankFormValidationSchema}
-          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
-            const purchaseOrderItems = values.bill_items.map(item => ({
-              service_type: item.name && item.name.length > 0 ? item.name : item.item,
-              currency: 1,
-              num_units: item.quantity,
-              num_nights: item.quantity,
-              unit_price_ex_vat: item.price,
-              gross_amount: item.total,
-              discount: item.discount || 0,
-              vat_amount: item.vat_amount.toFixed(2) ? item.vat_amount.toFixed(2) : item.vat_amount,
-              vat_rate: item.vat_rate,
-              net_amount: item.net_amount,
-            }));
-            let response = null;
-            if (id) {
-              const payload = {
-                ...values,
-                bill_items: purchaseOrderItems,
-                bill_date: values.due_date,
-                invoice_date: values.due_date,
-                bill_notes: [],
-                attachment: values.attachment_file,
-                ...handleCalculateTotalAmount(values.bill_items),
-              };
-              response = await editPurchaseInvoice({ id, payload });
-            } else {
-              const payload = {
-                ...values,
-                bill_items: purchaseOrderItems,
-                bill_date: values.due_date,
-                invoice_date: values.due_date,
-                bill_notes: [],
-                bill_num: `#${values.invoice_num}`,
-                attachment: values.attachment_file,
-                ...handleCalculateTotalAmount(values.bill_items),
-              };
-              response = await addPurchaseInvoice(payload);
-            }
-            setSubmitting(false);
-            if (response.data) {
-              resetForm(initialValues);
-              navigate(-1);
-            }
-            if (response.error) {
-              setErrors(response.error.data);
-            }
-          }}
-        >
-          {({ isSubmitting, touched, setFieldValue, resetForm }) => (
-            <Form className="form form--horizontal mt-3 row">
-              {/* Supplier */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Supplier</span>
-                <div className="form__form-group-field ">
-                  <FormikModernSelect
-                    options={suppliersListOptions}
-                    name="supplier_id"
-                    placeholder="Supplier"
-                    onChange={value => handleGetPurchaseOrderAgainstSupplier(value, setFieldValue)}
-                  />
-                </div>
-              </div>
-              {/* Purchase */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Po Number</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    {' '}
-                    <TagIcon />
-                  </div>
-                  <FormikModernSelect
-                    name="pur_order"
-                    placeholder="Purchase Order Number"
-                    options={purchaseOrdersListOptions}
-                    onChange={value => handleChangePurchaseOrderItem(value, setFieldValue)}
-                  />
-                </div>
-              </div>
-              {/* due date */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Date</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <CalendarMonthIcon />
-                  </div>
-                  <FormikDatePicker name="due_date" type="text" placeholder="Date" />
-                </div>
-              </div>
+    <SectionLoader
+      options={[
+        suppliersListResponse.isLoading,
+        purchaseOrdersListResponse.isLoading,
+        itemsListResponse.isLoading,
+      ]}
+    >
+      <Card>
+        <CardContent>
+          <FormHeader title="Purchase Invoice" />
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            // validationSchema={bankFormValidationSchema}
+            onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+              const purchaseOrderItems = values.bill_items.map(item => ({
+                service_type: item.name && item.name.length > 0 ? item.name : item.item,
+                currency: 1,
+                num_units: item.quantity,
+                num_nights: item.quantity,
+                unit_price_ex_vat: item.price,
+                gross_amount: item.total,
+                discount: item.discount || 0,
+                vat_amount: item.vat_amount.toFixed(2) ? item.vat_amount.toFixed(2) : item.vat_amount,
+                vat_rate: item.vat_rate,
+                net_amount: item.net_amount,
+              }));
+              let response = null;
+              if (id) {
+                const payload = {
+                  ...values,
+                  bill_items: purchaseOrderItems,
+                  bill_date: values.due_date,
+                  invoice_date: values.due_date,
+                  bill_notes: [],
+                  attachment: values.attachment_file,
+                  ...handleCalculateTotalAmount(values.bill_items),
+                };
+                response = await editPurchaseInvoice({ id, payload });
+              } else {
+                const payload = {
+                  ...values,
+                  bill_items: purchaseOrderItems,
+                  bill_date: values.due_date,
+                  invoice_date: values.due_date,
+                  bill_notes: [],
+                  bill_num: `#${values.invoice_num}`,
+                  attachment: values.attachment_file,
+                  ...handleCalculateTotalAmount(values.bill_items),
+                };
+                response = await addPurchaseInvoice(payload);
+              }
+              setSubmitting(false);
+              if (response.data) {
+                resetForm(initialValues);
+                navigate(-1);
+              }
+              if (response.error) {
+                setErrors(response.error.data);
+              }
+            }}
+          >
+            {({ setFieldValue }) => (
+              <Form className="form form--horizontal mt-3 row">
+                {/* Supplier */}
 
-              {/* Credit Acount */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Credit Account</span>
-                <div className="form__form-group-field ">
-                  <FormikModernSelect
-                    name="credit_account"
-                    options={bankAccountOptions}
-                    placeholder="Credit Account"
-                  />
-                </div>
-              </div>
-
-              {/* Location */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Location</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <FmdGoodIcon />
-                  </div>
-
-                  <FormikModernField name="location" type="text" placeholder="Location" />
-                </div>
-              </div>
-
-              {/* Attachment */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Attachment</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <AttachFileIcon />
-                  </div>
-                  <FormikModernField
-                    name="attachment"
-                    type="file"
-                    placeholder="Attachment"
-                    onChange={files => handlegetAttachment(files, setFieldValue)}
-                  />
-                </div>
-              </div>
-              {/* Supplier Inv Number */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Supplier Inv No</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField
-                    name="supplier_invoice_num"
-                    type="number"
-                    placeholder="Supplier Invoice Number"
-                  />
-                </div>
-              </div>
-
-              {/* Supplier Invoice */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Supplier Invo</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="invoice_num" type="number" placeholder="Supplier Invo" />
-                </div>
-              </div>
-
-              {/* Item detail */}
-              <div className="form__form-group w-100">
-                <FieldArray
-                  name="bill_items"
-                  render={props => (
-                    <PurchaseItem
-                      name="pur_order_items"
-                      inputList={purchaseItemsInputList}
-                      newList={NEW_PURCHASE_ITEM_OBJECT}
-                      {...props}
-                    />
-                  )}
+                <FormikSelect
+                  options={suppliersListOptions}
+                  name="supplier_id"
+                  placeholder="Supplier"
+                  onChange={value => handleGetPurchaseOrderAgainstSupplier(value, setFieldValue)}
+                  label="Supplier"
                 />
-              </div>
+                {/* Purchase */}
 
-              {/* Remarks */}
-              <div className="form__form-group">
-                <span className="form__form-group-label col-lg-3 required">Remarks</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="notes" textArea placeholder="Remarks" />
+                <FormikSelect
+                  name="pur_order"
+                  placeholder="Purchase Order Number"
+                  options={purchaseOrdersListOptions}
+                  onChange={value => handleChangePurchaseOrderItem(value, setFieldValue)}
+                  startIcon={<TagIcon />}
+                  label="Supplier"
+                />
+                {/* due date */}
+
+                <FormikDatePicker
+                  name="due_date"
+                  type="text"
+                  placeholder="Date"
+                  label="Date"
+                  startIcon={<CalendarMonthIcon />}
+                />
+                {/* Credit Acount */}
+
+                <FormikSelect
+                  name="credit_account"
+                  options={bankAccountOptions}
+                  placeholder="Credit Account"
+                  label="Credit Account"
+                />
+
+                {/* Location */}
+
+                <FormikField
+                  name="location"
+                  type="text"
+                  placeholder="Location"
+                  label="Location"
+                  startIcon={<FmdGoodIcon />}
+                />
+
+                {/* Attachment */}
+
+                <FormikField
+                  name="attachment"
+                  type="file"
+                  placeholder="Attachment"
+                  onChange={files => handlegetAttachment(files, setFieldValue)}
+                  label="Attachment"
+                  startIcon={<AttachFileIcon />}
+                />
+                {/* Supplier Inv Number */}
+                <FormikField
+                  name="supplier_invoice_num"
+                  type="number"
+                  placeholder="Supplier Invoice Number"
+                  label="Supplier Inv No"
+                />
+
+                {/* Supplier Invoice */}
+
+                <FormikField
+                  name="invoice_num"
+                  type="number"
+                  placeholder="Supplier Invo"
+                  label="Supplier Invo"
+                />
+
+                {/* Item detail */}
+                <div className="form__form-group w-100">
+                  <FieldArray
+                    name="bill_items"
+                    render={props => (
+                      <PurchaseItem
+                        name="pur_order_items"
+                        inputList={purchaseItemsInputList}
+                        newList={NEW_PURCHASE_ITEM_OBJECT}
+                        {...props}
+                      />
+                    )}
+                  />
                 </div>
-              </div>
 
-              <Stack spacing={2} direction="row">
-                <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                  Save
-                </Button>
+                {/* Remarks */}
+                <FormikField
+                  name="notes"
+                  textArea
+                  placeholder="Remarks"
+                  label="Remarks"
+                  className="col-12"
+                />
 
-                <Button
-                  color="secondary"
-                  onClick={() => resetForm()}
-                  disabled={!touched || isSubmitting}
-                  className="text-capitalize"
-                >
-                  Clear
-                </Button>
-              </Stack>
-            </Form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+                <FormSubmitButton />
+              </Form>
+            )}
+          </Formik>
+        </CardContent>
+      </Card>
+    </SectionLoader>
   );
 }
 

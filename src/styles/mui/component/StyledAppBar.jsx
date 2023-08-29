@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
 import { DRAWER_WIDTH } from 'utilities/constants';

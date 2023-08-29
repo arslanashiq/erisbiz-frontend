@@ -2,8 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import LogInForm from './components/LogInForm';
-import 'styles/auth-form.scss';
-import 'styles/auth-form-cards.scss';
+import 'styles/form/auth-form.scss';
+import 'styles/form/auth-form-cards.scss';
 
 function LogIn() {
   return (

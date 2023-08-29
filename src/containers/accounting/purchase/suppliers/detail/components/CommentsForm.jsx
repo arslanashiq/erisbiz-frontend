@@ -1,11 +1,11 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import FormikModernField from 'shared/components/form/FormikModernField';
+import FormikField from 'shared/components/form/FormikField';
 import { Button, Stack } from '@mui/material';
 import { useAddSupplierCommentMutation } from 'services/private/suppliers';
 import { useParams } from 'react-router';
-import 'styles/form.scss';
+import 'styles/form/form.scss';
 
 function CommentsForm() {
   const initialValues = {
@@ -41,7 +41,7 @@ function CommentsForm() {
           <Form className="form form--horizontal row pt-3">
             <div className="form__form-group">
               <div className="form__form-group-field">
-                <FormikModernField textArea name="comments" type="text" placeholder="Add Comment..." />
+                <FormikField textArea name="comments" type="text" placeholder="Add Comment..." />
               </div>
             </div>
             <div>

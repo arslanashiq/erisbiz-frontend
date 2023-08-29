@@ -1,12 +1,12 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router';
-import MuiTable from 'shared/components/table/MuiTable';
 import AddIcon from '@mui/icons-material/Add';
+import MuiTable from 'shared/components/table/MuiTable';
 import { useDeleteBrandMutation, useGetBrandsListQuery } from 'services/private/brands';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import { brandsHeadCells } from '../utils/head-cells';
+import { brandsHeadCells } from '../utilities/head-cells';
 
 function BrandsListing() {
   const navigate = useNavigate();

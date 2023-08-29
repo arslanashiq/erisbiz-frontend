@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { useParams } from 'react-router';
 import { useGetSupplierTransactionsQuery } from 'services/private/suppliers';
 import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
-import { supplierBillTransactionHeadCells } from '../../utils/head-cells';
+import { supplierBillTransactionHeadCells } from '../../utilities/head-cells';
 
 function SupplierTransactions() {
   const { id } = useParams();

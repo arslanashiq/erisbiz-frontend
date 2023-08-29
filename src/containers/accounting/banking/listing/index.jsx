@@ -2,17 +2,16 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
+import AddIcon from '@mui/icons-material/Add';
 import {
   useChangeBankAccountStatusMutation,
   useDeleteBankMutation,
   useGetBankAccountsListQuery,
 } from 'services/private/banking';
 import MuiTable from 'shared/components/table/MuiTable';
-import AddIcon from '@mui/icons-material/Add';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
-import { BankingHeadCells } from '../utils/head-cells';
-import 'styles/mui.scss';
+import { BankingHeadCells } from '../utilities/head-cells';
 
 function BankListing() {
   const { enqueueSnackbar } = useSnackbar(0);

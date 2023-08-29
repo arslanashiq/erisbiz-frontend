@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { Button, Card, Stack, Typography } from '@mui/material';
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
@@ -16,16 +16,16 @@ import SupplierOverview from './components/SupplierOverview';
 import SupplierTransactions from './components/SupplierTransactions';
 import SupplierStatement from './components/SupplierStatement';
 import SupplierComment from './components/SupplierComment';
-import 'styles/supplier-detail.scss';
-import useSupplierStatement from '../utils/custom-hooks/useSupplierStatement';
+import useSupplierStatement from '../utilities/custom-hooks/useSupplierStatement';
 import SupplierContacts from './components/SupplierContacts';
+import 'styles/suppliers/supplier-detail.scss';
 
 function SupplierDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = React.useState(0);
-  const [activityLogDuration, setActivityLogDuration] = React.useState('this fiscal year');
-  const [popup, setPopup] = React.useState({
+  const [activeTab, setActiveTab] = useState(0);
+  const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
+  const [popup, setPopup] = useState({
     open: false,
     message: '',
     actionButton: false,

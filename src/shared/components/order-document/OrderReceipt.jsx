@@ -2,8 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import 'styles/purchase-order-template.scss';
 import formatAmount from 'utilities/formatAmount';
+import 'styles/purchase-order-template/purchase-order-template.scss';
 
 function OrderReceipt({ orderDetail, orderInfo, keyValue }) {
   return (

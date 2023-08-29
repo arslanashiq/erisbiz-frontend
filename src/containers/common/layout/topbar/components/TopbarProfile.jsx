@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { useNavigate } from 'react-router';
@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from 'store/slices/userSlice';
 import { Link } from 'react-router-dom';
 import { Box, Typography, Menu, MenuItem, Avatar, Stack } from '@mui/material';
-import 'styles/topbar-profile.scss';
+import 'styles/topbar/topbar-profile.scss';
 
 const user = {
   profile: {
@@ -27,7 +27,7 @@ function TopbarProfile() {
     navigate('/auth/login');
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

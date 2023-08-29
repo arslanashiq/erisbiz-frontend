@@ -10,8 +10,8 @@ import {
 } from 'services/private/suppliers';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import FormHeader from 'shared/components/form-header/FormHeader';
-import FormikModernField from 'shared/components/form/FormikModernField';
-import 'styles/form.scss';
+import FormikField from 'shared/components/form/FormikField';
+import 'styles/form/form.scss';
 
 function AddSupplierContact() {
   const { id, supplierId } = useParams();
@@ -80,28 +80,28 @@ function AddSupplierContact() {
                 <div className="form__form-group col-md-6">
                   <span className="form__form-group-label col-lg-3 required">Name</span>
                   <div className="form__form-group-field ">
-                    <FormikModernField name="first_name" type="text" placeholder="Name" />
+                    <FormikField name="first_name" type="text" placeholder="Name" />
                   </div>
                 </div>
                 {/* Designation */}
                 <div className="form__form-group col-md-6">
                   <span className="form__form-group-label col-lg-3">Designation</span>
                   <div className="form__form-group-field ">
-                    <FormikModernField name="designation" type="text" placeholder="Designation" />
+                    <FormikField name="designation" type="text" placeholder="Designation" />
                   </div>
                 </div>
                 {/* Email */}
                 <div className="form__form-group col-md-6">
                   <span className="form__form-group-label col-lg-3">Email</span>
                   <div className="form__form-group-field ">
-                    <FormikModernField name="email" type="email" placeholder="Email" />
+                    <FormikField name="email" type="email" placeholder="Email" />
                   </div>
                 </div>
                 {/* Mobile Number */}
                 <div className="form__form-group col-md-6">
                   <span className="form__form-group-label col-lg-3">Mobile Number</span>
                   <div className="form__form-group-field ">
-                    <FormikModernField name="mobile_num" type="text" placeholder="Mobile Number" />
+                    <FormikField name="mobile_num" type="text" placeholder="Mobile Number" />
                   </div>
                 </div>
                 {/* Notes */}
@@ -109,7 +109,7 @@ function AddSupplierContact() {
                 <div className="form__form-group">
                   <span className="form__form-group-label col-lg-3">Notes</span>
                   <div className="form__form-group-field ">
-                    <FormikModernField name="notes" textArea placeholder="Notes" />
+                    <FormikField name="notes" textArea placeholder="Notes" />
                   </div>
                 </div>
 

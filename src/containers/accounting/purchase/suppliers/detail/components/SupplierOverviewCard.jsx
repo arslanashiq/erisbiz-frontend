@@ -4,7 +4,7 @@ import { Avatar, Box, Card, CardContent, Divider, Stack, Typography } from '@mui
 import { DEFAULT_IMG } from 'utilities/constants';
 import SupplierAddress from './SupplierAddress';
 import SupplierOtherInfo from './SupplierOtherInfo';
-import useSupplierDetail from '../../utils/custom-hooks/useSupplierDetail';
+import useSupplierDetail from '../../utilities/custom-hooks/useSupplierDetail';
 import SupplierContactPerson from './SupplierContactPerson';
 
 function SupplierOverviewCard({ supplierDetail }) {

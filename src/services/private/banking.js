@@ -6,11 +6,18 @@ const bankingApi = privateApi.injectEndpoints({
       query: (params = {}) => ({
         url: 'api/accounting/accountant/bankAccounts/',
         params: {
-          limit: params.limit,
           offset: params.offset,
+          limit: params.limit,
         },
       }),
       providesTags: ['getBankAccountsList'],
+    }),
+    getSingleBankAccount: builder.query({
+      query: id => ({
+        url: `api/accounting/accountant/bankAccounts/${id}/`,
+        method: 'GET',
+      }),
+      providesTags: ['getSingleBankAccount'],
     }),
     addBankAccount: builder.mutation({
       query: payload => ({
@@ -26,15 +33,7 @@ const bankingApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getBankAccountsList', 'getSingleBankAccount'],
-    }),
-
-    getSingleBankAccount: builder.query({
-      query: id => ({
-        url: `api/accounting/accountant/bankAccounts/${id}/`,
-        method: 'GET',
-      }),
-      providesTags: ['getSingleBankAccount'],
+      invalidatesTags: ['getSingleBankAccount', 'getBankAccountsList'],
     }),
 
     changeBankAccountStatus: builder.mutation({
@@ -42,7 +41,7 @@ const bankingApi = privateApi.injectEndpoints({
         url: `api/accounting/bank/account/${id}/status`,
         method: 'GET',
       }),
-      invalidatesTags: ['getBankAccountsList', 'getSingleBankAccount'],
+      invalidatesTags: ['getSingleBankAccount', 'getBankAccountsList'],
     }),
 
     getBankTransactions: builder.query({
@@ -59,6 +58,7 @@ const bankingApi = privateApi.injectEndpoints({
         url: `api/accounting/accountant/bankAccounts/${id}/`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['getBankAccountsList'],
     }),
   }),
 });

@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'formik';
-import FormikModernField from 'shared/components/form/FormikModernField';
-import { supplierPaymentInfo } from '../../utils/constants';
-import 'styles/radio-btn.scss';
+import FormikField from 'shared/components/form/FormikField';
+import { supplierPaymentInfo } from '../../utilities/constants';
+import 'styles/form/radio-btn.scss';
 
 function CreditTermsRadioButtons({ name, values, touched, errors, onChange, ...restProps }) {
   return (
     <Field name={name}>
       {({ field: { value: fieldValue, onChange: onFieldChange, ...restFieldProps } }) => (
         <div className="row p-0" key={supplierPaymentInfo[0].label}>
-          <label className="col-8 radio-btn" style={{ paddingLeft: 23 }}>
+          <label className="col-8 d-flex align-items-center radio-btn">
             <input
               className="radio-btn__radio"
               type="radio"
@@ -29,7 +29,7 @@ function CreditTermsRadioButtons({ name, values, touched, errors, onChange, ...r
           </label>
 
           <div className="col-lg-4">
-            <FormikModernField
+            <FormikField
               name="days_after_invoice"
               type="nnumber"
               placeholder="Days"
@@ -37,9 +37,10 @@ function CreditTermsRadioButtons({ name, values, touched, errors, onChange, ...r
               touched={touched.days_after_invoice}
               error={errors.days_after_invoice}
               disabled={values.set_credit_terms !== 'invoice_date'}
+              className="col-12"
             />
           </div>
-          <label className="col-12 radio-btn" style={{ paddingLeft: 23 }}>
+          <label className="col-12 d-flex align-items-center radio-btn">
             <input
               className="radio-btn__radio"
               type="radio"
@@ -56,7 +57,7 @@ function CreditTermsRadioButtons({ name, values, touched, errors, onChange, ...r
             <span className="radio-btn__radio-custom" />
             <span className="radio-btn__label">{supplierPaymentInfo[1].label}</span>
           </label>
-          <label className="col-12 radio-btn" style={{ paddingLeft: 23 }}>
+          <label className="col-12 d-flex align-items-center radio-btn">
             <input
               className="radio-btn__radio"
               type="radio"

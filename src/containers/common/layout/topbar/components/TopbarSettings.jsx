@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Tooltip, Typography, Menu, MenuItem } from '@mui/material';
-import 'styles/topbar-setting.scss';
+import 'styles/topbar/topbar-setting.scss';
 
 const settingOptions = [
   {
@@ -19,7 +19,7 @@ const settingOptions = [
   },
 ];
 function TopbarSettings() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

@@ -1,99 +1,154 @@
-import React, { Component } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-import 'styles/react-select.scss';
+import { useField, useFormikContext } from 'formik';
+import 'styles/form/react-select.scss';
 
-class FormikSelect extends Component {
-  handleChange = value => {
-    // this is going to call setFieldValue and manually update values.topics
-    const { onChange, name } = this.props;
-    onChange(name, value.value);
+const CUSTOM_BUTTON_VALUE = 'custom-menu-button';
+
+const commonStyles = {
+  menu: baseStyles => ({
+    ...baseStyles,
+    zIndex: 10,
+  }),
+  option: ({ isDisabled }) => ({
+    cursor: isDisabled ? 'not-allowed' : 'default',
+    color: isDisabled ? '#aaa !important' : '#000',
+  }),
+};
+
+const groupedStyles = {
+  groupHeading: provided => ({
+    ...provided,
+    fontSize: '12px',
+    fontWeight: 'bold',
+    color: '#000000',
+  }),
+  option: (styles, { isDisabled }) => ({
+    ...styles,
+    paddingLeft: '20px',
+    paddingTop: '5px',
+    paddingBottom: '5px',
+    fontSize: '13px',
+    cursor: isDisabled ? 'not-allowed' : 'default',
+    color: isDisabled ? '#aaa !important' : '#000',
+  }),
+};
+
+function FormikSelect({
+  name,
+  options,
+  customClass,
+  disabled,
+  onChange,
+  onBlur,
+  isGrouped,
+  isClearable,
+  onMenuCustomButtonClick,
+  menuCustomButtonLabel,
+  startIcon,
+  label,
+  className,
+  isRequired,
+  ...restProps
+}) {
+  const [field, meta] = useField(name || '');
+  const { setFieldValue, setFieldTouched } = useFormikContext();
+
+  const { value } = field;
+  const { touched, error } = meta;
+
+  const handleChange = selectedOption => {
+    // Do not change anything if custom button is clicked
+    if (selectedOption && selectedOption.value === CUSTOM_BUTTON_VALUE) return;
+
+    const fieldValue = selectedOption ? selectedOption.value : null;
+    setFieldValue(name, fieldValue);
+    if (onChange) onChange(fieldValue);
   };
 
-  handleBlur = () => {
-    // this is going to call setFieldTouched and manually update touched.topics
-    const { onBlur, name } = this.props;
-    onBlur(name, true);
+  const handleBlur = event => {
+    setFieldTouched(name, true);
+    if (onBlur) onBlur(name, event.target.value);
   };
 
-  render() {
-    const {
-      name,
-      value,
-      itemOptions,
-      touched,
-      error,
-      labelKey,
-      customClass,
-      placeholder,
-      disabled,
-      menuPosition,
-      menuPlacement,
-      menuShouldBlockScroll,
-      formatOptionLabel,
-    } = this.props;
-    return (
-      <div className={`form__form-group-input-wrap ${customClass}`} id={name}>
-        <Select
-          {...this.props}
-          id="color"
-          options={itemOptions}
-          multi
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-          value={itemOptions.filter(option => {
-            if (labelKey) {
-              return option.label === value;
-            }
-            if (typeof option.label === 'object') {
-              return false;
-            }
-            return option.value === value;
-          })}
-          placeholder={placeholder}
-          classNamePrefix="react-select"
-          isDisabled={disabled}
-          menuPosition={menuPosition}
-          menuPlacement={menuPlacement}
-          menuShouldBlockScroll={menuShouldBlockScroll}
-          formatOptionLabel={formatOptionLabel}
-          disabled={disabled}
-        />
-        {touched && error && <span className="form__form-group-error">{error}</span>}
+  const allOptions = isGrouped ? options.map(item => item.options).flatMap(item => item) : [...options];
+  const selectedOption = allOptions.find(option => option.value === value);
+
+  const modifiedOptions = useMemo(() => [...options]);
+
+  return (
+    <div className={`form__form-group ${className}`}>
+      {label && (
+        <span className={`form__form-group-label col-lg-3 ${isRequired ? 'required' : ''}`}>{label}</span>
+      )}
+      <div className="form__form-group-field">
+        {startIcon && <div className="form__form-group-icon cursor-pointer">{startIcon}</div>}
+        <div className={`form__form-group-input-wrap ${customClass}`} id={name}>
+          <Select
+            {...restProps}
+            id="select"
+            options={modifiedOptions}
+            multi
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={selectedOption || null}
+            classNamePrefix="react-select"
+            isDisabled={disabled}
+            disabled={disabled}
+            isClearable={isClearable}
+            styles={{ ...commonStyles, ...(isGrouped ? groupedStyles : {}) }}
+          />
+          {touched && error && <span className="form__form-group-error">{error}</span>}
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 FormikSelect.propTypes = {
-  itemOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  touched: PropTypes.bool,
-  labelKey: PropTypes.bool,
-  error: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.object),
   customClass: PropTypes.string,
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   menuPosition: PropTypes.string,
   menuPlacement: PropTypes.string,
   menuShouldBlockScroll: PropTypes.bool,
+  components: PropTypes.object,
+  isGrouped: PropTypes.bool,
+  isClearable: PropTypes.bool,
   formatOptionLabel: PropTypes.func,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  onMenuCustomButtonClick: PropTypes.func,
+  menuCustomButtonLabel: PropTypes.string,
+  startIcon: PropTypes.element,
+  label: PropTypes.string,
+  className: PropTypes.string,
+  isRequired: PropTypes.bool,
 };
 
 FormikSelect.defaultProps = {
-  labelKey: false,
-  touched: false,
-  error: null,
-  customClass: null,
-  placeholder: null,
+  options: [],
+  customClass: '',
+  placeholder: '',
   disabled: false,
   menuPosition: 'fixed',
   menuPlacement: 'auto',
   menuShouldBlockScroll: false,
+  components: undefined,
+  isGrouped: false,
+  isClearable: false,
   formatOptionLabel: null,
+  className: 'col-md-6',
+  isRequired: false,
+  onChange: () => {},
+  onBlur: () => {},
+  onMenuCustomButtonClick: null,
+  menuCustomButtonLabel: 'Add New',
+  startIcon: null,
+  label: '',
 };
 
 export default FormikSelect;

@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Layout from 'containers/common/layout';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import GlobalLoader from 'containers/common/loaders/GlobalLoader';
 import PrivateRoutes from './PrivateRoutes';
 import PublicRoutes from './PublicRoutes';
 
@@ -75,22 +75,12 @@ const CreditNotesListingPage = lazy(() => import('containers/accounting/sale/cre
 const AddCreditNotePage = lazy(() => import('containers/accounting/sale/credit-notes/add'));
 
 // Page Not Found
-const PageNotFound = lazy(() => import('containers/page-not-found'));
+const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
 
 function AppRoutes() {
   return (
     <BrowserRouter>
-      <Suspense
-        fallback={(
-          <div className="load">
-            <div className="load__icon-wrap">
-              <svg className="load__icon">
-                <path fill="#e0c46cde" d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z" />
-              </svg>
-            </div>
-          </div>
-        )}
-      >
+      <Suspense fallback={<GlobalLoader />}>
         <Routes>
           <Route path="/">
             <Route path="auth" element={<PublicRoutes />}>
@@ -100,147 +90,120 @@ function AppRoutes() {
             </Route>
 
             <Route path="/" element={<PrivateRoutes />}>
-              <Route path="/" element={<Layout />}>
-                <Route path="/" element={<DashboardPage />} />
-                {/* Reports */}
-                <Route path="/pages/reports" element={<ReportsListPage />} />
+              <Route path="/" element={<DashboardPage />} />
+              {/* Reports */}
+              <Route path="/pages" element={<Outlet />}>
+                <Route path="reports" element={<ReportsListPage />} />
+                <Route path="accounting" element={<Outlet />}>
+                  {/* Banking Master */}
+                  <Route path="banking" element={<Outlet />}>
+                    <Route path="" index element={<BankListing />} />
+                    <Route path="add" element={<AddBankPage />} />
+                    <Route path="edit/:id" element={<AddBankPage />} />
+                    <Route path=":id/detail" element={<BankDetailPage />} />
+                  </Route>
 
-                {/* Banking Master */}
-                <Route path="/pages/accounting/banking/add" element={<AddBankPage />} />
-                <Route path="/pages/accounting/banking/edit/:id" element={<AddBankPage />} />
-                <Route path="/pages/accounting/banking/:id/detail" element={<BankDetailPage />} />
-                <Route path="/pages/accounting/banking" element={<BankListing />} />
+                  {/* Brands */}
+                  <Route path="brands" element={<Outlet />}>
+                    <Route path="" index element={<BrandsListingPage />} />
+                    <Route path="add" element={<AddBrandPage />} />
+                    <Route path="edit/:id" element={<AddBrandPage />} />
+                  </Route>
+                  {/* Item Master */}
+                  <Route path="items" element={<Outlet />}>
+                    <Route path="" index element={<ItemsListing />} />
+                    <Route path="add" element={<AddItemPage />} />
+                    <Route path="edit/:id" element={<AddItemPage />} />
+                    <Route path=":id/detail" element={<ItemDetailPage />} />
+                  </Route>
+                  {/* Purchases */}
+                  <Route path="purchase" element={<Outlet />}>
+                    {/* supplier */}
+                    <Route path="suppliers" element={<Outlet />}>
+                      <Route path="" index element={<SuppliersListingPage />} />
+                      <Route path="add" element={<SuppliersAddPage />} />
+                      <Route path="edit/:id" element={<SuppliersAddPage />} />
+                      <Route path=":id/detail" element={<SuppliersDetailPage />} />
+                      <Route path=":supplierId/contact/edit/:id" element={<SupplierContactAddPage />} />
+                      <Route path=":supplierId/contact/add" element={<SupplierContactAddPage />} />
+                    </Route>
 
-                {/* Brands */}
-                <Route path="/pages/accounting/brands" element={<BrandsListingPage />} />
-                <Route path="/pages/accounting/brands/add" element={<AddBrandPage />} />
-                <Route path="/pages/accounting/brands/edit/:id" element={<AddBrandPage />} />
+                    {/* Purchase Orders */}
+                    <Route path="purchase-orders" element={<Outlet />}>
+                      <Route path="" index element={<PurchaseOrderListingPage />} />
+                      <Route path="add" element={<AddPurchaseOrderPage />} />
+                      <Route path="edit/:id" element={<AddPurchaseOrderPage />} />
+                      <Route path=":id/detail" element={<PurchaseOrderDetailPage />} />
+                    </Route>
 
-                {/* Item Master */}
-                <Route path="/pages/accounting/items/add" element={<AddItemPage />} />
-                <Route path="/pages/accounting/items/edit/:id" element={<AddItemPage />} />
-                <Route path="/pages/accounting/items" element={<ItemsListing />} />
-                <Route path="/pages/accounting/items/:id/detail" element={<ItemDetailPage />} />
+                    {/* Purchase Invoice */}
+                    <Route path="purchase-invoice" element={<Outlet />}>
+                      <Route path="" index element={<PurchaseInvoiceListingPage />} />
+                      <Route path="add" element={<AddPurchaseInvoicePage />} />
+                      <Route path="edit/:id" element={<AddPurchaseInvoicePage />} />
+                      <Route path=":id/detail" element={<PurchaseInvoiceDetailPage />} />
+                    </Route>
 
-                {/* supplier contacts */}
-                <Route
-                  path="/pages/accounting/purchase/suppliers/:supplierId/contact/edit/:id"
-                  element={<SupplierContactAddPage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/suppliers/:supplierId/contact/add"
-                  element={<SupplierContactAddPage />}
-                />
-                {/* supplier */}
+                    {/* Payment Voucher */}
 
-                <Route path="/pages/accounting/purchase/suppliers" element={<SuppliersListingPage />} />
-                <Route path="/pages/accounting/purchase/suppliers/add" element={<SuppliersAddPage />} />
-                <Route path="/pages/accounting/purchase/suppliers/edit/:id" element={<SuppliersAddPage />} />
-                <Route
-                  path="/pages/accounting/purchase/suppliers/:id/detail"
-                  element={<SuppliersDetailPage />}
-                />
+                    <Route path="purchase-invoice" element={<Outlet />}>
+                      <Route path="" index element={<PaymentVoucherListingPage />} />
+                      <Route path="add" element={<AddPaymentVoucherPage />} />
+                      <Route path="edit/:id" element={<AddPaymentVoucherPage />} />
+                    </Route>
 
-                {/* Purchase Orders */}
+                    {/* Supplier Credit */}
+                    <Route path="debit-notes" element={<Outlet />}>
+                      <Route path="" index element={<SupplierCreditListingPage />} />
+                      <Route path="add" element={<AddSupplierCreditPage />} />
+                      <Route path="edit/:id" element={<AddSupplierCreditPage />} />
+                    </Route>
 
-                <Route
-                  path="/pages/accounting/purchase/purchase-orders/add"
-                  element={<AddPurchaseOrderPage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/purchase-orders/edit/:id"
-                  element={<AddPurchaseOrderPage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/purchase-orders/:id/detail"
-                  element={<PurchaseOrderDetailPage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/purchase-orders"
-                  element={<PurchaseOrderListingPage />}
-                />
+                    {/* Expenses */}
+                    <Route path="expenses" element={<Outlet />}>
+                      <Route path="" index element={<ExpensesListingPage />} />
+                      <Route path="add" element={<AddExpensesPage />} />
+                      <Route path="edit/:id" element={<AddExpensesPage />} />
+                    </Route>
+                  </Route>
 
-                {/* Purchase Invoice */}
-                <Route
-                  path="/pages/accounting/purchase/purchase-invoice/add"
-                  element={<AddPurchaseInvoicePage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/purchase-invoice/edit/:id"
-                  element={<AddPurchaseInvoicePage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/purchase-invoice/:id/detail"
-                  element={<PurchaseInvoiceDetailPage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/purchase-invoice"
-                  element={<PurchaseInvoiceListingPage />}
-                />
-                {/* Payment Voucher */}
-                <Route
-                  path="/pages/accounting/purchase/payment-voucher/add"
-                  element={<AddPaymentVoucherPage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/payment-voucher/edit/:id"
-                  element={<AddPaymentVoucherPage />}
-                />
-
-                <Route
-                  path="/pages/accounting/purchase/payment-voucher"
-                  element={<PaymentVoucherListingPage />}
-                />
-                {/* Supplier Credit */}
-                <Route
-                  path="/pages/accounting/purchase/debit-notes"
-                  element={<SupplierCreditListingPage />}
-                />
-                <Route
-                  path="/pages/accounting/purchase/debit-notes/add"
-                  element={<AddSupplierCreditPage />}
-                />
-                {/* Expenses */}
-                <Route path="/pages/accounting/purchase/expenses" element={<ExpensesListingPage />} />
-                <Route path="/pages/accounting/purchase/expenses/add" element={<AddExpensesPage />} />
-
-                {/* Customers */}
-                <Route path="/pages/accounting/sales/customers/add" element={<AddCustomerPage />} />
-                <Route path="/pages/accounting/sales/customers/edit/:id" element={<AddCustomerPage />} />
-                <Route path="/pages/accounting/sales/customers" element={<CustomerListingPage />} />
-
-                {/* quotation */}
-                <Route path="/pages/accounting/sales/quotations/add" element={<AddQuotationPage />} />
-                <Route path="/pages/accounting/sales/quotations/edit/:id" element={<AddQuotationPage />} />
-                <Route path="/pages/accounting/sales/quotations" element={<QuotationListingPage />} />
-
-                {/* performa-invoice */}
-                <Route
-                  path="/pages/accounting/sales/performa-invoice/add"
-                  element={<AddPerformaInvoicePage />}
-                />
-                <Route
-                  path="/pages/accounting/sales/performa-invoice/edit/:id"
-                  element={<AddPerformaInvoicePage />}
-                />
-                <Route
-                  path="/pages/accounting/sales/performa-invoice"
-                  element={<PerformaInvoiceListingPage />}
-                />
-
-                {/* invoice */}
-                <Route path="/pages/accounting/sales/invoice/add" element={<AddInvoicePage />} />
-                <Route path="/pages/accounting/sales/invoice/edit/:id" element={<AddInvoicePage />} />
-                <Route path="/pages/accounting/sales/invoice" element={<InvoiceListingPage />} />
-
-                {/* credit Note */}
-                <Route path="/pages/accounting/sales/credit-notes/add" element={<AddCreditNotePage />} />
-                <Route path="/pages/accounting/credit-notes/edit/:id" element={<AddCreditNotePage />} />
-                <Route path="/pages/accounting/sales/credit-notes" element={<CreditNotesListingPage />} />
+                  <Route path="sales" element={<Outlet />}>
+                    {/* Customers */}
+                    <Route path="customers" element={<Outlet />}>
+                      <Route path="" index element={<CustomerListingPage />} />
+                      <Route path="add" element={<AddCustomerPage />} />
+                      <Route path="edit/:id" element={<AddCustomerPage />} />
+                    </Route>
+                    {/* quotation */}
+                    <Route path="quotations" element={<Outlet />}>
+                      <Route path="" index element={<QuotationListingPage />} />
+                      <Route path="add" element={<AddQuotationPage />} />
+                      <Route path="edit/:id" element={<AddQuotationPage />} />
+                    </Route>
+                    {/* performa-invoice */}
+                    <Route path="quotations" element={<Outlet />}>
+                      <Route path="" index element={<PerformaInvoiceListingPage />} />
+                      <Route path="add" element={<AddPerformaInvoicePage />} />
+                      <Route path="edit/:id" element={<AddPerformaInvoicePage />} />
+                    </Route>
+                    {/* invoice */}
+                    <Route path="invoice" element={<Outlet />}>
+                      <Route path="" index element={<InvoiceListingPage />} />
+                      <Route path="add" element={<AddInvoicePage />} />
+                      <Route path="edit/:id" element={<AddInvoicePage />} />
+                    </Route>
+                    {/* credit Note */}
+                    <Route path="invoice" element={<Outlet />}>
+                      <Route path="" index element={<CreditNotesListingPage />} />
+                      <Route path="add" element={<AddCreditNotePage />} />
+                      <Route path="edit/:id" element={<AddCreditNotePage />} />
+                    </Route>
+                  </Route>
+                </Route>
               </Route>
             </Route>
-            <Route path="*" element={<PageNotFound />} />
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

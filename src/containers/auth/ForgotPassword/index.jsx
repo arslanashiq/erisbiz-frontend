@@ -1,7 +1,7 @@
 import React from 'react';
 import ForgetPasswordForm from './components/ForgetPassword';
-import 'styles/auth-form-cards.scss';
-import 'styles/auth-form.scss';
+import 'styles/form/auth-form-cards.scss';
+import 'styles/form/auth-form.scss';
 
 function ForgetPassword() {
   return (

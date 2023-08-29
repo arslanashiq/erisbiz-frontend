@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AddIcon from '@mui/icons-material/Add';
@@ -8,7 +8,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import 'styles/quick-create-menu.scss';
+import 'styles/topbar/quick-create-menu.scss';
 
 const generalOptions = [
   { label: 'Item', to: '/pages/accounting/items/add' },
@@ -32,7 +32,7 @@ const purchaseOptions = [
   { label: 'Payment Made', to: '/pages/accounting/purchase/-made/add' },
 ];
 function QuickCreateMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

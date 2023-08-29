@@ -10,8 +10,8 @@ import {
 } from 'services/private/purchase-orders';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 import { useSnackbar } from 'notistack';
-import { purchaseOrderHeadCells } from '../utils/head-cells';
-import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utils/constants';
+import { purchaseOrderHeadCells } from '../utilities/head-cells';
+import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utilities/constants';
 
 function PurchaseOrderListing() {
   const { enqueueSnackbar } = useSnackbar();

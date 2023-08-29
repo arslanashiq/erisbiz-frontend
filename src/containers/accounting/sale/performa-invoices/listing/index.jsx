@@ -9,7 +9,7 @@ import {
   useGetPerformaInvoicesListQuery,
 } from 'services/private/performa-invoices';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import { performaInvoiceHeadCell } from '../utils/head-cells';
+import { performaInvoiceHeadCell } from '../utilities/head-cells';
 
 function PerformaInvoiceListing() {
   const { enqueueSnackbar } = useSnackbar();

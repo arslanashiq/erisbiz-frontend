@@ -13,8 +13,4 @@ function PublicRoutes() {
   }
   return <Outlet />;
 }
-// PublicRoutes.propTypes = {
-//   children: PropTypes.element.isRequired,
-// };
-
 export default PublicRoutes;

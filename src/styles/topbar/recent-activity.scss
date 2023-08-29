@@ -1,0 +1,26 @@
+@import '../variables.scss';
+
+.recent-activity-menu {
+  .recent-activity-menu-list {
+    align-items: center;
+  }
+  .recent-activity-menu-list-icon {
+    font-size: 28px;
+    color: #808080;
+    margin-right: 5px;
+  }
+
+  .recent-activity-menu-list-title {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+  }
+  .recent-activity-menu-list-activity-type {
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+}

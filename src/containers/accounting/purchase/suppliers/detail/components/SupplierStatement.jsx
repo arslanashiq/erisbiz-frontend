@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'styles/template-styles.scss';
+import 'styles/template-style/template-styles.scss';
 
 function SupplierStatement({ basicInfo, transactions }) {
   return (

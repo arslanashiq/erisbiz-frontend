@@ -5,10 +5,10 @@ import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { Button, Stack } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
-import FormikModernField from 'shared/components/form/FormikModernField';
+import FormikField from 'shared/components/form/FormikField';
 import { getsearchQueryOffsetAndLimitParams, handlePersonlizedFilterString } from 'utilities/filters';
-import 'styles/form.scss';
-import FormikModernSelect from '../form/FormikModernSelect';
+import 'styles/form/form.scss';
+import FormikSelect from '../form/FormikSelect';
 import FormikDatePicker from '../form/FormikDatePicker';
 
 function PersonlizedFilter({ filterInitialValues, filtersList }) {
@@ -43,7 +43,7 @@ function PersonlizedFilter({ filterInitialValues, filtersList }) {
               <span className="form__form-group-label">Supplier Name</span>
               <div className="form__form-group-field">
                 {filter.options ? (
-                  <FormikModernSelect
+                  <FormikSelect
                     name={filter.name}
                     placeholder={filter.placeholder}
                     options={filter.options}
@@ -51,7 +51,7 @@ function PersonlizedFilter({ filterInitialValues, filtersList }) {
                 ) : filter.date ? (
                   <FormikDatePicker name={filter.name} placeholder={filter.placeholder} />
                 ) : (
-                  <FormikModernField name={filter.name} placeholder={filter.placeholder} type={filter.type} />
+                  <FormikField name={filter.name} placeholder={filter.placeholder} type={filter.type} />
                 )}
               </div>
             </div>

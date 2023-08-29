@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { IconButton, Typography } from '@mui/material';
@@ -10,10 +10,9 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { useDeleteSupplierCommentMutation } from 'services/private/suppliers';
-// import getSorting from 'utilities/getSorting';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CommentsForm from './CommentsForm';
-import 'styles/comments.scss';
+import 'styles/comments/comments.scss';
 
 export default function SupplierComment({ comments }) {
   const [deleteComment] = useDeleteSupplierCommentMutation();

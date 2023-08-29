@@ -1,4 +1,5 @@
 import React from 'react';
+import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
 import {
   useGetItemBillQuery,
   useGetItemCreditNoteQuery,
@@ -8,7 +9,6 @@ import {
   useGetItemPurchaseOrderQuery,
   useGetItemQuotationQuery,
 } from 'services/private/items';
-import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
 import {
   itemBillTransactionHeadCells,
   itemCreditNoteTransactionHeadCells,
@@ -17,7 +17,7 @@ import {
   itemPerformaInvoiceTransactionHeadCells,
   itemPurchaseOrderTransactionHeadCells,
   itemQuotationTransactionHeadCells,
-} from '../../utils/head-cells';
+} from '../../utilities/head-cells';
 import {
   billFilters,
   creditNoteFilters,
@@ -26,7 +26,7 @@ import {
   proformaInvoiceFilterList,
   purchaseOrderFilters,
   quotationFilterList,
-} from '../../utils/filters';
+} from '../../utilities/filters';
 
 function ItemTransactionsTab() {
   return (

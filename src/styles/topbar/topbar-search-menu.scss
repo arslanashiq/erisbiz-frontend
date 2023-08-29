@@ -1,0 +1,23 @@
+@import '../variables.scss';
+
+.search-menu-dropdown {
+  cursor: pointer;
+  align-items: center;
+  background-color: $background-color;
+  padding: 0px 20px;
+  border-right: 1px solid $sub-heading-color;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  width: 250px;
+  text-overflow: ellipsis;
+}
+.dropdown-label {
+  font-size: 16px !important;
+  color: $sub-heading-color;
+}
+
+@media screen and (min-width: 768px) {
+  .topbar__search {
+    display: flex;
+  }
+}

@@ -5,7 +5,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 import { IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate, useParams } from 'react-router';
-import { supplierContactHeadCells } from '../../utils/head-cells';
+import { supplierContactHeadCells } from '../../utilities/head-cells';
 
 function SupplierContacts({ supplierContacts }) {
   const { id } = useParams();

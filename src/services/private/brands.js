@@ -9,15 +9,15 @@ const brandsApi = privateApi.injectEndpoints({
     }),
     getSingleBrand: builder.query({
       query: id => ({ url: `/api/brands/${id}/`, method: 'GET' }),
+      providesTags: ['getSingleBrand'],
     }),
     addBrand: builder.mutation({
       query: payload => ({ url: '/api/brands/', method: 'POST', body: payload }),
-      providesTags: ['getSingleBrand'],
       invalidatesTags: ['getBrandsList'],
     }),
     editBrand: builder.mutation({
       query: ({ id, payload }) => ({ url: `/api/brands/${id}/`, method: 'PATCH', body: payload }),
-      invalidatesTags: ['getBrandsList', 'getSingleBrand'],
+      invalidatesTags: ['getSingleBrand', 'getBrandsList'],
     }),
 
     deleteBrand: builder.mutation({

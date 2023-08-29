@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import MuiTable from 'shared/components/table/MuiTable';
-import Loader from 'shared/components/loader/Loader';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Button, ButtonGroup, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
-import { useGetBankTransactionsQuery, useGetSingleBankAccountQuery } from 'services/private/banking';
 import FilterDropdown from 'shared/components/filters/FilterDropdown';
-import { bankTransactionsHeadCells } from '../utils/head-cells';
+import { useGetBankTransactionsQuery, useGetSingleBankAccountQuery } from 'services/private/banking';
+import { bankTransactionsHeadCells } from '../utilities/head-cells';
 import BankDetailPopup from './components/BankDetailPopup';
 
 const bankTransactionFilterList = [
@@ -41,11 +41,8 @@ function BankDetail() {
     setShowBankDetailPopup(true);
   };
 
-  if (bankAccountDetail.isLoading || bankTransactionsResponse.isLoading) {
-    return <Loader />;
-  }
   return (
-    <>
+    <SectionLoader options={[bankAccountDetail.isLoading, bankTransactionsResponse.isLoading]}>
       <BankDetailPopup
         open={showBankDetailPopup}
         setOpen={setShowBankDetailPopup}
@@ -79,29 +76,10 @@ function BankDetail() {
               <Typography variant="body2">Amount</Typography>
               <Typography variant="body1 color-dark font-weight-bold">AED-140.00</Typography>
             </Grid>
-            {/* <Grid
-            xs={12}
-            md={6}
-            sx={{ display: 'flex', justifyContent: { xs: 'start', md: 'end' }, alignItems: 'center' }}
-          >
-            <Stack>
-              <Button className="text-capitalize">
-                <RemoveRedEyeIcon sx={{ marginRight: 1, fontSize: 18 }} />
-                Filter
-              </Button>
-            </Stack>
-          </Grid> */}
           </Grid>
           <Grid container sx={{ marginBottom: 2, display: 'flex', justifyContent: 'center' }}>
             <Grid xs={12} md={10}>
               <ButtonGroup onClick={handleChangeButton}>
-                {/* <Button
-                  variant={activeTab === '0' ? 'contained' : 'outlined'}
-                  value={0}
-                  className="text-capitalize"
-                >
-                  Transactions Statements Of ErisBiz
-                </Button> */}
                 <Button
                   variant={activeTab === '1' ? 'contained' : 'outlined'}
                   value={1}
@@ -153,7 +131,7 @@ function BankDetail() {
           />
         </CardContent>
       </Card>
-    </>
+    </SectionLoader>
   );
 }
 

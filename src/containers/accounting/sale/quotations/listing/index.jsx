@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
 import { useDeleteQuotationMutation, useGetQuotationsListQuery } from 'services/private/quotations';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import { quotationsHeadCell } from '../utils/head-cells';
+import { quotationsHeadCell } from '../utilities/head-cells';
 
 function QuotationListing() {
   const { enqueueSnackbar } = useSnackbar();

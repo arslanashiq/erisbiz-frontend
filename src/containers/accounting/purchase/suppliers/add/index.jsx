@@ -9,10 +9,10 @@ import { useNavigate, useParams } from 'react-router';
 
 // COMPONENTS & UTILIITES
 import FormHeader from 'shared/components/form-header/FormHeader';
-import FormikModernField from 'shared/components/form/FormikModernField';
+import FormikField from 'shared/components/form/FormikField';
 import FormTabs from 'shared/components/tabs/FormTabs';
 import { CheckBoxField } from 'shared/components/form/CheckBox';
-import FormikModernSelect from 'shared/components/form/FormikModernSelect';
+import FormikSelect from 'shared/components/form/FormikSelect';
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
 import {
   useAddSupplierMutation,
@@ -23,10 +23,10 @@ import {
 import { useGetBankAccountsListQuery } from 'services/private/banking';
 import ContactInfo from 'shared/components/form/ContactInfo';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
-import { supplierFormTabsList } from '../utils/constants';
+import { supplierFormTabsList } from '../utilities/constants';
 import CreditTermsRadioButtons from './components/CreditTermsRadioButtons';
-import 'styles/form.scss';
-import { supplierInitialValues } from '../utils/constant';
+import { supplierInitialValues } from '../utilities/constant';
+import 'styles/form/form.scss';
 
 function SupplierAddPage() {
   const { id } = useParams();
@@ -103,74 +103,54 @@ function SupplierAddPage() {
             setSubmitting(false);
           }}
         >
-          {({ values, isSubmitting, touched, resetForm, setFieldValue, setFieldTouched, errors }) => (
+          {({ values, isSubmitting, touched, resetForm, setFieldValue, errors }) => (
             <Form className="form form--horizontal row pt-3">
               {/* supplier name */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Supplier Name</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <PersonOutlineIcon />
-                  </div>
-                  <FormikModernField
-                    name="supplier_name"
-                    type="text"
-                    placeholder="Supplier Name"
-                    onChange={value => {
-                      setFieldValue('account_payee', value);
-                    }}
-                  />
-                </div>
-              </div>
+              <FormikField
+                name="supplier_name"
+                type="text"
+                placeholder="Supplier Name"
+                onChange={value => {
+                  setFieldValue('account_payee', value);
+                }}
+                label="Supplier Name"
+                startIcon={<PersonOutlineIcon />}
+              />
 
               {/* Refrence */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Refrence</span>
-                <div className="form__form-group-field">
-                  <FormikModernField name="reference_num" type="text" placeholder="Refrence" />
-                </div>
-              </div>
+              <FormikField name="reference_num" type="text" placeholder="Refrence" label="Refrence" />
 
               {/* Contact Person */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Contact Person</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <SettingsPhoneIcon />
-                  </div>
-                  <FormikModernField name="contact_person" type="text" placeholder="Contact Person" />
-                </div>
-              </div>
+              <FormikField
+                name="contact_person"
+                type="text"
+                placeholder="Contact Person"
+                startIcon={<SettingsPhoneIcon />}
+                label="Contact Person"
+              />
 
               {/* website */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3">Website</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <LanguageIcon />
-                  </div>
-                  <FormikModernField name="website" type="text" placeholder="Website" />
-                </div>
-              </div>
+
+              <FormikField
+                name="website"
+                type="text"
+                placeholder="Website"
+                startIcon={<LanguageIcon />}
+                label="Website"
+              />
 
               {/* contact  */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3">contact</span>
-                <div className="form__form-group-field">
-                  <FormikModernField name="mobile_num" type="text" placeholder="Contact" />
-                </div>
-              </div>
+              <FormikField name="mobile_num" type="text" placeholder="Contact" label="Contact" />
 
               {/* email */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3">Email</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <AlternateEmailIcon />
-                  </div>
-                  <FormikModernField name="email" type="text" placeholder="Email" />
-                </div>
-              </div>
+
+              <FormikField
+                name="email"
+                type="text"
+                placeholder="Email"
+                startIcon={<AlternateEmailIcon />}
+                label="Email"
+              />
 
               <FormTabs
                 className="mt-2 mb-2"
@@ -183,12 +163,14 @@ function SupplierAddPage() {
               {activeTab === supplierFormTabsList[0] && (
                 <div className="row form form--horizontal">
                   {/* Address Line 1 */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2">Address Line 1</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField name="address_line1" type="text" placeholder="Address Line 1" />
-                    </div>
-                  </div>
+
+                  <FormikField
+                    name="address_line1"
+                    type="text"
+                    placeholder="Address Line 1"
+                    label="Address Line 1"
+                  />
+
                   {/* Credit Limit */}
                   <div className="form__form-group col-md-6">
                     <span className="form__form-group-label  col-lg-2" />
@@ -197,77 +179,49 @@ function SupplierAddPage() {
                         <CheckBoxField
                           setFieldValue={setFieldValue}
                           name="credit_limit"
-                          value={values.credit_limit}
                           onChange={e => {
-                            if (e?.target?.checked === false) {
-                              setFieldValue('set_credit_limit', '');
-                            }
+                            setFieldValue('set_credit_limit', '');
                             setFieldValue(e?.target?.name, e?.target?.checked);
                           }}
-                          onBlur={setFieldTouched}
-                          touched={touched.credit_limit}
-                          error={errors.credit_limit}
+                          label="Set Credit Limit ($)"
                         />
-                        <span className="px-4">Set Credit Limit($)</span>
 
-                        <div
+                        <FormikField
+                          disabled={!values?.credit_limit}
                           className="col-4"
-                          style={{
-                            padding: 0,
-                            paddingLeft: 10,
-                            visibility: values?.credit_limit ? 'visible' : 'hidden',
-                          }}
-                        >
-                          <FormikModernField
-                            className="w-100"
-                            name="set_credit_limit"
-                            type="number"
-                            placeholder="0.00"
-                          />
-                        </div>
-                      </div>
-                      <div className="form__form-group-field col-12">
-                        <CheckBoxField
-                          name="credit_terms"
-                          value={values.credit_terms}
-                          onChange={e => {
-                            setFieldValue(e?.target?.name, e?.target?.checked);
-                          }}
-                          onBlur={setFieldTouched}
+                          name="set_credit_limit"
+                          type="number"
+                          placeholder="0.00"
                         />
-                        <span className="px-4">Set Credit Terms</span>
                       </div>
-                    </div>
-                  </div>
-                  {/* Address Line 2 */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2">Address Line 2</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField
-                        className="d-flex align-items-center"
-                        name="address_line2"
-                        type="text"
-                        placeholder="Address Line 2"
+                      <CheckBoxField
+                        name="credit_terms"
+                        value={values.credit_terms}
+                        onChange={e => {
+                          setFieldValue(e?.target?.name, e?.target?.checked);
+                        }}
+                        label="Set Credit Terms"
                       />
                     </div>
                   </div>
+                  {/* Address Line 2 */}
+
+                  <FormikField
+                    name="address_line2"
+                    type="text"
+                    placeholder="Address Line 2"
+                    label="Address Line 2"
+                  />
                   {/* Credit Terms */}
                   <div className="form__form-group col-md-6">
                     <span className="form__form-group-label col-lg-2" />
 
                     <div
                       disabled={!values?.credit_terms}
-                      // style={{
-                      //   pointerEvents: values?.credit_terms
-                      // }}
-                      style={
-                        values?.credit_terms
-                          ? { pointerEvents: 'auto', opacity: 1 }
-                          : {
-                            pointerEvents: 'none',
-                            opacity: 0.2,
-                          }
-                      }
+                      style={{
+                        pointerEvents: values?.credit_terms ? 'auto' : 'none',
+                        opacity: values?.credit_terms ? 1 : 0.2,
+                      }}
                       className="form__form-group-field"
                     >
                       <CreditTermsRadioButtons
@@ -283,31 +237,23 @@ function SupplierAddPage() {
                     </div>
                   </div>
                   {/* Country */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2 required">Country</span>
-                    <div className="form__form-group-field">
-                      <FormikModernSelect options={countryOptions} name="country" placeholder="Country" />
-                    </div>
-                  </div>
+
+                  <FormikSelect
+                    options={countryOptions}
+                    name="country"
+                    placeholder="Country"
+                    label="Country"
+                  />
+
                   {/* CIty */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2 ">City</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField name="city" type="text" placeholder="City" />
-                    </div>
-                  </div>
+                  <FormikField name="city" type="text" placeholder="City" label="City" />
                   {/* Map */}
                   <div className="form__form-group col-md-6">
                     <span className="form__form-group-label col-lg-2 required">Map</span>
                     <div className="form__form-group-field">
-                      <FormikModernField name="longitude" placeholder="Longitude" />
-                    </div>
-                  </div>
-                  {/* Latitude */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2" />
-                    <div className="form__form-group-field">
-                      <FormikModernField name="latitude" type="text" placeholder="Latitude" />
+                      <FormikField name="longitude" placeholder="Longitude" className="w-100 pe-2" />
+
+                      <FormikField name="latitude" type="text" placeholder="Latitude" />
                     </div>
                   </div>
                 </div>
@@ -316,102 +262,67 @@ function SupplierAddPage() {
               {activeTab === supplierFormTabsList[1] && (
                 <div className="row form form--horizontal">
                   {/* Account Payee */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2">Account Payee</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField
-                        name="account_payee"
-                        disabled
-                        type="text"
-                        placeholder="Account Payee"
-                      />
-                    </div>
-                  </div>
+
+                  <FormikField
+                    name="account_payee"
+                    disabled
+                    type="text"
+                    placeholder="Account Payee"
+                    label="Account Payee"
+                  />
 
                   {/* Currency */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2">Currency</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField
-                        className="d-flex align-items-center"
-                        name="currency"
-                        type="text"
-                        disabled
-                        placeholder="Currency"
-                      />
-                    </div>
-                  </div>
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2">Account Default</span>
-                    <div className="form__form-group-field">
-                      <FormikModernSelect
-                        options={bankAccountOptions}
-                        name="account_default"
-                        placeholder="Account Default"
-                        onChange={value => handleChangeBank(setFieldValue, value)}
-                      />
-                    </div>
-                  </div>
+
+                  <FormikField name="currency" type="text" disabled placeholder="Currency" label="Currency" />
+
+                  <FormikSelect
+                    options={bankAccountOptions}
+                    name="account_default"
+                    placeholder="Account Default"
+                    label="Account Default"
+                    onChange={value => handleChangeBank(setFieldValue, value)}
+                  />
 
                   {/* IBAN */}
-                  <div className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2 required">IBAN</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField name="IBAN" placeholder="IBAN" />
-                    </div>
-                  </div>
+
+                  <FormikField name="IBAN" placeholder="IBAN" label="IBAN" />
 
                   {/* Bank Name and Account Name */}
-                  <div className="form__form-group col-md-6 align-items-center row p-0 m-0">
-                    <div className="form__form-group ">
-                      <span className="form__form-group-label col-lg-2 required">Bank Name</span>
-                      <div className="form__form-group-field">
-                        <FormikModernField name="bank_name" placeholder="bank Name" />
-                      </div>
-                    </div>
-                    <div className="form__form-group ">
-                      <span className="form__form-group-label col-lg-2">Accout Number</span>
-                      <div className="form__form-group-field">
-                        <FormikModernField name="account_number" type="text" placeholder="Account Number" />
-                      </div>
-                    </div>
-                  </div>
+
+                  <FormikField name="bank_name" placeholder="bank Name" label="bank Name" />
+
+                  <FormikField
+                    name="account_number"
+                    type="text"
+                    placeholder="Account Number"
+                    label="Account Number"
+                  />
+
                   {/* Account Detail,Vat Reverse and radio Button */}
-                  <div className="form__form-group col-md-6 row p-0 m-0">
-                    <span className="form__form-group-label col-lg-2" />
-                    {/* Swift Code */}
-                    <div className="form__form-group ">
-                      <span className="form__form-group-label col-lg-2">Swift Code</span>
-                      <div className="form__form-group-field">
-                        <FormikModernField name="swift_code" type="number" placeholder="Swift Code" />
-                      </div>
-                    </div>
-                    <div className="form__form-group ">
-                      <span className="form__form-group-label col-lg-2">VAT Reverse Charges</span>
-                      <div className="form__form-group-field">
-                        <FormikModernField
-                          name="vat_number"
-                          type="number"
-                          placeholder="VAT Reverse Charges"
-                        />
-                      </div>
-                    </div>
-                    <div className="form__form-group">
-                      <span className="form__form-group-label col-lg-2" />
-                      <div className="form__form-group-field">
-                        <CheckBoxField
-                          setFieldValue={setFieldValue}
-                          name="is_import_agent"
-                          label="Supplier is Important Agent"
-                        />
-                      </div>
-                    </div>
-                    <div className="form__form-group">
-                      <span className="form__form-group-label col-lg-2" />
-                      <div className="form__form-group-field">
-                        <CheckBoxField name="is_reverse_charge" label="VAT Reverse Charges" />
-                      </div>
-                    </div>
+
+                  <FormikField name="swift_code" type="number" placeholder="Swift Code" label="Swift Code" />
+
+                  <FormikField
+                    name="vat_number"
+                    type="number"
+                    placeholder="VAT Reverse Charges"
+                    label="VAT Reverse Charges"
+                  />
+                  <div className="form__form-group col-12 align-items-center">
+                    <div className="col-6" />
+                    <span className="form__form-group-label col-lg-3 " />
+
+                    <CheckBoxField
+                      name="is_import_agent"
+                      label="Supplier is Important Agent"
+                      className="justify-content-end"
+                    />
+                  </div>
+                  <div className="form__form-group col-12 align-items-center">
+                    <div className="col-6" />
+                    <span className="form__form-group-label col-lg-3 " />
+
+                    <CheckBoxField name="is_reverse_charge" label="VAT Reverse Charges" />
                   </div>
                 </div>
               )}
@@ -423,24 +334,23 @@ function SupplierAddPage() {
               {activeTab === supplierFormTabsList[3] && (
                 <div className="row form form--horizontal">
                   {/* COmments */}
-                  <div className="form__form-group">
-                    <span className="form__form-group-label col-lg-2">Comment on Transaction</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField
-                        name="comments_on_transactions"
-                        type="text"
-                        textArea
-                        placeholder="comment"
-                      />
-                    </div>
-                  </div>
+                  <FormikField
+                    name="comments_on_transactions"
+                    type="text"
+                    textArea
+                    placeholder="comment"
+                    label="Comment on Transaction"
+                    className="col-12"
+                  />
                   {/* Notes */}
-                  <div className="form__form-group">
-                    <span className="form__form-group-label col-lg-2">Notes</span>
-                    <div className="form__form-group-field">
-                      <FormikModernField name="notes" type="text" textArea placeholder="Notes" />
-                    </div>
-                  </div>
+                  <FormikField
+                    name="notes"
+                    type="text"
+                    textArea
+                    placeholder="Notes"
+                    label="Notes"
+                    className="col-12"
+                  />
                 </div>
               )}
 

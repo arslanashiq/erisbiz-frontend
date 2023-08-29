@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { useGetSupplierCreditsListQuery } from 'services/private/debit-note';
 import MuiTable from 'shared/components/table/MuiTable';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
-import { supplierCreditHeadCells } from '../utils/head-cells';
+import { supplierCreditHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
   const navigate = useNavigate();

@@ -1,18 +1,13 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import PropTypes from 'prop-types';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Button, Menu, Tooltip } from '@mui/material';
-import 'styles/attached-files-popup.scss';
-// import DeleteConfirmationPopup from './DeleteConfirmationPopup';
-// import IconButtonWithToolTip from '../../containers/Common/IconButtonWithToolTip';
 
 function AttachedFilesPopup({ toggleModal, docs, deleteDoc }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -54,8 +49,8 @@ function AttachedFilesPopup({ toggleModal, docs, deleteDoc }) {
           <div className="topbar__collapse-title-wrap">
             <p className="topbar__collapse-title clr-add">Attached Files</p>
           </div>
-          {docs.map((doc, index) => (
-            <div className="topbar__collapse-item pt-5 pb-5" key={index}>
+          {docs.map(doc => (
+            <div className="topbar__collapse-item pt-5 pb-5" key={doc.doc_name}>
               <div className="topbar__collapse-img-wrap--custom">
                 <InsertDriveFileIcon size={40} />
               </div>

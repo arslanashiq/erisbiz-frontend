@@ -1,0 +1,381 @@
+@import '../variables.scss';
+.invoice-receipt-main-container {
+  max-width: 900px;
+  min-width: 560px;
+  // overflow: auto;
+  margin: 10px auto;
+  padding-bottom: 70px;
+  box-shadow:
+    -10px -10px 10px $background-color,
+    10px 10px 10px $background-color;
+  font-family: 'Montserrat', sans-serif !important;
+
+  .check {
+    display: flex;
+    margin-bottom: -60px;
+  }
+
+  .paidArrow {
+    margin-bottom: 30px;
+    display: flex;
+    font-weight: bold;
+    background-color: rgb(35, 172, 14);
+    float: right;
+    min-width: 55px;
+    height: 30px;
+    position: relative;
+    padding: 0px 10px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-transform: capitalize;
+  }
+
+  .paidArrow:before {
+    content: '';
+    position: absolute;
+    right: -20px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid rgb(35, 172, 14);
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+  }
+
+  #bill_to {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: #f0f0f0da;
+    width: 100%;
+    max-height: 300px;
+    // margin-left: auto;
+    margin-right: 75px;
+    margin-top: 10px;
+    text-align: left;
+    font-size: 15px;
+    padding: 10px 10px;
+
+    p {
+      margin-left: 5px;
+      margin-bottom: 3px;
+    }
+  }
+
+  .invoice-receipt-container {
+    display: flex;
+    font-size: x-small;
+    padding: 12px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #logo {
+    width: 30%;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  .box-1 {
+    flex: 2;
+    line-height: 0.6;
+
+    p {
+      font-size: 15px;
+    }
+  }
+
+  .box-2 {
+    font-weight: bold;
+    flex: 1;
+    max-width: 280px;
+    margin-top: 30px;
+
+    & > h1 {
+      line-height: 0.7;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .boxSecond {
+    text-align: right;
+    margin-top: 5px;
+    font-size: 16px;
+    overflow: hidden;
+  }
+
+  .entry-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .head {
+      font-weight: bold;
+      white-space: nowrap;
+      padding-right: 5px;
+    }
+
+    p:nth-child(2) {
+      font-size: 14px;
+      font-weight: lighter;
+    }
+  }
+
+  .entryOne {
+    text-align: left;
+    // margin-left: 35px;
+    flex: 1;
+    white-space: nowrap;
+
+    p {
+      font-weight: bold;
+    }
+  }
+
+  table.table1 {
+    font-weight: bold;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 10px 0;
+    border: 0.2px solid $primary-color;
+
+    thead {
+      text-align: center;
+    }
+
+    th {
+      color: $text-color;
+      border: 0.2px solid $primary-color;
+      font-weight: bolder;
+      background-color: $primary-color;
+      text-align: center;
+    }
+
+    td {
+      border: 0.2px solid $primary-color;
+      text-align: center;
+      padding: 12px 15px;
+    }
+  }
+  table.table-emp {
+    font-weight: bold;
+    border-collapse: collapse;
+    margin: 10px 0;
+    border: 0.2px solid #008cff;
+
+    thead {
+      text-align: center;
+    }
+
+    th {
+      border: 0.2px solid #008cff;
+      font-weight: bolder;
+      background-color: #48b2e8;
+      text-align: center;
+      // color: #fffafa;
+    }
+
+    td {
+      border: 0.2px solid #008cff;
+      text-align: center;
+      padding: 12px 15px;
+    }
+  }
+
+  .entries {
+    text-align: right;
+    flex-direction: row;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+  }
+  .requester-detail {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+  }
+  .display-stamp-end {
+    align-items: flex-end;
+    align-self: flex-end;
+    flex-direction: column-reverse;
+  }
+  .display-stamp-end,
+  h5 {
+    font-size: 16px;
+  }
+  .bold {
+    font-weight: bold;
+    // font-size: 13px;
+  }
+
+  .entries-child {
+    width: 205px;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 35px;
+    text-align: left;
+  }
+
+  .credit-entries-child {
+    width: 260px;
+    display: flex;
+    margin-right: 35px;
+    text-align: right;
+    // margin-bottom: 10px;
+  }
+
+  .names {
+    flex: 1;
+    p {
+      font-weight: bold;
+    }
+  }
+
+  .amounts {
+    text-align: right;
+    flex: 1;
+    p {
+      font-weight: bold;
+    }
+  }
+
+  .amount-words {
+    width: 60%;
+    span {
+      font-weight: bolder;
+      font-size: 13px;
+    }
+  }
+  span.bold {
+    font-size: 13px;
+  }
+
+  .pointer,
+  .pointer-emp {
+    margin-right: 25px;
+    display: flex;
+    background-color: $primary-color;
+    color: white;
+    float: right;
+    min-width: 230px !important;
+    height: 30px;
+    position: relative;
+    padding: 0px 10px;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      font-weight: bold;
+      margin-bottom: 0px;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      right: -20px;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-left: 20.5px solid $primary-color;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+    }
+  }
+  .pointer-emp {
+    background-color: #48b2e8;
+    &:before {
+      border-left: 20.5px solid #48b2e8;
+    }
+  }
+  .credit-pointer {
+    margin-right: 25px;
+    display: flex;
+    background-color: #f7e18b;
+    float: right;
+    width: 280px !important;
+    height: 30px;
+    position: relative;
+    padding: 0px 10px;
+    text-align: right;
+    align-items: center;
+
+    &:before {
+      content: '';
+      position: absolute;
+      right: -20px;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-left: 20.5px solid #f7e18b;
+      border-top: 15px solid transparent;
+      border-bottom: 15px solid transparent;
+    }
+
+    .credit-pointer-item {
+      flex: 1;
+      p {
+        font-weight: bold;
+      }
+    }
+  }
+
+  table.table2 {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 100%;
+  }
+  table.table2 th {
+    margin: 20px;
+    padding: 7px;
+    background-color: #f7e18b;
+    text-align: left;
+  }
+  table.table2-emp {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 100%;
+  }
+  table.table2-emp th {
+    margin: 20px;
+    padding: 7px;
+    background-color: #48b2e8;
+    text-align: left;
+  }
+
+  table.table2 td {
+    border-bottom: 0.5px solid #c7b671;
+    border-collapse: none;
+    padding: 12px 15px;
+    text-align: left;
+  }
+
+  .bank-account-details {
+    margin-left: 20px;
+
+    h4 {
+      margin-bottom: 10px;
+    }
+
+    h5 {
+      margin-bottom: 5px;
+    }
+  }
+
+  .purorder-notes {
+    margin-top: 70px;
+    p {
+      font-size: 14px;
+      line-height: 0.9;
+    }
+  }
+}
+
+pre {
+  margin-left: 5px;
+  font-size: 13px;
+  font-family: 'Montserrat', sans-serif !important;
+}

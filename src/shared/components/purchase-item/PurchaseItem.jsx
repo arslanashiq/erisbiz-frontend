@@ -11,11 +11,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import FormikModernField from '../form/FormikModernField';
+import FormikField from '../form/FormikField';
 import FormikSelect from '../form/FormikSelect';
-import 'styles/purchase-item.scss';
+import 'styles/purchase-item/purchase-item.scss';
 
-function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
+function PurchaseItem({ name, inputList, form, push, newList }) {
   const getTotalAmount = () => {
     let total = 0.0;
     form.values[name].forEach(item => {
@@ -36,7 +36,6 @@ function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {console.log(form.values, 'akjdlksadjksad')}
             {form.values[name].map((item, index) => (
               <TableRow>
                 {inputList.map(input => (
@@ -62,10 +61,10 @@ function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
                             );
                           }
                         }}
-                        onBlur={onBlur}
+                        className="col-12"
                       />
                     ) : (
-                      <FormikModernField
+                      <FormikField
                         name={`${name}.${index}.${input.name}`}
                         placeholder={input.placeholder}
                         disabled={input.disabled || false}
@@ -76,6 +75,7 @@ function PurchaseItem({ name, inputList, form, push, newList, onBlur }) {
                             input.onChange(name, index, input.name, key, item, form.setFieldValue);
                           }
                         }}
+                        className="w-100"
                       />
                     )}
                   </TableCell>
@@ -101,12 +101,10 @@ PurchaseItem.propTypes = {
   inputList: PropTypes.array,
   form: PropTypes.element.isRequired,
   name: PropTypes.string.isRequired,
-  onBlur: PropTypes.func,
   newList: PropTypes.object.isRequired,
   push: PropTypes.func.isRequired,
 };
 PurchaseItem.defaultProps = {
   inputList: [],
-  onBlur: () => {},
 };
 export default PurchaseItem;

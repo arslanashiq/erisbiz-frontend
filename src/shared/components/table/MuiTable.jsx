@@ -1,24 +1,19 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable no-unreachable */
-// /* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable implicit-arrow-linebreak */
-import * as React from 'react';
+import React, { useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { ROWS_PER_PAGE } from 'utilities/constants';
-import InfoPopup from 'shared/modals/InfoPopup';
 import Paper from '@mui/material/Paper';
-import { useLocation, useNavigate } from 'react-router';
-import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import InfoPopup from 'shared/modals/InfoPopup';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+import { ROWS_PER_PAGE } from 'utilities/constants';
 import { getComparator, stableSort } from 'utilities/sort';
+import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import MuiTableHead from './MuiTableHead';
 import MuiTableBody from './MuiTableBody';
 import MuiTableToolbar from './MuiTableToolbar';
-import Loader from '../loader/Loader';
 
 export default function MuiTable({
   data,
@@ -40,12 +35,12 @@ export default function MuiTable({
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(ROWS_PER_PAGE);
-  const [openInfoPopup, setOpenInfoPopup] = React.useState({
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE);
+  const [openInfoPopup, setOpenInfoPopup] = useState({
     status: false,
     message: null,
     actionButton: false,
@@ -115,92 +110,88 @@ export default function MuiTable({
     const filters = getsearchQueryOffsetAndLimitParams(location);
     return filters;
   };
-  const handleEditSelectedData = () => {
-    navigate(`edit/${selected[0]}`);
+  const handleEditSelection = () => {
+    if (handleEdit) {
+      handleEdit(data, selected, openInfoPopup, setOpenInfoPopup);
+    } else {
+      navigate(`edit/${selected[0]}`);
+    }
   };
-  // Avoid a layout jump when reaching the last page with empty data.
-  //   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(data || [], getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
+  const visibleRows = useMemo(
+    () => stableSort(data || [], getComparator(order, orderBy)).slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage
+    ),
     [data, otherOptions, order, orderBy, page, rowsPerPage]
   );
 
-  if (data === undefined || data === null || data === []) {
-    return <Loader />;
-  }
   return (
-    <Box sx={{ width: '100%' }}>
-      <InfoPopup
-        open={openInfoPopup.status}
-        handleClose={handleCloseInfoPopup}
-        infoDescription={openInfoPopup.message}
-        showActionButton={openInfoPopup.actionButton}
-        handleYes={() => {
-          handleConfirmDelete(selected);
-          handleClearSelection();
-        }}
-      />
-      {TableHeading && (
-        <MuiTableToolbar
-          filterButton={filterButton}
-          numSelected={selected.length}
-          TableHeading={TableHeading}
-          otherOptions={otherOptions}
-          handleEditSelection={() => {
-            handleEdit
-              ? handleEdit(data, selected, openInfoPopup, setOpenInfoPopup)
-              : handleEditSelectedData();
+    <SectionLoader options={[data === undefined, data === null, data === []]}>
+      <Box sx={{ width: '100%' }}>
+        <InfoPopup
+          open={openInfoPopup.status}
+          handleClose={handleCloseInfoPopup}
+          infoDescription={openInfoPopup.message}
+          showActionButton={openInfoPopup.actionButton}
+          handleYes={() => {
+            handleConfirmDelete(selected);
+            handleClearSelection();
           }}
-          handleClearSelection={handleClearSelection}
-          handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
         />
-      )}
-      <Paper>
-        <TableContainer>
-          <Table stickyHeader size="small" sx={{ minWidth: 650 }}>
-            <MuiTableHead
-              showCheckbox={showCheckbox}
-              headCells={headCells}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={data.length}
-              actionButtonKey={actionButtonKey}
-              customActionButton={customActionButton}
-            />
-            <MuiTableBody
-              showCheckbox={showCheckbox}
-              dataList={visibleRows}
-              headCells={headCells}
-              selected={selected}
-              handleClick={handleClick}
-              actionButtonKey={actionButtonKey}
-              handleTableBodyButtonAction={handleTableBodyActionButton}
-              customRows={customRows}
-              customActionButton={customActionButton}
-              hoverEffect={hoverEffect}
-            />
-          </Table>
-        </TableContainer>
+        {TableHeading && (
+          <MuiTableToolbar
+            filterButton={filterButton}
+            numSelected={selected?.length || 0}
+            TableHeading={TableHeading}
+            otherOptions={otherOptions}
+            handleEditSelection={handleEditSelection}
+            handleClearSelection={handleClearSelection}
+            handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
+          />
+        )}
+        <Paper>
+          <TableContainer>
+            <Table stickyHeader size="small" sx={{ minWidth: 650 }}>
+              <MuiTableHead
+                showCheckbox={showCheckbox}
+                headCells={headCells}
+                numSelected={selected?.length || 0}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={data?.length || 0}
+                actionButtonKey={actionButtonKey}
+                customActionButton={customActionButton}
+              />
+              <MuiTableBody
+                showCheckbox={showCheckbox}
+                dataList={visibleRows}
+                headCells={headCells}
+                selected={selected}
+                handleClick={handleClick}
+                actionButtonKey={actionButtonKey}
+                handleTableBodyButtonAction={handleTableBodyActionButton}
+                customRows={customRows}
+                customActionButton={customActionButton}
+                hoverEffect={hoverEffect}
+              />
+            </Table>
+          </TableContainer>
 
-        <TablePagination
-          rowsPerPageOptions={[20, 50, 100]}
-          component="div"
-          count={totalDataCount}
-          rowsPerPage={handleGetPaginationData().limit || ROWS_PER_PAGE}
-          page={handleGetPaginationData().offset}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+          <TablePagination
+            rowsPerPageOptions={[20, 50, 100]}
+            component="div"
+            count={totalDataCount}
+            rowsPerPage={handleGetPaginationData().limit || ROWS_PER_PAGE}
+            page={handleGetPaginationData().offset}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      </Box>
+    </SectionLoader>
   );
 }
 

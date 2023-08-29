@@ -12,7 +12,7 @@ import {
   TableRow,
   Tooltip,
 } from '@mui/material';
-import FormikModernField from 'shared/components/form/FormikModernField';
+import FormikField from 'shared/components/form/FormikField';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 function ContactInfo({ name, form, push, remove }) {
@@ -23,28 +23,45 @@ function ContactInfo({ name, form, push, remove }) {
           {form.values[name].map((item, index) => (
             <TableRow key={index} sx={{ borderBottom: 0 }}>
               <TableCell>
-                <FormikModernField name={`${name}.${index}.name`} type="text" placeholder="Name" />
+                <FormikField
+                  className="w-100"
+                  name={`${name}.${index}.name`}
+                  type="text"
+                  placeholder="Name"
+                />
               </TableCell>
               <TableCell>
-                <FormikModernField
+                <FormikField
+                  className="w-100"
                   name={`${name}.${index}.designation`}
                   type="text"
                   placeholder="Designation"
                 />
               </TableCell>
               <TableCell>
-                <FormikModernField
+                <FormikField
+                  className="w-100"
                   name={`${name}.${index}.mobile_num`}
                   type="number"
                   placeholder="Mobile Number"
                 />
               </TableCell>
               <TableCell>
-                <FormikModernField name={`${name}.${0}.email`} type="email" placeholder="Email" />
+                <FormikField
+                  className="w-100"
+                  name={`${name}.${0}.email`}
+                  type="email"
+                  placeholder="Email"
+                />
               </TableCell>
               <TableCell>
                 <Stack direction="row" spacing={2}>
-                  <FormikModernField name={`${name}.${0}.notes`} type="text" placeholder="Notes" />
+                  <FormikField
+                    className="w-100"
+                    name={`${name}.${0}.notes`}
+                    type="text"
+                    placeholder="Notes"
+                  />
 
                   <Tooltip title="Remove" arrow placement="top">
                     <IconButton onClick={() => remove(index)}>

@@ -7,7 +7,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 import { useGetCreditNotesListQuery } from 'services/private/credit-notes';
 import { useDeleteQuotationMutation } from 'services/private/quotations';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import { quotationsHeadCell } from '../../quotations/utils/head-cells';
+import { quotationsHeadCell } from '../../quotations/utilities/head-cells';
 
 function CreditNotesListing() {
   const { enqueueSnackbar } = useSnackbar();

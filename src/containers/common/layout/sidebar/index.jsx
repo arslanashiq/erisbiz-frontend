@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import { Outlet, useLocation } from 'react-router';
@@ -83,7 +83,7 @@ const AccountantSideBarLinks = [
 function Sidebar({ open, setOpen, handleToggleDrawer }) {
   const location = useLocation();
 
-  const [showSideBarChildLink, setShowSideBarChildLink] = React.useState([false, false]);
+  const [showSideBarChildLink, setShowSideBarChildLink] = useState([false, false]);
 
   const handleDrawerClose = () => {
     setOpen(false);

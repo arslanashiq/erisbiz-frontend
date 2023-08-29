@@ -1,5 +1,4 @@
-/* eslint-disable prefer-arrow-callback */
-import * as React from 'react';
+import React, { forwardRef } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,9 +11,7 @@ import { IconButton, Stack } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
+const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
 
 function InfoPopup({ open, handleClose, infoTitle, infoDescription, showActionButton, handleYes }) {
   return (

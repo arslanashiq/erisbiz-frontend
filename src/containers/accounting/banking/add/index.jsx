@@ -1,22 +1,21 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router';
 import { Form, Formik } from 'formik';
-import { Button, Card, CardContent, Stack } from '@mui/material';
+import { useNavigate, useParams } from 'react-router';
+import { Card, CardContent } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import FormikField from 'shared/components/form/FormikField';
+import FormHeader from 'shared/components/form-header/FormHeader';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import {
   useAddBankAccountMutation,
   useEditBankAccountMutation,
   useGetSingleBankAccountQuery,
 } from 'services/private/banking';
-import FormikModernField from 'shared/components/form/FormikModernField';
-import FormHeader from 'shared/components/form-header/FormHeader';
-import 'styles/form.scss';
-import { bankFormValidationSchema } from 'containers/accounting/items/utils/validationSchema';
-import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
-import useInitialValues from 'shared/custom-hooks/useInitialValues';
-import { bankingInitialValues } from '../utils/constants';
-// import useBankingInitialValues from '../utils/custom-hooks/useBankingInitialValues';
+import { bankingInitialValues } from '../utilities/constants';
+import { bankFormValidationSchema } from '../utilities/validationSchema';
+import 'styles/form/form.scss';
 
 function AddBankAccountPage() {
   const { id } = useParams();
@@ -53,103 +52,49 @@ function AddBankAccountPage() {
                 setSubmitting(true);
                 setErrors(err.response.data);
                 setSubmitting(false);
-              } else {
-                // doReturnErrors(err.response.data, err.response.status);
               }
             }
           }}
         >
-          {({
-            isSubmitting,
-            touched,
-            // setFieldValue,
-            // setFieldTouched,
-            resetForm,
-            values,
-          }) => (
-            <Form className="form form--horizontal row mt-3">
-              {/* Bank Name */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Bank Name</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    {' '}
-                    <AccountBalanceIcon />
-                  </div>
-                  <FormikModernField name="bank_name" type="text" placeholder="Bank Name" />
-                </div>
-              </div>
-              {/* Account Number */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Account Number</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <PersonIcon />
-                  </div>
-                  <FormikModernField name="account_number" type="text" placeholder="Bank Account Number" />
-                </div>
-              </div>
+          <Form className="form form--horizontal row mt-3">
+            {/* Bank Name */}
+            <FormikField
+              name="bank_name"
+              type="text"
+              placeholder="Bank Name"
+              label="Bank Name"
+              startIcon={<AccountBalanceIcon />}
+            />
+            {/* Account Number */}
+            <FormikField
+              name="account_number"
+              type="text"
+              placeholder="Bank Account Number"
+              startIcon={<PersonIcon />}
+              label="Account Number"
+            />
+            {/* Branch Name */}
+            <FormikField name="branch_name" type="text" label="Branch Name" />
+            {/* IBAN */}
+            <FormikField
+              name="IBAN"
+              type="text"
+              placeholder="International Bank Account Number"
+              label="IBAN"
+            />
+            {/* Swift Code */}
 
-              {/* Branch Name */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Branch Name</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="branch_name" type="text" />
-                </div>
-              </div>
+            <FormikField name="swift_code" type="text" placeholder="Swift Code" label="Swift Code" />
 
-              {/* IBAN */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">IBAN</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField
-                    name="IBAN"
-                    type="text"
-                    placeholder="International Bank Account Number"
-                  />
-                </div>
-              </div>
+            {/* GL Number */}
+            <FormikField name="gl_number" type="text" placeholder="GL No" label="GL Number" />
 
-              {/* Swift Code */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Swift Code</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="swift_code" type="text" placeholder="Swift Code" />
-                </div>
-              </div>
+            {/* notes */}
 
-              {/* GL Number */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">GL Number</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="gl_number" type="text" placeholder="GL No" />
-                </div>
-              </div>
-              {/* notes */}
-              <div className="form__form-group textarea">
-                <span className="form__form-group-label">Notes</span>
-                <div className="form__form-group-field col">
-                  <FormikModernField name="notes" type="text" value={values.notes} textArea />
-                </div>
-              </div>
+            <FormikField name="notes" type="text" textArea label="Notes" className="col-12" />
 
-              <ErrorFocus />
-              <Stack spacing={2} direction="row">
-                <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                  Save
-                </Button>
-
-                <Button
-                  color="secondary"
-                  onClick={() => resetForm()}
-                  disabled={!touched || isSubmitting}
-                  className="text-capitalize"
-                >
-                  {id ? 'Reset' : 'Clear'}
-                </Button>
-              </Stack>
-            </Form>
-          )}
+            <FormSubmitButton />
+          </Form>
         </Formik>
       </CardContent>
     </Card>

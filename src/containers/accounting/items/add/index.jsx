@@ -1,25 +1,26 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import Loader from 'shared/components/loader/Loader';
 import { useNavigate, useParams } from 'react-router';
 import CategoryIcon from '@mui/icons-material/Category';
+import { Box, Card, CardContent } from '@mui/material';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { useGetBrandsListQuery } from 'services/private/brands';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import FormHeader from 'shared/components/form-header/FormHeader';
-import FormikFileInput from 'shared/components/form/FormikFileInput';
+import FormikField from 'shared/components/form/FormikField';
+import FormikSelect from 'shared/components/form/FormikSelect';
+import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
+import FormikImageInput from 'shared/components/form/FormikImageInput';
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
 import { useGetBankAccountsListQuery } from 'services/private/banking';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
-import FormikModernField from 'shared/components/form/FormikModernField';
-import FormikModernSelect from 'shared/components/form/FormikModernSelect';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useAddItemMutation, useEditItemMutation, useGetSingleItemQuery } from 'services/private/items';
-import { Button, Card, CardContent, IconButton, Stack, Tooltip } from '@mui/material';
-import useInitialValues from 'shared/custom-hooks/useInitialValues';
-import { itemsInitialValues } from '../utils/constants';
-import 'styles/form.scss';
+import { itemsInitialValues } from '../utilities/constants';
+import 'styles/form/form.scss';
 
 function AddItemPage() {
   const navigate = useNavigate();
@@ -42,222 +43,154 @@ function AddItemPage() {
     value: `${brand.uid}`,
     label: brand.brand_name,
   }));
-  if (bankApiResponse.isLoading || supplierApiResponse.isLoading || brandsApiResponse.isLoading) {
-    return <Loader />;
-  }
 
   return (
-    <Card>
-      <CardContent>
-        <FormHeader title="Item Master" />
-        <Formik
-          enableReinitialize
-          initialValues={initialValues}
-          // validationSchema={itemFormValidationSchema}
-          onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
-            try {
-              let response = null;
-              const formData = new FormData();
-              Object.keys(initialValues).forEach(key => {
-                formData.append(key, values[key]);
-              });
-              formData.append('item_image', values.item_image);
-              formData.append('sale_account', values.account_no);
-              formData.append('cost_account', values.account_no);
-              formData.append('inventory_coa', values.account_no);
-              const postData = { item_image: values.item_image };
+    <SectionLoader
+      options={[bankApiResponse.isLoading, supplierApiResponse.isLoading, brandsApiResponse.isLoading]}
+    >
+      <Card>
+        <CardContent>
+          <FormHeader title="Item Master" />
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            // validationSchema={itemFormValidationSchema}
+            onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
+              try {
+                let response = null;
+                const payload = new FormData();
+                Object.keys(initialValues).forEach(key => {
+                  payload.append(key, values[key]);
+                });
+                payload.append('sale_account', values.account_no);
+                payload.append('cost_account', values.account_no);
+                payload.append('inventory_coa', values.account_no);
 
-              if (id) {
-                response = await editItem({ id, formData, postData });
-              } else {
-                response = await addItem(formData);
-              }
-              setSubmitting(false);
-              if (response.data) {
-                resetForm(initialValues);
-                navigate(-1);
-              }
-              if (response.error) {
-                setErrors(response.error.data);
-              }
-            } catch (err) {
-              if (err.response && err.response.status === 400) {
-                setSubmitting(true);
-                setErrors(err.response.data);
+                if (id) {
+                  response = await editItem({ id, payload });
+                } else {
+                  response = await addItem(payload);
+                }
                 setSubmitting(false);
+                if (response.data) {
+                  resetForm(initialValues);
+                  navigate(-1);
+                }
+                if (response.error) {
+                  setErrors(response.error.data);
+                }
+              } catch (err) {
+                if (err.response && err.response.status === 400) {
+                  setSubmitting(true);
+                  setErrors(err.response.data);
+                  setSubmitting(false);
+                }
               }
-            }
-          }}
-        >
-          {({ isSubmitting, touched, resetForm }) => (
+            }}
+          >
             <Form className="form form--horizontal row pt-3">
               {/* item name */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Item Name</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <ShoppingBasketIcon />
-                  </div>
-                  <FormikModernField type="text" name="item_name" placeholder="Item Name" />
-                </div>
-              </div>
+              <FormikField
+                type="text"
+                name="item_name"
+                placeholder="Item Name"
+                label="Item Name"
+                startIcon={<ShoppingBasketIcon />}
+              />
               {/* sku/HS code */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">SKU/HS Code</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <ContactPhoneIcon />
-                  </div>
-                  <FormikModernField name="sku_hs_code" placeholder="SKU/HS Code" />
-                </div>
-              </div>
-              {/* Sale price */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Sale Price</span>
-                <div className="form__form-group-field">
-                  <FormikModernField type="number" name="sale_price" placeholder="Sale Price" />
-                </div>
-              </div>
-              {/* cost Price */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Cost Price</span>
-                <div className="form__form-group-field">
-                  <FormikModernField type="number" name="cost_price" placeholder="Cost Price" />
-                </div>
-              </div>
-              {/* Item Type */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">item Type</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <CategoryIcon />
-                  </div>
+              <FormikField
+                name="sku_hs_code"
+                placeholder="SKU/HS Code"
+                type="number"
+                startIcon={<ContactPhoneIcon />}
+                label="SKU/HS Code"
+              />
 
-                  <FormikModernSelect name="item_type" type="text" options={ITEM_TYPES} />
-                </div>
-              </div>
+              {/* Sale price */}
+              <FormikField type="number" name="sale_price" placeholder="Sale Price" label="Sale Price" />
+              {/* cost Price */}
+              <FormikField type="number" name="cost_price" placeholder="Cost Price" label="Cost Price" />
+
+              {/* Item Type */}
+              <FormikSelect
+                name="item_type"
+                type="text"
+                options={ITEM_TYPES}
+                startIcon={<CategoryIcon />}
+                label="Item Type"
+                isRequired
+              />
               {/* Item Status */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">item Status</span>
-                <div className="form__form-group-field">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <CheckCircleOutlineIcon />
-                  </div>
-                  <FormikModernSelect name="is_active" type="text" options={ITEM_STATUS_OOPTIONS} />
-                </div>
-              </div>
+              <FormikSelect
+                name="is_active"
+                type="text"
+                options={ITEM_STATUS_OOPTIONS}
+                startIcon={<CheckCircleOutlineIcon />}
+                label="Status"
+              />
 
               {/* Account Number */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Account Number</span>
-                <div className="form__form-group-field">
-                  <FormikModernSelect name="account_no" options={bankOptions} placeholder="Account Number" />
-                </div>
-              </div>
+              <FormikSelect
+                name="account_no"
+                options={bankOptions}
+                placeholder="Account Number"
+                label="Account Number"
+              />
 
               {/* Bar Code */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Bar Code</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="bar_code" placeholder="Bar Code" />
-                </div>
-              </div>
+              <FormikField name="bar_code" placeholder="Bar Code" label="Bar Code" />
 
               {/* Unit */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Unit</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="unit" />
-                </div>
-              </div>
+              <FormikField name="unit" label="Unit" />
+
               {/* Recoder */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Recoder</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="recorder" type="text" placeholder="Recorder" />
-                </div>
-              </div>
+              <FormikField name="recorder" type="text" placeholder="Recorder" label="Recorder" />
 
               {/* description */}
-              <div className="form__form-group">
-                <span className="form__form-group-label col-lg-3">Description</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="description" textArea />
-                </div>
-              </div>
+              <FormikField name="description" textArea label="Description" className="col-12" />
+
               {/* item image */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3">Item Image</span>
-                <div className="form__form-group-field">
-                  <FormikFileInput name="item_image" type="file" accept="image/*" />
-                </div>
-              </div>
+              <FormikImageInput name="item_image" type="file" accept="image/*" label="Item Image" />
 
               {/* Part Number,Supplier,Brand */}
-              <div className="form__form-group col-md-6 row ">
+              <Box className="form__form-group col-md-6 row pe-0">
                 {/* Part Number */}
-                <div className="form__form-group col-12">
-                  <span className="form__form-group-label col-lg-3 required">Part Number</span>
-                  <div className="form__form-group-field ">
-                    <FormikModernField name="part_number" type="number" placeholder="Part Number" />
-                  </div>
-                </div>
-
+                <FormikField
+                  name="part_number"
+                  type="number"
+                  placeholder="Part Number"
+                  label="Part Number"
+                  className="col-12"
+                />
                 {/* Supplier */}
-                <div className="col-12 form__form-group">
-                  <span className="form__form-group-label col-lg-2">Supplier</span>
-                  <div className="form__form-group-field ">
-                    <FormikModernSelect
-                      name="supplier"
-                      options={suppliersOptions}
-                      placeholder="Select Supplier"
-                    />
-                  </div>
-                </div>
-                {/* Brand */}
-                <div className="form__form-group col-12">
-                  <span className="form__form-group-label col-lg-3 required">Brand</span>
-                  <div className="form__form-group-field ">
-                    <FormikModernSelect placeholder="Select Brand" name="brand" options={brandsOptions} />
 
-                    <Tooltip title="Add Brand" placement="top" arrow>
-                      <Stack
-                        className="form__form-group-icon-button"
-                        onClick={() => {
-                          navigate('/pages/accounting/brands/add');
-                        }}
-                      >
-                        <IconButton>
-                          <AddBoxIcon />
-                        </IconButton>
-                      </Stack>
-                    </Tooltip>
-                  </div>
-                </div>
-              </div>
+                <FormikSelect
+                  name="supplier"
+                  options={suppliersOptions}
+                  placeholder="Select Supplier"
+                  className="col-12"
+                  label="Supplier"
+                />
+                {/* Brand */}
+
+                <FormikSelect
+                  placeholder="Select Brand"
+                  name="brand"
+                  options={brandsOptions}
+                  label="Brand"
+                  className="col-12"
+                />
+              </Box>
 
               {/* ============================================================================================ */}
 
-              {/* <ErrorFocus /> */}
-              <Stack spacing={2} direction="row">
-                <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                  {isSubmitting ? 'Saving...' : 'Save'}
-                </Button>
-
-                <Button
-                  color="secondary"
-                  onClick={() => resetForm(initialValues)}
-                  disabled={!touched || isSubmitting}
-                  className="text-capitalize"
-                >
-                  Clear
-                </Button>
-              </Stack>
+              <ErrorFocus />
+              <FormSubmitButton />
             </Form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+          </Formik>
+        </CardContent>
+      </Card>
+    </SectionLoader>
   );
 }
 

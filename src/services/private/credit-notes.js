@@ -6,10 +6,7 @@ const creditNotesApi = privateApi.injectEndpoints({
       query: (params = {}) => ({
         url: 'api/accounting/sales/list/creditNotes',
         method: 'GET',
-        params: {
-          offset: params.offset,
-          limit: params.limit,
-        },
+        params,
       }),
     }),
   }),

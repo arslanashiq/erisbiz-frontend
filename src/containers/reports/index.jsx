@@ -13,7 +13,7 @@ import {
   reciptVoucher,
   sales,
   taxes,
-} from './utils/constants';
+} from './utilities/constants';
 
 // const allReports = [activity, taxes, financialReports, receivableReports, payableReports];
 function ReportsList() {

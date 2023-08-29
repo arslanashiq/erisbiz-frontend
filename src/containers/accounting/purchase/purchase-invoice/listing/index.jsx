@@ -9,7 +9,7 @@ import {
   useDeletePurchaseInvoceMutation,
   useGetPurchaseInvoiceListQuery,
 } from 'services/private/purchase-invoice';
-import { purchaseInvoiceHeadCells } from '../utils/head-cells';
+import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
   const { enqueueSnackbar } = useSnackbar();

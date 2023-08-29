@@ -7,12 +7,12 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import TagIcon from '@mui/icons-material/Tag';
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import { useAddBankAccountMutation, useGetSingleBankAccountQuery } from 'services/private/banking';
-import FormikModernField from 'shared/components/form/FormikModernField';
+import FormikField from 'shared/components/form/FormikField';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
-import 'styles/form.scss';
-import FormikModernSelect from 'shared/components/form/FormikModernSelect';
+import FormikSelect from 'shared/components/form/FormikSelect';
 import { VAT_CHARGES } from 'utilities/constants';
+import 'styles/form/form.scss';
 
 function AddExpense() {
   const { id } = useParams();
@@ -87,67 +87,46 @@ function AddExpense() {
           }) => (
             <Form className="form form--horizontal row mt-3">
               {/* Bank Name */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Expense Account</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    {' '}
-                    <TagIcon />
-                  </div>
-                  <FormikModernField name="expense_account" type="text" placeholder="Expense Account" />
-                </div>
-              </div>
+
+              <FormikField
+                name="expense_account"
+                type="text"
+                placeholder="Expense Account"
+                startIcon={<TagIcon />}
+                label="Expense Account"
+              />
+
               {/* date */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Date</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <CalendarMonthIcon />
-                  </div>
-                  <FormikDatePicker name="date" type="text" placeholder="Date" />
-                </div>
-              </div>
+
+              <FormikDatePicker
+                name="date"
+                type="text"
+                placeholder="Date"
+                label="Date"
+                startIcon={<CalendarMonthIcon />}
+              />
               {/* AMount */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Amount</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <PersonIcon />
-                  </div>
-                  <FormikModernField name="amount" type="text" placeholder="Amount" />
-                </div>
-              </div>
+
+              <FormikField
+                name="amount"
+                type="text"
+                placeholder="Amount"
+                label="Amount"
+                startIcon={<PersonIcon />}
+              />
 
               {/* Paid Through */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Paid Through</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="paid_through" type="text" placeholder="Paid Through" />
-                </div>
-              </div>
+              <FormikField name="paid_through" type="text" placeholder="Paid Through" label="Paid Through" />
 
               {/* Supplier */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Supplier</span>
-                <div className="form__form-group-field ">
-                  <FormikModernSelect options={[]} name="supplier" placeholder="Supplier" />
-                </div>
-              </div>
+              <FormikSelect options={[]} name="supplier" placeholder="Supplier" label="Supplier" />
 
               {/* Tax */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Tax</span>
-                <div className="form__form-group-field ">
-                  <FormikModernSelect options={VAT_CHARGES} name="tax" placeholder="Tax" />
-                </div>
-              </div>
+
+              <FormikSelect options={VAT_CHARGES} name="tax" placeholder="Tax" label="Tax" />
+
               {/* remarks */}
-              <div className="form__form-group textarea">
-                <span className="form__form-group-label">Remarks</span>
-                <div className="form__form-group-field col">
-                  <FormikModernField name="remarks" type="text" textArea />
-                </div>
-              </div>
+              <FormikField name="remarks" type="text" textArea label="Remarks" className="col-12" />
 
               {/* <ErrorFocus /> */}
               <Stack spacing={2} direction="row">

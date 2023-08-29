@@ -4,8 +4,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DoneIcon from '@mui/icons-material/Done';
 import { Box, Menu, MenuItem, Stack, Typography } from '@mui/material';
-import 'styles/topbar-search-menu.scss';
 import useClickOutside from '../custom-hooks/useClickOutside';
+import 'styles/topbar/topbar-search-menu.scss';
 
 const searchOptions = [
   { link: 'items', label: 'Items' },
@@ -38,7 +38,7 @@ function SearchBar() {
   const [showMenu, setMenu] = useState(false);
   const [searchText, setSearchText] = useState(searchQuery || '');
   const [showResetBtn, setResetBtn] = useState(!!searchQuery);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

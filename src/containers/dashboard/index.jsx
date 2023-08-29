@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import DashboardCards from './components/DashboardCards';
-import 'styles/dashboard.scss';
+import 'styles/dashboard/dashboard.scss';
 
 const cardsList = [
   {

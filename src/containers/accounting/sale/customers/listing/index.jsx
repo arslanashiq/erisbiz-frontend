@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
 import { useDeleteCutomerMutation, useGetCustomersListQuery } from 'services/private/customers';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import { customersHeadCell } from '../utils/head-cells';
+import { customersHeadCell } from '../utilities/head-cells';
 
 function CustomerListing() {
   const { enqueueSnackbar } = useSnackbar();

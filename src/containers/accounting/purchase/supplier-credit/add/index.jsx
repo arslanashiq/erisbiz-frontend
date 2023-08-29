@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { FieldArray, Form, Formik } from 'formik';
-import { Button, Card, CardContent, Stack } from '@mui/material';
-import { useGetItemsListQuery } from 'services/private/items';
+import { Card, CardContent } from '@mui/material';
 import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { useGetItemsListQuery } from 'services/private/items';
 import {
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
   hanldeVATChange,
-} from 'shared/components/purchase-item/utils/helpers';
+} from 'shared/components/purchase-item/utilities/helpers';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
-import FormikModernField from 'shared/components/form/FormikModernField';
-import FormikModernSelect from 'shared/components/form/FormikModernSelect';
-import Loader from 'shared/components/loader/Loader';
+import FormikField from 'shared/components/form/FormikField';
+import FormikSelect from 'shared/components/form/FormikSelect';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import { VAT_CHARGES } from 'utilities/constants';
-import 'styles/form.scss';
+import 'styles/form/form.scss';
 
 function AddSupplierCredit() {
   const [initialValues, setInitialValues] = useState({
-    // pur_order_num: lastPurOrderNum ? lastPurOrderNum + 1 : 1000,
     date: moment().format('YYYY-MM-DD'),
     location: '',
     supplier: '',
@@ -80,86 +80,66 @@ function AddSupplierCredit() {
     zipcode: '',
     country: '',
   });
-  console.log(setInitialValues, 'sjdlksadjlksa');
   const itemsListResponse = useGetItemsListQuery();
-  if (itemsListResponse.isLoading) {
-    return <Loader />;
-  }
 
-  const itemsListOptions = itemsListResponse.data.results.map((item, index) => ({
+  const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
     value: item.item_name,
     label: item.item_name,
     price: index + 1,
   }));
 
+  console.log(setInitialValues, 'sjdlksadjlksa');
   return (
-    <Card>
-      <CardContent>
-        <FormHeader title="Debit Notes" />
-        <Formik
-          enableReinitialize
-          initialValues={initialValues}
-          // validationSchema={bankFormValidationSchema}
-          //   onSubmit={async values => {
-          //   }}
-        >
-          {({
-            isSubmitting,
-            touched,
-
-            // setFieldTouched,
-            resetForm,
-          }) => (
+    <SectionLoader options={[itemsListResponse.isLoading]}>
+      <Card>
+        <CardContent>
+          <FormHeader title="Debit Notes" />
+          <Formik
+            enableReinitialize
+            initialValues={initialValues}
+            // validationSchema={bankFormValidationSchema}
+            //   onSubmit={async values => {
+            //   }}
+          >
             <Form className="form form--horizontal mt-3 row">
               {/* Purchase */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Voucher Number</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    {' '}
-                    <TagIcon />
-                  </div>
-                  <FormikModernField name="voucher_no" type="text" placeholder="Voucher Number" />
-                </div>
-              </div>
+
+              <FormikField
+                name="voucher_no"
+                type="text"
+                placeholder="Voucher Number"
+                label="Voucher Number"
+                startIcon={<TagIcon />}
+              />
               {/* date */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Date</span>
-                <div className="form__form-group-field ">
-                  <div className="form__form-group-icon cursor-pointer">
-                    <CalendarMonthIcon />
-                  </div>
-                  <FormikDatePicker name="date" type="text" placeholder="Date" />
-                </div>
-              </div>
+
+              <FormikDatePicker
+                name="date"
+                type="text"
+                placeholder="Date"
+                startIcon={<CalendarMonthIcon />}
+                label="Date"
+              />
 
               {/* Purchase Inv No */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Purchase Inv No</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField
-                    name="purchase_inv_no"
-                    type="text"
-                    placeholder="Purchase Invoice Number"
-                  />
-                </div>
-              </div>
+              <FormikField
+                name="purchase_inv_no"
+                type="text"
+                placeholder="Purchase Invoice Number"
+                label="Purchase Inv No"
+              />
 
               {/* Supplier */}
-              <div className="form__form-group col-md-6">
-                <span className="form__form-group-label col-lg-3 required">Supplier</span>
-                <div className="form__form-group-field ">
-                  <FormikModernSelect itemOptions={[]} name="supplier" placeholder="Supplier" />
-                </div>
-              </div>
+              <FormikSelect itemOptions={[]} name="supplier" placeholder="Supplier" label="Supplier" />
 
               {/* Location */}
-              <div className="form__form-group">
-                <span className="form__form-group-label col-lg-3 required">Debit Acc No</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="debit_account" type="text" placeholder="Debit Account Number" />
-                </div>
-              </div>
+              <FormikField
+                name="debit_account"
+                type="text"
+                placeholder="Debit Account Number"
+                label="Debit Acc No"
+                className="col-12"
+              />
 
               {/* Item detail */}
               <div className="form__form-group w-100">
@@ -232,32 +212,14 @@ function AddSupplierCredit() {
               </div>
 
               {/* Remarks */}
-              <div className="form__form-group">
-                <span className="form__form-group-label col-lg-3 required">Remarks</span>
-                <div className="form__form-group-field ">
-                  <FormikModernField name="remarks" textArea placeholder="Remarks" />
-                </div>
-              </div>
+              <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
 
-              <Stack spacing={2} direction="row">
-                <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                  Save
-                </Button>
-
-                <Button
-                  color="secondary"
-                  onClick={() => resetForm()}
-                  disabled={!touched || isSubmitting}
-                  className="text-capitalize"
-                >
-                  Clear
-                </Button>
-              </Stack>
+              <FormSubmitButton />
             </Form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+          </Formik>
+        </CardContent>
+      </Card>
+    </SectionLoader>
   );
 }
 

@@ -1,0 +1,189 @@
+@import '../variables.scss';
+.statement-template {
+  font-family:
+    Open Sans,
+    'WebFont-Open Sans';
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 50px 30px;
+  box-shadow:
+    0px 2px 5px #c5c1c1,
+    0px 0px 5px #c5c1c1;
+
+  .statement-logo {
+    width: 50%;
+  }
+}
+// Invoice Template Style
+
+.pcs-template {
+  font-family:
+    Open Sans,
+    'WebFont-Open Sans';
+  font-size: 10pt;
+  color: #333333;
+  background: #ffffff;
+}
+
+.pcs-header-content {
+  font-size: 9pt;
+  color: #333333;
+  background-color: #ffffff;
+}
+.pcs-template-body {
+  padding: 0 0.4in 0 0.55in;
+}
+.pcs-template-footer {
+  height: 0.7in;
+  font-size: 6pt;
+  color: #aaaaaa;
+  padding: 0 0.4in 0 0.55in;
+  background-color: #ffffff;
+}
+.pcs-footer-content {
+  word-wrap: break-word;
+  color: #aaaaaa;
+  border-top: 1px solid #adadad;
+}
+
+.pcs-label {
+  color: #333333;
+}
+.pcs-entity-title {
+  font-size: 28pt;
+  color: #000000;
+}
+.pcs-orgname {
+  font-size: 10pt;
+  color: #333333;
+}
+.pcs-customer-name {
+  font-size: 9pt;
+  color: #333333;
+}
+.pcs-itemtable-header {
+  font-size: 9pt;
+  color: #ffffff;
+  background-color: #3c3d3a;
+}
+.pcs-itemtable-breakword {
+  word-wrap: break-word;
+}
+.pcs-taxtable-header {
+  font-size: 9pt;
+  color: white;
+  background-color: $primary-color;
+  font-weight: bold;
+}
+.breakrow-inside {
+  page-break-inside: avoid;
+}
+.breakrow-after {
+  page-break-after: auto;
+}
+.pcs-item-row {
+  font-size: 9pt;
+  border-bottom: 1px solid $primary-color;
+  background-color: #ffffff;
+  color: #000000;
+}
+.pcs-item-sku {
+  margin-top: 2px;
+  font-size: 10px;
+  color: #444444;
+}
+.pcs-item-desc {
+  color: #727272;
+  font-size: 9pt;
+}
+.pcs-balance {
+  background-color: #f5f4f3;
+  font-size: 9pt;
+  color: #000000;
+}
+.pcs-totals {
+  font-size: 9pt;
+  color: #000000;
+  background-color: #ffffff;
+}
+.pcs-notes {
+  font-size: 8pt;
+}
+.pcs-terms {
+  font-size: 8pt;
+}
+.pcs-header-first {
+  background-color: $primary-color;
+  font-size: 9pt;
+  color: #333333;
+  height: auto;
+}
+
+.pcs-status {
+  font-size: 15pt;
+  border: 3px solid;
+  padding: 3px 8px;
+}
+.billto-section {
+  padding-top: 0mm;
+  padding-left: 0mm;
+}
+.shipto-section {
+  padding-top: 0mm;
+  padding-left: 0mm;
+}
+
+@page :first {
+  @top-center {
+    content: element(header);
+  }
+  margin-top: 0.7in;
+}
+
+.pcs-template-header {
+  padding: 0 0.4in 0 0.55in;
+  height: 0.7in;
+}
+
+.pcs-template-fill-emptydiv {
+  display: table-cell;
+  content: ' ';
+  width: 100%;
+}
+
+.lineitem-header {
+  padding: 5px 10px 5px 5px;
+  word-wrap: break-word;
+}
+.rtl .lineitem-header {
+  padding: 5px 5px 5px 10px;
+}
+.lineitem-column {
+  padding: 10px 10px 5px 10px;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+.lineitem-content-right {
+  padding: 10px 10px 10px 5px;
+}
+.rtl .lineitem-content-right {
+  padding: 10px 5px 10px 10px;
+}
+.total-number-section {
+  width: 45%;
+  padding: 10px 10px 3px 3px;
+  font-size: 9pt;
+  float: left;
+}
+.rtl .total-number-section {
+  float: right;
+}
+.pcs-total-section {
+  width: 50%;
+  float: right;
+}
+.rtl .pcs-total-section {
+  float: left;
+}
+
+// Invoice Template Style End

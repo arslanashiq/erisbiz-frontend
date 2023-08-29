@@ -8,8 +8,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { useDeleteSupplierMutation, useGetSuppliersListQuery } from 'services/private/suppliers';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
-import { supplierHeadCells } from '../utils/head-cells';
-import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utils/constants';
+import { supplierHeadCells } from '../utilities/head-cells';
+import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utilities/constants';
 
 function SupplierListing() {
   const navigate = useNavigate();

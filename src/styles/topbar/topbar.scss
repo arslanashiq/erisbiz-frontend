@@ -1,0 +1,237 @@
+@import '../variables.scss';
+
+.topbar__left {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+.topbar__logo {
+  width: 30%;
+  height: 55px;
+  margin: auto 0;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: left;
+  background-size: contain;
+  display: none;
+  background-image: $topbar-logo;
+
+  @media screen and (min-width: 648px) {
+    display: block;
+  }
+}
+
+.topbar__middle {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.topbar__right {
+  display: flex;
+  // margin-right: 15px;
+}
+
+.topbar__category-icon {
+  position: absolute;
+  right: 20px;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.topbar__submenu {
+  position: absolute;
+  right: 1px;
+  top: 0;
+  transform: translateX(100%);
+  transition: 0.3s;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.show {
+  display: block !important;
+}
+.clr-add {
+  color: $primary-color;
+  font-size: 27px !important;
+}
+.topbar__search {
+  margin: auto 0;
+  padding: 0;
+
+  &-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 190px;
+    padding: 6px 0;
+    height: 34px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background-color: #f2f4f7;
+    // @include themify($themes) {
+    //   background-color: themed('colorBackgroundBody');
+    // }
+
+    @media screen and (max-width: 1024px) {
+      width: 100px;
+    }
+
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
+  }
+
+  &-dropdown--head {
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    padding-left: 10px;
+    border-right: 1px solid #dfd9d9;
+
+    .menudown-icon {
+      margin-left: -5px;
+    }
+
+    .dropdown-label {
+      display: inline-block;
+      // color: $color-additional;
+      color: #999;
+      margin-top: 2px;
+    }
+  }
+
+  &-dropdown--menu {
+    position: absolute;
+    display: none;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    margin: 0.3rem 0 0;
+    border-radius: 0.25rem;
+    border: 1px solid #eaeaea;
+    max-height: 390px;
+    overflow-y: scroll;
+
+    @media screen and (max-width: 1024px) {
+      width: 150%;
+    }
+
+    scrollbar-color: #c9bdbd #fff;
+    scrollbar-width: auto;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      background-color: #fff;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: #c9bdbd;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #a79595;
+    }
+
+    // @include themify($themes) {
+    //   background-color: themed('colorBackground');
+    // }
+
+    button {
+      position: relative;
+      display: block;
+      width: 100%;
+      border: none;
+      background: none;
+      background-color: white;
+      text-align: left;
+      font-size: 0.9rem;
+      padding: 0.4rem 1.5rem 0.4rem 1.8rem;
+
+      &:hover {
+        // background-color: $color-primary;
+        background-color: #1976d2;
+        color: #fff;
+      }
+    }
+
+    .check-icon {
+      position: absolute;
+      left: 6px;
+    }
+  }
+
+  &-field {
+    transition: all 0.3s;
+    margin: auto auto auto 0;
+    border: none;
+    border-radius: 0 15px 15px 0;
+    height: 34px;
+    padding-right: 46px;
+    padding-left: 10px;
+    width: 380px;
+
+    @media screen and (max-width: 1024px) {
+      width: 200px;
+    }
+
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
+
+    // @include themify($themes) {
+    //   background-color: themed('colorBackgroundBody');
+    // }
+
+    background-color: #f2f4f7;
+    &.topbar__search-field--open {
+      width: 200px;
+      opacity: 1;
+      margin-left: 10px;
+
+      & + button {
+        right: 10px;
+      }
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &-reset-btn {
+    background-color: gray;
+    border-radius: 15px;
+    color: #fff;
+    padding: 6px 15px 2px 15px;
+    margin-left: 10px;
+  }
+}
+
+.topbar__search-btn {
+  top: 4px;
+  height: 26px;
+  width: 26px;
+  border-radius: 13px;
+  border: none;
+  padding: 0;
+  background: transparent;
+  position: absolute;
+  right: 0;
+}
+
+@media screen and (min-width: 480px) {
+  .topbar__menu {
+    width: 100%;
+    left: 0 !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .topbar__middle {
+    display: none;
+  }
+}
