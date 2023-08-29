@@ -43,7 +43,7 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
                     {input.isSelect ? (
                       <FormikSelect
                         disabled={input.disabled || false}
-                        itemOptions={input.options}
+                        options={input.options}
                         name={`${name}.${index}.${input.name}`}
                         placeholder={input.placeholder}
                         value={item[input.name]}
