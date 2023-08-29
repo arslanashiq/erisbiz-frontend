@@ -23,7 +23,7 @@ function TopbarProfile() {
 
   const handleLogout = async () => {
     localStorage.clear();
-    await dispatch(setUser({}));
+    await dispatch(setUser({ isAuthenticated: false, user: { email: '', groups: [], profile: {} } }));
     navigate('/auth/login');
   };
 
