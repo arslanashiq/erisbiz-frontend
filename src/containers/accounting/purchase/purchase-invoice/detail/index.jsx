@@ -4,19 +4,27 @@ import { useNavigate, useParams } from 'react-router';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import PrintIcon from '@mui/icons-material/Print';
 import { Button, Card, CardContent, Stack, Tooltip, Typography } from '@mui/material';
+// services
 import { useChangePurchaseOrderStatusToIssuedMutation } from 'services/private/purchase-orders';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import {
   useDeletePurchaseInvoceMutation,
+  useDeletePurchaseInvoiceDocumentFileMutation,
   useGetSinglePurchaseInvoiceQuery,
+  useUploadPurchaseInvoiceDocumentFileMutation,
 } from 'services/private/purchase-invoice';
+// shared
 import InfoPopup from 'shared/modals/InfoPopup';
-import OrderDocument from 'shared/components/order-document/OrderDocument';
-import usePdfView from 'shared/components/pdf/custom-hooks/usePdfView';
-import { iconButtonStyle } from 'utilities/mui-styles';
+import FilePopup from 'shared/modals/filePopup';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import PdfPrintModal from 'shared/components/pdf/modal/PdfPrintModal';
+import usePdfView from 'shared/components/pdf/custom-hooks/usePdfView';
+import OrderDocument from 'shared/components/order-document/OrderDocument';
+// containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utilities
+import { iconButtonStyle } from 'utilities/mui-styles';
+import { addDocument, deleteDocument } from 'utilities/document-action-handlers';
 
 const keyValue = 'bill_items';
 function PurchaseInvoiceDetail() {
@@ -25,6 +33,9 @@ function PurchaseInvoiceDetail() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
+  const [openFilesModal, setOpenFilesModal] = useState({
+    open: false,
+  });
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [openPopup, setOpenPopup] = useState({
     open: false,
@@ -32,6 +43,8 @@ function PurchaseInvoiceDetail() {
   });
   const purchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(id);
   const [deletePurchaseinvoice] = useDeletePurchaseInvoceMutation();
+  const [uploadDocument] = useUploadPurchaseInvoiceDocumentFileMutation();
+  const [removeDocument] = useDeletePurchaseInvoiceDocumentFileMutation();
   const orderInfo = useMemo(
     () => ({
       type: 'Bill Invoice',
@@ -72,6 +85,18 @@ function PurchaseInvoiceDetail() {
   const handleOpenPdfPrintModal = () => {
     setIsPrintModalOpen(true);
   };
+  const handleOpenFilesModal = () => {
+    setOpenFilesModal({ ...openFilesModal, open: true, files: [] });
+  };
+  const handleCloseFilesModal = () => {
+    setOpenFilesModal({ ...openFilesModal, open: false });
+  };
+  const handleUploadDocfile = async file => {
+    await addDocument(id, file, uploadDocument, enqueueSnackbar);
+  };
+  const handleDeleteDocfile = async file => {
+    await deleteDocument(file.id, removeDocument, enqueueSnackbar);
+  };
 
   return (
     <SectionLoader options={[purchaseInvoiceResponse.isLoading]}>
@@ -81,6 +106,13 @@ function PurchaseInvoiceDetail() {
           showActionButton
           handleClose={handleClose}
           handleYes={handleDeletePurchaseInvoice}
+        />
+        <FilePopup
+          open={openFilesModal.open}
+          handleClose={handleCloseFilesModal}
+          handleUploadFile={handleUploadDocfile}
+          handleDeleteFile={handleDeleteDocfile}
+          files={purchaseInvoiceResponse?.data?.bill_docs}
         />
         <PdfPrintModal
           isPrintModalOpen={isPrintModalOpen}
@@ -102,9 +134,11 @@ function PurchaseInvoiceDetail() {
                 <PrintIcon sx={iconButtonStyle} />
               </Button>
             </Tooltip>
-            <Button>
-              <AttachFileIcon sx={{ height: 19, width: 19 }} />
-            </Button>
+            <Tooltip title="Attach File" placement="top" arrow>
+              <Button onClick={handleOpenFilesModal}>
+                <AttachFileIcon sx={iconButtonStyle} />
+              </Button>
+            </Tooltip>
             <ActionMenu actionsList={purchaseInvoiceActionList} />
             <Button>Back</Button>
           </Stack>

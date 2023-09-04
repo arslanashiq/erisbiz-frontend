@@ -24,30 +24,17 @@ function FormikField({
   disabled,
   placeholder,
   type,
+  onChange,
   ...props
 }) {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
   // which we can spread on <input> and also replace ErrorMessage entirely.
   const [field] = useField(props);
 
-  // const handleChange = e => {
-  //   const { inputType } = props;
-  //   if (inputType === 'numbersOnly') {
-  //     const regex = /^[0-9\b]+$/;
-
-  //     if (e.target.value === '' || regex.test(e.target.value)) {
-  //       field.onChange(e);
-  //     }
-  //   } else if (inputType === 'lettersOnly') {
-  //     const regex = /^[a-zA-Z ]*$/;
-
-  //     if (e.target.value === '' || regex.test(e.target.value)) {
-  //       field.onChange(e);
-  //     }
-  //   } else {
-  //     field.onChange(e);
-  //   }
-  // };
+  const handleChange = e => {
+    field.onChange(e);
+    if (onChange) onChange(e);
+  };
 
   return (
     <div className={`form__form-group-input-wrap ${className}`}>
@@ -60,7 +47,7 @@ function FormikField({
           className={textRight ? 'text-right' : ''}
           disabled={disabled}
           placeholder={placeholder}
-          // onChange={handleChange}
+          onChange={handleChange}
         />
       )}
       {touched && error && <span className="form__form-group-error">{error}</span>}
@@ -78,6 +65,7 @@ FormikField.propTypes = {
   error: PropTypes.string,
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
+  onChange: PropTypes.func,
   // inputType: PropTypes.string,
 };
 
@@ -89,6 +77,7 @@ FormikField.defaultProps = {
   className: null,
   placeholder: null,
   error: null,
+  onChange: null,
   type: 'text',
   // inputType: null,
 };

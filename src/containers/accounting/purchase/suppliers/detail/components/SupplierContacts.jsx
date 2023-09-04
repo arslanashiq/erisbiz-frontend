@@ -1,10 +1,11 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import PropTypes from 'prop-types';
-import MuiTable from 'shared/components/table/MuiTable';
-import { IconButton, Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import { IconButton, Tooltip } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+// utilities
 import { supplierContactHeadCells } from '../../utilities/head-cells';
 
 function SupplierContacts({ supplierContacts }) {

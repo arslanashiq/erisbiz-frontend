@@ -379,3 +379,99 @@ pre {
   font-size: 13px;
   font-family: 'Montserrat', sans-serif !important;
 }
+
+/************** Invoice CSS ****************/
+
+.invoice-headings p {
+  /* margin-bottom: 25px; */
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.invoice-details p {
+  margin-bottom: 0px;
+  color: #868282;
+  font-weight: 700;
+  font-size: 15px;
+  padding-left: 10px;
+}
+.invoice-details hr {
+  margin-bottom: 1rem;
+  margin-top: 0px;
+}
+
+.amount {
+  background-color: $primary-color;
+  text-align: center;
+  padding: 30px;
+}
+.amount p {
+  margin-bottom: 2px;
+  font-weight: 700;
+  font-size: 18px;
+  color: $text-color;
+}
+
+.over-payment {
+  margin: 30px 0;
+  border-bottom: 1px solid #dbd7d7;
+  border-top: 1px solid #dbd7d7;
+
+  h5 {
+    font-weight: bold;
+    color: $color-additional;
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+
+  h4 {
+    margin-bottom: 20px;
+  }
+}
+
+/************** payment-for CSS *************/
+
+.payment-for-heading {
+  font-weight: 700;
+  color: $primary-color;
+}
+
+.payment-headings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $primary-color;
+  padding: 15px;
+  text-align: center;
+}
+.payment-headings p {
+  // margin-bottom: 0px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 14px;
+  color: white;
+  width: 100%;
+  margin: 0 !important;
+}
+.payment-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fafafa;
+  border: 1px solid #d0cbcb;
+  color: black;
+  padding: 15px;
+  border-top: none;
+  text-align: center;
+}
+.payment-details p {
+  font-size: 12px;
+  width: 100%;
+  margin: 0 !important;
+}
+.payment-details a {
+  font-size: 12px;
+  font-weight: bold;
+  width: 100%;
+}

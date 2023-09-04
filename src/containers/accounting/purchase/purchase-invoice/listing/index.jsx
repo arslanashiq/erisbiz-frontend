@@ -2,13 +2,16 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
-import MuiTable from 'shared/components/table/MuiTable';
 import { useLocation, useNavigate } from 'react-router';
-import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+// services
 import {
   useDeletePurchaseInvoceMutation,
   useGetPurchaseInvoiceListQuery,
 } from 'services/private/purchase-invoice';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+// utilitues
+import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
@@ -21,11 +24,7 @@ function SupplierCreditListing() {
   const [deleteInvoice] = useDeletePurchaseInvoceMutation();
   const deleteSingleItem = async id => {
     await deleteInvoice(id);
-    // if (deleteItemResp.data) {
     enqueueSnackbar('Invoice Deleted Successfully', { variant: 'success' });
-    // } else {
-    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    // }
   };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';

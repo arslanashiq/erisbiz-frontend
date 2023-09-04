@@ -6,20 +6,25 @@ import { Box, Card, CardContent } from '@mui/material';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+// services
 import { useGetBrandsListQuery } from 'services/private/brands';
+import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
+import { useAddItemMutation, useEditItemMutation, useGetSingleItemQuery } from 'services/private/items';
+// shared
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import FormikImageInput from 'shared/components/form/FormikImageInput';
+// containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-import { useGetSuppliersListQuery } from 'services/private/suppliers';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
+// utilities
 import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
-import { useAddItemMutation, useEditItemMutation, useGetSingleItemQuery } from 'services/private/items';
 import { itemsInitialValues } from '../utilities/constants';
+// styles
 import 'styles/form/form.scss';
 
 function AddItemPage() {

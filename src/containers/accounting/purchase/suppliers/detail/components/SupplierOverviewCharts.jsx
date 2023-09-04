@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Stack, Typography } from '@mui/material';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
+// components
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 
 function SupplierOverviewCharts({ supplierDetail, supplierIncome, activityLogDuration, handleClickMenu }) {

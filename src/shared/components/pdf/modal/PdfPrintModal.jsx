@@ -5,12 +5,26 @@ import { PDFViewer } from '@react-pdf/renderer';
 import StyledDialog from 'styles/mui/component/StyledDialog';
 import usePdfView from '../custom-hooks/usePdfView';
 
-function PdfPrintModal({ isPrintModalOpen, setIsPrintModalOpen, orderInfo, orderDetail, keyValue }) {
+function PdfPrintModal({
+  isPrintModalOpen,
+  setIsPrintModalOpen,
+  orderInfo,
+  orderDetail,
+  keyValue,
+  showItemsTable,
+  showVoucherTable,
+}) {
   const handleClose = () => {
     setIsPrintModalOpen(false);
   };
 
-  const { handlePrint, component } = usePdfView(orderInfo, orderDetail, keyValue);
+  const { handlePrint, component } = usePdfView(
+    orderInfo,
+    orderDetail,
+    keyValue,
+    showItemsTable,
+    showVoucherTable
+  );
 
   return (
     <div className="order-detail-wrapper">
@@ -51,9 +65,13 @@ PdfPrintModal.propTypes = {
   setIsPrintModalOpen: PropTypes.func,
   orderInfo: PropTypes.object.isRequired,
   keyValue: PropTypes.string.isRequired,
+  showVoucherTable: PropTypes.bool,
+  showItemsTable: PropTypes.bool,
 };
 PdfPrintModal.defaultProps = {
   isPrintModalOpen: false,
+  showVoucherTable: false,
+  showItemsTable: true,
   setIsPrintModalOpen: () => {},
 };
 

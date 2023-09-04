@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { FieldArray, Form, Formik } from 'formik';
+import LanguageIcon from '@mui/icons-material/Language';
 import { Button, Card, CardContent, Stack } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
-import LanguageIcon from '@mui/icons-material/Language';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
-import { FieldArray, Form, Formik } from 'formik';
-import { useNavigate, useParams } from 'react-router';
-
-// COMPONENTS & UTILIITES
-import FormHeader from 'shared/components/form-header/FormHeader';
-import FormikField from 'shared/components/form/FormikField';
-import FormTabs from 'shared/components/tabs/FormTabs';
-import { CheckBoxField } from 'shared/components/form/CheckBox';
-import FormikSelect from 'shared/components/form/FormikSelect';
+// services
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
 import {
   useAddSupplierMutation,
@@ -21,11 +15,19 @@ import {
   useGetSingleSupplierQuery,
 } from 'services/private/suppliers';
 import { useGetBankAccountsListQuery } from 'services/private/banking';
+// shared
+import FormHeader from 'shared/components/form-header/FormHeader';
+import FormikField from 'shared/components/form/FormikField';
+import FormTabs from 'shared/components/tabs/FormTabs';
+import { CheckBoxField } from 'shared/components/form/CheckBox';
+import FormikSelect from 'shared/components/form/FormikSelect';
 import ContactInfo from 'shared/components/form/ContactInfo';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
+// utils
 import { supplierFormTabsList } from '../utilities/constants';
-import CreditTermsRadioButtons from './components/CreditTermsRadioButtons';
 import { supplierInitialValues } from '../utilities/constant';
+// components
+import CreditTermsRadioButtons from './components/CreditTermsRadioButtons';
 import 'styles/form/form.scss';
 
 function SupplierAddPage() {
@@ -42,15 +44,6 @@ function SupplierAddPage() {
     supplierInitialValues,
     useGetSingleSupplierQuery
   );
-
-  useEffect(() => {
-    if (supplierFormInitialValues.set_credit_limit) {
-      setInitialValues({ ...supplierFormInitialValues, credit_limit: true });
-    }
-    if (supplierFormInitialValues.set_credit_terms) {
-      setInitialValues({ ...supplierFormInitialValues, credit_terms: true });
-    }
-  }, [supplierFormInitialValues]);
 
   const countryOptions = countriesListResponse?.data?.data?.map(country => ({
     value: `${country.country}`,
@@ -72,7 +65,14 @@ function SupplierAddPage() {
     setFieldValue('account_number', selectedBank.account_number);
     setFieldValue('IBAN', selectedBank.IBAN);
   };
-
+  useEffect(() => {
+    if (supplierFormInitialValues.set_credit_limit) {
+      setInitialValues({ ...supplierFormInitialValues, credit_limit: true });
+    }
+    if (supplierFormInitialValues.set_credit_terms) {
+      setInitialValues({ ...supplierFormInitialValues, credit_terms: true });
+    }
+  }, [supplierFormInitialValues]);
   return (
     <Card>
       <CardContent>

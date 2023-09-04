@@ -1,19 +1,24 @@
 import React from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import { useSnackbar } from 'notistack';
 import { Helmet } from 'react-helmet';
+import { useSnackbar } from 'notistack';
+import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
-import SectionLoader from 'containers/common/loaders/SectionLoader';
-import MuiTable from 'shared/components/table/MuiTable';
+// services
 import {
   useChangeItemStatusMutation,
   useDeleteItemMutation,
   useGetItemsListQuery,
 } from 'services/private/items';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utilities
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
-import ItemFilter from './components/ItemFilter';
 import { itemsHeadCell } from '../utilities/head-cells';
+// components
+import ItemFilter from './components/ItemFilter';
 
 function ItemsListing() {
   const location = useLocation();
@@ -83,7 +88,7 @@ function ItemsListing() {
     });
   };
   return (
-    <SectionLoader options={[itemsListResponse]}>
+    <SectionLoader options={[itemsListResponse.isLoading]}>
       <Helmet>
         <title>Items - ErisBiz</title>
         <meta name="description" content="ErisBiz" />

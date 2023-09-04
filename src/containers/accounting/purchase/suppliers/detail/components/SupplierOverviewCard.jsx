@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
+// utilities
 import { DEFAULT_IMG } from 'utilities/constants';
+import useSupplierDetail from '../../utilities/custom-hooks/useSupplierDetail';
+// components
 import SupplierAddress from './SupplierAddress';
 import SupplierOtherInfo from './SupplierOtherInfo';
-import useSupplierDetail from '../../utilities/custom-hooks/useSupplierDetail';
 import SupplierContactPerson from './SupplierContactPerson';
 
 function SupplierOverviewCard({ supplierDetail }) {

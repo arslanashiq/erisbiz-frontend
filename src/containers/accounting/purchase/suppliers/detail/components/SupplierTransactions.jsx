@@ -1,8 +1,11 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { useParams } from 'react-router';
+// services
 import { useGetSupplierTransactionsQuery } from 'services/private/suppliers';
+// shared
 import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
+// utilities
 import { supplierBillTransactionHeadCells } from '../../utilities/head-cells';
 
 function SupplierTransactions() {

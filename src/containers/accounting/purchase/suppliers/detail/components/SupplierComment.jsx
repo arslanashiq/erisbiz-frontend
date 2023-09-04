@@ -9,9 +9,12 @@ import { TimelineOppositeContent } from '@mui/lab';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import { useDeleteSupplierCommentMutation } from 'services/private/suppliers';
 import DeleteIcon from '@mui/icons-material/Delete';
+// services
+import { useDeleteSupplierCommentMutation } from 'services/private/suppliers';
+// components
 import CommentsForm from './CommentsForm';
+// styles
 import 'styles/comments/comments.scss';
 
 export default function SupplierComment({ comments }) {

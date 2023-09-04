@@ -1,16 +1,19 @@
-import { Button, Card, CardContent, Stack } from '@mui/material';
-import { Formik, Form } from 'formik';
 import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
+import { Button, Card, CardContent, Stack } from '@mui/material';
+// services
 import {
   useAddSupplierContactMutation,
   useEditSupplierContactMutation,
   useGetSupplierSingleContactQuery,
 } from 'services/private/suppliers';
+// shared
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
+// styles
 import 'styles/form/form.scss';
 
 function AddSupplierContact() {
@@ -27,14 +30,13 @@ function AddSupplierContact() {
   const [addSupplierContact] = useAddSupplierContactMutation();
   const [editSupplierContact] = useEditSupplierContactMutation();
 
-  if (id) {
-    const singleSupplierContactResponse = useGetSupplierSingleContactQuery(id);
-    useEffect(() => {
-      if (id && singleSupplierContactResponse.isSuccess) {
-        setInitialValues({ ...singleSupplierContactResponse?.data });
-      }
-    }, [id, singleSupplierContactResponse]);
-  }
+  const singleSupplierContactResponse = useGetSupplierSingleContactQuery(id, { skip: !id });
+  useEffect(() => {
+    if (id && singleSupplierContactResponse.isSuccess) {
+      setInitialValues({ ...singleSupplierContactResponse?.data });
+    }
+  }, [id, singleSupplierContactResponse]);
+
   return (
     <>
       <Helmet>
@@ -68,8 +70,6 @@ function AddSupplierContact() {
                   setSubmitting(true);
                   setErrors(err.response.data);
                   setSubmitting(false);
-                } else {
-                  // doReturnErrors(err.response.data, err.response.status);
                 }
               }
             }}

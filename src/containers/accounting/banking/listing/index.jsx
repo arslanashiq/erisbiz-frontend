@@ -3,12 +3,17 @@ import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
 import AddIcon from '@mui/icons-material/Add';
+// services
 import {
   useChangeBankAccountStatusMutation,
   useDeleteBankMutation,
   useGetBankAccountsListQuery,
 } from 'services/private/banking';
+// shared
 import MuiTable from 'shared/components/table/MuiTable';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utilities
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { BankingHeadCells } from '../utilities/head-cells';
@@ -44,11 +49,7 @@ function BankListing() {
   };
   const deleteSingleBank = async id => {
     await deletBank(id);
-    // if (deleteResponse.data) {
     enqueueSnackbar('Bank Deleted Successfully', { variant: 'success' });
-    // } else {
-    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    // }
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
@@ -56,7 +57,7 @@ function BankListing() {
     });
   };
   return (
-    <>
+    <SectionLoader options={[bankAccountListResponse.isLoading]}>
       <Helmet>
         <title>Banking - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
@@ -83,7 +84,7 @@ function BankListing() {
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />
-    </>
+    </SectionLoader>
   );
 }
 

@@ -2,15 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import formatAmount from 'utilities/formatAmount';
+import OrderItemsTable from './OrderItemsTable';
+import OrderVoucher from './OrderVoucher';
 import 'styles/purchase-order-template/purchase-order-template.scss';
 
-function OrderReceipt({ orderDetail, orderInfo, keyValue }) {
+function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsTable, showOrderVoucher }) {
   return (
     <div className="invoice-receipt-main-container">
-      <div className="check">
-        <header className="paidArrow"> {orderDetail.status} </header>
-      </div>
+      {showStatus && (
+        <div className="check">
+          <header className="paidArrow"> {orderDetail.status} </header>
+        </div>
+      )}
       <div style={{ padding: 20 }}>
         <div className="invoice-receipt-container">
           <div className="box-1">
@@ -66,7 +69,7 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue }) {
             <div id="bill_to">
               <div className="boxSecond" style={{ fontSize: '15px' }}>
                 <div className="entry-info">
-                  <p className="head">Supplier:</p>
+                  <p className="head">{orderInfo.label ? orderInfo.label : 'Supplier'}:</p>
                   <p>
                     <Link to={`/pages/accounting/purchases/suppliers/${orderDetail.supplier_id}/detail`}>
                       {orderInfo.supplier.supplier_name}
@@ -91,111 +94,10 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue }) {
             </div>
           </div>
         </div>
-        <table className="table1 w-100">
-          <thead>
-            <tr>
-              <th style={{ textAlign: 'left', padding: '3px 20px', width: '20%' }}>Item</th>
-              <th style={{ width: '10%', padding: 'auto 20px' }}>Currency</th>
-              <th style={{ width: '10%' }}>Quantity</th>
-              <th style={{ width: '10%' }}>Unit Price</th>
-              <th style={{ width: '10%' }}>Amount</th>
-              <th style={{ width: '10%' }}>Discount</th>
-              <th style={{ width: '10%' }}>VAT</th>
-              <th style={{ width: '15%' }}>Gross Amount</th>
-            </tr>
-          </thead>
-          {/* Detail */}
-          <tbody>
-            {orderDetail &&
-              orderDetail[keyValue] &&
-              orderDetail[keyValue].length > 0 &&
-              orderDetail[keyValue].map(item => (
-                <tr key={item.id}>
-                  <td style={{ textAlign: 'left', padding: '3px 20px' }}>{item.service_type}</td>
-                  <td>{item.currency_symbol}</td>
-                  <td>{item.num_nights}</td>
-                  <td>{item.unit_price_ex_vat}</td>
-                  <td>{item.gross_amount}</td>
-                  <td>{item.discount}</td>
-                  <td>{item.vat_amount}</td>
-                  <td> {item.net_amount}</td>
-                </tr>
-              ))}
-            <tr>
-              <td
-                style={{
-                  minWidth: '300px',
-                  textAlign: 'left',
-                  padding: '3px 20px',
-                  borderRight: 'none',
-                }}
-                colSpan="4"
-              >
-                Grand Total ({orderDetail.currency})
-              </td>
-              <td>{orderDetail.amount_total}</td>
-              <td> </td>
-              <td>{orderDetail.vat_total}</td>
-              <td>{orderDetail.grand_total}</td>
-            </tr>
-            {orderDetail.currency !== 'AED' && (
-              <tr style={{ backgroundColor: 'rgb(226 226 228 / 26%)' }}>
-                <td
-                  style={{
-                    textAlign: 'left',
-                    padding: '3px 20px',
-                    borderRight: 'none',
-                  }}
-                >
-                  Grand Total
-                </td>
-                <td>AED</td>
-                <td colSpan="2">{orderDetail.exchange_rate}</td>
-                <td>{orderDetail.bcy_amount_total}</td>
-                <td> </td>
-                <td>{orderDetail.bcy_grand_total}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <div>
-          <div className="entries">
-            <div className="entries-child">
-              <div className="names">
-                <p>Grand Total</p>
-              </div>
-              <div className="amounts">
-                {console.log(orderDetail, 'ksajdldlkjsadddlkj')}
-                <p>
-                  {orderDetail.currency_symbol}
-                  {formatAmount(
-                    orderDetail.without_change_amount_total - orderDetail.without_change_discount_total
-                  )}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="entries">
-            <div className="entries-child">
-              <div className="names">
-                <p>VAT Total</p>
-              </div>
-              <div className="amounts">
-                <p>
-                  {orderDetail.currency_symbol}
-                  {orderDetail.without_change_vat_total}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="pointer">
-            <p style={{ marginLeft: 5 }}>Total ({orderDetail.currency})</p>
-            <p>
-              {orderDetail.currency_symbol}
-              {formatAmount(orderDetail.without_change_grand_total)}
-            </p>
-          </div>
-        </div>
+        {/* Purchase Order and Purchase Invoice */}
+        {showItemsTable && <OrderItemsTable orderDetail={orderDetail} keyValue={keyValue} />}
+
+        {showOrderVoucher && <OrderVoucher orderDetail={orderDetail} keyValue={keyValue} />}
       </div>
     </div>
   );
@@ -205,6 +107,14 @@ OrderReceipt.propTypes = {
   orderDetail: PropTypes.object.isRequired,
   keyValue: PropTypes.string.isRequired,
   orderInfo: PropTypes.object.isRequired,
+  showStatus: PropTypes.bool,
+  showItemsTable: PropTypes.bool,
+  showOrderVoucher: PropTypes.bool,
+};
+OrderReceipt.defaultProps = {
+  showStatus: true,
+  showItemsTable: true,
+  showOrderVoucher: false,
 };
 
 export default OrderReceipt;

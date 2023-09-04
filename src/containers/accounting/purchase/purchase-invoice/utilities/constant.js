@@ -1,13 +1,12 @@
 import moment from 'moment';
 
-/* eslint-disable import/prefer-default-export */
 export const purchaseInvoiceInitialValue = {
   date: moment().format('YYYY-MM-DD'),
   location: '',
   supplier_id: '',
   refrence_number: '',
-  attachment: '',
-  pur_order_items: [
+  bill_docs: '',
+  bill_items: [
     {
       item: '',
       quantity: 0,
@@ -55,3 +54,5 @@ export const purchaseInvoiceInitialValue = {
   zipcode: '',
   country: '',
 };
+
+export const test = '';

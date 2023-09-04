@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
-import MuiTable from 'shared/components/table/MuiTable';
-import SectionLoader from 'containers/common/loaders/SectionLoader';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Button, ButtonGroup, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
-import FilterDropdown from 'shared/components/filters/FilterDropdown';
+// services
 import { useGetBankTransactionsQuery, useGetSingleBankAccountQuery } from 'services/private/banking';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+import FilterDropdown from 'shared/components/filters/FilterDropdown';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utilities
 import { bankTransactionsHeadCells } from '../utilities/head-cells';
+import { bankTransactionFilterList } from '../utilities/constants';
+// components
 import BankDetailPopup from './components/BankDetailPopup';
 
-const bankTransactionFilterList = [
-  { value: 'today', label: 'Today' },
-  { value: 'this week', label: 'This Week' },
-  { value: 'this month', label: 'This Month' },
-  { value: 'this quarter', label: 'This Quarter' },
-  { value: 'this year', label: 'This Year' },
-  { value: 'yesterday', label: 'Yesterday' },
-  { value: 'previous week', label: 'Previous Week' },
-  { value: 'previous month', label: 'Previous Month' },
-  { value: 'previous quarter', label: 'Previous Quarter' },
-  { value: 'previous year', label: 'Previous Year' },
-];
 function BankDetail() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('1');

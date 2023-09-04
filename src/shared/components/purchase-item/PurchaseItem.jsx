@@ -18,9 +18,11 @@ import 'styles/purchase-item/purchase-item.scss';
 function PurchaseItem({ name, inputList, form, push, newList }) {
   const getTotalAmount = () => {
     let total = 0.0;
-    form.values[name].forEach(item => {
-      total += parseFloat(item.net_amount);
-    });
+    if (form && form.values && form.values[name]) {
+      form.values[name].forEach(item => {
+        total += parseFloat(item.net_amount);
+      });
+    }
 
     return total.toFixed(2);
   };
@@ -30,58 +32,61 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
         <Table sx={{ minWidth: '700px' }}>
           <TableHead className="purchase-item-head">
             <TableRow>
-              {inputList.map(input => (
+              {inputList?.map(input => (
                 <TableCell className="purchase-item-table-cell">{input.placeholder}</TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {form.values[name].map((item, index) => (
-              <TableRow>
-                {inputList.map(input => (
-                  <TableCell className="purchase-item-table-cell" sx={{ width: input.width || 'auto' }}>
-                    {input.isSelect ? (
-                      <FormikSelect
-                        disabled={input.disabled || false}
-                        options={input.options}
-                        name={`${name}.${index}.${input.name}`}
-                        placeholder={input.placeholder}
-                        value={item[input.name]}
-                        onChange={(key, value) => {
-                          form.setFieldValue(key, value);
-                          if (input.onChange) {
-                            input.onChange(
-                              name,
-                              index,
-                              input.name,
-                              value,
-                              item,
-                              form.setFieldValue,
-                              input.options
-                            );
-                          }
-                        }}
-                        className="col-12"
-                      />
-                    ) : (
-                      <FormikField
-                        name={`${name}.${index}.${input.name}`}
-                        placeholder={input.placeholder}
-                        disabled={input.disabled || false}
-                        type={input.type || 'number'}
-                        onChange={(key, value) => {
-                          form.setFieldValue(key, value);
-                          if (input.onChange) {
-                            input.onChange(name, index, input.name, key, item, form.setFieldValue);
-                          }
-                        }}
-                        className="w-100"
-                      />
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            {form &&
+              form.values &&
+              form.values[name] &&
+              form.values[name]?.map((item, index) => (
+                <TableRow>
+                  {inputList?.map(input => (
+                    <TableCell className="purchase-item-table-cell" sx={{ width: input.width || 'auto' }}>
+                      {input.isSelect ? (
+                        <FormikSelect
+                          disabled={input.disabled || false}
+                          options={input.options}
+                          name={`${name}.${index}.${input.name}`}
+                          placeholder={input.placeholder}
+                          value={item[input.name]}
+                          onChange={value => {
+                            form.setFieldValue(`${name}.${index}.${input.name}`, value);
+                            if (input.onChange) {
+                              input.onChange(
+                                name,
+                                index,
+                                input.name,
+                                value,
+                                item,
+                                form.setFieldValue,
+                                input.options
+                              );
+                            }
+                          }}
+                          className="col-12"
+                        />
+                      ) : (
+                        <FormikField
+                          name={`${name}.${index}.${input.name}`}
+                          placeholder={input.placeholder}
+                          disabled={input.disabled || false}
+                          type={input.type || 'number'}
+                          onChange={(key, value) => {
+                            form.setFieldValue(key, value);
+                            if (input.onChange) {
+                              input.onChange(name, index, input.name, key, item, form.setFieldValue);
+                            }
+                          }}
+                          className="w-100"
+                        />
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

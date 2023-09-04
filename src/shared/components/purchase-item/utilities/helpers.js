@@ -1,45 +1,46 @@
-import { VAT_CHARGES, CURRENCY_ID } from 'utilities/constants';
+import { CURRENCY_ID, VAT_CHARGES } from 'utilities/constants';
 
 export const handleChangeValues = (name, index, values, setFieldValue) => {
-  const grossTotal = values.price * values.quantity;
-  const vatRate = VAT_CHARGES[values.vat || 0].percent;
-  const vatAmount = (grossTotal / 100) * VAT_CHARGES[values.vat || 0].percent;
+  const grossTotal = values.unit_price_ex_vat * values.num_nights;
+  const selectedVat = VAT_CHARGES.filter(vat => values.vat_rate === vat.value)[0] || VAT_CHARGES[0];
+
+  const vatAmount = (grossTotal / 100) * selectedVat.percent;
+  const vatRate = selectedVat.value;
   let netAmount = grossTotal + vatAmount;
-  if (values.discount < netAmount) {
-    netAmount -= values.discount;
-  }
+  netAmount -= values.discount;
+
   if (vatRate) {
-    setFieldValue(`${name}.${index}.vat_rate`, VAT_CHARGES[values.vat].value);
+    setFieldValue(`${name}.${index}.vat_rate`, vatRate);
   }
   if (vatAmount) {
     setFieldValue(`${name}.${index}.vat_amount`, vatAmount);
   }
-  if (grossTotal && grossTotal > 0) {
-    setFieldValue(`${name}.${index}.total`, grossTotal);
+  if (grossTotal) {
+    setFieldValue(`${name}.${index}.gross_amount`, grossTotal);
   }
-  if (netAmount && netAmount > 0) {
+  if (netAmount) {
     setFieldValue(`${name}.${index}.net_amount`, netAmount.toFixed(2));
   }
   setFieldValue(`${name}.${index}.currency`, CURRENCY_ID);
 };
 export const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsListOptions) => {
   const selectedItem = itemsListOptions.filter(item => item.label === value);
-  setFieldValue(`${name}.${index}.price`, selectedItem[0].price);
-  setFieldValue(`${name}.${index}.service_type`, selectedItem[0].type);
-  setFieldValue(`${name}.${index}.name`, selectedItem[0].label);
+  setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price);
+  setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   const newValues = {
     ...values,
-    price: selectedItem[0].price,
+    service_type: selectedItem[0].value,
+    unit_price_ex_vat: selectedItem[0].price,
   };
 
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeQuantity = (name, index, key, value, values, setFieldValue) => {
-  const newValues = { ...values, quantity: value };
+  const newValues = { ...values, num_nights: value };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const hanldeVATChange = (name, index, key, value, values, setFieldValue) => {
-  const newValues = { ...values, vat: value };
+  const newValues = { ...values, vat_rate: value };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeDiscount = (name, index, key, value, values, setFieldValue) => {
@@ -52,7 +53,7 @@ export const handleCalculateTotalAmount = purchaseOrderItems => {
   let discountTotal = 0;
   let grandTotal = 0;
   purchaseOrderItems.forEach(item => {
-    amountTotal += item.total;
+    amountTotal += item.gross_amount;
     vatTotal += item.vat_amount;
     discountTotal += item.discount;
   });

@@ -1,10 +1,13 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import FormikField from 'shared/components/form/FormikField';
-import { Button, Stack } from '@mui/material';
-import { useAddSupplierCommentMutation } from 'services/private/suppliers';
+import { Formik, Form } from 'formik';
 import { useParams } from 'react-router';
+import { Button, Stack } from '@mui/material';
+// services
+import { useAddSupplierCommentMutation } from 'services/private/suppliers';
+// shares
+import FormikField from 'shared/components/form/FormikField';
+// styles
 import 'styles/form/form.scss';
 
 function CommentsForm() {

@@ -1,15 +1,17 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
-import MuiTable from 'shared/components/table/MuiTable';
 import { useLocation, useNavigate } from 'react-router';
+// services
 import {
   useDeletePurchaseOrderMutation,
   useGetPurchaseOrdersListQuery,
 } from 'services/private/purchase-orders';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
-import { useSnackbar } from 'notistack';
+// utilities
 import { purchaseOrderHeadCells } from '../utilities/head-cells';
 import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utilities/constants';
 
@@ -74,12 +76,12 @@ function PurchaseOrderListing() {
         // handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
-        filterButton={
+        filterButton={(
           <PersonlizedFilter
             filterInitialValues={purchaseOrderFilterInitialValues}
             filtersList={purchaseOrderFiltersOptionsList}
           />
-        }
+        )}
       />
       {/* )} */}
     </>

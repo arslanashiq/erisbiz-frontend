@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
+// styles
 import 'styles/template-style/template-styles.scss';
 
 function SupplierStatement({ basicInfo, transactions }) {
@@ -227,7 +227,7 @@ function SupplierStatement({ basicInfo, transactions }) {
                 </tr>
               ))}
             <tr>
-              <td colSpan="4" />
+              <td colSpan="4"> </td>
               <td
                 valign="top"
                 style={{

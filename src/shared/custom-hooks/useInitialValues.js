@@ -2,20 +2,21 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { convertURLToFile } from 'utilities/helpers';
 
-function useInitialValues(values, fetchDetailQuery, fileName = null) {
+function useInitialValues(values, fetchDetailQuery, fileName = null, iseInititalValues = true) {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({ ...values });
-  const response = fetchDetailQuery(id, { skip: !id });
+  const queryResponse = fetchDetailQuery(id, { skip: !id });
 
   const handleUpdateInitialValues = async data => {
     let file = null;
-
     const fetchedData = {};
-    Object.keys(data).forEach(key => {
-      if (typeof data[key] === 'number' || typeof data[key] === 'boolean') {
-        fetchedData[key] = data[key].toString();
-      } else {
-        fetchedData[key] = data[key];
+    Object.keys(iseInititalValues ? initialValues : data).forEach(key => {
+      if (data[key] !== null || data[key] !== undefined) {
+        if (typeof data[key] === 'number' || typeof data[key] === 'boolean') {
+          fetchedData[key] = data[key].toString();
+        } else {
+          fetchedData[key] = data[key];
+        }
       }
     });
 
@@ -26,11 +27,12 @@ function useInitialValues(values, fetchDetailQuery, fileName = null) {
     setInitialValues({ ...initialValues, ...fetchedData });
   };
   useEffect(() => {
-    if (response.isSuccess) handleUpdateInitialValues(response.data);
-  }, [id, response]);
+    if (queryResponse.isSuccess) handleUpdateInitialValues(queryResponse.data);
+  }, [id, queryResponse]);
 
   return {
     initialValues,
+    queryResponse,
     setInitialValues,
   };
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Stack, Typography } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
+import { Avatar, Stack, Typography } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+// components
 import SupplierOverviewAccordionWrapper from './SupplierOverviewAccordionWrapper';
 
 const IconStyle = { height: 15, width: 15, mr: 1 };

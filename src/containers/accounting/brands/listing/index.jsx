@@ -2,8 +2,13 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router';
 import AddIcon from '@mui/icons-material/Add';
-import MuiTable from 'shared/components/table/MuiTable';
+// services
 import { useDeleteBrandMutation, useGetBrandsListQuery } from 'services/private/brands';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utilities
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import { brandsHeadCells } from '../utilities/head-cells';
@@ -41,7 +46,7 @@ function BrandsListing() {
     });
   };
   return (
-    <>
+    <SectionLoader options={brandsListResponse.isLoading}>
       <Helmet>
         <title>Brands - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
@@ -67,7 +72,7 @@ function BrandsListing() {
         handleConfirmDelete={handleConfirmDelete}
       />
       {/* )} */}
-    </>
+    </SectionLoader>
   );
 }
 

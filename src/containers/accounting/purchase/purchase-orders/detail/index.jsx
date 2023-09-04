@@ -1,22 +1,30 @@
 import React, { useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
-import { Button, Card, CardContent, Stack, Tooltip, Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import SectionLoader from 'containers/common/loaders/SectionLoader';
+import { useNavigate, useParams } from 'react-router';
 import PrintIcon from '@mui/icons-material/Print';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import { Button, Card, CardContent, Stack, Tooltip, Typography } from '@mui/material';
+// services
 import {
   useChangePurchaseOrderStatusToIssuedMutation,
+  useDeletePurchaseOrderDocumentFileMutation,
   useDeletePurchaseOrderMutation,
   useGetSinglePurchaseOrderQuery,
+  useUploadPurchaseOrderDocumentFileMutation,
 } from 'services/private/purchase-orders';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+// shared
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import InfoPopup from 'shared/modals/InfoPopup';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import PdfPrintModal from 'shared/components/pdf/modal/PdfPrintModal';
-import { iconButtonStyle } from 'utilities/mui-styles';
 import usePdfView from 'shared/components/pdf/custom-hooks/usePdfView';
+import FilePopup from 'shared/modals/filePopup';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utilities
+import { iconButtonStyle } from 'utilities/mui-styles';
+import { addDocument, deleteDocument } from 'utilities/document-action-handlers';
 
 const keyValue = 'pur_order_items';
 function PurchaseOrderDetail() {
@@ -25,6 +33,10 @@ function PurchaseOrderDetail() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
+  const [openFilesModal, setOpenFilesModal] = useState({
+    open: false,
+    files: [],
+  });
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [openPopup, setOpenPopup] = useState({
     open: false,
@@ -32,6 +44,8 @@ function PurchaseOrderDetail() {
   });
   const purchaseOrderResponse = useGetSinglePurchaseOrderQuery(id);
   const [deletePurchaseOrder] = useDeletePurchaseOrderMutation();
+  const [uploadDocument] = useUploadPurchaseOrderDocumentFileMutation();
+  const [removeDocument] = useDeletePurchaseOrderDocumentFileMutation();
   const handleClose = () => {
     setOpenPopup({ ...openPopup, open: false });
   };
@@ -42,6 +56,18 @@ function PurchaseOrderDetail() {
   };
   const handleOpenPdfPrintModal = () => {
     setIsPrintModalOpen(true);
+  };
+  const handleUploadDocfile = async file => {
+    await addDocument(id, file, uploadDocument, enqueueSnackbar);
+  };
+  const handleDeleteDocfile = async file => {
+    await deleteDocument(file.id, removeDocument, enqueueSnackbar);
+  };
+  const handleOpenFilesModal = () => {
+    setOpenFilesModal({ ...openFilesModal, open: true, files: [] });
+  };
+  const handleCloseFilesModal = () => {
+    setOpenFilesModal({ ...openFilesModal, open: false });
   };
   const purchaseOrderActionList = useMemo(
     () => [
@@ -73,7 +99,6 @@ function PurchaseOrderDetail() {
     [purchaseOrderResponse]
   );
   const { actionLoading, handleDownload } = usePdfView(orderInfo, purchaseOrderResponse.data, keyValue);
-
   return (
     <SectionLoader options={[purchaseOrderResponse.isLoading]}>
       <InfoPopup
@@ -81,6 +106,13 @@ function PurchaseOrderDetail() {
         showActionButton
         handleClose={handleClose}
         handleYes={handleDeletePurchaseOrder}
+      />
+      <FilePopup
+        open={openFilesModal.open}
+        handleClose={handleCloseFilesModal}
+        handleUploadFile={handleUploadDocfile}
+        handleDeleteFile={handleDeleteDocfile}
+        files={purchaseOrderResponse?.data?.pur_order_docs}
       />
       <PdfPrintModal
         isPrintModalOpen={isPrintModalOpen}
@@ -90,7 +122,7 @@ function PurchaseOrderDetail() {
         keyValue={keyValue}
       />
       <Stack direction="row" className="w-100 mt-1 mb-3" justifyContent="space-between">
-        <Typography variant="h6">Po:#{purchaseOrderResponse.data.pur_order_num}</Typography>
+        <Typography variant="h6">Po:#{purchaseOrderResponse?.data?.pur_order_num}</Typography>
         <Stack spacing={2} direction="row">
           <Tooltip title="Download" placement="top" arrow>
             <Button disabled={actionLoading} onClick={handleDownload}>
@@ -103,7 +135,7 @@ function PurchaseOrderDetail() {
             </Button>
           </Tooltip>
           <Tooltip title="Attach File" placement="top" arrow>
-            <Button>
+            <Button onClick={handleOpenFilesModal}>
               <AttachFileIcon sx={iconButtonStyle} />
             </Button>
           </Tooltip>
@@ -119,6 +151,7 @@ function PurchaseOrderDetail() {
             keyValue={keyValue}
             orderDetail={purchaseOrderResponse.data}
             handleChangeStatus={chagePurchaseOrderStatus}
+            showPaymentRequest
           />
         </CardContent>
       </Card>

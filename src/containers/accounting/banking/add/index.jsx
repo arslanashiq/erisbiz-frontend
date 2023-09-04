@@ -4,17 +4,22 @@ import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import FormikField from 'shared/components/form/FormikField';
-import FormHeader from 'shared/components/form-header/FormHeader';
-import useInitialValues from 'shared/custom-hooks/useInitialValues';
-import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// services
 import {
   useAddBankAccountMutation,
   useEditBankAccountMutation,
   useGetSingleBankAccountQuery,
 } from 'services/private/banking';
-import { bankingInitialValues } from '../utilities/constants';
+// shared
+import FormikField from 'shared/components/form/FormikField';
+import FormHeader from 'shared/components/form-header/FormHeader';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+// containers
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// utilities
+import { bankingInitialValues } from '../utilities/initialValues';
 import { bankFormValidationSchema } from '../utilities/validationSchema';
+// styles
 import 'styles/form/form.scss';
 
 function AddBankAccountPage() {

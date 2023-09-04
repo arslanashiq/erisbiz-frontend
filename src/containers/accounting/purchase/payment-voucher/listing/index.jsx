@@ -1,45 +1,78 @@
-// import React from 'react';
-// import { Helmet } from 'react-helmet';
-// import MuiTable from 'shared/components/table/MuiTable';
-
-// function paymentVoucherListing() {
-//   return (
-//     <>
-//       <Helmet>
-//         <title>Payment Voucher - ErisBiz</title>
-//         <meta name="description" content="ErisBiz" />
-//       </Helmet>
-//       {/* {resp.isSuccess && resp?.data?.results?.length > 0 && ( */}
-//       <MuiTable
-//         data={purchaseInvoiceResponse?.data?.results}
-//         totalDataCount={purchaseInvoiceResponse?.data?.count}
-//         TableHeading="Purchase Invoice"
-//         showCheckbox
-//         headCells={purchaseInvoiceHeadCells}
-//         otherOptions={[
-//           {
-//             label: (
-//               <>
-//                 <AddIcon sx={{ fontSize: 15 }} />
-//                 New Purchase Invoice
-//               </>
-//             ),
-//             handleClick: () => navigate('add'),
-//           },
-//         ]}
-//         handleDelete={handleDelete}
-//         handleConfirmDelete={handleConfirmDelete}
-//       />
-//       {/* )} */}
-//     </>
-//   );
-// }
-
-// export default paymentVoucherListing;
 import React from 'react';
+import { Helmet } from 'react-helmet';
+import { useSnackbar } from 'notistack';
+import AddIcon from '@mui/icons-material/Add';
+import { useLocation, useNavigate } from 'react-router';
+// services
+import {
+  useDeletePaymentVoucherMutation,
+  useGetPaymentVouchersListQuery,
+} from 'services/private/payment-voucher';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utils
+import { PaymentVoucherHeadCells } from '../utilities/head-cells';
 
-function index() {
-  return <div>index</div>;
+function paymentVoucherListing() {
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const paymentVouchersListResponse = useGetPaymentVouchersListQuery(location.search);
+  const [deletePaymentVoucher] = useDeletePaymentVoucherMutation();
+
+  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message = 'You cannot delete these items because some of the selected items is used in transactions';
+    let actionButton = false;
+
+    message = 'Are you sure you want to delete?';
+    actionButton = true;
+
+    setOpenInfoPopup({
+      ...openInfoPopup,
+      status: true,
+      message,
+      actionButton,
+    });
+  };
+  const deleteSingleItem = async id => {
+    await deletePaymentVoucher(id);
+    enqueueSnackbar('Payment Voucher Deleted Successfully', { variant: 'success' });
+  };
+  const handleConfirmDelete = list => {
+    list.forEach(id => {
+      deleteSingleItem(id);
+    });
+  };
+  return (
+    <SectionLoader options={[paymentVouchersListResponse.isLoading]}>
+      <Helmet>
+        <title>Payment Voucher - ErisBiz</title>
+        <meta name="description" content="ErisBiz" />
+      </Helmet>
+      <MuiTable
+        data={paymentVouchersListResponse?.data?.results}
+        totalDataCount={paymentVouchersListResponse?.data?.count}
+        TableHeading="Purchase Invoice"
+        showCheckbox
+        headCells={PaymentVoucherHeadCells}
+        otherOptions={[
+          {
+            label: (
+              <>
+                <AddIcon sx={{ fontSize: 15 }} />
+                New Purchase Invoice
+              </>
+            ),
+            handleClick: () => navigate('add'),
+          },
+        ]}
+        handleDelete={handleDelete}
+        handleConfirmDelete={handleConfirmDelete}
+      />
+    </SectionLoader>
+  );
 }
 
-export default index;
+export default paymentVoucherListing;

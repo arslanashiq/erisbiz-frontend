@@ -69,6 +69,21 @@ const purchaseOrdersApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getSinglePurchaseOrder', 'getPurchaseOrdersList'],
     }),
+    uploadPurchaseOrderDocumentFile: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/purchases/purOrders/${id}/uploadDoc`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getSinglePurchaseOrder'],
+    }),
+    deletePurchaseOrderDocumentFile: builder.mutation({
+      query: ({ id }) => ({
+        url: `api/accounting/purchases/purOrders/docs/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['getSinglePurchaseOrder'],
+    }),
   }),
 });
 
@@ -81,4 +96,6 @@ export const {
   useDeletePurchaseOrderMutation,
   useAddPurchaseOrderDocumentMutation,
   useChangePurchaseOrderStatusToIssuedMutation,
+  useUploadPurchaseOrderDocumentFileMutation,
+  useDeletePurchaseOrderDocumentFileMutation,
 } = purchaseOrdersApi;

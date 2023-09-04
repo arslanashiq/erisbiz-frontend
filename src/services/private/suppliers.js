@@ -128,6 +128,12 @@ const suppliersApi = privateApi.injectEndpoints({
         },
       }),
     }),
+    getSuppliersUpaidBillsList: builder.mutation({
+      query: id => ({
+        url: `api/accounting/purchases/suppliers/${id}/unpaidBills`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -148,4 +154,5 @@ export const {
   useGetSupplierActivityLogsQuery,
   useGetSupplierIncomeQuery,
   useDeleteSupplierMutation,
+  useGetSuppliersUpaidBillsListMutation
 } = suppliersApi;

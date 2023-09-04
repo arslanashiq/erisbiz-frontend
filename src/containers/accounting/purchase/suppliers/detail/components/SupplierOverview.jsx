@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// components
 import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
-// import SupplierOverviewPayables from './SupplierOverviewPayables';
 
 function SupplierOverview({
   supplierIncome,

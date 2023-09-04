@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import InfoPopup from 'shared/modals/InfoPopup';
 import { useNavigate, useParams } from 'react-router';
 import { Button, Card, Stack, Typography } from '@mui/material';
+// services
+
 import { useDeleteItemMutation, useGetSingleItemQuery } from 'services/private/items';
+// shared
+import InfoPopup from 'shared/modals/InfoPopup';
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
-import { DATE_FORMAT } from 'utilities/constants';
+// containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utilities
+import { DATE_FORMAT } from 'utilities/constants';
+// components
 import ItemOverViewTab from './components/ItemOverViewTab';
 import ItemTransactionsTab from './components/ItemTransactionsTab';
+// styles
 import 'styles/items/item-detail.scss';
 
 function ItemDetail() {

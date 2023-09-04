@@ -10,6 +10,9 @@ const ForgetPasswordPage = lazy(() => import('containers/auth/ForgotPassword'));
 
 // Private Routes
 const DashboardPage = lazy(() => import('containers/dashboard'));
+
+// User
+const ClanderPage = lazy(() => import('containers/user/calender'));
 // Bank
 const BankListing = lazy(() => import('containers/accounting/banking/listing'));
 const BankDetailPage = lazy(() => import('containers/accounting/banking/detail'));
@@ -46,6 +49,7 @@ const PurchaseInvoiceDetailPage = lazy(() => import('containers/accounting/purch
 // payment Voucher
 const PaymentVoucherListingPage = lazy(() => import('containers/accounting/purchase/payment-voucher/listing'));
 const AddPaymentVoucherPage = lazy(() => import('containers/accounting/purchase/payment-voucher/add'));
+const PaymentVoucherDetailPage = lazy(() => import('containers/accounting/purchase/payment-voucher/detail'));
 
 // Debit Notes
 const SupplierCreditListingPage = lazy(() => import('containers/accounting/purchase/supplier-credit/listing'));
@@ -93,6 +97,10 @@ function AppRoutes() {
               <Route path="/" element={<DashboardPage />} />
               {/* Reports */}
               <Route path="/pages" element={<Outlet />}>
+                <Route path="user" element={<ClanderPage />}>
+                  <Route path="calendar" element={<Outlet />} />
+                </Route>
+
                 <Route path="reports" element={<ReportsListPage />} />
                 <Route path="accounting" element={<Outlet />}>
                   {/* Banking Master */}
@@ -146,9 +154,10 @@ function AppRoutes() {
 
                     {/* Payment Voucher */}
 
-                    <Route path="purchase-invoice" element={<Outlet />}>
+                    <Route path="payment-voucher" element={<Outlet />}>
                       <Route path="" index element={<PaymentVoucherListingPage />} />
                       <Route path="add" element={<AddPaymentVoucherPage />} />
+                      <Route path=":id/detail" element={<PaymentVoucherDetailPage />} />
                       <Route path="edit/:id" element={<AddPaymentVoucherPage />} />
                     </Route>
 

@@ -73,3 +73,9 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.border-top-bottom {
+  border: none !important;
+  border-top: 1px solid #ccc !important;
+  border-bottom: 1px solid #ccc !important;
+}

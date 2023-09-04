@@ -1,13 +1,15 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import AddIcon from '@mui/icons-material/Add';
-import MuiTable from 'shared/components/table/MuiTable';
 import { useSnackbar } from 'notistack';
+import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
+// services
 import { useDeleteSupplierMutation, useGetSuppliersListQuery } from 'services/private/suppliers';
-import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
+// utilities
+import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { supplierHeadCells } from '../utilities/head-cells';
 import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utilities/constants';
 
@@ -95,12 +97,12 @@ function SupplierListing() {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
-        filterButton={
+        filterButton={(
           <PersonlizedFilter
             filterInitialValues={supplierFilterInitialValues}
             filtersList={supplierFiltersOptionsList}
           />
-        }
+        )}
       />
       {/* )} */}
     </>

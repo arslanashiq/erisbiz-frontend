@@ -14,6 +14,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         url: `/api/accounting/purchases/bills/${id}/`,
         method: 'GET',
       }),
+      providesTags: ['getSinglePurchaseInvoice'],
     }),
     addPurchaseInvoce: builder.mutation({
       query: payload => ({
@@ -39,6 +40,22 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['addPurchaseInvoce', 'getPurchaseInvoiceList'],
     }),
+    uploadPurchaseInvoiceDocumentFile: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/purchases/bills/${id}/uploadDoc`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getSinglePurchaseInvoice'],
+    }),
+    deletePurchaseInvoiceDocumentFile: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: ` api/accounting/purchases/bills/docs/${id}/`,
+        method: 'DELETE',
+        body: payload,
+      }),
+      invalidatesTags: ['getSinglePurchaseInvoice'],
+    }),
   }),
 });
 
@@ -48,4 +65,6 @@ export const {
   useGetSinglePurchaseInvoiceQuery,
   useDeletePurchaseInvoceMutation,
   useEditPurchaseInvoceMutation,
+  useUploadPurchaseInvoiceDocumentFileMutation,
+  useDeletePurchaseInvoiceDocumentFileMutation,
 } = purchaseInvoiceApi;

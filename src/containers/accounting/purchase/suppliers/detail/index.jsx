@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Card, Stack, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
-import ActionMenu from 'shared/components/action-menu/ActionMenu';
-import InfoPopup from 'shared/modals/InfoPopup';
-import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
+import { Button, Card, Stack, Typography } from '@mui/material';
+// services
 import {
   useGetSingleSupplierQuery,
   useGetSupplierActivityLogsQuery,
@@ -12,12 +10,21 @@ import {
   useGetSupplierIncomeQuery,
   useGetSupplierStatementQuery,
 } from 'services/private/suppliers';
+// shared
+import ActionMenu from 'shared/components/action-menu/ActionMenu';
+import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
+import InfoPopup from 'shared/modals/InfoPopup';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
+// utillities
+import useSupplierStatement from '../utilities/custom-hooks/useSupplierStatement';
+// components
 import SupplierOverview from './components/SupplierOverview';
 import SupplierTransactions from './components/SupplierTransactions';
 import SupplierStatement from './components/SupplierStatement';
 import SupplierComment from './components/SupplierComment';
-import useSupplierStatement from '../utilities/custom-hooks/useSupplierStatement';
 import SupplierContacts from './components/SupplierContacts';
+// styles
 import 'styles/suppliers/supplier-detail.scss';
 
 function SupplierDetail() {
@@ -47,7 +54,7 @@ function SupplierDetail() {
   };
 
   return (
-    <>
+    <SectionLoader options={[supplierActivityLogsResponse.isLoading]}>
       <Helmet>
         <title>Supplier Detail - ErisBiz</title>
       </Helmet>
@@ -100,7 +107,7 @@ function SupplierDetail() {
           )}
         </DetailTabsWrapper>
       </Card>
-    </>
+    </SectionLoader>
   );
 }
 
