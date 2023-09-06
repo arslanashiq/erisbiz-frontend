@@ -53,7 +53,7 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
     }),
     getPaymentVouchersDocuments: builder.query({
       query: id => ({
-        url: `api/accounting/purchases/paymentMade/${id}/docs/`,
+        url: `api/accounting/purchases/paymentMade/${id}/docs`,
         method: 'GET',
       }),
       providesTags: ['getPaymentVouchersDocuments'],
@@ -61,7 +61,7 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
 
     uploadPaymentVoucherDocument: builder.mutation({
       query: ({ id, payload }) => ({
-        url: `api/accounting/purchases/paymentMade/${id}/uploadDoc/`,
+        url: `api/accounting/purchases/paymentMade/${id}/uploadDoc`,
         method: 'POST',
         body: payload,
       }),
@@ -69,7 +69,7 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
     }),
     deletePaymentVoucherDocument: builder.mutation({
       query: ({ id, payload }) => ({
-        url: `api/accounting/purchases/paymentMade/docs/${id}}/`,
+        url: `api/accounting/purchases/paymentMade/docs/${id}}`,
         method: 'POST',
         body: payload,
       }),
