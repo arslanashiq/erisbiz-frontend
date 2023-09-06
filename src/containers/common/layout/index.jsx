@@ -4,7 +4,7 @@ import Sidebar from './sidebar';
 import TopBar from './topbar';
 
 function Layout() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleToggleDrawer = () => {
     setOpen(!open);

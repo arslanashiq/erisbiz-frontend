@@ -29,9 +29,18 @@ function SupplierCreditListing() {
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';
     let actionButton = false;
+    const selectedData = [];
+    data.forEach(item => {
+      if (selected.includes(item.id)) {
+        selectedData.push(item);
+      }
+    });
+    const cantDelete = selectedData.some(item => item.status === 'partially paid' || item.status === 'void');
 
-    message = 'Are you sure you want to delete?';
-    actionButton = true;
+    if (!cantDelete) {
+      message = 'Are you sure you want to delete?';
+      actionButton = true;
+    }
 
     setOpenInfoPopup({
       ...openInfoPopup,

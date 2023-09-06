@@ -29,14 +29,14 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['addPurchaseInvoce'],
-      invalidatesTags: ['getPurchaseInvoiceList'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getPurchaseOrdersList'],
     }),
     deletePurchaseInvoce: builder.mutation({
       query: id => ({
         url: `/api/accounting/purchases/bills/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getPurchaseInvoiceList'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getPurchaseOrdersList'],
     }),
     editPurchaseInvoce: builder.mutation({
       query: ({ id, payload }) => ({
