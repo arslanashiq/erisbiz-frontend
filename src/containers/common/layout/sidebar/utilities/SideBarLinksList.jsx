@@ -35,12 +35,13 @@ const SideBarLinksList = [
     name: 'Purchase',
     icon: <CardGiftcardIcon />,
     index: 0,
+    // link: '/pages/accounting/purchase',
     children: [
       { name: 'Supplier Master', link: '/pages/accounting/purchase/suppliers' },
       { name: 'Purchase Order', link: '/pages/accounting/purchase/purchase-orders' },
       { name: 'Purchase Invoice', link: '/pages/accounting/purchase/purchase-invoice' },
       { name: 'Payment Voucher', link: '/pages/accounting/purchase/payment-voucher' },
-      { name: 'Debit Notes', link: '/pages/accounting/purchase/debit-notes' },
+      { name: 'Purchase Debit Notes', link: '/pages/accounting/purchase/debit-notes' },
       { name: 'Expense', link: '/pages/accounting/purchase/expenses' },
     ],
   },
@@ -48,6 +49,7 @@ const SideBarLinksList = [
     name: 'Sales',
     icon: <EqualizerIcon />,
     index: 1,
+    // link: '/pages/accounting/sales',
     children: [
       { name: 'Customer Master', link: '/pages/accounting/sales/customers' },
       { name: 'Quotation', link: '/pages/accounting/sales/quotations' },
@@ -60,7 +62,8 @@ const SideBarLinksList = [
   {
     name: 'Finance',
     icon: <CurrencyExchangeIcon />,
-    index: 1,
+    index: 2,
+    // link: '/pages/accounting/finance',
     children: [
       { name: 'Chart of Account', link: '/pages/accounting/finance/chart-of-account' },
       { name: 'Journal Voucher', link: '/pages/accounting/sfinance/journal-voucher' },

@@ -1,20 +1,11 @@
-/* eslint-disable import/prefer-default-export */
-
 export const customersHeadCell = [
-  {
-    id: 'sales_account_name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Account Name',
-    align: 'left',
-    isLink: true,
-  },
   {
     id: 'company_name',
     numeric: true,
     disablePadding: false,
-    label: 'Company Name',
+    label: 'Customer Name',
     align: 'left',
+    isLink: true,
   },
   {
     id: 'email',
@@ -59,3 +50,4 @@ export const customersHeadCell = [
     align: 'right',
   },
 ];
+export const test = '';

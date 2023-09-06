@@ -19,7 +19,13 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
   };
 
   const checkActive = link => {
-    if (location.pathname === link) return true;
+    // if (location.pathname === link) return true;
+    // return false;
+
+    // // for parent also selected
+    if (location.pathname === '/' && link === '/') return true;
+    if (location.pathname === '/' || link === '/') return false;
+    if (location.pathname.includes(link)) return true;
     return false;
   };
 

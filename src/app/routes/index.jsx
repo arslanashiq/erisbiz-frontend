@@ -54,14 +54,17 @@ const PaymentVoucherDetailPage = lazy(() => import('containers/accounting/purcha
 // Debit Notes
 const SupplierCreditListingPage = lazy(() => import('containers/accounting/purchase/supplier-credit/listing'));
 const AddSupplierCreditPage = lazy(() => import('containers/accounting/purchase/supplier-credit/add'));
+const SupplierCreditDetailPage = lazy(() => import('containers/accounting/purchase/supplier-credit/detail'));
 
 // Expenses Notes
 const ExpensesListingPage = lazy(() => import('containers/accounting/purchase/expenses/listing'));
 const AddExpensesPage = lazy(() => import('containers/accounting/purchase/expenses/add'));
+const ExpenseDetailPage = lazy(() => import('containers/accounting/purchase/expenses/detail'));
 
 // Customer Master
 const CustomerListingPage = lazy(() => import('containers/accounting/sale/customers/listing'));
 const AddCustomerPage = lazy(() => import('containers/accounting/sale/customers/add'));
+const CustomerDetailPage = lazy(() => import('containers/accounting/sale/customers/detail'));
 
 // quotations
 const QuotationListingPage = lazy(() => import('containers/accounting/sale/quotations/listing'));
@@ -166,6 +169,7 @@ function AppRoutes() {
                       <Route path="" index element={<SupplierCreditListingPage />} />
                       <Route path="add" element={<AddSupplierCreditPage />} />
                       <Route path="edit/:id" element={<AddSupplierCreditPage />} />
+                      <Route path=":id/detail" element={<SupplierCreditDetailPage />} />
                     </Route>
 
                     {/* Expenses */}
@@ -173,6 +177,7 @@ function AppRoutes() {
                       <Route path="" index element={<ExpensesListingPage />} />
                       <Route path="add" element={<AddExpensesPage />} />
                       <Route path="edit/:id" element={<AddExpensesPage />} />
+                      <Route path=":id/detail" element={<ExpenseDetailPage />} />
                     </Route>
                   </Route>
 
@@ -182,6 +187,7 @@ function AppRoutes() {
                       <Route path="" index element={<CustomerListingPage />} />
                       <Route path="add" element={<AddCustomerPage />} />
                       <Route path="edit/:id" element={<AddCustomerPage />} />
+                      <Route path=":id/detail" element={<CustomerDetailPage />} />
                     </Route>
                     {/* quotation */}
                     <Route path="quotations" element={<Outlet />}>
@@ -190,7 +196,7 @@ function AppRoutes() {
                       <Route path="edit/:id" element={<AddQuotationPage />} />
                     </Route>
                     {/* performa-invoice */}
-                    <Route path="quotations" element={<Outlet />}>
+                    <Route path="performa-invoice" element={<Outlet />}>
                       <Route path="" index element={<PerformaInvoiceListingPage />} />
                       <Route path="add" element={<AddPerformaInvoicePage />} />
                       <Route path="edit/:id" element={<AddPerformaInvoicePage />} />
@@ -202,7 +208,7 @@ function AppRoutes() {
                       <Route path="edit/:id" element={<AddInvoicePage />} />
                     </Route>
                     {/* credit Note */}
-                    <Route path="invoice" element={<Outlet />}>
+                    <Route path="credit-notes" element={<Outlet />}>
                       <Route path="" index element={<CreditNotesListingPage />} />
                       <Route path="add" element={<AddCreditNotePage />} />
                       <Route path="edit/:id" element={<AddCreditNotePage />} />

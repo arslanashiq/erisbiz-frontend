@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
@@ -60,7 +59,7 @@ function LargeScreenDrawer({
                   px: 2.5,
                 }}
                 onClick={() => {
-                  if (sideBar.link) {
+                  if (!sideBar.children) {
                     navigate(sideBar.link);
                   } else {
                     setOpen(true);
@@ -97,7 +96,7 @@ function LargeScreenDrawer({
                   index={sideBar.index}
                   checkActive={checkActive}
                 />
-              )}
+            )}
           </div>
         ))}
       </List>

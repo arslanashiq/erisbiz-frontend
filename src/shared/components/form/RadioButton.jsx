@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import CheckIcon from 'mdi-react/CheckIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
@@ -45,11 +45,7 @@ class RadioButtonField extends PureComponent {
     });
 
     return (
-      <label
-        className={`${RadioButtonClass}${
-          className ? ` radio-btn--${className}` : ''
-        }`}
-      >
+      <label className={`${RadioButtonClass}${className ? ` radio-btn--${className}` : ''}`}>
         <input
           className="radio-btn__radio"
           name={name}
@@ -74,14 +70,7 @@ class RadioButtonField extends PureComponent {
 }
 
 const renderRadioButtonField = props => {
-  const {
-    input,
-    label,
-    defaultChecked,
-    disabled,
-    className,
-    radioValue,
-  } = props;
+  const { input, label, defaultChecked, disabled, className, radioValue } = props;
   return (
     <RadioButtonField
       {...input}

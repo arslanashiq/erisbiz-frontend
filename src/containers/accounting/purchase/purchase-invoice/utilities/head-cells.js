@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export const purchaseInvoiceHeadCells = [
   {
     id: 'bill_date',
@@ -70,5 +68,49 @@ export const purchaseInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
+  },
+];
+
+export const paymentsAgainstPurchaseInvoiceHeadCells = [
+  {
+    id: 'payment_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    date: true,
+  },
+  {
+    id: 'payment_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Payment',
+    isLink: true,
+    align: 'left',
+    handleLink: data => `/pages/accounting/purchase/payment-voucher/${data.payment_id}/detail`,
+  },
+  {
+    id: 'reference_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reference#',
+    align: 'left',
+  },
+
+  {
+    id: 'payment_mode',
+    numeric: true,
+    disablePadding: false,
+    label: 'Payment Mode',
+    align: 'left',
+  },
+
+  {
+    id: 'amount',
+    numeric: true,
+    disablePadding: false,
+    label: 'Amount',
+    align: 'left',
+    mergeCell: true,
   },
 ];

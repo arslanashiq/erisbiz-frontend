@@ -11,5 +11,5 @@ const countriesApi = thirdPartyApi.injectEndpoints({
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const { useGetAllCountriesListQuery } = countriesApi;
+export const test = '';

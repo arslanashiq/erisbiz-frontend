@@ -73,8 +73,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currency, currencySym
               </View>
               <View style={styles.valueColumn}>
                 <Text>
-                  {currencySymbol}
-                  {amountTotal}
+                  {amountTotal} {currencySymbol}
                 </Text>
               </View>
             </View>
@@ -86,8 +85,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currency, currencySym
               </View>
               <View style={styles.valueColumn}>
                 <Text>
-                  {currencySymbol}
-                  {vatTotal}
+                  {vatTotal} {currencySymbol}
                 </Text>
               </View>
             </View>
@@ -116,8 +114,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currency, currencySym
               </View>
               <View style={[styles.valueColumn]}>
                 <Text>
-                  {currencySymbol}
-                  {grandTotal}
+                  {grandTotal} {currencySymbol}
                 </Text>
               </View>
             </View>

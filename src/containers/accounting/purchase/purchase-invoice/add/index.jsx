@@ -24,6 +24,7 @@ import FormikSelect from 'shared/components/form/FormikSelect';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import {
   handleCalculateTotalAmount,
+  handleChangeChartOfAccount,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
@@ -55,7 +56,7 @@ function AddPurchaseInvoice() {
     initialValues,
     setInitialValues,
     queryResponse: purchaseInvoiceDetail,
-  } = useInitialValues(purchaseInvoiceInitialValue, useGetSinglePurchaseInvoiceQuery, null, false);
+  } = useInitialValues(purchaseInvoiceInitialValue, useGetSinglePurchaseInvoiceQuery, null);
   const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
     value: supplier.id.toString(),
     label: supplier.supplier_name,
@@ -68,7 +69,7 @@ function AddPurchaseInvoice() {
     type: item.item_type,
   }));
   const bankAccountOptions = bankAccountsListsponse?.data?.results?.map(account => ({
-    value: account.chart_of_account,
+    value: `${account.chart_of_account}`,
     label: account.bank_account_name,
   }));
   const purchaseItemsInputList = useMemo(
@@ -137,13 +138,18 @@ function AddPurchaseInvoice() {
       }))
     );
   };
-  const handleChangePurchaseOrderItem = (value, setFieldValue = () => {}) => {
-    const selecteditem = purchaseOrdersListResponse.data.results.filter(
+  const handleChangePurchaseOrderItem = (value, values, setFieldValue = null) => {
+    let selecteditem = purchaseOrdersListResponse.data.results.filter(
       purchaseOrder => purchaseOrder.id === value
     )[0];
-    if (!selecteditem) return [];
-    const selectedOrderItems = [...selecteditem.pur_order_items];
-    setFieldValue('bill_items', selectedOrderItems);
+    if (selecteditem.length === 0) return [];
+    selecteditem = selecteditem.pur_order_items.map(item => ({
+      ...item,
+      chart_of_account: values.credit_account,
+      amount_ex_vat: item.gross_amount - item.discount,
+    }));
+    const selectedOrderItems = [...selecteditem];
+    if (setFieldValue) setFieldValue('bill_items', selectedOrderItems);
     return selectedOrderItems;
   };
   useEffect(() => {
@@ -153,24 +159,32 @@ function AddPurchaseInvoice() {
       suppliersListResponse?.data &&
       itemsListResponse?.data
     ) {
-      const purchaseOrderItems = handleChangePurchaseOrderItem(purchaseInvoiceDetail.data.pur_order);
+      const purchaseOrderItems = handleChangePurchaseOrderItem(
+        purchaseInvoiceDetail.data.pur_order,
+        initialValues
+      );
       setInitialValues({
         ...initialValues,
-        credit_account: purchaseInvoiceDetail.data.credit_account,
+        supplier_id: `${purchaseInvoiceDetail.data.supplier_id}`,
+        credit_account: `${purchaseInvoiceDetail.data.credit_account.toString()}`,
         pur_order: purchaseInvoiceDetail.data.pur_order,
         bill_items: purchaseOrderItems || [{}],
+        location: purchaseInvoiceDetail.data.location,
+        bill_docs: purchaseInvoiceDetail.data.bill_docs,
+        supplier_invoice_num: purchaseInvoiceDetail.data.supplier_invoice_num,
+        invoice_num: purchaseInvoiceDetail.data.invoice_num,
       });
       handleGetPurchaseOrderAgainstSupplier(purchaseInvoiceDetail.data.supplier_id);
     }
   }, [purchaseInvoiceDetail, suppliersListResponse, purchaseOrdersListResponse, itemsListResponse]);
 
-  console.log(initialValues, 'kjadlksadksadlkjsa');
   return (
     <SectionLoader
       options={[
         suppliersListResponse.isLoading,
         purchaseOrdersListResponse.isLoading,
         itemsListResponse.isLoading,
+        purchaseInvoiceDetail.isLoading,
       ]}
     >
       <Card>
@@ -185,10 +199,13 @@ function AddPurchaseInvoice() {
               const payload = {
                 ...values,
                 invoice_date: values.due_date,
+                pur_order_id: values.pur_order,
                 bill_notes: [values.notes],
                 bill_docs: [...values.filesList],
+                status: 'unpaid',
                 ...handleCalculateTotalAmount(values.bill_items),
               };
+
               const formData = new FormData();
               Object.keys(payload).forEach(key => {
                 if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
@@ -217,7 +234,7 @@ function AddPurchaseInvoice() {
               }
             }}
           >
-            {({ setFieldValue }) => (
+            {({ setFieldValue, values }) => (
               <Form className="form form--horizontal mt-3 row">
                 {/* Supplier */}
 
@@ -234,7 +251,7 @@ function AddPurchaseInvoice() {
                   name="pur_order"
                   placeholder="Purchase Order Number"
                   options={purchaseOrdersListOptions}
-                  onChange={value => handleChangePurchaseOrderItem(value, setFieldValue)}
+                  onChange={value => handleChangePurchaseOrderItem(value, values, setFieldValue)}
                   startIcon={<TagIcon />}
                   label="PO Number"
                 />
@@ -254,6 +271,7 @@ function AddPurchaseInvoice() {
                   options={bankAccountOptions}
                   placeholder="Credit Account"
                   label="Credit Account"
+                  onChange={value => handleChangeChartOfAccount(value, values, 'bill_items', setFieldValue)}
                 />
 
                 {/* Location */}
@@ -298,7 +316,6 @@ function AddPurchaseInvoice() {
                     name="bill_items"
                     render={props => (
                       <PurchaseItem
-                        name="pur_order_items"
                         inputList={purchaseItemsInputList}
                         newList={NEW_PURCHASE_ITEM_OBJECT}
                         {...props}

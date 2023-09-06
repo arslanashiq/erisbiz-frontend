@@ -9,6 +9,7 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
   let netAmount = grossTotal + vatAmount;
   netAmount -= values.discount;
 
+  setFieldValue(`${name}.${index}.chart_of_account`, values.credit_account);
   if (vatRate) {
     setFieldValue(`${name}.${index}.vat_rate`, vatRate);
   }
@@ -21,9 +22,19 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
   if (netAmount) {
     setFieldValue(`${name}.${index}.net_amount`, netAmount.toFixed(2));
   }
+  setFieldValue(`${name}.${index}.amount_ex_vat`, (grossTotal - values.discount).toFixed(2));
   setFieldValue(`${name}.${index}.currency`, CURRENCY_ID);
 };
-export const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsListOptions) => {
+export const handleChangeItem = (
+  name,
+  index,
+  key,
+  value,
+  values,
+  setFieldValue,
+  itemsListOptions,
+  allValues
+) => {
   const selectedItem = itemsListOptions.filter(item => item.label === value);
   setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price);
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
@@ -31,21 +42,29 @@ export const handleChangeItem = (name, index, key, value, values, setFieldValue,
     ...values,
     service_type: selectedItem[0].value,
     unit_price_ex_vat: selectedItem[0].price,
+    credit_account: allValues.credit_account,
   };
 
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeQuantity = (name, index, key, value, values, setFieldValue) => {
-  const newValues = { ...values, num_nights: value };
+export const handleChangeQuantity = (name, index, key, value, values, setFieldValue, allValues) => {
+  const newValues = { ...values, num_nights: value, credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const hanldeVATChange = (name, index, key, value, values, setFieldValue) => {
-  const newValues = { ...values, vat_rate: value };
+export const hanldeVATChange = (name, index, key, value, values, setFieldValue, allValues) => {
+  const newValues = { ...values, vat_rate: value, credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeDiscount = (name, index, key, value, values, setFieldValue) => {
-  const newValues = { ...values, discount: value };
+export const handleChangeDiscount = (name, index, key, value, values, setFieldValue, allValues) => {
+  const newValues = { ...values, discount: value, credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
+};
+export const handleChangeChartOfAccount = (value, allValues, key, setFieldValue) => {
+  const newValues = [];
+  allValues[key].forEach(item => {
+    newValues.push({ ...item, chart_of_account: value });
+  });
+  setFieldValue(key, newValues);
 };
 export const handleCalculateTotalAmount = purchaseOrderItems => {
   let amountTotal = 0;

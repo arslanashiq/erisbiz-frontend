@@ -2,6 +2,7 @@ import moment from 'moment';
 
 export const purchaseInvoiceInitialValue = {
   date: moment().format('YYYY-MM-DD'),
+  pur_order_id: '',
   location: '',
   supplier_id: '',
   refrence_number: '',
@@ -15,6 +16,8 @@ export const purchaseInvoiceInitialValue = {
       discount: 0,
       vat: 0,
       net_amount: 0,
+      chart_of_account: '',
+      amount_ex_vat: 0,
     },
   ],
   requestor_signature_show: true,
@@ -45,6 +48,7 @@ export const purchaseInvoiceInitialValue = {
   amount_total_aed: 0,
   vat_total: 0,
   vat_total_aed: 0,
+  payment_terms: 'Net 0',
   grand_total: 0,
   grand_total_aed: 0,
   sub_total: 0,

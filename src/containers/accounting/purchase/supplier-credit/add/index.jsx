@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
-import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+// services
 import { useGetItemsListQuery } from 'services/private/items';
+import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
 import {
+  useAddSupplierCreditsMutation,
+  useEditSupplierCreditsMutation,
+  useGetSingleSupplierCreditsQuery,
+} from 'services/private/debit-note';
+import { useGetPaymentVouchersListQuery } from 'services/private/payment-voucher';
+import { useGetPurchaseInvoceMutation } from 'services/private/purchase-invoice';
+// shared
+import {
+  handleCalculateTotalAmount,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
@@ -16,206 +28,241 @@ import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+// containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
-import { VAT_CHARGES } from 'utilities/constants';
+// utilities
+import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
+import { supplierCreditsInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function AddSupplierCredit() {
-  const [initialValues, setInitialValues] = useState({
-    date: moment().format('YYYY-MM-DD'),
-    location: '',
-    supplier: '',
-    refrence_number: '',
-    attachment: '',
-    pur_order_items: [
-      {
-        item: '',
-        quantity: 0,
-        price: 0,
-        total: 0,
-        discount: 0,
-        vat: 0,
-        net_amount: 0,
-      },
-    ],
-    requestor_signature_show: true,
-    // requestor_signature: requestorSign,
-    show_stamp: true,
-    // stamp: user.profile.stamp,
-
-    // latest_pur_order_num: lastPurOrderNum != null ? lastPurOrderNum : 0,
-    // pur_order_num: lastPurOrderNum ? lastPurOrderNum + 1 : 1000,
-    pur_order_suffix: 'LPO',
-    customer_type_suffix: '',
-    currency: 'AED',
-    currency_symbol: 'AED',
-    currency_id: null,
-    convert_to_aed: true,
-    exchange_rate: 1,
-    pur_order_date: moment().format('YYYY-MM-DD'),
-    event: '',
-    tax_treatment: '',
-    trn: '',
-    place_of_supply: '',
-    requestor_name: '',
-    period_start: '',
-    period_end: '',
-    notes: '',
-    account_num: '',
-    iban: '',
-    advance_pyments: '',
-    payment_notes: '',
-    discount: 0,
-    amount_total: 0,
-    amount_total_aed: 0,
-    vat_total: 0,
-    vat_total_aed: 0,
-    grand_total: 0,
-    grand_total_aed: 0,
-    sub_total: 0,
-    address: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    country: '',
-  });
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [purchaseInvoiceListOptions, setPurchaseInvoiceListOptions] = useState([]);
+  const [supplierCreditInitialValues, setSupplierCreditInitialValues] = useState(
+    supplierCreditsInitialValues
+  );
   const itemsListResponse = useGetItemsListQuery();
+  const suppliersListResponse = useGetSuppliersListQuery();
+  const bankAccountsListsponse = useGetBankAccountsListQuery();
+  const paymentVouchersListQuery = useGetPaymentVouchersListQuery();
+  const [getPurchaseInvoice] = useGetPurchaseInvoceMutation();
+  const [addSupplierCredit] = useAddSupplierCreditsMutation();
+  const [editSupplierCredit] = useEditSupplierCreditsMutation();
 
   const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
     value: item.item_name,
     label: item.item_name,
     price: index + 1,
   }));
+  const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
+    value: supplier.id.toString(),
+    label: supplier.supplier_name,
+    credit_account: supplier.account_default,
+  }));
+  const bankAccountOptions = bankAccountsListsponse?.data?.results?.map(account => ({
+    value: `${account.chart_of_account}`,
+    label: account.bank_account_name,
+    chart_of_account: account.chart_of_account,
+  }));
+  const paymentVoucherOptions = paymentVouchersListQuery?.data?.results?.map(voucher => ({
+    value: `${voucher.id}`,
+    label: voucher.id,
+    data: voucher,
+  }));
+  const purchaseItemsInputList = useMemo(
+    () => [
+      {
+        name: 'service_type',
+        placeholder: 'Item',
+        isSelect: true,
+        options: itemsListOptions || [],
+        width: '15%',
+        onChange: handleChangeItem,
+      },
+      {
+        name: 'num_nights',
+        placeholder: 'Quanitiy',
+        type: 'number',
+        onChange: handleChangeQuantity,
+      },
+      {
+        name: 'unit_price_ex_vat',
+        placeholder: 'Unit Price',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'gross_amount',
+        placeholder: 'Gross Total',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'discount',
+        placeholder: 'Discount',
+        type: 'number',
+        onChange: handleChangeDiscount,
+      },
+      {
+        name: 'vat_rate',
+        placeholder: 'VAT',
+        isSelect: true,
+        options: VAT_CHARGES,
+        width: '15%',
+        onChange: hanldeVATChange,
+      },
+      {
+        name: 'net_amount',
+        placeholder: 'Net Amount',
+        type: 'number',
+        disabled: true,
+      },
+    ],
+    [itemsListOptions]
+  );
 
-  console.log(setInitialValues, 'sjdlksadjlksa');
+  const { initialValues } = useInitialValues(supplierCreditsInitialValues, useGetSingleSupplierCreditsQuery);
+
+  const handleChangeVoucher = (voucherId, setFieldValue) => {
+    const selectedVoucher = paymentVoucherOptions.filter(voucher => voucher.value === voucherId)[0];
+    if (!selectedVoucher) return;
+    if (setFieldValue) setFieldValue('supplier_id', selectedVoucher.data.supplier_id.toString());
+    const billValues = selectedVoucher.data.bill_payments.map(bill => ({
+      value: bill.bill.id.toString(),
+      label: bill.bill.bill_num,
+    }));
+    setPurchaseInvoiceListOptions([...billValues]);
+  };
+  const handleChangePurchaseInvoice = async (value, setFieldValue) => {
+    const purchaseInvoice = await getPurchaseInvoice(value);
+    if (setFieldValue) setFieldValue('supplier_credit_items', [...purchaseInvoice.data.bill_items]);
+  };
+
+  useEffect(() => {
+    if (paymentVoucherOptions) {
+      handleChangeVoucher(initialValues.voucher_number);
+    }
+    setSupplierCreditInitialValues({ ...initialValues });
+  }, [initialValues, paymentVoucherOptions]);
+
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
         <CardContent>
-          <FormHeader title="Debit Notes" />
+          <FormHeader title="Purchase Debit Notes" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={supplierCreditInitialValues}
             // validationSchema={bankFormValidationSchema}
-            //   onSubmit={async values => {
-            //   }}
+            onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
+              const supplierCreditTtems = values.supplier_credit_items.map(item => ({
+                ...item,
+                chart_of_account_id: values.debit_account_number,
+              }));
+              let response = null;
+              const payload = {
+                ...values,
+                supplier_credit_items: supplierCreditTtems,
+                currency: 'AED',
+                status: 'open',
+                ...handleCalculateTotalAmount(values.supplier_credit_items),
+              };
+              console.log(payload, 'response1');
+              if (id) {
+                response = await editSupplierCredit({ id, payload });
+              } else {
+                response = await addSupplierCredit(payload);
+              }
+              console.log(response, 'response2');
+              setSubmitting(false);
+              if (response.data) {
+                resetForm(initialValues);
+                navigate(-1);
+              }
+              if (response.error) {
+                setErrors(response.error.data);
+              }
+            }}
           >
-            <Form className="form form--horizontal mt-3 row">
-              {/* Purchase */}
+            {({ setFieldValue }) => (
+              <Form className="form form--horizontal mt-3 row">
+                {/* Purchase */}
 
-              <FormikField
-                name="voucher_no"
-                type="text"
-                placeholder="Voucher Number"
-                label="Voucher Number"
-                startIcon={<TagIcon />}
-              />
-              {/* date */}
-
-              <FormikDatePicker
-                name="date"
-                type="text"
-                placeholder="Date"
-                startIcon={<CalendarMonthIcon />}
-                label="Date"
-              />
-
-              {/* Purchase Inv No */}
-              <FormikField
-                name="purchase_inv_no"
-                type="text"
-                placeholder="Purchase Invoice Number"
-                label="Purchase Inv No"
-              />
-
-              {/* Supplier */}
-              <FormikSelect itemOptions={[]} name="supplier" placeholder="Supplier" label="Supplier" />
-
-              {/* Location */}
-              <FormikField
-                name="debit_account"
-                type="text"
-                placeholder="Debit Account Number"
-                label="Debit Acc No"
-                className="col-12"
-              />
-
-              {/* Item detail */}
-              <div className="form__form-group w-100">
-                <FieldArray
-                  name="pur_order_items"
-                  render={props => (
-                    <PurchaseItem
-                      name="pur_order_items"
-                      inputList={[
-                        {
-                          name: 'item',
-                          placeholder: 'Item',
-                          isSelect: true,
-                          options: itemsListOptions,
-                          width: '15%',
-                          onChange: handleChangeItem,
-                        },
-                        {
-                          name: 'quantity',
-                          placeholder: 'Quanitiy',
-                          type: 'number',
-                          onChange: handleChangeQuantity,
-                        },
-                        {
-                          name: 'price',
-                          placeholder: 'Unit Price',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'total',
-                          placeholder: 'Gross Total',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'discount',
-                          placeholder: 'Discount',
-                          type: 'number',
-                          onChange: handleChangeDiscount,
-                        },
-                        {
-                          name: 'vat',
-                          placeholder: 'VAT',
-                          isSelect: true,
-                          options: VAT_CHARGES,
-                          width: '15%',
-                          onChange: hanldeVATChange,
-                        },
-                        {
-                          name: 'net_amount',
-                          placeholder: 'Net Amount',
-                          type: 'number',
-                          disabled: true,
-                        },
-                      ]}
-                      newList={{
-                        item: '',
-                        quantity: 0,
-                        price: 0,
-                        total: 0,
-                        discount: 0,
-                        vat: 0,
-                        net_amount: 0,
-                      }}
-                      {...props}
-                    />
-                  )}
+                <FormikSelect
+                  name="voucher_number"
+                  placeholder="Voucher Number"
+                  label="Voucher Number"
+                  options={paymentVoucherOptions}
+                  startIcon={<TagIcon />}
+                  onChange={value => handleChangeVoucher(value, setFieldValue)}
                 />
-              </div>
+                {/* date */}
 
-              {/* Remarks */}
-              <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
+                <FormikDatePicker
+                  name="supplier_credit_date"
+                  type="text"
+                  placeholder="Date"
+                  startIcon={<CalendarMonthIcon />}
+                  label="Date"
+                />
+                {/* Supplier */}
+                <FormikSelect
+                  options={suppliersListOptions}
+                  name="supplier_id"
+                  placeholder="Supplier"
+                  label="Supplier"
+                  disabled
+                />
 
-              <FormSubmitButton />
-            </Form>
+                {/* Purchase Inv No */}
+                <FormikSelect
+                  name="bill_id"
+                  options={purchaseInvoiceListOptions}
+                  placeholder="Purchase Invoice Number"
+                  label="Purchase Inv No"
+                  onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}
+                />
+
+                {/* Location */}
+                <FormikSelect
+                  name="debit_account_number"
+                  options={bankAccountOptions}
+                  placeholder="Debit Account Number"
+                  label="Debit Acc No"
+                  className="col-12"
+                  // onChange={value => handleChangeDebitAccount(value, setFieldValue)}
+                />
+
+                {/* Item detail */}
+                <div className="form__form-group w-100">
+                  <FieldArray
+                    name="supplier_credit_items"
+                    render={props => (
+                      <PurchaseItem
+                        name="supplier_credit_items"
+                        inputList={purchaseItemsInputList}
+                        newList={NEW_PURCHASE_ITEM_OBJECT}
+                        {...props}
+                      />
+                    )}
+                  />
+                </div>
+
+                {/* Remarks */}
+                <FormikField
+                  name="remarks"
+                  textArea
+                  placeholder="Remarks"
+                  label="Remarks"
+                  className="col-12"
+                />
+
+                <FormSubmitButton />
+              </Form>
+            )}
           </Formik>
         </CardContent>
       </Card>

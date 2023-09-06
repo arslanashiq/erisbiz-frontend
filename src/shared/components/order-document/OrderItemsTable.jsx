@@ -45,14 +45,14 @@ function OrderItemsTable({ orderDetail, keyValue }) {
               }}
               colSpan="4"
             >
-              Grand Total ({orderDetail.currency})
+              Grand Total ({orderDetail.currency_symbol})
             </td>
-            <td>{orderDetail.amount_total}</td>
-            <td> </td>
-            <td>{orderDetail.vat_total}</td>
-            <td>{orderDetail.grand_total}</td>
+            <td>{orderDetail.without_change_amount_total}</td>
+            <td>{orderDetail.without_change_discount_total}</td>
+            <td>{orderDetail.without_change_vat_total}</td>
+            <td>{orderDetail.without_change_grand_total}</td>
           </tr>
-          {orderDetail.currency !== 'AED' && (
+          {/* {orderDetail.currency !== 'AED' && (
             <tr style={{ backgroundColor: 'rgb(226 226 228 / 26%)' }}>
               <td
                 style={{
@@ -63,13 +63,13 @@ function OrderItemsTable({ orderDetail, keyValue }) {
               >
                 Grand Total
               </td>
-              <td>AED</td>
+              <td>{orderDetail.currency}</td>
               <td colSpan="2">{orderDetail.exchange_rate}</td>
               <td>{orderDetail.bcy_amount_total}</td>
               <td> </td>
               <td>{orderDetail.bcy_grand_total}</td>
             </tr>
-          )}
+          )} */}
         </tbody>
       </table>
       <div>
@@ -79,12 +79,9 @@ function OrderItemsTable({ orderDetail, keyValue }) {
               <p>Grand Total</p>
             </div>
             <div className="amounts">
-              {console.log(orderDetail, 'ksajdldlkjsadddlkj')}
               <p>
+                {formatAmount(orderDetail.without_change_grand_total - orderDetail.without_change_vat_total)}{' '}
                 {orderDetail.currency_symbol}
-                {formatAmount(
-                  orderDetail.without_change_amount_total - orderDetail.without_change_discount_total
-                )}
               </p>
             </div>
           </div>
@@ -96,17 +93,15 @@ function OrderItemsTable({ orderDetail, keyValue }) {
             </div>
             <div className="amounts">
               <p>
-                {orderDetail.currency_symbol}
-                {orderDetail.without_change_vat_total}
+                {orderDetail.without_change_vat_total} {orderDetail.currency_symbol}
               </p>
             </div>
           </div>
         </div>
         <div className="pointer">
-          <p style={{ marginLeft: 5 }}>Total ({orderDetail.currency})</p>
+          <p style={{ marginLeft: 5 }}>Total ({orderDetail.currency_symbol})</p>
           <p>
-            {orderDetail.currency_symbol}
-            {formatAmount(orderDetail.without_change_grand_total)}
+            {formatAmount(orderDetail.without_change_grand_total)} {orderDetail.currency_symbol}
           </p>
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
-import { Button, Card, CardContent, Stack } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 // services
 import {
   useAddSupplierContactMutation,
@@ -15,6 +15,7 @@ import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 // styles
 import 'styles/form/form.scss';
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 
 function AddSupplierContact() {
   const { id, supplierId } = useParams();
@@ -74,62 +75,29 @@ function AddSupplierContact() {
               }
             }}
           >
-            {({ isSubmitting, touched, resetForm }) => (
-              <Form className="form form--horizontal row mt-3">
-                {/* Name */}
-                <div className="form__form-group col-md-6">
-                  <span className="form__form-group-label col-lg-3 required">Name</span>
-                  <div className="form__form-group-field ">
-                    <FormikField name="first_name" type="text" placeholder="Name" />
-                  </div>
-                </div>
-                {/* Designation */}
-                <div className="form__form-group col-md-6">
-                  <span className="form__form-group-label col-lg-3">Designation</span>
-                  <div className="form__form-group-field ">
-                    <FormikField name="designation" type="text" placeholder="Designation" />
-                  </div>
-                </div>
-                {/* Email */}
-                <div className="form__form-group col-md-6">
-                  <span className="form__form-group-label col-lg-3">Email</span>
-                  <div className="form__form-group-field ">
-                    <FormikField name="email" type="email" placeholder="Email" />
-                  </div>
-                </div>
-                {/* Mobile Number */}
-                <div className="form__form-group col-md-6">
-                  <span className="form__form-group-label col-lg-3">Mobile Number</span>
-                  <div className="form__form-group-field ">
-                    <FormikField name="mobile_num" type="text" placeholder="Mobile Number" />
-                  </div>
-                </div>
-                {/* Notes */}
+            <Form className="form form--horizontal row mt-3">
+              {/* Name */}
 
-                <div className="form__form-group">
-                  <span className="form__form-group-label col-lg-3">Notes</span>
-                  <div className="form__form-group-field ">
-                    <FormikField name="notes" textArea placeholder="Notes" />
-                  </div>
-                </div>
+              <FormikField name="first_name" type="text" placeholder="Name" label="Name" />
 
-                <ErrorFocus />
-                <Stack spacing={2} direction="row">
-                  <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                    Save
-                  </Button>
+              {/* Designation */}
+              <FormikField name="designation" type="text" placeholder="Designation" label="Designation" />
 
-                  <Button
-                    color="secondary"
-                    onClick={() => resetForm(initialValues)}
-                    disabled={!touched || isSubmitting}
-                    className="text-capitalize"
-                  >
-                    {id ? 'Reset' : 'Clear'}
-                  </Button>
-                </Stack>
-              </Form>
-            )}
+              {/* Email */}
+
+              <FormikField name="email" type="email" placeholder="Email" label="Email" />
+
+              {/* Mobile Number */}
+
+              <FormikField name="mobile_num" type="text" placeholder="Mobile Number" label="Mobile Number" />
+
+              {/* Notes */}
+
+              <FormikField name="notes" textArea placeholder="Notes" label="Notes" className="col-12" />
+
+              <ErrorFocus />
+              <FormSubmitButton />
+            </Form>
           </Formik>
         </CardContent>
       </Card>

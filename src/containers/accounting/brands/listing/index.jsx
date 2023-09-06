@@ -46,7 +46,7 @@ function BrandsListing() {
     });
   };
   return (
-    <SectionLoader options={brandsListResponse.isLoading}>
+    <SectionLoader options={[brandsListResponse.isLoading]}>
       <Helmet>
         <title>Brands - ErisBiz</title>
         <meta name="description" content="ErisBiz" />

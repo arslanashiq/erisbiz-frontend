@@ -51,6 +51,30 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getPaymentVouchersDocuments: builder.query({
+      query: id => ({
+        url: `api/accounting/purchases/paymentMade/${id}/docs/`,
+        method: 'GET',
+      }),
+      providesTags: ['getPaymentVouchersDocuments'],
+    }),
+
+    uploadPaymentVoucherDocument: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/purchases/paymentMade/${id}/uploadDoc/`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getPaymentVouchersDocuments'],
+    }),
+    deletePaymentVoucherDocument: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/purchases/paymentMade/docs/${id}}/`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getPaymentVouchersDocuments'],
+    }),
   }),
 });
 
@@ -61,4 +85,7 @@ export const {
   useAddPaymentVouchserMutation,
   useDeletePaymentVoucherMutation,
   useGetPaymentVoucherJournalsQuery,
+  useGetPaymentVouchersDocumentsQuery,
+  useUploadPaymentVoucherDocumentMutation,
+  useDeletePaymentVoucherDocumentMutation,
 } = PaymentVoucherApi;

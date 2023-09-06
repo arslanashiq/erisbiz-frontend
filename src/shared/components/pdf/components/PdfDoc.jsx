@@ -15,11 +15,11 @@ function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTa
         <>
           <Items orderDetail={orderDetail} subTotalName="Grand Total" keyName={keyName} />
           <TotalDetails
-            grandTotal={100}
-            amountTotal={101}
-            vatTotal={102}
-            currency="AED"
-            currencySymbol="AED"
+            amountTotal={orderDetail.without_change_grand_total - orderDetail.without_change_vat_total}
+            vatTotal={orderDetail.without_change_vat_total}
+            grandTotal={orderDetail.without_change_grand_total}
+            currency={orderDetail.currency}
+            currencySymbol={orderDetail.currency_symbol}
             subTotalName="Grand Total"
           />
         </>
@@ -28,7 +28,7 @@ function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTa
       {showVoucherTable && (
         <>
           <VoucherContent orderDetail={orderDetail} />
-          <VoucherFooter orderDetail={orderDetail} />
+          <VoucherFooter orderDetail={orderDetail} keyName={keyName} />
         </>
       )}
     </MainComponent>
@@ -37,11 +37,12 @@ function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTa
 PdfDoc.propTypes = {
   keyName: PropTypes.string.isRequired,
   orderInfo: PropTypes.object.isRequired,
-  orderDetail: PropTypes.object.isRequired,
+  orderDetail: PropTypes.object,
   showItemsTable: PropTypes.bool,
   showVoucherTable: PropTypes.bool,
 };
 PdfDoc.defaultProps = {
+  orderDetail: {},
   showItemsTable: true,
   showVoucherTable: false,
 };

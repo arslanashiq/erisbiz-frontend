@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { API_URL } from 'utilities/constants';
 
-// eslint-disable-next-line import/prefer-default-export
 export const privateApi = createApi({
   reducerPath: 'privateApi',
   baseQuery: fetchBaseQuery({
@@ -18,3 +17,4 @@ export const privateApi = createApi({
 
   endpoints: () => ({}),
 });
+export const test = '';

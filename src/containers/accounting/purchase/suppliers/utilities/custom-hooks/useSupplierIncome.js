@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { useState, useEffect } from 'react';
 
 function useSupplierIncome(income, currency) {
@@ -7,10 +6,10 @@ function useSupplierIncome(income, currency) {
     if (supplierIncome) {
       const customSupplierIncome = income
         ? income.map(item => ({
-            name: `${item.month} ${item.year}`,
-            [currency]: item.income,
-            amt: 1000,
-          }))
+          name: `${item.month} ${item.year}`,
+          [currency]: item.income,
+          amt: 1000,
+        }))
         : [];
       setSupplierIncome([...customSupplierIncome]);
     }

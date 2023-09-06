@@ -13,5 +13,5 @@ const authApi = publicApi.injectEndpoints({
   overrideExisting: false,
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const { useAdminLoginMutation } = authApi;
+export const test = '';

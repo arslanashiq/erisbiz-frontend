@@ -59,14 +59,15 @@ const styles = StyleSheet.create({
   },
 });
 
-function VoucherFooter({ billPayments, currencySymbol, paymentNotes }) {
+function VoucherFooter({ orderDetail, keyName }) {
+  console.log(orderDetail, 'orderDetail');
   return (
     <View style={{ marginTop: 20 }}>
       <View>
         <Text style={{ fontSize: 15, color: '#000000', fontWeight: '600' }}>Payment for</Text>
       </View>
       <View style={styles.table}>
-        <View style={[styles.tableRow, { backgroundColor: '#000000' }]}>
+        <View style={[styles.tableRow, { backgroundColor: '#08517e' }]}>
           <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
             <Text style={styles.tableCellHeader}>Bill Number</Text>
           </View>
@@ -83,58 +84,59 @@ function VoucherFooter({ billPayments, currencySymbol, paymentNotes }) {
             <Text style={styles.tableCellHeader}>Payment Amount</Text>
           </View>
         </View>
-        {billPayments.map(item => (
-          <View key={item.id} style={styles.tableRow}>
-            <View style={styles.tableCol}>
-              {item.bill ? (
-                <Text style={[styles.tableCell, { textAlign: 'center' }]}>{item.bill.bill_num}</Text>
-              ) : (
-                <Text style={[styles.tableCell, { textAlign: 'center' }]}>Supplier Opening Balance</Text>
-              )}
-            </View>
-            <View style={styles.tableCol}>
-              {item.bill && (
+        {orderDetail[keyName] &&
+          orderDetail[keyName].map(item => (
+            <View key={item.id} style={styles.tableRow}>
+              <View style={styles.tableCol}>
+                {item.bill ? (
+                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>{item.bill.bill_num}</Text>
+                ) : (
+                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>Supplier Opening Balance</Text>
+                )}
+              </View>
+              <View style={styles.tableCol}>
+                {item.bill && (
+                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
+                    {moment(item.bill.bill_date).format('YYYY-MM-DD')}
+                  </Text>
+                )}
+                {item.supplier && (
+                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
+                    {moment(item.supplier.bill_date).format('YYYY-MM-DD')}
+                  </Text>
+                )}
+              </View>
+              <View style={styles.tableCol}>
+                {item.bill && (
+                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
+                    {orderDetail.currency_symbol}
+                    {formatAmount(item.bill.grand_total)}
+                  </Text>
+                )}
+                {item.supplier && (
+                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
+                    {orderDetail.currency_symbol}
+                    {formatAmount(item.supplier.grand_total)}
+                  </Text>
+                )}
+              </View>
+              <View style={styles.tableCol}>
                 <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {moment(item.bill.bill_date).format('YYYY-MM-DD')}
+                  {moment(item.created_at).format('YYYY-MM-DD')}
                 </Text>
-              )}
-              {item.supplier && (
+              </View>
+              <View style={styles.tableCol}>
                 <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {moment(item.supplier.bill_date).format('YYYY-MM-DD')}
+                  {orderDetail.currency_symbol}
+                  {formatAmount(item.amount_applied)}
                 </Text>
-              )}
+              </View>
             </View>
-            <View style={styles.tableCol}>
-              {item.bill && (
-                <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {currencySymbol}
-                  {formatAmount(item.bill.grand_total)}
-                </Text>
-              )}
-              {item.supplier && (
-                <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {currencySymbol}
-                  {formatAmount(item.supplier.grand_total)}
-                </Text>
-              )}
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                {moment(item.created_at).format('YYYY-MM-DD')}
-              </Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                {currencySymbol}
-                {formatAmount(item.amount_applied)}
-              </Text>
-            </View>
-          </View>
-        ))}
-        {!!paymentNotes && (
+          ))}
+        {!!orderDetail.notes && (
           <View style={{ marginTop: 10 }}>
             <Text style={{ fontSize: 13 }}>Notes</Text>
-            <Text style={{ fontSize: 10, marginTop: 5 }}>{paymentNotes}</Text>
+            <Text style={{ fontSize: 10, marginTop: 5 }}>{orderDetail.notes}</Text>
           </View>
         )}
       </View>
@@ -143,9 +145,8 @@ function VoucherFooter({ billPayments, currencySymbol, paymentNotes }) {
 }
 
 VoucherFooter.propTypes = {
-  billPayments: PropTypes.array.isRequired,
-  currencySymbol: PropTypes.string.isRequired,
-  paymentNotes: PropTypes.string.isRequired,
+  orderDetail: PropTypes.object.isRequired,
+  keyName: PropTypes.string.isRequired,
 };
 
 export default VoucherFooter;

@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 /**
  *
  * @param {number} amount

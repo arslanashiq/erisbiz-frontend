@@ -1,8 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable function-paren-newline */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -38,11 +33,17 @@ function MuiTableBody({
   const getValue = (row, cell) => {
     let value = '';
     if (cell.mergeCell) {
-      value = 'AED ';
+      value = 'AED-';
     }
     value += cell.date ? moment(row[cell.id]).format(DATE_FORMAT) : row[cell.id];
 
     return value;
+  };
+  const handleLinkClick = (row, cell) => {
+    if (cell.handleLink) {
+      return cell.handleLink(row);
+    }
+    return `${window.location.pathname}/${row.id}/detail`;
   };
   const renderCellValue = (row, cell) => {
     // for null or undefined values
@@ -61,7 +62,7 @@ function MuiTableBody({
 
     // simple value
     return cell.isLink ? (
-      <Link className="text-decoration-none" to={`${window.location.pathname}/${row.id}/detail`}>
+      <Link className="text-decoration-none" to={handleLinkClick(row, cell)}>
         {getValue(row, cell)}
       </Link>
     ) : (
@@ -175,13 +176,11 @@ function MuiTableBody({
       {customRows &&
         customRows.map(row => (
           <TableRow key={row.id}>
-            {row.column.map(col =>
-              col.colSpan ? (
-                <TableCell colSpan={col.colSpan} />
-              ) : (
-                <TableCell sx={{ fontSize: '0.80rem' }}>{col.data}</TableCell>
-              )
-            )}
+            {row.column.map(col => (col.colSpan ? (
+              <TableCell colSpan={col.colSpan} />
+            ) : (
+              <TableCell sx={{ fontSize: '0.80rem' }}>{col.data}</TableCell>
+            )))}
           </TableRow>
         ))}
       {/* {emptyRows > 0 && (

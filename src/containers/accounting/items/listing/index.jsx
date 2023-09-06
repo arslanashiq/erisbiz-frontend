@@ -50,12 +50,9 @@ function ItemsListing() {
     }
   };
   const deleteSingleItem = async id => {
-    const deleteItemResp = await deleteItem(id);
-    if (deleteItemResp.data) {
-      enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
-    } else {
-      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    }
+    await deleteItem(id);
+
+    enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
   };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';

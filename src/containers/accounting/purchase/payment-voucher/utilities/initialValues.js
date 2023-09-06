@@ -1,5 +1,5 @@
 export const PurchaseVoucherInitialValues = {
-  bill_payments: [{}],
+  bill_payments: [],
   supplier_id: '',
   payment_date: '',
   total: 0,

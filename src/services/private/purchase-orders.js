@@ -22,6 +22,7 @@ const purchaseOrdersApi = privateApi.injectEndpoints({
         url: 'api/accounting/purchases/purOrders/latest',
         method: 'GET',
       }),
+      providesTags: ['getLatestPurchaseOrderNumber'],
     }),
     addPurchaseOrder: builder.mutation({
       query: payload => ({
@@ -29,7 +30,7 @@ const purchaseOrdersApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getPurchaseOrdersList'],
+      invalidatesTags: ['getLatestPurchaseOrderNumber', 'getPurchaseOrdersList'],
     }),
     deletePurchaseOrder: builder.mutation({
       query: id => ({

@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable object-curly-spacing */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import MuiTableHead from 'shared/components/table/MuiTableHead';
@@ -13,26 +11,25 @@ const tableBottomTextStyle = {
   fontSize: '0.9rem',
   fontWeight: '300',
 };
-function UnPaidBillsList({ unPaidBills = [], form }) {
+function UnPaidBillsList({ form }) {
   const { values, setFieldValue } = form;
 
   const handleChangeUsedAmount = (value, index) => {
     let usedAmout = 0;
     values.bill_payments.forEach((item, idx) => {
       if (idx === index) {
-        usedAmout += value;
+        usedAmout += Number(value);
       } else {
-        usedAmout += item.amount_applied;
+        usedAmout += Number(item.amount_applied);
       }
     });
     setFieldValue('used_amount', Number(usedAmout));
-    const unUsedAmount = Number(values.total - usedAmout);
+    const unUsedAmount = Number(values.total) - Number(usedAmout);
     if (unUsedAmount >= 0) setFieldValue('unused_amount', Number(values.total - usedAmout));
   };
   useEffect(() => {
     setFieldValue('used_amount', values?.used_amount);
   }, []);
-  console.log(unPaidBills, 'ajdslkjsadlksadjks');
   return (
     <Box className="col-12 mb-3">
       <TableContainer>
@@ -40,21 +37,21 @@ function UnPaidBillsList({ unPaidBills = [], form }) {
           <MuiTableHead headCells={UnPaidBillsHeadCells} />
 
           <TableBody>
-            {!unPaidBills ||
-              (unPaidBills?.length === 0 && (
+            {!values ||
+              (values.bill_payments.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={6} style={{ padding: '30px 0px', textAlign: 'center' }}>
                     No Data Found
                   </TableCell>
                 </TableRow>
               ))}
-            {unPaidBills &&
-              unPaidBills.length > 0 &&
-              unPaidBills.map((bill, index) => (
+            {values &&
+              values.bill_payments.length > 0 &&
+              values.bill_payments.map((bill, index) => (
                 <TableRow>
                   <TableCell>{bill.bill_date}</TableCell>
                   <TableCell>{bill.bill_num}</TableCell>
-                  <TableCell>-</TableCell>
+                  <TableCell>{bill.pur_order}</TableCell>
                   <TableCell>{bill.grand_total}</TableCell>
                   <TableCell>{bill.amount_due}</TableCell>
                   <TableCell>
@@ -99,5 +96,8 @@ function UnPaidBillsList({ unPaidBills = [], form }) {
     </Box>
   );
 }
+UnPaidBillsList.propTypes = {
+  form: PropTypes.object.isRequired,
+};
 
 export default UnPaidBillsList;

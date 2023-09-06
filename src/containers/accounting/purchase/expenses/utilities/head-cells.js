@@ -1,8 +1,6 @@
-/* eslint-disable */
-
 export const expensesHeadCells = [
   {
-    id: 'bill_date',
+    id: 'expense_date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -18,21 +16,23 @@ export const expensesHeadCells = [
     align: 'left',
   },
   {
-    id: 'expense_amount',
+    id: 'expense_account_name',
     numeric: true,
     disablePadding: false,
-    label: 'Expense Amount',
+    label: 'Expense Account',
     align: 'left',
+    isLink: true,
   },
+
   {
-    id: 'refrence',
+    id: 'reference_num',
     numeric: true,
     disablePadding: false,
     label: 'Refrence #',
     align: 'left',
   },
   {
-    id: 'padid_through',
+    id: 'paid_through_account_name',
     numeric: true,
     disablePadding: false,
     label: 'Paid Through',
@@ -55,18 +55,18 @@ export const expensesHeadCells = [
     },
   },
   {
-    id: 'currency_symbol',
-    numeric: true,
-    disablePadding: false,
-    label: 'currency',
-    align: 'left',
-  },
-
-  {
-    id: 'amount',
+    id: 'total_without_tax',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
-    align: 'left',
+    align: 'center',
+  },
+  {
+    id: 'total',
+    numeric: true,
+    disablePadding: false,
+    label: 'Expense Amount(WHT)',
+    align: 'center',
   },
 ];
+export const test = '';

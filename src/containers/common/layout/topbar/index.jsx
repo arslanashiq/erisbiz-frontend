@@ -16,7 +16,7 @@ import 'styles/topbar/topbar.scss';
 function TopBar({ open, handleToggleDrawer }) {
   return (
     <StyledAppBar position="fixed" open={open}>
-      <Toolbar>
+      <Toolbar className="d-print-none">
         <IconButton onClick={handleToggleDrawer}>
           <MenuIcon sx={{ color: 'black' }} />
         </IconButton>

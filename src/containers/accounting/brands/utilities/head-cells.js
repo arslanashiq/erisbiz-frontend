@@ -1,4 +1,4 @@
-/* eslint-disable  */
+export const test = '';
 
 export const brandsHeadCells = [
   {

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import React, { useEffect } from 'react';
 import CheckIcon from '@mui/icons-material/Check';
 import PropTypes from 'prop-types';
@@ -103,3 +102,4 @@ CheckBoxField.defaultProps = {
 };
 
 export { CheckBoxField };
+export const test = '';

@@ -16,6 +16,12 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getSinglePurchaseInvoice'],
     }),
+    getPurchaseInvoce: builder.mutation({
+      query: id => ({
+        url: `/api/accounting/purchases/bills/${id}/`,
+        method: 'GET',
+      }),
+    }),
     addPurchaseInvoce: builder.mutation({
       query: payload => ({
         url: '/api/accounting/purchases/bills/',
@@ -50,11 +56,17 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
     }),
     deletePurchaseInvoiceDocumentFile: builder.mutation({
       query: ({ id, payload }) => ({
-        url: ` api/accounting/purchases/bills/docs/${id}/`,
+        url: `api/accounting/purchases/bills/docs/${id}/`,
         method: 'DELETE',
         body: payload,
       }),
       invalidatesTags: ['getSinglePurchaseInvoice'],
+    }),
+    getPaymentsAgainstPaymentInvoice: builder.query({
+      query: id => ({
+        url: `api/accounting/purchases/bills/${id}/payment`,
+        method: 'GET',
+      }),
     }),
   }),
 });
@@ -62,9 +74,11 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
 export const {
   useGetPurchaseInvoiceListQuery,
   useAddPurchaseInvoceMutation,
+  useGetPurchaseInvoceMutation,
   useGetSinglePurchaseInvoiceQuery,
   useDeletePurchaseInvoceMutation,
   useEditPurchaseInvoceMutation,
   useUploadPurchaseInvoiceDocumentFileMutation,
   useDeletePurchaseInvoiceDocumentFileMutation,
+  useGetPaymentsAgainstPaymentInvoiceQuery,
 } = purchaseInvoiceApi;

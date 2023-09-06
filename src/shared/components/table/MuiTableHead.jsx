@@ -1,7 +1,5 @@
-/* eslint-disable */
 import React from 'react';
-import { Box, Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
+import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import PropTypes from 'prop-types';
 
 function MuiTableHead(props) {

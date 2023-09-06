@@ -12,5 +12,5 @@ const creditNotesApi = privateApi.injectEndpoints({
   }),
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const { useGetCreditNotesListQuery } = creditNotesApi;
+export const test = '';

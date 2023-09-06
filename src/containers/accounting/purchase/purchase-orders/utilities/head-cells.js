@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export const purchaseOrderHeadCells = [
   {
     id: 'date',
@@ -66,11 +64,12 @@ export const purchaseOrderHeadCells = [
         return {
           color: 'green',
         };
-      } else if (value === 'closed') {
+      } if (value === 'closed') {
         return { color: 'red' };
-      } else {
-        return {};
       }
+      return {};
     },
   },
 ];
+
+export const test = '';

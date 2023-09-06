@@ -1,50 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import moment from 'moment';
+import React, { useEffect } from 'react';
 import { Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import PersonIcon from '@mui/icons-material/Person';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import TagIcon from '@mui/icons-material/Tag';
-import { Button, Card, CardContent, Stack } from '@mui/material';
-import { useAddBankAccountMutation, useGetSingleBankAccountQuery } from 'services/private/banking';
+import { Card, CardContent } from '@mui/material';
+// services
+import {
+  useAddExpenseMutation,
+  useEditExpenseMutation,
+  useGetSingleExpenseQuery,
+} from 'services/private/expenses';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
+import { useGetSuppliersListQuery } from 'services/private/suppliers';
+// shared
 import FormikField from 'shared/components/form/FormikField';
-import FormHeader from 'shared/components/form-header/FormHeader';
-import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikSelect from 'shared/components/form/FormikSelect';
+import FormHeader from 'shared/components/form-header/FormHeader';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import FormikDatePicker from 'shared/components/form/FormikDatePicker';
+// containers
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// utilities
 import { VAT_CHARGES } from 'utilities/constants';
+import { expensesInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function AddExpense() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [addBankAccount] = useAddBankAccountMutation();
+  const bankAccountsLIstResponse = useGetBankAccountsListQuery();
+  const supplierListResponse = useGetSuppliersListQuery();
+  const [addExpense] = useAddExpenseMutation();
+  const [editExpense] = useEditExpenseMutation();
 
-  const [initialValues, setInitialValues] = useState({
-    bank_name: '',
-    date: moment().format('YYYY-MM-DD'),
-    account_number: '',
-    branch_name: '',
-    IBAN: '',
-    swift_code: '',
-    gl_number: '',
-    notes: '',
+  const { initialValues, setInitialValues, queryResponse } = useInitialValues(
+    expensesInitialValues,
+    useGetSingleExpenseQuery
+  );
 
-    // extra
-  });
-  if (id) {
-    const singleBankAccount = useGetSingleBankAccountQuery(id);
-    useEffect(() => {
-      if (id && singleBankAccount.isSuccess) {
-        setInitialValues({ ...singleBankAccount.data });
-      }
-    }, [id]);
-  }
-
+  const bankOptions = bankAccountsLIstResponse?.data?.results?.map(bank => ({
+    value: `${bank.chart_of_account}`,
+    label: bank.IBAN,
+  }));
+  const suppliersOptions = supplierListResponse?.data?.results?.map(supplier => ({
+    value: `${supplier.id}`,
+    label: supplier.supplier_name,
+  }));
+  useEffect(() => {
+    if (typeof initialValues.tax_rate_id === 'string') {
+      setInitialValues({ ...initialValues, tax_rate_id: Number(initialValues.tax_rate_id) });
+    }
+  }, [initialValues]);
+  console.log(queryResponse, 'initialValues');
   return (
     <Card>
       <CardContent>
-        <FormHeader title="Bank Master" />
+        <FormHeader title="Expenses" />
         <Formik
           enableReinitialize
           initialValues={initialValues}
@@ -52,18 +65,29 @@ function AddExpense() {
           onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
             try {
               let response = null;
+              const selectedTax = VAT_CHARGES.filter(tax => tax.value === values.tax_rate_id)[0];
+              const totalAmount =
+                values.total_without_tax + (values.total_without_tax / 100) * selectedTax.percent;
+              const payload = {
+                ...values,
+                tax_rate: selectedTax.label,
+                tax_rate_perc: selectedTax.percent,
+                total: totalAmount,
+              };
+              console.log(payload, 'response1');
               if (id) {
-                // await editBankAccount(updatedValues);
+                await editExpense({ id, payload });
               } else {
-                response = await addBankAccount(values);
+                response = await addExpense(payload);
               }
+              console.log(response, 'response2');
+
+              setSubmitting(false);
               if (response.data) {
-                setSubmitting(false);
                 resetForm(initialValues);
                 navigate(-1);
               }
               if (response.error) {
-                setSubmitting(false);
                 setErrors(response.error.data);
               }
             } catch (err) {
@@ -71,80 +95,72 @@ function AddExpense() {
                 setSubmitting(true);
                 setErrors(err.response.data);
                 setSubmitting(false);
-              } else {
-                // doReturnErrors(err.response.data, err.response.status);
               }
             }
           }}
         >
-          {({
-            isSubmitting,
-            touched,
-            // setFieldValue,
-            // setFieldTouched,
-            resetForm,
-            // values,
-          }) => (
-            <Form className="form form--horizontal row mt-3">
-              {/* Bank Name */}
+          <Form className="form form--horizontal row mt-3">
+            {/* Bank Name */}
 
-              <FormikField
-                name="expense_account"
-                type="text"
-                placeholder="Expense Account"
-                startIcon={<TagIcon />}
-                label="Expense Account"
-              />
+            <FormikSelect
+              name="expense_account_id"
+              type="text"
+              placeholder="Expense Account"
+              startIcon={<TagIcon />}
+              label="Expense Account"
+              options={bankOptions}
+            />
 
-              {/* date */}
+            {/* date */}
 
-              <FormikDatePicker
-                name="date"
-                type="text"
-                placeholder="Date"
-                label="Date"
-                startIcon={<CalendarMonthIcon />}
-              />
-              {/* AMount */}
+            <FormikDatePicker
+              name="expense_date"
+              type="text"
+              placeholder="Date"
+              label="Date"
+              startIcon={<CalendarMonthIcon />}
+            />
+            {/* AMount */}
 
-              <FormikField
-                name="amount"
-                type="text"
-                placeholder="Amount"
-                label="Amount"
-                startIcon={<PersonIcon />}
-              />
+            <FormikField
+              name="total_without_tax"
+              type="number"
+              placeholder="Amount"
+              label="Amount"
+              startIcon={<PersonIcon />}
+            />
 
-              {/* Paid Through */}
-              <FormikField name="paid_through" type="text" placeholder="Paid Through" label="Paid Through" />
+            {/* Paid Through */}
+            <FormikSelect
+              name="paid_through_account_id"
+              type="text"
+              placeholder="Paid Through"
+              label="Paid Through"
+              options={bankOptions}
+            />
 
-              {/* Supplier */}
-              <FormikSelect options={[]} name="supplier" placeholder="Supplier" label="Supplier" />
+            {/* Supplier */}
+            <FormikSelect
+              options={suppliersOptions}
+              name="supplier_id"
+              placeholder="Supplier"
+              label="Supplier"
+            />
 
-              {/* Tax */}
+            {/* Tax */}
 
-              <FormikSelect options={VAT_CHARGES} name="tax" placeholder="Tax" label="Tax" />
+            <FormikSelect options={VAT_CHARGES} name="tax_rate_id" placeholder="Tax" label="Tax" />
 
-              {/* remarks */}
-              <FormikField name="remarks" type="text" textArea label="Remarks" className="col-12" />
+            {/* Reference */}
 
-              {/* <ErrorFocus /> */}
-              <Stack spacing={2} direction="row">
-                <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                  Save
-                </Button>
+            <FormikField name="reference_num" placeholder="Reference" label="Reference" className="col-12" />
 
-                <Button
-                  color="secondary"
-                  onClick={() => resetForm(initialValues)}
-                  disabled={!touched || isSubmitting}
-                  className="text-capitalize"
-                >
-                  Clear
-                </Button>
-              </Stack>
-            </Form>
-          )}
+            {/* remarks */}
+            <FormikField name="notes" type="text" textArea label="Remarks" className="col-12" />
+
+            {/* <ErrorFocus /> */}
+            <FormSubmitButton />
+          </Form>
         </Formik>
       </CardContent>
     </Card>

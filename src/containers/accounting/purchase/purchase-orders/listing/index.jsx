@@ -25,9 +25,11 @@ function PurchaseOrderListing() {
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';
     let actionButton = false;
-
-    message = 'Are you sure you want to delete?';
-    actionButton = true;
+    const cantDelete = selected.some(item => item.status === 'closed');
+    if (!cantDelete) {
+      message = 'Are you sure you want to delete?';
+      actionButton = true;
+    }
 
     setOpenInfoPopup({
       ...openInfoPopup,

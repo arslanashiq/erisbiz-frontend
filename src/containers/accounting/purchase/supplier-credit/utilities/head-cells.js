@@ -1,8 +1,6 @@
-/* eslint-disable */
-
 export const supplierCreditHeadCells = [
   {
-    id: 'bill_date',
+    id: 'supplier_credit_date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -18,11 +16,12 @@ export const supplierCreditHeadCells = [
     align: 'left',
   },
   {
-    id: 'debit_note_number',
+    id: 'supplier_credit_formatted_number',
     numeric: true,
     disablePadding: false,
     label: 'Debit Note Number',
     align: 'left',
+    isLink: true,
   },
   {
     id: 'bill_num',
@@ -69,3 +68,5 @@ export const supplierCreditHeadCells = [
     align: 'left',
   },
 ];
+
+export const test = '';

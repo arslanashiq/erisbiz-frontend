@@ -1,6 +1,5 @@
 import moment from 'moment';
 
-/* eslint-disable import/prefer-default-export */
 export const supplierInitialValues = {
   supplier_name: '',
   website: '',
@@ -51,3 +50,4 @@ export const supplierInitialValues = {
   is_import_agent: false,
   is_reverse_charge: false,
 };
+export const test = '';

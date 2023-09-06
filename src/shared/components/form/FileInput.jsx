@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import FileIcon from 'mdi-react/FileIcon';
@@ -60,9 +60,7 @@ const renderFileInputField = props => {
     <div className="form__form-group-input-wrap">
       <FileInputField {...input} {...props} />{' '}
       {/* send all props as we need to pass the accept prop to fileInputField component */}
-      {meta.touched && meta.error && (
-        <span className="form__form-group-error">{meta.error}</span>
-      )}
+      {meta.touched && meta.error && <span className="form__form-group-error">{meta.error}</span>}
     </div>
   );
 };

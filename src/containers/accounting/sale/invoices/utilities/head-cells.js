@@ -1,4 +1,3 @@
-/* eslint-disable */
 export const invoiceHeadCell = [
   {
     id: 'invoice_date',
@@ -46,8 +45,8 @@ export const invoiceHeadCell = [
     class: value => {
       const temp = value.toLowerCase();
       if (temp === 'invoiced') return 'color-primary';
-      else if (temp === 'draft') return 'color-silver';
-      else if (temp === 'cancelled') return 'color-danger';
+      if (temp === 'draft') return 'color-silver';
+      if (temp === 'cancelled') return 'color-danger';
 
       return '';
     },
@@ -91,3 +90,4 @@ export const invoiceHeadCell = [
     mergeCell: true,
   },
 ];
+export const test = '';

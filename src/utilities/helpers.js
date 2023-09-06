@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const getMenuState = () => {
   const value = sessionStorage.getItem('menu-state');
   if (value === false || value === 'false') {
@@ -9,7 +8,9 @@ export const getMenuState = () => {
 
 export const convertURLToFile = async url => {
   try {
-    const fileName = url.substring(url.lastIndexOf('/') + 1);
+    let fileName = url.substring(url.lastIndexOf('/') + 1);
+    const newFileName = fileName.split('?')[0];
+    if (newFileName) fileName = newFileName;
     const response = await fetch(`${url}`);
     const blob = await response.blob();
     const file = new File([blob], `${fileName}`, {

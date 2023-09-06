@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { privateApi } from './index';
 
 const brandsApi = privateApi.injectEndpoints({

@@ -1,4 +1,3 @@
-/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-await-in-loop */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';

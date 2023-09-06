@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const itemsInitialValues = {
   item_name: '',
   sku_hs_code: '',
@@ -34,3 +33,5 @@ export const itemsInitialValues = {
   dynamic_opening_stock: 0.0,
   dynamic_opening_stock_per_unit: 0.0,
 };
+
+export const test = '';

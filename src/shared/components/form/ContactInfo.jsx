@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -21,7 +20,7 @@ function ContactInfo({ name, form, push, remove }) {
       <Table>
         <TableBody>
           {form.values[name].map((item, index) => (
-            <TableRow key={index} sx={{ borderBottom: 0 }}>
+            <TableRow key={item} sx={{ borderBottom: 0 }}>
               <TableCell>
                 <FormikField
                   className="w-100"
@@ -47,12 +46,7 @@ function ContactInfo({ name, form, push, remove }) {
                 />
               </TableCell>
               <TableCell>
-                <FormikField
-                  className="w-100"
-                  name={`${name}.${0}.email`}
-                  type="email"
-                  placeholder="Email"
-                />
+                <FormikField className="w-100" name={`${name}.${0}.email`} type="email" placeholder="Email" />
               </TableCell>
               <TableCell>
                 <Stack direction="row" spacing={2}>

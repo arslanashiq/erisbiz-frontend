@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import { ROWS_PER_PAGE } from './constants';
 
 // General

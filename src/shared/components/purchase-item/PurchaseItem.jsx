@@ -62,7 +62,8 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
                                 value,
                                 item,
                                 form.setFieldValue,
-                                input.options
+                                input.options,
+                                form.values
                               );
                             }
                           }}
@@ -77,7 +78,15 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
                           onChange={(key, value) => {
                             form.setFieldValue(key, value);
                             if (input.onChange) {
-                              input.onChange(name, index, input.name, key, item, form.setFieldValue);
+                              input.onChange(
+                                name,
+                                index,
+                                input.name,
+                                key,
+                                item,
+                                form.setFieldValue,
+                                form.values
+                              );
                             }
                           }}
                           className="w-100"

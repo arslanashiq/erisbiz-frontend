@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Stack, Typography } from '@mui/material';
@@ -10,10 +9,10 @@ function SupplierOverviewCharts({ supplierDetail, supplierIncome, activityLogDur
   const currencySymbol = supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED';
   const graphData = supplierIncome
     ? supplierIncome.map(item => ({
-        name: `${item.month} ${item.year}`,
-        [currencySymbol]: item.income,
-        amt: item.income,
-      }))
+      name: `${item.month} ${item.year}`,
+      [currencySymbol]: item.income,
+      amt: item.income,
+    }))
     : [];
   return (
     <Grid sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 4, paddingBottom: 3 }}>

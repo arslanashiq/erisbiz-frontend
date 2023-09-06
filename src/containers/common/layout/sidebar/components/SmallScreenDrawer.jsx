@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
@@ -21,7 +20,7 @@ function SmallScreenDrawer({
   const navigate = useNavigate();
   return (
     <Drawer
-      className="small-screen-drawer d-block d-md-none"
+      className="small-screen-drawer d-block d-md-none d-print-none"
       variant="persistent"
       open={open}
       onClose={() => setOpen(false)}
@@ -45,7 +44,7 @@ function SmallScreenDrawer({
                   pl: 2.5,
                 }}
                 onClick={() => {
-                  if (sideBar.link) {
+                  if (!sideBar.children) {
                     navigate(sideBar.link);
                   } else {
                     const temp = showSideBarChildLink;
@@ -83,7 +82,7 @@ function SmallScreenDrawer({
                   index={sideBar.index}
                   checkActive={checkActive}
                 />
-              )}
+            )}
           </div>
         ))}
       </List>

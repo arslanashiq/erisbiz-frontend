@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import KeyIcon from '@mui/icons-material/Key';
@@ -11,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAdminLoginMutation } from 'services/public/auth';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'store/slices/userSlice';
-import { Box, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import FormikField from 'shared/components/form/FormikField';
 import { useSnackbar } from 'notistack';
 

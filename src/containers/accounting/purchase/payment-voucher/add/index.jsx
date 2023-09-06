@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
@@ -32,7 +32,6 @@ import 'styles/form/form.scss';
 function addPaymentVoucher() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [unPaidBills, setUnPaidBills] = useState([]);
   const supplierListResponse = useGetSuppliersListQuery();
   const bankAccountListResponse = useGetBankAccountsListQuery();
   const [addPaymentVouchser] = useAddPaymentVouchserMutation();
@@ -51,43 +50,48 @@ function addPaymentVoucher() {
     value: account.chart_of_account.toString(),
     label: account.bank_account_name,
   }));
-  const handleChangeSupplier = async supplierId => {
+  const handleChangeSupplier = async (supplierId, initial, setValues) => {
     if (!supplierId) return;
     const response = await getUnpaidBills(supplierId);
-    let billPayment = [];
-    billPayment = response.data.map(bill => {
+    const billPayment = [];
+    response.data.forEach((bill, index) => {
       if (bill.bill_num === 'Supplier Opening Balance') {
-        return {
+        billPayment.push({
           bill_date: bill.bill_date,
-          supplier: bill.supplier_id,
+          supplier: supplierId,
           grand_total: bill.grand_total,
           amount_due: bill.amount_due,
-          amount_applied: 0,
+          amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
           bill_num: bill.bill_num,
-        };
+          pur_order: bill.pur_order,
+        });
+      } else {
+        billPayment.push({
+          bill_id: bill.id,
+          bill_date: bill.bill_date,
+          grand_total: bill.grand_total,
+          amount_due: bill.amount_due,
+          bill_num: bill.bill_num,
+          pur_order: bill.pur_order,
+          amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
+        });
       }
-      return {
-        bill_id: bill.id,
-        bill_date: bill.bill_date,
-        grand_total: bill.grand_total,
-        amount_due: bill.amount_due,
-        bill_num: bill.bill_num,
-        amount_applied: 0,
-      };
     });
-    setUnPaidBills([...billPayment]);
+    if (setValues) setValues('bill_payments', billPayment);
+    else {
+      setInitialValues({
+        ...initialValues,
+        used_amount: initialValues.total - initialValues.unused_amount,
+        bill_payments: billPayment,
+      });
+    }
   };
 
   useEffect(() => {
     if (id) {
       if (!initialValues.used_amount) {
-        setInitialValues({
-          ...initialValues,
-          used_amount: initialValues.total - initialValues.unused_amount,
-        });
+        handleChangeSupplier(initialValues.supplier_id, initialValues);
       }
-
-      handleChangeSupplier(initialValues.supplier_id, initialValues);
     }
   }, [initialValues]);
   return (
@@ -121,7 +125,7 @@ function addPaymentVoucher() {
               }
             }}
           >
-            {({ values }) => (
+            {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
                 {/* Supplier */}
                 <FormikSelect
@@ -130,7 +134,7 @@ function addPaymentVoucher() {
                   label="Supplier"
                   startIcon={<TagIcon />}
                   options={suppliersOptions}
-                  onChange={supplierId => handleChangeSupplier(supplierId, values)}
+                  onChange={supplierId => handleChangeSupplier(supplierId, null, setFieldValue)}
                 />
                 {/* Payment date */}
 
@@ -165,10 +169,7 @@ function addPaymentVoucher() {
                 <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
 
                 {/* Unpiad Bills */}
-                <FieldArray
-                  name="bill_payments"
-                  render={props => <UnPaidBillsList unPaidBills={unPaidBills} {...props} />}
-                />
+                <FieldArray name="bill_payments" render={props => <UnPaidBillsList {...props} />} />
 
                 {/* Remarks */}
                 <FormikField

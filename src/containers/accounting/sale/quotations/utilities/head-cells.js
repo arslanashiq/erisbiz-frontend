@@ -1,4 +1,3 @@
-/* eslint-disable */
 export const quotationsHeadCell = [
   {
     id: 'quotation_date',
@@ -46,8 +45,8 @@ export const quotationsHeadCell = [
     class: value => {
       const temp = value.toLowerCase();
       if (temp === 'invoiced') return 'color-primary';
-      else if (temp === 'draft') return 'color-silver';
-      else if (temp === 'cancelled') return 'color-danger';
+      if (temp === 'draft') return 'color-silver';
+      if (temp === 'cancelled') return 'color-danger';
 
       return '';
     },
@@ -91,3 +90,5 @@ export const quotationsHeadCell = [
     mergeCell: true,
   },
 ];
+
+export const test = '';

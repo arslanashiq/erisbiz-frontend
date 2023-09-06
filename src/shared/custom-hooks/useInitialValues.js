@@ -1,8 +1,9 @@
+/* eslint-disable no-param-reassign */
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { convertURLToFile } from 'utilities/helpers';
 
-function useInitialValues(values, fetchDetailQuery, fileName = null, iseInititalValues = true) {
+function useInitialValues(values, fetchDetailQuery, fileName = null, iseInititalValues = false) {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({ ...values });
   const queryResponse = fetchDetailQuery(id, { skip: !id });
@@ -28,8 +29,10 @@ function useInitialValues(values, fetchDetailQuery, fileName = null, iseInitital
   };
   useEffect(() => {
     if (queryResponse.isSuccess) handleUpdateInitialValues(queryResponse.data);
-  }, [id, queryResponse]);
-
+    return () => {
+      values = {};
+    };
+  }, [values, fetchDetailQuery, id, queryResponse]);
   return {
     initialValues,
     queryResponse,

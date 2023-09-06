@@ -44,6 +44,7 @@ function OrderDocument({
           </blockquote>
         </div>
       )}
+
       {orderDetail && (
         <OrderReceipt
           orderDetail={orderDetail}
