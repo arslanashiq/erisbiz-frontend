@@ -13,6 +13,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utils
+import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { PaymentVoucherHeadCells } from '../utilities/head-cells';
 
 function paymentVoucherListing() {
@@ -25,9 +26,14 @@ function paymentVoucherListing() {
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';
     let actionButton = false;
-
-    message = 'Are you sure you want to delete?';
-    actionButton = true;
+    const haveDebitNotes = checkSelectedDataUsed(data, selected, 'have_debit_note');
+    if (haveDebitNotes.length > 0) {
+      message = selected.length === 1 ? 'Selected Voucher have credit Notes' : message;
+      actionButton = false;
+    } else {
+      message = 'Are you sure you want to delete?';
+      actionButton = true;
+    }
 
     setOpenInfoPopup({
       ...openInfoPopup,

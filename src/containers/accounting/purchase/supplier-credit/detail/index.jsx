@@ -1,39 +1,30 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import PrintIcon from '@mui/icons-material/Print';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import { Button, Card, CardContent, Stack, Tooltip, Typography } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 // services
 import {
+  useDeleteSupplierCreditsDocumentsMutation,
   useDeleteSupplierCreditsMutation,
   useGetSingleSupplierCreditsQuery,
+  useGetSupplierCreditsDocumentsQuery,
+  useUploadSupplierCreditsDocumentsMutation,
 } from 'services/private/debit-note';
 // shared
-import InfoPopup from 'shared/modals/InfoPopup';
-import ActionMenu from 'shared/components/action-menu/ActionMenu';
-import PdfPrintModal from 'shared/components/pdf/modal/PdfPrintModal';
-import usePdfView from 'shared/components/pdf/custom-hooks/usePdfView';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
+import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utlilities
-import { iconButtonStyle } from 'utilities/mui-styles';
-import { useSnackbar } from 'notistack';
 
 const keyValue = 'supplier_credit_items';
 function SupplierCreditDetail() {
   const { id } = useParams();
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-
-  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
-  const [openPopup, setOpenPopup] = useState({
+  const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
-    infoDescription: 'Are uou sure you Want To delete This Supplier Credit Note',
+    infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
   });
   const supplierCreditResponse = useGetSingleSupplierCreditsQuery(id);
-  const [deleteSupplierCredit] = useDeleteSupplierCreditsMutation();
-
+  const SupplierCreditDocumentsResponse = useGetSupplierCreditsDocumentsQuery(id);
   const orderInfo = useMemo(
     () => ({
       type: 'Supplier Credit',
@@ -44,7 +35,7 @@ function SupplierCreditDetail() {
     }),
     [supplierCreditResponse]
   );
-  const purchaseInvoiceActionList = useMemo(
+  const SupplierCreditsActionList = useMemo(
     () => [
       {
         label: 'Edit',
@@ -55,69 +46,38 @@ function SupplierCreditDetail() {
       {
         label: 'Delete',
         handleClick: () => {
-          setOpenPopup({ ...openPopup, open: true });
+          let infoDescription = 'This Debit Note is either applied to bill or refunded.';
+          let showActionButton = false;
+          const cantDelete = supplierCreditResponse.data.is_applied;
+          if (!cantDelete) {
+            infoDescription = 'Are you sure you want to delete?';
+            showActionButton = true;
+          }
+          setOpenInfoPopup({ ...openInfoPopup, open: true, infoDescription, showActionButton });
         },
       },
     ],
-    []
+    [supplierCreditResponse]
   );
-  const { actionLoading, handleDownload } = usePdfView(orderInfo, supplierCreditResponse.data, keyValue);
-
-  const handleClose = () => {
-    setOpenPopup({ ...openPopup, open: false });
-  };
-  const handleOpenPdfPrintModal = () => {
-    setIsPrintModalOpen(true);
-  };
-  const handleDeleteSupplierCredit = async () => {
-    await deleteSupplierCredit(id);
-    enqueueSnackbar('Purchase Invoice Deleted', { variant: 'success' });
-    navigate('/pages/accounting/purchase/debit-notes');
-  };
-
   return (
     <SectionLoader options={[supplierCreditResponse.isLoading]}>
-      <InfoPopup
-        open={openPopup.open}
-        showActionButton
-        handleClose={handleClose}
-        infoDescription={openPopup.infoDescription}
-        handleYes={handleDeleteSupplierCredit}
-      />
-
-      <PdfPrintModal
-        isPrintModalOpen={isPrintModalOpen}
-        setIsPrintModalOpen={setIsPrintModalOpen}
-        orderInfo={orderInfo}
-        orderDetail={supplierCreditResponse.data}
+      <DetailPageHeader
+        title={`Purchase Debit Note:${supplierCreditResponse?.data?.supplier_credit_formatted_number}`}
+        filesList={SupplierCreditDocumentsResponse?.data}
         keyValue={keyValue}
+        orderInfo={orderInfo}
+        orderDetail={supplierCreditResponse?.data}
+        actionsList={SupplierCreditsActionList}
+        useDeleteItemMutation={useDeleteSupplierCreditsMutation}
+        useUploadDocumentFileMutation={useUploadSupplierCreditsDocumentsMutation}
+        useDeleteDocumentFileMutation={useDeleteSupplierCreditsDocumentsMutation}
+        openPopup={openInfoPopup}
+        setOpenPopup={setOpenInfoPopup}
+        pdfOptions={{
+          showItemsTable: true,
+          showVoucherTable: false,
+        }}
       />
-      <Stack direction="row" className="w-100 mt-1 mb-3" justifyContent="space-between">
-        <Typography variant="h6">
-          Purchase Debit Note:{supplierCreditResponse?.data?.supplier_credit_formatted_number}
-        </Typography>
-        <Stack spacing={2} direction="row">
-          <Tooltip title="Download" placement="top" arrow>
-            <Button disabled={actionLoading} onClick={handleDownload}>
-              <CloudDownloadIcon sx={iconButtonStyle} />
-            </Button>
-          </Tooltip>
-          <Tooltip title="Print" placement="top" arrow>
-            <Button onClick={handleOpenPdfPrintModal}>
-              <PrintIcon sx={iconButtonStyle} />
-            </Button>
-          </Tooltip>
-
-          <ActionMenu actionsList={purchaseInvoiceActionList} />
-          <Button
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            Back
-          </Button>
-        </Stack>
-      </Stack>
       <Card>
         <CardContent>
           <OrderDocument

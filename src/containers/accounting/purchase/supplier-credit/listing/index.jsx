@@ -11,6 +11,7 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities
+import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { supplierCreditHeadCells } from '../utilities/head-cells';
 
@@ -26,9 +27,15 @@ function SupplierCreditListing() {
     enqueueSnackbar('Supplier Credit Deleted Successfully', { variant: 'success' });
   };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    const message = 'Are you sure you want to delete?';
-    const actionButton = true;
-
+    let message = 'Are you sure you want to delete?';
+    let actionButton = false;
+    const isApplied = checkSelectedDataUsed(data, selected, 'is_applied');
+    if (isApplied.length > 0) {
+      message = selected.length === 1 ? 'This Debit Note is applied to bill' : message;
+    } else {
+      message = 'Are you sure you want to delete?';
+      actionButton = true;
+    }
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,

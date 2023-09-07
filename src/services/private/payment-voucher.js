@@ -69,8 +69,8 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
     }),
     deletePaymentVoucherDocument: builder.mutation({
       query: ({ id, payload }) => ({
-        url: `api/accounting/purchases/paymentMade/docs/${id}}`,
-        method: 'POST',
+        url: `api/accounting/purchases/paymentMade/docs/${id}/`,
+        method: 'DELETE',
         body: payload,
       }),
       invalidatesTags: ['getPaymentVouchersDocuments'],

@@ -1,12 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import PrintIcon from '@mui/icons-material/Print';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import { Button, Card, CardContent, Grid, Stack, Tooltip, Typography } from '@mui/material';
+import { Card, CardContent, Grid } from '@mui/material';
 // services
-import { useChangePurchaseOrderStatusToIssuedMutation } from 'services/private/purchase-orders';
 import {
   useDeletePurchaseInvoceMutation,
   useDeletePurchaseInvoiceDocumentFileMutation,
@@ -15,39 +10,23 @@ import {
   useUploadPurchaseInvoiceDocumentFileMutation,
 } from 'services/private/purchase-invoice';
 // shared
-import InfoPopup from 'shared/modals/InfoPopup';
-import FilePopup from 'shared/modals/filePopup';
-import ActionMenu from 'shared/components/action-menu/ActionMenu';
-import PdfPrintModal from 'shared/components/pdf/modal/PdfPrintModal';
-import usePdfView from 'shared/components/pdf/custom-hooks/usePdfView';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
+import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
-import { iconButtonStyle } from 'utilities/mui-styles';
-import { addDocument, deleteDocument } from 'utilities/document-action-handlers';
 import PaymentTable from './components/PaymentTable';
 
 const keyValue = 'bill_items';
 function PurchaseInvoiceDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
-  const [chagePurchaseOrderStatus] = useChangePurchaseOrderStatusToIssuedMutation();
   const paymentMadeAgainstInvoiceResponse = useGetPaymentsAgainstPaymentInvoiceQuery(id);
-
-  const [openFilesModal, setOpenFilesModal] = useState({
+  const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
-  });
-  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
-  const [openPopup, setOpenPopup] = useState({
-    open: false,
-    infoDescription: 'are You sure You Want To delete This Purchase Order',
+    infoDescription: 'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher',
   });
   const purchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(id);
-  const [deletePurchaseinvoice] = useDeletePurchaseInvoceMutation();
-  const [uploadDocument] = useUploadPurchaseInvoiceDocumentFileMutation();
-  const [removeDocument] = useDeletePurchaseInvoiceDocumentFileMutation();
   const orderInfo = useMemo(
     () => ({
       type: 'Bill Invoice',
@@ -59,7 +38,6 @@ function PurchaseInvoiceDetail() {
     }),
     [purchaseInvoiceResponse]
   );
-  const { actionLoading, handleDownload } = usePdfView(orderInfo, purchaseInvoiceResponse.data, keyValue);
   const purchaseInvoiceActionList = useMemo(
     () => [
       {
@@ -71,35 +49,30 @@ function PurchaseInvoiceDetail() {
       {
         label: 'Delete',
         handleClick: () => {
-          setOpenPopup({ ...openPopup, open: true });
+          let infoDescription =
+            'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher';
+          let showActionButton = false;
+          const cantDelete =
+            purchaseInvoiceResponse.data.status === 'partially paid' ||
+            purchaseInvoiceResponse.data.status === 'void';
+
+          if (!cantDelete) {
+            infoDescription = 'Are you sure you want to delete?';
+            showActionButton = true;
+          }
+
+          setOpenInfoPopup({
+            ...openInfoPopup,
+            open: true,
+            infoDescription,
+            showActionButton,
+          });
+          setOpenInfoPopup({ ...openInfoPopup, open: true });
         },
       },
     ],
-    []
+    [purchaseInvoiceResponse]
   );
-  const handleClose = () => {
-    setOpenPopup({ ...openPopup, open: false });
-  };
-  const handleDeletePurchaseInvoice = async () => {
-    await deletePurchaseinvoice(id);
-    enqueueSnackbar('Purchase Invoice Deleted', { variant: 'success' });
-    navigate('/pages/accounting/purchase/purchase-invoice');
-  };
-  const handleOpenPdfPrintModal = () => {
-    setIsPrintModalOpen(true);
-  };
-  const handleOpenFilesModal = () => {
-    setOpenFilesModal({ ...openFilesModal, open: true, files: [] });
-  };
-  const handleCloseFilesModal = () => {
-    setOpenFilesModal({ ...openFilesModal, open: false });
-  };
-  const handleUploadDocfile = async file => {
-    await addDocument(id, file, uploadDocument, enqueueSnackbar);
-  };
-  const handleDeleteDocfile = async file => {
-    await deleteDocument(file.id, removeDocument, enqueueSnackbar);
-  };
 
   return (
     <SectionLoader
@@ -109,65 +82,37 @@ function PurchaseInvoiceDetail() {
         paymentMadeAgainstInvoiceResponse.isLoading,
       ]}
     >
-      <div>
-        <InfoPopup
-          open={openPopup.open}
-          showActionButton
-          handleClose={handleClose}
-          handleYes={handleDeletePurchaseInvoice}
-        />
-        <FilePopup
-          open={openFilesModal.open}
-          handleClose={handleCloseFilesModal}
-          handleUploadFile={handleUploadDocfile}
-          handleDeleteFile={handleDeleteDocfile}
-          files={purchaseInvoiceResponse?.data?.bill_docs}
-        />
-        <PdfPrintModal
-          isPrintModalOpen={isPrintModalOpen}
-          setIsPrintModalOpen={setIsPrintModalOpen}
-          orderInfo={orderInfo}
-          orderDetail={purchaseInvoiceResponse.data}
-          keyValue={keyValue}
-        />
-        <Stack direction="row" className="w-100 mt-1 mb-3" justifyContent="space-between">
-          <Typography variant="h6">Bill:{purchaseInvoiceResponse?.data?.bill_num}</Typography>
-          <Stack spacing={2} direction="row">
-            <Tooltip title="Download" placement="top" arrow>
-              <Button disabled={actionLoading} onClick={handleDownload}>
-                <CloudDownloadIcon sx={iconButtonStyle} />
-              </Button>
-            </Tooltip>
-            <Tooltip title="Print" placement="top" arrow>
-              <Button onClick={handleOpenPdfPrintModal}>
-                <PrintIcon sx={iconButtonStyle} />
-              </Button>
-            </Tooltip>
-            <Tooltip title="Attach File" placement="top" arrow>
-              <Button onClick={handleOpenFilesModal}>
-                <AttachFileIcon sx={iconButtonStyle} />
-              </Button>
-            </Tooltip>
-            <ActionMenu actionsList={purchaseInvoiceActionList} />
-            <Button>Back</Button>
-          </Stack>
-        </Stack>
-        <Card>
-          <CardContent>
-            {paymentMadeAgainstInvoiceResponse?.data?.payment?.length > 0 && (
-              <Grid style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
-                <PaymentTable payments={paymentMadeAgainstInvoiceResponse.data} />
-              </Grid>
-            )}
-            <OrderDocument
-              keyValue={keyValue}
-              orderInfo={orderInfo}
-              orderDetail={purchaseInvoiceResponse.data}
-              handleChangeStatus={chagePurchaseOrderStatus}
-            />
-          </CardContent>
-        </Card>
-      </div>
+      <DetailPageHeader
+        title={`Bill:${purchaseInvoiceResponse?.data?.bill_num}`}
+        filesList={purchaseInvoiceResponse?.data?.bill_docs}
+        keyValue={keyValue}
+        orderInfo={orderInfo}
+        orderDetail={purchaseInvoiceResponse?.data}
+        actionsList={purchaseInvoiceActionList}
+        useDeleteItemMutation={useDeletePurchaseInvoceMutation}
+        useUploadDocumentFileMutation={useUploadPurchaseInvoiceDocumentFileMutation}
+        useDeleteDocumentFileMutation={useDeletePurchaseInvoiceDocumentFileMutation}
+        openPopup={openInfoPopup}
+        setOpenPopup={setOpenInfoPopup}
+        pdfOptions={{
+          showItemsTable: true,
+          showVoucherTable: false,
+        }}
+      />
+      <Card>
+        <CardContent>
+          {paymentMadeAgainstInvoiceResponse?.data?.payment?.length > 0 && (
+            <Grid style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
+              <PaymentTable payments={paymentMadeAgainstInvoiceResponse.data} />
+            </Grid>
+          )}
+          <OrderDocument
+            keyValue={keyValue}
+            orderInfo={orderInfo}
+            orderDetail={purchaseInvoiceResponse.data}
+          />
+        </CardContent>
+      </Card>
     </SectionLoader>
   );
 }

@@ -49,6 +49,21 @@ const expensesApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    uploadExpensesDocument: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/purchases/expenses/${id}/uploadDoc`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getSingleExpense'],
+    }),
+    deleteExpensesDocument: builder.mutation({
+      query: ({ id }) => ({
+        url: `api/accounting/purchases/expenses/docs/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['getSingleExpense'],
+    }),
   }),
 });
 
@@ -59,4 +74,6 @@ export const {
   useEditExpenseMutation,
   useDeleteExpenseMutation,
   useGetExpenseJournalsQuery,
+  useUploadExpensesDocumentMutation,
+  useDeleteExpensesDocumentMutation,
 } = expensesApi;

@@ -11,20 +11,13 @@ function PdfPrintModal({
   orderInfo,
   orderDetail,
   keyValue,
-  showItemsTable,
-  showVoucherTable,
+  pdfOptions,
 }) {
   const handleClose = () => {
     setIsPrintModalOpen(false);
   };
 
-  const { handlePrint, component } = usePdfView(
-    orderInfo,
-    orderDetail,
-    keyValue,
-    showItemsTable,
-    showVoucherTable
-  );
+  const { handlePrint, component } = usePdfView(orderInfo, orderDetail, keyValue, pdfOptions);
 
   return (
     <div className="order-detail-wrapper">
@@ -65,13 +58,10 @@ PdfPrintModal.propTypes = {
   setIsPrintModalOpen: PropTypes.func,
   orderInfo: PropTypes.object.isRequired,
   keyValue: PropTypes.string.isRequired,
-  showVoucherTable: PropTypes.bool,
-  showItemsTable: PropTypes.bool,
+  pdfOptions: PropTypes.object.isRequired,
 };
 PdfPrintModal.defaultProps = {
   isPrintModalOpen: false,
-  showVoucherTable: false,
-  showItemsTable: true,
   setIsPrintModalOpen: () => {},
 };
 

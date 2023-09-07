@@ -10,7 +10,6 @@ function OrderDocument({
   orderInfo,
   handleChangeStatus,
   keyValue,
-  showPaymentRequest,
   showStatus,
   showItemsTable,
   showOrderVoucher,
@@ -18,7 +17,7 @@ function OrderDocument({
   const { id } = useParams();
   return (
     <div style={{ margin: '0 auto', boxShadow: 'border-box', overflow: 'auto' }}>
-      {showPaymentRequest && orderDetail && orderDetail.status === 'draft' && (
+      {handleChangeStatus && orderDetail && orderDetail.status === 'draft' && (
         <div className="custom-box" style={{ maxWidth: 900 }}>
           <blockquote className="clr-blue row align-items-center justify-content-between">
             <div className="col-md-9 d-flex align-items-center p-3">
@@ -64,14 +63,13 @@ OrderDocument.propTypes = {
   handleChangeStatus: PropTypes.func,
   keyValue: PropTypes.string.isRequired,
   orderInfo: PropTypes.object.isRequired,
-  showPaymentRequest: PropTypes.bool,
+
   showStatus: PropTypes.bool,
   showItemsTable: PropTypes.bool,
   showOrderVoucher: PropTypes.bool,
 };
 OrderDocument.defaultProps = {
   orderDetail: null,
-  showPaymentRequest: false,
   showStatus: true,
   showItemsTable: true,
   showOrderVoucher: false,

@@ -5,7 +5,7 @@ import { saveAs } from 'file-saver';
 import { pdf } from '@react-pdf/renderer';
 import PdfDoc from '../components/PdfDoc';
 
-function usePdfView(orderInfo, orderDetail, keyValue, showItemsTable = true, showVoucherTable = false) {
+function usePdfView(orderInfo, orderDetail, keyValue, options) {
   const [data, setData] = useState({});
   const [actionLoading, setActionLoading] = useState(false);
   const [component, setComponent] = useState(null);
@@ -33,15 +33,17 @@ function usePdfView(orderInfo, orderDetail, keyValue, showItemsTable = true, sho
   useEffect(() => {
     setData({ ...data, orderInfo: { ...orderInfo }, orderDetail: { ...orderDetail }, keyValue });
     if (orderDetail) {
-      setComponent(
-        <PdfDoc
-          orderInfo={orderInfo}
-          orderDetail={orderDetail}
-          keyName={keyValue}
-          showItemsTable={showItemsTable}
-          showVoucherTable={showVoucherTable}
-        />
-      );
+      if (options) {
+        setComponent(
+          <PdfDoc
+            orderInfo={orderInfo}
+            orderDetail={orderDetail}
+            keyName={keyValue}
+            showItemsTable={options.showItemsTable}
+            showVoucherTable={options.showVoucherTable}
+          />
+        );
+      }
     }
   }, [orderInfo, orderDetail, keyValue]);
 
