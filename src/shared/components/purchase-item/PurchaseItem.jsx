@@ -113,7 +113,7 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
 }
 PurchaseItem.propTypes = {
   inputList: PropTypes.array,
-  form: PropTypes.element.isRequired,
+  form: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   newList: PropTypes.object.isRequired,
   push: PropTypes.func.isRequired,

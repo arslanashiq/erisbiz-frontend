@@ -5,11 +5,6 @@ export const publicApi = createApi({
   reducerPath: 'publicApi',
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
-    prepareHeaders: headers => {
-      headers.set('Content-Type', 'application/json');
-
-      return headers;
-    },
   }),
   endpoints: () => ({}),
 });

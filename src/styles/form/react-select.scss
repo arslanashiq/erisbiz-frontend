@@ -195,3 +195,34 @@
     // padding: 2px 0px;
   }
 }
+
+// react-select
+.react-select__value-container {
+  height: 38px;
+}
+.css-qbdosj-Input {
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.react-select__indicators {
+  height: 38px;
+}
+.css-13cymwt-control:hover {
+  border-color: $color-accent;
+}
+.react-select__control--menu-is-open {
+  box-shadow: 0 0 0 1px $color-accent;
+  border-color: $color-accent;
+}
+.react-select__control--is-focused {
+  border-color: $color-accent;
+  box-shadow: 0 0 0 1px $color-accent;
+}
+.react-select__menu {
+  .react-select__option--is-selected {
+    background-color: $primary-color;
+    color: white !important;
+  }
+
+}
+// react-select end

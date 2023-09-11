@@ -88,7 +88,7 @@ function ContactInfo({ name, form, push, remove }) {
 
 ContactInfo.propTypes = {
   name: PropTypes.string.isRequired,
-  form: PropTypes.element.isRequired,
+  form: PropTypes.object.isRequired,
   push: PropTypes.func.isRequired,
   remove: PropTypes.func.isRequired,
 };

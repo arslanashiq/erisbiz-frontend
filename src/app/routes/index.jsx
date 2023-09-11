@@ -6,6 +6,8 @@ import PublicRoutes from './PublicRoutes';
 
 // AUTH
 const LoginPage = lazy(() => import('containers/auth/LogIn'));
+const SignUpPage = lazy(() => import('containers/auth/signup'));
+const RegisterCompanyPage = lazy(() => import('containers/auth/register-company'));
 const ForgetPasswordPage = lazy(() => import('containers/auth/ForgotPassword'));
 
 // Private Routes
@@ -92,9 +94,13 @@ function AppRoutes() {
           <Route path="/">
             <Route path="auth" element={<PublicRoutes />}>
               <Route path="login" element={<LoginPage />} />
+              <Route path="signup" element={<SignUpPage />} />
+              {/* <Route path="register-company/:id/:token" element={<RegisterCompanyPage />} /> */}
               <Route path="forgot-password" element={<ForgetPasswordPage />} />
               <Route path="reset-password" element={<>resetpassword</>} />
             </Route>
+            <Route path="register-company/:id/:token" element={<RegisterCompanyPage />} />
+            <Route path="register-company" element={<RegisterCompanyPage />} />
 
             <Route path="/" element={<PrivateRoutes />}>
               <Route path="/" element={<DashboardPage />} />

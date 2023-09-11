@@ -1,18 +1,20 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { useState } from 'react';
-import { Formik, Form } from 'formik';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import KeyIcon from '@mui/icons-material/Key';
-import PersonIcon from '@mui/icons-material/Person';
-import * as Yup from 'yup';
-import { EMAIL_REGEX } from 'utilities/constants';
-import { useNavigate } from 'react-router-dom';
-import { useAdminLoginMutation } from 'services/public/auth';
-import { useDispatch } from 'react-redux';
-import { setUser } from 'store/slices/userSlice';
-import { Button } from '@mui/material';
-import FormikField from 'shared/components/form/FormikField';
+import { Link, useNavigate } from 'react-router-dom';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import { Button, IconButton, Stack, Typography } from '@mui/material';
+import palette from 'styles/mui/theme/palette';
+import MuiFormikField from 'shared/components/form/MuiFormikField';
+import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
+import { useDispatch } from 'react-redux';
+import { useAdminLoginMutation } from 'services/public/auth';
+import { setUser } from 'store/slices/userSlice';
+import { mainColor } from 'containers/auth/utilities/constant';
 
 function LogInForm() {
   const { enqueueSnackbar } = useSnackbar();
@@ -28,79 +30,103 @@ function LogInForm() {
   };
 
   return (
-    <Formik
-      initialValues={{ email: '', password: '' }}
-      validationSchema={Yup.object({
-        email: Yup.string().matches(EMAIL_REGEX, 'Invalid email address').required('Required'),
-        // password: Yup.string().required('Required'),
-      })}
-      onSubmit={async (values, { setSubmitting, setErrors }) => {
-        const payload = {
-          email: values.email,
-          password: values.password,
-        };
-        try {
-          const response = await adminLogin(payload);
-          setSubmitting(false);
-          if (response.data) {
-            await dispatch(setUser({ user: response.data, isAuthenticated: true }));
-            localStorage.setItem('token', response.data.token);
-            setTimeout(() => {
-              if (sessionStorage.getItem('lastUrl')) {
-                navigate(sessionStorage.getItem('lastUrl'));
-              } else {
-                navigate('/');
-              }
-            }, 10);
-          }
-
-          if (response.error) {
-            if (response.error.data.non_field_errors) {
-              enqueueSnackbar(response.error.data.non_field_errors[0], { variant: 'error' });
-            } else {
-              setSubmitting(false);
-              setErrors(response.error.data);
+    <Stack justifyContent="center" sx={{ height: '100%', width: '100%', padding: '0px 60px' }}>
+      <Typography sx={{ fontSize: 40, color: mainColor }}>Let's Get Started!</Typography>
+      <Typography>Enter Your credentials to access your account</Typography>
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        onSubmit={async (values, { setSubmitting, setErrors }) => {
+          const payload = {
+            email: values.email,
+            password: values.password,
+          };
+          try {
+            const response = await adminLogin(payload);
+            setSubmitting(false);
+            if (response.data) {
+              await dispatch(setUser({ user: response.data, isAuthenticated: true }));
+              localStorage.setItem('token', response.data.token);
+              setTimeout(() => {
+                if (sessionStorage.getItem('lastUrl')) {
+                  navigate(sessionStorage.getItem('lastUrl'));
+                } else {
+                  navigate('/');
+                }
+              }, 10);
             }
+
+            if (response.error) {
+              if (response.error.data.non_field_errors) {
+                enqueueSnackbar(response.error.data.non_field_errors[0], { variant: 'error' });
+              } else {
+                setSubmitting(false);
+                setErrors(response.error.data);
+              }
+            }
+          } catch (error) {
+            enqueueSnackbar('Somthing went worng!', { variant: 'error' });
           }
-        } catch (error) {
-          enqueueSnackbar('Somthing went worng!', { variant: 'error' });
-        }
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Form className="form auth-form">
-          <FormikField
-            name="email"
-            type="text"
-            placeholder="Email"
-            startIcon={<PersonIcon />}
-            label="Email"
-          />
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <Stack spacing={2} sx={{ width: '100%', marginTop: 2 }}>
+              {/* email */}
+              <MuiFormikField
+                name="email"
+                startIcon={<EmailOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />}
+                type="email"
+                placeholder="Email"
+                className="col-12"
+                sx={{ backgroundColor: palette.primary.contrastText, borderColor: mainColor }}
+              />
 
-          <FormikField
-            name="password"
-            type={state.showPassword ? 'text' : 'password'}
-            placeholder="Password"
-            startIcon={<KeyIcon />}
-            label="Password"
-            endIcon={state.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            endIconClick={showPassword}
-          />
-          <div className="account__forgot-password d-flex justify-content-end">
-            <a href="/auth/forgot-password">Forgot a password?</a>
-          </div>
+              {/* Password */}
+              <MuiFormikField
+                name="password"
+                className="col-12"
+                startIcon={<LockOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />}
+                endIcon={
+                  <IconButton sx={{ color: mainColor }} onClick={e => showPassword(e)}>
+                    {state.showPassword ? (
+                      <VisibilityOffOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />
+                    ) : (
+                      <VisibilityOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />
+                    )}
+                  </IconButton>
+                }
+                type={state.showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                sx={{ backgroundColor: palette.primary.contrastText, borderColor: mainColor }}
+              />
 
-          <Button
-            size="large"
-            type="submit"
-            className="btn btn-primary account__btn account__btn--small mt-5"
-            disabled={isSubmitting}
-          >
-            Sign In
-          </Button>
-        </Form>
-      )}
-    </Formik>
+              {/* forgot Password */}
+              <Link to="/" style={{ textDecoration: 'none' }}>
+                <Typography sx={{ textAlign: 'end', fontSize: 12, fontWeight: 400 }}>
+                  Forgot Password?
+                </Typography>
+              </Link>
+
+              <Stack sx={{ padding: '0px 50px' }}>
+                <Button
+                  disabled={isSubmitting}
+                  type="submit"
+                  sx={{ backgroundColor: mainColor, fontSize: 18 }}
+                >
+                  Login
+                </Button>
+              </Stack>
+              <Typography sx={{ textAlign: 'center', color: 'gray', fontSize: 14 }}>
+                Create new account :{' '}
+                <Link to="/auth/signup" style={{ textDecoration: 'none' }}>
+                  Sign In
+                </Link>
+              </Typography>
+            </Stack>
+          </Form>
+        )}
+      </Formik>
+    </Stack>
   );
 }
 

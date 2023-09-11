@@ -37,8 +37,8 @@ function FormikImageInput(props) {
               {...restProps}
               {...restFieldProps}
               type="file"
+              accept="image/*"
               id={name}
-              accept={accept}
               multiple={multiple}
               className={`${hasPreviewableImage || fileBase64 ? 'd-none' : 'd-auto'} inputfile inputfile-4`}
               onChange={event => {

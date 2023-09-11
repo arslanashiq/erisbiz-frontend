@@ -14,7 +14,7 @@ function CheckBoxField({
   label,
   onChange,
   onBlur,
-  paentClass,
+  parentClass,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
@@ -43,8 +43,11 @@ function CheckBoxField({
   }, [defaultChecked]);
 
   return (
-    <div className={`form__form-group-field ${paentClass}`}>
-      <label className={`${CheckboxClass} ${className ? ` checkbox-btn--${className}` : ''}`} htmlFor={name}>
+    <div className={`form__form-group-field ${parentClass}`}>
+      <label
+        className={`align-items-center ${CheckboxClass} ${className ? ` checkbox-btn--${className}` : ''}`}
+        htmlFor={name}
+      >
         <input
           className="checkbox-btn__checkbox"
           type="checkbox"
@@ -87,10 +90,10 @@ CheckBoxField.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   color: PropTypes.string,
-  paentClass: PropTypes.string,
+  parentClass: PropTypes.string,
 };
 CheckBoxField.defaultProps = {
-  paentClass: 'form__form-group-field',
+  parentClass: 'form__form-group-field',
   label: '',
   defaultChecked: false,
   disabled: false,

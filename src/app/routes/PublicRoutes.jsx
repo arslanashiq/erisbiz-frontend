@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
+import AuthWrapper from 'containers/auth/components/AuthWrapper';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router';
+import { Navigate } from 'react-router';
 
-function PublicRoutes() {
+function PublicRoutes({ children }) {
   const user = useSelector(state => state.user);
   if (user.isAuthenticated) {
     const url = sessionStorage.getItem('lastUrl');
@@ -11,6 +13,6 @@ function PublicRoutes() {
     }
     return <Navigate to="/" />;
   }
-  return <Outlet />;
+  return <AuthWrapper>{children}</AuthWrapper>;
 }
 export default PublicRoutes;
