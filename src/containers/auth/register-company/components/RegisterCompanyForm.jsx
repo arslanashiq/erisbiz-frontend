@@ -40,9 +40,8 @@ function RegisterCompanyForm() {
       setFieldValue('logo', e.target.files[0]);
     }
   };
-
-  if (!location.state) {
-    <Navigate to="/auth-login" />;
+  if (!location?.state) {
+    return <Navigate to="/auth/login" />;
   }
 
   return (
