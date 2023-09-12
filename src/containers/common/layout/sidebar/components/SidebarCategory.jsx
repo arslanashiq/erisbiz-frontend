@@ -1,5 +1,4 @@
 import React, { useEffect, useState, Children } from 'react';
-import { Collapse } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
 
@@ -64,11 +63,10 @@ function SidebarCategory(props) {
         </p>
         <span className="sidebar__category-icon lnr lnr-chevron-right" />
       </button>
-      <Collapse isOpen={state.collapse} className="sidebar__submenu-wrap">
-        <ul className="sidebar__submenu">
-          <div>{children}</div>
-        </ul>
-      </Collapse>
+      <ul className="sidebar__submenu">
+        <div>{children}</div>
+      </ul>
+      \
     </div>
   );
 }
