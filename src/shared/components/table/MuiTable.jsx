@@ -127,7 +127,7 @@ export default function MuiTable({
   );
 
   return (
-    <SectionLoader options={[data === undefined, data === null, data === []]}>
+    <SectionLoader options={[data === undefined, data === null, data && data.length === 0]}>
       <Box sx={{ width: '100%' }}>
         <InfoPopup
           open={openInfoPopup.status}

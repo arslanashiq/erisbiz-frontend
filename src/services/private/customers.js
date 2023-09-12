@@ -27,9 +27,10 @@ const customersApi = privateApi.injectEndpoints({
       invalidatesTags: ['getCustomersList'],
     }),
     editCustomer: builder.mutation({
-      query: id => ({
+      query: ({ payload, id }) => ({
         url: `api/accounting/sales/company/${id}/`,
         method: 'PATCH',
+        body: payload,
       }),
       invalidatesTags: ['getSingleCustomer'],
     }),

@@ -1,8 +1,9 @@
-/* eslint-disable react/prop-types */
-import AuthWrapper from 'containers/auth/components/AuthWrapper';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
+// containers
+import AuthWrapper from 'containers/auth/components/AuthWrapper';
 
 function PublicRoutes({ children }) {
   const user = useSelector(state => state.user);
@@ -18,4 +19,10 @@ function PublicRoutes({ children }) {
   }
   return <AuthWrapper>{children}</AuthWrapper>;
 }
+PublicRoutes.propTypes = {
+  children: PropTypes.element,
+};
+PublicRoutes.defaultProps = {
+  children: null,
+};
 export default PublicRoutes;

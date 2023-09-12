@@ -94,9 +94,6 @@ function MuiTableBody({
           <TableRow
             hover={hoverEffect}
             role="checkbox"
-            // onClick={event => {
-            //   if (showCheckbox) handleClick(event, row.id);
-            // }}
             aria-checked={isItemSelected}
             tabIndex={-1}
             key={row.id}
@@ -123,7 +120,7 @@ function MuiTableBody({
             {/* Table Body Cells */}
             {headCells.map(cell => (
               <TableCell
-                key={cell.id}
+                key={cell.id + cell.id}
                 component="td"
                 id={labelId}
                 scope="row"
@@ -179,19 +176,12 @@ function MuiTableBody({
             {row.column.map(col => (col.colSpan ? (
               <TableCell colSpan={col.colSpan} />
             ) : (
-              <TableCell sx={{ fontSize: '0.80rem' }}>{col.data}</TableCell>
+              <TableCell key={col.data} sx={{ fontSize: '0.80rem' }}>
+                {col.data}
+              </TableCell>
             )))}
           </TableRow>
         ))}
-      {/* {emptyRows > 0 && (
-        <TableRow
-          style={{
-            height: (dense ? 33 : 53) * emptyRows,
-          }}
-        >
-          <TableCell colSpan={6} />
-        </TableRow>
-      )} */}
     </TableBody>
   );
 }

@@ -52,10 +52,12 @@
 .color-light {
   color: rgba(0, 0, 0, 0.87);
 }
-
+.clr-grey {
+  color: #999 !important;
+}
 // background-color
-.bg-grey {
-  background-color: #f4f4f9 !important;
+.grey-bg {
+  background-color: #fbfafa !important;
 }
 
 // text-align
@@ -87,4 +89,7 @@
   display: block;
   margin-top: 1px;
   text-align: left;
+}
+.font-weight-bold {
+  font-weight: bold;
 }

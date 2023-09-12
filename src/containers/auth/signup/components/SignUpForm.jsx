@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { Form, Formik } from 'formik';

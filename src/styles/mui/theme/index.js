@@ -25,7 +25,17 @@ const theme = createTheme({
     },
 
     // IconButton
+    MuiIcon: {
+      defaultProps: {
+        color: 'primary',
+      },
+    },
+
+    // IconButton
     MuiIconButton: {
+      defaultProps: {
+        color: 'primary',
+      },
       styleOverrides: {
         root: ({ ownerState }) => ({
           ...(ownerState.selected === true &&

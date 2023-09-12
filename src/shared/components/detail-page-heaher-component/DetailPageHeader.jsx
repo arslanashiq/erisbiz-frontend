@@ -139,8 +139,8 @@ DetailPageHeader.propTypes = {
   orderDetail: PropTypes.object,
   useDeleteItemMutation: PropTypes.func.isRequired,
   actionsList: PropTypes.array.isRequired,
-  useUploadDocumentFileMutation: PropTypes.func.isRequired,
-  useDeleteDocumentFileMutation: PropTypes.func.isRequired,
+  useUploadDocumentFileMutation: PropTypes.func,
+  useDeleteDocumentFileMutation: PropTypes.func,
   openPopup: PropTypes.object.isRequired,
   setOpenPopup: PropTypes.func.isRequired,
   handlePrint: PropTypes.func,
@@ -148,12 +148,14 @@ DetailPageHeader.propTypes = {
 };
 DetailPageHeader.defaultProps = {
   title: '',
-  filesList: [],
+  filesList: null,
   keyValue: null,
   orderInfo: {},
   orderDetail: {},
   handlePrint: null,
   pdfOptions: null,
+  useUploadDocumentFileMutation: () => [() => {}],
+  useDeleteDocumentFileMutation: () => [() => {}],
 };
 
 export default DetailPageHeader;

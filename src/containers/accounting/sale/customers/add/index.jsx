@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom/dist';
 import { FieldArray, Form, Formik } from 'formik';
 import { Box, Card, CardContent } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -7,7 +8,12 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 // services
-import { useGetSingleCustomerQuery } from 'services/private/customers';
+import {
+  useAddCustomerMutation,
+  useEditCustomerMutation,
+  useGetSingleCustomerQuery,
+} from 'services/private/customers';
+import { useGetAllCountriesListQuery } from 'services/third-party/countries';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
@@ -26,9 +32,20 @@ import { customerFormInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function AddCustomer() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(customerFormTabsList[0]);
-  const handleCopyValue = () => {};
+  const countriesResponse = useGetAllCountriesListQuery();
+  const [addCustomer] = useAddCustomerMutation();
+  const [editCustomer] = useEditCustomerMutation();
+
+  const countriesOption = countriesResponse?.data?.data?.map(country => ({
+    value: country.iso2,
+    label: country.country,
+  }));
   const { initialValues } = useInitialValues(customerFormInitialValues, useGetSingleCustomerQuery);
+  const handleCopyValue = () => {};
+
   return (
     <Card>
       <CardContent>
@@ -36,8 +53,21 @@ function AddCustomer() {
         <Formik
           enableReinitialize
           initialValues={initialValues}
-          // onSubmit={async values => {
-          // }}
+          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+            let response = null;
+            if (id) {
+              response = await editCustomer({ payload: values, id });
+            } else {
+              response = await addCustomer(values);
+            }
+            setSubmitting(false);
+            if (response.error) {
+              setErrors(response.error.data);
+            } else {
+              resetForm();
+              navigate(-1);
+            }
+          }}
         >
           {({ values, errors, touched, setFieldValue }) => (
             <Form className="form form--horizontal row pt-3">
@@ -71,7 +101,7 @@ function AddCustomer() {
               {/* contact  */}
 
               <FormikField
-                name="mobile_num"
+                name="contact"
                 type="text"
                 placeholder="Contact"
                 startIcon={<LocalPhoneIcon />}
@@ -79,7 +109,12 @@ function AddCustomer() {
               />
 
               {/* VAT */}
-              <FormikField name="vat" type="text" placeholder="VAT Registration Number" label="VAT Reg No" />
+              <FormikField
+                name="vat_reg_no"
+                type="text"
+                placeholder="VAT Registration Number"
+                label="VAT Reg No"
+              />
 
               {/* Refrence */}
               <FormikField name="reference_num" type="text" placeholder="Refrence" label="Reference" />
@@ -100,7 +135,7 @@ function AddCustomer() {
                     </div>
                     {/* Address Line 1 */}
                     <FormikField
-                      name="address_line1"
+                      name="invoice_address_line1"
                       type="text"
                       placeholder="Address Line 1"
                       label="Address Line 1"
@@ -110,7 +145,7 @@ function AddCustomer() {
                     {/* Address Line 2 */}
 
                     <FormikField
-                      name="address_line2"
+                      name="invoice_address_line2"
                       type="text"
                       placeholder="Address Line 2"
                       label="Address Line 2"
@@ -118,7 +153,7 @@ function AddCustomer() {
                     />
                     {/* PO Box */}
                     <FormikField
-                      name="Po Box"
+                      name="invoice_po_box"
                       type="text"
                       placeholder="PO Box"
                       label="PO Box"
@@ -127,22 +162,28 @@ function AddCustomer() {
 
                     {/* Country */}
                     <FormikSelect
-                      options={[]}
-                      name="country"
+                      options={countriesOption}
+                      name="invoice_country"
                       placeholder="Country"
                       label="Country"
                       className="col-12"
                     />
 
                     {/* CIty */}
-                    <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
+                    <FormikField
+                      name="invoice_city"
+                      type="text"
+                      placeholder="City"
+                      label="City"
+                      className="col-12"
+                    />
 
                     {/* Map */}
                     <div className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
-                      <FormikField name="longitude" placeholder="Longitude" className="col" />
-                      <FormikField name="latitude" placeholder="Latitude" className="col" />
+                      <FormikField name="invoice_longitude" placeholder="Longitude" className="col" />
+                      <FormikField name="invoice_latitude" placeholder="Latitude" className="col" />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -158,7 +199,7 @@ function AddCustomer() {
                     </div>
                     {/* Address Line 1 */}
                     <FormikField
-                      name="address_line1"
+                      name="delivery_address_line1"
                       type="text"
                       placeholder="Address Line 1"
                       label="Address Line 1"
@@ -168,7 +209,7 @@ function AddCustomer() {
                     {/* Address Line 2 */}
 
                     <FormikField
-                      name="address_line2"
+                      name="delivery_address_line2"
                       type="text"
                       placeholder="Address Line 2"
                       label="Address Line 2"
@@ -176,7 +217,7 @@ function AddCustomer() {
                     />
                     {/* PO Box */}
                     <FormikField
-                      name="Po Box"
+                      name="delivery_po_box"
                       type="text"
                       placeholder="PO Box"
                       label="PO Box"
@@ -185,22 +226,28 @@ function AddCustomer() {
 
                     {/* Country */}
                     <FormikSelect
-                      options={[]}
-                      name="country"
+                      options={countriesOption}
+                      name="delivery_country"
                       placeholder="Country"
                       label="Country"
                       className="col-12"
                     />
 
                     {/* CIty */}
-                    <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
+                    <FormikField
+                      name="delivery_city"
+                      type="text"
+                      placeholder="City"
+                      label="City"
+                      className="col-12"
+                    />
 
                     {/* Map */}
                     <div className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
-                      <FormikField name="longitude" placeholder="Longitude" className="col" />
-                      <FormikField name="latitude" placeholder="Latitude" className="col" />
+                      <FormikField name="delivery_longitude" placeholder="Longitude" className="col" />
+                      <FormikField name="delivery_latitude" placeholder="Latitude" className="col" />
                     </div>
                   </div>
                 </div>
@@ -211,7 +258,7 @@ function AddCustomer() {
                   <div className="col-md-6">
                     {/* Opening Balance */}
                     <FormikField
-                      name="ob_amount"
+                      name="opening_balance"
                       type="number"
                       placeholder="Opening Balance Payee"
                       label="OB Amount"
@@ -219,10 +266,10 @@ function AddCustomer() {
                     />
                     {/* Delivery Terms */}
                     <FormikField
-                      name="currency"
+                      name="delivery_terms"
                       type="text"
                       textArea
-                      placeholder="Currency"
+                      placeholder="Delivery Terms"
                       label="Delivery Terms"
                       className="col-12"
                     />
@@ -269,7 +316,7 @@ function AddCustomer() {
                         <CreditTermsRadioButtons
                           name="set_credit_terms"
                           onChange={value => {
-                            setFieldValue('days_after_invoice', '');
+                            setFieldValue('days_after_invoice', 0);
                             setFieldValue('set_credit_terms', value);
                           }}
                           values={values}
@@ -283,7 +330,7 @@ function AddCustomer() {
               )}
               {/* COntact Info */}
               {activeTab === customerFormTabsList[2] && (
-                <FieldArray name="customer_contact" component={ContactInfo} />
+                <FieldArray name="sales_company_contact" component={ContactInfo} />
               )}
               {/* Comments and Notes */}
               {activeTab === customerFormTabsList[3] && (

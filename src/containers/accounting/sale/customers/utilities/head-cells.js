@@ -1,6 +1,6 @@
 export const customersHeadCell = [
   {
-    id: 'company_name',
+    id: 'customer_name',
     numeric: true,
     disablePadding: false,
     label: 'Customer Name',
@@ -22,17 +22,17 @@ export const customersHeadCell = [
     align: 'left',
   },
   {
-    id: 'phone',
+    id: 'contact',
     numeric: true,
     disablePadding: false,
-    label: 'Phone',
+    label: 'Contact',
     align: 'left',
   },
   {
-    id: 'vat_treatment',
+    id: 'vat_reg_no',
     numeric: true,
     disablePadding: false,
-    label: 'VAT Treatment',
+    label: 'VAT Registration',
     align: 'right',
   },
   {

@@ -86,7 +86,12 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
           {files &&
             files?.length > 0 &&
             files.map((file, index) => (
-              <Stack direction="row" spacing={2} sx={{ borderBottom: 1, padding: '10px 10px' }}>
+              <Stack
+                key={file.name || file.doc_name}
+                direction="row"
+                spacing={2}
+                sx={{ borderBottom: 1, padding: '10px 10px' }}
+              >
                 <InsertDriveFileIcon color="primary" sx={{ fontSize: 50 }} />
                 <Stack sx={{ maxWidth: 300 }}>
                   <Typography

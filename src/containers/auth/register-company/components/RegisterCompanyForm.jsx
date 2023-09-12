@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 import React, { useRef } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import ImageIcon from '@mui/icons-material/Image';
-import { Box, Button, Grid, Stack, Typography } from '@mui/material';
+import { Button, Grid, Stack, Typography } from '@mui/material';
 // services
 import { useRegisterCompanyMutation } from 'services/private/user';
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
@@ -22,7 +21,6 @@ import SecurityQuestions from './SecurityQuestions';
 
 function RegisterCompanyForm() {
   const navigate = useNavigate();
-  const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
   const [registerCompany] = useRegisterCompanyMutation();
   const imageInputRef = useRef();

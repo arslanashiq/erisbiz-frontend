@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
@@ -96,7 +94,7 @@ function LogInForm() {
                 <MuiFormikField
                   name="password"
                   startIcon={<LockOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />}
-                  endIcon={
+                  endIcon={(
                     <IconButton sx={{ color: mainColor }} onClick={e => showPassword(e)}>
                       {state.showPassword ? (
                         <VisibilityOffOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />
@@ -104,7 +102,7 @@ function LogInForm() {
                         <VisibilityOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />
                       )}
                     </IconButton>
-                  }
+                  )}
                   type={state.showPassword ? 'text' : 'password'}
                   placeholder="Password"
                   sx={{ backgroundColor: palette.primary.contrastText, borderColor: mainColor }}

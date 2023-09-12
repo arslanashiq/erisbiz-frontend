@@ -23,7 +23,7 @@ const userApi = privateApi.injectEndpoints({
         });
 
         return {
-          url: '/register/company/',
+          url: '/api/register/company/',
           method: 'POST',
           body: formData,
         };

@@ -18,7 +18,7 @@ function DetailTabsWrapper({ activeTab, setActiveTab, className, tabsList, child
           aria-label="basic tabs example"
         >
           {tabsList.map((tab, index) => (
-            <Tab label={tab} {...a11yProps(index)} />
+            <Tab key={tab} label={tab} {...a11yProps(index)} />
           ))}
         </Tabs>
       </Box>
@@ -32,7 +32,7 @@ DetailTabsWrapper.propTypes = {
   activeTab: PropTypes.number.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   tabsList: PropTypes.array.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
   className: PropTypes.string,
 };
 DetailTabsWrapper.defaultProps = {
