@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FieldArray, Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import ImageIcon from '@mui/icons-material/Image';
 import { Button, Grid, Stack, Typography } from '@mui/material';
@@ -8,6 +9,8 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useRegisterCompanyMutation } from 'services/private/user';
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
 import { useGetCurrenciesListQuery } from 'services/public/currency';
+// store
+import { isUserAuthenticated } from 'store/slices/userSlice';
 // shared
 import MuiFormikField from 'shared/components/form/MuiFormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
@@ -20,7 +23,8 @@ import palette from 'styles/mui/theme/palette';
 import SecurityQuestions from './SecurityQuestions';
 
 function RegisterCompanyForm() {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   const { enqueueSnackbar } = useSnackbar();
   const [registerCompany] = useRegisterCompanyMutation();
   const imageInputRef = useRef();
@@ -40,7 +44,9 @@ function RegisterCompanyForm() {
       setFieldValue('logo', e.target.files[0]);
     }
   };
-
+  if (user.isRegesteredCompany) {
+    return <Navigate to="/" />;
+  }
   return (
     <Stack className="main__wrapper" sx={{ height: '100vh', alignItems: 'center' }}>
       <Stack sx={{ width: '100%', maxWidth: 600 }}>
@@ -71,7 +77,12 @@ function RegisterCompanyForm() {
                   return;
                 }
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
-                navigate('/auth/login');
+                await dispatch(
+                  isUserAuthenticated({
+                    isAuthenticated: true,
+                    is_regestered_company: true,
+                  })
+                );
               } catch (error) {
                 enqueueSnackbar('Somthing went worng!', { variant: 'error' });
               }
