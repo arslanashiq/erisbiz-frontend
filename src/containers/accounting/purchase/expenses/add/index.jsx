@@ -35,7 +35,7 @@ function AddExpense() {
   const [addExpense] = useAddExpenseMutation();
   const [editExpense] = useEditExpenseMutation();
 
-  const { initialValues, setInitialValues, queryResponse } = useInitialValues(
+  const { initialValues, setInitialValues } = useInitialValues(
     expensesInitialValues,
     useGetSingleExpenseQuery
   );
@@ -53,7 +53,6 @@ function AddExpense() {
       setInitialValues({ ...initialValues, tax_rate_id: Number(initialValues.tax_rate_id) });
     }
   }, [initialValues]);
-  console.log(queryResponse, 'initialValues');
   return (
     <Card>
       <CardContent>
@@ -74,13 +73,11 @@ function AddExpense() {
                 tax_rate_perc: selectedTax.percent,
                 total: totalAmount,
               };
-              console.log(payload, 'response1');
               if (id) {
                 await editExpense({ id, payload });
               } else {
                 response = await addExpense(payload);
               }
-              console.log(response, 'response2');
 
               setSubmitting(false);
               if (response.data) {

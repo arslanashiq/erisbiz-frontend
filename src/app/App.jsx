@@ -15,12 +15,11 @@ function App() {
 
   const handleVerifyUser = async () => {
     const res = await verifyUser();
-
     if (res.data) {
       dispatch(
         isUserAuthenticated({
           isAuthenticated: true,
-          is_regestered_company: res.data?.user?.is_regestered_company,
+          is_regestered_company: res.data?.is_regestered_company,
         })
       );
     } else {

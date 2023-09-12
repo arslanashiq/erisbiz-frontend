@@ -170,13 +170,11 @@ function AddSupplierCredit() {
                 status: 'open',
                 ...handleCalculateTotalAmount(values.supplier_credit_items),
               };
-              console.log(payload, 'response1');
               if (id) {
                 response = await editSupplierCredit({ id, payload });
               } else {
                 response = await addSupplierCredit(payload);
               }
-              console.log(response, 'response2');
               setSubmitting(false);
               if (response.data) {
                 resetForm(initialValues);

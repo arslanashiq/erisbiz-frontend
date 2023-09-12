@@ -7,7 +7,7 @@ import { Navigate } from 'react-router';
 function PublicRoutes({ children }) {
   const user = useSelector(state => state.user);
   if (user.isAuthenticated) {
-    if (user.is_regestered_company) {
+    if (user.isRegesteredCompany) {
       const url = sessionStorage.getItem('lastUrl');
       if (url) {
         return <Navigate to={url} />;

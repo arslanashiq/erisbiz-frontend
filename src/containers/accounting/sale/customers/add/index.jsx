@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { FieldArray, Form, Formik } from 'formik';
 import { Box, Card, CardContent } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -7,72 +6,29 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+// services
+import { useGetSingleCustomerQuery } from 'services/private/customers';
+// shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 import FormTabs from 'shared/components/tabs/FormTabs';
 import { CheckBoxField } from 'shared/components/form/CheckBox';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import ContactInfo from 'shared/components/form/ContactInfo';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+// containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import CreditTermsRadioButtons from 'containers/accounting/purchase/suppliers/add/components/CreditTermsRadioButtons';
+// utlilities
 import { customerFormTabsList } from '../utilities/constant';
+import { customerFormInitialValues } from '../utilities/initialValues';
+// styles
 import 'styles/form/form.scss';
 
 function AddCustomer() {
   const [activeTab, setActiveTab] = useState(customerFormTabsList[0]);
-  const [initialValues, setInitialValues] = useState({
-    customer_contact: [],
-    supplier_name: '',
-    website: '',
-    notes: '',
-    bank_name: '',
-    contact_person: '',
-    email: '',
-    reference_num: '',
-    account_number: '',
-    IBAN: '',
-    swift_code: '',
-    mobile_num: '',
-    bank_branch: '',
-    bank_country: '',
-    limit: 1,
-    tax_treatment: '',
-    trn: '',
-    source_of_supply: '',
-    currency: 'AED',
-    currency_id: '',
-    opening_balance: 0,
-    is_credit: 'true',
-    opening_balance_date: moment().format('YYYY-MM-DD'),
-    exchange_rate: 1,
-    payment_terms: 'Net 0',
-    bill_addr_street_one: '',
-    bill_addr_country: '',
-    bill_addr_city: '',
-    bill_addr_state: '',
-    bill_addr_zipcode: '',
-    ship_addr_street_one: '',
-    ship_addr_country: '',
-    ship_addr_city: '',
-    ship_addr_state: '',
-    ship_addr_zipcode: '',
-    remarks: '',
-    supplier_contacts: [],
-    vat_number: '',
-    comments_on_transactions: '',
-    address_line1: '',
-    address_line2: '',
-    latitude: '',
-    longitude: '',
-    city: '',
-    set_credit_limit: false,
-    set_credit_terms: false,
-    days_after_invoice: 0,
-    is_import_agent: false,
-    is_reverse_charge: false,
-  });
   const handleCopyValue = () => {};
-  console.log(setInitialValues, 'setSupplierFormInitialValues');
+  const { initialValues } = useInitialValues(customerFormInitialValues, useGetSingleCustomerQuery);
   return (
     <Card>
       <CardContent>
@@ -123,12 +79,7 @@ function AddCustomer() {
               />
 
               {/* VAT */}
-              <FormikField
-                name="vat"
-                type="text"
-                placeholder="VAT Registration Number"
-                label="VAT Reg No"
-              />
+              <FormikField name="vat" type="text" placeholder="VAT Registration Number" label="VAT Reg No" />
 
               {/* Refrence */}
               <FormikField name="reference_num" type="text" placeholder="Refrence" label="Reference" />
@@ -184,13 +135,7 @@ function AddCustomer() {
                     />
 
                     {/* CIty */}
-                    <FormikField
-                      name="city"
-                      type="text"
-                      placeholder="City"
-                      label="City"
-                      className="col-12"
-                    />
+                    <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
 
                     {/* Map */}
                     <div className="form__form-group row">
@@ -248,13 +193,7 @@ function AddCustomer() {
                     />
 
                     {/* CIty */}
-                    <FormikField
-                      name="city"
-                      type="text"
-                      placeholder="City"
-                      label="City"
-                      className="col-12"
-                    />
+                    <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
 
                     {/* Map */}
                     <div className="form__form-group row">
