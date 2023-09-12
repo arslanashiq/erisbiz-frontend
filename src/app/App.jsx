@@ -17,9 +17,19 @@ function App() {
     const res = await verifyUser();
 
     if (res.data) {
-      dispatch(isUserAuthenticated({ isAuthenticated: true }));
+      dispatch(
+        isUserAuthenticated({
+          isAuthenticated: true,
+          is_regestered_company: res.data?.user?.is_regestered_company,
+        })
+      );
     } else {
-      dispatch(isUserAuthenticated({ isAuthenticated: false }));
+      dispatch(
+        isUserAuthenticated({
+          isAuthenticated: false,
+          is_regestered_company: false,
+        })
+      );
     }
   };
   useEffect(() => {

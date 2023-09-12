@@ -2,12 +2,12 @@ import React from 'react';
 import { Box, Stack, Typography } from '@mui/material';
 import { mainColor } from 'containers/auth/utilities/constant';
 
-const textStyle = { fontSize: 35 };
+const textStyle = { fontSize: 30 };
 function AuthLeftSection() {
   return (
     <>
-      <Stack justifyContent="center" alignItems="center" sx={{ height: '100%' }}>
-        <img src="/logo.png" alt="log" style={{ maxWidth: 300 }} />
+      <Stack justifyContent="end" alignItems="center" sx={{ height: '100%' }}>
+        <img src="/logo.png" alt="log" style={{ maxWidth: 250 }} />
         <Stack justifyContent="center" alignItems="center">
           <Typography sx={{ ...textStyle }}>
             Manage Your <span style={{ color: mainColor }}>Finance</span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
-import { Box, InputAdornment, OutlinedInput, Stack, Typography } from '@mui/material';
+import { Box, Grid, InputAdornment, OutlinedInput, Typography } from '@mui/material';
 import palette from 'styles/mui/theme/palette';
 import { mainColor } from 'containers/auth/utilities/constant';
 
@@ -39,7 +39,7 @@ function MuiFormikField({
     if (onBlur) onBlur(name, event.target.value);
   };
   return (
-    <Stack className={`mb-2 ${className}`}>
+    <Grid item xs={12} className={`w-100 ${className}`}>
       {label && <Typography className={` ${isRequired ? 'required' : ''}`}>{label}</Typography>}
       <OutlinedInput
         {...field}
@@ -52,6 +52,8 @@ function MuiFormikField({
           )
         }
         sx={{
+          // maxWidth: 400,
+          width: '100%',
           backgroundColor: palette.primary.contrastText,
           borderColor: mainColor,
         }}
@@ -64,7 +66,7 @@ function MuiFormikField({
         onBlur={handleBlur}
       />
       {touched && error && <span className="form__form-group-error">{error}</span>}
-    </Stack>
+    </Grid>
   );
 }
 
@@ -91,7 +93,7 @@ MuiFormikField.defaultProps = {
   textArea: false,
   textRight: false,
   disabled: false,
-  className: 'col-md-6',
+  className: 'mt-3',
   inputClassName: '',
   placeholder: '',
   startIcon: null,

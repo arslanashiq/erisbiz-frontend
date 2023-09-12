@@ -8,7 +8,10 @@ function PrivateRoutes() {
   if (!user.isAuthenticated) {
     return <Navigate to="/auth/login" />;
   }
-  return <Layout />;
+  if (user.isisRegesteredCompany) {
+    return <Layout />;
+  }
+  return <Navigate to="/register-company" />;
 }
 
 export default PrivateRoutes;
