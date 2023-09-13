@@ -14,6 +14,7 @@ function SupplierContacts({ supplierContacts }) {
   const handleClickEdit = contactId => {
     navigate(`/pages/accounting/purchase/suppliers/${id}/contact/edit/${contactId}`);
   };
+
   return (
     <MuiTable
       data={supplierContacts}

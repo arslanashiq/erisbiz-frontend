@@ -12,6 +12,7 @@ import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWr
 // styles
 import 'styles/sales/customer/customer.scss';
 import CustomerDetailOverview from './components/CustomerDetailOverview';
+import CustomerContactPage from './components/CustomerContactPage';
 
 function CustomerDetail() {
   const { id } = useParams();
@@ -68,8 +69,15 @@ function CustomerDetail() {
       />
 
       <Card sx={{ minHeight: '76vh', padding: 2, fontSize: 14 }}>
-        <DetailTabsWrapper activeTab={activeTab} setActiveTab={setActiveTab} tabsList={['Overview']}>
-          <CustomerDetailOverview customer={customerDetailResponse?.data} />
+        <DetailTabsWrapper
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabsList={['Overview', 'CONTACT']}
+        >
+          {activeTab === 0 && <CustomerDetailOverview customer={customerDetailResponse?.data} />}
+          {activeTab === 1 && (
+            <CustomerContactPage customerContact={customerDetailResponse?.data?.sales_company_contact} />
+          )}
         </DetailTabsWrapper>
       </Card>
     </SectionLoader>

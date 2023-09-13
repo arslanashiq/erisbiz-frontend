@@ -4,7 +4,7 @@ const quotationsApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getQuotationsList: builder.query({
       query: (params = {}) => ({
-        url: 'api/accounting/sales/list/quotations',
+        url: 'api/accounting/sales/quotations/',
         params: {
           limit: params.limit,
           offset: params.offset || 0,

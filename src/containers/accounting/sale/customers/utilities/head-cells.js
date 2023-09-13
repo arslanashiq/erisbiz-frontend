@@ -50,4 +50,42 @@ export const customersHeadCell = [
     align: 'right',
   },
 ];
-export const test = '';
+export const customerContactHeadCells = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: true,
+    label: 'Name',
+    align: 'left',
+  },
+  {
+    id: 'designation',
+    numeric: true,
+    disablePadding: false,
+    label: 'Designation',
+    align: 'left',
+  },
+  {
+    id: 'email',
+    numeric: true,
+    disablePadding: false,
+    label: 'Email',
+    align: 'left',
+  },
+
+  {
+    id: 'mobile_num',
+    numeric: true,
+    disablePadding: false,
+    label: 'Mobile Number',
+    align: 'left',
+  },
+
+  {
+    id: 'notes',
+    numeric: true,
+    disablePadding: false,
+    label: 'Remarks',
+    align: 'left',
+  },
+];

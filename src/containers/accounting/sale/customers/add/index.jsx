@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { FieldArray, Form, Formik } from 'formik';
 import { Box, Card, CardContent } from '@mui/material';
@@ -43,8 +43,28 @@ function AddCustomer() {
     value: country.iso2,
     label: country.country,
   }));
-  const { initialValues } = useInitialValues(customerFormInitialValues, useGetSingleCustomerQuery);
-  const handleCopyValue = () => {};
+  const { initialValues, setInitialValues } = useInitialValues(
+    customerFormInitialValues,
+    useGetSingleCustomerQuery
+  );
+  const handleCopyValue = (values, setFieldValue) => {
+    setFieldValue('delivery_address_line1', values.invoice_address_line1);
+    setFieldValue('delivery_address_line2', values.invoice_address_line2);
+    setFieldValue('delivery_po_box', values.invoice_po_box);
+    setFieldValue('delivery_country', values.invoice_country);
+    setFieldValue('delivery_city', values.invoice_city);
+    setFieldValue('delivery_latitude', values.invoice_latitude);
+    setFieldValue('delivery_longitude', values.invoice_longitude);
+  };
+  useEffect(() => {
+    if (initialValues.credit_limit !== false || initialValues.credit_limit !== true) {
+      setInitialValues({
+        ...initialValues,
+        credit_limit: initialValues.set_credit_limit > 0 || false,
+        credit_terms: initialValues.set_credit_terms.length > 0 || false,
+      });
+    }
+  }, [initialValues]);
 
   return (
     <Card>
