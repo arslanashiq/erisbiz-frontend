@@ -1,0 +1,96 @@
+@import '../variables.scss';
+
+.reports-container {
+  height: calc(100vh - 145px);
+  overflow: auto;
+  position: relative;
+  margin-top: 0;
+  padding-top: 0;
+
+  th {
+    position: sticky;
+    top: -1px;
+  }
+}
+
+.reports {
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+.report-card {
+  min-height: 85vh;
+}
+
+.report-table-badge {
+  color: #fff;
+  padding: 5px 25px;
+}
+
+.report-status-unfiled {
+  background-color: #fab86e;
+}
+
+.report-status-filed {
+  background-color: #50a150;
+}
+
+.width-fit-content {
+  width: fit-content;
+}
+
+.tax-returns-table {
+  tr:hover {
+    background-color: rgb(246, 246, 246);
+    cursor: pointer;
+  }
+}
+
+.tax-return-custom-btn {
+  color: #2485e8;
+  padding-left: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.vat-return-details {
+  .banner {
+    border: 2px solid #f7f7f7;
+    padding: 30px 90px;
+  }
+
+  .vat-return-details-table {
+    th {
+      background-color: #f7f7f7;
+    }
+  }
+}
+
+.vat-audit {
+  .custom-download-btn {
+    font-size: 16px;
+  }
+}
+
+.reports-page {
+  .report-status-open {
+    color: lightskyblue;
+  }
+
+  .report-status-closed {
+    color: green;
+  }
+
+  .report-status-draft {
+    color: orange;
+  }
+
+  .journal-entry {
+    .journal-entry-table {
+      .custom-w-15 {
+        width: 15%;
+      }
+    }
+  }
+}

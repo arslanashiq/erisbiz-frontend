@@ -1,3 +1,5 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable implicit-arrow-linebreak */
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import GlobalLoader from 'containers/common/loaders/GlobalLoader';
@@ -37,6 +39,7 @@ const SupplierContactAddPage = lazy(() => import('containers/accounting/purchase
 
 // Reports
 const ReportsListPage = lazy(() => import('containers/reports'));
+const SupplierBalancePage = lazy(() => import('containers/reports/components/payables/SupplierBalance'));
 
 // Purchase Order
 const PurchaseOrderListingPage = lazy(() => import('containers/accounting/purchase/purchase-orders/listing'));
@@ -44,17 +47,25 @@ const PurchaseOrderDetailPage = lazy(() => import('containers/accounting/purchas
 const AddPurchaseOrderPage = lazy(() => import('containers/accounting/purchase/purchase-orders/add'));
 
 // Purchase Invoice
-const PurchaseInvoiceListingPage = lazy(() => import('containers/accounting/purchase/purchase-invoice/listing'));
+const PurchaseInvoiceListingPage = lazy(() =>
+  import('containers/accounting/purchase/purchase-invoice/listing')
+);
 const AddPurchaseInvoicePage = lazy(() => import('containers/accounting/purchase/purchase-invoice/add'));
-const PurchaseInvoiceDetailPage = lazy(() => import('containers/accounting/purchase/purchase-invoice/detail'));
+const PurchaseInvoiceDetailPage = lazy(() =>
+  import('containers/accounting/purchase/purchase-invoice/detail')
+);
 
 // payment Voucher
-const PaymentVoucherListingPage = lazy(() => import('containers/accounting/purchase/payment-voucher/listing'));
+const PaymentVoucherListingPage = lazy(() =>
+  import('containers/accounting/purchase/payment-voucher/listing')
+);
 const AddPaymentVoucherPage = lazy(() => import('containers/accounting/purchase/payment-voucher/add'));
 const PaymentVoucherDetailPage = lazy(() => import('containers/accounting/purchase/payment-voucher/detail'));
 
 // Debit Notes
-const SupplierCreditListingPage = lazy(() => import('containers/accounting/purchase/supplier-credit/listing'));
+const SupplierCreditListingPage = lazy(() =>
+  import('containers/accounting/purchase/supplier-credit/listing')
+);
 const AddSupplierCreditPage = lazy(() => import('containers/accounting/purchase/supplier-credit/add'));
 const SupplierCreditDetailPage = lazy(() => import('containers/accounting/purchase/supplier-credit/detail'));
 
@@ -104,13 +115,17 @@ function AppRoutes() {
 
             <Route path="/" element={<PrivateRoutes />}>
               <Route path="/" element={<DashboardPage />} />
-              {/* Reports */}
               <Route path="/pages" element={<Outlet />}>
+                {/* user info */}
                 <Route path="user" element={<ClanderPage />}>
                   <Route path="calendar" element={<Outlet />} />
                 </Route>
 
-                <Route path="reports" element={<ReportsListPage />} />
+                {/* Reports */}
+                <Route path="reports" element={<Outlet />}>
+                  <Route path="" index element={<ReportsListPage />} />
+                  <Route path="supplierBalances" element={<SupplierBalancePage />} />
+                </Route>
                 <Route path="accounting" element={<Outlet />}>
                   {/* Banking Master */}
                   <Route path="banking" element={<Outlet />}>

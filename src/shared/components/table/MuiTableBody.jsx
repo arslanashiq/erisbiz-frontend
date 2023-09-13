@@ -33,7 +33,7 @@ function MuiTableBody({
   const getValue = (row, cell) => {
     let value = '';
     if (cell.mergeCell) {
-      value = 'AED-';
+      value = 'AED ';
     }
     value += cell.date ? moment(row[cell.id]).format(DATE_FORMAT) : row[cell.id];
 
@@ -176,7 +176,11 @@ function MuiTableBody({
             {row.column.map(col => (col.colSpan ? (
               <TableCell colSpan={col.colSpan} />
             ) : (
-              <TableCell key={col.data} sx={{ fontSize: '0.80rem' }}>
+              <TableCell
+                key={col.data}
+                align={col.align || 'left'}
+                sx={{ fontSize: '0.80rem', ...col.style }}
+              >
                 {col.data}
               </TableCell>
             )))}
