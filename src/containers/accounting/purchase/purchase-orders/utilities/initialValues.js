@@ -13,7 +13,7 @@ export const purchaseOrderInitialValues = {
   pur_order_items: [
     {
       service_type: '',
-      currency: 1,
+      currency: 78,
       num_units: 0,
       num_nights: 0,
       unit_price_ex_vat: 0,

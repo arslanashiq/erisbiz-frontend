@@ -53,26 +53,37 @@ function PDFHeader({ orderInfo }) {
             </Text>
           </View>
           <View style={{ marginTop: 5 }}>
-            {orderInfo.formated_order_number && (
-              <View style={styles.row}>
-                <Text style={styles.rowText}>Order Number:</Text>
-                <Text style={styles.rowValueText}>{orderInfo.formated_order_number}</Text>
-              </View>
-            )}
-            {orderInfo.date && (
-              <View style={styles.row}>
-                <Text style={styles.rowText}>Date:</Text>
-                <Text style={styles.rowValueText}>{orderInfo.date}</Text>
-              </View>
-            )}
-
-            {orderInfo.location ? (
-              <View style={styles.row}>
-                <Text style={styles.rowText}>Location:</Text>
-                <Text style={styles.rowValueText}>{orderInfo.location}</Text>
-              </View>
+            {orderInfo.showCustomOptions ? (
+              orderInfo?.box1?.map(option => (
+                <View style={styles.row}>
+                  <Text style={styles.rowText}>{option?.label}</Text>
+                  <Text style={styles.rowValueText}>{option?.value}</Text>
+                </View>
+              ))
             ) : (
-              <View />
+              <>
+                {orderInfo.formated_order_number && (
+                  <View style={styles.row}>
+                    <Text style={styles.rowText}>Order Number:</Text>
+                    <Text style={styles.rowValueText}>{orderInfo.formated_order_number}</Text>
+                  </View>
+                )}
+                {orderInfo.date && (
+                  <View style={styles.row}>
+                    <Text style={styles.rowText}>Date:</Text>
+                    <Text style={styles.rowValueText}>{orderInfo.date}</Text>
+                  </View>
+                )}
+
+                {orderInfo.location ? (
+                  <View style={styles.row}>
+                    <Text style={styles.rowText}>Location:</Text>
+                    <Text style={styles.rowValueText}>{orderInfo.location}</Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
+              </>
             )}
           </View>
           <InfoBox orderInfo={orderInfo} />

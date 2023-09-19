@@ -4,10 +4,12 @@ import { Button, Stack } from '@mui/material';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 
 function FormSubmitButton() {
-  const { isSubmitting, resetForm, initialValues, touched } = useFormikContext();
+  const { isSubmitting, resetForm } = useFormikContext();
+
   return (
     <>
       <ErrorFocus />
+
       <Stack spacing={2} direction="row">
         <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
           {isSubmitting ? 'Saving...' : 'Save'}
@@ -15,8 +17,8 @@ function FormSubmitButton() {
 
         <Button
           color="secondary"
-          onClick={() => resetForm(initialValues)}
-          disabled={!touched || isSubmitting}
+          onClick={() => resetForm()}
+          disabled={isSubmitting}
           className="text-capitalize"
         >
           Clear

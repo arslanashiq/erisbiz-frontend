@@ -16,6 +16,7 @@ function PerformaInvoiceListing() {
   const navigate = useNavigate();
   const location = useLocation();
   const performaInvoicesListResponse = useGetPerformaInvoicesListQuery(getItemSearchQueryParams(location));
+
   const [deletePerformaInvoice] = useDeletePerformaInvoiceMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {

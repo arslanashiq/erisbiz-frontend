@@ -3,31 +3,31 @@ export const payableReports = {
   reports: [
     {
       label: 'Supplier Balances',
-      link: '/pages/reports/supplierBalances?duration=today',
+      link: '/pages/reports/supplier-balances?duration=today',
     },
     {
       label: 'AP Aging Summary',
-      link: '/pages/reports/apAgingSummary?duration=today&date_type=date',
+      link: '/pages/reports/ap-aging-summary?duration=today&date_type=date',
     },
     {
-      label: 'AP Aging Details',
-      link: '/pages/reports/apAgingDetails?duration=today&date_type=date',
+      label: 'AP Aging Details (Not)',
+      link: '/pages/reports/ap-aging-details?duration=today&date_type=date',
     },
     {
-      label: 'Debit Note Details',
-      link: '/pages/reports/supplierCreditDetails',
+      label: 'Bill Details',
+      link: '/pages/reports/bill-details?duration=this+month',
     },
     {
-      label: 'Payments Made',
-      link: '/pages/reports/paymentsMade',
+      label: 'Payments Made (Not)',
+      link: '/pages/reports/payments-made',
     },
     {
-      label: 'Refund History',
+      label: 'Refund History (Not)',
       link: '/pages/reports/supplierRefundHistory',
     },
     {
       label: 'Purchase Order Details',
-      link: '/pages/reports/purchaseOrderDetails',
+      link: '/pages/reports/purchase-order-details?duration=this+month',
     },
     {
       label: 'Purchase Order by Supplier',

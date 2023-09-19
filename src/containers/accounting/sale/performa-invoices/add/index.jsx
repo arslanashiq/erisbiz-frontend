@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Card, CardContent } from '@mui/material';
 import TagIcon from '@mui/icons-material/Tag';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+// services
 import { useGetItemsListQuery } from 'services/private/items';
-import { useAddPurchaseOrderMutation } from 'services/private/purchase-orders';
 import { useGetCustomersListQuery } from 'services/private/customers';
+import {
+  useAddPerformaInvoiceMutation,
+  useEditPerformaInvoiceMutation,
+  // useGetLatestPerformaInvoiceQuery,
+  useGetSinglePerformaInvoiceQuery,
+} from 'services/private/performa-invoices';
+import { useGetQuotationsListQuery } from 'services/private/quotations';
+// shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikSelect from 'shared/components/form/FormikSelect';
@@ -19,62 +27,111 @@ import {
   handleChangeItem,
   handleChangeQuantity,
   hanldeVATChange,
+  handleCalculateTotalAmount,
 } from 'shared/components/purchase-item/utilities/helpers';
-import SectionLoader from 'containers/common/loaders/SectionLoader';
-import { VAT_CHARGES } from 'utilities/constants';
-import 'styles/form/form.scss';
 import FormikFileField from 'shared/components/form/FormikFileField';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
+// containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
+// utilities
+import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
+import { proformaInvoicesInitialValues } from '../utilities/initialValues';
+import 'styles/form/form.scss';
 
 function AddPerformaInvoice() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { initialValues, setInitialValues } = useInitialValues(
+    proformaInvoicesInitialValues,
+    useGetSinglePerformaInvoiceQuery,
+    null,
+    true
+  );
+  const [addPerformaInvoice] = useAddPerformaInvoiceMutation();
+  const [editPerformaInvoice] = useEditPerformaInvoiceMutation();
   const itemsListResponse = useGetItemsListQuery();
   const customerListResponse = useGetCustomersListQuery();
-  const [initialValues, setInitialValues] = useState({
-    date: moment().format('YYYY-MM-DD'),
-    location: '',
-    customer_id: '',
-    exchange_rate: 1,
-    attachment: '',
-    remarks: '',
-    currency: 'AED',
-    pur_order_items: [
-      {
-        service_type: 'Apple',
-        currency: 1,
-        num_units: 0,
-        num_nights: 0,
-        unit_price_ex_vat: 0,
-        gross_amount: 0,
-        discount: 0,
-        vat_amount: 0,
-        net_amount: 0,
-      },
-    ],
-
-    pur_order_suffix: 'LPO',
-    pur_order_docs: [
-      {
-        doc_file: '',
-        doc_type: '',
-        doc_name: '',
-        doc_size_bytes: 0,
-      },
-    ],
+  const quotationsListResponse = useGetQuotationsListQuery();
+  const { optionsList: quotationsListOptions } = useListOptions(quotationsListResponse?.data?.results, {
+    label: 'quotation_formatted_number',
+    value: 'id',
   });
-  const [addPurchaseOrder] = useAddPurchaseOrderMutation();
+  const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
+    label: 'contact_person',
+    value: 'id',
+  });
+  const { optionsList: itemsListOptions } = useListOptions(
+    itemsListResponse?.data?.results,
+    {
+      value: 'item_name',
+      label: 'item_name',
+    },
+    ['sale_price']
+  );
 
-  const customersOptions = customerListResponse?.data?.results?.map(supplier => ({
-    value: `${supplier.id}`,
-    label: supplier.contact_person,
-  }));
-  const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
-    value: item.item_name,
-    label: item.item_name,
-    price: index + 1,
-    type: item.item_type,
-  }));
-
-  console.log(setInitialValues);
+  const porformaInvoiceItemsList = useMemo(
+    () => [
+      {
+        name: 'service_type',
+        placeholder: 'Item',
+        isSelect: true,
+        options: itemsListOptions || [],
+        width: '15%',
+        onChange: handleChangeItem,
+      },
+      {
+        name: 'num_nights',
+        placeholder: 'Quanitiy',
+        type: 'number',
+        onChange: handleChangeQuantity,
+      },
+      {
+        name: 'unit_price_ex_vat',
+        placeholder: 'Unit Price',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'gross_amount',
+        placeholder: 'Gross Total',
+        type: 'number',
+        disabled: true,
+      },
+      {
+        name: 'discount',
+        placeholder: 'Discount',
+        type: 'number',
+        onChange: handleChangeDiscount,
+      },
+      {
+        name: 'vat_rate',
+        placeholder: 'VAT',
+        isSelect: true,
+        options: VAT_CHARGES,
+        width: '15%',
+        onChange: hanldeVATChange,
+      },
+      {
+        name: 'net_amount',
+        placeholder: 'Net Amount',
+        type: 'number',
+        disabled: true,
+      },
+    ],
+    [itemsListOptions]
+  );
+  const handleChangeQuotationNumber = value => {
+    const selectedQuotation = quotationsListResponse.data.results.filter(quotation => quotation.id === value);
+    if (selectedQuotation.length > 0) {
+      setInitialValues({
+        ...initialValues,
+        pro_invoice_items: selectedQuotation[0].quotation_items,
+      });
+    }
+  };
 
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
@@ -85,25 +142,67 @@ function AddPerformaInvoice() {
             enableReinitialize
             initialValues={initialValues}
             // validationSchema={bankFormValidationSchema}
-            onSubmit={async values => {
-              await addPurchaseOrder(values);
+            onSubmit={async (values, { setErrors }) => {
+              const performaInvoiceItems = values.pro_invoice_items.map(item => ({
+                service_type: item.service_type,
+                num_units: item.num_nights,
+                num_nights: item.num_nights,
+                unit_price_ex_vat: item.unit_price_ex_vat,
+                gross_amount: item.gross_amount,
+                discount: item.discount,
+                vat_amount: item.vat_amount,
+                net_amount: item.net_amount,
+                vat_rate: item.vat_rate,
+                amount_ex_vat: item.amount_ex_vat,
+              }));
+              console.log(values, 'asdsad');
+              const payload = {
+                ...values,
+                pro_invoice_docs: values.filesList || values.pro_invoice_docs,
+                pro_invoice_items: performaInvoiceItems,
+                ...handleCalculateTotalAmount(values.pro_invoice_items),
+              };
+              const formData = new FormData();
+              Object.keys(payload).forEach(key => {
+                if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
+                  payload[key].forEach((item, index) => {
+                    Object.keys(item).forEach(itemKey => {
+                      formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+                    });
+                  });
+                } else {
+                  formData.append(key, payload[key]);
+                }
+              });
+              let response = null;
+              if (id) {
+                response = await editPerformaInvoice({ id, payload: formData });
+              } else {
+                response = await addPerformaInvoice(formData);
+              }
+              if (response.error) {
+                setErrors(response.error.data);
+                return;
+              }
+              navigate(-1);
             }}
           >
             <Form className="form form--horizontal mt-3 row">
               {/* Purchase */}
 
-              <FormikField
-                name="quotation_number"
+              <FormikSelect
+                name="quotation"
+                options={quotationsListOptions}
                 type="text"
-                disabled
-                placeholder="Performa Invoice"
-                label="Performa Invoice"
+                label="Quotation #"
+                placeholder="Quotation Number"
                 startIcon={<TagIcon />}
+                onChange={handleChangeQuotationNumber}
               />
               {/* date */}
 
               <FormikDatePicker
-                name="date"
+                name="pro_invoice_date"
                 type="text"
                 placeholder="Date"
                 label="Date"
@@ -111,19 +210,13 @@ function AddPerformaInvoice() {
               />
 
               {/* Sale Person */}
-              <FormikField
-                name="sale_person"
-                type="text"
-                disabled
-                placeholder="Sale Person"
-                label="Sale Person"
-              />
+              <FormikField name="sales_person" type="text" placeholder="Sale Person" label="Sale Person" />
 
               {/* Customer */}
 
               <FormikSelect
                 options={customersOptions}
-                name="customer_id"
+                name="customer"
                 placeholder="Customer"
                 label="Customer"
               />
@@ -141,7 +234,7 @@ function AddPerformaInvoice() {
               {/* Attackment */}
 
               <FormikFileField
-                name="attachment"
+                name="pro_invoice_docs"
                 type="file"
                 placeholder="Attachment"
                 label="Attachment"
@@ -151,67 +244,11 @@ function AddPerformaInvoice() {
               {/* Item detail */}
               <div className="form__form-group w-100">
                 <FieldArray
-                  name="pur_order_items"
+                  name="pro_invoice_items"
                   render={props => (
                     <PurchaseItem
-                      name="pur_order_items"
-                      inputList={[
-                        {
-                          name: 'item',
-                          placeholder: 'Item',
-                          isSelect: true,
-                          options: itemsListOptions,
-                          width: '15%',
-                          onChange: handleChangeItem,
-                        },
-                        {
-                          name: 'quantity',
-                          placeholder: 'Quanitiy',
-                          type: 'number',
-                          onChange: handleChangeQuantity,
-                        },
-                        {
-                          name: 'price',
-                          placeholder: 'Unit Price',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'total',
-                          placeholder: 'Gross Total',
-                          type: 'number',
-                          disabled: true,
-                        },
-                        {
-                          name: 'discount',
-                          placeholder: 'Discount',
-                          type: 'number',
-                          onChange: handleChangeDiscount,
-                        },
-                        {
-                          name: 'vat',
-                          placeholder: 'VAT',
-                          isSelect: true,
-                          options: VAT_CHARGES,
-                          width: '15%',
-                          onChange: hanldeVATChange,
-                        },
-                        {
-                          name: 'net_amount',
-                          placeholder: 'Net Amount',
-                          type: 'number',
-                          disabled: true,
-                        },
-                      ]}
-                      newList={{
-                        item: '',
-                        quantity: 0,
-                        price: 0,
-                        total: 0,
-                        discount: 0,
-                        vat: 0,
-                        net_amount: 0,
-                      }}
+                      inputList={porformaInvoiceItemsList}
+                      newList={NEW_PURCHASE_ITEM_OBJECT}
                       {...props}
                     />
                   )}

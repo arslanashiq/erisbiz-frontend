@@ -32,7 +32,7 @@ DetailTabsWrapper.propTypes = {
   activeTab: PropTypes.number.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   tabsList: PropTypes.array.isRequired,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
+  children: PropTypes.node.isRequired,
   className: PropTypes.string,
 };
 DetailTabsWrapper.defaultProps = {

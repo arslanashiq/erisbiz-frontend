@@ -38,17 +38,16 @@ function UnPaidBillsList({ form }) {
 
           <TableBody>
             {!values ||
-              (values.bill_payments.length === 0 && (
+              (values?.bill_payments?.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={6} style={{ padding: '30px 0px', textAlign: 'center' }}>
                     No Data Found
                   </TableCell>
                 </TableRow>
               ))}
-            {values &&
-              values.bill_payments.length > 0 &&
+            {values?.bill_payments?.length > 0 &&
               values.bill_payments.map((bill, index) => (
-                <TableRow>
+                <TableRow key={bill.pur_order + bill.bill_num}>
                   <TableCell>{bill.bill_date}</TableCell>
                   <TableCell>{bill.bill_num}</TableCell>
                   <TableCell>{bill.pur_order}</TableCell>

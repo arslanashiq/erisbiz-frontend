@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import { Form, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,35 +20,36 @@ function SignUpForm() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [singUpAdmin] = useAdminSignUpMutation();
+
+  // useHandleApiResponse(error, isSuccess, "");
+
   function onChangeCaptcha(value, setFieldValue) {
-    console.log('Captcha value:', value);
     setFieldValue('g_recaptcha_response', value);
   }
+
   return (
     <Stack sx={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
       <Stack sx={{ width: '100%', maxWidth: 500, padding: '0px 50px' }}>
-        <Grid xs={12}>
-          <Typography sx={{ fontSize: 30, color: mainColor }}>Let's Get Started!</Typography>
+        <Grid item xs={12}>
+          <Typography sx={{ fontSize: 30, color: mainColor }}>Let&apos;s Get Started!</Typography>
           <Typography>Enter Your credentials to access your account</Typography>
         </Grid>
 
         <Formik
           initialValues={{ email: '', agreed_to_terms: false, is_admin: true, g_recaptcha_response: '' }}
-          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+          onSubmit={async (values, { setErrors, resetForm }) => {
             try {
-              let response = null;
-              response = await singUpAdmin(values);
-              if (response.data) {
-                enqueueSnackbar(response.data.message, { variant: 'success' });
-                navigate('/auth/login');
-                resetForm();
-              }
+              const response = await singUpAdmin(values);
+
               if (response.error) {
                 enqueueSnackbar(response.error.data.email[0], { variant: 'error' });
-
-                setSubmitting(false);
                 setErrors(response.error.data);
+                return;
               }
+
+              enqueueSnackbar(response.data.message, { variant: 'success' });
+              navigate('/auth/login');
+              resetForm();
             } catch (error) {
               enqueueSnackbar('Somthing went worng!', { variant: 'error' });
             }
@@ -71,6 +71,7 @@ function SignUpForm() {
                 <Grid item xs={12} className="mt-3">
                   <CheckBoxField name="agreed_to_terms" label="Agree Terms and Conditions" />
                 </Grid>
+
                 <Grid item xs={12} className="mt-3">
                   <ReCAPTCHA
                     style={{ width: '100%' }}
@@ -78,6 +79,7 @@ function SignUpForm() {
                     onChange={value => onChangeCaptcha(value, setFieldValue)}
                   />
                 </Grid>
+
                 <Grid item xs={12} className="mt-3">
                   <Button
                     disabled={isSubmitting}
@@ -87,9 +89,10 @@ function SignUpForm() {
                     Sign Up
                   </Button>
                 </Grid>
+
                 <Grid item xs={12} className="mt-2">
                   <Typography sx={{ textAlign: 'center', color: 'gray', fontSize: 14 }}>
-                    Already have Account? :{' '}
+                    Already have Account?
                     <Link to="/auth/login" style={{ textDecoration: 'none' }}>
                       Sign In
                     </Link>

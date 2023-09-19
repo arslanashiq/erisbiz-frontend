@@ -44,35 +44,37 @@ function BankDetail() {
       />
       <Card sx={{ minHeight: '80vh' }}>
         <CardContent>
-          <Grid container sx={{ marginBottom: 2 }}>
-            <Grid xs={12} md={6}>
+          <Grid container className="mb-2">
+            <Grid item xs={12} md={6}>
               <Typography variant="h5">{bankAccountDetail?.data?.bank_account_name}</Typography>
               <Typography variant="body2">
                 Account Number : *****{bankAccountDetail?.data?.account_number?.slice(5)}
               </Typography>
             </Grid>
             <Grid
+              item
               xs={12}
               md={6}
-              sx={{ display: 'flex', justifyContent: { xs: 'start', md: 'end' }, alignItems: 'center' }}
+              className="d-flex align-items-center"
+              justifyContent={{ xs: 'start', md: 'end' }}
             >
               <Stack>
                 <Button className="text-capitalize" onClick={handleShowBankDetailPopup}>
-                  <RemoveRedEyeIcon sx={{ marginRight: 1, fontSize: 18 }} />
+                  <RemoveRedEyeIcon className="me-1" sx={{ fontSize: 18 }} />
                   View Bank Detail
                 </Button>
               </Stack>
             </Grid>
           </Grid>
 
-          <Grid container sx={{ marginBottom: 2 }}>
-            <Grid xs={12} md={6}>
+          <Grid container className="mb-2">
+            <Grid item xs={12} md={6}>
               <Typography variant="body2">Amount</Typography>
               <Typography variant="body1 color-dark font-weight-bold">AED-140.00</Typography>
             </Grid>
           </Grid>
-          <Grid container sx={{ marginBottom: 2, display: 'flex', justifyContent: 'center' }}>
-            <Grid xs={12} md={10}>
+          <Grid container className="mb-2 d-flex d-flex justify-content-center">
+            <Grid item xs={12} md={10}>
               <ButtonGroup onClick={handleChangeButton}>
                 <Button
                   variant={activeTab === '1' ? 'contained' : 'outlined'}
@@ -84,17 +86,21 @@ function BankDetail() {
               </ButtonGroup>
             </Grid>
             <Grid
+              item
               xs={12}
               md={2}
-              sx={{ display: 'flex', justifyContent: { xs: 'start', md: 'end' }, alignItems: 'center' }}
+              className="d-flex align-items-center"
+              justifyContent={{ xs: 'start', md: 'end' }}
             >
               {activeTab === '1' && (
-                <FilterDropdown
-                  className="mt-2 mt-md-0"
-                  initialValue={transactionFilter}
-                  setFilterValue={setTransactionFilter}
-                  filterList={bankTransactionFilterList}
-                />
+                <Stack direction="row">
+                  <FilterDropdown
+                    className="mt-2 mt-md-0"
+                    initialValue={transactionFilter}
+                    setFilterValue={setTransactionFilter}
+                    filterList={bankTransactionFilterList}
+                  />
+                </Stack>
               )}
             </Grid>
           </Grid>

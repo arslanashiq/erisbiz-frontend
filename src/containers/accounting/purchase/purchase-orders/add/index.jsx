@@ -32,6 +32,8 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { purchaseOrderInitialValues } from '../utilities/initialValues';
@@ -41,25 +43,32 @@ import 'styles/form/form.scss';
 function AddPurchaseOrder() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const itemsListResponse = useGetItemsListQuery();
   const supplierListResponse = useGetSuppliersListQuery();
+  const latestPurchaseOrder = useGetLatestPurchaseOrderNumberQuery({}, { skip: id });
 
   const [addPurchaseOrder] = useAddPurchaseOrderMutation();
   const [editPurchaseOrder] = useEditPurchaseOrderMutation();
-  const latestPurchaseOrder = useGetLatestPurchaseOrderNumberQuery({}, { skip: id });
+
   const { initialValues, setInitialValues } = useInitialValues(
     purchaseOrderInitialValues,
-    useGetSinglePurchaseOrderQuery
+    useGetSinglePurchaseOrderQuery,
+    null,
+    true
   );
-  const suppliersOptions = supplierListResponse?.data?.results?.map(supplier => ({
-    value: `${supplier.id}`,
-    label: supplier.supplier_name,
-  }));
-  const itemsListOptions = itemsListResponse?.data?.results?.map(item => ({
-    label: item?.item_name,
-    value: item?.item_name,
-    price: item?.sale_price,
-  }));
+  const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
+    value: 'id',
+    label: 'supplier_name',
+  });
+  const { optionsList: itemsListOptions } = useListOptions(
+    itemsListResponse?.data?.results,
+    {
+      value: 'item_name',
+      label: 'item_name',
+    },
+    ['sale_price']
+  );
   const purchaseItemsInputList = useMemo(
     () => [
       {
@@ -111,6 +120,7 @@ function AddPurchaseOrder() {
     ],
     [itemsListOptions]
   );
+
   useEffect(() => {
     if (!id) {
       setInitialValues({
@@ -217,7 +227,6 @@ function AddPurchaseOrder() {
                   name="pur_order_items"
                   render={props => (
                     <PurchaseItem
-                      name="pur_order_items"
                       inputList={purchaseItemsInputList}
                       newList={NEW_PURCHASE_ITEM_OBJECT}
                       {...props}

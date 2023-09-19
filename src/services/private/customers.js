@@ -16,7 +16,7 @@ const customersApi = privateApi.injectEndpoints({
       query: id => ({
         url: `api/accounting/sales/company/${id}/`,
       }),
-      providesTags: ['getSingleCustomers'],
+      providesTags: ['getSingleCustomer'],
     }),
     addCustomer: builder.mutation({
       query: payload => ({
@@ -24,7 +24,7 @@ const customersApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getCustomersList'],
+      invalidatesTags: ['getSingleCustomer', 'getCustomersList'],
     }),
     editCustomer: builder.mutation({
       query: ({ payload, id }) => ({
@@ -32,14 +32,14 @@ const customersApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleCustomer'],
+      invalidatesTags: ['getSingleCustomer', 'getCustomersList'],
     }),
     deleteCutomer: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/company/${id}/`,
         method: 'DELETE',
       }),
-      providesTags: ['getCustomersList'],
+      invalidatesTags: ['getCustomersList'],
     }),
   }),
 });

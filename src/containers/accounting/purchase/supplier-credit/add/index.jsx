@@ -32,6 +32,8 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { supplierCreditsInitialValues } from '../utilities/initialValues';
@@ -40,7 +42,7 @@ import 'styles/form/form.scss';
 function AddSupplierCredit() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [purchaseInvoiceListOptions, setPurchaseInvoiceListOptions] = useState([]);
+  const [purchaseInvoiceListOptions, setPurchaseInvoiceListOptions] = useState(id ? null : []);
   const [supplierCreditInitialValues, setSupplierCreditInitialValues] = useState(
     supplierCreditsInitialValues
   );
@@ -52,26 +54,34 @@ function AddSupplierCredit() {
   const [addSupplierCredit] = useAddSupplierCreditsMutation();
   const [editSupplierCredit] = useEditSupplierCreditsMutation();
 
-  const itemsListOptions = itemsListResponse?.data?.results?.map((item, index) => ({
-    value: item.item_name,
-    label: item.item_name,
-    price: index + 1,
-  }));
+  const { optionsList: itemsListOptions } = useListOptions(
+    itemsListResponse?.data?.results,
+    {
+      label: 'item_name',
+      value: 'item_name',
+    },
+    ['sale_price']
+  );
+  const { optionsList: bankAccountOptions } = useListOptions(
+    bankAccountsListsponse?.data?.results,
+    {
+      label: 'bank_account_name',
+      value: 'chart_of_account',
+    },
+    ['chart_of_account']
+  );
+
   const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
-    value: supplier.id.toString(),
+    value: supplier.id,
     label: supplier.supplier_name,
     credit_account: supplier.account_default,
-  }));
-  const bankAccountOptions = bankAccountsListsponse?.data?.results?.map(account => ({
-    value: `${account.chart_of_account}`,
-    label: account.bank_account_name,
-    chart_of_account: account.chart_of_account,
   }));
   const paymentVoucherOptions = paymentVouchersListQuery?.data?.results?.map(voucher => ({
     value: `${voucher.id}`,
     label: voucher.id,
     data: voucher,
   }));
+
   const purchaseItemsInputList = useMemo(
     () => [
       {
@@ -129,23 +139,25 @@ function AddSupplierCredit() {
   const handleChangeVoucher = (voucherId, setFieldValue) => {
     const selectedVoucher = paymentVoucherOptions.filter(voucher => voucher.value === voucherId)[0];
     if (!selectedVoucher) return;
-    if (setFieldValue) setFieldValue('supplier_id', selectedVoucher.data.supplier_id.toString());
+    if (setFieldValue) setFieldValue('supplier_id', selectedVoucher.data.supplier_id);
     const billValues = selectedVoucher.data.bill_payments.map(bill => ({
-      value: bill.bill.id.toString(),
-      label: bill.bill.bill_num,
+      value: bill?.bill?.id,
+      label: bill?.bill?.bill_num,
     }));
+
     setPurchaseInvoiceListOptions([...billValues]);
   };
   const handleChangePurchaseInvoice = async (value, setFieldValue) => {
+    if (!value) return;
     const purchaseInvoice = await getPurchaseInvoice(value);
     if (setFieldValue) setFieldValue('supplier_credit_items', [...purchaseInvoice.data.bill_items]);
   };
 
   useEffect(() => {
-    if (paymentVoucherOptions) {
+    if (paymentVoucherOptions && purchaseInvoiceListOptions === null) {
       handleChangeVoucher(initialValues.voucher_number);
+      setSupplierCreditInitialValues({ ...initialValues });
     }
-    setSupplierCreditInitialValues({ ...initialValues });
   }, [initialValues, paymentVoucherOptions]);
 
   return (
@@ -218,7 +230,7 @@ function AddSupplierCredit() {
                 {/* Purchase Inv No */}
                 <FormikSelect
                   name="bill_id"
-                  options={purchaseInvoiceListOptions}
+                  options={purchaseInvoiceListOptions || []}
                   placeholder="Purchase Invoice Number"
                   label="Purchase Inv No"
                   onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}

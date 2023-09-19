@@ -34,28 +34,36 @@ const styles = StyleSheet.create({
 function InfoBox({ orderInfo }) {
   return (
     <View style={styles.infobox}>
-      {orderInfo.supplier && (
-        <View style={styles.row}>
-          <Text
-            style={{
-              fontSize: 10,
-              fontWeight: 600,
-            }}
-          >
-            Supplier:
-          </Text>
-          <Text style={styles.infoboxTextName}> {orderInfo.supplier.supplier_name}</Text>
-        </View>
-      )}
-      <View style={styles.row}>
-        <Text style={styles.infoboxText}>City</Text>
-        <Text style={styles.infoboxText}>{orderInfo.supplier.city}</Text>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.infoboxText}>Country</Text>
-        <Text style={styles.infoboxText}>{orderInfo.supplier.country}</Text>
-      </View>
-      {/* {!!trn && <Text style={styles.infoboxText}>{`TRN: ${trn}`}</Text>} */}
+      {orderInfo.showCustomOptions
+        ? orderInfo.box2.map(option => (
+          <View style={styles.row}>
+            <Text style={styles.infoboxText}>{option.label}</Text>
+            <Text style={styles.infoboxText}>{option.value}</Text>
+          </View>
+        ))
+        : orderInfo.supplier && (
+        <>
+          <View style={styles.row}>
+            <Text
+              style={{
+                fontSize: 10,
+                fontWeight: 600,
+              }}
+            >
+              Supplier:
+            </Text>
+            <Text style={styles.infoboxTextName}> {orderInfo.supplier.supplier_name}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.infoboxText}>City</Text>
+            <Text style={styles.infoboxText}>{orderInfo.supplier.city}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.infoboxText}>Country</Text>
+            <Text style={styles.infoboxText}>{orderInfo.supplier.country}</Text>
+          </View>
+        </>
+        )}
     </View>
   );
 }

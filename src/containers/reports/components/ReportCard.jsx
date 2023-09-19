@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Card, CardContent, Divider, Typography } from '@mui/material';
 import ReportCardItem from './ReportCardItem';
@@ -11,7 +12,7 @@ function ReportCard({ cardData }) {
       <CardContent className="pb-0">
         {/* <Stack spacing={1}> */}
         {cardData.reports.map(report => (
-          <ReportCardItem report={report} />
+          <ReportCardItem key={uuid()} report={report} />
         ))}
         {/* </Stack> */}
       </CardContent>

@@ -1,18 +1,21 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Layout from 'containers/common/layout';
 
 function PrivateRoutes() {
-  const user = useSelector(state => state.user);
+  const location = useLocation();
+  const { isAuthenticated, isRegesteredCompany } = useSelector(state => state.user);
 
-  if (!user.isAuthenticated) {
-    return <Navigate to="/auth/login" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" state={location.pathname} />;
   }
-  if (user.isRegesteredCompany) {
+
+  if (isRegesteredCompany) {
     return <Layout />;
   }
-  return <Navigate to="/register-company" />;
+
+  return <Navigate to="/register-company" replace />;
 }
 
 export default PrivateRoutes;

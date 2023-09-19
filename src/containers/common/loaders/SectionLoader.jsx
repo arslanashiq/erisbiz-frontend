@@ -26,7 +26,7 @@ function SectionLoader({ options, children }) {
 
 SectionLoader.propTypes = {
   options: PropTypes.array,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element]).isRequired,
+  children: PropTypes.node.isRequired,
 };
 SectionLoader.defaultProps = {
   options: [],

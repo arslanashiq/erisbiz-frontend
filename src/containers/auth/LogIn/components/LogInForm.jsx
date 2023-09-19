@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
@@ -32,7 +31,7 @@ function LogInForm() {
     <Stack sx={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
       <Stack sx={{ width: '100%', maxWidth: 500, padding: '0px 50px' }}>
         <Grid item xs={12} className="mb-3">
-          <Typography sx={{ fontSize: 30, color: mainColor }}>Let's Get Started!</Typography>
+          <Typography sx={{ fontSize: 30, color: mainColor }}>{'Let\'s Get Started!'}</Typography>
           <Typography>Enter Your credentials to access your account</Typography>
         </Grid>
         <Formik
@@ -48,12 +47,13 @@ function LogInForm() {
 
               if (response.data) {
                 localStorage.setItem('token', response.data.token);
-                const companyStatus = response.data?.user?.is_regestered_company;
+                // const companyStatus = response.data?.user?.is_regestered_company;
                 await dispatch(
                   setUser({
                     user: response.data,
                     isAuthenticated: true,
-                    is_regestered_company: companyStatus,
+                    // is_regestered_company: companyStatus,
+                    is_regestered_company: true,
                   })
                 );
 

@@ -35,6 +35,8 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { purchaseInvoiceInitialValue } from '../utilities/constant';
@@ -44,34 +46,41 @@ import 'styles/form/form.scss';
 function AddPurchaseInvoice() {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [purchaseOrdersListOptions, setPurchaseOrdersListOptions] = useState([]);
 
-  const suppliersListResponse = useGetSuppliersListQuery();
-  const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery();
   const itemsListResponse = useGetItemsListQuery();
+  const suppliersListResponse = useGetSuppliersListQuery();
   const bankAccountsListsponse = useGetBankAccountsListQuery();
+  const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery();
+
   const [addPurchaseInvoice] = useAddPurchaseInvoceMutation();
   const [editPurchaseInvoice] = useEditPurchaseInvoceMutation();
+
   const {
     initialValues,
     setInitialValues,
     queryResponse: purchaseInvoiceDetail,
   } = useInitialValues(purchaseInvoiceInitialValue, useGetSinglePurchaseInvoiceQuery, null);
+
   const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
     value: supplier.id.toString(),
     label: supplier.supplier_name,
     credit_account: supplier.account_default,
   }));
-  const itemsListOptions = itemsListResponse?.data?.results?.map(item => ({
-    value: item.item_name,
-    label: item.item_name,
-    price: item.sale_price,
-    type: item.item_type,
-  }));
-  const bankAccountOptions = bankAccountsListsponse?.data?.results?.map(account => ({
-    value: `${account.chart_of_account}`,
-    label: account.bank_account_name,
-  }));
+
+  const { optionsList: itemsListOptions } = useListOptions(
+    itemsListResponse?.data?.results,
+    {
+      label: 'item_name',
+      value: 'item_name',
+    },
+    ['sale_price', 'item_type']
+  );
+  const { optionsList: bankAccountOptions } = useListOptions(bankAccountsListsponse?.data?.results, {
+    label: 'bank_account_name',
+    value: 'chart_of_account',
+  });
   const purchaseItemsInputList = useMemo(
     () => [
       {
@@ -123,6 +132,7 @@ function AddPurchaseInvoice() {
     ],
     [itemsListOptions]
   );
+
   const handleGetPurchaseOrderAgainstSupplier = (value, setFieldValue = () => {}) => {
     if (!value) return;
     const purchaseOrderAgainstSupplier = purchaseOrdersListResponse.data.results.filter(
@@ -152,6 +162,7 @@ function AddPurchaseInvoice() {
     if (setFieldValue) setFieldValue('bill_items', selectedOrderItems);
     return selectedOrderItems;
   };
+
   useEffect(() => {
     if (
       purchaseInvoiceDetail?.data &&
@@ -166,7 +177,7 @@ function AddPurchaseInvoice() {
       setInitialValues({
         ...initialValues,
         supplier_id: `${purchaseInvoiceDetail.data.supplier_id}`,
-        credit_account: `${purchaseInvoiceDetail.data.credit_account.toString()}`,
+        credit_account: purchaseInvoiceDetail.data.credit_account,
         pur_order: purchaseInvoiceDetail.data.pur_order,
         bill_items: purchaseOrderItems || [{}],
         location: purchaseInvoiceDetail.data.location,
@@ -198,11 +209,11 @@ function AddPurchaseInvoice() {
               let response = null;
               const payload = {
                 ...values,
-                invoice_date: values.due_date,
+                due_date: values.invoice_date,
                 pur_order_id: values.pur_order,
                 bill_notes: [values.notes],
-                bill_docs: [...values.filesList],
-                status: 'unpaid',
+                bill_docs: values.filesList,
+                status: values.status || 'unpaid',
                 ...handleCalculateTotalAmount(values.bill_items),
               };
 
@@ -211,7 +222,9 @@ function AddPurchaseInvoice() {
                 if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
                   payload[key].forEach((item, index) => {
                     Object.keys(item).forEach(itemKey => {
-                      formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+                      if (item[itemKey]) {
+                        formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+                      }
                     });
                   });
                 } else {
@@ -237,7 +250,7 @@ function AddPurchaseInvoice() {
             {({ setFieldValue, values }) => (
               <Form className="form form--horizontal mt-3 row">
                 {/* Supplier */}
-
+                {console.log(values, 'akjdsdhksakjd')}
                 <FormikSelect
                   options={suppliersListOptions}
                   name="supplier_id"
@@ -258,7 +271,7 @@ function AddPurchaseInvoice() {
                 {/* due date */}
 
                 <FormikDatePicker
-                  name="due_date"
+                  name="invoice_date"
                   type="text"
                   placeholder="Date"
                   label="Date"

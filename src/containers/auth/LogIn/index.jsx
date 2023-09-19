@@ -1,7 +1,5 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import PropTypes from 'prop-types';
-
 // components
 import LogInForm from './components/LogInForm';
 // styles
@@ -19,21 +17,5 @@ function LogIn() {
     </>
   );
 }
-
-LogIn.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      pathname: PropTypes.string,
-    }),
-  }),
-};
-
-LogIn.defaultProps = {
-  location: {
-    state: {
-      pathname: '',
-    },
-  },
-};
 
 export default LogIn;

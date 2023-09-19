@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Formik } from 'formik';
@@ -39,21 +38,35 @@ function PersonlizedFilter({ filterInitialValues, filtersList }) {
         <Form className="form personlized-search-form row pt-3">
           {/* Supplier Name */}
           {filtersList.map(filter => (
-            <div className={`form__form-group ${filter.fullWidth ? '' : 'col-md-6'}`}>
-              <span className="form__form-group-label">Supplier Name</span>
-              <div className="form__form-group-field">
-                {filter.options ? (
-                  <FormikSelect
-                    name={filter.name}
-                    placeholder={filter.placeholder}
-                    options={filter.options}
-                  />
-                ) : filter.date ? (
-                  <FormikDatePicker name={filter.name} placeholder={filter.placeholder} />
-                ) : (
-                  <FormikField name={filter.name} placeholder={filter.placeholder} type={filter.type} />
-                )}
-              </div>
+            <div className="form__form-group-field">
+              {filter.options && (
+                <FormikSelect
+                  name={filter.name}
+                  placeholder={filter.placeholder}
+                  options={filter.options}
+                  label={filter.placeholder}
+                  className={filter.fullWidth ? 'col-12' : 'col-md-6'}
+                  labelClassName="col-12"
+                />
+              )}
+              {!filter.options && filter.date ? (
+                <FormikDatePicker
+                  name={filter.name}
+                  placeholder={filter.placeholder}
+                  label={filter.placeholder}
+                  className={filter.fullWidth ? 'col-12' : 'col-md-6'}
+                  labelClassName="col-12"
+                />
+              ) : (
+                <FormikField
+                  name={filter.name}
+                  placeholder={filter.placeholder}
+                  type={filter.type}
+                  label={filter.placeholder}
+                  className={filter.fullWidth ? 'col-12' : 'col-md-6'}
+                  labelClassName="col-12"
+                />
+              )}
             </div>
           ))}
 

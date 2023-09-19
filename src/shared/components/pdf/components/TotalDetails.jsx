@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   row: {
     display: 'flex',
     flexDirection: 'row',
-    padding: [[3, 10]],
+    padding: '3px 10px',
     textAlign: 'right',
     fontWeight: 900,
     fontSize: 10,
@@ -131,9 +131,9 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currency, currencySym
 }
 
 TotalDetails.propTypes = {
-  grandTotal: PropTypes.string.isRequired,
-  amountTotal: PropTypes.string.isRequired,
-  vatTotal: PropTypes.string.isRequired,
+  grandTotal: PropTypes.number.isRequired,
+  amountTotal: PropTypes.number.isRequired,
+  vatTotal: PropTypes.number.isRequired,
   currency: PropTypes.string.isRequired,
   currencySymbol: PropTypes.string.isRequired,
   subTotalName: PropTypes.string,

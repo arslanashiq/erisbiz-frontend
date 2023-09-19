@@ -14,7 +14,6 @@ import {
   taxes,
 } from './utilities/constants';
 
-// const allReports = [activity, taxes, financialReports, receivableReports, payableReports];
 function ReportsList() {
   return (
     <>

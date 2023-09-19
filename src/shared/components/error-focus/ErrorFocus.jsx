@@ -32,15 +32,16 @@ function keyify(errors) {
 function ErrorFocus({ formik }) {
   const { isSubmitting, isValidating, errors } = formik;
   const [formikErrors, setFormikErrors] = useState('');
-
   useEffect(() => {
     const keys = keyify(errors);
     if (keys.length > 0 && !isValidating) {
       if (errors?.non_field_errors) {
         setFormikErrors(errors.non_field_errors);
       } else {
-        setFormikErrors('');
+        setFormikErrors(errors[keys[0]]);
       }
+    } else {
+      setFormikErrors('');
     }
   }, [isSubmitting]);
 

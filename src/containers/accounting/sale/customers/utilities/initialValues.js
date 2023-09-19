@@ -26,6 +26,9 @@ export const customerFormInitialValues = {
   delivery_terms: '',
   opening_balance: '',
   sales_company_contact: [],
+  days_after_invoice: 0,
+  credit_limit: false,
+  credit_terms: false,
 };
 
 export const test = '';

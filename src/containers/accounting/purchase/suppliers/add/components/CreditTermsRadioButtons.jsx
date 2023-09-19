@@ -5,7 +5,7 @@ import FormikField from 'shared/components/form/FormikField';
 import { supplierPaymentInfo } from '../../utilities/constants';
 import 'styles/form/radio-btn.scss';
 
-function CreditTermsRadioButtons({ name, values, touched, errors, onChange, ...restProps }) {
+function CreditTermsRadioButtons({ name, values, errors, onChange, ...restProps }) {
   return (
     <Field name={name}>
       {({ field: { value: fieldValue, onChange: onFieldChange, ...restFieldProps } }) => (
@@ -34,8 +34,6 @@ function CreditTermsRadioButtons({ name, values, touched, errors, onChange, ...r
               type="nnumber"
               placeholder="Days"
               value={values.days_after_invoice}
-              touched={touched.days_after_invoice}
-              error={errors.days_after_invoice}
               disabled={values.set_credit_terms !== 'invoice_date'}
               className="col-12"
             />
@@ -83,7 +81,6 @@ CreditTermsRadioButtons.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   values: PropTypes.object,
-  touched: PropTypes.object,
   errors: PropTypes.object,
 };
 
@@ -91,7 +88,6 @@ CreditTermsRadioButtons.defaultProps = {
   name: '',
   onChange: () => {},
   values: {},
-  touched: {},
   errors: {},
 };
 export default CreditTermsRadioButtons;

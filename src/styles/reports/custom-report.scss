@@ -1,5 +1,5 @@
 @import '../variables.scss';
-.invoice-receipt-main-container {
+.custom-receipt-main-container {
   // min-width: 660px;
   // overflow: auto;
   margin: 10px auto;
@@ -147,7 +147,7 @@
       color: $text-color;
       padding: 5px 10px;
       border: 0.2px solid $primary-color;
-      font-weight: bolder;
+      font-weight: 600;
       background-color: $primary-color;
       text-align: center;
     }

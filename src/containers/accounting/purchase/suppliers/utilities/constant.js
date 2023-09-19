@@ -49,5 +49,7 @@ export const supplierInitialValues = {
   days_after_invoice: 0,
   is_import_agent: false,
   is_reverse_charge: false,
+  credit_limit: false,
+  credit_terms: false,
 };
 export const test = '';

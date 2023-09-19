@@ -73,7 +73,7 @@ function Dasbboard() {
           }}
         >
           {cardsList.map(card => (
-            <Grid key={card.number} item sm={4} sx={{ width: '100%' }}>
+            <Grid key={card.number} item xs={12} sm={6} lg={4} sx={{ width: '100%' }}>
               <DashboardCards card={card} />
             </Grid>
           ))}

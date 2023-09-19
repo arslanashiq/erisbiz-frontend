@@ -99,13 +99,9 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
         <IconButton onClick={handleClose} sx={{ position: 'absolute', top: '0%', right: '0%' }}>
           <CloseIcon />
         </IconButton>
-        <Stack
-          sx={{
-            marginTop: 3,
-          }}
-        >
+        <Stack className="mt-2">
           <DialogTitle>Bank Detail</DialogTitle>
-          <Stack direction="row" justifyContent="start" sx={{ marginLeft: 2 }}>
+          <Stack direction="row" justifyContent="start" className="ms-2">
             <Tooltip arrow title="Edit" placement="top">
               <IconButton onClick={handleEditBank}>
                 <EditIcon />
@@ -141,7 +137,9 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
 BankDetailPopup.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  bankDetail: PropTypes.object.isRequired,
+  bankDetail: PropTypes.object,
 };
-BankDetailPopup.defaultProps = {};
+BankDetailPopup.defaultProps = {
+  bankDetail: {},
+};
 export default BankDetailPopup;

@@ -21,6 +21,8 @@ import FormikImageInput from 'shared/components/form/FormikImageInput';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+// custom-hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
 import { itemsInitialValues } from '../utilities/constants';
@@ -30,25 +32,25 @@ import 'styles/form/form.scss';
 function AddItemPage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const bankApiResponse = useGetBankAccountsListQuery();
-  const supplierApiResponse = useGetSuppliersListQuery();
-  const brandsApiResponse = useGetBrandsListQuery();
   const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
   const [addItem] = useAddItemMutation();
   const [editItem] = useEditItemMutation();
-  const suppliersOptions = supplierApiResponse?.data?.results?.map(supplier => ({
-    value: `${supplier.id}`,
-    label: supplier.supplier_name,
-  }));
-  const bankOptions = bankApiResponse?.data?.results?.map(bank => ({
-    value: `${bank.chart_of_account}`,
-    label: bank.IBAN,
-  }));
-  const brandsOptions = brandsApiResponse?.data?.results?.map(brand => ({
-    value: `${brand.uid}`,
-    label: brand.brand_name,
-  }));
-
+  const bankApiResponse = useGetBankAccountsListQuery();
+  const supplierApiResponse = useGetSuppliersListQuery();
+  const brandsApiResponse = useGetBrandsListQuery();
+  // options
+  const { optionsList: suppliersOptions } = useListOptions(supplierApiResponse?.data?.results, {
+    value: 'id',
+    label: 'supplier_name',
+  });
+  const { optionsList: bankOptions } = useListOptions(bankApiResponse?.data?.results, {
+    value: 'chart_of_account',
+    label: 'IBAN',
+  });
+  const { optionsList: brandsOptions } = useListOptions(brandsApiResponse?.data?.results, {
+    value: 'uid',
+    label: 'brand_name',
+  });
   return (
     <SectionLoader
       options={[bankApiResponse.isLoading, supplierApiResponse.isLoading, brandsApiResponse.isLoading]}
@@ -85,7 +87,7 @@ function AddItemPage() {
                   setErrors(response.error.data);
                 }
               } catch (err) {
-                if (err.response && err.response.status === 400) {
+                if (err?.response?.status === 400) {
                   setSubmitting(true);
                   setErrors(err.response.data);
                   setSubmitting(false);

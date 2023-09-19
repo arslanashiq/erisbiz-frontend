@@ -21,6 +21,8 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { VAT_CHARGES } from 'utilities/constants';
 import { expensesInitialValues } from '../utilities/initialValues';
@@ -39,15 +41,15 @@ function AddExpense() {
     expensesInitialValues,
     useGetSingleExpenseQuery
   );
+  const { optionsList: bankOptions } = useListOptions(bankAccountsLIstResponse?.data?.results, {
+    label: 'bank_account_name',
+    value: 'chart_of_account',
+  });
+  const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
+    label: 'supplier_name',
+    value: 'id',
+  });
 
-  const bankOptions = bankAccountsLIstResponse?.data?.results?.map(bank => ({
-    value: `${bank.chart_of_account}`,
-    label: bank.IBAN,
-  }));
-  const suppliersOptions = supplierListResponse?.data?.results?.map(supplier => ({
-    value: `${supplier.id}`,
-    label: supplier.supplier_name,
-  }));
   useEffect(() => {
     if (typeof initialValues.tax_rate_id === 'string') {
       setInitialValues({ ...initialValues, tax_rate_id: Number(initialValues.tax_rate_id) });
@@ -61,7 +63,7 @@ function AddExpense() {
           enableReinitialize
           initialValues={initialValues}
           // validationSchema={bankFormValidationSchema}
-          onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
+          onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {
               let response = null;
               const selectedTax = VAT_CHARGES.filter(tax => tax.value === values.tax_rate_id)[0];
@@ -74,21 +76,18 @@ function AddExpense() {
                 total: totalAmount,
               };
               if (id) {
-                await editExpense({ id, payload });
+                response = await editExpense({ id, payload });
               } else {
                 response = await addExpense(payload);
               }
 
-              setSubmitting(false);
-              if (response.data) {
-                resetForm(initialValues);
-                navigate(-1);
-              }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
               }
+              navigate(-1);
             } catch (err) {
-              if (err.response && err.response.status === 400) {
+              if (err?.response?.status === 400) {
                 setSubmitting(true);
                 setErrors(err.response.data);
                 setSubmitting(false);

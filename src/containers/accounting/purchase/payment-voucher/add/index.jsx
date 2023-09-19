@@ -21,6 +21,8 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { PAYMENT_MODE } from 'utilities/constants';
 import { PurchaseVoucherInitialValues } from '../utilities/initialValues';
@@ -41,15 +43,15 @@ function addPaymentVoucher() {
     PurchaseVoucherInitialValues,
     useGetSinglePaymentVoucherQuery
   );
+  const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
+    value: 'id',
+    label: 'supplier_name',
+  });
+  const { optionsList: bankAccountOptions } = useListOptions(bankAccountListResponse?.data?.results, {
+    value: 'chart_of_account',
+    label: 'bank_account_name',
+  });
 
-  const suppliersOptions = supplierListResponse?.data?.results?.map(supplier => ({
-    value: `${supplier.id}`,
-    label: supplier.supplier_name,
-  }));
-  const bankAccountOptions = bankAccountListResponse?.data?.results?.map(account => ({
-    value: account.chart_of_account.toString(),
-    label: account.bank_account_name,
-  }));
   const handleChangeSupplier = async (supplierId, initial, setValues) => {
     if (!supplierId) return;
     const response = await getUnpaidBills(supplierId);
@@ -173,7 +175,7 @@ function addPaymentVoucher() {
 
                 {/* Remarks */}
                 <FormikField
-                  name="remarks"
+                  name="notes"
                   textArea
                   placeholder="Remarks"
                   label="Remarks"

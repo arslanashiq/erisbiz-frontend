@@ -12,7 +12,7 @@ function SupplierContactPerson({ contactPerson }) {
     <SupplierOverviewAccordionWrapper title={`Contact Person Details (${contactPerson.length})`} showIcon>
       <div className="row supplier-overview-wrapper">
         {contactPerson.map(contact => (
-          <Stack spacing={2} direction="row" alignItems="start" justifyContent="start">
+          <Stack key={contact.email} spacing={2} direction="row" alignItems="start" justifyContent="start">
             <Avatar src={contact.image} />
             <Stack>
               <Typography>{`${contact.name} (${contact.designation})`}</Typography>

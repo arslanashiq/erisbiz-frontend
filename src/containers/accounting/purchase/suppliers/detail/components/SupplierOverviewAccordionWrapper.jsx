@@ -49,7 +49,7 @@ function SupplierOverviewAccordionWrapper({ title, showIcon, children }) {
 }
 
 SupplierOverviewAccordionWrapper.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
 };

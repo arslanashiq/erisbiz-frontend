@@ -4,22 +4,21 @@ import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-// services
+
+// API HOOKS
 import {
   useAddBankAccountMutation,
   useEditBankAccountMutation,
   useGetSingleBankAccountQuery,
 } from 'services/private/banking';
-// shared
+
+// COMPONENTS & UTILITIES & STYLES
 import FormikField from 'shared/components/form/FormikField';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
-// containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
-// utilities
 import { bankingInitialValues } from '../utilities/initialValues';
 import { bankFormValidationSchema } from '../utilities/validationSchema';
-// styles
 import 'styles/form/form.scss';
 
 function AddBankAccountPage() {
@@ -37,7 +36,7 @@ function AddBankAccountPage() {
           enableReinitialize
           initialValues={initialValues}
           validationSchema={bankFormValidationSchema}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
+          onSubmit={async (values, { setErrors }) => {
             try {
               let response = null;
               if (id) {
@@ -45,7 +44,6 @@ function AddBankAccountPage() {
               } else {
                 response = await addBankAccount(values);
               }
-              setSubmitting(false);
               if (response.data) {
                 navigate(-1);
               }
@@ -53,10 +51,8 @@ function AddBankAccountPage() {
                 setErrors(response.error.data);
               }
             } catch (err) {
-              if (err.response && err.response.status === 400) {
-                setSubmitting(true);
+              if (err?.response?.status === 400) {
                 setErrors(err.response.data);
-                setSubmitting(false);
               }
             }
           }}

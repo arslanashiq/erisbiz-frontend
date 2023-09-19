@@ -120,7 +120,7 @@ function ItemDetail() {
           </Button>
         </Stack>
       </Stack>
-      <Card sx={{ minHeight: '76vh', padding: 2, fontSize: 14 }}>
+      <Card className="p-2" sx={{ minHeight: '76vh', fontSize: 14 }}>
         <DetailTabsWrapper
           className="p-3"
           activeTab={activeTab}

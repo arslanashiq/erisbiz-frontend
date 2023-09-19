@@ -77,12 +77,12 @@ function MuiTableHead(props) {
 
 MuiTableHead.propTypes = {
   headCells: PropTypes.arrayOf(PropTypes.object).isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  numSelected: PropTypes.number,
+  onRequestSort: PropTypes.func,
+  onSelectAllClick: PropTypes.func,
+  order: PropTypes.oneOf(['asc', 'desc']),
+  orderBy: PropTypes.string,
+  rowCount: PropTypes.number,
   showCheckbox: PropTypes.bool,
   actionButtonKey: PropTypes.string,
   customActionButton: PropTypes.array,
@@ -92,5 +92,11 @@ MuiTableHead.defaultProps = {
   actionButtonKey: '',
   showCheckbox: false,
   customActionButton: null,
+  onSelectAllClick: () => {},
+  numSelected: 0,
+  onRequestSort: () => {},
+  order: 'asc',
+  orderBy: '',
+  rowCount: 0,
 };
 export default MuiTableHead;

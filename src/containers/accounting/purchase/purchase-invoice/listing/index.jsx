@@ -60,7 +60,6 @@ function SupplierCreditListing() {
         <title>Purchase Invoice - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
-      {/* {resp.isSuccess && resp?.data?.results?.length > 0 && ( */}
       <MuiTable
         data={purchaseInvoiceResponse?.data?.results}
         totalDataCount={purchaseInvoiceResponse?.data?.count}
@@ -81,7 +80,6 @@ function SupplierCreditListing() {
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />
-      {/* )} */}
     </>
   );
 }

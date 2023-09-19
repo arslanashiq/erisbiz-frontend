@@ -25,73 +25,121 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsT
             <p>TRN: 100204615700003</p>
             <p>info@luxuryexplorersme.com</p>
           </div>
-          <div className="box-2">
-            <h1
-              style={{
-                fontSize: '27px',
-                fontWeight: 800,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {orderInfo.type}
-            </h1>
-            <p
-              style={{
-                fontSize: '16px',
-                textAlign: 'left',
-                fontWeight: 'bold',
-              }}
-            >
-              {orderInfo.order_number}
-            </p>
-            <div className="boxSecond" style={{ fontSize: '16px' }}>
-              {orderInfo.formated_order_number && (
-                <div className="entry-info">
-                  <p className="head">OrderNumber:</p>
-                  <p>{orderInfo.formated_order_number}</p>
-                </div>
-              )}
-
-              {orderInfo.date && (
-                <div className="entry-info">
-                  <p className="head">Date:</p>
-                  <p>{orderInfo.date}</p>
-                </div>
-              )}
-              {orderInfo.location && (
-                <div className="entry-info">
-                  <p className="head">Location:</p>
-                  <p>{orderInfo.location}</p>
-                </div>
-              )}
-            </div>
-            <div id="bill_to">
-              <div className="boxSecond" style={{ fontSize: '15px' }}>
-                <div className="entry-info">
-                  <p className="head">{orderInfo.label ? orderInfo.label : 'Supplier'}:</p>
-                  <p>
-                    <Link to={`/pages/accounting/purchases/suppliers/${orderDetail.supplier_id}/detail`}>
-                      {orderInfo.supplier.supplier_name}
-                    </Link>
-                  </p>
-                </div>
-                <div className="entry-info">
-                  <p className="head">Country:</p>
-                  <p>{orderInfo.supplier.country}</p>
-                </div>
-                <div className="entry-info">
-                  <p className="head">City:</p>
-                  <p>{orderInfo.supplier.city}</p>
-                </div>
-                {orderInfo.supplier_trn && (
+          {orderInfo.showCustomOptions ? (
+            <div className="box-2">
+              <h1
+                style={{
+                  fontSize: '27px',
+                  fontWeight: 800,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {orderInfo.type}
+              </h1>
+              <p
+                style={{
+                  fontSize: '16px',
+                  textAlign: 'left',
+                  fontWeight: 'bold',
+                }}
+              >
+                {orderInfo.order_number}
+              </p>
+              <div className="boxSecond" style={{ fontSize: '16px' }}>
+                {orderInfo?.box1?.map(option => (
                   <div className="entry-info">
-                    <p className="head">TRN:</p>
-                    <p>{orderInfo.supplier_trn}</p>
+                    <p className="head">{option.label}:</p>
+                    <p>{option.value}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div id="bill_to">
+                <div className="boxSecond" style={{ fontSize: '15px' }}>
+                  {orderInfo?.box2?.map(option => (
+                    <div className="entry-info">
+                      <p className="head">{option.label}:</p>
+                      {option.link ? (
+                        <p>
+                          <Link to={option.link}>{option.value}</Link>
+                        </p>
+                      ) : (
+                        <p>{option.value}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="box-2">
+              <h1
+                style={{
+                  fontSize: '27px',
+                  fontWeight: 800,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {orderInfo.type}
+              </h1>
+              <p
+                style={{
+                  fontSize: '16px',
+                  textAlign: 'left',
+                  fontWeight: 'bold',
+                }}
+              >
+                {orderInfo.order_number}
+              </p>
+              <div className="boxSecond" style={{ fontSize: '16px' }}>
+                {orderInfo.formated_order_number && (
+                  <div className="entry-info">
+                    <p className="head">OrderNumber:</p>
+                    <p>{orderInfo.formated_order_number}</p>
+                  </div>
+                )}
+
+                {orderInfo.date && (
+                  <div className="entry-info">
+                    <p className="head">Date:</p>
+                    <p>{orderInfo.date}</p>
+                  </div>
+                )}
+                {orderInfo.location && (
+                  <div className="entry-info">
+                    <p className="head">Location:</p>
+                    <p>{orderInfo.location}</p>
                   </div>
                 )}
               </div>
+              <div id="bill_to">
+                <div className="boxSecond" style={{ fontSize: '15px' }}>
+                  <div className="entry-info">
+                    <p className="head">{orderInfo.label ? orderInfo.label : 'Supplier'}:</p>
+                    <p>
+                      <Link to={`/pages/accounting/purchases/suppliers/${orderDetail.supplier_id}/detail`}>
+                        {orderInfo.supplier.supplier_name}
+                      </Link>
+                    </p>
+                  </div>
+                  <div className="entry-info">
+                    <p className="head">Country:</p>
+                    <p>{orderInfo.supplier.country}</p>
+                  </div>
+                  <div className="entry-info">
+                    <p className="head">City:</p>
+                    <p>{orderInfo.supplier.city}</p>
+                  </div>
+                  {orderInfo.supplier_trn && (
+                    <div className="entry-info">
+                      <p className="head">TRN:</p>
+                      <p>{orderInfo.supplier_trn}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         {/* Purchase Order and Purchase Invoice */}
         {showItemsTable && <OrderItemsTable orderDetail={orderDetail} keyValue={keyValue} />}

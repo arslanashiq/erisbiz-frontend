@@ -7,14 +7,14 @@ function ItemOverViewTab({ itemDetail, itemImage }) {
       <div className="row item-overview-wrapper">
         <div className="col-7 row">
           {itemDetail.map(key => (
-            <>
+            <div key={key.label} className="row">
               <div className="col-8 col-md-3">
                 <h5 className="item-overview-title">{key.label}</h5>
               </div>
               <div className=" col-4 col-md-9">
                 <p className={`item-overview-value ${key.className}`}>{key.value}</p>
               </div>
-            </>
+            </div>
           ))}
         </div>
         {itemImage && (

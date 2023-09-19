@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Box, Button, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
@@ -43,7 +44,7 @@ function MuiTableBody({
     if (cell.handleLink) {
       return cell.handleLink(row);
     }
-    return `${window.location.pathname}/${row.id}/detail`;
+    return `${window.location.pathname}/${row.uuid || row.id}/detail`;
   };
   const renderCellValue = (row, cell) => {
     // for null or undefined values
@@ -72,70 +73,82 @@ function MuiTableBody({
 
   const isSelected = id => selected.indexOf(id) !== -1;
 
-  if (dataList.length === 0) {
-    return (
-      <TableRow>
-        <TableCell
-          style={{ padding: '30px 0px', textAlign: 'center', fontSize: 16, border: 0 }}
-          colSpan={actionButtonKey ? headCells.length + 1 : headCells.length}
-        >
-          No Data Found
-        </TableCell>
-      </TableRow>
-    );
-  }
   return (
     <TableBody>
-      {dataList.map(row => {
-        const id = row.id || row.uid;
-        const isItemSelected = isSelected(id);
-        const labelId = `enhanced-table-checkbox-${id}`;
-        return (
-          <TableRow
-            hover={hoverEffect}
-            role="checkbox"
-            aria-checked={isItemSelected}
-            tabIndex={-1}
-            key={row.id}
-            selected={isItemSelected}
-            sx={{ cursor: 'pointer' }}
+      {dataList.length === 0 ? (
+        <TableRow>
+          <TableCell
+            style={{ padding: '30px 0px', textAlign: 'center', fontSize: 16, border: 0 }}
+            colSpan={actionButtonKey ? headCells.length + 1 : headCells.length}
           >
-            {/* CheckBox */}
-            {showCheckbox && (
-              <TableCell padding="checkbox">
-                <Checkbox
-                  onClick={event => {
-                    if (showCheckbox) handleClick(event, id);
-                  }}
-                  color="primary"
-                  checked={isItemSelected}
-                  inputProps={{
-                    'aria-labelledby': labelId,
-                  }}
-                  size="small"
-                />
-              </TableCell>
-            )}
+            No Data Found
+          </TableCell>
+        </TableRow>
+      ) : (
+        dataList.map(row => {
+          const id = row.uuid || row.id || row.uid;
+          const isItemSelected = isSelected(id);
+          const labelId = `enhanced-table-checkbox-${id}`;
+          return (
+            <TableRow
+              key={uuid()}
+              hover={hoverEffect}
+              role="checkbox"
+              aria-checked={isItemSelected}
+              tabIndex={-1}
+              selected={isItemSelected}
+              sx={{ cursor: 'pointer' }}
+            >
+              {/* CheckBox */}
+              {showCheckbox && (
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    onClick={event => {
+                      if (showCheckbox) handleClick(event, id);
+                    }}
+                    color="primary"
+                    checked={isItemSelected}
+                    inputProps={{
+                      'aria-labelledby': labelId,
+                    }}
+                    size="small"
+                  />
+                </TableCell>
+              )}
 
-            {/* Table Body Cells */}
-            {headCells.map(cell => (
-              <TableCell
-                key={cell.id + cell.id}
-                component="td"
-                id={labelId}
-                scope="row"
-                padding="normal"
-                align={cell.align || 'left'}
-                className={`text-capitalize ${handlegetCellClass(cell, row[cell.id])}`}
-                style={{ ...handlegetCellStyle(cell, row[cell.id]), fontSize: '0.80rem' }}
-              >
-                {renderCellValue(row, cell)}
-              </TableCell>
-            ))}
+              {/* Table Body Cells */}
+              {headCells.map(cell => (
+                <TableCell
+                  key={uuid()}
+                  component="td"
+                  id={labelId}
+                  scope="row"
+                  padding="normal"
+                  align={cell.align || 'left'}
+                  className={`text-capitalize ${handlegetCellClass(cell, row[cell.id])}`}
+                  style={{ ...handlegetCellStyle(cell, row[cell.id]), fontSize: '0.80rem' }}
+                >
+                  {renderCellValue(row, cell)}
+                </TableCell>
+              ))}
 
-            {/* Action Button */}
-            {customActionButton &&
-              customActionButton.map(btn => (
+              {/* Action Button */}
+              {customActionButton &&
+                customActionButton.map(btn => (
+                  <TableCell
+                    key={uuid}
+                    component="th"
+                    id={labelId}
+                    scope="row"
+                    padding="normal"
+                    align="center"
+                    style={{ fontSize: '0.80rem' }}
+                  >
+                    <Box onClick={() => btn.handleClick(row.id)}>{btn.element}</Box>
+                  </TableCell>
+                ))}
+              {/* Action Button */}
+              {actionButtonKey && (
                 <TableCell
                   component="th"
                   id={labelId}
@@ -144,40 +157,28 @@ function MuiTableBody({
                   align="center"
                   style={{ fontSize: '0.80rem' }}
                 >
-                  <Box onClick={() => btn.handleClick(row.id)}>{btn.element}</Box>
+                  <Button
+                    size="small"
+                    className="text-capitalize"
+                    sx={{ fontSize: 10, width: 70 }}
+                    onClick={() => handleTableBodyButtonAction(row.id)}
+                  >
+                    {row[actionButtonKey] ? 'Deactivate' : 'Activate'}
+                  </Button>
                 </TableCell>
-              ))}
-            {/* Action Button */}
-            {actionButtonKey && (
-              <TableCell
-                component="th"
-                id={labelId}
-                scope="row"
-                padding="normal"
-                align="center"
-                style={{ fontSize: '0.80rem' }}
-              >
-                <Button
-                  size="small"
-                  className="text-capitalize"
-                  sx={{ fontSize: 10, width: 70 }}
-                  onClick={() => handleTableBodyButtonAction(row.id)}
-                >
-                  {row[actionButtonKey] ? 'Deactivate' : 'Activate'}
-                </Button>
-              </TableCell>
-            )}
-          </TableRow>
-        );
-      })}
+              )}
+            </TableRow>
+          );
+        })
+      )}
       {customRows &&
         customRows.map(row => (
-          <TableRow key={row.id}>
+          <TableRow key={uuid(0)}>
             {row.column.map(col => (col.colSpan ? (
-              <TableCell colSpan={col.colSpan} />
+              <TableCell key={uuid()} colSpan={col.colSpan} />
             ) : (
               <TableCell
-                key={col.data}
+                key={uuid()}
                 align={col.align || 'left'}
                 sx={{ fontSize: '0.80rem', ...col.style }}
               >
@@ -194,7 +195,7 @@ MuiTableBody.propTypes = {
   headCells: PropTypes.arrayOf(PropTypes.object).isRequired,
   showCheckbox: PropTypes.bool,
   selected: PropTypes.array.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func,
   handleTableBodyButtonAction: PropTypes.func,
   actionButtonKey: PropTypes.string,
   customRows: PropTypes.array,
@@ -209,5 +210,6 @@ MuiTableBody.defaultProps = {
   customRows: null,
   customActionButton: null,
   hoverEffect: true,
+  handleClick: () => {},
 };
 export default MuiTableBody;

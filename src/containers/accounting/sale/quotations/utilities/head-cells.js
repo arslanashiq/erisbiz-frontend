@@ -1,6 +1,6 @@
 export const quotationsHeadCell = [
   {
-    id: 'quotation_date',
+    id: 'date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -43,6 +43,7 @@ export const quotationsHeadCell = [
     label: 'Status',
     align: 'right',
     class: value => {
+      if (!value) return '';
       const temp = value.toLowerCase();
       if (temp === 'invoiced') return 'color-primary';
       if (temp === 'draft') return 'color-silver';
@@ -79,13 +80,6 @@ export const quotationsHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Total (FCY)',
-    align: 'center',
-    mergeCell: true,
-  },
-  {
-    id: 'grand_total_aed',
-    disablePadding: false,
-    label: 'Total (BCY)',
     align: 'center',
     mergeCell: true,
   },

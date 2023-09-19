@@ -51,7 +51,6 @@ function BrandsListing() {
         <title>Brands - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
-      {/* {resp.isSuccess && resp?.data?.results?.length > 0 && ( */}
       <MuiTable
         data={brandsListResponse?.data?.results}
         TableHeading="Brands"
@@ -71,7 +70,6 @@ function BrandsListing() {
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />
-      {/* )} */}
     </SectionLoader>
   );
 }

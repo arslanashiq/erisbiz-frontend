@@ -1,28 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 // containers
 import AuthWrapper from 'containers/auth/components/AuthWrapper';
 
 function PublicRoutes({ children }) {
-  const user = useSelector(state => state.user);
-  if (user.isAuthenticated) {
-    if (user.isRegesteredCompany) {
-      const url = sessionStorage.getItem('lastUrl');
-      if (url) {
-        return <Navigate to={url} />;
+  const location = useLocation();
+  const { isAuthenticated, isRegesteredCompany } = useSelector(state => state.user);
+
+  if (isAuthenticated) {
+    if (isRegesteredCompany) {
+      if (location?.state) {
+        return <Navigate to={location.state} replace />;
       }
-      return <Navigate to="/" />;
+
+      return <Navigate to="/" replace />;
     }
-    return <Navigate to="/register-company" />;
+
+    return <Navigate to="/register-company" replace />;
   }
+
   return <AuthWrapper>{children}</AuthWrapper>;
 }
+
 PublicRoutes.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
 };
+
 PublicRoutes.defaultProps = {
   children: null,
 };
+
 export default PublicRoutes;

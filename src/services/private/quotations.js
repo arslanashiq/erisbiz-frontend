@@ -10,16 +10,70 @@ const quotationsApi = privateApi.injectEndpoints({
           offset: params.offset || 0,
         },
       }),
-      providesTags: ['getCustomersList'],
+      providesTags: ['getQuotationsList'],
+    }),
+    getSingleQuotation: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/quotations/${id}/`,
+        method: 'GET',
+      }),
+      providesTags: ['getSingleQuotation'],
+    }),
+    addQuotation: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/sales/quotations/',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getLatestQuatitonNumber', 'getQuotationsList'],
+    }),
+    editQuotation: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/sales/quotations/${id}/`,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: ['getSingleQuotation', 'getQuotationsList'],
     }),
     deleteQuotation: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/quotations/${id}/`,
         method: 'DELETE',
       }),
-      providesTags: ['getCustomersList'],
+      invalidatesTags: ['getLatestQuatitonNumber', 'getQuotationsList'],
+    }),
+    getLatestQuatitonNumber: builder.query({
+      query: () => ({
+        url: '/api/accounting/sales/quotations/latest',
+        method: 'GET',
+      }),
+      providesTags: ['getLatestQuatitonNumber'],
+    }),
+    uploadQuotationDocuments: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/sales/quotations/${id}/uploadDoc/`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getSingleQuotation'],
+    }),
+    deleteQuotationDocuments: builder.mutation({
+      query: ({ id }) => ({
+        url: `api/accounting/sales/quotations/docs/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['getSingleQuotation'],
     }),
   }),
 });
 
-export const { useGetQuotationsListQuery, useDeleteQuotationMutation } = quotationsApi;
+export const {
+  useGetQuotationsListQuery,
+  useDeleteQuotationMutation,
+  useEditQuotationMutation,
+  useAddQuotationMutation,
+  useGetLatestQuatitonNumberQuery,
+  useGetSingleQuotationQuery,
+  useUploadQuotationDocumentsMutation,
+  useDeleteQuotationDocumentsMutation,
+} = quotationsApi;

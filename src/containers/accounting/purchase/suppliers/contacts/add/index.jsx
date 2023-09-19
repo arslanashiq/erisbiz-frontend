@@ -67,7 +67,7 @@ function AddSupplierContact() {
                   setErrors(response.error.data);
                 }
               } catch (err) {
-                if (err.response && err.response.status === 400) {
+                if (err?.response?.status === 400) {
                   setSubmitting(true);
                   setErrors(err.response.data);
                   setSubmitting(false);

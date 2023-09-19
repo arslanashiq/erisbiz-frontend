@@ -23,6 +23,8 @@ import { CheckBoxField } from 'shared/components/form/CheckBox';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import ContactInfo from 'shared/components/form/ContactInfo';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
+// custom-hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utils
 import { supplierFormTabsList } from '../utilities/constants';
 import { supplierInitialValues } from '../utilities/constant';
@@ -33,30 +35,32 @@ import 'styles/form/form.scss';
 function SupplierAddPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState(supplierFormTabsList[0]);
+
   const countriesListResponse = useGetAllCountriesListQuery();
   const bankAccountResponse = useGetBankAccountsListQuery();
   const latestTransactionNumber = useGetLatestTransactionNumberQuery();
 
   const [addSupplier] = useAddSupplierMutation();
   const [editSupplier] = useEditSupplierMutation();
+
   const { initialValues: supplierFormInitialValues, setInitialValues } = useInitialValues(
     supplierInitialValues,
     useGetSingleSupplierQuery
   );
-
-  const countryOptions = countriesListResponse?.data?.data?.map(country => ({
-    value: `${country.country}`,
-    label: country.country,
-  }));
-  const bankAccountOptions = bankAccountResponse?.data?.results?.map(account => ({
-    value: account.chart_of_account.toString(),
-    label: account.bank_account_name,
-    swift_code: account.swift_code,
-    bank_name: account.bank_name,
-    account_number: account.account_number,
-    IBAN: account.IBAN,
-  }));
+  const { optionsList: countryOptions } = useListOptions(countriesListResponse?.data?.data, {
+    value: 'iso2',
+    label: 'country',
+  });
+  const { optionsList: bankAccountOptions } = useListOptions(
+    bankAccountResponse?.data?.results,
+    {
+      value: 'chart_of_account',
+      label: 'bank_account_name',
+    },
+    ['swift_code', 'bank_name', 'account_number', 'IBAN']
+  );
 
   const handleChangeBank = (setFieldValue, value) => {
     const selectedBank = bankAccountOptions.filter(account => value === account.value)[0];
@@ -65,44 +69,43 @@ function SupplierAddPage() {
     setFieldValue('account_number', selectedBank.account_number);
     setFieldValue('IBAN', selectedBank.IBAN);
   };
+  const handleSubmitForm = async (values, { setSubmitting, setErrors }) => {
+    let response = null;
+    if (id) {
+      response = await editSupplier({ id, payload: values });
+    } else {
+      const payload = {
+        ...values,
+        transaction_num: latestTransactionNumber.data?.latest_num
+          ? latestTransactionNumber.data.latest_num + 1
+          : 1,
+      };
+
+      response = await addSupplier(payload);
+    }
+    setSubmitting(false);
+    if (response.data) {
+      navigate(-1);
+    } else {
+      setErrors(response.error.data);
+    }
+    setSubmitting(false);
+  };
+
   useEffect(() => {
-    if (supplierFormInitialValues.set_credit_limit) {
+    if (supplierFormInitialValues.set_credit_limit && supplierFormInitialValues.credit_limit === false) {
       setInitialValues({ ...supplierFormInitialValues, credit_limit: true });
     }
-    if (supplierFormInitialValues.set_credit_terms) {
+    if (supplierFormInitialValues.set_credit_terms && supplierFormInitialValues.credit_terms === false) {
       setInitialValues({ ...supplierFormInitialValues, credit_terms: true });
     }
   }, [supplierFormInitialValues]);
+
   return (
     <Card>
       <CardContent>
         <FormHeader title="Supplier Master" />
-        <Formik
-          enableReinitialize
-          initialValues={supplierFormInitialValues}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
-            let response = null;
-            if (id) {
-              response = await editSupplier({ id, payload: values });
-            } else {
-              const payload = {
-                ...values,
-                transaction_num: latestTransactionNumber.data?.latest_num
-                  ? latestTransactionNumber.data.latest_num + 1
-                  : 1,
-              };
-
-              response = await addSupplier(payload);
-            }
-            setSubmitting(false);
-            if (response.data) {
-              navigate(-1);
-            } else {
-              setErrors(response.error.data);
-            }
-            setSubmitting(false);
-          }}
-        >
+        <Formik enableReinitialize initialValues={supplierFormInitialValues} onSubmit={handleSubmitForm}>
           {({ values, isSubmitting, touched, resetForm, setFieldValue, errors }) => (
             <Form className="form form--horizontal row pt-3">
               {/* supplier name */}
@@ -177,7 +180,6 @@ function SupplierAddPage() {
                     <div className="row">
                       <div className="form__form-group-field col-12">
                         <CheckBoxField
-                          setFieldValue={setFieldValue}
                           name="credit_limit"
                           onChange={e => {
                             setFieldValue('set_credit_limit', '');
@@ -231,7 +233,6 @@ function SupplierAddPage() {
                           setFieldValue('set_credit_terms', value);
                         }}
                         values={values}
-                        touched={touched}
                         errors={errors}
                       />
                     </div>

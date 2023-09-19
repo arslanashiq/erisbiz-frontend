@@ -9,7 +9,7 @@ function PaymentVoucherHistory({ PaymentVoucher }) {
         <Typography>Payment History</Typography>
       </Grid>
       <Grid item xs={12} sm={12} style={{ fontSize: 14 }}>
-        <Grid ite xs={12} style={{ width: '95%', margin: '0 auto' }}>
+        <Grid item xs={12} style={{ width: '95%', margin: '0 auto' }}>
           <Grid container className="p-2 border-top-bottom">
             <Grid item xs={3}>
               <Typography>Date</Typography>

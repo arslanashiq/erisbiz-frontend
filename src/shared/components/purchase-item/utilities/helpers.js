@@ -1,4 +1,4 @@
-import { CURRENCY_ID, VAT_CHARGES } from 'utilities/constants';
+import { VAT_CHARGES } from 'utilities/constants';
 
 export const handleChangeValues = (name, index, values, setFieldValue) => {
   const grossTotal = values.unit_price_ex_vat * values.num_nights;
@@ -23,7 +23,6 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
     setFieldValue(`${name}.${index}.net_amount`, netAmount.toFixed(2));
   }
   setFieldValue(`${name}.${index}.amount_ex_vat`, (grossTotal - values.discount).toFixed(2));
-  setFieldValue(`${name}.${index}.currency`, CURRENCY_ID);
 };
 export const handleChangeItem = (
   name,
@@ -36,7 +35,7 @@ export const handleChangeItem = (
   allValues
 ) => {
   const selectedItem = itemsListOptions.filter(item => item.label === value);
-  setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price);
+  setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   const newValues = {
     ...values,
@@ -56,7 +55,7 @@ export const hanldeVATChange = (name, index, key, value, values, setFieldValue, 
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeDiscount = (name, index, key, value, values, setFieldValue, allValues) => {
-  const newValues = { ...values, discount: value, credit_account: allValues.credit_account };
+  const newValues = { ...values, discount: Number(value), credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeChartOfAccount = (value, allValues, key, setFieldValue) => {

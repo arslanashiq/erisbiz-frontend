@@ -35,7 +35,7 @@ function FilterDrawer({ open, setOpen, children }) {
 FilterDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
 };
 FilterDrawer.defaultProps = {
   //   otherOptions: [],

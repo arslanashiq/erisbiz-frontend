@@ -3,8 +3,8 @@ import { Button, Stack } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
-import GroupedOptionsFormikSelect from 'shared/components/form/GroupedOptionsFormikSelect';
 import 'styles/form/form.scss';
+import FormikSelect from 'shared/components/form/FormikSelect';
 
 const itemFilterOptions = [
   { value: '', label: 'All', selectedValue: 'All Items' },
@@ -34,21 +34,12 @@ function ItemFilter() {
         }
       }}
     >
-      {({ isSubmitting, resetForm, setFieldValue, setFieldTouched, values, touched, errors }) => (
+      {({ isSubmitting, resetForm }) => (
         <Form className="form personlized-search-form row pt-3">
           <div className="form__form-group">
             <span className="form__form-group-label">Items</span>
             <div className="form__form-group-field">
-              <GroupedOptionsFormikSelect
-                name="filter"
-                type="text"
-                itemOptions={itemFilterOptions}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-                value={values.filter}
-                touched={touched.filter}
-                error={errors.filter}
-              />
+              <FormikSelect name="filter" type="text" options={itemFilterOptions} className="col-12" />
             </div>
           </div>
 

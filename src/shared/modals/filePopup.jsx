@@ -83,11 +83,10 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
               <Typography sx={{ textAlign: 'center', color: 'silver' }}>No Available Files</Typography>
             </Stack>
           )}
-          {files &&
-            files?.length > 0 &&
+          {files?.length > 0 &&
             files.map((file, index) => (
               <Stack
-                key={file.name || file.doc_name}
+                key={file?.name ?? file.doc_name}
                 direction="row"
                 spacing={2}
                 sx={{ borderBottom: 1, padding: '10px 10px' }}
@@ -101,9 +100,11 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
                   >
                     {file.doc_name || file.name}
                   </Typography>
+
                   <Stack direction="row" sx={{ fontSize: 11, color: 'grey' }}>
                     File Size:{convertFileSize(file.doc_size_bytes || file.size)}
                   </Stack>
+
                   <Stack direction="row" spacing={1}>
                     <Tooltip title="Download File" placement="top" arrow>
                       <IconButton size="small">

@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -94,9 +95,9 @@ function OrderVoucher({ orderDetail, keyValue }) {
               <p>Payment Date</p>
               <p>Payment Amount</p>
             </div>
-            {orderDetail[keyValue] &&
+            {orderDetail[keyValue]?.length > 0 &&
               orderDetail[keyValue].map(item => (
-                <div key={item.id} className="payment-details">
+                <div key={uuid()} className="payment-details">
                   {item.bill ? (
                     <Link to={`/pages/accounting/purchases/bills/${item.bill.id}/detail`}>
                       {item.bill.bill_num}

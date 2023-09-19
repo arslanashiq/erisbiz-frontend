@@ -73,7 +73,7 @@ OrderDocument.defaultProps = {
   showStatus: true,
   showItemsTable: true,
   showOrderVoucher: false,
-  handleChangeStatus: () => {},
+  handleChangeStatus: null,
 };
 
 export default OrderDocument;

@@ -49,8 +49,10 @@ function FormikFileField(props) {
   const handleConvertLinkToFile = async () => {
     if (!value) return;
     const valuesList = [...value];
+
     for (let i = 0; i < valuesList.length; i += 1) {
       const currentFile = { ...value[i] };
+
       if (currentFile.doc_file && typeof currentFile.doc_file === 'string') {
         const file = await convertURLToFile(currentFile.doc_file);
         const newValue = { ...currentFile, doc_file: file };
@@ -89,7 +91,7 @@ function FormikFileField(props) {
               id={name}
               accept={accept}
               multiple
-              className={`${value && value.length > 0 ? 'd-none' : 'd-auto'} inputfile inputfile-4`}
+              className={`${value?.length > 0 ? 'd-none' : 'd-auto'} inputfile inputfile-4`}
               onChange={event => {
                 event.preventDefault();
                 const target = [...event.target.files];
@@ -100,8 +102,8 @@ function FormikFileField(props) {
                 event.target.value = null;
               }}
             />
-            {value && value.length > 0 && (
-              <Stack className="border border-1" sx={{ height: 34, width: '100%', textAlign: 'start' }}>
+            {value?.length > 0 && (
+              <Stack className="border border-1 w-100 text-start" sx={{ height: 34 }}>
                 <Button variant="text" onClick={handleOpenModal}>
                   View Files
                 </Button>

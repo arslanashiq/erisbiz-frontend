@@ -13,7 +13,8 @@ import 'styles/topbar/topbar-profile.scss';
 
 const user = {
   profile: {
-    photo: 'https://crm-application-storages.s3.amazonaws.com/media/profile_photos/meta.jpg',
+    photo:
+      'https://crm-application-storages.s3.amazonaws.com/media/profile_photos/WhatsApp_Image_2023-07-27_at_12.16.48.jpg',
     employee_name: 'Accounting',
   },
 };

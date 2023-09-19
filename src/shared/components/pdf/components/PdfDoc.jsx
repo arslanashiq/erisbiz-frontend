@@ -10,7 +10,7 @@ import VoucherFooter from './VoucherFooter';
 function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTable }) {
   return (
     <MainComponent subject={orderInfo.type} title={orderInfo.type}>
-      <PDFHeader orderInfo={orderInfo} orderDetail={orderDetail} />
+      <PDFHeader orderInfo={orderInfo} />
       {showItemsTable && (
         <>
           <Items orderDetail={orderDetail} subTotalName="Grand Total" keyName={keyName} />

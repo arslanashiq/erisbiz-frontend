@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
@@ -60,7 +61,6 @@ const styles = StyleSheet.create({
 });
 
 function VoucherFooter({ orderDetail, keyName }) {
-  console.log(orderDetail, 'orderDetail');
   return (
     <View style={{ marginTop: 20 }}>
       <View>
@@ -86,7 +86,7 @@ function VoucherFooter({ orderDetail, keyName }) {
         </View>
         {orderDetail[keyName] &&
           orderDetail[keyName].map(item => (
-            <View key={item.id} style={styles.tableRow}>
+            <View key={uuid()} style={styles.tableRow}>
               <View style={styles.tableCol}>
                 {item.bill ? (
                   <Text style={[styles.tableCell, { textAlign: 'center' }]}>{item.bill.bill_num}</Text>

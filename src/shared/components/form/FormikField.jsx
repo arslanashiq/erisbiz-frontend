@@ -17,11 +17,12 @@ function FormikField({
   isRequired,
   endIcon,
   endIconClick,
+  labelClassName,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
 
-  const { onChange: onValueChange, onBlur: onFieldBlur, value } = field;
+  const { onChange: onValueChange, onBlur: onFieldBlur, value, ...restFieldProps } = field;
   const { touched, error } = meta;
 
   const handleChange = event => {
@@ -40,14 +41,16 @@ function FormikField({
   return (
     <div className={`form__form-group align-items-center ${className}`}>
       {label && (
-        <span className={`form__form-group-label col-lg-3 ${isRequired ? 'required' : ''}`}>{label}</span>
+        <span className={`form__form-group-label ${labelClassName} ${isRequired ? 'required' : ''}`}>
+          {label}
+        </span>
       )}
       <div className="form__form-group-field">
         {startIcon && <div className="form__form-group-icon cursor-pointer">{startIcon}</div>}
         <div className="w-100">
           {textArea && (
             <textarea
-              {...field}
+              {...restFieldProps}
               {...restProps}
               className={`${textRight ? 'text-right' : ''} ${inputClassName}`}
               value={value}
@@ -61,7 +64,7 @@ function FormikField({
               {...restProps}
               type={type}
               className={`${textRight ? 'text-right' : ''} ${inputClassName}`}
-              value={value}
+              value={value || ''}
               onChange={handleChange}
               onBlur={handleBlur}
             />
@@ -94,6 +97,7 @@ FormikField.propTypes = {
   isRequired: PropTypes.bool,
   endIcon: PropTypes.element,
   endIconClick: PropTypes.func,
+  labelClassName: PropTypes.string,
 };
 
 FormikField.defaultProps = {
@@ -102,6 +106,7 @@ FormikField.defaultProps = {
   textRight: false,
   disabled: false,
   className: 'col-md-6',
+  labelClassName: 'col-lg-3',
   inputClassName: '',
   placeholder: '',
   startIcon: null,

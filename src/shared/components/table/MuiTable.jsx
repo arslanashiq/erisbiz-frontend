@@ -54,7 +54,7 @@ export default function MuiTable({
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelected = data.map(n => n.id || n.uid);
+      const newSelected = data.map(n => n.uuid || n.id || n.uid);
       setSelected(newSelected);
       return;
     }
@@ -125,7 +125,6 @@ export default function MuiTable({
     ),
     [data, otherOptions, order, orderBy, page, rowsPerPage]
   );
-
   return (
     <SectionLoader options={[data === undefined, data === null]}>
       <Box sx={{ width: '100%' }}>

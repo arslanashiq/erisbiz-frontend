@@ -24,7 +24,9 @@ export default function FilterDropdown({ initialValue, filterList, setFilterValu
         onChange={handleChange}
       >
         {filterList.map(filter => (
-          <MenuItem value={filter.value}>{filter.label}</MenuItem>
+          <MenuItem key={filter.value} value={filter.value}>
+            {filter.label}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

@@ -4,7 +4,7 @@ export const itemsInitialValues = {
   sale_price: '',
   cost_price: '',
   item_type: 'Goods',
-  is_active: 'true',
+  is_active: true,
   account_no: '',
   bar_code: '',
   unit: 'kg',

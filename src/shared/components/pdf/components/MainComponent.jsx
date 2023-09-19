@@ -35,7 +35,7 @@ MainComponent.propTypes = {
   pageSize: PropTypes.string,
   subject: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 MainComponent.defaultProps = {

@@ -1,12 +1,12 @@
 import moment from 'moment';
 
 export const purchaseInvoiceInitialValue = {
-  date: moment().format('YYYY-MM-DD'),
+  invoice_date: moment().format('yyyy-MM-dd'),
   pur_order_id: '',
   location: '',
   supplier_id: '',
   refrence_number: '',
-  bill_docs: '',
+  bill_docs: [],
   bill_items: [
     {
       item: '',
@@ -30,7 +30,6 @@ export const purchaseInvoiceInitialValue = {
   currency_id: null,
   convert_to_aed: true,
   exchange_rate: 1,
-  pur_order_date: moment().format('YYYY-MM-DD'),
   event: '',
   tax_treatment: '',
   trn: '',

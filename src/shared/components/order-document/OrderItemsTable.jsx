@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import formatAmount from 'utilities/formatAmount';
 
@@ -20,11 +21,9 @@ function OrderItemsTable({ orderDetail, keyValue }) {
         </thead>
         {/* Detail */}
         <tbody>
-          {orderDetail &&
-            orderDetail[keyValue] &&
-            orderDetail[keyValue].length > 0 &&
+          {orderDetail[keyValue]?.length > 0 &&
             orderDetail[keyValue].map(item => (
-              <tr key={item.id}>
+              <tr key={uuid()}>
                 <td style={{ textAlign: 'left', padding: '3px 20px' }}>{item.service_type}</td>
                 <td>{item.currency_symbol}</td>
                 <td>{item.num_nights}</td>

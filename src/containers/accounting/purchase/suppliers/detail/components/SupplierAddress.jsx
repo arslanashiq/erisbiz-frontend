@@ -7,7 +7,7 @@ function SupplierAddress({ address }) {
   return (
     <SupplierOverviewAccordionWrapper title="Address">
       {address.map(item => (
-        <div className="row justify-content-center align-items-center mb-3">
+        <div key={item.label} className="row justify-content-center align-items-center mb-3">
           <div className="col-5">
             <h5 className="supplier-overview-title">{item.label}</h5>
           </div>

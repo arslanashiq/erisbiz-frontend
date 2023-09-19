@@ -109,12 +109,14 @@ function PaymentVoucherDetail() {
             showOrderVoucher
           />
 
-          <Grid style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
-            <PaymentVoucherHistory PaymentVoucher={PaymentVoucherDetailResponse.data} />
-            <Grid marginTop={4} id="Journal">
-              {paymenyVoucherJournalResponse?.data?.map(journalItems => (
-                <JournalTable journalItems={journalItems?.payment_made_journal_items} />
-              ))}
+          <Grid container>
+            <Grid item xs={12} style={{ maxWidth: 900, margin: '20px auto' }}>
+              <PaymentVoucherHistory PaymentVoucher={PaymentVoucherDetailResponse.data} />
+              <Grid marginTop={4} id="Journal">
+                {paymenyVoucherJournalResponse?.data?.map(journalItems => (
+                  <JournalTable key={Math.random()} journalItems={journalItems?.payment_made_journal_items} />
+                ))}
+              </Grid>
             </Grid>
           </Grid>
         </CardContent>

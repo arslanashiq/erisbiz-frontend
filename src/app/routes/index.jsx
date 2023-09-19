@@ -1,5 +1,3 @@
-/* eslint-disable function-paren-newline */
-/* eslint-disable implicit-arrow-linebreak */
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import GlobalLoader from 'containers/common/loaders/GlobalLoader';
@@ -39,7 +37,12 @@ const SupplierContactAddPage = lazy(() => import('containers/accounting/purchase
 
 // Reports
 const ReportsListPage = lazy(() => import('containers/reports'));
-const SupplierBalancePage = lazy(() => import('containers/reports/components/payables/SupplierBalance'));
+const ReportSupplierBalancePage = lazy(() => import('containers/reports/components/payables/SupplierBalance'));
+const ReportApAgingSummaryPage = lazy(() => import('containers/reports/components/payables/ApAgingSummary'));
+const ReportApAgingDetailPage = lazy(() => import('containers/reports/components/payables/ApAgingDetail'));
+const ReportBillDetailsPage = lazy(() => import('containers/reports/components/payables/BillDetails'));
+const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/components/payables/PaymentsMade'));
+const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/components/payables/PurchaseOrderDetail'));
 
 // Purchase Order
 const PurchaseOrderListingPage = lazy(() => import('containers/accounting/purchase/purchase-orders/listing'));
@@ -47,25 +50,17 @@ const PurchaseOrderDetailPage = lazy(() => import('containers/accounting/purchas
 const AddPurchaseOrderPage = lazy(() => import('containers/accounting/purchase/purchase-orders/add'));
 
 // Purchase Invoice
-const PurchaseInvoiceListingPage = lazy(() =>
-  import('containers/accounting/purchase/purchase-invoice/listing')
-);
+const PurchaseInvoiceListingPage = lazy(() => import('containers/accounting/purchase/purchase-invoice/listing'));
 const AddPurchaseInvoicePage = lazy(() => import('containers/accounting/purchase/purchase-invoice/add'));
-const PurchaseInvoiceDetailPage = lazy(() =>
-  import('containers/accounting/purchase/purchase-invoice/detail')
-);
+const PurchaseInvoiceDetailPage = lazy(() => import('containers/accounting/purchase/purchase-invoice/detail'));
 
 // payment Voucher
-const PaymentVoucherListingPage = lazy(() =>
-  import('containers/accounting/purchase/payment-voucher/listing')
-);
+const PaymentVoucherListingPage = lazy(() => import('containers/accounting/purchase/payment-voucher/listing'));
 const AddPaymentVoucherPage = lazy(() => import('containers/accounting/purchase/payment-voucher/add'));
 const PaymentVoucherDetailPage = lazy(() => import('containers/accounting/purchase/payment-voucher/detail'));
 
 // Debit Notes
-const SupplierCreditListingPage = lazy(() =>
-  import('containers/accounting/purchase/supplier-credit/listing')
-);
+const SupplierCreditListingPage = lazy(() => import('containers/accounting/purchase/supplier-credit/listing'));
 const AddSupplierCreditPage = lazy(() => import('containers/accounting/purchase/supplier-credit/add'));
 const SupplierCreditDetailPage = lazy(() => import('containers/accounting/purchase/supplier-credit/detail'));
 
@@ -82,9 +77,11 @@ const CustomerDetailPage = lazy(() => import('containers/accounting/sale/custome
 // quotations
 const QuotationListingPage = lazy(() => import('containers/accounting/sale/quotations/listing'));
 const AddQuotationPage = lazy(() => import('containers/accounting/sale/quotations/add'));
+const QuotationDetailPage = lazy(() => import('containers/accounting/sale/quotations/detail'));
 // Performa Invoices
 const PerformaInvoiceListingPage = lazy(() => import('containers/accounting/sale/performa-invoices/listing'));
 const AddPerformaInvoicePage = lazy(() => import('containers/accounting/sale/performa-invoices/add'));
+const PerformaInvoiceDetailPage = lazy(() => import('containers/accounting/sale/performa-invoices/detail'));
 
 //  Invoices
 const InvoiceListingPage = lazy(() => import('containers/accounting/sale/invoices/listing'));
@@ -124,7 +121,12 @@ function AppRoutes() {
                 {/* Reports */}
                 <Route path="reports" element={<Outlet />}>
                   <Route path="" index element={<ReportsListPage />} />
-                  <Route path="supplierBalances" element={<SupplierBalancePage />} />
+                  <Route path="supplier-balances" element={<ReportSupplierBalancePage />} />
+                  <Route path="ap-aging-summary" element={<ReportApAgingSummaryPage />} />
+                  <Route path="ap-aging-details" element={<ReportApAgingDetailPage />} />
+                  <Route path="bill-details" element={<ReportBillDetailsPage />} />
+                  <Route path="payments-made" element={<ReportPaymentsMadeDetailPage />} />
+                  <Route path="purchase-order-details" element={<ReportPurchaseOrderDetailPage />} />
                 </Route>
                 <Route path="accounting" element={<Outlet />}>
                   {/* Banking Master */}
@@ -215,12 +217,14 @@ function AppRoutes() {
                       <Route path="" index element={<QuotationListingPage />} />
                       <Route path="add" element={<AddQuotationPage />} />
                       <Route path="edit/:id" element={<AddQuotationPage />} />
+                      <Route path=":id/detail" element={<QuotationDetailPage />} />
                     </Route>
                     {/* performa-invoice */}
                     <Route path="performa-invoice" element={<Outlet />}>
                       <Route path="" index element={<PerformaInvoiceListingPage />} />
                       <Route path="add" element={<AddPerformaInvoicePage />} />
                       <Route path="edit/:id" element={<AddPerformaInvoicePage />} />
+                      <Route path=":id/detail" element={<PerformaInvoiceDetailPage />} />
                     </Route>
                     {/* invoice */}
                     <Route path="invoice" element={<Outlet />}>

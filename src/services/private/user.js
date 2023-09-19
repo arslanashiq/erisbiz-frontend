@@ -2,7 +2,7 @@ import { privateApi } from './index';
 
 const userApi = privateApi.injectEndpoints({
   endpoints: builder => ({
-    loadUser: builder.mutation({
+    loadUser: builder.query({
       query: () => 'api/auth/user',
     }),
     getRecentActivity: builder.query({
@@ -32,4 +32,4 @@ const userApi = privateApi.injectEndpoints({
   }),
 });
 
-export const { useLoadUserMutation, useGetRecentActivityQuery, useRegisterCompanyMutation } = userApi;
+export const { useLoadUserQuery, useGetRecentActivityQuery, useRegisterCompanyMutation } = userApi;

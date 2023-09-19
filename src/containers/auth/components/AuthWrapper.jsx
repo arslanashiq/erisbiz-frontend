@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import { Outlet } from 'react-router';
-// import PropTypes from 'prop-types';
 import AuthLeftSection from 'shared/components/auth-left-section/AuthLeftSection';
 // styles
 import 'styles/form/auth-form.scss';
@@ -18,9 +17,5 @@ function AuthWrapper() {
     </Grid>
   );
 }
-
-// AuthWrapper.propTypes = {
-//   children: PropTypes.element.isRequired,
-// };
 
 export default AuthWrapper;

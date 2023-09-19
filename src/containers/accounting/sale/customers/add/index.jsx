@@ -25,6 +25,8 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import CreditTermsRadioButtons from 'containers/accounting/purchase/suppliers/add/components/CreditTermsRadioButtons';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utlilities
 import { customerFormTabsList } from '../utilities/constant';
 import { customerFormInitialValues } from '../utilities/initialValues';
@@ -39,14 +41,15 @@ function AddCustomer() {
   const [addCustomer] = useAddCustomerMutation();
   const [editCustomer] = useEditCustomerMutation();
 
-  const countriesOption = countriesResponse?.data?.data?.map(country => ({
-    value: country.iso2,
-    label: country.country,
-  }));
+  const { optionsList: countriesOption } = useListOptions(countriesResponse?.data?.data, {
+    label: 'country',
+    value: 'iso2',
+  });
   const { initialValues, setInitialValues } = useInitialValues(
     customerFormInitialValues,
     useGetSingleCustomerQuery
   );
+
   const handleCopyValue = (values, setFieldValue) => {
     setFieldValue('delivery_address_line1', values.invoice_address_line1);
     setFieldValue('delivery_address_line2', values.invoice_address_line2);
@@ -56,16 +59,15 @@ function AddCustomer() {
     setFieldValue('delivery_latitude', values.invoice_latitude);
     setFieldValue('delivery_longitude', values.invoice_longitude);
   };
+
   useEffect(() => {
-    if (initialValues.credit_limit !== false || initialValues.credit_limit !== true) {
-      setInitialValues({
-        ...initialValues,
-        credit_limit: initialValues.set_credit_limit > 0 || false,
-        credit_terms: initialValues.set_credit_terms.length > 0 || false,
-      });
+    if (initialValues.set_credit_limit && initialValues.credit_limit === false) {
+      setInitialValues({ ...initialValues, credit_limit: true });
+    }
+    if (initialValues.set_credit_terms && initialValues.credit_terms === false) {
+      setInitialValues({ ...initialValues, credit_terms: true });
     }
   }, [initialValues]);
-
   return (
     <Card>
       <CardContent>
@@ -73,23 +75,22 @@ function AddCustomer() {
         <Formik
           enableReinitialize
           initialValues={initialValues}
-          onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+          onSubmit={async (values, { setErrors, resetForm }) => {
             let response = null;
             if (id) {
               response = await editCustomer({ payload: values, id });
             } else {
               response = await addCustomer(values);
             }
-            setSubmitting(false);
             if (response.error) {
               setErrors(response.error.data);
-            } else {
-              resetForm();
-              navigate(-1);
+              return;
             }
+            resetForm();
+            navigate(-1);
           }}
         >
-          {({ values, errors, touched, setFieldValue }) => (
+          {({ values, errors, setFieldValue }) => (
             <Form className="form form--horizontal row pt-3">
               {/* supplier name */}
               <FormikField
@@ -340,7 +341,6 @@ function AddCustomer() {
                             setFieldValue('set_credit_terms', value);
                           }}
                           values={values}
-                          touched={touched}
                           errors={errors}
                         />
                       </div>

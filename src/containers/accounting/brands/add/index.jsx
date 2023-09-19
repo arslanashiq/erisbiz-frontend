@@ -12,7 +12,10 @@ import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { brandInitialValue } from '../utilities/constants';
 // styles
@@ -25,13 +28,14 @@ function AddBrand() {
   const [addBrand] = useAddBrandMutation();
   const [editBrand] = useEditBrandMutation();
   const { initialValues } = useInitialValues(brandInitialValue, useGetSingleBrandQuery);
-  const brandsRegionOptions = countriesResponse?.data?.data?.map(country => ({
-    value: country.iso2,
-    label: country.country,
-  }));
+
+  const { optionsList: brandsRegionOptions } = useListOptions(countriesResponse?.data?.data, {
+    label: 'country',
+    value: 'iso2',
+  });
 
   return (
-    <>
+    <SectionLoader options={[brandsRegionOptions.length === 0]}>
       <Helmet>
         <title>Brands - ErisBiz</title>
         <meta name="description" content="CRM - Luxury Explorers" />
@@ -43,7 +47,7 @@ function AddBrand() {
             enableReinitialize
             initialValues={initialValues}
             // validationSchema={bankFormValidationSchema}
-            onSubmit={async (values, { setSubmitting, setErrors }) => {
+            onSubmit={async (values, { setErrors }) => {
               try {
                 let response = null;
                 if (id) {
@@ -51,7 +55,7 @@ function AddBrand() {
                 } else {
                   response = await addBrand(values);
                 }
-                setSubmitting(false);
+
                 if (response.data) {
                   navigate(-1);
                 }
@@ -59,12 +63,8 @@ function AddBrand() {
                   setErrors(response.error.data);
                 }
               } catch (err) {
-                if (err.response && err.response.status === 400) {
-                  setSubmitting(true);
+                if (err?.response?.status === 400) {
                   setErrors(err.response.data);
-                  setSubmitting(false);
-                } else {
-                  // doReturnErrors(err.response.data, err.response.status);
                 }
               }
             }}
@@ -86,7 +86,7 @@ function AddBrand() {
           </Formik>
         </CardContent>
       </Card>
-    </>
+    </SectionLoader>
   );
 }
 

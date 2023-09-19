@@ -141,7 +141,7 @@ export default function TransactionAccordionWithFilter({
             <TablePagination
               rowsPerPageOptions={[5, 10, 15]}
               component="div"
-              count={keyName ? response?.data?.[keyName]?.length : response?.data?.count}
+              count={keyName ? response?.data?.[keyName]?.length ?? 0 : response?.data?.count ?? 0}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

@@ -19,6 +19,7 @@ function RecentActivity() {
     setAnchorEl(null);
   };
   const recentActivity = useGetRecentActivityQuery();
+
   const getActivityIcon = type => {
     switch (type) {
       case 'Invoice' || 'Invoice Payment' || 'Credit Note' || 'Payment Made':

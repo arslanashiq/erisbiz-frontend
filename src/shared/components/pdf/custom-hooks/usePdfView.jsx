@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
 import React, { useEffect, useState } from 'react';
 import printJS from 'print-js';
 import { saveAs } from 'file-saver';

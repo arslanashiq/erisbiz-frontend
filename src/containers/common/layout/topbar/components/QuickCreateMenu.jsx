@@ -8,38 +8,19 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { generalOptions, purchaseOptions, salesOptions } from '../utilities/constant';
 import 'styles/topbar/quick-create-menu.scss';
 
-const generalOptions = [
-  { label: 'Item', to: '/pages/accounting/items/add' },
-  { label: 'Journal Entry', to: '/pages/accounting/accountant/journals/add' },
-  { label: 'Bank Account', to: '/pages/accounting/banking/add' },
-];
-const salesOptions = [
-  { label: 'Account', to: '/pages/accounting/sales/accounts/add' },
-  { label: 'Customer', to: '/pages/accounting/sales/customers/add' },
-  { label: 'Quotation', to: '/pages/accounting/sales/quotations/add' },
-  { label: 'Proforma Invoice', to: '/pages/accounting/sales/proforma-invoices/add' },
-  { label: 'Invoice', to: '/pages/accounting/sales/invoices/add' },
-  { label: 'Payment Received', to: '/pages/accounting/sales/payments-received/add' },
-  { label: 'Credit Note', to: '/pages/accounting/sales/credit-notes/add' },
-];
-const purchaseOptions = [
-  { label: 'Supplier', to: '/pages/accounting/purchase/suppliers/add' },
-  { label: 'Expense', to: '/pages/accounting/purchase/expenses/add' },
-  { label: 'Purchase Order', to: '/pages/accounting/purchase/purchase-orders/add' },
-  { label: 'Debit Notes', to: '/pages/accounting/purchase/debit-notes/add' },
-  { label: 'Payment Made', to: '/pages/accounting/purchase/-made/add' },
-];
 function QuickCreateMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const open = !!anchorEl;
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <div>
       <Tooltip title="Quick Create" placement="bottom" arrow>
@@ -70,12 +51,17 @@ function QuickCreateMenu() {
             </Stack>
 
             {generalOptions.map(option => (
-              <MenuItem key={option.label} className="menu-item">
-                <AddIcon className="menu-item-icon" />
-                <Link style={{ textDecoration: 'none' }} to={option.to}>
+              <Stack
+                direction="row"
+                key={option.label}
+                style={{ textDecoration: 'none' }}
+                onClick={handleClose}
+              >
+                <MenuItem className="menu-item">
+                  <AddIcon className="menu-item-icon" />
                   <Typography className="menu-item-label">{option.label}</Typography>
-                </Link>
-              </MenuItem>
+                </MenuItem>
+              </Stack>
             ))}
           </Box>
 
@@ -86,12 +72,12 @@ function QuickCreateMenu() {
             </Stack>
 
             {salesOptions.map(option => (
-              <MenuItem key={option.label} className="menu-item">
-                <AddIcon className="menu-item-icon" />
-                <Link style={{ textDecoration: 'none' }} to={option.to}>
+              <Link key={option.label} style={{ textDecoration: 'none' }} to={option.to}>
+                <MenuItem className="menu-item">
+                  <AddIcon className="menu-item-icon" />
                   <Typography className="menu-item-label">{option.label}</Typography>
-                </Link>
-              </MenuItem>
+                </MenuItem>
+              </Link>
             ))}
           </Box>
           <Box>
@@ -101,12 +87,12 @@ function QuickCreateMenu() {
             </Stack>
 
             {purchaseOptions.map(option => (
-              <MenuItem key={option.label} className="menu-item">
-                <AddIcon className="menu-item-icon" />
-                <Link style={{ textDecoration: 'none' }} to={option.to}>
+              <Link key={option.label} style={{ textDecoration: 'none' }} to={option.to}>
+                <MenuItem className="menu-item">
+                  <AddIcon className="menu-item-icon" />
                   <Typography className="menu-item-label">{option.label}</Typography>
-                </Link>
-              </MenuItem>
+                </MenuItem>
+              </Link>
             ))}
           </Box>
         </Box>
