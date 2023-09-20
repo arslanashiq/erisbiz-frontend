@@ -16,32 +16,26 @@ export const quotationsHeadCell = [
     isLink: true,
   },
   {
-    id: 'sales_account_name',
+    id: 'customer_info',
     numeric: true,
     disablePadding: false,
-    label: 'Sales Account Name',
-    align: 'right',
+    label: 'Customer Name',
+    align: 'left',
+    cellValueAction: customerInfo => customerInfo.customer_name,
   },
-  {
-    id: 'sales_company_name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Company Name',
-    align: 'right',
-  },
-  {
-    id: 'sales_person',
-    numeric: true,
-    disablePadding: false,
-    label: 'Sale Person',
-    align: 'right',
-  },
+  // {
+  //   id: 'sales_person',
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: 'Sale Person',
+  //   align: 'right',
+  // },
   {
     id: 'status',
     numeric: true,
     disablePadding: false,
     label: 'Status',
-    align: 'right',
+    align: 'ledt',
     class: value => {
       if (!value) return '';
       const temp = value.toLowerCase();
@@ -52,19 +46,19 @@ export const quotationsHeadCell = [
       return '';
     },
   },
-  {
-    id: 'created_by_employee_name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Added By',
-    align: 'right',
-  },
+  // {
+  //   id: 'created_by_employee_name',
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: 'Added By',
+  //   align: 'right',
+  // },
   {
     id: 'without_change_amount_total',
     numeric: true,
     disablePadding: false,
     label: 'Gross Total',
-    align: 'center',
+    align: 'left',
     mergeCell: true,
   },
   {

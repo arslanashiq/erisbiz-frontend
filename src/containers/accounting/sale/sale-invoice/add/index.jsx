@@ -33,6 +33,8 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
+import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { saleInvoiceInitialValues } from '../utilities/initialValues';
@@ -44,32 +46,38 @@ function AddInvoice() {
   const itemsListResponse = useGetItemsListQuery();
   const customerListResponse = useGetCustomersListQuery();
   const performaInvoiceListResponse = useGetPerformaInvoicesListQuery();
+
   const [addSaleInvoice] = useAddSaleInvoicesMutation();
   const [editSaleInvoice] = useEditSaleInvoicesMutation();
+
   const { initialValues } = useInitialValues(saleInvoiceInitialValues, useGetSingleSaleInvoiceQuery);
-  const customersOptions = customerListResponse?.data?.results?.map(supplier => ({
-    value: supplier.id,
-    label: supplier.customer_name,
-  }));
-  const performaInvoiceOptions = performaInvoiceListResponse?.data?.results?.map(performaInvoice => ({
-    value: performaInvoice.id,
-    label: performaInvoice.pro_invoice_formatted_number,
-    pro_invoice_items: performaInvoice.pro_invoice_items,
-    customer: performaInvoice.customer,
-    quotation: performaInvoice.quotation,
-  }));
-  const itemsListOptions = itemsListResponse?.data?.results?.map(item => ({
-    label: item?.item_name,
-    value: item?.item_name,
-    price: item?.sale_price,
-  }));
+  const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
+    value: 'id',
+    label: 'customer_name',
+  });
+  const { optionsList: performaInvoiceOptions } = useListOptions(
+    performaInvoiceListResponse?.data?.results,
+    {
+      value: 'id',
+      label: 'pro_invoice_formatted_number',
+    },
+    ['pro_invoice_items', 'customer', 'quotation']
+  );
+  const { optionsList: itemsListOptions } = useListOptions(
+    itemsListResponse?.data?.results,
+    {
+      value: 'item_name',
+      label: 'item_name',
+    },
+    ['sale_price']
+  );
   const saleInvoiceInputList = useMemo(
     () => [
       {
         name: 'service_type',
         placeholder: 'Item',
         isSelect: true,
-        options: itemsListOptions || [],
+        options: itemsListOptions,
         width: '15%',
         onChange: handleChangeItem,
       },
@@ -114,6 +122,7 @@ function AddInvoice() {
     ],
     [itemsListOptions]
   );
+
   const handleChangePerformaInvoice = (value, setFieldValue) => {
     const selectedPerformaInvoice = performaInvoiceOptions.filter(
       performaInvoice => performaInvoice.value === value

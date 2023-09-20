@@ -31,6 +31,7 @@ function DetailPageHeader({
   setOpenPopup,
   handlePrint,
   pdfOptions,
+  navigateAfterDelete,
 }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ function DetailPageHeader({
   const handleDeleteItem = async () => {
     await deleteItem(id);
     enqueueSnackbar('Purchase Order Deleted', { variant: 'success' });
-    navigate('/pages/accounting/purchase/purchase-orders');
+    navigate(navigateAfterDelete);
   };
   const handleUploadDocfile = async file => {
     await addDocument(id, file, uploadDocument, enqueueSnackbar);
@@ -145,6 +146,7 @@ DetailPageHeader.propTypes = {
   setOpenPopup: PropTypes.func.isRequired,
   handlePrint: PropTypes.func,
   pdfOptions: PropTypes.object,
+  navigateAfterDelete: PropTypes.string,
 };
 DetailPageHeader.defaultProps = {
   title: '',
@@ -154,6 +156,7 @@ DetailPageHeader.defaultProps = {
   orderDetail: {},
   handlePrint: null,
   pdfOptions: null,
+  navigateAfterDelete: '/',
   useUploadDocumentFileMutation: () => [() => {}],
   useDeleteDocumentFileMutation: () => [() => {}],
 };

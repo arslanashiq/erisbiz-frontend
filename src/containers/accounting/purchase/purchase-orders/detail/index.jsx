@@ -91,6 +91,7 @@ function PurchaseOrderDetail() {
           showItemsTable: true,
           showVoucherTable: false,
         }}
+        navigateAfterDelete="/pages/accounting/purchase/purchase-orders"
       />
       <Card>
         <CardContent>

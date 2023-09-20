@@ -70,21 +70,23 @@ function SaleInvoiceDetailPage() {
     }),
     [saleInvoiceDetailResponse]
   );
-  const quotationsActionList = useMemo(
+  const saleInvoiceActionList = useMemo(
     () => [
       {
         label: 'Edit',
         handleClick: () => {
-          navigate(`/pages/accounting/sales/quotations/edit/${id}`);
+          navigate(`/pages/accounting/sales/sale-invoice/edit/${id}`);
         },
       },
       {
         label: 'Delete',
         handleClick: () => {
           let infoDescription =
-            'You cannot delete this Purchase Order beacuse this order is used in purchase invoice';
+            'You cannot delete this Sale Invoice  beacuse this is used in purchase Receipt Vouchers';
           let showActionButton = false;
-          const cantDelete = saleInvoiceDetailResponse.data.status === 'closed';
+          const cantDelete =
+            saleInvoiceDetailResponse.data.status === 'paid' ||
+            saleInvoiceDetailResponse.data.status === 'partially paid';
           if (!cantDelete) {
             infoDescription = 'Are you sure you want to delete?';
             showActionButton = true;
@@ -96,7 +98,6 @@ function SaleInvoiceDetailPage() {
             infoDescription,
             showActionButton,
           });
-          // setOpenPopup({ ...openPopup, open: true });
         },
       },
     ],
@@ -110,7 +111,7 @@ function SaleInvoiceDetailPage() {
         keyValue={keyValue}
         orderInfo={orderInfo}
         orderDetail={saleInvoiceDetailResponse?.data}
-        actionsList={quotationsActionList}
+        actionsList={saleInvoiceActionList}
         useDeleteItemMutation={useDeleteSaleInvoiceMutation}
         useUploadDocumentFileMutation={useUploadSaleInvoiceDocumentsMutation}
         useDeleteDocumentFileMutation={useDeleteSaleInvoiceDocumentsMutation}
@@ -120,6 +121,7 @@ function SaleInvoiceDetailPage() {
           showItemsTable: true,
           showVoucherTable: false,
         }}
+        navigateAfterDelete="/pages/accounting/sales/sale-invoice"
       />
       <Card>
         <CardContent>

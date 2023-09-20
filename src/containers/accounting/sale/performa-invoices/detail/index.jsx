@@ -117,6 +117,7 @@ function PerformaInvoiceDetail() {
           showItemsTable: true,
           showVoucherTable: false,
         }}
+        navigateAfterDelete="/pages/accounting/sales/performa-invoice"
       />
       <Card>
         <CardContent>

@@ -4,7 +4,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getReceiptVoucherList: builder.query({
       query: params => ({
-        url: 'api/accounting/sales/paymentsReceived',
+        url: 'api/accounting/sales/paymentsReceived/',
         params,
       }),
       providesTags: ['getReceiptVoucherList'],
@@ -37,6 +37,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         url: `api/accounting/sales/paymentsReceived/${id}/`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['getReceiptVoucherList'],
     }),
   }),
 });

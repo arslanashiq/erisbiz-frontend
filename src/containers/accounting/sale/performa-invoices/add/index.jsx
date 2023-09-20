@@ -44,7 +44,7 @@ import 'styles/form/form.scss';
 function AddPerformaInvoice() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { initialValues, setInitialValues } = useInitialValues(
+  const { initialValues } = useInitialValues(
     proformaInvoicesInitialValues,
     useGetSinglePerformaInvoiceQuery,
     null,
@@ -123,13 +123,10 @@ function AddPerformaInvoice() {
     ],
     [itemsListOptions]
   );
-  const handleChangeQuotationNumber = value => {
+  const handleChangeQuotationNumber = (value, setFieldValue) => {
     const selectedQuotation = quotationsListResponse.data.results.filter(quotation => quotation.id === value);
     if (selectedQuotation.length > 0) {
-      setInitialValues({
-        ...initialValues,
-        pro_invoice_items: selectedQuotation[0].quotation_items,
-      });
+      setFieldValue('pro_invoice_items', selectedQuotation[0].quotation_items);
     }
   };
 
@@ -155,7 +152,6 @@ function AddPerformaInvoice() {
                 vat_rate: item.vat_rate,
                 amount_ex_vat: item.amount_ex_vat,
               }));
-              console.log(values, 'asdsad');
               const payload = {
                 ...values,
                 pro_invoice_docs: values.filesList || values.pro_invoice_docs,
@@ -187,78 +183,86 @@ function AddPerformaInvoice() {
               navigate(-1);
             }}
           >
-            <Form className="form form--horizontal mt-3 row">
-              {/* Purchase */}
+            {({ setFieldValue }) => (
+              <Form className="form form--horizontal mt-3 row">
+                {/* Purchase */}
 
-              <FormikSelect
-                name="quotation"
-                options={quotationsListOptions}
-                type="text"
-                label="Quotation #"
-                placeholder="Quotation Number"
-                startIcon={<TagIcon />}
-                onChange={handleChangeQuotationNumber}
-              />
-              {/* date */}
-
-              <FormikDatePicker
-                name="pro_invoice_date"
-                type="text"
-                placeholder="Date"
-                label="Date"
-                startIcon={<CalendarMonthIcon />}
-              />
-
-              {/* Sale Person */}
-              <FormikField name="sales_person" type="text" placeholder="Sale Person" label="Sale Person" />
-
-              {/* Customer */}
-
-              <FormikSelect
-                options={customersOptions}
-                name="customer"
-                placeholder="Customer"
-                label="Customer"
-              />
-
-              {/* Location */}
-
-              <FormikField
-                name="location"
-                type="text"
-                placeholder="Location"
-                label="Location"
-                startIcon={<LocationOnIcon />}
-              />
-
-              {/* Attackment */}
-
-              <FormikFileField
-                name="pro_invoice_docs"
-                type="file"
-                placeholder="Attachment"
-                label="Attachment"
-                startIcon={<AttachFileIcon />}
-              />
-
-              {/* Item detail */}
-              <div className="form__form-group w-100">
-                <FieldArray
-                  name="pro_invoice_items"
-                  render={props => (
-                    <PurchaseItem
-                      inputList={porformaInvoiceItemsList}
-                      newList={NEW_PURCHASE_ITEM_OBJECT}
-                      {...props}
-                    />
-                  )}
+                <FormikSelect
+                  name="quotation"
+                  options={quotationsListOptions}
+                  type="text"
+                  label="Quotation #"
+                  placeholder="Quotation Number"
+                  startIcon={<TagIcon />}
+                  onChange={value => handleChangeQuotationNumber(value, setFieldValue)}
                 />
-              </div>
+                {/* date */}
 
-              {/* Remarks */}
-              <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
-              <FormSubmitButton />
-            </Form>
+                <FormikDatePicker
+                  name="pro_invoice_date"
+                  type="text"
+                  placeholder="Date"
+                  label="Date"
+                  startIcon={<CalendarMonthIcon />}
+                />
+
+                {/* Sale Person */}
+                <FormikField name="sales_person" type="text" placeholder="Sale Person" label="Sale Person" />
+
+                {/* Customer */}
+
+                <FormikSelect
+                  options={customersOptions}
+                  name="customer"
+                  placeholder="Customer"
+                  label="Customer"
+                />
+
+                {/* Location */}
+
+                <FormikField
+                  name="location"
+                  type="text"
+                  placeholder="Location"
+                  label="Location"
+                  startIcon={<LocationOnIcon />}
+                />
+
+                {/* Attackment */}
+
+                <FormikFileField
+                  name="pro_invoice_docs"
+                  type="file"
+                  placeholder="Attachment"
+                  label="Attachment"
+                  startIcon={<AttachFileIcon />}
+                />
+
+                {/* Item detail */}
+                <div className="form__form-group w-100">
+                  <FieldArray
+                    name="pro_invoice_items"
+                    render={props => (
+                      <PurchaseItem
+                        inputList={porformaInvoiceItemsList}
+                        newList={NEW_PURCHASE_ITEM_OBJECT}
+                        {...props}
+                      />
+                    )}
+                  />
+                </div>
+
+                {/* Remarks */}
+                <FormikField
+                  name="remarks"
+                  textArea
+                  placeholder="Remarks"
+                  label="Remarks"
+                  className="col-12"
+                />
+                <FormSubmitButton />
+              </Form>
+            )}
           </Formik>
         </CardContent>
       </Card>

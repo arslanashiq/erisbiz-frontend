@@ -39,6 +39,7 @@ function useInitialValues(values, fetchDetailQuery, fileName = null, useInitital
     setInitialValues,
     stateUpdated,
     setStateUpdated,
+    isLoading: queryResponse.isLoading,
   };
 }
 

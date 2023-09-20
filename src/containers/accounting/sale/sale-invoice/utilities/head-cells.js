@@ -1,6 +1,6 @@
 export const invoiceHeadCell = [
   {
-    id: 'invoice_date',
+    id: 'date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -16,24 +16,25 @@ export const invoiceHeadCell = [
     isLink: true,
   },
   {
-    id: 'sales_account_name',
+    id: 'customer_info',
     numeric: true,
     disablePadding: false,
-    label: 'Sales Account Name',
+    label: 'Customer Name',
+    align: 'right',
+    cellValueAction: customerInfo => customerInfo.customer_name,
+  },
+  {
+    id: 'status',
+    numeric: true,
+    disablePadding: false,
+    label: 'Status',
     align: 'right',
   },
   {
-    id: 'sales_company_name',
+    id: 'created_by_employee_name',
     numeric: true,
     disablePadding: false,
-    label: 'Company Name',
-    align: 'right',
-  },
-  {
-    id: 'sales_person_name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Sale Person',
+    label: 'Added By',
     align: 'right',
   },
   {
@@ -51,13 +52,7 @@ export const invoiceHeadCell = [
       return '';
     },
   },
-  {
-    id: 'created_by_employee_name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Added By',
-    align: 'right',
-  },
+
   {
     id: 'without_change_amount_total',
     numeric: true,

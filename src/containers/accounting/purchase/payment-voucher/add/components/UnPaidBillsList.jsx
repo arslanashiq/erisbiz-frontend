@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
@@ -11,12 +12,12 @@ const tableBottomTextStyle = {
   fontSize: '0.9rem',
   fontWeight: '300',
 };
-function UnPaidBillsList({ form }) {
+function UnPaidBillsList({ name, form }) {
   const { values, setFieldValue } = form;
 
   const handleChangeUsedAmount = (value, index) => {
     let usedAmout = 0;
-    values.bill_payments.forEach((item, idx) => {
+    values[name].forEach((item, idx) => {
       if (idx === index) {
         usedAmout += Number(value);
       } else {
@@ -38,29 +39,32 @@ function UnPaidBillsList({ form }) {
 
           <TableBody>
             {!values ||
-              (values?.bill_payments?.length === 0 && (
+              (values[name].length === 0 && (
                 <TableRow>
                   <TableCell colSpan={6} style={{ padding: '30px 0px', textAlign: 'center' }}>
                     No Data Found
                   </TableCell>
                 </TableRow>
               ))}
-            {values?.bill_payments?.length > 0 &&
-              values.bill_payments.map((bill, index) => (
+            {values[name]?.length > 0 &&
+              values[name]?.map((bill, index) => (
                 <TableRow key={bill.pur_order + bill.bill_num}>
-                  <TableCell>{bill.bill_date}</TableCell>
-                  <TableCell>{bill.bill_num}</TableCell>
-                  <TableCell>{bill.pur_order}</TableCell>
-                  <TableCell>{bill.grand_total}</TableCell>
-                  <TableCell>{bill.amount_due}</TableCell>
-                  <TableCell>
-                    <FormikField
-                      name={`bill_payments[${index}].amount_applied`}
-                      type="number"
-                      className="col-12"
-                      onChange={value => handleChangeUsedAmount(value, index)}
-                    />
-                  </TableCell>
+                  {UnPaidBillsHeadCells.map(cell => (
+                    <TableCell>
+                      {cell.isInput ? (
+                        <FormikField
+                          name={`${name}[${index}].amount_applied`}
+                          type="number"
+                          className="col-12"
+                          onChange={value => handleChangeUsedAmount(value, index)}
+                        />
+                      ) : bill[cell.id] ? (
+                        bill[cell.id]
+                      ) : (
+                        cell.defaultValue
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
               ))}
           </TableBody>
@@ -96,6 +100,7 @@ function UnPaidBillsList({ form }) {
   );
 }
 UnPaidBillsList.propTypes = {
+  name: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
 };
 

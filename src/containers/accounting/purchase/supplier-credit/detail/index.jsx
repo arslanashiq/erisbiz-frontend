@@ -77,6 +77,7 @@ function SupplierCreditDetail() {
           showItemsTable: true,
           showVoucherTable: false,
         }}
+        navigateAfterDelete="/pages/accounting/purchase/debit-notes"
       />
       <Card>
         <CardContent>

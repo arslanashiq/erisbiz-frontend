@@ -98,6 +98,7 @@ function PurchaseInvoiceDetail() {
           showItemsTable: true,
           showVoucherTable: false,
         }}
+        navigateAfterDelete="/pages/accounting/purchase/purchase-invoice"
       />
       <Card>
         <CardContent>

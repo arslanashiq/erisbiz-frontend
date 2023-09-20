@@ -54,28 +54,33 @@ export const UnPaidBillsHeadCells = [
     disablePadding: true,
     label: 'Bill No',
     align: 'left',
+    defaultValue: '-',
   },
   {
     id: 'pur_order_num',
     disablePadding: true,
     label: 'Purchase Order',
     align: 'left',
+    defaultValue: '-',
   },
   {
     id: 'grand_total',
     disablePadding: true,
     label: 'Bill Amount',
+    defaultValue: '0',
   },
   {
     id: 'amount_due',
     disablePadding: true,
     label: 'Amount Due',
+    defaultValue: '0',
   },
   {
     id: 'payment',
     disablePadding: true,
     align: 'center',
     label: 'Payment',
+    isInput: true,
   },
 ];
 

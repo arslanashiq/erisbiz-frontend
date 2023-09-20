@@ -66,6 +66,7 @@ function CustomerDetail() {
         openPopup={openInfoPopup}
         useDeleteItemMutation={useDeleteCutomerMutation}
         setOpenPopup={setOpenInfoPopup}
+        navigateAfterDelete="/pages/accounting/sales/customers"
       />
 
       <Card sx={{ minHeight: '76vh', padding: 2, fontSize: 14 }}>

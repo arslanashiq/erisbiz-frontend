@@ -1,99 +1,45 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
-import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import FmdGoodIcon from '@mui/icons-material/FmdGood';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
+import TagIcon from '@mui/icons-material/Tag';
+
 // srvices
 import { useGetSingleReceiptVoucherQuery } from 'services/private/receipt-voucher';
-import { useGetItemsListQuery } from 'services/private/items';
+import { useGetCustomersListQuery } from 'services/private/customers';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
 // shared
 import FormikField from 'shared/components/form/FormikField';
-import FormikFileField from 'shared/components/form/FormikFileField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
-import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
-import {
-  handleChangeDiscount,
-  handleChangeItem,
-  handleChangeQuantity,
-  hanldeVATChange,
-} from 'shared/components/purchase-item/utilities/helpers';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+import UnPaidBillsList from 'containers/accounting/purchase/payment-voucher/add/components/UnPaidBillsList';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+// custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
+import { PAYMENT_MODE } from 'utilities/constants';
 import 'styles/form/form.scss';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import { receiptVoucherInitialValues } from '../utilities/initialValues';
 
 function AddReceiptVoucher() {
-  const itemsListResponse = useGetItemsListQuery();
+  const customerListResponse = useGetCustomersListQuery();
+  const bankAccountListResponse = useGetBankAccountsListQuery();
 
+  const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
+    value: 'id',
+    label: 'customer_name',
+  });
+
+  const { optionsList: bankAccountOptions } = useListOptions(bankAccountListResponse?.data?.results, {
+    value: 'chart_of_account',
+    label: 'bank_account_name',
+  });
   const { initialValues } = useInitialValues(receiptVoucherInitialValues, useGetSingleReceiptVoucherQuery);
-  const { optionsList: itemsListOptions } = useListOptions(
-    itemsListResponse?.data?.results,
-    {
-      label: 'item_name',
-      value: 'item_name',
-    },
-    ['sale_price', 'item_type']
-  );
-  const ReceiptVoucherInputList = useMemo(
-    () => [
-      {
-        name: 'service_type',
-        placeholder: 'Item',
-        isSelect: true,
-        options: itemsListOptions || [],
-        width: '15%',
-        onChange: handleChangeItem,
-      },
-      {
-        name: 'num_nights',
-        placeholder: 'Quanitiy',
-        type: 'number',
-        onChange: handleChangeQuantity,
-      },
-      {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
-        type: 'number',
-        disabled: true,
-      },
-      {
-        name: 'gross_amount',
-        placeholder: 'Gross Total',
-        type: 'number',
-        disabled: true,
-      },
-      {
-        name: 'discount',
-        placeholder: 'Discount',
-        type: 'number',
-        onChange: handleChangeDiscount,
-      },
-      {
-        name: 'vat_rate',
-        placeholder: 'VAT',
-        isSelect: true,
-        options: VAT_CHARGES,
-        width: '15%',
-        onChange: hanldeVATChange,
-      },
-      {
-        name: 'net_amount',
-        placeholder: 'Net Amount',
-        type: 'number',
-        disabled: true,
-      },
-    ],
-    [itemsListOptions]
-  );
+
   return (
     <SectionLoader>
       <Card>
@@ -105,17 +51,12 @@ function AddReceiptVoucher() {
             // validationSchema={bankFormValidationSchema}
           >
             <Form className="form form--horizontal mt-3 row">
-              {/* Purchase */}
-
-              <FormikField
-                name="quotation_number"
-                type="text"
-                disabled
-                placeholder="Performa Invoice"
-                label="Performa Invoice"
-                startIcon={<TagIcon />}
+              <FormikSelect
+                options={customersOptions}
+                name="customer"
+                placeholder="Customer"
+                label="Customer"
               />
-              {/* date */}
 
               <FormikDatePicker
                 name="date"
@@ -125,52 +66,44 @@ function AddReceiptVoucher() {
                 startIcon={<CalendarMonthIcon />}
               />
 
-              {/* Sale Person */}
               <FormikField
-                name="sale_person"
-                type="text"
+                name="payment_number"
+                type="number"
+                placeholder="Payment Number"
+                label="Payment Number"
+              />
+              <FormikField
+                name="last_payment_number"
+                type="number"
                 disabled
-                placeholder="Sale Person"
-                label="Sale Person"
+                placeholder="Last Payment Number"
+                label="Last Payment"
               />
-
-              {/* Customer */}
-              <FormikSelect options={[]} name="customer_id" placeholder="Customer" label="Customer" />
-
-              {/* Location */}
-
               <FormikField
-                name="location"
-                type="text"
-                placeholder="Location"
-                label="Location"
-                startIcon={<FmdGoodIcon />}
+                name="amount"
+                type="number"
+                placeholder="Amount"
+                label="Amount"
+                startIcon={<TagIcon />}
               />
 
-              {/* Attackment */}
+              <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
+              <FormikSelect
+                name="payment_mode"
+                placeholder="Payment Mode"
+                label="Payment Mode"
+                options={PAYMENT_MODE}
+              />
 
-              <FormikFileField
-                name="attachment"
-                type="file"
-                placeholder="Attachment"
-                label="Attachment"
-                startIcon={<AttachFileIcon />}
+              <FormikSelect
+                name="chart_of_account_id"
+                placeholder="Deposit To"
+                label="Deposit To"
+                options={bankAccountOptions}
               />
 
               {/* Item detail */}
-              <div className="form__form-group w-100">
-                <FieldArray
-                  name="pur_order_items"
-                  render={props => (
-                    <PurchaseItem
-                      name="pur_order_items"
-                      inputList={ReceiptVoucherInputList}
-                      newList={NEW_PURCHASE_ITEM_OBJECT}
-                      {...props}
-                    />
-                  )}
-                />
-              </div>
+              <FieldArray name="bill_payments" render={props => <UnPaidBillsList {...props} />} />
 
               {/* Remarks */}
               <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />

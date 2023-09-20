@@ -97,6 +97,7 @@ function PaymentVoucherDetail() {
           showItemsTable: false,
           showVoucherTable: true,
         }}
+        navigateAfterDelete="/pages/accounting/purchase/payment-voucher"
       />
       <Card>
         <CardContent>

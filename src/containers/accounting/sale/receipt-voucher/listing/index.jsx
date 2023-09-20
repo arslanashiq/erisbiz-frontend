@@ -24,7 +24,7 @@ function ReceiptVoucher() {
       <MuiTable
         data={receiptVouchersResponse?.data?.results}
         totalDataCount={receiptVouchersResponse?.data?.count}
-        TableHeading="Purchase Orders"
+        TableHeading="Receipt Voucher"
         showCheckbox
         headCells={receiptVoucherHeadCells}
         otherOptions={[

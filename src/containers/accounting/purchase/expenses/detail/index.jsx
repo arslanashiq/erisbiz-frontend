@@ -63,6 +63,7 @@ function ExpenseDetail() {
         handlePrint={() => {
           window.print();
         }}
+        navigateAfterDelete="/pages/accounting/purchase/expenses"
       />
       <Stack sx={{ backgroundColor: 'white', padding: '20px 30px' }}>
         <ExpenseDetailInfo expense={expenseDetail?.data} />
