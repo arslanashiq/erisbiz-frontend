@@ -47,13 +47,13 @@ function LogInForm() {
 
               if (response.data) {
                 localStorage.setItem('token', response.data.token);
-                // const companyStatus = response.data?.user?.is_regestered_company;
+                const companyStatus = response.data?.user?.is_regestered_company;
                 await dispatch(
                   setUser({
                     user: response.data,
                     isAuthenticated: true,
-                    // is_regestered_company: companyStatus,
-                    is_regestered_company: true,
+                    is_regestered_company: companyStatus,
+                    // is_regestered_company: true,
                   })
                 );
 

@@ -17,8 +17,8 @@ function App() {
       dispatch(
         isUserAuthenticated({
           isAuthenticated: true,
-          is_regestered_company: true,
-          // is_regestered_company: res.data?.is_regestered_company,
+          // is_regestered_company: true,
+          is_regestered_company: userResponse.data?.is_regestered_company,
         })
       );
     } else {
