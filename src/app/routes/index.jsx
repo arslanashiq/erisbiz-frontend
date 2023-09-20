@@ -44,6 +44,7 @@ const ReportBillDetailsPage = lazy(() => import('containers/reports/components/p
 const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/components/payables/PaymentsMade'));
 const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/components/payables/PurchaseOrderDetail'));
 
+// Purchase
 // Purchase Order
 const PurchaseOrderListingPage = lazy(() => import('containers/accounting/purchase/purchase-orders/listing'));
 const PurchaseOrderDetailPage = lazy(() => import('containers/accounting/purchase/purchase-orders/detail'));
@@ -69,23 +70,29 @@ const ExpensesListingPage = lazy(() => import('containers/accounting/purchase/ex
 const AddExpensesPage = lazy(() => import('containers/accounting/purchase/expenses/add'));
 const ExpenseDetailPage = lazy(() => import('containers/accounting/purchase/expenses/detail'));
 
+// Sale
 // Customer Master
 const CustomerListingPage = lazy(() => import('containers/accounting/sale/customers/listing'));
 const AddCustomerPage = lazy(() => import('containers/accounting/sale/customers/add'));
 const CustomerDetailPage = lazy(() => import('containers/accounting/sale/customers/detail'));
 
-// quotations
+// Sale  Quotations
 const QuotationListingPage = lazy(() => import('containers/accounting/sale/quotations/listing'));
 const AddQuotationPage = lazy(() => import('containers/accounting/sale/quotations/add'));
 const QuotationDetailPage = lazy(() => import('containers/accounting/sale/quotations/detail'));
-// Performa Invoices
+// Sale Performa Invoices
 const PerformaInvoiceListingPage = lazy(() => import('containers/accounting/sale/performa-invoices/listing'));
 const AddPerformaInvoicePage = lazy(() => import('containers/accounting/sale/performa-invoices/add'));
 const PerformaInvoiceDetailPage = lazy(() => import('containers/accounting/sale/performa-invoices/detail'));
 
-//  Invoices
-const InvoiceListingPage = lazy(() => import('containers/accounting/sale/invoices/listing'));
-const AddInvoicePage = lazy(() => import('containers/accounting/sale/invoices/add'));
+// Sale Invoices
+const SaleInvoiceListingPage = lazy(() => import('containers/accounting/sale/sale-invoice/listing'));
+const AddSaleInvoicePage = lazy(() => import('containers/accounting/sale/sale-invoice/add'));
+const SaleInvoiceDetailPage = lazy(() => import('containers/accounting/sale/sale-invoice/detail'));
+
+// Sale Receipt Voucer
+const ReceiptVoucherListingPage = lazy(() => import('containers/accounting/sale/receipt-voucher/listing'));
+const AddReceiptVoucherPage = lazy(() => import('containers/accounting/sale/receipt-voucher/add'));
 
 //  Credit Note
 const CreditNotesListingPage = lazy(() => import('containers/accounting/sale/credit-notes/listing'));
@@ -227,10 +234,16 @@ function AppRoutes() {
                       <Route path=":id/detail" element={<PerformaInvoiceDetailPage />} />
                     </Route>
                     {/* invoice */}
-                    <Route path="invoice" element={<Outlet />}>
-                      <Route path="" index element={<InvoiceListingPage />} />
-                      <Route path="add" element={<AddInvoicePage />} />
-                      <Route path="edit/:id" element={<AddInvoicePage />} />
+                    <Route path="sale-invoice" element={<Outlet />}>
+                      <Route path="" index element={<SaleInvoiceListingPage />} />
+                      <Route path="add" element={<AddSaleInvoicePage />} />
+                      <Route path="edit/:id" element={<AddSaleInvoicePage />} />
+                      <Route path=":id/detail" element={<SaleInvoiceDetailPage />} />
+                    </Route>
+                    <Route path="receipt-voucher" element={<Outlet />}>
+                      <Route path="" index element={<ReceiptVoucherListingPage />} />
+                      <Route path="add" element={<AddReceiptVoucherPage />} />
+                      <Route path="edit/:id" element={<AddReceiptVoucherPage />} />
                     </Route>
                     {/* credit Note */}
                     <Route path="credit-notes" element={<Outlet />}>

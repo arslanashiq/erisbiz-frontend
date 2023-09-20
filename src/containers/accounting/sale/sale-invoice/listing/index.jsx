@@ -4,16 +4,15 @@ import { useLocation, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
 import MuiTable from 'shared/components/table/MuiTable';
-import { useDeleteInvoiceMutation, useGetInvoicesListQuery } from 'services/private/invoices';
-import { getItemSearchQueryParams } from 'utilities/filters';
+import { useDeleteSaleInvoiceMutation, useGetSaleInvoicesListQuery } from 'services/private/sale-invoice';
 import { invoiceHeadCell } from '../utilities/head-cells';
 
 function PerformaInvoiceListing() {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const location = useLocation();
-  const invoicesListResponse = useGetInvoicesListQuery(getItemSearchQueryParams(location));
-  const [deleteinvoice] = useDeleteInvoiceMutation();
+  const invoicesListResponse = useGetSaleInvoicesListQuery(location.search);
+  const [deleteinvoice] = useDeleteSaleInvoiceMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     setOpenInfoPopup({
@@ -45,7 +44,7 @@ function PerformaInvoiceListing() {
       <MuiTable
         data={invoicesListResponse?.data?.results}
         totalDataCount={invoicesListResponse?.data?.count}
-        TableHeading="Invoice"
+        TableHeading="Sale Invoice"
         headCells={invoiceHeadCell}
         showCheckbox
         otherOptions={[
@@ -53,7 +52,7 @@ function PerformaInvoiceListing() {
             label: (
               <>
                 <AddIcon sx={{ fontSize: 15 }} />
-                Add New Invoice
+                New Sale Invoice
               </>
             ),
             handleClick: () => navigate('add'),

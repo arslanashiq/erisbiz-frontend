@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
 import { Outlet, useLocation } from 'react-router';
+import { useTheme } from '@mui/material/styles';
+import { CssBaseline, Box } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+// styled components
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
-
-import { CssBaseline } from '@mui/material';
+// components
 import LargeScreenDrawer from './components/LargeScreenDrawer';
 import SmallScreenDrawer from './components/SmallScreenDrawer';
 import SideBarLinksList from './utilities/SideBarLinksList';
 
 function Sidebar({ open, setOpen, handleToggleDrawer }) {
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
   const location = useLocation();
 
   const [showSideBarChildLink, setShowSideBarChildLink] = useState([false, false]);
@@ -28,21 +32,22 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
     if (location.pathname.includes(link)) return true;
     return false;
   };
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <SmallScreenDrawer
-        open={open}
-        setOpen={setOpen}
-        showSideBarChildLink={showSideBarChildLink}
-        setShowSideBarChildLink={setShowSideBarChildLink}
-        handleToggleDrawer={handleToggleDrawer}
-        handleDrawerClose={handleDrawerClose}
-        checkActive={checkActive}
-        AccountantSideBarLinks={SideBarLinksList}
-        DrawerHeader={DrawerHeader}
-      />
+      {isLargeScreen === false && (
+        <SmallScreenDrawer
+          open={open}
+          setOpen={setOpen}
+          showSideBarChildLink={showSideBarChildLink}
+          setShowSideBarChildLink={setShowSideBarChildLink}
+          handleToggleDrawer={handleToggleDrawer}
+          handleDrawerClose={handleDrawerClose}
+          checkActive={checkActive}
+          AccountantSideBarLinks={SideBarLinksList}
+          DrawerHeader={DrawerHeader}
+        />
+      )}
       <LargeScreenDrawer
         open={open}
         setOpen={setOpen}

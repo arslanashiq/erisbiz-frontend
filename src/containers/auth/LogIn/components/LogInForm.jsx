@@ -61,7 +61,7 @@ function LogInForm() {
                   if (sessionStorage.getItem('lastUrl')) {
                     navigate(sessionStorage.getItem('lastUrl'));
                   } else {
-                    navigate('/');
+                    navigate('/', { replace: true });
                   }
                 }, 10);
               }

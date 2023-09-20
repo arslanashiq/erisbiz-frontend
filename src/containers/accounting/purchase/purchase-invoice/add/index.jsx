@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
@@ -57,11 +57,11 @@ function AddPurchaseInvoice() {
   const [addPurchaseInvoice] = useAddPurchaseInvoceMutation();
   const [editPurchaseInvoice] = useEditPurchaseInvoceMutation();
 
-  const {
-    initialValues,
-    setInitialValues,
-    queryResponse: purchaseInvoiceDetail,
-  } = useInitialValues(purchaseInvoiceInitialValue, useGetSinglePurchaseInvoiceQuery, null);
+  const { initialValues, queryResponse: purchaseInvoiceDetail } = useInitialValues(
+    purchaseInvoiceInitialValue,
+    useGetSinglePurchaseInvoiceQuery,
+    null
+  );
 
   const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
     value: supplier.id.toString(),
@@ -162,32 +162,6 @@ function AddPurchaseInvoice() {
     if (setFieldValue) setFieldValue('bill_items', selectedOrderItems);
     return selectedOrderItems;
   };
-
-  useEffect(() => {
-    if (
-      purchaseInvoiceDetail?.data &&
-      purchaseOrdersListResponse?.data &&
-      suppliersListResponse?.data &&
-      itemsListResponse?.data
-    ) {
-      const purchaseOrderItems = handleChangePurchaseOrderItem(
-        purchaseInvoiceDetail.data.pur_order,
-        initialValues
-      );
-      setInitialValues({
-        ...initialValues,
-        supplier_id: `${purchaseInvoiceDetail.data.supplier_id}`,
-        credit_account: purchaseInvoiceDetail.data.credit_account,
-        pur_order: purchaseInvoiceDetail.data.pur_order,
-        bill_items: purchaseOrderItems || [{}],
-        location: purchaseInvoiceDetail.data.location,
-        bill_docs: purchaseInvoiceDetail.data.bill_docs,
-        supplier_invoice_num: purchaseInvoiceDetail.data.supplier_invoice_num,
-        invoice_num: purchaseInvoiceDetail.data.invoice_num,
-      });
-      handleGetPurchaseOrderAgainstSupplier(purchaseInvoiceDetail.data.supplier_id);
-    }
-  }, [purchaseInvoiceDetail, suppliersListResponse, purchaseOrdersListResponse, itemsListResponse]);
 
   return (
     <SectionLoader

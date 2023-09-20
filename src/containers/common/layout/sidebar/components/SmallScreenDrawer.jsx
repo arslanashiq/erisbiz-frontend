@@ -21,7 +21,7 @@ function SmallScreenDrawer({
   return (
     <Drawer
       className="small-screen-drawer d-block d-md-none d-print-none"
-      variant="persistent"
+      variant="temporary"
       open={open}
       onClose={() => setOpen(false)}
     >
