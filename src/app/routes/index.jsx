@@ -93,6 +93,7 @@ const SaleInvoiceDetailPage = lazy(() => import('containers/accounting/sale/sale
 // Sale Receipt Voucer
 const ReceiptVoucherListingPage = lazy(() => import('containers/accounting/sale/receipt-voucher/listing'));
 const AddReceiptVoucherPage = lazy(() => import('containers/accounting/sale/receipt-voucher/add'));
+const ReceiptVoucherDetailPage = lazy(() => import('containers/accounting/sale/receipt-voucher/detail'));
 
 //  Credit Note
 const CreditNotesListingPage = lazy(() => import('containers/accounting/sale/credit-notes/listing'));
@@ -244,6 +245,7 @@ function AppRoutes() {
                       <Route path="" index element={<ReceiptVoucherListingPage />} />
                       <Route path="add" element={<AddReceiptVoucherPage />} />
                       <Route path="edit/:id" element={<AddReceiptVoucherPage />} />
+                      <Route path=":id/detail" element={<ReceiptVoucherDetailPage />} />
                     </Route>
                     {/* credit Note */}
                     <Route path="credit-notes" element={<Outlet />}>

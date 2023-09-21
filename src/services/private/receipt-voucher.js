@@ -30,7 +30,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleReceiptVoucher', 'getReceiptVoucherList'],
+      invalidatesTags: ['getReceiptVoucherList', 'getSingleReceiptVoucher'],
     }),
     deleteReceiptVoucher: builder.mutation({
       query: id => ({
@@ -38,6 +38,40 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         method: 'DELETE',
       }),
       invalidatesTags: ['getReceiptVoucherList'],
+    }),
+    getLatestReceiptVoucher: builder.query({
+      query: () => ({
+        url: 'api/accounting/sales/paymentsReceived/latest',
+        method: 'GET',
+      }),
+    }),
+    getUnpaidInvoicesAgainstCustomer: builder.mutation({
+      query: id => ({
+        url: `api/accounting/sales/accounts/${id}/unpaidInvoices`,
+        method: 'GET',
+      }),
+    }),
+    getReceiptVoucherDocuments: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/paymentReceived/${id}/docs`,
+        method: 'GET',
+      }),
+      providesTags: ['getReceiptVoucherDocuments'],
+    }),
+    addReceiptVoucherDocuments: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/sales/paymentReceived/${id}/uploadDoc`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getReceiptVoucherDocuments'],
+    }),
+    deleteReceiptVoucherDocuments: builder.mutation({
+      query: ({ id }) => ({
+        url: `api/accounting/sales/paymentReceived/docs/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['getReceiptVoucherDocuments'],
     }),
   }),
 });
@@ -48,4 +82,9 @@ export const {
   useAddReceiptVoucherMutation,
   useEditReceiptVoucherMutation,
   useDeleteReceiptVoucherMutation,
+  useGetUnpaidInvoicesAgainstCustomerMutation,
+  useGetLatestReceiptVoucherQuery,
+  useGetReceiptVoucherDocumentsQuery,
+  useAddReceiptVoucherDocumentsMutation,
+  useDeleteReceiptVoucherDocumentsMutation,
 } = receiptVoucherApi;

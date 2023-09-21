@@ -173,7 +173,7 @@ function MuiTableBody({
       )}
       {customRows &&
         customRows.map(row => (
-          <TableRow key={uuid(0)}>
+          <TableRow key={uuid()}>
             {row.column.map(col => (col.colSpan ? (
               <TableCell key={uuid()} colSpan={col.colSpan} />
             ) : (

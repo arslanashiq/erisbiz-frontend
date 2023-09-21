@@ -19,6 +19,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 
 // components
 import PaymentVoucherHistory from './components/PaymentVoucherHistory';
+import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 
 const keyValue = 'bill_payments';
 function PaymentVoucherDetail() {
@@ -42,6 +43,7 @@ function PaymentVoucherDetail() {
       date: PaymentVoucherDetailResponse?.data?.payment_date,
       supplier: PaymentVoucherDetailResponse?.data?.supplier,
       label: 'Paid To',
+      headCells: UnPaidBillsHeadCells,
     }),
     [PaymentVoucherDetailResponse]
   );

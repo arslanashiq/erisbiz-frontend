@@ -1,41 +1,45 @@
-/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect } from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import MuiTableHead from 'shared/components/table/MuiTableHead';
 import FormikField from 'shared/components/form/FormikField';
-import { UnPaidBillsHeadCells } from '../../utilities/head-cells';
 
 const tableBottomTextClasses = 'col-12 d-flex justify-content-between align-items-center pe-5 mx-2 mt-md-0 ';
 const tableBottomTextStyle = {
   fontSize: '0.9rem',
   fontWeight: '300',
 };
-function UnPaidBillsList({ name, form }) {
+function UnPaidBillsList({ name, form, headCells }) {
   const { values, setFieldValue } = form;
 
-  const handleChangeUsedAmount = (value, index) => {
+  const getUsedAmount = (value, index) => {
     let usedAmout = 0;
     values[name].forEach((item, idx) => {
       if (idx === index) {
-        usedAmout += Number(value);
+        usedAmout += Number(value || 0);
       } else {
-        usedAmout += Number(item.amount_applied);
+        usedAmout += Number(item.amount_applied || 0);
       }
     });
-    setFieldValue('used_amount', Number(usedAmout));
-    const unUsedAmount = Number(values.total) - Number(usedAmout);
-    if (unUsedAmount >= 0) setFieldValue('unused_amount', Number(values.total - usedAmout));
+    return usedAmout || 0;
+  };
+  const handleChangeUsedAmount = (value, index) => {
+    const usedAmount = getUsedAmount(value, index);
+    setFieldValue('used_amount', Number(usedAmount));
+    const unUsedAmount = Number(values.total) - Number(usedAmount);
+    if (unUsedAmount >= 0) setFieldValue('unused_amount', Number(values.total - usedAmount));
   };
   useEffect(() => {
-    setFieldValue('used_amount', values?.used_amount);
-  }, []);
+    setFieldValue('used_amount', getUsedAmount(-1, -1));
+  }, [values[name]?.length]);
   return (
     <Box className="col-12 mb-3">
       <TableContainer>
         <Table className="border border-1">
-          <MuiTableHead headCells={UnPaidBillsHeadCells} />
+          <MuiTableHead headCells={headCells} />
 
           <TableBody>
             {!values ||
@@ -48,23 +52,19 @@ function UnPaidBillsList({ name, form }) {
               ))}
             {values[name]?.length > 0 &&
               values[name]?.map((bill, index) => (
-                <TableRow key={bill.pur_order + bill.bill_num}>
-                  {UnPaidBillsHeadCells.map(cell => (
-                    <TableCell>
-                      {cell.isInput ? (
-                        <FormikField
-                          name={`${name}[${index}].amount_applied`}
-                          type="number"
-                          className="col-12"
-                          onChange={value => handleChangeUsedAmount(value, index)}
-                        />
-                      ) : bill[cell.id] ? (
-                        bill[cell.id]
-                      ) : (
-                        cell.defaultValue
-                      )}
+                <TableRow key={`${name}.${bill.id}.${index}`}>
+                  {headCells.map(cell => (cell.isInput ? (
+                    <TableCell key={`${name}.${cell.id}.${index}`}>
+                      <FormikField
+                        name={`${name}[${index}].amount_applied`}
+                        type="number"
+                        className="col-12"
+                        onChange={value => handleChangeUsedAmount(value, index)}
+                      />
                     </TableCell>
-                  ))}
+                  ) : (
+                    <TableCell key={uuid()}>{bill[cell.id] ? bill[cell.id] : cell.defaultValue}</TableCell>
+                  )))}
                 </TableRow>
               ))}
           </TableBody>
@@ -84,7 +84,10 @@ function UnPaidBillsList({ name, form }) {
             <Typography sx={tableBottomTextStyle}>Amount used for payments:</Typography>
             <Typography sx={tableBottomTextStyle}>{values.used_amount}</Typography>
           </Box>
-          <Stack direction="row" sx={{ display: values.total >= values.used_amount ? 'none' : 'flex' }}>
+          <Stack
+            direction="row"
+            sx={{ display: values.used_amount && values.total < values.used_amount ? 'flex' : 'none' }}
+          >
             <Typography sx={{ color: 'red', fontSize: 10 }}>
               <ErrorOutlineIcon sx={{ fontSize: 14 }} />
               Total amount applied must be less than or equal to amount recieved
@@ -102,6 +105,7 @@ function UnPaidBillsList({ name, form }) {
 UnPaidBillsList.propTypes = {
   name: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
+  headCells: PropTypes.array.isRequired,
 };
 
 export default UnPaidBillsList;

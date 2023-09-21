@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function VoucherFooter({ orderDetail, keyName }) {
+function VoucherFooter({ orderInfo, orderDetail, keyName }) {
   return (
     <View style={{ marginTop: 20 }}>
       <View>
@@ -68,7 +68,12 @@ function VoucherFooter({ orderDetail, keyName }) {
       </View>
       <View style={styles.table}>
         <View style={[styles.tableRow, { backgroundColor: '#08517e' }]}>
-          <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
+          {orderInfo.headCells.map(cell => (
+            <View key={uuid()} style={[styles.tableColHeader, { textAlign: 'center' }]}>
+              <Text style={styles.tableCellHeader}>{cell.label}</Text>
+            </View>
+          ))}
+          {/* <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
             <Text style={styles.tableCellHeader}>Bill Number</Text>
           </View>
           <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
@@ -82,7 +87,7 @@ function VoucherFooter({ orderDetail, keyName }) {
           </View>
           <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
             <Text style={styles.tableCellHeader}>Payment Amount</Text>
-          </View>
+          </View> */}
         </View>
         {orderDetail[keyName] &&
           orderDetail[keyName].map(item => (
@@ -147,6 +152,7 @@ function VoucherFooter({ orderDetail, keyName }) {
 VoucherFooter.propTypes = {
   orderDetail: PropTypes.object.isRequired,
   keyName: PropTypes.string.isRequired,
+  orderInfo: PropTypes.object.isRequired,
 };
 
 export default VoucherFooter;

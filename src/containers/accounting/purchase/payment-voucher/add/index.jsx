@@ -25,6 +25,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { PAYMENT_MODE } from 'utilities/constants';
+import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 import { PurchaseVoucherInitialValues } from '../utilities/initialValues';
 // components
 import UnPaidBillsList from './components/UnPaidBillsList';
@@ -171,16 +172,13 @@ function addPaymentVoucher() {
                 <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
 
                 {/* Unpiad Bills */}
-                <FieldArray name="bill_payments" render={props => <UnPaidBillsList {...props} />} />
+                <FieldArray
+                  name="bill_payments"
+                  render={props => <UnPaidBillsList headCells={UnPaidBillsHeadCells} {...props} />}
+                />
 
                 {/* Remarks */}
-                <FormikField
-                  name="notes"
-                  textArea
-                  placeholder="Remarks"
-                  label="Remarks"
-                  className="col-12"
-                />
+                <FormikField name="notes" textArea placeholder="Remarks" label="Remarks" className="col-12" />
 
                 {/* submit button and reset button */}
                 <FormSubmitButton />

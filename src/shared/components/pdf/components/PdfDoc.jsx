@@ -28,7 +28,7 @@ function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTa
       {showVoucherTable && (
         <>
           <VoucherContent orderDetail={orderDetail} />
-          <VoucherFooter orderDetail={orderDetail} keyName={keyName} />
+          <VoucherFooter orderInfo={orderInfo} orderDetail={orderDetail} keyName={keyName} />
         </>
       )}
     </MainComponent>

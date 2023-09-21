@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import { Checkbox, TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import PropTypes from 'prop-types';
 
@@ -39,7 +40,7 @@ function MuiTableHead(props) {
         {headCells.map(headCell => (
           <TableCell
             component="td"
-            key={headCell.id}
+            key={uuid()}
             align={headCell.align ? headCell.align : 'left'}
             padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
@@ -66,7 +67,7 @@ function MuiTableHead(props) {
         )}
         {customActionButton &&
           customActionButton.map(btn => (
-            <TableCell key="Action-Button" align="center" padding="normal" sx={{ fontWeight: 'bold' }}>
+            <TableCell key={uuid()} align="center" padding="normal" sx={{ fontWeight: 'bold' }}>
               {btn.title}
             </TableCell>
           ))}

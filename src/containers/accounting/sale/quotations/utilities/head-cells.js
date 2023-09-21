@@ -35,7 +35,7 @@ export const quotationsHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Status',
-    align: 'ledt',
+    align: 'left',
     class: value => {
       if (!value) return '';
       const temp = value.toLowerCase();

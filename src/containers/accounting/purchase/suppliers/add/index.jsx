@@ -83,7 +83,6 @@ function SupplierAddPage() {
 
       response = await addSupplier(payload);
     }
-    setSubmitting(false);
     if (response.data) {
       navigate(-1);
     } else {

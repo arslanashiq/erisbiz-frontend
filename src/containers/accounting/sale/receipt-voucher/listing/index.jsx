@@ -1,9 +1,13 @@
 import React from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import { Helmet } from 'react-helmet';
+import { useSnackbar } from 'notistack';
+import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
 // services
-import { useGetReceiptVoucherListQuery } from 'services/private/receipt-voucher';
+import {
+  useDeleteReceiptVoucherMutation,
+  useGetReceiptVoucherListQuery,
+} from 'services/private/receipt-voucher';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
@@ -13,7 +17,26 @@ import { receiptVoucherHeadCells } from '../utilities/head-cells';
 function ReceiptVoucher() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const receiptVouchersResponse = useGetReceiptVoucherListQuery(location.search);
+  const [deleteReceiptVoucher] = useDeleteReceiptVoucherMutation();
+  const deleteSingleReceiptVoucher = async id => {
+    await deleteReceiptVoucher(id);
+    enqueueSnackbar('Payment Voucher Deleted Successfully', { variant: 'success' });
+  };
+  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    setOpenInfoPopup({
+      ...openInfoPopup,
+      status: true,
+      message: 'Are you sure you want to delete?',
+      actionButton: true,
+    });
+  };
+  const handleConfirmDelete = list => {
+    list.forEach(id => {
+      deleteSingleReceiptVoucher(id);
+    });
+  };
   return (
     <SectionLoader options={[receiptVouchersResponse.isLoading]}>
       <Helmet>
@@ -39,8 +62,8 @@ function ReceiptVoucher() {
           },
         ]}
         // handleEdit={handleEdit}
-        // handleDelete={handleDelete}
-        // handleConfirmDelete={handleConfirmDelete}
+        handleDelete={handleDelete}
+        handleConfirmDelete={handleConfirmDelete}
       />
     </SectionLoader>
   );

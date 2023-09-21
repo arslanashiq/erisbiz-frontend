@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
@@ -44,7 +45,7 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
           </TableHead>
           <TableBody>
             {form?.values[name]?.map((item, index) => (
-              <TableRow key={`${name}.${item.name}`}>
+              <TableRow key={`${name}.${item.name}.${index}`}>
                 {inputList?.map(input => (
                   <TableCell
                     key={input.name}
