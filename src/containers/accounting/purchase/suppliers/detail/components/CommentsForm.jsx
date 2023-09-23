@@ -44,7 +44,13 @@ function CommentsForm() {
           <Form className="form form--horizontal row pt-3">
             <div className="form__form-group">
               <div className="form__form-group-field">
-                <FormikField textArea name="comments" type="text" placeholder="Add Comment..." />
+                <FormikField
+                  textArea
+                  name="comments"
+                  type="text"
+                  placeholder="Add Comment..."
+                  className="col-12"
+                />
               </div>
             </div>
             <div>

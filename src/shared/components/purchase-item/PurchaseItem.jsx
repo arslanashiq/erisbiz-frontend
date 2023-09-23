@@ -106,15 +106,17 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="row justify-content-between align-items-center pe-1">
-        <div className="col-md-6">
-          <Button onClick={() => push(newList)}>Add New Item</Button>
+      {newList && (
+        <div className="row justify-content-between align-items-center pe-1">
+          <div className="col-md-6">
+            <Button onClick={() => push(newList)}>Add New Item</Button>
+          </div>
+          <div className="col-md-5 d-flex justify-content-between align-items-center pe-5 mx-2 mt-md-0 purchase-item-total-amount-wrapper">
+            <Typography className="purchase-item-total-amount">Total Amount</Typography>
+            <Typography className="purchase-item-total-amount">AED {getTotalAmount()}</Typography>
+          </div>
         </div>
-        <div className="col-md-5 d-flex justify-content-between align-items-center pe-5 mx-2 mt-md-0 purchase-item-total-amount-wrapper">
-          <Typography className="purchase-item-total-amount">Total Amount</Typography>
-          <Typography className="purchase-item-total-amount">AED {getTotalAmount()}</Typography>
-        </div>
-      </div>
+      )}
     </Box>
   );
 }
@@ -122,10 +124,11 @@ PurchaseItem.propTypes = {
   inputList: PropTypes.array,
   form: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
-  newList: PropTypes.object.isRequired,
+  newList: PropTypes.object,
   push: PropTypes.func.isRequired,
 };
 PurchaseItem.defaultProps = {
   inputList: [],
+  newList: null,
 };
 export default PurchaseItem;

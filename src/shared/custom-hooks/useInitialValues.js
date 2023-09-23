@@ -2,11 +2,20 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { convertURLToFile } from 'utilities/helpers';
 
-function useInitialValues(values, fetchDetailQuery, fileName = null, useInititalValues = false) {
+function useInitialValues(
+  values,
+  fetchDetailQuery,
+  fileName = null,
+  useInititalValues = false,
+  isRefetch = false
+) {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({ ...values });
   const [stateUpdated, setStateUpdated] = useState(false);
-  const queryResponse = fetchDetailQuery(id, { skip: !id });
+  const { data: queryData, isLoading } = fetchDetailQuery(id, {
+    skip: !id,
+    refetchOnMountOrArgChange: isRefetch,
+  });
 
   const handleUpdateInitialValues = async data => {
     let file = null;
@@ -30,16 +39,16 @@ function useInitialValues(values, fetchDetailQuery, fileName = null, useInitital
   };
 
   useEffect(() => {
-    if (queryResponse.isSuccess) handleUpdateInitialValues(queryResponse.data);
-  }, [values, fetchDetailQuery, id, queryResponse]);
+    if (queryData) handleUpdateInitialValues(queryData);
+  }, [values, fetchDetailQuery, id, queryData]);
 
   return {
     initialValues,
-    queryResponse,
+    queryResponse: queryData,
     setInitialValues,
     stateUpdated,
     setStateUpdated,
-    isLoading: queryResponse.isLoading,
+    isLoading,
   };
 }
 

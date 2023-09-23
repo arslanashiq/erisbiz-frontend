@@ -1,9 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FieldArray, Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
+import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 // services
 import { useGetItemsListQuery } from 'services/private/items';
+import { useGetBankAccountsListQuery } from 'services/private/banking';
+import {
+  useAddCreditNoteMutation,
+  useEditCreditNoteMutation,
+  useGetSingleCreditNoteQuery,
+} from 'services/private/credit-notes';
+import { useGetSaleInvoicesListQuery } from 'services/private/sale-invoice';
+import { useGetReceiptVoucherListQuery } from 'services/private/receipt-voucher';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
@@ -14,20 +23,39 @@ import {
   handleChangeItem,
   handleChangeQuantity,
   hanldeVATChange,
+  handleCalculateTotalAmount,
+  handleGetFormatedItemsData,
 } from 'shared/components/purchase-item/utilities/helpers';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
+import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
-import { purchaseOrderInitialValues } from 'containers/accounting/purchase/purchase-orders/utilities/initialValues';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
+import { creditNoteInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function index() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [availableReceiptVouchers, setAvailableReceiptVouchers] = useState([]);
+
+  const receiptVouchersListResponse = useGetReceiptVoucherListQuery();
+  const saleInvoiceListResponse = useGetSaleInvoicesListQuery();
   const itemsListResponse = useGetItemsListQuery();
+  const bankAccountResponse = useGetBankAccountsListQuery();
+
+  const [addCreditNote] = useAddCreditNoteMutation();
+  const [editCreditNote] = useEditCreditNoteMutation();
+
+  const { optionsList: saleInvoiceListOptions } = useListOptions(saleInvoiceListResponse?.data?.results, {
+    value: 'id',
+    label: 'invoice_formatted_number',
+  });
   const { optionsList: itemsListOptions } = useListOptions(
     itemsListResponse?.data?.results,
     {
@@ -36,6 +64,19 @@ function index() {
     },
     ['sale_price']
   );
+  const { optionsList: bankAccountOptions } = useListOptions(bankAccountResponse?.data?.results, {
+    value: 'chart_of_account',
+    label: 'bank_account_name',
+  });
+
+  const { initialValues, setInitialValues, isLoading } = useInitialValues(
+    creditNoteInitialValues,
+    useGetSingleCreditNoteQuery,
+    null,
+    true,
+    false
+  );
+
   const purchaseItemsInputList = useMemo(
     () => [
       {
@@ -87,65 +128,133 @@ function index() {
     ],
     [itemsListOptions]
   );
+
+  const handleChangeSaleInvoice = (value, setFieldValue) => {
+    const selectedSaleInvoice = saleInvoiceListResponse.data.results.filter(
+      saleInvoice => saleInvoice.id === value
+    );
+    const rceiptVouchersList = [];
+    receiptVouchersListResponse.data.results.forEach(receiptVoucher => {
+      if (receiptVoucher.invoices.includes(value)) {
+        rceiptVouchersList.push({
+          label: receiptVoucher.payment_num,
+          value: receiptVoucher.id,
+        });
+      }
+    });
+    setAvailableReceiptVouchers(rceiptVouchersList);
+    if (setFieldValue) setFieldValue('credit_note_items', selectedSaleInvoice[0].invoice_items);
+  };
+
+  useEffect(() => {
+    if (
+      id &&
+      typeof initialValues.invoice === 'object' &&
+      saleInvoiceListResponse?.data?.results &&
+      receiptVouchersListResponse?.data?.results
+    ) {
+      handleChangeSaleInvoice(initialValues.invoice.id);
+      setInitialValues({ ...initialValues, invoice: initialValues.invoice.id });
+    }
+  }, [initialValues, saleInvoiceListResponse, receiptVouchersListResponse]);
+
   return (
-    <SectionLoader options={[itemsListResponse.isLoading]}>
+    <SectionLoader
+      options={[
+        itemsListResponse.isLoading,
+        saleInvoiceListResponse.isLoading,
+        bankAccountResponse.isLoading,
+        receiptVouchersListResponse.isLoading,
+        isLoading,
+      ]}
+    >
       <Card>
         <CardContent>
           <FormHeader title="Credit Note" />
           <Formik
             enableReinitialize
-            initialValues={purchaseOrderInitialValues}
-            // validationSchema={bankFormValidationSchema}
+            initialValues={initialValues}
+            onSubmit={async (values, { setError }) => {
+              const payload = {
+                ...values,
+                credit_note_items: handleGetFormatedItemsData(values.credit_note_items),
+                ...handleCalculateTotalAmount(values.credit_note_items),
+              };
+              let response = null;
+              if (id) {
+                response = await editCreditNote({ id, payload });
+              } else {
+                response = await addCreditNote(payload);
+              }
+              if (response.error) {
+                setError(response.error.data);
+                return;
+              }
+              navigate(-1);
+            }}
           >
-            <Form className="form form--horizontal mt-3 row">
-              <FormikField
-                name="voucher_num"
-                placeholder="Voucher Number"
-                disabled
-                label="Voucher Number"
-                startIcon={<TagIcon />}
-              />
+            {({ setFieldValue }) => (
+              <Form className="form form--horizontal mt-3 row">
+                <FormikSelect
+                  options={saleInvoiceListOptions}
+                  name="invoice"
+                  placeholder="Invoice Number"
+                  label="Invoice Number"
+                  startIcon={<TagIcon />}
+                  onChange={value => handleChangeSaleInvoice(value, setFieldValue)}
+                />
+                <FormikDatePicker
+                  name="credit_note_date"
+                  type="text"
+                  placeholder="Date"
+                  displayFormat="yyyy-MM-dd"
+                  label="Date"
+                />
 
-              <FormikDatePicker
-                name="date"
-                type="text"
-                placeholder="Date"
-                displayFormat="yyyy-MM-dd"
-                label="Date"
-              />
+                <FormikSelect
+                  options={availableReceiptVouchers}
+                  name="voucher_num"
+                  placeholder="Voucher Number"
+                  label="Voucher Number"
+                  startIcon={<TagIcon />}
+                />
 
-              <FormikField
-                name="voucher_num"
-                placeholder="Invoice Number"
-                disabled
-                label="Invoice Number"
-                startIcon={<TagIcon />}
-              />
+                <FormikSelect
+                  options={bankAccountOptions}
+                  name="account_num"
+                  placeholder="Account Number"
+                  label="Account No"
+                />
+                <FormikSelect
+                  options={bankAccountOptions}
+                  name="credit_account_num"
+                  placeholder="Credit Account Number"
+                  label="Credit Acc No"
+                  className="co-12"
+                />
 
-              <FormikSelect options={[]} name="account_num" placeholder="Account No" label="Account Number" />
-              <FormikSelect
-                options={[]}
-                name="account_num"
-                placeholder="Credit Acc N0"
-                label="Account Number"
-                className="co-12"
-              />
+                <FieldArray
+                  name="credit_note_items"
+                  render={props => (
+                    <PurchaseItem
+                      inputList={purchaseItemsInputList}
+                      newList={NEW_PURCHASE_ITEM_OBJECT}
+                      {...props}
+                    />
+                  )}
+                />
 
-              <FieldArray
-                name="pur_order_items"
-                render={props => (
-                  <PurchaseItem
-                    inputList={purchaseItemsInputList}
-                    newList={NEW_PURCHASE_ITEM_OBJECT}
-                    {...props}
-                  />
-                )}
-              />
+                <FormikField
+                  name="customer_notes"
+                  textArea
+                  placeholder="Remarks"
+                  label="Remarks"
+                  className="col-12"
+                />
 
-              <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
-
-              <FormSubmitButton />
-            </Form>
+                <FormSubmitButton />
+              </Form>
+            )}
           </Formik>
         </CardContent>
       </Card>

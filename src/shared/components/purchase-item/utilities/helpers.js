@@ -47,7 +47,13 @@ export const handleChangeItem = (
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeQuantity = (name, index, key, value, values, setFieldValue, allValues) => {
-  const newValues = { ...values, num_nights: value, credit_account: allValues.credit_account };
+  const newValues = {
+    ...values,
+    num_nights: value,
+    num_units: value,
+    credit_account: allValues.credit_account,
+  };
+  setFieldValue(`${name}.${index}.num_units`, Number(value));
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const hanldeVATChange = (name, index, key, value, values, setFieldValue, allValues) => {
@@ -84,3 +90,16 @@ export const handleCalculateTotalAmount = purchaseOrderItems => {
     without_change_discount_total: discountTotal.toFixed(2),
   };
 };
+
+export const handleGetFormatedItemsData = itemsList => itemsList.map(item => ({
+  service_type: item.service_type,
+  num_units: item.num_nights,
+  num_nights: item.num_nights,
+  unit_price_ex_vat: item.unit_price_ex_vat,
+  gross_amount: item.gross_amount,
+  discount: item.discount,
+  vat_amount: item.vat_amount,
+  net_amount: item.net_amount,
+  vat_rate: item.vat_rate,
+  amount_ex_vat: item.amount_ex_vat,
+}));

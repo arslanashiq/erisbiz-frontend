@@ -6,7 +6,6 @@ import Layout from 'containers/common/layout';
 function PrivateRoutes() {
   const location = useLocation();
   const { isAuthenticated, isRegesteredCompany } = useSelector(state => state.user);
-
   if (!isAuthenticated) {
     return <Navigate to="/auth/login" state={location.pathname} />;
   }

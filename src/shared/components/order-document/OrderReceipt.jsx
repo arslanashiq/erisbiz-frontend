@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import OrderItemsTable from './OrderItemsTable';
@@ -47,7 +48,7 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsT
               </p>
               <div className="boxSecond" style={{ fontSize: '16px' }}>
                 {orderInfo?.box1?.map(option => (
-                  <div className="entry-info">
+                  <div key={uuid()} className="entry-info">
                     <p className="head">{option.label}:</p>
                     <p>{option.value}</p>
                   </div>
@@ -57,7 +58,7 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsT
               <div id="bill_to">
                 <div className="boxSecond" style={{ fontSize: '15px' }}>
                   {orderInfo?.box2?.map(option => (
-                    <div className="entry-info">
+                    <div key={uuid()} className="entry-info">
                       <p className="head">{option.label}:</p>
                       {option.link ? (
                         <p>
@@ -144,7 +145,9 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsT
         {/* Purchase Order and Purchase Invoice */}
         {showItemsTable && <OrderItemsTable orderDetail={orderDetail} keyValue={keyValue} />}
 
-        {showOrderVoucher && <OrderVoucher orderDetail={orderDetail} keyValue={keyValue} />}
+        {showOrderVoucher && (
+          <OrderVoucher orderDetail={orderDetail} keyValue={keyValue} orderInfo={orderInfo} />
+        )}
       </div>
     </div>
   );

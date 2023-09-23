@@ -27,6 +27,7 @@ import {
   handleChangeQuantity,
   hanldeVATChange,
   handleCalculateTotalAmount,
+  handleGetFormatedItemsData,
 } from 'shared/components/purchase-item/utilities/helpers';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
@@ -132,23 +133,11 @@ function AddQuotation() {
             initialValues={initialValues}
             // validationSchema={bankFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
-              const QuotaionsItems = values.quotation_items.map(item => ({
-                service_type: item.service_type,
-                num_units: item.num_nights,
-                num_nights: item.num_nights,
-                unit_price_ex_vat: item.unit_price_ex_vat,
-                gross_amount: item.gross_amount,
-                discount: item.discount,
-                vat_amount: item.vat_amount,
-                net_amount: item.net_amount,
-                vat_rate: item.vat_rate,
-                amount_ex_vat: item.amount_ex_vat,
-              }));
               const payload = {
                 ...values,
                 sales_person: 33,
                 quotation_docs: values.filesList,
-                quotation_items: QuotaionsItems,
+                quotation_items: handleGetFormatedItemsData(values.quotation_items),
                 ...handleCalculateTotalAmount(values.quotation_items),
               };
               delete payload.quotation_num;

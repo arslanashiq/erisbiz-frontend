@@ -2,12 +2,12 @@ import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { useDeletePaymentVoucherMutation } from 'services/private/payment-voucher';
 import {
   useDeleteReceiptVoucherDocumentsMutation,
   useAddReceiptVoucherDocumentsMutation,
   useGetSingleReceiptVoucherQuery,
   useGetReceiptVoucherDocumentsQuery,
+  useDeleteReceiptVoucherMutation,
 } from 'services/private/receipt-voucher';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
@@ -49,6 +49,7 @@ function ReceiptVoucherDetail() {
       ],
       headCells: UnPaidSaleInvoiceHeadCells,
       showCustomOptions: true,
+      showSaleSectionFooter: true,
     }),
     [receiptVoucherResponse]
   );
@@ -57,19 +58,15 @@ function ReceiptVoucherDetail() {
       {
         label: 'Edit',
         handleClick: () => {
-          navigate(`/pages/accounting/purchase/payment-voucher/edit/${id}`);
+          navigate(`/pages/accounting/sales/receipt-voucher/edit/${id}`);
         },
       },
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription = 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes';
-          let showActionButton = false;
-          const cantDelete = receiptVoucherResponse.data.have_debit_note;
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
-          }
+          const infoDescription = 'Are you sure you want to delete?';
+          const showActionButton = true;
+
           setOpenInfoPopup({ ...openInfoPopup, open: true, infoDescription, showActionButton });
         },
       },
@@ -92,7 +89,7 @@ function ReceiptVoucherDetail() {
         orderInfo={orderInfo}
         orderDetail={receiptVoucherResponse?.data}
         actionsList={PaymentVoucherActionList}
-        useDeleteItemMutation={useDeletePaymentVoucherMutation}
+        useDeleteItemMutation={useDeleteReceiptVoucherMutation}
         useUploadDocumentFileMutation={useAddReceiptVoucherDocumentsMutation}
         useDeleteDocumentFileMutation={useDeleteReceiptVoucherDocumentsMutation}
         openPopup={openInfoPopup}
@@ -101,7 +98,7 @@ function ReceiptVoucherDetail() {
           showItemsTable: false,
           showVoucherTable: true,
         }}
-        navigateAfterDelete="/pages/accounting/purchase/payment-voucher"
+        navigateAfterDelete="/pages/accounting/sales/receipt-voucher"
       />
       <Card>
         <CardContent>

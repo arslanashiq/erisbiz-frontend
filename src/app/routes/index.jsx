@@ -98,6 +98,13 @@ const ReceiptVoucherDetailPage = lazy(() => import('containers/accounting/sale/r
 //  Credit Note
 const CreditNotesListingPage = lazy(() => import('containers/accounting/sale/credit-notes/listing'));
 const AddCreditNotePage = lazy(() => import('containers/accounting/sale/credit-notes/add'));
+const CreditNoteDetailPage = lazy(() => import('containers/accounting/sale/credit-notes/detail'));
+
+// finance
+// journal voucher
+const JournalVoucherListingPage = lazy(() => import('containers/accounting/finance/journal-voucher/listing'));
+const AddJournalVouchePage = lazy(() => import('containers/accounting/finance/journal-voucher/add'));
+const JournalVoucherDetailPage = lazy(() => import('containers/accounting/finance/journal-voucher/detail'));
 
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
@@ -252,6 +259,17 @@ function AppRoutes() {
                       <Route path="" index element={<CreditNotesListingPage />} />
                       <Route path="add" element={<AddCreditNotePage />} />
                       <Route path="edit/:id" element={<AddCreditNotePage />} />
+                      <Route path=":id/detail" element={<CreditNoteDetailPage />} />
+                    </Route>
+                  </Route>
+                  {/* finance */}
+                  <Route path="finance" element={<Outlet />}>
+                    {/* Journal Voucher */}
+                    <Route path="journal-voucher" element={<Outlet />}>
+                      <Route path="" index element={<JournalVoucherListingPage />} />
+                      <Route path="add" element={<AddJournalVouchePage />} />
+                      <Route path="edit/:id" element={<AddJournalVouchePage />} />
+                      <Route path=":id/detail" element={<JournalVoucherDetailPage />} />
                     </Route>
                   </Route>
                 </Route>

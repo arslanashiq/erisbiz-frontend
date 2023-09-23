@@ -1,12 +1,10 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
-import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-// utilities
-import formatAmount from 'utilities/formatAmount';
+import PurchaseVoucherFooterDocument from './PurchaseVoucherFooterDocument';
+import ReceiptVoucherFooterDocument from './ReceiptVoucherFooterDocument';
 
-function OrderVoucher({ orderDetail, keyValue }) {
+function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
   return (
     <>
       {/* Payment Voucher */}
@@ -89,49 +87,15 @@ function OrderVoucher({ orderDetail, keyValue }) {
           <div className="col-md-12">
             <h3 className="payment-for-heading">Payment For</h3>
             <div className="payment-headings">
-              <p>Bill Number</p>
-              <p>Bill Date</p>
-              <p>Bill Amount</p>
-              <p>Payment Date</p>
-              <p>Payment Amount</p>
-            </div>
-            {orderDetail[keyValue]?.length > 0 &&
-              orderDetail[keyValue].map(item => (
-                <div key={uuid()} className="payment-details">
-                  {item.bill ? (
-                    <Link to={`/pages/accounting/purchases/bills/${item.bill.id}/detail`}>
-                      {item.bill.bill_num}
-                    </Link>
-                  ) : (
-                    <p>Supplier Opening Balance</p>
-                  )}
-                  {item.bill && <p>{moment(item.bill.bill_date).format('YYYY-MM-DD')}</p>}
-                  {item.supplier && <p>{moment(item.supplier.bill_date).format('YYYY-MM-DD')}</p>}
-                  {item.bill && (
-                    <p>
-                      {orderDetail.currency_symbol}
-                      {formatAmount(item.bill.grand_total)}
-                    </p>
-                  )}
-                  {item.supplier && (
-                    <p>
-                      {orderDetail.currency_symbol}
-                      {formatAmount(item.supplier.grand_total)}
-                    </p>
-                  )}
-                  <p>{moment(item.created_at).format('YYYY-MM-DD')}</p>
-                  {!item.bill && !item.supplier && (
-                    <>
-                      <p />
-                      <p />
-                    </>
-                  )}
-                  <p>
-                    {orderDetail.currency_symbol}
-                    {formatAmount(item.amount_applied)}
-                  </p>
-                </div>
+              {orderInfo.headCells.map(cell => (
+                <p key={uuid()}>{cell.label}</p>
               ))}
+            </div>
+            {orderInfo.showSaleSectionFooter ? (
+              <ReceiptVoucherFooterDocument orderDetail={orderDetail} keyValue={keyValue} />
+            ) : (
+              <PurchaseVoucherFooterDocument orderDetail={orderDetail} keyValue={keyValue} />
+            )}
           </div>
         </div>
       )}
@@ -141,6 +105,7 @@ function OrderVoucher({ orderDetail, keyValue }) {
 OrderVoucher.propTypes = {
   orderDetail: PropTypes.object.isRequired,
   keyValue: PropTypes.string.isRequired,
+  orderInfo: PropTypes.object.isRequired,
 };
 
 export default OrderVoucher;

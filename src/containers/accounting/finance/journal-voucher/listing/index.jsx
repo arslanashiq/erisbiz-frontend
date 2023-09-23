@@ -1,40 +1,35 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
+import { useLocation, useNavigate } from 'react-router';
 import AddIcon from '@mui/icons-material/Add';
 // services
-import { useDeleteQuotationMutation, useGetQuotationsListQuery } from 'services/private/quotations';
+import {
+  useDeleteJournalVoucherMutation,
+  useGetJournalVouchersListQuery,
+} from 'services/private/journal-voucher';
+
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
-import { getItemSearchQueryParams } from 'utilities/filters';
-import { quotationsHeadCell } from '../utilities/head-cells';
+import { journalVoucherHeadCells } from '../utilities/head-cells';
 
-function QuotationListing() {
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
+function JournalVoucherListing() {
   const location = useLocation();
-  const quotationDetailResponse = useGetQuotationsListQuery(getItemSearchQueryParams(location));
-  const [deleteQuotation] = useDeleteQuotationMutation();
-
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const journalVoucherDetailResponse = useGetJournalVouchersListQuery(location.search);
+  const [deleteJournalVoucher] = useDeleteJournalVoucherMutation();
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
       'You cannot delete these items because some of the selected items is used in Performa Invoiced';
     let actionButton = false;
-    const selectedData = [];
-    data.forEach(item => {
-      if (selected.includes(item.uuid || item.id)) {
-        selectedData.push(item);
-      }
-    });
-    const cantDelete = selectedData.some(item => item.status === 'proforma-invoiced');
-    if (!cantDelete) {
-      message = 'Are you sure you want to delete?';
-      actionButton = true;
-    }
+
+    message = 'Are you sure you want to delete?';
+    actionButton = true;
+
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
@@ -42,26 +37,26 @@ function QuotationListing() {
       actionButton,
     });
   };
-  const deleteSingleQuotation = async id => {
-    await deleteQuotation(id);
-    enqueueSnackbar('Quotation Deleted Successfully', { variant: 'success' });
+  const deleteSingleJournalVoucher = async id => {
+    await deleteJournalVoucher(id);
+    enqueueSnackbar('Journal Voucher Deleted Successfully', { variant: 'success' });
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleQuotation(id);
+      deleteSingleJournalVoucher(id);
     });
   };
   return (
-    <SectionLoader options={[quotationDetailResponse.isLoading]}>
+    <SectionLoader options={[journalVoucherDetailResponse.isLoading]}>
       <Helmet>
         <title>Quotations - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
-        data={quotationDetailResponse?.data?.results}
-        totalDataCount={quotationDetailResponse?.data?.count}
+        data={journalVoucherDetailResponse?.data?.results}
+        totalDataCount={journalVoucherDetailResponse?.data?.count}
         TableHeading="Quotations"
-        headCells={quotationsHeadCell}
+        headCells={journalVoucherHeadCells}
         showCheckbox
         otherOptions={[
           {
@@ -81,4 +76,4 @@ function QuotationListing() {
   );
 }
 
-export default QuotationListing;
+export default JournalVoucherListing;

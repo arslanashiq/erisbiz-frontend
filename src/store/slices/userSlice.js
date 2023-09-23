@@ -5,7 +5,7 @@ const initialState = {
   email: '',
   groups: [],
   profile: {},
-  isAuthenticated: false,
+  isAuthenticated: null,
   isRegesteredCompany: false,
 };
 

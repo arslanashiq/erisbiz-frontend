@@ -66,7 +66,7 @@ const SideBarLinksList = [
     // link: '/pages/accounting/finance',
     children: [
       { name: 'Chart of Account', link: '/pages/accounting/finance/chart-of-account' },
-      { name: 'Journal Voucher', link: '/pages/accounting/sfinance/journal-voucher' },
+      { name: 'Journal Voucher', link: '/pages/accounting/finance/journal-voucher' },
       { name: 'Tax Payment', link: '/pages/accounting/finance/tax-payments' },
     ],
   },

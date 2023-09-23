@@ -45,7 +45,7 @@ function RegisterCompanyForm() {
     }
   };
   if (user.isRegesteredCompany) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
   return (
     <Stack className="main__wrapper" sx={{ height: '100vh', alignItems: 'center' }}>

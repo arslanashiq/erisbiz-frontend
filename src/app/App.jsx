@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 import { isUserAuthenticated } from 'store/slices/userSlice';
 import { useLoadUserQuery } from 'services/private/user';
@@ -9,23 +9,25 @@ import AppRoutes from './routes';
 import theme from '../styles/mui/theme';
 
 function App() {
+  const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const userResponse = useLoadUserQuery('', { skip: !localStorage.getItem('token') });
 
   const handleVerifyUser = async () => {
-    if (userResponse.data) {
+    if (userResponse.status === 'rejected') {
+      dispatch(
+        isUserAuthenticated({
+          isAuthenticated: false,
+          is_regestered_company: false,
+        })
+      );
+    }
+    if (userResponse.status === 'fulfilled' && userResponse.data) {
       dispatch(
         isUserAuthenticated({
           isAuthenticated: true,
           // is_regestered_company: true,
           is_regestered_company: userResponse.data?.is_regestered_company,
-        })
-      );
-    } else {
-      dispatch(
-        isUserAuthenticated({
-          isAuthenticated: false,
-          is_regestered_company: false,
         })
       );
     }
@@ -41,7 +43,7 @@ function App() {
         autoHideDuration={3000}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <SectionLoader options={[userResponse.isLoading]}>
+        <SectionLoader options={[userResponse.isLoading, isAuthenticated === null]}>
           <AppRoutes />
         </SectionLoader>
       </SnackbarProvider>

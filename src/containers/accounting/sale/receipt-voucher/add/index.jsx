@@ -56,6 +56,7 @@ function AddReceiptVoucher() {
     receiptVoucherInitialValues,
     useGetSingleReceiptVoucherQuery,
     null,
+    true,
     true
   );
 
@@ -80,8 +81,11 @@ function AddReceiptVoucher() {
       ...initialValues,
       used_amount: 0,
       last_payment_number: paymentNumber,
+      payment_num: paymentNumber + 1,
     });
   }, [latestreceiptVoucherNumber]);
+
+  // console.log('INIT VALUES ==>', initialValues);
 
   return (
     <SectionLoader

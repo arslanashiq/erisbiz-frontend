@@ -1,9 +1,9 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
-import formatAmount from 'utilities/formatAmount';
+import PurchaseVoucherFooter from './PurchaseVoucherFooter';
+import ReceiptVoucherFooter from './ReceiptVoucherFooter';
 
 // const BORDER_COLOR = "#D1CACB";
 // const BORDER_STYLE = "solid";
@@ -73,71 +73,13 @@ function VoucherFooter({ orderInfo, orderDetail, keyName }) {
               <Text style={styles.tableCellHeader}>{cell.label}</Text>
             </View>
           ))}
-          {/* <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
-            <Text style={styles.tableCellHeader}>Bill Number</Text>
-          </View>
-          <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
-            <Text style={styles.tableCellHeader}>Bill Date</Text>
-          </View>
-          <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
-            <Text style={styles.tableCellHeader}>Bill Amount</Text>
-          </View>
-          <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
-            <Text style={styles.tableCellHeader}>Payment Date</Text>
-          </View>
-          <View style={[styles.tableColHeader, { textAlign: 'center' }]}>
-            <Text style={styles.tableCellHeader}>Payment Amount</Text>
-          </View> */}
         </View>
-        {orderDetail[keyName] &&
-          orderDetail[keyName].map(item => (
-            <View key={uuid()} style={styles.tableRow}>
-              <View style={styles.tableCol}>
-                {item.bill ? (
-                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>{item.bill.bill_num}</Text>
-                ) : (
-                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>Supplier Opening Balance</Text>
-                )}
-              </View>
-              <View style={styles.tableCol}>
-                {item.bill && (
-                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                    {moment(item.bill.bill_date).format('YYYY-MM-DD')}
-                  </Text>
-                )}
-                {item.supplier && (
-                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                    {moment(item.supplier.bill_date).format('YYYY-MM-DD')}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.tableCol}>
-                {item.bill && (
-                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                    {orderDetail.currency_symbol}
-                    {formatAmount(item.bill.grand_total)}
-                  </Text>
-                )}
-                {item.supplier && (
-                  <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                    {orderDetail.currency_symbol}
-                    {formatAmount(item.supplier.grand_total)}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {moment(item.created_at).format('YYYY-MM-DD')}
-                </Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {orderDetail.currency_symbol}
-                  {formatAmount(item.amount_applied)}
-                </Text>
-              </View>
-            </View>
-          ))}
+        {orderInfo.showSaleSectionFooter ? (
+          <ReceiptVoucherFooter orderDetail={orderDetail} keyName={keyName} styles={styles} />
+        ) : (
+          <PurchaseVoucherFooter orderDetail={orderDetail} keyName={keyName} styles={styles} />
+        )}
+
         {!!orderDetail.notes && (
           <View style={{ marginTop: 10 }}>
             <Text style={{ fontSize: 13 }}>Notes</Text>

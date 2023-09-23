@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
@@ -36,7 +37,7 @@ function InfoBox({ orderInfo }) {
     <View style={styles.infobox}>
       {orderInfo.showCustomOptions
         ? orderInfo.box2.map(option => (
-          <View style={styles.row}>
+          <View key={uuid()} style={styles.row}>
             <Text style={styles.infoboxText}>{option.label}</Text>
             <Text style={styles.infoboxText}>{option.value}</Text>
           </View>

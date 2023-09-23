@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import InfoBox from 'shared/components/pdf/components/InfoBox';
@@ -55,7 +56,7 @@ function PDFHeader({ orderInfo }) {
           <View style={{ marginTop: 5 }}>
             {orderInfo.showCustomOptions ? (
               orderInfo?.box1?.map(option => (
-                <View style={styles.row}>
+                <View key={uuid()} style={styles.row}>
                   <Text style={styles.rowText}>{option?.label}</Text>
                   <Text style={styles.rowValueText}>{option?.value}</Text>
                 </View>
