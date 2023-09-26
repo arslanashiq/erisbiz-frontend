@@ -101,6 +101,11 @@ const AddCreditNotePage = lazy(() => import('containers/accounting/sale/credit-n
 const CreditNoteDetailPage = lazy(() => import('containers/accounting/sale/credit-notes/detail'));
 
 // finance
+// Chart of account
+const ChartOfAccountListingPage = lazy(() => import('containers/accounting/finance/chart-of-account/listing'));
+// const AddJournalVouchePage = lazy(() => import('containers/accounting/finance/chart-of-account/add'));
+const ChartOfAccountDetailPage = lazy(() => import('containers/accounting/finance/chart-of-account/detail'));
+
 // journal voucher
 const JournalVoucherListingPage = lazy(() => import('containers/accounting/finance/journal-voucher/listing'));
 const AddJournalVouchePage = lazy(() => import('containers/accounting/finance/journal-voucher/add'));
@@ -270,6 +275,12 @@ function AppRoutes() {
                       <Route path="add" element={<AddJournalVouchePage />} />
                       <Route path="edit/:id" element={<AddJournalVouchePage />} />
                       <Route path=":id/detail" element={<JournalVoucherDetailPage />} />
+                    </Route>
+                    <Route path="chart-of-account" element={<Outlet />}>
+                      <Route path="" index element={<ChartOfAccountListingPage />} />
+                      {/* <Route path="add" element={<AddJournalVouchePage />} />
+                      <Route path="edit/:id" element={<AddJournalVouchePage />} /> */}
+                      <Route path=":id/detail" element={<ChartOfAccountDetailPage />} />
                     </Route>
                   </Route>
                 </Route>

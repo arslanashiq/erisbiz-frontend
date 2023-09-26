@@ -55,7 +55,8 @@ function PDFHeader({ orderInfo }) {
           </View>
           <View style={{ marginTop: 5 }}>
             {orderInfo.showCustomOptions ? (
-              orderInfo?.box1?.map(option => (
+              orderInfo?.box1 &&
+              orderInfo.box1.map(option => (
                 <View key={uuid()} style={styles.row}>
                   <Text style={styles.rowText}>{option?.label}</Text>
                   <Text style={styles.rowValueText}>{option?.value}</Text>

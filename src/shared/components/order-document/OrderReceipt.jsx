@@ -5,8 +5,17 @@ import { Link } from 'react-router-dom';
 import OrderItemsTable from './OrderItemsTable';
 import OrderVoucher from './OrderVoucher';
 import 'styles/purchase-order-template/purchase-order-template.scss';
+import JournalVoucher from './JournalVoucher';
 
-function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsTable, showOrderVoucher }) {
+function OrderReceipt({
+  orderDetail,
+  orderInfo,
+  keyValue,
+  showStatus,
+  showItemsTable,
+  showOrderVoucher,
+  showJournalVoucher,
+}) {
   return (
     <div className="invoice-receipt-main-container">
       {showStatus && (
@@ -47,30 +56,33 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsT
                 {orderInfo.order_number}
               </p>
               <div className="boxSecond" style={{ fontSize: '16px' }}>
-                {orderInfo?.box1?.map(option => (
-                  <div key={uuid()} className="entry-info">
-                    <p className="head">{option.label}:</p>
-                    <p>{option.value}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div id="bill_to">
-                <div className="boxSecond" style={{ fontSize: '15px' }}>
-                  {orderInfo?.box2?.map(option => (
+                {orderInfo?.box1 &&
+                  orderInfo.box1.map(option => (
                     <div key={uuid()} className="entry-info">
                       <p className="head">{option.label}:</p>
-                      {option.link ? (
-                        <p>
-                          <Link to={option.link}>{option.value}</Link>
-                        </p>
-                      ) : (
-                        <p>{option.value}</p>
-                      )}
+                      <p>{option.value}</p>
                     </div>
                   ))}
-                </div>
               </div>
+
+              {orderInfo?.box2 && (
+                <div id="bill_to">
+                  <div className="boxSecond" style={{ fontSize: '15px' }}>
+                    {orderInfo.box2.map(option => (
+                      <div key={uuid()} className="entry-info">
+                        <p className="head">{option.label}:</p>
+                        {option.link ? (
+                          <p>
+                            <Link to={option.link}>{option.value}</Link>
+                          </p>
+                        ) : (
+                          <p>{option.value}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="box-2">
@@ -148,6 +160,9 @@ function OrderReceipt({ orderDetail, orderInfo, keyValue, showStatus, showItemsT
         {showOrderVoucher && (
           <OrderVoucher orderDetail={orderDetail} keyValue={keyValue} orderInfo={orderInfo} />
         )}
+        {showJournalVoucher && (
+          <JournalVoucher orderDetail={orderDetail} keyValue={keyValue} orderInfo={orderInfo} />
+        )}
       </div>
     </div>
   );
@@ -160,11 +175,13 @@ OrderReceipt.propTypes = {
   showStatus: PropTypes.bool,
   showItemsTable: PropTypes.bool,
   showOrderVoucher: PropTypes.bool,
+  showJournalVoucher: PropTypes.bool,
 };
 OrderReceipt.defaultProps = {
   showStatus: true,
   showItemsTable: true,
   showOrderVoucher: false,
+  showJournalVoucher: false,
 };
 
 export default OrderReceipt;

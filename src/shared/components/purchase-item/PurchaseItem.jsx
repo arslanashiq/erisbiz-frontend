@@ -1,10 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import PropTypes from 'prop-types';
 import {
   Box,
   Button,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -20,16 +22,23 @@ import FormikSelect from '../form/FormikSelect';
 import 'styles/purchase-item/purchase-item.scss';
 
 function PurchaseItem({ name, inputList, form, push, newList }) {
-  const getTotalAmount = () => {
+  const getTotalAmount = (key = 'net_amount') => {
     let total = 0.0;
     if (form && form.values && form.values[name]) {
       form.values[name].forEach(item => {
-        total += parseFloat(item.net_amount);
+        total += parseFloat(item[key]) || 0;
       });
     }
 
     return total.toFixed(2);
   };
+  const creditDebitDifference = useMemo(() => {
+    if (!newList) {
+      return getTotalAmount('credit') - getTotalAmount('debit') || 0;
+    }
+    return 0;
+  }, [form]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <TableContainer sx={{ overflow: 'auto' }}>
@@ -106,14 +115,37 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
           </TableBody>
         </Table>
       </TableContainer>
-      {newList && (
+      {newList ? (
         <div className="row justify-content-between align-items-center pe-1">
           <div className="col-md-6">
             <Button onClick={() => push(newList)}>Add New Item</Button>
           </div>
-          <div className="col-md-5 d-flex justify-content-between align-items-center pe-5 mx-2 mt-md-0 purchase-item-total-amount-wrapper">
+          <div className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Typography className="purchase-item-total-amount">Total Amount</Typography>
             <Typography className="purchase-item-total-amount">AED {getTotalAmount()}</Typography>
+          </div>
+        </div>
+      ) : (
+        <div className="row justify-content-between align-items-center pe-1">
+          <div className="col-md-5">
+            <Button onClick={() => push(newList)}>Add New Item</Button>
+          </div>
+          <div className="col-md-7 align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
+            <Stack direction="row" justifyContent="space-between">
+              <Typography className="purchase-item-total-amount">Total Amount</Typography>
+              <Typography className="purchase-item-total-amount">{getTotalAmount('debit')}</Typography>
+              <Typography className="purchase-item-total-amount">{getTotalAmount('credit')}</Typography>
+            </Stack>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography className="purchase-item-total-difference">Difference</Typography>
+              <Typography className="purchase-item-total-difference">{creditDebitDifference}</Typography>
+            </Stack>
+            <Stack direction="row" sx={{ display: creditDebitDifference !== 0 ? 'flex' : 'none' }}>
+              <Typography sx={{ color: 'red', fontSize: 10 }}>
+                <ErrorOutlineIcon sx={{ fontSize: 14 }} />
+                Total credited amount must be equal to debited amount
+              </Typography>
+            </Stack>
           </div>
         </div>
       )}

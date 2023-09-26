@@ -63,7 +63,7 @@ function JournalVoucherListing() {
             label: (
               <>
                 <AddIcon sx={{ fontSize: 15 }} />
-                Add New Quotation{' '}
+                New Journal
               </>
             ),
             handleClick: () => navigate('add'),

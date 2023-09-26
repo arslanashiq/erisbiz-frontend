@@ -21,7 +21,6 @@ export const journalVoucherHeadCells = [
     disablePadding: false,
     label: 'Reference #',
     align: 'left',
-    cellValueAction: customerInfo => customerInfo.customer_name,
   },
 
   {
@@ -63,5 +62,27 @@ export const journalVoucherHeadCells = [
     align: 'center',
   },
 ];
-
-export const test = '';
+export const journalVoucherAccountTable = [
+  {
+    id: 'account_name',
+    numeric: false,
+    disablePadding: true,
+    label: 'Account',
+    align: 'left',
+  },
+  {
+    id: 'debit',
+    numeric: false,
+    disablePadding: true,
+    label: 'Debit',
+    align: 'center',
+    isLink: true,
+  },
+  {
+    id: 'credit',
+    numeric: true,
+    disablePadding: false,
+    label: 'Credits',
+    align: 'center',
+  },
+];

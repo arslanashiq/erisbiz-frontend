@@ -40,6 +40,7 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
             keyName={keyValue}
             showItemsTable={options.showItemsTable}
             showVoucherTable={options.showVoucherTable}
+            showJournalVoucher={options.showJournalVoucher}
           />
         );
       }

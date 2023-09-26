@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
@@ -33,38 +34,40 @@ const styles = StyleSheet.create({
 });
 
 function InfoBox({ orderInfo }) {
-  return (
-    <View style={styles.infobox}>
-      {orderInfo.showCustomOptions
-        ? orderInfo.box2.map(option => (
+  return orderInfo.showCustomOptions ? (
+    orderInfo.box2 ? (
+      <View style={styles.infobox}>
+        {orderInfo.box2.map(option => (
           <View key={uuid()} style={styles.row}>
             <Text style={styles.infoboxText}>{option.label}</Text>
             <Text style={styles.infoboxText}>{option.value}</Text>
           </View>
-        ))
-        : orderInfo.supplier && (
-        <>
-          <View style={styles.row}>
-            <Text
-              style={{
-                fontSize: 10,
-                fontWeight: 600,
-              }}
-            >
-              Supplier:
-            </Text>
-            <Text style={styles.infoboxTextName}> {orderInfo.supplier.supplier_name}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.infoboxText}>City</Text>
-            <Text style={styles.infoboxText}>{orderInfo.supplier.city}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.infoboxText}>Country</Text>
-            <Text style={styles.infoboxText}>{orderInfo.supplier.country}</Text>
-          </View>
-        </>
-        )}
+        ))}
+      </View>
+    ) : (
+      <View />
+    )
+  ) : (
+    <View style={styles.infobox}>
+      <View style={styles.row}>
+        <Text
+          style={{
+            fontSize: 10,
+            fontWeight: 600,
+          }}
+        >
+          Supplier:
+        </Text>
+        <Text style={styles.infoboxTextName}> {orderInfo.supplier.supplier_name}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.infoboxText}>City</Text>
+        <Text style={styles.infoboxText}>{orderInfo.supplier.city}</Text>
+      </View>
+      <View style={styles.row}>
+        <Text style={styles.infoboxText}>Country</Text>
+        <Text style={styles.infoboxText}>{orderInfo.supplier.country}</Text>
+      </View>
     </View>
   );
 }

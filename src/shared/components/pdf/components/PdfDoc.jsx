@@ -6,8 +6,9 @@ import PDFHeader from './PDFHeader';
 import MainComponent from './MainComponent';
 import VoucherContent from './VoucherContent';
 import VoucherFooter from './VoucherFooter';
+import JournalVoucher from './JournalVoucher';
 
-function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTable }) {
+function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTable, showJournalVoucher }) {
   return (
     <MainComponent subject={orderInfo.type} title={orderInfo.type}>
       <PDFHeader orderInfo={orderInfo} />
@@ -31,6 +32,9 @@ function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTa
           <VoucherFooter orderInfo={orderInfo} orderDetail={orderDetail} keyName={keyName} />
         </>
       )}
+      {showJournalVoucher && (
+        <JournalVoucher orderInfo={orderInfo} orderDetail={orderDetail} keyName={keyName} />
+      )}
     </MainComponent>
   );
 }
@@ -40,11 +44,13 @@ PdfDoc.propTypes = {
   orderDetail: PropTypes.object,
   showItemsTable: PropTypes.bool,
   showVoucherTable: PropTypes.bool,
+  showJournalVoucher: PropTypes.bool,
 };
 PdfDoc.defaultProps = {
   orderDetail: {},
   showItemsTable: true,
   showVoucherTable: false,
+  showJournalVoucher: false,
 };
 
 export default PdfDoc;

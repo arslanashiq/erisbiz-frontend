@@ -13,6 +13,7 @@ function OrderDocument({
   showStatus,
   showItemsTable,
   showOrderVoucher,
+  showJournalVoucher,
 }) {
   const { id } = useParams();
   return (
@@ -52,6 +53,7 @@ function OrderDocument({
           showStatus={showStatus}
           showItemsTable={showItemsTable}
           showOrderVoucher={showOrderVoucher}
+          showJournalVoucher={showJournalVoucher}
         />
       )}
     </div>
@@ -67,6 +69,7 @@ OrderDocument.propTypes = {
   showStatus: PropTypes.bool,
   showItemsTable: PropTypes.bool,
   showOrderVoucher: PropTypes.bool,
+  showJournalVoucher: PropTypes.bool,
 };
 OrderDocument.defaultProps = {
   orderDetail: null,
@@ -74,6 +77,7 @@ OrderDocument.defaultProps = {
   showItemsTable: true,
   showOrderVoucher: false,
   handleChangeStatus: null,
+  showJournalVoucher: false,
 };
 
 export default OrderDocument;

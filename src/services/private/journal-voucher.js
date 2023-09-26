@@ -27,7 +27,31 @@ const journalVoucher = privateApi.injectEndpoints({
         url: `api/accounting/accountant/journals/${id}/`,
         method: 'DELETE',
       }),
+      providesTags: ['deleteJournalVoucher'],
       invalidatesTags: ['getJournalVouchersList'],
+    }),
+    getLatestJournalVoucher: builder.query({
+      query: () => ({ url: 'api/accounting/accountant/journals/latest', method: 'GET' }),
+      invalidatesTags: ['addJournalVoucher', 'deleteJournalVoucher'],
+    }),
+    getJournalVoucherDocuments: builder.query({
+      query: id => ({ url: `api/accounting/accountant/journals/${id}/docs`, method: 'GET' }),
+      providesTags: ['getJournalVoucherDocuments'],
+    }),
+    uploadJournalVoucherDocuments: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/accountant/journals/${id}/uploadDoc`,
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getJournalVoucherDocuments'],
+    }),
+    deleteJournalVoucherDocuments: builder.mutation({
+      query: ({ id }) => ({
+        url: `api/accounting/accountant/journals/docs/${id}/`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['getJournalVoucherDocuments'],
     }),
   }),
 });
@@ -38,5 +62,9 @@ export const {
   useAddJournalVoucherMutation,
   useEditJournalVoucherMutation,
   useDeleteJournalVoucherMutation,
+  useGetLatestJournalVoucherQuery,
+  useGetJournalVoucherDocumentsQuery,
+  useUploadJournalVoucherDocumentsMutation,
+  useDeleteJournalVoucherDocumentsMutation,
 } = journalVoucher;
 export const test = '';
