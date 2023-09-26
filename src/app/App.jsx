@@ -11,7 +11,7 @@ import theme from '../styles/mui/theme';
 function App() {
   const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const userResponse = useLoadUserQuery('', { skip: !localStorage.getItem('token') });
+  const userResponse = useLoadUserQuery();
 
   const handleVerifyUser = async () => {
     if (userResponse.status === 'rejected') {

@@ -22,7 +22,6 @@ function PerformaInvoiceDetail() {
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
   const performaInvoiceDetailResponse = useGetSinglePerformaInvoiceQuery(id);
-  console.log(performaInvoiceDetailResponse, 'SALKDJSADLKJSAL');
   const purchaseOrderActionList = useMemo(
     () => [
       {

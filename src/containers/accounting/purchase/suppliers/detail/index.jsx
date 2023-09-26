@@ -52,7 +52,6 @@ function SupplierDetail() {
   const handleClosePopup = () => {
     setPopup({ ...popup, open: false });
   };
-  console.log(supplierStatementResponse, 'transactions');
 
   return (
     <SectionLoader options={[supplierActivityLogsResponse.isLoading]}>

@@ -224,7 +224,6 @@ function AddPurchaseInvoice() {
             {({ setFieldValue, values }) => (
               <Form className="form form--horizontal mt-3 row">
                 {/* Supplier */}
-                {console.log(values, 'akjdsdhksakjd')}
                 <FormikSelect
                   options={suppliersListOptions}
                   name="supplier_id"

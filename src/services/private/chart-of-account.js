@@ -7,7 +7,11 @@ const chartOfAccountApi = privateApi.injectEndpoints({
       providesTags: ['getChartOfAccountList'],
     }),
     getSingleChartOfAccount: builder.query({
-      query: id => ({ url: `api/accountant/chart/of/account/${id}/detail`, method: 'GET' }),
+      query: ({ id, params }) => ({
+        url: `api/accountant/chart/of/account/${id}/detail`,
+        method: 'GET',
+        params,
+      }),
       providesTags: ['getSingleChartOfAccount'],
     }),
     // addJournalVoucher: builder.mutation({

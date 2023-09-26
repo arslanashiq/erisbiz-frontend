@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import 'styles/template-style/template-styles.scss';
 
 function SupplierStatement({ basicInfo, transactions }) {
-  console.log(transactions, 'transactions');
   return (
     <div className="statement-template">
       <div className="d-flex justify-content-between">

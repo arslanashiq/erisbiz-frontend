@@ -85,7 +85,6 @@ function DetailJournalVoucher() {
     ],
     [journalVoucherResponse]
   );
-  console.log(journalVoucherDocumentsResponse, 'journalVoucherDocumentsResponse');
   return (
     <SectionLoader options={[journalVoucherResponse.isLoading]}>
       <DetailPageHeader

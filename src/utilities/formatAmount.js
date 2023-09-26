@@ -12,7 +12,7 @@ function formatAmount(amount = 0) {
     if (formattedAmount) return formattedAmount;
     return amount;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return '0.00';
   }
 }

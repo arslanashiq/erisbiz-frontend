@@ -28,7 +28,7 @@ function ChartOfAccountListing() {
             label: (
               <>
                 <AddIcon sx={{ fontSize: 15 }} />
-                New Bank Account
+                Chart of Account
               </>
             ),
             handleClick: () => navigate('add'),

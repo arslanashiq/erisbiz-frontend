@@ -85,8 +85,6 @@ function AddReceiptVoucher() {
     });
   }, [latestreceiptVoucherNumber]);
 
-  // console.log('INIT VALUES ==>', initialValues);
-
   return (
     <SectionLoader
       options={[
