@@ -7,37 +7,34 @@ const chartOfAccountApi = privateApi.injectEndpoints({
       providesTags: ['getChartOfAccountList'],
     }),
     getSingleChartOfAccount: builder.query({
-      query: ({ id, params }) => ({
-        url: `api/accountant/chart/of/account/${id}/detail`,
-        method: 'GET',
-        params,
-      }),
+      query: id => ({ url: `/api/accounting/accountant/chartOfAccounts/${id}/`, method: 'GET' }),
       providesTags: ['getSingleChartOfAccount'],
     }),
-    // addJournalVoucher: builder.mutation({
-    //   query: payload => ({ url: 'api/accounting/accountant/journals/', method: 'POST', body: payload }),
-    //   invalidatesTags: ['getJournalVouchersList'],
-    // }),
-    // editJournalVoucher: builder.mutation({
-    //   query: ({ id, payload }) => ({
-    //     url: `api/accounting/accountant/journals/${id}/`,
-    //     method: 'PATCH',
-    //     body: payload,
-    //   }),
-    //   invalidatesTags: ['getSingleJournalVoucher', 'getJournalVouchersList'],
-    // }),
-    // deleteJournalVoucher: builder.mutation({
-    //   query: id => ({
-    //     url: `api/accounting/accountant/journals/${id}/`,
-    //     method: 'DELETE',
-    //   }),
-    //   providesTags: ['deleteJournalVoucher'],
-    //   invalidatesTags: ['getJournalVouchersList'],
-    // }),
-    // getLatestJournalVoucher: builder.query({
-    //   query: () => ({ url: 'api/accounting/accountant/journals/latest', method: 'GET' }),
-    //   invalidatesTags: ['addJournalVoucher', 'deleteJournalVoucher'],
-    // }),
+    addChartOfAccount: builder.mutation({
+      query: payload => ({
+        url: '/api/accounting/accountant/chartOfAccounts/',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['getChartOfAccountList'],
+    }),
+    editaddChartOfAccount: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `/api/accounting/accountant/chartOfAccounts/${id}/`,
+        method: 'PATCH',
+        body: payload,
+      }),
+      invalidatesTags: ['getSingleJournalVoucher', 'getJournalVouchersList'],
+    }),
+    deleteChartOfAccount: builder.mutation({
+      query: id => ({
+        url: `api/accounting/accountant/chartOfAccounts/${id}/`,
+        method: 'DELETE',
+      }),
+      providesTags: ['deleteChartOfAccount'],
+      invalidatesTags: ['getChartOfAccountList'],
+    }),
+
     // getJournalVoucherDocuments: builder.query({
     //   query: id => ({ url: `api/accounting/accountant/journals/${id}/docs`, method: 'GET' }),
     //   providesTags: ['getJournalVoucherDocuments'],
@@ -57,8 +54,19 @@ const chartOfAccountApi = privateApi.injectEndpoints({
     //   }),
     //   invalidatesTags: ['getJournalVoucherDocuments'],
     // }),
+    getChartOfAccountTypes: builder.query({
+      query: () => ({ url: '/api/accounting/accountant/accountTypes/', method: 'GET' }),
+      providesTags: ['getChartOfAccountTypes'],
+    }),
   }),
 });
 
-export const { useGetChartOfAccountListQuery, useGetSingleChartOfAccountQuery } = chartOfAccountApi;
+export const {
+  useGetChartOfAccountListQuery,
+  useGetSingleChartOfAccountQuery,
+  useAddChartOfAccountMutation,
+  useEditaddChartOfAccountMutation,
+  useDeleteChartOfAccountMutation,
+  useGetChartOfAccountTypesQuery,
+} = chartOfAccountApi;
 export const test = '';

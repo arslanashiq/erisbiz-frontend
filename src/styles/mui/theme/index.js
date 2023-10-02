@@ -65,7 +65,7 @@ const theme = createTheme({
     MuiTableContainer: {
       styleOverrides: {
         root: {
-          maxHeight: '63vh',
+          minHeight: '63vh',
         },
       },
     },

@@ -103,8 +103,12 @@ const CreditNoteDetailPage = lazy(() => import('containers/accounting/sale/credi
 // finance
 // Chart of account
 const ChartOfAccountListingPage = lazy(() => import('containers/accounting/finance/chart-of-account/listing'));
-// const AddJournalVouchePage = lazy(() => import('containers/accounting/finance/chart-of-account/add'));
+const AddChartOfAccount = lazy(() => import('containers/accounting/finance/chart-of-account/add'));
 const ChartOfAccountDetailPage = lazy(() => import('containers/accounting/finance/chart-of-account/detail'));
+
+// tax Return
+const TaxReturnListingPage = lazy(() => import('containers/accounting/finance/tax-returns/listing'));
+// const AddChartOfAccount = lazy(() => import('containers/accounting/finance/chart-of-account/add'));
 
 // journal voucher
 const JournalVoucherListingPage = lazy(() => import('containers/accounting/finance/journal-voucher/listing'));
@@ -278,9 +282,15 @@ function AppRoutes() {
                     </Route>
                     <Route path="chart-of-account" element={<Outlet />}>
                       <Route path="" index element={<ChartOfAccountListingPage />} />
-                      {/* <Route path="add" element={<AddJournalVouchePage />} />
-                      <Route path="edit/:id" element={<AddJournalVouchePage />} /> */}
+                      <Route path="add" element={<AddChartOfAccount />} />
+                      <Route path="edit/:id" element={<AddChartOfAccount />} />
                       <Route path=":id/detail" element={<ChartOfAccountDetailPage />} />
+                    </Route>
+                    <Route path="tax-payments" element={<Outlet />}>
+                      <Route path="" index element={<TaxReturnListingPage />} />
+                      {/* <Route path="add" element={<AddChartOfAccount />} />
+                      <Route path="edit/:id" element={<AddChartOfAccount />} />
+                      <Route path=":id/detail" element={<ChartOfAccountDetailPage />} /> */}
                     </Route>
                   </Route>
                 </Route>

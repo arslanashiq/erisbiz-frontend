@@ -51,13 +51,13 @@ function AddPurchaseInvoice() {
 
   const itemsListResponse = useGetItemsListQuery();
   const suppliersListResponse = useGetSuppliersListQuery();
-  const bankAccountsListsponse = useGetBankAccountsListQuery();
+  const bankAccountsListResponse = useGetBankAccountsListQuery();
   const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery();
 
   const [addPurchaseInvoice] = useAddPurchaseInvoceMutation();
   const [editPurchaseInvoice] = useEditPurchaseInvoceMutation();
 
-  const { initialValues, queryResponse: purchaseInvoiceDetail } = useInitialValues(
+  const { initialValues, isLoading } = useInitialValues(
     purchaseInvoiceInitialValue,
     useGetSinglePurchaseInvoiceQuery,
     null
@@ -77,7 +77,7 @@ function AddPurchaseInvoice() {
     },
     ['sale_price', 'item_type']
   );
-  const { optionsList: bankAccountOptions } = useListOptions(bankAccountsListsponse?.data?.results, {
+  const { optionsList: bankAccountOptions } = useListOptions(bankAccountsListResponse?.data?.results, {
     label: 'bank_account_name',
     value: 'chart_of_account',
   });
@@ -166,10 +166,11 @@ function AddPurchaseInvoice() {
   return (
     <SectionLoader
       options={[
-        suppliersListResponse.isLoading,
-        purchaseOrdersListResponse.isLoading,
         itemsListResponse.isLoading,
-        purchaseInvoiceDetail.isLoading,
+        suppliersListResponse.isLoading,
+        bankAccountsListResponse.isLoading,
+        purchaseOrdersListResponse.isLoading,
+        isLoading,
       ]}
     >
       <Card>

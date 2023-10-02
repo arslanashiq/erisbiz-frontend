@@ -41,7 +41,7 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <TableContainer sx={{ overflow: 'auto' }}>
+      <TableContainer sx={{ overflow: 'auto', minHeight: 'auto' }}>
         <Table sx={{ minWidth: '700px' }}>
           <TableHead className="purchase-item-head">
             <TableRow>
@@ -69,7 +69,6 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
                         placeholder={input.placeholder}
                         value={item[input.name]}
                         onChange={value => {
-                          form.setFieldValue(`${name}.${index}.${input.name}`, value);
                           if (input.onChange) {
                             input.onChange(
                               name,
@@ -91,8 +90,7 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
                         placeholder={input.placeholder}
                         disabled={input.disabled || false}
                         type={input.type || 'number'}
-                        onChange={(key, value) => {
-                          form.setFieldValue(key, value);
+                        onChange={key => {
                           if (input.onChange) {
                             input.onChange(
                               name,

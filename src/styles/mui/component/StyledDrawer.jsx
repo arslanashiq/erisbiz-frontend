@@ -1,4 +1,3 @@
-import React from 'react';
 import MuiDrawer from '@mui/material/Drawer';
 import { styled } from '@mui/material/styles';
 
@@ -25,7 +24,7 @@ const closedMixin = theme => ({
   },
 });
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })(({ theme, open }) => ({
+const StyledDrawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })(({ theme, open }) => ({
   width: DRAWER_WIDTH,
   flexShrink: 0,
   whiteSpace: 'nowrap',
@@ -39,9 +38,5 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
 }));
-
-function StyledDrawer({ ...props }) {
-  return <Drawer {...props} />;
-}
 
 export default StyledDrawer;

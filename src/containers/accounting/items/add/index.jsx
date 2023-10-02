@@ -28,6 +28,7 @@ import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
 import { itemsInitialValues } from '../utilities/constants';
 // styles
 import 'styles/form/form.scss';
+import { itemFormValidationSchema } from '../utilities/validationSchema';
 
 function AddItemPage() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function AddItemPage() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={itemFormValidationSchema}
+            validationSchema={itemFormValidationSchema}
             onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
               try {
                 let response = null;

@@ -108,3 +108,11 @@
 .font-30 {
   font-size: 30px !important;
 }
+
+.display-intermediate-node {
+  position: absolute;
+  width: 18px;
+  height: 20px;
+  border-left: 1px solid #adadad;
+  transform: translateY(28px);
+}

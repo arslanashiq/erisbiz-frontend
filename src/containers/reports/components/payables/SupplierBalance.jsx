@@ -10,6 +10,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { supplierPaybleBalanceReportHeadCells } from 'containers/reports/utilities/head-cells';
 // styles
 import 'styles/reports/reports.scss';
+import ReportsHeader from '../ReportsHeader';
 
 function SupplierBalance() {
   const location = useLocation();
@@ -41,6 +42,7 @@ function SupplierBalance() {
   );
   return (
     <SectionLoader options={[supplierPayableBalanceResponse.isLoading]}>
+      <ReportsHeader tableHeader={supplierPaybleBalanceReportHeadCells} />
       <Card>
         <CardContent>
           <div className="reports mx-auto">

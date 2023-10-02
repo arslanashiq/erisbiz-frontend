@@ -144,7 +144,7 @@ function MuiTableBody({
                     align="center"
                     style={{ fontSize: '0.80rem' }}
                   >
-                    <Box onClick={() => btn.handleClick(row.id)}>{btn.element}</Box>
+                    <Box onClick={() => btn.handleClick(row.id || row)}>{btn.element}</Box>
                   </TableCell>
                 ))}
               {/* Action Button */}

@@ -1,8 +1,7 @@
-import React from 'react';
 import { Dialog } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const MuiDialog = styled(Dialog)(() => ({
+const StyledDialog = styled(Dialog)(() => ({
   '&.MuiDialog-root': {
     '.css-4pp0nb-MuiPaper-root-MuiDialog-paper': {
       minWidth: '900px',
@@ -11,6 +10,4 @@ const MuiDialog = styled(Dialog)(() => ({
   },
 }));
 
-export default function StyledDialog({ ...props }) {
-  return <MuiDialog {...props} />;
-}
+export default StyledDialog;

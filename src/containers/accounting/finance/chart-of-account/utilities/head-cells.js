@@ -12,10 +12,15 @@ export const chartOfAccountHeadCells = [
     disablePadding: false,
     label: 'Account Type',
     align: 'left',
-    // cellValueAction: accountType => accountType.account_type_formatted,
+  },
+  {
+    id: 'parent_account_name',
+    disablePadding: false,
+    label: 'Parent Account Name',
+    align: 'left',
   },
 ];
-export const chartOfAccountLessDetailTableHeadCells = [
+export const chartOfAccountDetailTableHeadCells = [
   {
     id: 'transaction_date',
     numeric: false,
@@ -30,7 +35,6 @@ export const chartOfAccountLessDetailTableHeadCells = [
     disablePadding: true,
     label: 'Transaction Details',
     align: 'left',
-    isLink: true,
   },
   {
     id: 'transaction_type',
@@ -44,8 +48,6 @@ export const chartOfAccountLessDetailTableHeadCells = [
     label: 'Debit',
     align: 'left',
     mergeCell: true,
-    isLink: true,
-    handleLink: row => `/pages/accounting/purchase/payment-voucher/${row.object_id}/detail`,
   },
 
   {
@@ -107,10 +109,21 @@ export const chartOfAccountCompleteDetailTableHeadCells = [
     handleLink: row => `/pages/accounting/purchase/payment-voucher/${row.object_id}/detail`,
   },
   {
+    id: 'bcy_credit',
+    disablePadding: false,
+    label: 'Credit',
+    align: 'left',
+    mergeCell: true,
+    isLink: true,
+    handleLink: row => `/pages/accounting/purchase/payment-voucher/${row.object_id}/detail`,
+  },
+  {
     id: 'total_amount',
     disablePadding: false,
     label: 'AMOUNT',
     align: 'left',
     mergeCell: true,
+    isLink: true,
+    handleLink: row => `/pages/accounting/purchase/payment-voucher/${row.object_id}/detail`,
   },
 ];

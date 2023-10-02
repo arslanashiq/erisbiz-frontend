@@ -1,0 +1,102 @@
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { v4 as uuid } from 'uuid';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import HttpsIcon from '@mui/icons-material/Https';
+import { Box, Checkbox, Link, TableCell, TableRow, Tooltip } from '@mui/material';
+import { useNavigate } from 'react-router';
+
+function RenderChartOfAccount({ chartOfAccounts, selected, handleClick }) {
+  const navigate = useNavigate();
+
+  const isSelected = id => selected.indexOf(id) !== -1;
+  const renderRow = useCallback(
+    (account, padding, childIndex) => {
+      let rows = [];
+      const id = account.uuid || account.id || account.uid;
+
+      const isItemSelected = isSelected(id);
+      const labelId = `enhanced-table-checkbox-${id}`;
+
+      rows.push(
+        <TableRow
+          key={uuid()}
+          role="checkbox"
+          aria-checked={isItemSelected}
+          tabIndex={-1}
+          selected={isItemSelected}
+          sx={{ cursor: 'pointer', position: 'relative' }}
+        >
+          <TableCell padding="checkbox">
+            {account.child_accounts && (
+              <FolderOpenIcon
+                sx={{ position: 'absolute', fontSize: 20, left: 25 + padding * 20, top: '15%', zIndex: 10 }}
+              />
+            )}
+            {account.parent_account_name && (
+              <Box
+                sx={{
+                  width: account.child_accounts ? 10 : 30,
+                  height: childIndex === 0 ? 30 : 40,
+                  position: 'absolute',
+                  borderLeft: '2px solid silver',
+                  borderBottom: '2px solid silver',
+                  zIndex: 9,
+                  top: childIndex === 0 ? -13 : -20,
+                  left: 15 + padding * 20,
+                }}
+              />
+            )}
+
+            {account.is_locked ? (
+              <Tooltip title="You cannot edit or elete this item " placement="right" arrow>
+                <HttpsIcon size="small" />
+              </Tooltip>
+            ) : (
+              <Checkbox
+                onClick={event => {
+                  handleClick(event, id);
+                }}
+                color="primary"
+                checked={isItemSelected}
+                inputProps={{
+                  'aria-labelledby': labelId,
+                }}
+                size="small"
+              />
+            )}
+          </TableCell>
+          <TableCell
+            sx={{ paddingLeft: `${padding * 20}px !important` }}
+            onClick={() => navigate(`/pages/accounting/finance/chart-of-account/${account.id}/detail`)}
+          >
+            <Link
+              className="text-decoration-none cursor-pointer"
+              to={`/pages/accounting/finance/chart-of-account/${account.id}/detail`}
+            >
+              {account.account_name}
+            </Link>
+          </TableCell>
+          <TableCell>{account.account_type}</TableCell>
+          <TableCell>{account.parent_account_name || '-'}</TableCell>
+        </TableRow>
+      );
+
+      if (account.child_accounts) {
+        rows = [...rows, ...account.child_accounts.map((item, index) => renderRow(item, padding + 1, index))];
+      }
+      return rows;
+    },
+    [chartOfAccounts, selected]
+  );
+  return chartOfAccounts.map((item, index) => renderRow(item, 1, index));
+}
+RenderChartOfAccount.propTypes = {
+  chartOfAccounts: PropTypes.array,
+};
+
+RenderChartOfAccount.defaultProps = {
+  chartOfAccounts: [],
+};
+
+export default RenderChartOfAccount;

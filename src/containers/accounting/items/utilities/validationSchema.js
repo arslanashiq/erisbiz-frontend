@@ -1,23 +1,20 @@
 import * as Yup from 'yup';
 
-export const bankFormValidationSchema = Yup.object({
-  bank_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Account Name is required'),
-  account_number: Yup.string()
-    .matches(/^[0-9]*$/, 'Enter numbers only')
-    .max(50, 'Cannot exceed 50 characters')
-    .required('Account Number is required'),
-  branch_name: Yup.string().required('Branch Name is required'),
-
-  IBAN: Yup.string()
-    .matches(/^[A-Z]{2}[a-zA-Z\d]+$/, 'Invalid IBAN')
-    .max(50, 'Cannot exceed 50 characters')
-    .required('IBAN is required'),
-
-  swift_code: Yup.string().max(50, 'Cannot exceed 50 chracters').required('Swift Code is required'),
-
-  gl_number: Yup.string()
-    .matches(/^[0-9]*$/, 'Enter numbers only')
-    .required('Account Number is required'),
-  notes: Yup.string().max(255, 'Cannot exceed 255 chracters'),
+export const itemFormValidationSchema = Yup.object({
+  item_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Required'),
+  sku_hs_code: Yup.string(),
+  sale_price: Yup.number('Must be a number').positive('Must be Positive Number').required('Required'),
+  cost_price: Yup.number('Must be a number').positive('Must be Positive Number').required('Required'),
+  item_type: Yup.string().required(),
+  is_active: Yup.bool().required('Required'),
+  account_no: Yup.string(),
+  bar_code: Yup.string(),
+  unit: Yup.string(),
+  recorder: Yup.string(),
+  description: Yup.string(),
+  // item_image: Yup.o(),
+  part_number: Yup.string(),
+  supplier: Yup.number().positive(),
+  brand: Yup.number().positive(),
 });
 export const test = '';

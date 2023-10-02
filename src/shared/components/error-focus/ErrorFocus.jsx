@@ -38,7 +38,13 @@ function ErrorFocus({ formik }) {
       if (errors?.non_field_errors) {
         setFormikErrors(errors.non_field_errors);
       } else {
-        setFormikErrors(errors[keys[0]]);
+        const idSelector = `[id="${keys[0]}"]`;
+        const nameSelector = `[name="${keys[0]}"]`;
+        const checkElementWithIdExist = document.querySelector(idSelector);
+        const checkElementWithNameExist = document.querySelector(nameSelector);
+        if (!checkElementWithIdExist && !checkElementWithNameExist) {
+          setFormikErrors(errors[keys[0]]);
+        }
       }
     } else {
       setFormikErrors('');

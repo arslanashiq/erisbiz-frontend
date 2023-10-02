@@ -9,12 +9,12 @@ import AppRoutes from './routes';
 import theme from '../styles/mui/theme';
 
 function App() {
-  const { isAuthenticated } = useSelector(state => state.user);
+  const { isAuthenticated, token } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const userResponse = useLoadUserQuery();
+  const userResponse = useLoadUserQuery({}, { skip: !token });
 
   const handleVerifyUser = async () => {
-    if (userResponse.status === 'rejected') {
+    if (userResponse.status === 'rejected' || token === null) {
       dispatch(
         isUserAuthenticated({
           isAuthenticated: false,
@@ -34,7 +34,7 @@ function App() {
   };
   useEffect(() => {
     handleVerifyUser();
-  }, [userResponse]);
+  }, [userResponse, token]);
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider

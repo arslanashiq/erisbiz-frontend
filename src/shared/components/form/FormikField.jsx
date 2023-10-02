@@ -28,8 +28,7 @@ function FormikField({
   const handleChange = event => {
     onValueChange(event);
     if (onChange) {
-      if (type === 'file') onChange(event.target.files);
-      else onChange(event.target.value);
+      onChange(event.target.value);
     }
   };
 

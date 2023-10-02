@@ -1,9 +1,8 @@
-import React from 'react';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
 import { DRAWER_WIDTH } from 'utilities/constants';
 
-const AppBar = styled(MuiAppBar, {
+const StyledAppBar = styled(MuiAppBar, {
   shouldForwardProp: prop => prop !== 'open',
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -20,6 +19,4 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-export default function StyledAppBar({ ...props }) {
-  return <AppBar {...props} />;
-}
+export default StyledAppBar;

@@ -3,9 +3,9 @@ import * as Yup from 'yup';
 import { Button } from '@mui/material';
 import { Formik, Form, ErrorMessage } from 'formik';
 import PersonIcon from '@mui/icons-material/Person';
-import { FormikField } from 'shared/components/form/Field';
 import { EMAIL_REGEX } from 'utilities/constants';
 import InfoPopup from 'shared/modals/InfoPopup';
+import FormikField from 'shared/components/form/FormikField';
 
 function ForgetPassword() {
   const [state, setState] = useState({

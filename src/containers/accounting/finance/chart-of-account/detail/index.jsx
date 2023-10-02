@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router';
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
@@ -5,23 +6,20 @@ import { Box, Button, Card, CardContent, Typography } from '@mui/material';
 import { useGetSingleChartOfAccountQuery } from 'services/private/chart-of-account';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
+import FormHeader from 'shared/components/form-header/FormHeader';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
-import {
-  chartOfAccountCompleteDetailTableHeadCells,
-  chartOfAccountLessDetailTableHeadCells,
-} from '../utilities/head-cells';
+import { chartOfAccountDetailTableHeadCells } from '../utilities/head-cells';
 
 function ChartOfAccountDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [showDetailView, setShowDetailView] = useState(false);
-  const charOfAccountDetailResponse = useGetSingleChartOfAccountQuery({ id, query: location.search });
-  console.log(charOfAccountDetailResponse, 'charOfAccountDetailResponse');
+  const charOfAccountDetailResponse = useGetSingleChartOfAccountQuery(id);
   return (
     <SectionLoader options={[charOfAccountDetailResponse.isLoading]}>
+      <FormHeader title={charOfAccountDetailResponse?.data?.account_name} />
       <Card>
         <CardContent>
           <Box className="chart-of-account-detail-head">
@@ -38,23 +36,17 @@ function ChartOfAccountDetail() {
           <h4 className="font-weight-bold mt-4">Recent Transactions</h4>
           <MuiTable
             data={charOfAccountDetailResponse?.data?.data}
-            headCells={
-              showDetailView
-                ? chartOfAccountCompleteDetailTableHeadCells
-                : chartOfAccountLessDetailTableHeadCells
-            }
+            headCells={chartOfAccountDetailTableHeadCells}
           />
-          {showDetailView === false && (
-            <Button
-              variant="text"
-              onClick={() => {
-                setShowDetailView(true);
-                navigate(`/pages/accounting/finance/chart-of-account/${id}/detail?duration=this+month`);
-              }}
-            >
-              Detail View
-            </Button>
-          )}
+
+          <Button
+            variant="text"
+            onClick={() => {
+              navigate(`/pages/reports/account-transaction/${id}/detail?duration=this+month`);
+            }}
+          >
+            Detail View
+          </Button>
         </CardContent>
       </Card>
     </SectionLoader>

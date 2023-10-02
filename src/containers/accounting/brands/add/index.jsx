@@ -20,6 +20,7 @@ import useListOptions from 'custom-hooks/useListOptions';
 import { brandInitialValue } from '../utilities/constants';
 // styles
 import 'styles/form/form.scss';
+import { brandsFormValidationSchema } from '../utilities/validation-schema';
 
 function AddBrand() {
   const { id } = useParams();
@@ -46,7 +47,7 @@ function AddBrand() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={bankFormValidationSchema}
+            validationSchema={brandsFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               try {
                 let response = null;
