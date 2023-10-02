@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Stack, Typography } from '@mui/material';
 import StyledDialog from 'styles/mui/component/StyledDialog';
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFViewer, View } from '@react-pdf/renderer';
 import MainComponent from '../components/MainComponent';
 import LogoAndCompanyInfo from '../components/LogoAndCompanyInfo';
 
@@ -37,7 +37,9 @@ function ReportsPdfPrintModal({ isPrintModalOpen, setIsPrintModalOpen, tableHead
         <Stack sx={{ padding: 2 }}>
           <PDFViewer style={{ height: '75vh', width: '100%' }}>
             <MainComponent subject="Test" title="Test">
-              <LogoAndCompanyInfo />
+              <View style={{ flexDirection: 'row', paddingBottom: 20, marginTop: -30, width: '100%' }}>
+                <LogoAndCompanyInfo />
+              </View>
             </MainComponent>
           </PDFViewer>
         </Stack>
