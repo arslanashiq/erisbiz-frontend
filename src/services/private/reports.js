@@ -44,6 +44,34 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getPurchaseOrderDetail'],
     }),
+    getPurchaseOrderBySupplier: builder.query({
+      query: params => ({
+        url: 'api/payables/report/pur/order/by/vendor',
+        params: params || 'this+month',
+      }),
+      providesTags: ['getPurchaseOrderBySupplier'],
+    }),
+    getPayableSummary: builder.query({
+      query: params => ({
+        url: 'api/payables/report/summary',
+        params: params || 'this+month',
+      }),
+      providesTags: ['getPayableSummary'],
+    }),
+    getPayableDetail: builder.query({
+      query: params => ({
+        url: 'api/payables/report/detail',
+        params: params || 'this+month',
+      }),
+      providesTags: ['getPayableDetail'],
+    }),
+    getSupplierRefundHistory: builder.query({
+      query: params => ({
+        url: 'api/payables/report/refund/history',
+        params: params || 'this+month',
+      }),
+      providesTags: ['getRefundHistory'],
+    }),
   }),
 });
 
@@ -54,4 +82,8 @@ export const {
   useGetPayableBillDetailsQuery,
   useGetPaymentMadeDetailsQuery,
   useGetPurchaseOrderDetailQuery,
+  useGetPurchaseOrderBySupplierQuery,
+  useGetPayableSummaryQuery,
+  useGetPayableDetailQuery,
+  useGetSupplierRefundHistoryQuery,
 } = reportsApi;

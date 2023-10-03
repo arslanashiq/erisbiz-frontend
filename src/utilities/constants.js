@@ -3,8 +3,8 @@ export const RECAPTCHA_PRIVATE_KEY = process.env.REACT_APP_PRIVATE_RECAPTCHA_KEY
 // export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
 // export const API_URL = 'https://0e81-2400-adc5-1e5-1900-2b20-4653-1a54-e80c.ngrok-free.app';
-export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
-// export const API_URL = 'http://16.24.36.173:8000';
+// export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
+export const API_URL = 'http://16.24.36.173:8000';
 // export const API_URL = 'http://192.168.18.12:8000/';
 
 export const ROWS_PER_PAGE = 20;
@@ -33,6 +33,7 @@ export const SUPER_USER = 'superuser';
 
 export const DATE_FORMAT = 'DD-MMMM-YYYY';
 export const DATE_FORMAT_PRINT = 'DD MMM YYYY';
+export const DATE_FILTER_REPORT = 'DD MMM YYYY';
 
 // ITEM TYPE
 export const ITEM_TYPES = [

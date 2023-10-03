@@ -35,15 +35,6 @@ const SuppliersAddPage = lazy(() => import('containers/accounting/purchase/suppl
 const SuppliersDetailPage = lazy(() => import('containers/accounting/purchase/suppliers/detail'));
 const SupplierContactAddPage = lazy(() => import('containers/accounting/purchase/suppliers/contacts/add'));
 
-// Reports
-const ReportsListPage = lazy(() => import('containers/reports'));
-const ReportSupplierBalancePage = lazy(() => import('containers/reports/components/payables/SupplierBalance'));
-const ReportApAgingSummaryPage = lazy(() => import('containers/reports/components/payables/ApAgingSummary'));
-const ReportApAgingDetailPage = lazy(() => import('containers/reports/components/payables/ApAgingDetail'));
-const ReportBillDetailsPage = lazy(() => import('containers/reports/components/payables/BillDetails'));
-const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/components/payables/PaymentsMade'));
-const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/components/payables/PurchaseOrderDetail'));
-
 // Purchase
 // Purchase Order
 const PurchaseOrderListingPage = lazy(() => import('containers/accounting/purchase/purchase-orders/listing'));
@@ -115,6 +106,19 @@ const JournalVoucherListingPage = lazy(() => import('containers/accounting/finan
 const AddJournalVouchePage = lazy(() => import('containers/accounting/finance/journal-voucher/add'));
 const JournalVoucherDetailPage = lazy(() => import('containers/accounting/finance/journal-voucher/detail'));
 
+// Reports
+const ReportsListPage = lazy(() => import('containers/reports'));
+const ReportSupplierBalancePage = lazy(() => import('containers/reports/components/payables/SupplierBalance'));
+const ReportApAgingSummaryPage = lazy(() => import('containers/reports/components/payables/ApAgingSummary'));
+const ReportApAgingDetailPage = lazy(() => import('containers/reports/components/payables/ApAgingDetail'));
+const ReportBillDetailsPage = lazy(() => import('containers/reports/components/payables/BillDetails'));
+const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/components/payables/PaymentsMade'));
+const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/components/payables/PurchaseOrderDetail'));
+const ReportPurchaseOrderBySupplierPage = lazy(() => import('containers/reports/components/payables/PurchaseOrderBySupplier'));
+const ReportPayableSummaryPage = lazy(() => import('containers/reports/components/payables/PayableSummary'));
+const ReportPayableDetailsPage = lazy(() => import('containers/reports/components/payables/PayableDetails'));
+const ReportSupplierRefundHistoryPage = lazy(() => import('containers/reports/components/payables/SupplierRefundHistory'));
+
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
 
@@ -142,16 +146,6 @@ function AppRoutes() {
                   <Route path="calendar" element={<Outlet />} />
                 </Route>
 
-                {/* Reports */}
-                <Route path="reports" element={<Outlet />}>
-                  <Route path="" index element={<ReportsListPage />} />
-                  <Route path="supplier-balances" element={<ReportSupplierBalancePage />} />
-                  <Route path="ap-aging-summary" element={<ReportApAgingSummaryPage />} />
-                  <Route path="ap-aging-details" element={<ReportApAgingDetailPage />} />
-                  <Route path="bill-details" element={<ReportBillDetailsPage />} />
-                  <Route path="payments-made" element={<ReportPaymentsMadeDetailPage />} />
-                  <Route path="purchase-order-details" element={<ReportPurchaseOrderDetailPage />} />
-                </Route>
                 <Route path="accounting" element={<Outlet />}>
                   {/* Banking Master */}
                   <Route path="banking" element={<Outlet />}>
@@ -292,7 +286,21 @@ function AppRoutes() {
                       <Route path="edit/:id" element={<AddChartOfAccount />} />
                       <Route path=":id/detail" element={<ChartOfAccountDetailPage />} /> */}
                     </Route>
+                    {/* Reports */}
                   </Route>
+                </Route>
+                <Route path="reports" element={<Outlet />}>
+                  <Route path="" index element={<ReportsListPage />} />
+                  <Route path="supplier-balances" element={<ReportSupplierBalancePage />} />
+                  <Route path="ap-aging-summary" element={<ReportApAgingSummaryPage />} />
+                  <Route path="ap-aging-details" element={<ReportApAgingDetailPage />} />
+                  <Route path="bill-details" element={<ReportBillDetailsPage />} />
+                  <Route path="payments-made" element={<ReportPaymentsMadeDetailPage />} />
+                  <Route path="purchase-order-details" element={<ReportPurchaseOrderDetailPage />} />
+                  <Route path="purchase-order-by-supplier" element={<ReportPurchaseOrderBySupplierPage />} />
+                  <Route path="payable-summary" element={<ReportPayableSummaryPage />} />
+                  <Route path="payable-details" element={<ReportPayableDetailsPage />} />
+                  <Route path="supplier-refund-history" element={<ReportSupplierRefundHistoryPage />} />
                 </Route>
               </Route>
             </Route>

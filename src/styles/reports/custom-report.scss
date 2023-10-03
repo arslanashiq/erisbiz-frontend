@@ -156,6 +156,9 @@
       border-bottom: 0.2px solid $primary-color;
       text-align: center;
       padding: 5px 10px;
+      a {
+        text-decoration: none;
+      }
     }
   }
   table.table-emp {

@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+import moment from 'moment';
 import { useLocation } from 'react-router';
 import { Card, CardContent } from '@mui/material';
 // services
@@ -7,49 +8,52 @@ import { useGetSupplierPayableBalanceQuery } from 'services/private/reports';
 import CustomReport from 'shared/components/custom-report/CustomReport';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+import { FilterReportsList } from 'containers/reports/utilities/constants';
+import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { supplierPaybleBalanceReportHeadCells } from 'containers/reports/utilities/head-cells';
+import useGetSupplierBalanceData from 'containers/reports/custom-hooks/useGetSupplierBalanceData';
+// utilities
+import { DATE_FILTER_REPORT } from 'utilities/constants';
+import { payableReportsFilterInputList } from '../../utilities/filter-input-list';
+import { PayableReportFilterInitialValues } from '../../utilities/initial-values';
+// components
+import ReportsHeader from '../ReportsHeader';
+import CustomReportsDetailHeader from '../CustomReportsDetailHeader';
 // styles
 import 'styles/reports/reports.scss';
-import ReportsHeader from '../ReportsHeader';
 
+const reportTitle = 'Supplier Balances';
 function SupplierBalance() {
   const location = useLocation();
+
   const supplierPayableBalanceResponse = useGetSupplierPayableBalanceQuery(location.search);
-  const { tableBody, totalBalance } = useMemo(() => {
-    let balance = 0;
-    const body = [];
-    supplierPayableBalanceResponse?.data?.data.forEach(item => {
-      balance += item.balance_bcy;
-      body.push([
-        { value: item.supplier__supplier_name, style: { textAlign: 'start' } },
-        { value: item.bill_balance },
-        { value: item.credit_balance },
-        { value: item.balance_bcy },
-      ]);
-    });
-    return { tableBody: body, totalBalance: balance };
-  }, [supplierPayableBalanceResponse]);
-  const tableFooter = useMemo(
-    () => [
-      [
-        { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
-        { value: '' },
-        { value: '' },
-        { value: `AED ${totalBalance.toFixed(2)}`, style: { fontWeight: 700 } },
-      ],
-    ],
-    [totalBalance]
-  );
+
+  const { tableBody, tableFooter } = useGetSupplierBalanceData(supplierPayableBalanceResponse);
+  const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
+
   return (
     <SectionLoader options={[supplierPayableBalanceResponse.isLoading]}>
-      <ReportsHeader tableHeader={supplierPaybleBalanceReportHeadCells} />
+      <ReportsHeader
+        tableHeader={supplierPaybleBalanceReportHeadCells}
+        reportTitle={reportTitle}
+        tableBody={tableBody}
+        tableFooter={tableFooter}
+        initialFilterValue={FilterReportsList[0]}
+        filterList={FilterReportsList}
+        handleSubmitCustomDateFilter={handleSubmitCustomDateFilter}
+        handleChangeFilter={handleChangeFilter}
+        customFilterInitialValues={PayableReportFilterInitialValues}
+        customFilterInputsList={payableReportsFilterInputList}
+      />
       <Card>
         <CardContent>
           <div className="reports mx-auto">
-            <div className="text-center mb-5">
-              <h4>Luxury Events and VIP Travel DMCC</h4>
-              <h3>Supplier Balances</h3>
-            </div>
+            <CustomReportsDetailHeader
+              reportTitle={reportTitle}
+              filterInfo={` As of ${moment(supplierPayableBalanceResponse?.data?.end_date).format(
+                DATE_FILTER_REPORT
+              )}`}
+            />
             <CustomReport
               tableHeader={supplierPaybleBalanceReportHeadCells}
               tableBody={tableBody}

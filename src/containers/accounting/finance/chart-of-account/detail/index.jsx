@@ -23,8 +23,8 @@ function ChartOfAccountDetail() {
       <Card>
         <CardContent>
           <Box className="chart-of-account-detail-head">
-            <Typography className="font-14">CLOSING BALANCE</Typography>
-            <Typography color="primary" className="font-30">
+            <Typography className="fs-14">CLOSING BALANCE</Typography>
+            <Typography color="primary" className="fs-30">
               AED {charOfAccountDetailResponse?.data?.closing_balance}
             </Typography>
 

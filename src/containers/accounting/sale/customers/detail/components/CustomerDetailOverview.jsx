@@ -81,11 +81,11 @@ function CustomerDetailOverview({ customer }) {
         </Grid>
         <Grid item xs={12} lg={6} className="px-4">
           <Grid item xs={12} className="mb-3">
-            <h5 className="font-14 font-weight-bold">Other Details</h5>
+            <h5 className="fs-14 font-weight-bold">Other Details</h5>
           </Grid>
           <Grid container item xs={12}>
             <Grid item xs={6} className="clr-grey mb-2">
-              <Typography variant="h5" className="font-14">
+              <Typography variant="h5" className="fs-14">
                 {customer.contact_person}
               </Typography>
             </Grid>
@@ -93,7 +93,7 @@ function CustomerDetailOverview({ customer }) {
               {customer.contact}
             </Grid>
             <Grid item xs={6} className="clr-grey">
-              <Typography variant="h5" className="font-14">
+              <Typography variant="h5" className="fs-14">
                 VAT Registration
               </Typography>
             </Grid>
@@ -129,12 +129,12 @@ function CustomerDetailOverview({ customer }) {
       <Grid container className="mt-2 mb-4">
         <Grid container item xs={12} lg={6}>
           <Grid item xs={12} mb={2} className="border-bottom">
-            <h5 className="font-14 font-weight-bold">Invoice Address</h5>
+            <h5 className="fs-14 font-weight-bold">Invoice Address</h5>
           </Grid>
           {invoiceAddress.map(invoice => (
             <Grid container item xs={12} key={uuid()} mb={2}>
               <Grid item xs={6} className="clr-grey">
-                <Typography variant="h5" className="font-14">
+                <Typography variant="h5" className="fs-14">
                   {invoice.title}
                 </Typography>
               </Grid>
@@ -146,12 +146,12 @@ function CustomerDetailOverview({ customer }) {
         </Grid>
         <Grid item xs={12} lg={6}>
           <Grid item xs={12} mb={2} className="border-bottom">
-            <h5 className="font-14 font-weight-bold">Delivery Address</h5>
+            <h5 className="fs-14 font-weight-bold">Delivery Address</h5>
           </Grid>
           {deliveryAddress.map(delivery => (
             <Grid container item xs={12} key={uuid()} mb={2}>
               <Grid item xs={6} className="clr-grey">
-                <Typography variant="h5" className="font-14">
+                <Typography variant="h5" className="fs-14">
                   {delivery.title}
                 </Typography>
               </Grid>

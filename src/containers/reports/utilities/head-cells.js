@@ -63,18 +63,70 @@ export const apAgingSummaryReportHeadCells = [
   { title: '> 45 DAYS' },
   { title: 'TOTAL' },
 ];
+export const apAgingDetailReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION#' },
+  { title: 'TYPE' },
+  { title: 'SUPPLIER NAME' },
+  { title: 'AGE' },
+  { title: 'TOTAL AMOUNT' },
+  { title: 'REMAINING AMOUNT' },
+];
 export const payableBillDetailsReportHeadCells = [
-  { title: 'status', style: { textAlign: 'start' } },
+  { title: 'STATUS', style: { textAlign: 'start' } },
   { title: 'BILL DATE' },
   { title: 'DUE DATE' },
   { title: 'BILL#' },
   { title: 'SUPPLIER NAME' },
   { title: 'BILL AMOUNT' },
 ];
+export const paymentMadeReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'REFERENCE#' },
+  { title: 'BILL#' },
+  { title: 'SUPPLIER NAME' },
+  { title: 'PAYMENT MODE' },
+  { title: 'PAID THROUGH' },
+  { title: 'AMOUNT' },
+  { title: 'UNUSED AMOUNT' },
+];
 export const payablePurchaseOrderDetailReportHeadCells = [
-  { title: 'status', style: { textAlign: 'start' } },
+  { title: 'STATUS', style: { textAlign: 'start' } },
   { title: 'DATE' },
   { title: 'PURCHASE ORDER NUMBER' },
   { title: 'SUPPLIER NAME' },
+  { title: 'AMOUNT' },
+];
+export const payablePurchaseOrderBySupplierReportHeadCells = [
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
+  { title: 'PURCHASE ORDER COUNT' },
+  { title: 'AMOUNT' },
+];
+export const payableSummaryReportHeadCells = [
+  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'DATE' },
+  { title: 'TRANSACTION #' },
+  { title: 'SUPPLIER NAME' },
+  { title: 'TRANSACTION TYPE' },
+  { title: 'TOTAL AMOUNT' },
+  { title: 'REMAINING Amount' },
+];
+export const payableDetailReportHeadCells = [
+  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'DATE' },
+  { title: 'TRANSACTION #' },
+  { title: 'SUPPLIER NAME' },
+  { title: 'TRANSACTION TYPE' },
+  { title: 'ITEM NAME' },
+  { title: 'ITEM PRICE' },
+  { title: 'QUANTITY ORDERED' },
+  { title: 'TOTAL AMOUNT' },
+];
+export const supplierRefundHistoryReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'REFERENCE#' },
+  { title: 'TRANSACTION #' },
+  { title: 'SUPPLIER NAME' },
+  { title: 'MODE' },
   { title: 'AMOUNT' },
 ];

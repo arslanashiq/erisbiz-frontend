@@ -100,13 +100,24 @@
   border-bottom: 2px dotted $primary-color;
 }
 
-// font weight
-.font-14 {
+// font size
+.fs-13 {
+  font-size: 13px !important;
+  line-height: 18px;
+}
+.fs-14 {
   font-size: 14px !important;
   line-height: 18px;
 }
-.font-30 {
+.fs-24 {
+  font-size: 24px !important;
+}
+.fs-30 {
   font-size: 30px !important;
+}
+// font weight
+.fw-400 {
+  font-weight: 400;
 }
 
 .display-intermediate-node {

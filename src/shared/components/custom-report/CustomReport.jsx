@@ -2,6 +2,7 @@ import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import 'styles/reports/custom-report.scss';
+import { Link } from 'react-router-dom';
 
 function CustomReport({ tableHeader, tableBody, tableFooter }) {
   return (
@@ -12,7 +13,7 @@ function CustomReport({ tableHeader, tableBody, tableFooter }) {
           <thead>
             <tr>
               {tableHeader.map(cell => (
-                <th key={cell.title} style={{ textAlign: 'end', textTransform: 'uppercase', ...cell.style }}>
+                <th key={uuid()} style={{ textAlign: 'end', textTransform: 'uppercase', ...cell.style }}>
                   {cell.title}
                 </th>
               ))}
@@ -43,7 +44,7 @@ function CustomReport({ tableHeader, tableBody, tableFooter }) {
                         ...cell.style,
                       }}
                     >
-                      {cell.value}
+                      {cell.link ? <Link to={cell.link}>{cell.value}</Link> : cell.value}
                     </td>
                   ))}
                 </tr>

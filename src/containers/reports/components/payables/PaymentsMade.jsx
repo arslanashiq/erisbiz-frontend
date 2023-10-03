@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+import moment from 'moment';
 import { useLocation } from 'react-router';
 import { Card, CardContent } from '@mui/material';
 // services
@@ -7,49 +8,52 @@ import { useGetPaymentMadeDetailsQuery } from 'services/private/reports';
 import CustomReport from 'shared/components/custom-report/CustomReport';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-import { supplierPaybleBalanceReportHeadCells } from 'containers/reports/utilities/head-cells';
+import { FilterReportsList } from 'containers/reports/utilities/constants';
+import useGetPaymentMadeData from 'containers/reports/custom-hooks/useGetPaymentMadeData';
+import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
+import { paymentMadeReportHeadCells } from 'containers/reports/utilities/head-cells';
+import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
+import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
+// utilities
+import { DATE_FILTER_REPORT } from 'utilities/constants';
+// components
+import ReportsHeader from '../ReportsHeader';
+import CustomReportsDetailHeader from '../CustomReportsDetailHeader';
 // styles
 import 'styles/reports/reports.scss';
 
 function PaymentsMade() {
   const location = useLocation();
-  const supplierPayableBalanceResponse = useGetPaymentMadeDetailsQuery(location.search);
-  const { tableBody, totalBalance } = useMemo(() => {
-    let balance = 0;
-    const body = [];
-    supplierPayableBalanceResponse?.data?.data.forEach(item => {
-      balance += item.balance_bcy;
-      body.push([
-        { value: item.supplier__supplier_name, style: { textAlign: 'start' } },
-        { value: item.bill_balance },
-        { value: item.credit_balance },
-        { value: item.balance_bcy },
-      ]);
-    });
-    return { tableBody: body, totalBalance: balance };
-  }, [supplierPayableBalanceResponse]);
-  const tableFooter = useMemo(
-    () => [
-      [
-        { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
-        { value: '' },
-        { value: '' },
-        { value: `AED ${totalBalance.toFixed(2)}`, style: { fontWeight: 700 } },
-      ],
-    ],
-    [totalBalance]
-  );
+  const paymentMadeResponse = useGetPaymentMadeDetailsQuery(location.search);
+  const { tableBody, tableFooter } = useGetPaymentMadeData(paymentMadeResponse);
+  const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
+
+  const reportTitle = 'Payment Made';
   return (
-    <SectionLoader options={[supplierPayableBalanceResponse.isLoading]}>
+    <SectionLoader options={[paymentMadeResponse.isLoading]}>
+      <ReportsHeader
+        tableHeader={paymentMadeReportHeadCells}
+        reportTitle={reportTitle}
+        tableBody={tableBody}
+        tableFooter={tableFooter}
+        initialFilterValue={FilterReportsList[4]}
+        filterList={FilterReportsList}
+        handleSubmitCustomDateFilter={handleSubmitCustomDateFilter}
+        handleChangeFilter={handleChangeFilter}
+        customFilterInitialValues={PayableReportFilterInitialValues}
+        customFilterInputsList={payableReportsFilterInputList}
+      />
       <Card>
         <CardContent>
           <div className="reports mx-auto">
-            <div className="text-center mb-5">
-              <h4>Luxury Events and VIP Travel DMCC</h4>
-              <h3>Supplier Balances</h3>
-            </div>
+            <CustomReportsDetailHeader
+              reportTitle={reportTitle}
+              filterInfo={`From ${moment(paymentMadeResponse?.data?.start_date).format(
+                DATE_FILTER_REPORT
+              )} To ${moment(paymentMadeResponse?.data?.end_date).format(DATE_FILTER_REPORT)}`}
+            />
             <CustomReport
-              tableHeader={supplierPaybleBalanceReportHeadCells}
+              tableHeader={paymentMadeReportHeadCells}
               tableBody={tableBody}
               tableFooter={tableFooter}
             />

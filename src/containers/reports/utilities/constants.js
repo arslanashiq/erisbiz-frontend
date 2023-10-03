@@ -1,3 +1,18 @@
+// filter Date
+export const FilterReportsList = [
+  { value: 'today', label: 'Today' },
+  { value: 'this week', label: 'This Week' },
+  { value: 'this month', label: 'This Month' },
+  { value: 'this quarter', label: 'This Quarter' },
+  { value: 'this year', label: 'This Year' },
+  { value: 'yesterday', label: 'Yesterday' },
+  { value: 'previous week', label: 'Previous Week' },
+  { value: 'previous month', label: 'Previous Month' },
+  { value: 'previous quarter', label: 'Previous Quarter' },
+  { value: 'previous year', label: 'Previous Year' },
+  { value: '', label: 'Custom' },
+];
+
 export const payableReports = {
   title: 'Payable Reports',
   reports: [
@@ -7,7 +22,7 @@ export const payableReports = {
     },
     {
       label: 'AP Aging Summary',
-      link: '/pages/reports/ap-aging-summary?duration=today&date_type=date',
+      link: '/pages/reports/ap-aging-summary?duration=today',
     },
     {
       label: 'AP Aging Details (Not)',
@@ -18,12 +33,12 @@ export const payableReports = {
       link: '/pages/reports/bill-details?duration=this+month',
     },
     {
-      label: 'Payments Made (Not)',
+      label: 'Payments Made',
       link: '/pages/reports/payments-made',
     },
     {
-      label: 'Refund History (Not)',
-      link: '/pages/reports/supplierRefundHistory',
+      label: 'Refund History',
+      link: '/pages/reports/supplier-refund-history?duration=this+month',
     },
     {
       label: 'Purchase Order Details',
@@ -31,16 +46,16 @@ export const payableReports = {
     },
     {
       label: 'Purchase Order by Supplier',
-      link: '/pages/reports/purchaseOrdersBySuppliers',
+      link: '/pages/reports/purchase-order-by-supplier',
     },
 
     {
       label: 'Payable Summary',
-      link: '/pages/reports/payableSummary',
+      link: '/pages/reports/payable-summary',
     },
     {
       label: 'Payable Details',
-      link: '/pages/reports/payableDetails',
+      link: '/pages/reports/payable-details',
     },
   ],
 };

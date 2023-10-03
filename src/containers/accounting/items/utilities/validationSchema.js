@@ -15,6 +15,6 @@ export const itemFormValidationSchema = Yup.object({
   // item_image: Yup.o(),
   part_number: Yup.string(),
   supplier: Yup.number().positive(),
-  brand: Yup.number().positive(),
+  brand: Yup.string().required('required'),
 });
 export const test = '';
