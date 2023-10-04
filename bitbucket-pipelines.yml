@@ -8,4 +8,4 @@ pipelines:
     crm-accounting-frontend:
       - step:  
           script:
-            - ssh ubuntu@16.24.36.173 /home/ubuntu/Erisbiz/eris-biz-frontend/devCdScript.sh 
+            - ssh ubuntu@15.184.102.16 /home/ubuntu/Erisbiz/eris-biz-frontend/devCdScript.sh 
