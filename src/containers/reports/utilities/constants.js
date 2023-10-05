@@ -25,7 +25,7 @@ export const payableReports = {
       link: '/pages/reports/ap-aging-summary?duration=today',
     },
     {
-      label: 'AP Aging Details (Not)',
+      label: 'AP Aging Details',
       link: '/pages/reports/ap-aging-details?duration=today&date_type=date',
     },
     {
@@ -33,7 +33,7 @@ export const payableReports = {
       link: '/pages/reports/bill-details?duration=this+month',
     },
     {
-      label: 'Payments Made',
+      label: 'Debit Note Made',
       link: '/pages/reports/payments-made',
     },
     {
@@ -64,28 +64,28 @@ export const receivableReports = {
   reports: [
     {
       label: 'Account Balances',
-      link: '/pages/reports/customerBalances?duration=today',
+      link: '/pages/reports/customer-balances?duration=today',
     },
     {
       label: 'AR Aging Summary',
-      link: '/pages/reports/arAgingSummary?duration=today&date_type=date',
+      link: '/pages/reports/ar-aging-summary?duration=today&date_type=date',
     },
     {
       label: 'AR Aging Details',
-      link: '/pages/reports/arAgingDetails?duration=today&date_type=date',
+      link: '/pages/reports/ar-aging-details?duration=today&date_type=date',
     },
 
     {
       label: 'Invoice Details',
-      link: '/pages/reports/invoiceDetails',
+      link: '/pages/reports/invoice-details',
     },
     {
       label: 'Receivable Summary',
-      link: '/pages/reports/receivableSummary',
+      link: '/pages/reports/receivable-summary',
     },
     {
       label: 'Receivable Details',
-      link: '/pages/reports/receivableDetails',
+      link: '/pages/reports/receivable-details',
     },
   ],
 };
@@ -116,23 +116,19 @@ export const purchaseAndExpenses = {
   reports: [
     {
       label: 'Purchases by Supplier',
-      link: '/pages/reports/purchasesBySupplier',
+      link: '/pages/reports/purchases-by-supplier',
     },
     {
       label: 'Purchases by Item',
-      link: '/pages/reports/purchasesByItem',
+      link: '/pages/reports/purchases-by-item',
     },
     {
       label: 'Expense Details',
-      link: '/pages/reports/expenseDetails',
+      link: '/pages/reports/expense-details',
     },
     {
       label: 'Expenses by Category',
-      link: '/pages/reports/expensesByCategory',
-    },
-    {
-      label: 'Purchases by Client Type',
-      link: '/pages/reports/puchasesByClientType?duration=this month&customer_type=vip',
+      link: '/pages/reports/expenses-by-category',
     },
   ],
 };
@@ -140,20 +136,20 @@ export const sales = {
   title: 'Sales',
   reports: [
     {
-      label: 'Sales by Account',
-      link: '/pages/reports/salesByCustomer',
+      label: 'Sales by Customer',
+      link: '/pages/reports/sales-by-customer',
     },
     {
       label: 'Sales by Item',
-      link: '/pages/reports/salesByItem',
+      link: '/pages/reports/sales-by-item',
     },
     {
       label: 'Sales by Sales Person',
-      link: '/pages/reports/salesBySalesPerson',
+      link: '/pages/reports/sales-by-sales-person',
     },
     {
       label: 'Sales by Sales Type',
-      link: '/pages/reports/salesBySalesType?duration=this month&customer_type=vip',
+      link: '/pages/reports/sales-by-sales-type',
     },
   ],
 };

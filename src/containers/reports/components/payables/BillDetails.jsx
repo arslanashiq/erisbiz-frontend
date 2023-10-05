@@ -9,7 +9,7 @@ import CustomReport from 'shared/components/custom-report/CustomReport';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
-import useGetBillDetailData from 'containers/reports/custom-hooks/useGetBillDetailData';
+import useGetBillDetailData from 'containers/reports/custom-hooks/payables/useGetBillDetailData';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { payableBillDetailsReportHeadCells } from 'containers/reports/utilities/head-cells';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';

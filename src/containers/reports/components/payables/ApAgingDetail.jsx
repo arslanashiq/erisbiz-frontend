@@ -10,7 +10,7 @@ import CustomReport from 'shared/components/custom-report/CustomReport';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
 import { apAgingDetailReportHeadCells } from 'containers/reports/utilities/head-cells';
-import useGetApAgingDetailData from 'containers/reports/custom-hooks/useGetApAgingDetailData';
+import useGetApAgingDetailData from 'containers/reports/custom-hooks/payables/useGetApAgingDetailData';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';

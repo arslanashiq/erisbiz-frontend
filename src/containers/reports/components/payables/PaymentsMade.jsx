@@ -9,7 +9,7 @@ import CustomReport from 'shared/components/custom-report/CustomReport';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
-import useGetPaymentMadeData from 'containers/reports/custom-hooks/useGetPaymentMadeData';
+import useGetPaymentMadeData from 'containers/reports/custom-hooks/payables/useGetPaymentMadeData';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { paymentMadeReportHeadCells } from 'containers/reports/utilities/head-cells';
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';

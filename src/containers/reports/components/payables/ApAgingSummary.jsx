@@ -11,7 +11,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
 import { apAgingSummaryReportHeadCells } from 'containers/reports/utilities/head-cells';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
-import useGetAPAgingSummaryData from 'containers/reports/custom-hooks/useGetAPAgingSummaryData';
+import useGetAPAgingSummaryData from 'containers/reports/custom-hooks/payables/useGetAPAgingSummaryData';
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
 // utilities

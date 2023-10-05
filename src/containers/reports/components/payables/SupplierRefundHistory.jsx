@@ -11,7 +11,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { supplierRefundHistoryReportHeadCells } from 'containers/reports/utilities/head-cells';
-import useGetSupplierBalanceData from 'containers/reports/custom-hooks/useGetSupplierBalanceData';
+import useGetSupplierBalanceData from 'containers/reports/custom-hooks/payables/useGetSupplierBalanceData';
 // utilities
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import { payableReportsFilterInputList } from '../../utilities/filter-input-list';

@@ -1,53 +1,4 @@
-// export const supplierPaybleBalanceReportHeadCells = [
-//   {
-//     id: 'supplier__supplier_name',
-//     numeric: false,
-//     disablePadding: true,
-//     label: 'SUPPLIER NAME',
-//     align: 'left',
-//     isLink: true,
-//     handleLink: row => `/pages/accounting/purchase/suppliers/${row.supplier__id}/detail`,
-//   },
-//   {
-//     id: 'bill_balance',
-//     numeric: true,
-//     disablePadding: false,
-//     label: 'BILL BALANCE',
-//     align: 'right',
-//     isLink: true,
-//     handleLink: row => {
-//       const query = window.location.search;
-
-//       if (query && query.length > 0) {
-//         return `/pages/reports/supplierBalances/bill/detail${window.location.search}&supplier_id=${row.supplier__id}`;
-//       }
-//       return `/pages/reports/supplierBalances/bill/detail?supplier_id=${row.supplier__id}`;
-//     },
-//   },
-//   {
-//     id: 'credit_balance',
-//     numeric: true,
-//     disablePadding: false,
-//     label: 'EXCESS PAYMENTS',
-//     align: 'right',
-//     isLink: true,
-//     handleLink: row => {
-//       const query = window.location.search;
-//       if (query && query.length > 0) {
-//         return `/pages/reports/supplierBalances/detail${query}&supplier_id=${row.supplier__id}`;
-//       }
-//       return `/pages/reports/supplierBalances/detail?supplier_id=${row.supplier__id}`;
-//     },
-//   },
-//   {
-//     id: 'balance',
-//     numeric: true,
-//     disablePadding: false,
-//     label: 'BALANCE',
-//     align: 'right',
-//     mergeCell: true,
-//   },
-// ];
+// payables
 export const supplierPaybleBalanceReportHeadCells = [
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'BILL BALANCE' },
@@ -69,15 +20,15 @@ export const apAgingDetailReportHeadCells = [
   { title: 'TYPE' },
   { title: 'SUPPLIER NAME' },
   { title: 'AGE' },
-  { title: 'TOTAL AMOUNT' },
-  { title: 'REMAINING AMOUNT' },
+  { title: 'TOTAL' },
+  { title: 'REMAINING' },
 ];
 export const payableBillDetailsReportHeadCells = [
   { title: 'STATUS', style: { textAlign: 'start' } },
   { title: 'BILL DATE' },
   { title: 'DUE DATE' },
   { title: 'BILL#' },
-  { title: 'SUPPLIER NAME' },
+  { title: 'CUSTOMER NAME' },
   { title: 'BILL AMOUNT' },
 ];
 export const paymentMadeReportHeadCells = [
@@ -129,4 +80,50 @@ export const supplierRefundHistoryReportHeadCells = [
   { title: 'SUPPLIER NAME' },
   { title: 'MODE' },
   { title: 'AMOUNT' },
+];
+
+// receivables
+export const receivablesAccountBalanceReportHeadCells = [
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
+  { title: 'INVOICE BALANCE' },
+  { title: 'AVAILABLE CREDITS' },
+  { title: 'BALANCE' },
+];
+export const receivablesARAgingSummaryReportHeadCells = [
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
+  { title: 'CURRENT' },
+  { title: '1-15 DAYS' },
+  { title: '16-30 DAYS' },
+  { title: '31-45 DAYS' },
+  { title: '> 45 DAYS' },
+  { title: 'TOTAL' },
+];
+export const receivablesARAgingDetailReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION#' },
+  { title: 'TYPE' },
+  { title: 'CUSTOMER NAME' },
+  { title: 'AGE' },
+  { title: 'AMOUNT' },
+  { title: 'BALANCE DUE' },
+];
+export const receivablesSummaryReportHeadCells = [
+  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'DATE' },
+  { title: 'TRANSACTION #' },
+  { title: 'CUSTOMER NAME' },
+  { title: 'TRANSACTION TYPE' },
+  { title: 'TOTAL AMOUNT' },
+  { title: 'REMAINING Amount' },
+];
+export const receivablesDetailReportHeadCells = [
+  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'DATE' },
+  { title: 'TRANSACTION #' },
+  { title: 'CUSTOMER NAME' },
+  { title: 'TRANSACTION TYPE' },
+  { title: 'ITEM NAME' },
+  { title: 'ITEM PRICE' },
+  { title: 'QUANTITY ORDERED' },
+  { title: 'TOTAL AMOUNT' },
 ];

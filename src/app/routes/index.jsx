@@ -107,6 +107,7 @@ const AddJournalVouchePage = lazy(() => import('containers/accounting/finance/jo
 const JournalVoucherDetailPage = lazy(() => import('containers/accounting/finance/journal-voucher/detail'));
 
 // Reports
+// payables
 const ReportsListPage = lazy(() => import('containers/reports'));
 const ReportSupplierBalancePage = lazy(() => import('containers/reports/components/payables/SupplierBalance'));
 const ReportApAgingSummaryPage = lazy(() => import('containers/reports/components/payables/ApAgingSummary'));
@@ -118,6 +119,23 @@ const ReportPurchaseOrderBySupplierPage = lazy(() => import('containers/reports/
 const ReportPayableSummaryPage = lazy(() => import('containers/reports/components/payables/PayableSummary'));
 const ReportPayableDetailsPage = lazy(() => import('containers/reports/components/payables/PayableDetails'));
 const ReportSupplierRefundHistoryPage = lazy(() => import('containers/reports/components/payables/SupplierRefundHistory'));
+// receivables
+const ReportReceivableAccountBalancePage = lazy(() => import('containers/reports/components/receivables/ReceivableAccountBalance'));
+const ReportReceivableARAgingSummaryPage = lazy(() => import('containers/reports/components/receivables/ReceivableARAgingSummary'));
+const ReportReceivableARAgingDetailPage = lazy(() => import('containers/reports/components/receivables/ReceivableARAgingDetail'));
+const ReportReceivableInvoiceDetailPage = lazy(() => import('containers/reports/components/receivables/ReceivableInvoiceDetail'));
+const ReportReceivableSummaryPage = lazy(() => import('containers/reports/components/receivables/ReceivableSummary'));
+const ReportReceivableDetailsPage = lazy(() => import('containers/reports/components/receivables/ReceivableDetails'));
+// purchase and expenses
+const ReportPurchaseBySupplierPage = lazy(() => import('containers/reports/components/purchase-and-expenses/PurchaseBySupplier'));
+const ReportPurchaseByItemPage = lazy(() => import('containers/reports/components/purchase-and-expenses/PurchaseByItem'));
+const ReportExpenseDetailsPage = lazy(() => import('containers/reports/components/purchase-and-expenses/ExpenseDetails'));
+const ReportExpenseByCategoryPage = lazy(() => import('containers/reports/components/purchase-and-expenses/ExpenseByCategory'));
+// sales Report
+const ReportSalesByCustomerPage = lazy(() => import('containers/reports/components/sales/SalesByCustomer'));
+const ReportSalesByItemPage = lazy(() => import('containers/reports/components/sales/SalesByItem'));
+const ReportSalesBySalesPersonPage = lazy(() => import('containers/reports/components/sales/SalesBySalesPerson'));
+const ReportSalesBySalesTypePage = lazy(() => import('containers/reports/components/sales/SalesBySalesType'));
 
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
@@ -291,6 +309,7 @@ function AppRoutes() {
                 </Route>
                 <Route path="reports" element={<Outlet />}>
                   <Route path="" index element={<ReportsListPage />} />
+                  {/* payables */}
                   <Route path="supplier-balances" element={<ReportSupplierBalancePage />} />
                   <Route path="ap-aging-summary" element={<ReportApAgingSummaryPage />} />
                   <Route path="ap-aging-details" element={<ReportApAgingDetailPage />} />
@@ -301,6 +320,24 @@ function AppRoutes() {
                   <Route path="payable-summary" element={<ReportPayableSummaryPage />} />
                   <Route path="payable-details" element={<ReportPayableDetailsPage />} />
                   <Route path="supplier-refund-history" element={<ReportSupplierRefundHistoryPage />} />
+                  {/* receivables */}
+                  <Route path="customer-balances" element={<ReportReceivableAccountBalancePage />} />
+                  <Route path="ar-aging-summary" element={<ReportReceivableARAgingSummaryPage />} />
+                  <Route path="ar-aging-details" element={<ReportReceivableARAgingDetailPage />} />
+                  <Route path="invoice-details" element={<ReportReceivableInvoiceDetailPage />} />
+                  <Route path="receivable-summary" element={<ReportReceivableSummaryPage />} />
+                  <Route path="receivable-details" element={<ReportReceivableDetailsPage />} />
+                  {/* purchase and expenses */}
+                  <Route path="purchases-by-supplier" element={<ReportPurchaseBySupplierPage />} />
+                  <Route path="purchases-by-item" element={<ReportPurchaseByItemPage />} />
+                  <Route path="expense-details" element={<ReportExpenseDetailsPage />} />
+                  <Route path="expenses-by-category" element={<ReportExpenseByCategoryPage />} />
+                  {/* purchase and expenses */}
+                  <Route path="sales-by-customer" element={<ReportSalesByCustomerPage />} />
+                  <Route path="sales-by-item" element={<ReportSalesByItemPage />} />
+                  <Route path="sales-by-sales-person" element={<ReportSalesBySalesPersonPage />} />
+                  <Route path="sales-by-sales-type" element={<ReportSalesBySalesTypePage />} />
+
                 </Route>
               </Route>
             </Route>

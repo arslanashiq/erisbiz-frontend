@@ -16,8 +16,8 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
           link: `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`,
         },
         {
-          value: item.account_name,
-          link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
+          value: item.customer_name,
+          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
         {
           value: item.bcy_sales_with_tax_amount,

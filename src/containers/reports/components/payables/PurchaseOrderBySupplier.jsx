@@ -13,7 +13,7 @@ import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHea
 // utilities
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
-import useGetPurchaseOrderBySupplierData from 'containers/reports/custom-hooks/useGetPurchaseOrderBySupplierData';
+import useGetPurchaseOrderBySupplierData from 'containers/reports/custom-hooks/payables/useGetPurchaseOrderBySupplierData';
 // utilities
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import { payablePurchaseOrderBySupplierReportHeadCells } from '../../utilities/head-cells';

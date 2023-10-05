@@ -12,7 +12,7 @@ import { FilterReportsList } from 'containers/reports/utilities/constants';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { payableDetailReportHeadCells } from 'containers/reports/utilities/head-cells';
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
-import useGetPayableDetailData from 'containers/reports/custom-hooks/useGetPayableDetailData';
+import useGetPayableDetailData from 'containers/reports/custom-hooks/payables/useGetPayableDetailData';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
 // utilities
 import { DATE_FILTER_REPORT } from 'utilities/constants';

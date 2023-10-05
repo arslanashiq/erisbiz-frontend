@@ -24,7 +24,7 @@ const availableDateList = [
   },
 ];
 const headerStyle = { fontWeight: 'bold', backgroundColor: '#e2e2e2' };
-function useGetApAgingDetailData(reportAPAgingDetailResponse) {
+function useGetARAgingDetailData(receivableARAgingDetailResponse) {
   const getTableBodyValue = (data, keyValue) => {
     const body = [];
     let amount = 0;
@@ -40,17 +40,17 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
         { value: item.formatted_number },
         { value: item.type },
         {
-          value: item.account_name,
-          link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
+          value: item.customer_name,
+          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
         {
           value: item.age,
         },
         {
-          value: item.grand_total,
+          value: `${currencySymbol} ${item.grand_total}`,
         },
         {
-          value: item.amount_due,
+          value: `${currencySymbol} ${item.amount_due}`,
         },
       ]);
     });
@@ -81,7 +81,7 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
     let dueAmount = 0;
     let body = [];
     let currency = 'AED';
-    if (!reportAPAgingDetailResponse?.data?.data) {
+    if (!receivableARAgingDetailResponse?.data?.data) {
       return {
         tableBody: body,
         totalAmount: amount,
@@ -96,7 +96,7 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
         amount: currentTotalAmount,
         dueAmount: currentDueAmount,
         currencySymbol: currentCurrencySymbol,
-      } = getTableBodyValue(reportAPAgingDetailResponse?.data?.data, date.keyValue);
+      } = getTableBodyValue(receivableARAgingDetailResponse?.data?.data, date.keyValue);
       if (currentBody.length > 0) {
         const currentHeader = getHeader(currency, date.title, currentTotalAmount, currentDueAmount);
         body = [...body, currentHeader, ...currentBody];
@@ -112,7 +112,7 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
       totalDueAmount: dueAmount,
       currencySymbol: currency,
     };
-  }, [reportAPAgingDetailResponse]);
+  }, [receivableARAgingDetailResponse]);
 
   const tableFooter = useMemo(
     () => [
@@ -131,4 +131,4 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
   return { tableBody, tableFooter };
 }
 
-export default useGetApAgingDetailData;
+export default useGetARAgingDetailData;
