@@ -10,6 +10,27 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getSupplierPayableBalance'],
     }),
+    getSupplierBillBalanceDetail: builder.query({
+      query: params => ({
+        url: 'api/report/payable/vendor/balance/bill/detail',
+        params,
+      }),
+      providesTags: ['getSupplierBillBalanceDetail'],
+    }),
+    getSupplierExcessPaymentBalanceDetail: builder.query({
+      query: params => ({
+        url: 'api/report/payable/vendor/balance/excess/payment/detail',
+        params,
+      }),
+      providesTags: ['getSupplierExcessPaymentBalanceDetail'],
+    }),
+    getSupplierBalanceDetail: builder.query({
+      query: params => ({
+        url: 'api/report/payable/vendor/balance/detail',
+        params,
+      }),
+      providesTags: ['getSupplierBalanceDetail'],
+    }),
     getApAgingSummary: builder.query({
       query: params => ({
         url: 'api/report/ap/aging/summary',
@@ -31,6 +52,13 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getPayableBillDetails'],
     }),
+    getPayableDebitNoteDetail: builder.query({
+      query: params => ({
+        url: 'api/payables/report/supplierCredit/detail',
+        params,
+      }),
+      providesTags: ['getPayableDebitNoteDetail'],
+    }),
     getPaymentMadeDetails: builder.query({
       query: params => ({
         url: 'api/payables/report/payment/made',
@@ -41,35 +69,35 @@ const reportsApi = privateApi.injectEndpoints({
     getPurchaseOrderDetail: builder.query({
       query: params => ({
         url: 'api/payables/report/pur/order/detail',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getPurchaseOrderDetail'],
     }),
     getPurchaseOrderBySupplier: builder.query({
       query: params => ({
         url: 'api/payables/report/pur/order/by/vendor',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getPurchaseOrderBySupplier'],
     }),
     getPayableSummary: builder.query({
       query: params => ({
         url: 'api/payables/report/summary',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getPayableSummary'],
     }),
     getPayableDetail: builder.query({
       query: params => ({
         url: 'api/payables/report/detail',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getPayableDetail'],
     }),
     getSupplierRefundHistory: builder.query({
       query: params => ({
         url: 'api/payables/report/refund/history',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getRefundHistory'],
     }),
@@ -78,42 +106,65 @@ const reportsApi = privateApi.injectEndpoints({
     getReceivableAccountBalance: builder.query({
       query: params => ({
         url: 'api/report/receive/customer/balance',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getReceivableAccountBalance'],
     }),
+    getReceivableInvoiceBalanceAgainstCustomer: builder.query({
+      query: params => ({
+        url: 'api/report/receive/customer/balance/invoice/detail',
+        params,
+      }),
+      providesTags: ['getReceivableInvoiceBalanceAgainstCustomer'],
+    }),
+    getReceivableCreditNoteBalanceAgainstCustomer: builder.query({
+      query: params => ({
+        url: 'api/report/receive/customer/balance/credit/note/detail',
+        params,
+      }),
+      providesTags: ['getReceivableCreditNoteBalanceAgainstCustomer'],
+    }),
+
+    getReceivableBalanceDetailAgainstCustomer: builder.query({
+      query: params => ({
+        url: 'api/report/receive/customer/balance/detail',
+        params,
+      }),
+      providesTags: ['getReceivableBalanceDetailAgainstCustomer'],
+    }),
+
     getReceivableARAgingSummary: builder.query({
       query: params => ({
         url: 'api/report/ar/aging/summary',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getReceivableARAgingSummary'],
     }),
     getReceivableARAgingDetail: builder.query({
       query: params => ({
         url: 'api/report/ar/aging/detail',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getReceivableARAgingDetail'],
     }),
     getReceivableInvoiceDetail: builder.query({
       query: params => ({
         url: 'api/report/receive/invoice/details',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getReceivableInvoiceDetail'],
     }),
     getReceivableSummary: builder.query({
       query: params => ({
         url: 'api/report/receive/receiveable/summary',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getReceivableSummary'],
     }),
     getReceivableDetail: builder.query({
       query: params => ({
         url: 'api/report/receive/receiveable/details',
-        params: params || 'this+month',
+        params,
       }),
       providesTags: ['getReceivableDetail'],
     }),
@@ -121,7 +172,7 @@ const reportsApi = privateApi.injectEndpoints({
     getActivityLogDetail: builder.query({
       query: params => ({
         url: 'api/activity/log/report',
-        params: params || 'today',
+        params,
       }),
       providesTags: ['getActivityLogDetail'],
     }),
@@ -129,30 +180,51 @@ const reportsApi = privateApi.injectEndpoints({
     getPurchaseBySupplier: builder.query({
       query: params => ({
         url: 'api/purchase/by/vendor/report',
-        params: params || 'today',
+        params,
       }),
       providesTags: ['getPurchaseBySupplier'],
+    }),
+    getPurchaseBySupplierDetail: builder.query({
+      query: params => ({
+        url: 'api/purchase/by/vendor/report/detail',
+        params,
+      }),
+      providesTags: ['getPurchaseBySupplierDetail'],
     }),
     getPurchaseByItem: builder.query({
       query: params => ({
         url: 'api/purchase/by/item/report',
-        params: params || 'today',
+        params,
       }),
       providesTags: ['getPurchaseByItem'],
+    }),
+    getPurchaseByItemDetail: builder.query({
+      query: params => ({
+        url: 'api/purchase/by/item/report/detail',
+        params,
+      }),
+      providesTags: ['getPurchaseByItemDetail'],
     }),
     getExpenseDetails: builder.query({
       query: params => ({
         url: 'api/expense/detail/report',
-        params: params || 'today',
+        params,
       }),
       providesTags: ['getExpenseDetails'],
     }),
     getExpenseByCategory: builder.query({
       query: params => ({
         url: 'api/expense/by/category/report',
-        params: params || 'today',
+        params,
       }),
       providesTags: ['getExpenseByCategory'],
+    }),
+    getExpenseByCategoryDetail: builder.query({
+      query: params => ({
+        url: 'api/expense/by/category/report/detail',
+        params,
+      }),
+      providesTags: ['getExpenseByCategoryDetail'],
     }),
   }),
 });
@@ -160,9 +232,13 @@ const reportsApi = privateApi.injectEndpoints({
 export const {
   // payable
   useGetSupplierPayableBalanceQuery,
+  useGetSupplierBillBalanceDetailQuery,
+  useGetSupplierExcessPaymentBalanceDetailQuery,
+  useGetSupplierBalanceDetailQuery,
   useGetApAgingSummaryQuery,
   useGetApAgingDetailQuery,
   useGetPayableBillDetailsQuery,
+  useGetPayableDebitNoteDetailQuery,
   useGetPaymentMadeDetailsQuery,
   useGetPurchaseOrderDetailQuery,
   useGetPurchaseOrderBySupplierQuery,
@@ -171,6 +247,9 @@ export const {
   useGetSupplierRefundHistoryQuery,
   // receiveables
   useGetReceivableAccountBalanceQuery,
+  useGetReceivableInvoiceBalanceAgainstCustomerQuery,
+  useGetReceivableCreditNoteBalanceAgainstCustomerQuery,
+  useGetReceivableBalanceDetailAgainstCustomerQuery,
   useGetReceivableARAgingSummaryQuery,
   useGetReceivableARAgingDetailQuery,
   useGetReceivableInvoiceDetailQuery,
@@ -180,7 +259,10 @@ export const {
   useGetActivityLogDetailQuery,
   // purchases and expenses
   useGetPurchaseBySupplierQuery,
+  useGetPurchaseBySupplierDetailQuery,
   useGetPurchaseByItemQuery,
+  useGetPurchaseByItemDetailQuery,
   useGetExpenseDetailsQuery,
   useGetExpenseByCategoryQuery,
+  useGetExpenseByCategoryDetailQuery,
 } = reportsApi;

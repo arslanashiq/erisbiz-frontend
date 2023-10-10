@@ -2,6 +2,15 @@ import moment from 'moment';
 import { useMemo } from 'react';
 
 function useGetReceivablesDetailData(receivablesDetailResponse) {
+  const getLinkByType = item => {
+    if (item.type === 'Invoice') {
+      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
+    }
+    if (item.type === 'Credit Note') {
+      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
+    }
+    return false;
+  };
   const { tableBody, totalAmount, totalQuantity } = useMemo(() => {
     let amount = 0;
     let quantity = 0;
@@ -11,16 +20,17 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
       quantity += item.num_units;
       body.push([
         {
-          value: item.status,
+          value: item.customer_name,
           style: { textAlign: 'start' },
+          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
         { value: moment(item.date).format('DD MMM YYYY') },
         {
           value: item.formatted_number,
+          link: getLinkByType(item),
         },
         {
-          value: item.customer_name,
-          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          value: item.status,
         },
         {
           value: item.type,

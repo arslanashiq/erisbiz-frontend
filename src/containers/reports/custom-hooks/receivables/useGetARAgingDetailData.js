@@ -25,6 +25,15 @@ const availableDateList = [
 ];
 const headerStyle = { fontWeight: 'bold', backgroundColor: '#e2e2e2' };
 function useGetARAgingDetailData(receivableARAgingDetailResponse) {
+  const getLinkByType = item => {
+    if (item.type === 'Invoice') {
+      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
+    }
+    if (item.type === 'Excess Payment') {
+      return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
+    }
+    return false;
+  };
   const getTableBodyValue = (data, keyValue) => {
     const body = [];
     let amount = 0;
@@ -37,7 +46,7 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
 
       body.push([
         { value: moment(item.date).format('DD MMM YYYY'), style: { textAlign: 'start' } },
-        { value: item.formatted_number },
+        { value: item.formatted_number, link: getLinkByType(item) },
         { value: item.type },
         {
           value: item.customer_name,
@@ -48,9 +57,11 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
         },
         {
           value: `${currencySymbol} ${item.grand_total}`,
+          link: getLinkByType(item),
         },
         {
           value: `${currencySymbol} ${item.amount_due}`,
+          link: getLinkByType(item),
         },
       ]);
     });

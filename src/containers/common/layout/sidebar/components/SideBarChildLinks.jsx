@@ -1,9 +1,16 @@
 import React from 'react';
-import { ListItemButton, ListItemText } from '@mui/material';
 import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import { NavLink } from 'react-router-dom';
+import SideBarListItemButton from './SideBarListItemButton';
 
-function SideBarChildLinks({ childList, open, checkActive }) {
+function SideBarChildLinks({
+  childList,
+  open,
+  checkActive,
+  setOpen,
+  showSideBarChildLink,
+  setShowSideBarChildLink,
+}) {
   return childList.map(child => (
     <SideBarListItem
       selected={checkActive(child.link)}
@@ -11,17 +18,15 @@ function SideBarChildLinks({ childList, open, checkActive }) {
       disablePadding
       sx={{ display: open ? 'auto' : 'none' }}
     >
-      <NavLink to={child.link} style={{ color: 'inherit', textDecoration: 'none' }}>
-        <ListItemButton
-          divider={child.divider}
-          sx={{
-            minHeight: 48,
-            justifyContent: open ? 'initial' : 'center',
-            paddingLeft: 6.5,
-          }}
-        >
-          <ListItemText primary={child.name} sx={{ opacity: open ? 1 : 0 }} />
-        </ListItemButton>
+      <NavLink to={child.link} style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}>
+        <SideBarListItemButton
+          sideBarListItem={child}
+          open={open}
+          setOpen={setOpen}
+          showSideBarChildLink={showSideBarChildLink}
+          setShowSideBarChildLink={setShowSideBarChildLink}
+          isParent={false}
+        />
       </NavLink>
     </SideBarListItem>
   ));

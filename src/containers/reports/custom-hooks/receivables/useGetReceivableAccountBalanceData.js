@@ -17,13 +17,16 @@ function useGetReceivableAccountBalanceData(receivableAccountBalanceResponse) {
 
         {
           value: `${item.currency__symbol} ${item.invoice_balance}`,
+          link: `sale-invoice/detail?duration=this+month&customer_id=${item.customer_id}`,
         },
         {
           value: `${item.currency__symbol} ${item.credit_balance}`,
+          link: `credit-notes/detail?duration=this+month&customer_id=${item.customer_id}`,
         },
 
         {
           value: `${item.currency__symbol} ${item.balance}`,
+          link: `detail?duration=this+month&customer_id=${item.customer_id}`,
         },
       ]);
     });

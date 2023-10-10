@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 
 function useGetARAgingSummaryData(receivableARAgingReportResponse) {
+  const getARAgingSummaryDetailLink = (item, interval) => `/pages/reports/ar-aging-details?duration=this+month&date_type=date&customer_id=${item.customer_id}&interval=${interval}`;
+
   const {
     tableBody,
     totalCurrentBalance,
@@ -27,24 +29,30 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
       currency = item.sales_account__currency_symbol;
       body.push([
         {
-          value: item.account_name,
+          value: item.customer_name,
           style: { textAlign: 'start' },
+          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
 
         {
           value: `${item.sales_account__currency_symbol} ${item.current_bcy}`,
+          link: getARAgingSummaryDetailLink(item, 'current'),
         },
         {
           value: `${item.sales_account__currency_symbol} ${item.days_1_15}`,
+          link: getARAgingSummaryDetailLink(item, '1_15'),
         },
         {
           value: `${item.sales_account__currency_symbol} ${item.days_16_30}`,
+          link: getARAgingSummaryDetailLink(item, '16_30'),
         },
         {
           value: `${item.sales_account__currency_symbol} ${item.days_31_45}`,
+          link: getARAgingSummaryDetailLink(item, '31_45'),
         },
         {
           value: `${item.sales_account__currency_symbol} ${item.days_above_45}`,
+          link: getARAgingSummaryDetailLink(item, 'gt_45'),
         },
         {
           value: `${item.sales_account__currency_symbol} ${item.total_bcy}`,

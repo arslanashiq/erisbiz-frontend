@@ -22,6 +22,31 @@ function CustomReportDetailPage({ reportTitle, reportHeadCells, useGetReportQuer
   const reportResponse = useGetReportQuery(location.search);
   const { tableBody, tableFooter } = useGetReportData(reportResponse);
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
+  const getSelectedFilter = () => {
+    const searchQuery = location.search;
+    let selectedFilter = '';
+    let filterDuration = 'this+month';
+    if (searchQuery) {
+      searchQuery.split('&').forEach(singleQuery => {
+        if (singleQuery.includes('duration')) {
+          let temp = singleQuery.replace('?', '');
+          temp = temp.replace('%20', ' ');
+          temp = temp.replace('+', ' ');
+          temp = temp.replace('duration=', '');
+          filterDuration = temp;
+        }
+      });
+    }
+    if (filterDuration) {
+      selectedFilter = FilterReportsList.filter(filter => filter.value === filterDuration);
+      if (selectedFilter.length > 0) {
+        [selectedFilter] = selectedFilter;
+      } else {
+        [, , selectedFilter] = FilterReportsList;
+      }
+    }
+    return selectedFilter;
+  };
   return (
     <SectionLoader options={[reportResponse.isLoading]}>
       <ReportsHeader
@@ -29,7 +54,7 @@ function CustomReportDetailPage({ reportTitle, reportHeadCells, useGetReportQuer
         reportTitle={reportTitle}
         tableBody={tableBody}
         tableFooter={tableFooter}
-        initialFilterValue={FilterReportsList[0]}
+        initialFilterValue={getSelectedFilter()}
         filterList={FilterReportsList}
         handleSubmitCustomDateFilter={handleSubmitCustomDateFilter}
         handleChangeFilter={handleChangeFilter}

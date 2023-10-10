@@ -30,6 +30,9 @@
   }
   .topbar-profile-menu-item:hover {
     border-left: 2px solid $primary-color;
+    svg {
+      color: $primary-color;
+    }
   }
   .topbar-profile-menu-item-link {
     text-decoration: none;

@@ -40,7 +40,7 @@ function ActionMenu({
       </Button>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <Stack sx={{ minWidth: 130 }} spacing={2} direction="row">
-          <Stack>
+          <Stack sx={{ width: buttonTitle === 'Custom' ? 'auto' : '100%' }}>
             {actionsList.map(action => (
               <MenuItem
                 className="text-capitalize"

@@ -25,6 +25,20 @@ const availableDateList = [
 ];
 const headerStyle = { fontWeight: 'bold', backgroundColor: '#e2e2e2' };
 function useGetApAgingDetailData(reportAPAgingDetailResponse) {
+  const getLinkByType = item => {
+    if (item.type === 'Bill') {
+      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
+    }
+
+    if (item.type === 'Excess Payment') {
+      return `/pages/accounting/purchase/payment-voucher/${item.id}/detail`;
+    }
+    if (item.type === 'Debit Note') {
+      return `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
+    }
+
+    return false;
+  };
   const getTableBodyValue = (data, keyValue) => {
     const body = [];
     let amount = 0;
@@ -37,7 +51,7 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
 
       body.push([
         { value: moment(item.date).format('DD MMM YYYY'), style: { textAlign: 'start' } },
-        { value: item.formatted_number },
+        { value: item.formatted_number, link: getLinkByType(item) },
         { value: item.type },
         {
           value: item.account_name,

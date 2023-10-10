@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { Divider, Drawer, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Divider, Drawer, List } from '@mui/material';
 import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { DRAWER_WIDTH } from 'utilities/constants';
 import SideBarChildLinks from './SideBarChildLinks';
+import SideBarListItemButton from './SideBarListItemButton';
 
 function SmallScreenDrawer({
   open,
@@ -35,41 +34,28 @@ function SmallScreenDrawer({
               selected={checkActive(sideBar.link)}
               sx={{ display: 'block' }}
             >
-              <NavLink to={sideBar.link} style={{ color: 'inherit', textDecoration: 'none' }}>
-                <ListItemButton
-                  divider={sideBar.divider}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    pl: 2.5,
-                  }}
-                  onClick={() => {
-                    if (sideBar.children) {
-                      const temp = showSideBarChildLink;
-                      temp[sideBar.index] = !showSideBarChildLink[sideBar.index];
-                      setShowSideBarChildLink([...showSideBarChildLink]);
-                    }
-                    setOpen(true);
-                  }}
+              {sideBar.children ? (
+                <SideBarListItemButton
+                  sideBarListItem={sideBar}
+                  open={open}
+                  setOpen={setOpen}
+                  showSideBarChildLink={showSideBarChildLink}
+                  setShowSideBarChildLink={setShowSideBarChildLink}
+                />
+              ) : (
+                <NavLink
+                  to={sideBar.link}
+                  style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 1 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {sideBar.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={sideBar.name} sx={{ opacity: open ? 1 : 0 }} />
-                  {sideBar.children && showSideBarChildLink[sideBar.index] === false && (
-                    <KeyboardArrowRightIcon sx={{ display: open ? 'auto' : 'none' }} />
-                  )}
-                  {sideBar.children && showSideBarChildLink[sideBar.index] === true && (
-                    <KeyboardArrowDownIcon sx={{ display: open ? 'auto' : 'none' }} />
-                  )}
-                </ListItemButton>
-              </NavLink>
+                  <SideBarListItemButton
+                    sideBarListItem={sideBar}
+                    open={open}
+                    setOpen={setOpen}
+                    showSideBarChildLink={showSideBarChildLink}
+                    setShowSideBarChildLink={setShowSideBarChildLink}
+                  />
+                </NavLink>
+              )}
             </SideBarListItem>
             {sideBar.children &&
               sideBar.children.length > 0 &&

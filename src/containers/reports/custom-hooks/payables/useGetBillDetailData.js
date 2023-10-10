@@ -1,33 +1,41 @@
 import { useMemo } from 'react';
 
 function useGetBillDetailData(supplierPayableBalanceResponse) {
-  const { tableBody, totalBillAmount } = useMemo(() => {
+  const getLinkByType = item => {
+    if (item.type === 'Bill') {
+      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
+    }
+    return false;
+  };
+  const { tableBody, totalBillAmount, currencySymbol } = useMemo(() => {
     let billAmount = 0;
+    let currency = 'AED';
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
       billAmount += item.bcy_sales_with_tax_amount;
+      currency = item.currency_symbol;
 
       body.push([
         { value: item.status, style: { textAlign: 'start' } },
         { value: item.date },
-        { value: item.due_date },
         {
           value: item.formatted_number,
-          link: `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`,
+          link: getLinkByType(item),
         },
         {
           value: item.customer_name,
-          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          link: getLinkByType(item),
         },
         {
-          value: item.bcy_sales_with_tax_amount,
-          link: `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`,
+          value: `${item.currency_symbol} ${item.bcy_sales_with_tax_amount}`,
+          link: getLinkByType(item),
         },
       ]);
     });
     return {
       tableBody: body,
       totalBillAmount: billAmount,
+      currencySymbol: currency,
     };
   }, [supplierPayableBalanceResponse]);
   const tableFooter = useMemo(
@@ -37,11 +45,10 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: '' },
-        { value: `AED ${totalBillAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: `${currencySymbol} ${totalBillAmount.toFixed(2)}`, style: { fontWeight: 700 } },
       ],
     ],
-    [tableBody, totalBillAmount]
+    [tableBody, totalBillAmount, currencySymbol]
   );
   return { tableBody, tableFooter };
 }

@@ -2,6 +2,15 @@ import moment from 'moment';
 import { useMemo } from 'react';
 
 function useGetReceivableSummaryData(receivableSummaryResponse) {
+  const getLinkByType = item => {
+    if (item.type === 'Invoice') {
+      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
+    }
+    if (item.type === 'Credit Note') {
+      return `/pages/accounting/sales/credit-notes/${item.number}/detail`;
+    }
+    return false;
+  };
   const { tableBody, totalAmount, totalRemainingAmount } = useMemo(() => {
     let amount = 0;
     let remainingAmount = 0;
@@ -11,25 +20,28 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
       remainingAmount += item.amount_due;
       body.push([
         {
-          value: item.status,
+          value: item.customer_name,
           style: { textAlign: 'start' },
+          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
         { value: moment(item.date).format('DD MMM YYYY') },
         {
           value: item.formatted_number,
+          link: getLinkByType(item),
         },
         {
-          value: item.customer_name,
-          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          value: item.status,
         },
         {
           value: item.type,
         },
         {
           value: `${item.currency_symbol} ${item.bcy_sales_with_tax_amount}`,
+          link: getLinkByType(item),
         },
         {
           value: `${item.currency_symbol} ${item.amount_due}`,
+          link: getLinkByType(item),
         },
       ]);
     });
