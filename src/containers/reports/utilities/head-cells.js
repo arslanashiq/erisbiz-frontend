@@ -190,3 +190,67 @@ export const expenseByCategoryDetailReportHeadCells = [
   { title: 'AMOUNT' },
   { title: 'AMOUNT WITH TAX' },
 ];
+
+// sales
+export const saleByCustomerReportHeadCells = [
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
+  { title: 'INVOICE COUNT' },
+  { title: 'SALES' },
+  { title: 'SALES WITH TAX' },
+];
+export const saleByCustomerDetailReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'TYPE' },
+  { title: 'STATUS' },
+  { title: 'TRANSACTION NUMBER' },
+  { title: 'SALES' },
+  { title: 'SALES WITH TAX' },
+  { title: 'BALANCE DUE' },
+];
+export const saleByItemReportHeadCells = [
+  { title: 'ITEM NAME', style: { textAlign: 'start' } },
+  { title: 'QUANTITY SOLD' },
+  { title: 'AMOUNT' },
+  { title: 'AVERAGE PRICE' },
+];
+export const saleByItemDetailReportHeadCells = [
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
+  { title: 'QUANTITY' },
+  { title: 'AMOUNT' },
+  { title: 'AVERAGE PRICE' },
+];
+export const saleBySalePersonReportHeadCells = [
+  { title: 'NAME', style: { textAlign: 'start' } },
+  { title: 'INVOICE COUNT' },
+  { title: 'INVOICE SALES' },
+  { title: 'INVOICE SALES WITH TAX' },
+  { title: 'CREDIT NOTE COUNT' },
+  { title: 'CREDIT NOTE SALES' },
+  { title: 'CREDIT NOTE SALES WITH TAX' },
+  { title: 'TOTAL SALES' },
+  { title: 'TOTAL SALES WITH TAX' },
+];
+export const saleBySalePersonDetailReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'TYPE' },
+  { title: 'STATUS' },
+  { title: 'NUMBER' },
+  { title: 'CUSTOMER NAME' },
+  { title: 'SALES' },
+  { title: 'SALES WITH TAX' },
+  { title: 'BALANCE DUE' },
+];
+
+// receipt voucher
+
+export const receiptVoucherReportHeadCells = [
+  { title: 'PAYMENT#', style: { textAlign: 'start' } },
+  { title: 'DATE' },
+  { title: 'REFERENCE#' },
+  { title: 'CUSTOMER NAME' },
+  { title: 'PAYMENT MODE' },
+  { title: 'INVOICE#' },
+  { title: 'DEPOSIT TO' },
+  { title: 'AMOUNT' },
+  { title: 'UNUSED AMOUNT' },
+];

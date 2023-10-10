@@ -207,16 +207,16 @@ export const reciptVoucher = {
   title: 'Recipt Voucher',
   reports: [
     {
-      label: 'Payments Received',
-      link: '/pages/reports/paymentsReceived?duration=this+month',
+      label: 'Receipt Voucehr',
+      link: '/pages/reports/receipt-voucher?duration=this+month',
     },
     {
       label: 'Credit Note Details',
-      link: '/pages/reports/creditNoteDetails?duration=this+month',
+      link: '/pages/reports/credit-Note-detail?duration=this+month',
     },
     {
       label: 'Refund History',
-      link: '/pages/reports/refundHistory?duration=this+month',
+      link: '/pages/reports/refund-history?duration=this+month',
     },
   ],
 };

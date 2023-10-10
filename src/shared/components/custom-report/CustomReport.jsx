@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 function CustomReport({ tableHeader, tableBody, tableFooter }) {
   return (
-    <div className="custom-receipt-main-container" style={{ minWidth: 660 }}>
+    <div className="custom-receipt-main-container" style={{ minWidth: 900 }}>
       <div style={{ padding: 20 }}>
         <table className="table1 w-100">
           {/* head */}

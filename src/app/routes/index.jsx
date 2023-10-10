@@ -143,9 +143,17 @@ const ReportExpenseByCategoryPage = lazy(() => import('containers/reports/compon
 const ReportExpenseByCategoryDetailPage = lazy(() => import('containers/reports/components/purchase-and-expenses/ExpenseByCategoryDetail'));
 // sales Report
 const ReportSalesByCustomerPage = lazy(() => import('containers/reports/components/sales/SalesByCustomer'));
+const ReportSalesByCustomerDetailPage = lazy(() => import('containers/reports/components/sales/SalesByCustomerDetail'));
 const ReportSalesByItemPage = lazy(() => import('containers/reports/components/sales/SalesByItem'));
+const ReportSalesByItemDetailPage = lazy(() => import('containers/reports/components/sales/SalesByItemDetail'));
 const ReportSalesBySalesPersonPage = lazy(() => import('containers/reports/components/sales/SalesBySalesPerson'));
+const ReportSalesBySalesPersonDetailPage = lazy(() => import('containers/reports/components/sales/SalesBySalePersonDetail'));
 const ReportSalesBySalesTypePage = lazy(() => import('containers/reports/components/sales/SalesBySalesType'));
+
+// receipt voucher
+const ReportReceiptVoucherPage = lazy(() => import('containers/reports/components/receipt-voucher/ReceiptVoucherReport'));
+const ReportCreditNoteDetailPage = lazy(() => import('containers/reports/components/receipt-voucher/CreditNoteDetail'));
+const ReportRefundHistoryPage = lazy(() => import('containers/reports/components/receipt-voucher/RefundHistory'));
 
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
@@ -371,11 +379,20 @@ function AppRoutes() {
                   <Route path="expense-details" element={<ReportExpenseDetailsPage />} />
                   <Route path="expenses-by-category" element={<ReportExpenseByCategoryPage />} />
                   <Route path="expenses-by-category/detail" element={<ReportExpenseByCategoryDetailPage />} />
-                  {/* purchase and expenses */}
+                  {/* sales */}
                   <Route path="sales-by-customer" element={<ReportSalesByCustomerPage />} />
+                  <Route path="sales-by-customer/detail" element={<ReportSalesByCustomerDetailPage />} />
                   <Route path="sales-by-item" element={<ReportSalesByItemPage />} />
+                  <Route path="sales-by-item/detail" element={<ReportSalesByItemDetailPage />} />
                   <Route path="sales-by-sales-person" element={<ReportSalesBySalesPersonPage />} />
+                  <Route path="sales-by-sales-person/detail" element={<ReportSalesBySalesPersonDetailPage />} />
                   <Route path="sales-by-sales-type" element={<ReportSalesBySalesTypePage />} />
+
+                  {/* Receipt Voucher */}
+                  <Route path="receipt-voucher" element={<ReportReceiptVoucherPage />} />
+                  <Route path="credit-note-detail" element={<ReportCreditNoteDetailPage />} />
+                  <Route path="refund-history" element={<ReportRefundHistoryPage />} />
+
                 </Route>
               </Route>
             </Route>

@@ -226,6 +226,80 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getExpenseByCategoryDetail'],
     }),
+
+    // sales
+    getSaleByCustomer: builder.query({
+      query: params => ({
+        url: 'api/sales/by/customer/report',
+        params,
+      }),
+      providesTags: ['getSaleByCustomer'],
+    }),
+    getSaleByCustomerDetail: builder.query({
+      query: params => ({
+        url: 'api/sales/by/customer/detail/report',
+        params,
+      }),
+      providesTags: ['getSaleByCustomerDetail'],
+    }),
+    getSaleByItem: builder.query({
+      query: params => ({
+        url: 'api/sales/by/item/report',
+        params,
+      }),
+      providesTags: ['getSaleByItem'],
+    }),
+    getSaleByItemDetail: builder.query({
+      query: params => ({
+        url: 'api/sales/by/item/detail/report',
+        params,
+      }),
+      providesTags: ['getSaleByItemDetail'],
+    }),
+    getSaleBySalePerson: builder.query({
+      query: params => ({
+        url: 'api/sales/by/sales/person/report',
+        params,
+      }),
+      providesTags: ['getSaleBySalePerson'],
+    }),
+    getSaleBySalePersonDetail: builder.query({
+      query: params => ({
+        url: 'api/sales/by/sales/person/detail/report',
+        params,
+      }),
+      providesTags: ['getSaleBySalePersonDetail'],
+    }),
+    getSaleByType: builder.query({
+      query: params => ({
+        url: 'api/sales/by/type/report',
+        params,
+      }),
+      providesTags: ['getSaleByType'],
+    }),
+
+    // receipt-voucher
+    getReceiptVoucherReport: builder.query({
+      query: params => ({
+        url: 'api/payment/received/report',
+        params,
+      }),
+      providesTags: ['getReceiptVoucherReport'],
+    }),
+    getCreditNoteDetailReport: builder.query({
+      query: params => ({
+        url: 'api/payment/received/creditNote/detail/report',
+        params,
+      }),
+      providesTags: ['getCreditNoteDetailReport'],
+    }),
+    getRefundHistoryReport: builder.query({
+      query: params => ({
+        url: 'api/payment/received/refund/history/report',
+        params,
+      }),
+      providesTags: ['getRefundHistoryReport'],
+    }),
   }),
 });
 
@@ -265,4 +339,16 @@ export const {
   useGetExpenseDetailsQuery,
   useGetExpenseByCategoryQuery,
   useGetExpenseByCategoryDetailQuery,
+  // sales
+  useGetSaleByCustomerQuery,
+  useGetSaleByCustomerDetailQuery,
+  useGetSaleByItemQuery,
+  useGetSaleByItemDetailQuery,
+  useGetSaleBySalePersonQuery,
+  useGetSaleBySalePersonDetailQuery,
+  useGetSaleByTypeQuery,
+  // receipt voucher
+  useGetReceiptVoucherReportQuery,
+  useGetCreditNoteDetailReportQuery,
+  useGetRefundHistoryReportQuery,
 } = reportsApi;
