@@ -97,12 +97,12 @@ export const taxes = {
   title: 'Taxes',
   reports: [
     {
-      label: 'Tax Returns',
-      link: '/pages/reports/taxReturns?duration=this+month',
+      label: 'Tax Returns (Not)',
+      link: '/pages/reports/tax-returns',
     },
     {
-      label: 'VAT Audit',
-      link: '/pages/reports/vatAudit?duration=this+month',
+      label: 'VAT Audit (Not)',
+      link: '/pages/reports/vat-audit',
     },
   ],
 };
@@ -110,7 +110,7 @@ export const activity = {
   title: 'Activity',
   reports: [
     {
-      label: 'Activity Logs',
+      label: 'Activity Logs (Not)',
       link: 'pages/reports/activityLogs?duration=this+month',
     },
   ],
@@ -151,10 +151,10 @@ export const sales = {
       label: 'Sales by Sales Person',
       link: '/pages/reports/sales-by-sales-person?duration=this+month',
     },
-    {
-      label: 'Sales by Sales Type',
-      link: '/pages/reports/sales-by-sales-type?duration=this+month',
-    },
+    // {
+    //   label: 'Sales by Sales Type',
+    //   link: '/pages/reports/sales-by-sales-type?duration=this+month',
+    // },
   ],
 };
 export const accountant = {
@@ -162,27 +162,27 @@ export const accountant = {
   reports: [
     {
       label: 'Account Transactions',
-      link: '/pages/reports/accountTransactions?duration=this+month',
+      link: '/pages/reports/account-transactions?duration=this+month',
     },
     {
       label: 'Account Type Summary',
-      link: '/pages/reports/accountTypeSummary?duration=this+month',
+      link: '/pages/reports/account-type-summary?duration=this+month',
     },
     {
-      label: 'General Ledger',
-      link: '/pages/reports/generalLedger?duration=this+month',
+      label: 'General Ledger (Not)',
+      link: '/pages/reports/general-ledger?duration=this+month',
     },
     {
       label: 'Detailed General Ledger',
-      link: '/pages/reports/detailedgeneralLedger?duration=this+month',
+      link: '/pages/reports/detailed-general-ledger?duration=this+month',
     },
     {
       label: 'Journal Report',
-      link: '/pages/reports/journalReport?duration=this+month',
+      link: '/pages/reports/journal-report?duration=this+month',
     },
     {
-      label: 'Trial Balance',
-      link: '/pages/reports/trialBalance?duration=this+month',
+      label: 'Trial Balance (Not)',
+      link: '/pages/reports/trial-balance?duration=this+month',
     },
   ],
 };
@@ -190,15 +190,15 @@ export const financialReports = {
   title: 'Financial Reports',
   reports: [
     {
-      label: 'Profit and Loss (Income Statement)',
+      label: 'Profit and Loss (Income Statement) (Not)',
       link: '/pages/reports/profitAndLoss?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
     {
-      label: 'Cash Flow Statement',
+      label: 'Cash Flow Statement (Not)',
       link: '/pages/reports/cashFlowStatement?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
     {
-      label: 'Balance Sheet',
+      label: 'Balance Sheet (Not)',
       link: '/pages/reports/balanceSheet?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
   ],

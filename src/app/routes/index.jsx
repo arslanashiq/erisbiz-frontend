@@ -155,6 +155,17 @@ const ReportReceiptVoucherPage = lazy(() => import('containers/reports/component
 const ReportCreditNoteDetailPage = lazy(() => import('containers/reports/components/receipt-voucher/CreditNoteDetail'));
 const ReportRefundHistoryPage = lazy(() => import('containers/reports/components/receipt-voucher/RefundHistory'));
 
+// accountant
+const ReportAccountTransactionPage = lazy(() => import('containers/reports/components/accountant/AccountTransaction'));
+const ReportAccountTypeSummaryPage = lazy(() => import('containers/reports/components/accountant/AccountTypeSummary'));
+const ReportGeneralLedgerPage = lazy(() => import('containers/reports/components/accountant/GeneralLedger'));
+const ReportDetailGeneralLedgerPage = lazy(() => import('containers/reports/components/accountant/DetailGeneralLedger'));
+const ReportJournalReportPage = lazy(() => import('containers/reports/components/accountant/JournalReport'));
+const ReportTrialBalancePage = lazy(() => import('containers/reports/components/accountant/TrialBalance'));
+// tax
+const ReportTaxReturnReportPage = lazy(() => import('containers/reports/components/tax/TaxReturnReport'));
+const ReportVATAuditReportPage = lazy(() => import('containers/reports/components/tax/VATAuditReport'));
+
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
 
@@ -392,6 +403,16 @@ function AppRoutes() {
                   <Route path="receipt-voucher" element={<ReportReceiptVoucherPage />} />
                   <Route path="credit-note-detail" element={<ReportCreditNoteDetailPage />} />
                   <Route path="refund-history" element={<ReportRefundHistoryPage />} />
+                  {/* accountant */}
+                  <Route path="account-transactions" element={<ReportAccountTransactionPage />} />
+                  <Route path="account-type-summary" element={<ReportAccountTypeSummaryPage />} />
+                  <Route path="general-ledger" element={<ReportGeneralLedgerPage />} />
+                  <Route path="detailed-general-ledger" element={<ReportDetailGeneralLedgerPage />} />
+                  <Route path="journal-report" element={<ReportJournalReportPage />} />
+                  <Route path="trial-balance" element={<ReportTrialBalancePage />} />
+                  {/* tax */}
+                  <Route path="tax-returns" element={<ReportTaxReturnReportPage />} />
+                  <Route path="vat-audit" element={<ReportVATAuditReportPage />} />
 
                 </Route>
               </Route>

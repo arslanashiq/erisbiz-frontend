@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import moment from 'moment';
+import { tableCellBodyHeader } from 'styles/components/custom-hooks/use-excel-sheet';
 
 const availableDateList = [
   {
@@ -75,6 +76,7 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
     {
       value: title,
       style: { textAlign: 'start', ...headerStyle },
+      excelSheetStyle: tableCellBodyHeader,
     },
     { value: '', style: headerStyle },
     { value: '', style: headerStyle },

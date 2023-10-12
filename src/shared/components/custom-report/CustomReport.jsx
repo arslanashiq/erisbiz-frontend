@@ -7,13 +7,13 @@ import { Link } from 'react-router-dom';
 function CustomReport({ tableHeader, tableBody, tableFooter }) {
   return (
     <div className="custom-receipt-main-container" style={{ minWidth: 900 }}>
-      <div style={{ padding: 20 }}>
+      <div style={{ padding: '0px 20px' }}>
         <table className="table1 w-100">
           {/* head */}
           <thead>
             <tr>
               {tableHeader.map(cell => (
-                <th key={uuid()} style={{ textAlign: 'end', textTransform: 'uppercase', ...cell.style }}>
+                <th key={uuid()} style={{ textAlign: 'right', textTransform: 'uppercase', ...cell.style }}>
                   {cell.title}
                 </th>
               ))}
@@ -56,7 +56,7 @@ function CustomReport({ tableHeader, tableBody, tableFooter }) {
                 <tr key={uuid()}>
                   {tableRow.map(cell => (
                     <td key={uuid()} style={{ textAlign: 'end', ...cell.style }}>
-                      {cell.value}
+                      {cell.link ? <Link to={cell.link}>{cell.value}</Link> : cell.value}
                     </td>
                   ))}
                 </tr>

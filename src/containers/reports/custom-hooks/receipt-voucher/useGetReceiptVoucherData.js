@@ -1,13 +1,11 @@
 import moment from 'moment';
 import { useMemo } from 'react';
-import { useLocation } from 'react-router';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 
 function useGetReceiptVoucherData(receiptVouceherResponse) {
-  const location = useLocation();
   const getLink = item => {
     if (item) {
-      return `detail${location.search}&sales_person_id=${item.customer_id}`;
+      return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
     }
     return false;
   };
@@ -29,7 +27,7 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
     receiptVouceherResponse?.data?.data.forEach(item => {
       total += item.total;
       unUsedAmount += item.unused_amount;
-      currency = item.currency__symbol;
+      currency = item.currency_symbol;
       body.push([
         {
           value: item.payment_num,
@@ -43,7 +41,7 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
         },
         {
           value: item.sales_account__sales_account_name,
-          link: `/pages/accounting/sales/customers/${12}/detail`,
+          link: `/pages/accounting/sales/customers/${item.sales_account__id}/detail`,
         },
         {
           value: item.payment_mode__payment_mode_name,

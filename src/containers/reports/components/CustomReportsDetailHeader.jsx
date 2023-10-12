@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { COMPANY_NAME } from 'utilities/constants';
 
 function CustomReportsDetailHeader({ reportTitle, filterInfo }) {
   return (
     <div className="text-center mb-5">
-      <h4>Luxury Events and VIP Travel DMCC</h4>
+      <h4>{COMPANY_NAME}</h4>
       <h3 className="fs-24">{reportTitle}</h3>
       <h3 className="fs-13 fw-400">{filterInfo}</h3>
     </div>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router';
 import PrintIcon from '@mui/icons-material/Print';
+import DownloadIcon from '@mui/icons-material/Download';
 import { Button, Stack, Tooltip } from '@mui/material';
 // shared
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
@@ -21,7 +22,12 @@ function ReportsHeader({
   handleChangeFilter,
   customFilterInitialValues,
   customFilterInputsList,
+  handleDownloadExcelSheet,
+  isMultiReport,
+  modifiedTableHead,
+  options,
 }) {
+  const { showFilter } = options;
   const navigate = useNavigate();
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(initialFilterValue);
@@ -33,7 +39,6 @@ function ReportsHeader({
     setSelectedFilter(selecteAction);
     handleChangeFilter(selecteAction);
   };
-
   return (
     <>
       <ReportsPdfPrintModal
@@ -43,18 +48,29 @@ function ReportsHeader({
         tableHeader={tableHeader}
         tableBody={tableBody}
         tableFooter={tableFooter}
+        isMultiReport={isMultiReport}
+        modifiedTableHead={modifiedTableHead}
       />
       <Stack direction="row" justifyContent="space-between" className="mb-2">
-        <ActionMenu
-          variant="outlined"
-          buttonTitle={selectedFilter.label}
-          actionsList={filterList}
-          handleAction={handleFilter}
-          cutomInitialValues={customFilterInitialValues}
-          customFilterInputs={customFilterInputsList}
-          handleSubmitCustomFilter={handleSubmitCustomDateFilter}
-        />
+        <Stack>
+          {showFilter && (
+            <ActionMenu
+              variant="outlined"
+              buttonTitle={selectedFilter.label}
+              actionsList={filterList}
+              handleAction={handleFilter}
+              cutomInitialValues={customFilterInitialValues}
+              customFilterInputs={customFilterInputsList}
+              handleSubmitCustomFilter={handleSubmitCustomDateFilter}
+            />
+          )}
+        </Stack>
         <Stack direction="row" spacing={2}>
+          <Tooltip title="Download Excel Sheet" placement="top" arrow>
+            <Button onClick={handleDownloadExcelSheet}>
+              <DownloadIcon sx={iconButtonStyle} />
+            </Button>
+          </Tooltip>
           <Tooltip title="Print" placement="top" arrow>
             <Button onClick={() => setIsPrintModalOpen(true)}>
               <PrintIcon sx={iconButtonStyle} />
@@ -79,6 +95,12 @@ ReportsHeader.propTypes = {
   customFilterInitialValues: PropTypes.object,
   customFilterInputsList: PropTypes.array,
   initialFilterValue: PropTypes.object,
+  handleDownloadExcelSheet: PropTypes.func.isRequired,
+  isMultiReport: PropTypes.bool,
+  modifiedTableHead: PropTypes.array,
+  options: PropTypes.objectOf({
+    showFilter: PropTypes.bool,
+  }),
 };
 ReportsHeader.defaultProps = {
   reportTitle: '',
@@ -91,6 +113,11 @@ ReportsHeader.defaultProps = {
   customFilterInitialValues: {},
   customFilterInputsList: [],
   initialFilterValue: {},
+  isMultiReport: false,
+  modifiedTableHead: [],
+  options: {
+    showFilter: true,
+  },
 };
 
 export default ReportsHeader;

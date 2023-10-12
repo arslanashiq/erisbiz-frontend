@@ -11,102 +11,42 @@ import PDFHeader from '../components/PDFHeader';
 
 const BORDER_COLOR = '#08517e';
 const BORDER_STYLE = '1px solid #08517e';
-const COL1_WIDTH = 25;
 const COLN_WIDTH = 100 / 7;
 
 const styles = StyleSheet.create({
   table: {
     display: 'table',
-    width: 'auto',
+    width: '100%',
     // borderStyle: BORDER_STYLE, removed style as  applying conditionaly
     borderRightWidth: 0,
     borderBottomWidth: 0,
     marginTop: 5,
     border: BORDER_STYLE,
     fontWeight: 600,
-    fontSize: 10,
+    fontSize: 7,
   },
   tableRow: {
     flexDirection: 'row',
     borderBottomColor: BORDER_COLOR,
     borderBottomWidth: 0.6,
   },
-  tableCol1Header: {
+  tableHeader: {
     borderStyle: BORDER_STYLE,
     borderLeftWidth: 0,
     borderTopWidth: 0,
+    textAlign: 'right',
     flexDirection: 'column',
-    justifyContent: 'center',
+    width: `${COLN_WIDTH}%`,
   },
-  tableColHeader: {
-    width: `${COLN_WIDTH}'%`,
-    // borderLeft: BORDER_STYLE,
-    // borderLeftWidth: 0.5,
+  tableBody: {
     borderTopWidth: 0,
-    textAlign: 'center',
+    textAlign: 'right',
     flexDirection: 'column',
-    justifyContent: 'center',
+    width: `${COLN_WIDTH}%`,
   },
-  tableColHeaderNoBorder: {
-    width: `${COLN_WIDTH}'%`,
-    borderTopWidth: 0,
-    textAlign: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  tableColHalfHeader: {
-    borderLeft: BORDER_STYLE,
-    borderLeftWidth: 0.5,
-    borderTopWidth: 0,
-    textAlign: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    width: `${COLN_WIDTH / 2}'%`,
-  },
-  tableGrandTotal: {
-    width: '100%',
-    borderStyle: BORDER_STYLE,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-    flexDirection: 'column',
-    padding: 3,
-    flexShrink: 1,
-  },
-  tableCol1: {
-    width: `${COL1_WIDTH}'%`,
-    borderStyle: BORDER_STYLE,
-    borderLeftWidth: 0,
-    borderTopWidth: 0,
-    flexDirection: 'column',
-    paddingTop: 3,
-    flexShrink: 1,
-  },
-  tableCol: {
-    width: `${COLN_WIDTH}'%`,
-    borderLeft: BORDER_STYLE,
-    borderLeftWidth: 0.5,
-    borderTopWidth: 0,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
-    padding: 3,
-  },
-  tableColNoBorder: {
-    width: `${COLN_WIDTH}'%`,
-    borderTopWidth: 0,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    textAlign: 'center',
-    padding: 3,
-  },
+
   tableCell: {
     margin: 5,
-    fontSize: 9,
-  },
-  tableCellDescription: {
-    fontSize: 8,
-    marginLeft: 5,
-    // color: '#727272',
   },
 });
 const headingsBgColor = '#08517e';
@@ -118,10 +58,72 @@ function ReportsPdfPrintModal({
   tableHeader,
   tableBody,
   tableFooter,
+  isMultiReport,
+  modifiedTableHead,
 }) {
   const handleClose = () => {
     setIsPrintModalOpen(false);
   };
+  const renderReport = (header, body, footer) => (
+    <View key={uuid()} style={[styles.table, { border: BORDER_STYLE }]}>
+      {/* table Head */}
+      <View style={[styles.tableRow, { backgroundColor: headingsBgColor, color: '#fff' }]}>
+        {header.map(cell => (
+          <View
+            key={uuid()}
+            style={{
+              ...styles.tableHeader,
+              width: `${100 / tableHeader.length}%`,
+              ...cell.style,
+            }}
+          >
+            <Text style={styles.tableCell}>{cell.title}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* table Body */}
+
+      <View>
+        {body.map(tableRow => (
+          <View key={uuid()} style={styles.tableRow}>
+            {tableRow.map(tableCell => (
+              <View
+                key={uuid()}
+                style={{
+                  ...styles.tableBody,
+                  width: `${100 - tableRow.length}%`,
+                  ...tableCell.style,
+                }}
+              >
+                <Text style={styles.tableCell}>{tableCell.value}</Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </View>
+
+      {/* table Footer */}
+      <View>
+        {footer.map(tableRow => (
+          <View key={uuid()} style={styles.tableRow}>
+            {tableRow.map(tableCell => (
+              <View
+                key={uuid()}
+                style={{
+                  ...styles.tableBody,
+                  width: `${100 - tableRow.length}%`,
+                  ...tableCell.style,
+                }}
+              >
+                <Text style={styles.tableCell}>{tableCell.value}</Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </View>
+    </View>
+  );
   return (
     <div className="order-detail-wrapper">
       <StyledDialog
@@ -150,54 +152,9 @@ function ReportsPdfPrintModal({
             <MainComponent subject={reportTitle} title={reportTitle}>
               {/* header */}
               <PDFHeader />
-              <View style={[styles.table, { border: BORDER_STYLE }]}>
-                {/* table Head */}
-                <View style={[styles.tableRow, { backgroundColor: headingsBgColor, color: '#fff' }]}>
-                  {tableHeader.map(cell => (
-                    <View
-                      key={uuid()}
-                      style={
-                        (styles.tableCol1Header, { width: `${100 / tableHeader.length}%`, ...cell.style })
-                      }
-                    >
-                      <Text style={styles.tableCell}>{cell.title}</Text>
-                    </View>
-                  ))}
-                </View>
-
-                {/* table Body */}
-
-                <View>
-                  {tableBody.map(tableRow => (
-                    <View key={uuid()} style={styles.tableRow}>
-                      {tableRow.map(tableCell => (
-                        <View
-                          key={uuid()}
-                          style={{ ...styles.tableColHeader, width: `${100 - tableRow.length}%` }}
-                        >
-                          <Text style={styles.tableCell}>{tableCell.value}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  ))}
-                </View>
-
-                {/* table Footer */}
-                <View>
-                  {tableFooter.map(tableRow => (
-                    <View key={uuid()} style={styles.tableRow}>
-                      {tableRow.map(tableCell => (
-                        <View
-                          key={uuid()}
-                          style={{ ...styles.tableColHeader, width: `${100 - tableRow.length}%` }}
-                        >
-                          <Text style={styles.tableCell}>{tableCell.value}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  ))}
-                </View>
-              </View>
+              {isMultiReport
+                ? tableBody.map((body, index) => renderReport(modifiedTableHead[index], body, tableFooter[index]))
+                : renderReport(tableHeader, tableBody, tableFooter)}
             </MainComponent>
           </PDFViewer>
         </Stack>
@@ -213,6 +170,8 @@ ReportsPdfPrintModal.propTypes = {
   tableHeader: PropTypes.array,
   tableBody: PropTypes.array,
   tableFooter: PropTypes.array,
+  isMultiReport: PropTypes.bool,
+  modifiedTableHead: PropTypes.array,
 };
 ReportsPdfPrintModal.defaultProps = {
   isPrintModalOpen: false,
@@ -221,6 +180,8 @@ ReportsPdfPrintModal.defaultProps = {
   tableHeader: [],
   tableBody: [],
   tableFooter: [],
+  isMultiReport: false,
+  modifiedTableHead: [],
 };
 
 export default ReportsPdfPrintModal;

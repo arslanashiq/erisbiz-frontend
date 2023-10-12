@@ -300,6 +300,64 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getRefundHistoryReport'],
     }),
+    // acountant
+    getAccountTransactions: builder.query({
+      query: params => ({
+        url: 'api/report/accountant/account/transactions',
+        params,
+      }),
+      providesTags: ['getAccountTransactions'],
+    }),
+    getAccountTypeSummary: builder.query({
+      query: params => ({
+        url: 'api/accountant/account/type/summary/report',
+        params,
+      }),
+      providesTags: ['getAccountTypeSummary'],
+    }),
+    getGeneralLedger: builder.query({
+      query: params => ({
+        url: 'api/report/accountant/general/ledger',
+        params,
+      }),
+      providesTags: ['getGeneralLedger'],
+    }),
+    getDetailGeneralLedger: builder.query({
+      query: params => ({
+        url: 'api/report/accountant/detailed/general/ledger',
+        params,
+      }),
+      providesTags: ['getDetailGeneralLedger'],
+    }),
+    getJuornalReport: builder.query({
+      query: params => ({
+        url: 'api/accountant/journal/report',
+        params,
+      }),
+      providesTags: ['getJuornalReport'],
+    }),
+    getTrialBalance: builder.query({
+      query: params => ({
+        url: 'api/accountant/trial/balance/report',
+        params,
+      }),
+      providesTags: ['getTrialBalance'],
+    }),
+
+    // tax
+    getTaxReturn: builder.query({
+      query: () => ({
+        url: 'api/tax/return/',
+      }),
+      providesTags: ['getTaxReturn'],
+    }),
+    getVATAudit: builder.query({
+      query: params => ({
+        url: 'api/vatAudit/',
+        params,
+      }),
+      providesTags: ['getVATAudit'],
+    }),
   }),
 });
 
@@ -351,4 +409,15 @@ export const {
   useGetReceiptVoucherReportQuery,
   useGetCreditNoteDetailReportQuery,
   useGetRefundHistoryReportQuery,
+  // accountant
+  useGetAccountTransactionsQuery,
+  useGetAccountTypeSummaryQuery,
+  useGetGeneralLedgerQuery,
+  useGetDetailGeneralLedgerQuery,
+  useGetJuornalReportQuery,
+  useGetTrialBalanceQuery,
+
+  // tax
+  useGetTaxReturnQuery,
+  useGetVATAuditQuery,
 } = reportsApi;

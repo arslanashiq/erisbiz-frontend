@@ -2,9 +2,8 @@
 export const RECAPTCHA_PRIVATE_KEY = process.env.REACT_APP_PRIVATE_RECAPTCHA_KEY;
 // export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
-// export const API_URL = 'https://0e81-2400-adc5-1e5-1900-2b20-4653-1a54-e80c.ngrok-free.app';
 export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
-// export const API_URL = 'http://192.168.0.131:8000/';
+// export const API_URL = 'http://192.168.18.12:9000/';
 
 export const ROWS_PER_PAGE = 20;
 
@@ -90,3 +89,5 @@ export const PAYMENT_MODE = [
     value: 'Bank',
   },
 ];
+
+export const COMPANY_NAME = 'Luxury Events and VIP Travel DMCC';
