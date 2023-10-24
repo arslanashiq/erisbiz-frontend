@@ -3,7 +3,7 @@ export const chartOfAccountInitialValues = {
   account_name: '',
   description: '',
   is_parent: false,
-  parent_account: '',
+  parent_account: null,
 };
 
 export const test = '';

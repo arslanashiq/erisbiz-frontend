@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useMemo } from 'react';
 import { journalReportHeadCells } from 'containers/reports/utilities/head-cells';
 import moment from 'moment';

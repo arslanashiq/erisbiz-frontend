@@ -60,7 +60,7 @@ function paymentVoucherListing() {
       <MuiTable
         data={paymentVouchersListResponse?.data?.results}
         totalDataCount={paymentVouchersListResponse?.data?.count}
-        TableHeading="Purchase Invoice"
+        TableHeading="Payment Voucher"
         showCheckbox
         headCells={PaymentVoucherHeadCells}
         otherOptions={[

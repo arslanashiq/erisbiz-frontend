@@ -1,8 +1,9 @@
 import moment from 'moment';
+import { DATE_FORMATE_ADD } from 'utilities/constants';
 
 export const purchaseOrderInitialValues = {
   pur_order_num: '',
-  date: moment().format('yyyy-MM-DD'),
+  date: moment().format(DATE_FORMATE_ADD),
   location: '',
   supplier_id: '',
   reference_num: '',

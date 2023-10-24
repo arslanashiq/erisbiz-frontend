@@ -1,9 +1,11 @@
 import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import moment from 'moment';
+import { useSnackbar } from 'notistack';
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
+  useChangeQuotationStatusMutation,
   useDeleteQuotationDocumentsMutation,
   useDeleteQuotationMutation,
   useGetSingleQuotationQuery,
@@ -15,6 +17,7 @@ import { DATE_FORMAT_PRINT } from 'utilities/constants';
 
 const keyValue = 'quotation_items';
 function QuotationDetailPage() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { id } = useParams();
   const [openInfoPopup, setOpenInfoPopup] = useState({
@@ -22,6 +25,7 @@ function QuotationDetailPage() {
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
   const quotationsDetailResponse = useGetSingleQuotationQuery(id);
+  const [changeQuotationStatus] = useChangeQuotationStatusMutation();
   const orderInfo = useMemo(
     () => ({
       type: 'QUOTATION',
@@ -70,12 +74,27 @@ function QuotationDetailPage() {
     }),
     [quotationsDetailResponse]
   );
-  const quotationsActionList = useMemo(
-    () => [
+
+  const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
+    const response = await changeInvoiceStatus(payload);
+    if (response.error) {
+      enqueueSnackbar('Somthing went wrong', {
+        variant: 'error',
+      });
+      return false;
+    }
+    enqueueSnackbar(successMessage, {
+      variant: 'success',
+    });
+    return true;
+  };
+  const quotationsActionList = useMemo(() => {
+    const status = quotationsDetailResponse?.data?.status;
+    const actionList = [
       {
-        label: 'Edit',
+        label: 'Edit & clone',
         handleClick: () => {
-          navigate(`/pages/accounting/sales/quotations/edit/${id}`);
+          navigate(`/pages/accounting/sales/quotations/add?quotationId=${id}`);
         },
       },
       {
@@ -99,9 +118,38 @@ function QuotationDetailPage() {
           // setOpenPopup({ ...openPopup, open: true });
         },
       },
-    ],
-    [quotationsDetailResponse]
-  );
+    ];
+    if (status === 'draft') {
+      actionList.splice(0, 0, {
+        label: 'Edit',
+        handleClick: () => {
+          navigate(`/pages/accounting/sales/quotations/edit/${id}`);
+        },
+      });
+      actionList.push({
+        label: 'Approve',
+        divider: true,
+        handleClick: () => {
+          handleChangeStatus(changeQuotationStatus, { id, status: 'approved' }, 'Quotation status changed');
+        },
+      });
+    }
+    if (status === 'approved') {
+      actionList.push({
+        label: 'Create Proforma Invoice',
+        handleClick: () => {
+          navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
+        },
+      });
+      actionList.push({
+        label: 'Create Invoice',
+        handleClick: () => {
+          // navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
+        },
+      });
+    }
+    return actionList;
+  }, [quotationsDetailResponse]);
   return (
     <SectionLoader options={[quotationsDetailResponse.isLoading]}>
       <DetailPageHeader

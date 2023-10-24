@@ -16,10 +16,12 @@ function useExcelSheet(
   startDate,
   endDate,
   timeInterval,
+  options,
   excelHeading = [],
   excelBody = [],
   excelFooter = []
 ) {
+  const { showCompanyInfoHeader } = options;
   const MAX_COLUMN_WIDTH = [40, 40, 40];
   let buffer = null;
   let selectedRow = 1;
@@ -89,11 +91,13 @@ function useExcelSheet(
     const { workbook, sheet } = makeWorkSheet();
 
     // COMPANY INFO
-    const headerData = [COMPANY_NAME, reportTitle, timeInterval];
-    for (let i = 0; i < headerData.length; i += 1) {
-      addDataInSheetAndMergeCells(header.length, sheet, headerData[i], tableCellCompanyName);
+    if (showCompanyInfoHeader) {
+      const headerData = [COMPANY_NAME, reportTitle, timeInterval];
+      for (let i = 0; i < headerData.length; i += 1) {
+        addDataInSheetAndMergeCells(header.length, sheet, headerData[i], tableCellCompanyName);
+      }
+      addDataInSheetAndMergeCells(header.length, sheet, '', {});
     }
-    addDataInSheetAndMergeCells(header.length, sheet, '', {});
 
     // REPORT HEADING
     addNewRowInExcelSheet(sheet, header, 'title', tableCellHeader);

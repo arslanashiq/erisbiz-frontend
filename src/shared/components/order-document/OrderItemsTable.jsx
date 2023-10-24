@@ -4,6 +4,13 @@ import PropTypes from 'prop-types';
 import formatAmount from 'utilities/formatAmount';
 
 function OrderItemsTable({ orderDetail, keyValue }) {
+  const getTotalAmount = () => {
+    let amount = orderDetail.without_change_grand_total;
+    if (orderDetail?.refunded_amount) amount -= orderDetail.refunded_amount;
+    if (orderDetail?.payment_amount) amount -= orderDetail.payment_amount;
+
+    return amount;
+  };
   return (
     <>
       <table className="table1 w-100">
@@ -75,7 +82,7 @@ function OrderItemsTable({ orderDetail, keyValue }) {
         <div className="entries">
           <div className="entries-child">
             <div className="names">
-              <p>Grand Total</p>
+              <p>Grand Total:</p>
             </div>
             <div className="amounts">
               <p>
@@ -88,7 +95,7 @@ function OrderItemsTable({ orderDetail, keyValue }) {
         <div className="entries">
           <div className="entries-child">
             <div className="names">
-              <p>VAT Total</p>
+              <p>VAT Total:</p>
             </div>
             <div className="amounts">
               <p>
@@ -97,10 +104,50 @@ function OrderItemsTable({ orderDetail, keyValue }) {
             </div>
           </div>
         </div>
+        <div className="entries">
+          <div className="entries-child">
+            <div className="names">
+              <p>Total:</p>
+            </div>
+            <div className="amounts">
+              <p>
+                {formatAmount(orderDetail.without_change_grand_total)} {orderDetail.currency_symbol}
+              </p>
+            </div>
+          </div>
+        </div>
+        {orderDetail?.refunded_amount > 0 && (
+          <div className="entries">
+            <div className="entries-child">
+              <div className="names">
+                <p>Refunded:</p>
+              </div>
+              <div className="amounts color-danger">
+                <p>
+                  (-){formatAmount(orderDetail.refunded_amount)} {orderDetail.currency_symbol}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+        {orderDetail?.payment_amount > 0 && (
+          <div className="entries">
+            <div className="entries-child">
+              <div className="names">
+                <p>Payment Made:</p>
+              </div>
+              <div className="amounts color-danger">
+                <p>
+                  (-){formatAmount(orderDetail.payment_amount)} {orderDetail.currency_symbol}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="pointer">
-          <p style={{ marginLeft: 5 }}>Total ({orderDetail.currency_symbol})</p>
+          <p style={{ marginLeft: 5 }}>Total ({orderDetail.currency_symbol}):</p>
           <p>
-            {formatAmount(orderDetail.without_change_grand_total)} {orderDetail.currency_symbol}
+            {formatAmount(getTotalAmount())} {orderDetail.currency_symbol}
           </p>
         </div>
       </div>

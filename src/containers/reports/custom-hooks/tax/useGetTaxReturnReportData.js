@@ -4,14 +4,20 @@ import moment from 'moment';
 import { IconButton, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import { taxReturnReportHeadCells } from 'containers/reports/utilities/head-cells';
+import { useRemoveTaxReturnMutation } from 'services/private/reports';
 
 function useGetTaxReturnReportData(taxReturnResponse) {
-  const { tableBody } = useMemo(() => {
+  const [deleteTaxReturn] = useRemoveTaxReturnMutation();
+  const { modifiedTableHead, tableBody, modifiedTableBody } = useMemo(() => {
+    const header = [...taxReturnReportHeadCells];
+    header.splice(header.length - 1, 1);
     const currency = 'AED';
     const body = [];
+    const modifiedBody = [];
     taxReturnResponse?.data?.results.forEach(item => {
       //   currency = item.currency__symbol;
-      body.push([
+      const temp = [
         {
           value: item.status,
           style: { textAlign: 'start' },
@@ -28,26 +34,35 @@ function useGetTaxReturnReportData(taxReturnResponse) {
         {
           value: `${currency} ${item.amount_due}`,
         },
-        {
-          value:
-            item.status === 'filed' ? (
-              ''
-            ) : (
-              <Tooltip title="Remove" arrow placement="top">
-                <IconButton color="error">
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
-            ),
-        },
-      ]);
+      ];
+      modifiedBody.push([...temp]);
+      temp.push({
+        value:
+          item.status === 'filed' ? (
+            ''
+          ) : (
+            <Tooltip title="Remove" arrow placement="top">
+              <IconButton
+                onClick={async () => {
+                  await deleteTaxReturn(item.id);
+                }}
+                color="error"
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          ),
+      });
+      body.push(temp);
     });
     return {
       tableBody: body,
+      modifiedTableHead: header,
+      modifiedTableBody: modifiedBody,
     };
   }, [taxReturnResponse]);
 
-  return { tableBody, tableFooter: [] };
+  return { modifiedTableHead, tableBody, modifiedTableBody, tableFooter: [] };
 }
 
 export default useGetTaxReturnReportData;

@@ -29,6 +29,7 @@ function ActionMenu({
     <>
       <Button
         id="basic-button"
+        disabled={actionsList.length === 0}
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
@@ -44,6 +45,14 @@ function ActionMenu({
             {actionsList.map(action => (
               <MenuItem
                 className="text-capitalize"
+                sx={
+                  action.divider
+                    ? {
+                      borderTop: 1,
+                      borderColor: 'divider',
+                    }
+                    : {}
+                }
                 key={action.label}
                 onClick={() => {
                   if (action.handleClick) {

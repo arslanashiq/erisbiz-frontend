@@ -66,6 +66,22 @@ const debitNotesApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getSupplierCreditsDocuments'],
     }),
+    refundSupplierCredits: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/sales/suppliercredit/amountapply',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['refundSupplierCredits'],
+    }),
+
+    getSupplierCreditJournals: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/supplier/credit/${id}/journals`,
+        method: 'GET',
+      }),
+      invalidatesTags: ['getSupplierCreditJournals'],
+    }),
   }),
 });
 
@@ -78,4 +94,6 @@ export const {
   useGetSupplierCreditsDocumentsQuery,
   useUploadSupplierCreditsDocumentsMutation,
   useDeleteSupplierCreditsDocumentsMutation,
+  useRefundSupplierCreditsMutation,
+  useGetSupplierCreditJournalsQuery,
 } = debitNotesApi;

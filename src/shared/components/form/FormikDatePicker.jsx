@@ -47,6 +47,9 @@ function DatePickerField({
 
         <div className="date-picker">
           <ReactDatePicker
+            popperProps={{
+              strategy: 'fixed',
+            }}
             className="form__form-group-datepicker"
             id={id}
             name={name}

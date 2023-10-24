@@ -18,7 +18,7 @@ function PaymentTable({ payments }) {
             <MuiTableHead headCells={paymentsAgainstPurchaseInvoiceHeadCells} />
             <MuiTableBody
               headCells={paymentsAgainstPurchaseInvoiceHeadCells}
-              dataList={payments?.payment}
+              dataList={payments}
               selected={[]}
             />
           </Table>
@@ -29,7 +29,7 @@ function PaymentTable({ payments }) {
 }
 
 PaymentTable.propTypes = {
-  payments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  payments: PropTypes.array.isRequired,
   // currency: PropTypes.string.isRequired,
 };
 

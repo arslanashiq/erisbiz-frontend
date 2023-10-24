@@ -29,8 +29,8 @@ function PurchaseOrderDetail() {
   });
   const purchaseOrderResponse = useGetSinglePurchaseOrderQuery(id);
 
-  const purchaseOrderActionList = useMemo(
-    () => [
+  const purchaseOrderActionList = useMemo(() => {
+    const actionsList = [
       {
         label: 'Edit',
         handleClick: () => {
@@ -58,9 +58,18 @@ function PurchaseOrderDetail() {
           // setOpenPopup({ ...openPopup, open: true });
         },
       },
-    ],
-    [purchaseOrderResponse]
-  );
+    ];
+    if (purchaseOrderResponse?.data?.status === 'issued') {
+      actionsList.push({
+        label: 'Convert to Bill',
+        divider: true,
+        handleClick: () => {
+          navigate(`/pages/accounting/purchase/purchase-invoice/add?purchaseId=${id}`);
+        },
+      });
+    }
+    return actionsList;
+  }, [purchaseOrderResponse]);
 
   const orderInfo = useMemo(
     () => ({

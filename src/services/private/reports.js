@@ -351,12 +351,76 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getTaxReturn'],
     }),
+    addTaxReturn: builder.mutation({
+      query: payload => ({
+        url: 'api/tax/return/',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['addTaxReturn'],
+      invalidatesTags: ['getTaxReturn'],
+    }),
+    removeTaxReturn: builder.mutation({
+      query: id => ({
+        url: `api/tax/return/${id}/`,
+        method: 'DELETE',
+      }),
+      providesTags: ['removeTaxReturn'],
+      invalidatesTags: ['getTaxReturn'],
+    }),
+
     getVATAudit: builder.query({
       query: params => ({
         url: 'api/vatAudit/',
         params,
       }),
       providesTags: ['getVATAudit'],
+    }),
+
+    addVATAuditFile: builder.mutation({
+      query: payload => ({
+        url: 'api/vatAudit/',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['constGenerateVatAuditFile'],
+      invalidatesTags: ['getVATAudit'],
+    }),
+
+    // financial statement
+    getProfitAndLossStatement: builder.query({
+      query: params => ({
+        url: 'api/report/profit/loss',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['getProfitAndLossStatement'],
+    }),
+    getCashFlowStatement: builder.query({
+      query: params => ({
+        url: 'api/cash/flow/report',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['getCashFlowStatement'],
+    }),
+    getBalanceSheetStatement: builder.query({
+      query: params => ({
+        url: 'api/report/balance/sheet',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['getBalanceSheetStatement'],
+    }),
+
+    // activity
+    getActivityLogs: builder.query({
+      query: params => ({
+        url: 'api/activity/log/report',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['getActivityLogs'],
     }),
   }),
 });
@@ -419,5 +483,16 @@ export const {
 
   // tax
   useGetTaxReturnQuery,
+  useAddTaxReturnMutation,
+  useRemoveTaxReturnMutation,
   useGetVATAuditQuery,
+  useAddVATAuditFileMutation,
+
+  // final report
+  useGetProfitAndLossStatementQuery,
+  useGetCashFlowStatementQuery,
+  useGetBalanceSheetStatementQuery,
+
+  // activity
+  useGetActivityLogsQuery,
 } = reportsApi;

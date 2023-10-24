@@ -75,6 +75,15 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getPaymentVouchersDocuments'],
     }),
+    refundPaymentVoucher: builder.mutation({
+      query: payload => ({
+        url: 'api/purchas/payment/refund',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['refundPaymentVoucher'],
+      invalidatesTags: ['getSinglePaymentVoucher'],
+    }),
   }),
 });
 
@@ -88,4 +97,5 @@ export const {
   useGetPaymentVouchersDocumentsQuery,
   useUploadPaymentVoucherDocumentMutation,
   useDeletePaymentVoucherDocumentMutation,
+  useRefundPaymentVoucherMutation,
 } = PaymentVoucherApi;

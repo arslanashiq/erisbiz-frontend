@@ -24,12 +24,15 @@ function CustomReportDetailPage({
   reportHeadCells,
   useGetReportQuery,
   useGetReportData,
+  CustomComponent,
   options,
 }) {
+  const { replaceTableBody } = options;
   const location = useLocation();
 
   const reportResponse = useGetReportQuery(location.search);
-  const { isMultiReport, modifiedTableHead, tableBody, tableFooter } = useGetReportData(reportResponse);
+  const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } =
+    useGetReportData(reportResponse);
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
 
   const getSelectedFilter = () => {
@@ -65,16 +68,17 @@ function CustomReportDetailPage({
     startDate,
     endDate,
     timeInterval,
-    reportHeadCells,
-    tableBody,
+    options,
+    replaceTableBody ? modifiedTableHead : reportHeadCells,
+    replaceTableBody ? modifiedTableBody : tableBody,
     tableFooter
   );
   return (
     <SectionLoader options={[reportResponse.isLoading]}>
       <ReportsHeader
-        tableHeader={reportHeadCells}
         reportTitle={reportTitle}
-        tableBody={tableBody}
+        tableHeader={replaceTableBody ? modifiedTableHead : reportHeadCells}
+        tableBody={replaceTableBody ? modifiedTableBody : tableBody}
         tableFooter={tableFooter}
         initialFilterValue={getSelectedFilter()}
         filterList={FilterReportsList}
@@ -89,8 +93,9 @@ function CustomReportDetailPage({
       />
       <Card>
         <CardContent>
-          <div className="reports mx-auto">
-            <CustomReportsDetailHeader reportTitle={reportTitle} filterInfo={timeInterval} />
+          {CustomComponent && CustomComponent}
+          <CustomReportsDetailHeader reportTitle={reportTitle} filterInfo={timeInterval} />
+          <div className="reports overflow-auto">
             {isMultiReport ? (
               tableBody.map((item, index) => (
                 <CustomReport
@@ -114,14 +119,21 @@ CustomReportDetailPage.propTypes = {
   reportHeadCells: PropTypes.array.isRequired,
   useGetReportQuery: PropTypes.func.isRequired,
   useGetReportData: PropTypes.func.isRequired,
-  options: PropTypes.objectOf({
+  CustomComponent: PropTypes.element,
+  options: PropTypes.shape({
     showFilter: PropTypes.bool,
+    replaceTableBody: PropTypes.bool,
+    showCompanyInfoHeader: PropTypes.bool,
   }),
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
   options: {
     showFilter: true,
+    showCompanyInfoHeader: true,
+    replaceTableBody: false,
+    showPrint: true,
   },
+  CustomComponent: null,
 };
 export default CustomReportDetailPage;

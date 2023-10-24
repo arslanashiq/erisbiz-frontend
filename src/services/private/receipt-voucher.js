@@ -22,7 +22,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getReceiptVoucherList'],
+      invalidatesTags: ['getReceiptVoucherList', 'getSingleSaleInvoice', 'getSaleInvoicesList'],
     }),
     editReceiptVoucher: builder.mutation({
       query: ({ id, payload }) => ({
@@ -37,7 +37,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         url: `api/accounting/sales/paymentsReceived/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getReceiptVoucherList'],
+      invalidatesTags: ['getReceiptVoucherList', 'getSingleSaleInvoice', 'getSaleInvoicesList'],
     }),
     getLatestReceiptVoucher: builder.query({
       query: () => ({
@@ -73,6 +73,14 @@ const receiptVoucherApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getReceiptVoucherDocuments'],
     }),
+    refundReceiptVoucher: builder.mutation({
+      query: payload => ({
+        url: 'api/sale/payment/refund',
+        method: 'POST',
+        body: payload,
+      }),
+      invalidatesTags: ['refundUnUsedAmount'],
+    }),
   }),
 });
 
@@ -87,4 +95,5 @@ export const {
   useGetReceiptVoucherDocumentsQuery,
   useAddReceiptVoucherDocumentsMutation,
   useDeleteReceiptVoucherDocumentsMutation,
+  useRefundReceiptVoucherMutation,
 } = receiptVoucherApi;

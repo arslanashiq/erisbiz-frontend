@@ -97,11 +97,11 @@ export const taxes = {
   title: 'Taxes',
   reports: [
     {
-      label: 'Tax Returns (Not)',
+      label: 'Tax Returns',
       link: '/pages/reports/tax-returns',
     },
     {
-      label: 'VAT Audit (Not)',
+      label: 'VAT Audit',
       link: '/pages/reports/vat-audit',
     },
   ],
@@ -110,8 +110,8 @@ export const activity = {
   title: 'Activity',
   reports: [
     {
-      label: 'Activity Logs (Not)',
-      link: 'pages/reports/activityLogs?duration=this+month',
+      label: 'Activity Logs',
+      link: '/pages/reports/activity-logs?duration=this+month',
     },
   ],
 };
@@ -169,7 +169,7 @@ export const accountant = {
       link: '/pages/reports/account-type-summary?duration=this+month',
     },
     {
-      label: 'General Ledger (Not)',
+      label: 'General Ledger',
       link: '/pages/reports/general-ledger?duration=this+month',
     },
     {
@@ -190,16 +190,16 @@ export const financialReports = {
   title: 'Financial Reports',
   reports: [
     {
-      label: 'Profit and Loss (Income Statement) (Not)',
-      link: '/pages/reports/profitAndLoss?duration=this+month&filter_accounts=accounts_without_zero_balance',
+      label: 'Profit and Loss (Income Statement)',
+      link: '/pages/reports/profit-loss?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
     {
       label: 'Cash Flow Statement (Not)',
-      link: '/pages/reports/cashFlowStatement?duration=this+month&filter_accounts=accounts_without_zero_balance',
+      link: '/pages/reports/cash-flow-statement?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
     {
       label: 'Balance Sheet (Not)',
-      link: '/pages/reports/balanceSheet?duration=this+month&filter_accounts=accounts_without_zero_balance',
+      link: '/pages/reports/balance-sheet?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
   ],
 };

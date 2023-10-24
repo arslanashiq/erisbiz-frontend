@@ -192,6 +192,9 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 5px;
+    p {
+      margin-bottom: 0px;
+    }
   }
   .requester-detail {
     width: 50%;
@@ -213,11 +216,11 @@
   }
 
   .entries-child {
-    width: 205px;
+    width: 260px;
     display: flex;
     justify-content: space-between;
     margin-right: 35px;
-    text-align: left;
+    text-align: flex-end;
   }
 
   .credit-entries-child {
@@ -233,6 +236,7 @@
     p {
       font-weight: bold;
     }
+    justify-content: flex-end;
   }
 
   .amounts {

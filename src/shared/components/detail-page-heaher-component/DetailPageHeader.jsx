@@ -77,7 +77,7 @@ function DetailPageHeader({
         open={openPopup.open}
         showActionButton={openPopup.showActionButton}
         handleClose={handleClose}
-        handleYes={handleDeleteItem}
+        handleYes={openPopup?.handleAction || handleDeleteItem}
         infoDescription={openPopup.infoDescription}
       />
       {filesList && (

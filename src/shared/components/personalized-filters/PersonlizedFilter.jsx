@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -35,36 +36,37 @@ function PersonlizedFilter({ filterInitialValues, filtersList }) {
       }}
     >
       {({ isSubmitting, resetForm }) => (
-        <Form className="form personlized-search-form row pt-3">
+        <Form className="form personlized-search-form row pt-3 align-items-end">
           {/* Supplier Name */}
           {filtersList.map(filter => (
-            <div className="form__form-group-field">
+            <div key={uuid()} className={filter.fullWidth ? 'col-12' : 'col-md-6'}>
               {filter.options && (
                 <FormikSelect
                   name={filter.name}
                   placeholder={filter.placeholder}
                   options={filter.options}
                   label={filter.placeholder}
-                  className={filter.fullWidth ? 'col-12' : 'col-md-6'}
                   labelClassName="col-12"
+                  className="w-100"
                 />
               )}
-              {!filter.options && filter.date ? (
+              {filter.date && (
                 <FormikDatePicker
                   name={filter.name}
                   placeholder={filter.placeholder}
                   label={filter.placeholder}
-                  className={filter.fullWidth ? 'col-12' : 'col-md-6'}
                   labelClassName="col-12"
+                  className="w-100"
                 />
-              ) : (
+              )}
+              {!filter.date && !filter.options && (
                 <FormikField
                   name={filter.name}
                   placeholder={filter.placeholder}
                   type={filter.type}
                   label={filter.placeholder}
-                  className={filter.fullWidth ? 'col-12' : 'col-md-6'}
                   labelClassName="col-12"
+                  className="w-100"
                 />
               )}
             </div>

@@ -165,6 +165,12 @@ const ReportTrialBalancePage = lazy(() => import('containers/reports/components/
 // tax
 const ReportTaxReturnReportPage = lazy(() => import('containers/reports/components/tax/TaxReturnReport'));
 const ReportVATAuditReportPage = lazy(() => import('containers/reports/components/tax/VATAuditReport'));
+// financial report
+const ProfitAndLossStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/ProfitAndLossStatement'));
+const CashFlowStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/CashFlowStatement'));
+const BalanceSheetStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/BalanceSheetStatement'));
+// activity
+const ActivityLogsReportPage = lazy(() => import('containers/reports/components/activity/ActivityLogs'));
 
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
@@ -413,6 +419,12 @@ function AppRoutes() {
                   {/* tax */}
                   <Route path="tax-returns" element={<ReportTaxReturnReportPage />} />
                   <Route path="vat-audit" element={<ReportVATAuditReportPage />} />
+                  {/* financial report */}
+                  <Route path="profit-loss" element={<ProfitAndLossStatementReportPage />} />
+                  <Route path="cash-flow-statement" element={<CashFlowStatementReportPage />} />
+                  <Route path="balance-sheet" element={<BalanceSheetStatementReportPage />} />
+                  {/* activity */}
+                  <Route path="activity-logs" element={<ActivityLogsReportPage />} />
 
                 </Route>
               </Route>

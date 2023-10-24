@@ -1,8 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useMemo, useState } from 'react';
+import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent, Grid } from '@mui/material';
 // services
 import {
+  useChagePurchaseInvoiceStatusToOpenMutation,
+  useChangeInvoiceStatusToVoidMutation,
   useDeletePurchaseInvoceMutation,
   useDeletePurchaseInvoiceDocumentFileMutation,
   useGetPaymentsAgainstPaymentInvoiceQuery,
@@ -16,17 +20,42 @@ import DetailPageHeader from 'shared/components/detail-page-heaher-component/Det
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
 import PaymentTable from './components/PaymentTable';
+import ChangeStatusToVoid from './components/ChangeStatusToVoidModal';
 
 const keyValue = 'bill_items';
 function PurchaseInvoiceDetail() {
+  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
   const paymentMadeAgainstInvoiceResponse = useGetPaymentsAgainstPaymentInvoiceQuery(id);
+  const [changeInvoiceStatusToOpen] = useChagePurchaseInvoiceStatusToOpenMutation();
+  const [changeInvoiceStatusToVoid] = useChangeInvoiceStatusToVoidMutation();
+
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher',
   });
+  const [openVoidModal, setOpenVoidModal] = useState(false);
   const purchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(id);
+
+  const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
+    const response = await changeInvoiceStatus(payload);
+    if (response.error) {
+      enqueueSnackbar('Somthing went wrong', {
+        variant: 'error',
+      });
+      return false;
+    }
+    enqueueSnackbar(successMessage, {
+      variant: 'success',
+    });
+    return true;
+  };
+  const handleChangeStatusToVoid = async values => {
+    const { reason } = values;
+    handleChangeStatus(changeInvoiceStatusToVoid, { id, reason }, 'Invoice status change to Void');
+  };
+
   const orderInfo = useMemo(
     () => ({
       type: 'Bill Invoice',
@@ -38,8 +67,9 @@ function PurchaseInvoiceDetail() {
     }),
     [purchaseInvoiceResponse]
   );
-  const purchaseInvoiceActionList = useMemo(
-    () => [
+  const purchaseInvoiceActionList = useMemo(() => {
+    const invoiceStatus = purchaseInvoiceResponse?.data?.status;
+    const actionsList = [
       {
         label: 'Edit',
         handleClick: () => {
@@ -52,9 +82,7 @@ function PurchaseInvoiceDetail() {
           let infoDescription =
             'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher';
           let showActionButton = false;
-          const cantDelete =
-            purchaseInvoiceResponse.data.status === 'partially paid' ||
-            purchaseInvoiceResponse.data.status === 'void';
+          const cantDelete = invoiceStatus === 'partially paid' || invoiceStatus === 'void';
 
           if (!cantDelete) {
             infoDescription = 'Are you sure you want to delete?';
@@ -66,13 +94,50 @@ function PurchaseInvoiceDetail() {
             open: true,
             infoDescription,
             showActionButton,
+            handleAction: null,
           });
-          setOpenInfoPopup({ ...openInfoPopup, open: true });
         },
       },
-    ],
-    [purchaseInvoiceResponse]
-  );
+    ];
+    if (invoiceStatus === 'draft') {
+      actionsList.push({
+        label: 'Convert to Open',
+        divider: true,
+        handleClick: async () => {
+          setOpenInfoPopup({
+            ...openInfoPopup,
+            open: true,
+            infoDescription: 'Are you sure you want to change Status to Void',
+            showActionButton: true,
+            handleAction: async () => {
+              handleChangeStatus(changeInvoiceStatusToOpen, id, 'Invoice status change to Open');
+            },
+          });
+        },
+      });
+    }
+    if (invoiceStatus !== 'draft' && invoiceStatus !== 'paid' && invoiceStatus !== 'partially paid') {
+      actionsList.push({
+        label: 'Void',
+        divider: true,
+        handleClick: () => {
+          setOpenVoidModal(true);
+        },
+      });
+    }
+    if (invoiceStatus !== 'draft' && invoiceStatus !== 'paid') {
+      actionsList.push({
+        label: 'Record Payment',
+        handleClick: async () => {
+          navigate(
+            `/pages/accounting/purchase/payment-voucher/add?supplierId=${purchaseInvoiceResponse?.data?.supplier_id}`
+          );
+        },
+      });
+    }
+
+    return actionsList;
+  }, [purchaseInvoiceResponse]);
 
   return (
     <SectionLoader
@@ -82,6 +147,11 @@ function PurchaseInvoiceDetail() {
         paymentMadeAgainstInvoiceResponse.isLoading,
       ]}
     >
+      <ChangeStatusToVoid
+        open={openVoidModal}
+        setOpen={setOpenVoidModal}
+        handleChangeStatus={handleChangeStatusToVoid}
+      />
       <DetailPageHeader
         title={`Bill:${purchaseInvoiceResponse?.data?.bill_num}`}
         filesList={purchaseInvoiceResponse?.data?.bill_docs}
@@ -103,14 +173,20 @@ function PurchaseInvoiceDetail() {
       <Card>
         <CardContent>
           {paymentMadeAgainstInvoiceResponse?.data?.payment?.length > 0 && (
-            <Grid style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
-              <PaymentTable payments={paymentMadeAgainstInvoiceResponse.data} />
+            <Grid item style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
+              <PaymentTable payments={paymentMadeAgainstInvoiceResponse.data?.payment} />
+            </Grid>
+          )}
+          {paymentMadeAgainstInvoiceResponse?.data?.credits_applied?.length > 0 && (
+            <Grid item style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
+              <PaymentTable payments={paymentMadeAgainstInvoiceResponse.data?.credits_applied} />
             </Grid>
           )}
           <OrderDocument
             keyValue={keyValue}
             orderInfo={orderInfo}
             orderDetail={purchaseInvoiceResponse.data}
+            // handleChangeStatus={changeInvoiceStatus}
           />
         </CardContent>
       </Card>

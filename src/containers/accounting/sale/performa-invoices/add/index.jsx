@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -15,7 +15,7 @@ import {
   // useGetLatestPerformaInvoiceQuery,
   useGetSinglePerformaInvoiceQuery,
 } from 'services/private/performa-invoices';
-import { useGetQuotationsListQuery } from 'services/private/quotations';
+import { useGetQuotationsListQuery, useGetSingleQuotationQuery } from 'services/private/quotations';
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
@@ -38,24 +38,31 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { proformaInvoicesInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function AddPerformaInvoice() {
   const { id } = useParams();
+  const { performaInvoice, quotationId } = getSearchParamsList();
+
   const navigate = useNavigate();
-  const { initialValues } = useInitialValues(
+  const { initialValues, setInitialValues } = useInitialValues(
     proformaInvoicesInitialValues,
     useGetSinglePerformaInvoiceQuery,
     null,
-    true
+    true,
+    false,
+    performaInvoice
   );
   const [addPerformaInvoice] = useAddPerformaInvoiceMutation();
   const [editPerformaInvoice] = useEditPerformaInvoiceMutation();
   const itemsListResponse = useGetItemsListQuery();
   const customerListResponse = useGetCustomersListQuery();
   const quotationsListResponse = useGetQuotationsListQuery();
+  const quotationResponse = useGetSingleQuotationQuery(quotationId, { skip: !quotationId });
+
   const { optionsList: quotationsListOptions } = useListOptions(quotationsListResponse?.data?.results, {
     label: 'quotation_formatted_number',
     value: 'id',
@@ -130,6 +137,29 @@ function AddPerformaInvoice() {
       setFieldValue('pro_invoice_items', selectedQuotation[0].quotation_items);
     }
   };
+  useEffect(() => {
+    if (quotationResponse?.data) {
+      const {
+        quotation_items: quotationItems,
+        id: quotationID,
+        customers,
+        sales_person: salesPerson,
+        location,
+        remarks,
+        quotation_docs: quotationDocs,
+      } = quotationResponse.data;
+      setInitialValues({
+        ...initialValues,
+        quotation: quotationID,
+        pro_invoice_items: quotationItems,
+        customer: customers,
+        sales_person: salesPerson,
+        pro_invoice_docs: quotationDocs,
+        location,
+        remarks,
+      });
+    }
+  }, [quotationId, quotationResponse]);
 
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
@@ -139,7 +169,6 @@ function AddPerformaInvoice() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={bankFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               const payload = {
                 ...values,
@@ -180,6 +209,7 @@ function AddPerformaInvoice() {
                   name="quotation"
                   options={quotationsListOptions}
                   type="text"
+                  disabled={Boolean(quotationId)}
                   label="Quotation #"
                   placeholder="Quotation Number"
                   startIcon={<TagIcon />}
@@ -203,6 +233,7 @@ function AddPerformaInvoice() {
                 <FormikSelect
                   options={customersOptions}
                   name="customer"
+                  disabled={Boolean(quotationId)}
                   placeholder="Customer"
                   label="Customer"
                 />

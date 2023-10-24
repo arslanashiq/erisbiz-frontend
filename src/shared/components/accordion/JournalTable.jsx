@@ -4,7 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import formatAmount from 'utilities/formatAmount';
 
-function JournalTable({ journalItems }) {
+function JournalTable({ journalItems, defaultValue }) {
   const total = journalItems.reduce(
     (acc, val) => {
       acc.bcy_debit += val.bcy_debit;
@@ -21,7 +21,7 @@ function JournalTable({ journalItems }) {
   }
 
   return (
-    <Accordion sx={{ boxShadow: '1px 0px 3px black' }}>
+    <Accordion defaultExpanded={defaultValue} sx={{ boxShadow: '1px 0px 3px black' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
         <Typography>Display Journal</Typography>
       </AccordionSummary>
@@ -68,9 +68,11 @@ function JournalTable({ journalItems }) {
 
 JournalTable.propTypes = {
   journalItems: PropTypes.arrayOf(PropTypes.object),
+  defaultValue: PropTypes.bool,
 };
 JournalTable.defaultProps = {
   journalItems: [],
+  defaultValue: false,
 };
 
 export default JournalTable;

@@ -145,7 +145,7 @@ function AddPurchaseOrder() {
               let response = null;
               const payload = {
                 ...values,
-                pur_order_docs: [...values.filesList],
+                pur_order_docs: values.filesList,
                 ...handleCalculateTotalAmount(values.pur_order_items),
               };
               const formData = new FormData();

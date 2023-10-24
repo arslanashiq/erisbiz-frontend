@@ -22,7 +22,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getSaleInvoicesList'],
+      invalidatesTags: ['getSaleInvoicesList', 'getPerformaInvoicesList', 'getSinglePerformaInvoice'],
     }),
     editSaleInvoices: builder.mutation({
       query: ({ id, payload }) => ({
@@ -30,13 +30,25 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicesList'],
+      invalidatesTags: [
+        'getSingleSaleInvoice',
+        'getSaleInvoicesList',
+        'getPerformaInvoicesList',
+        'getSinglePerformaInvoice',
+      ],
     }),
     deleteSaleInvoice: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/invoices/${id}/`,
         method: 'DELETE',
       }),
+      providesTags: ['deleteSaleInvoice'],
+      invalidatesTags: [
+        'getSaleInvoicesList',
+        'getSingleSaleInvoice',
+        'getPerformaInvoicesList',
+        'getSinglePerformaInvoice',
+      ],
     }),
     uploadSaleInvoiceDocuments: builder.mutation({
       query: ({ id, payload }) => ({
@@ -53,6 +65,31 @@ const saleInvoiceApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getSingleSaleInvoice'],
     }),
+
+    getSaleInvoiceJournals: builder.query({
+      query: id => ({
+        url: `/api/accounting/sales/invoices/${id}/journals`,
+        method: 'GET',
+      }),
+      providesTags: ['getSaleInvoiceJournals'],
+    }),
+
+    changeSaleInvoiceStatusToSent: builder.mutation({
+      query: id => ({
+        url: `api/accounting/sales/invoices/${id}/save`,
+        method: 'PATCH',
+      }),
+      providesTags: ['changeSaleInvoiceStatusToSent'],
+      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicesList', 'getSaleInvoiceJournals'],
+    }),
+    changeSaleInvoiceStatusToVoid: builder.mutation({
+      query: ({ id, reason }) => ({
+        url: `api/accounting/sales/invoices/${id}/status?reason=${reason}`,
+        method: 'GET',
+      }),
+      providesTags: ['changeSaleInvoiceStatusToVoid'],
+      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicesList'],
+    }),
   }),
 });
 
@@ -64,4 +101,7 @@ export const {
   useDeleteSaleInvoiceMutation,
   useUploadSaleInvoiceDocumentsMutation,
   useDeleteSaleInvoiceDocumentsMutation,
+  useChangeSaleInvoiceStatusToSentMutation,
+  useChangeSaleInvoiceStatusToVoidMutation,
+  useGetSaleInvoiceJournalsQuery,
 } = saleInvoiceApi;

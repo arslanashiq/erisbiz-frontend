@@ -63,7 +63,7 @@ export const receiptVoucherHeadCells = [
     mergeCell: true,
   },
   {
-    id: 'unused_amount',
+    id: 'over_payment',
     numeric: true,
     disablePadding: false,
     label: 'Unused Amount',

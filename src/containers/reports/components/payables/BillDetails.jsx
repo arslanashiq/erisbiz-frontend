@@ -5,8 +5,6 @@ import useGetBillDetailData from 'containers/reports/custom-hooks/payables/useGe
 import { payableBillDetailsReportHeadCells } from 'containers/reports/utilities/head-cells';
 // components
 import CustomReportDetailPage from '../CustomReportDetailPage';
-// styles
-import 'styles/reports/reports.scss';
 
 function BillDetails() {
   return (

@@ -1,11 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import PropTypes from 'prop-types';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {
   Box,
   Button,
+  IconButton,
   Stack,
   Table,
   TableBody,
@@ -13,6 +15,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from '@mui/material';
 // components
@@ -21,7 +24,7 @@ import FormikSelect from '../form/FormikSelect';
 // styles
 import 'styles/purchase-item/purchase-item.scss';
 
-function PurchaseItem({ name, inputList, form, push, newList }) {
+function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount }) {
   const getTotalAmount = (key = 'net_amount') => {
     let total = 0.0;
     if (form && form.values && form.values[name]) {
@@ -32,17 +35,20 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
 
     return total.toFixed(2);
   };
-  const creditDebitDifference = useMemo(() => {
-    if (!newList) {
-      return getTotalAmount('credit') - getTotalAmount('debit') || 0;
-    }
-    return 0;
-  }, [form]);
+  const handlePopItem = index => {
+    const list = [...form.values[name]];
+    list.splice(index, 1);
+    form.setFieldValue(name, list);
+  };
+  const creditDebitDifference = useMemo(
+    () => getTotalAmount('credit') - getTotalAmount('debit') || 0,
+    [form]
+  );
 
   return (
     <Box sx={{ width: '100%' }}>
       <TableContainer sx={{ overflow: 'auto', minHeight: 'auto' }}>
-        <Table sx={{ minWidth: '700px' }}>
+        <Table sx={{ minWidth: '900px' }}>
           <TableHead className="purchase-item-head">
             <TableRow>
               {inputList?.map(input => (
@@ -55,11 +61,15 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
           <TableBody>
             {form?.values[name]?.map((item, index) => (
               <TableRow key={`${name}.${item.name}.${index}`}>
-                {inputList?.map(input => (
+                {inputList?.map((input, idx) => (
                   <TableCell
                     key={input.name}
                     className="purchase-item-table-cell"
-                    sx={{ width: input.width || 'auto' }}
+                    sx={{
+                      width: input.width || 'auto',
+                      display: idx === inputList.length - 1 ? 'flex' : 'auto',
+                      alignItems: 'center',
+                    }}
                   >
                     {input.isSelect ? (
                       <FormikSelect
@@ -103,17 +113,31 @@ function PurchaseItem({ name, inputList, form, push, newList }) {
                             );
                           }
                         }}
-                        className="w-100"
+                        className="w-100 d-flex"
                       />
                     )}
                   </TableCell>
                 ))}
+                {form?.values[name].length > 1 && (
+                  <TableCell key="remove button" sx={{ alignItems: 'center' }}>
+                    <Tooltip arrow placement="top" title="Remove Item">
+                      <IconButton
+                        color="error"
+                        onClick={() => {
+                          handlePopItem(index);
+                        }}
+                      >
+                        <HighlightOffIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      {newList ? (
+      {showItemsAmount ? (
         <div className="row justify-content-between align-items-center pe-1">
           <div className="col-md-6">
             <Button onClick={() => push(newList)}>Add New Item</Button>
@@ -156,9 +180,11 @@ PurchaseItem.propTypes = {
   name: PropTypes.string.isRequired,
   newList: PropTypes.object,
   push: PropTypes.func.isRequired,
+  showItemsAmount: PropTypes.bool,
 };
 PurchaseItem.defaultProps = {
   inputList: [],
   newList: null,
+  showItemsAmount: true,
 };
 export default PurchaseItem;

@@ -7,13 +7,14 @@ function useInitialValues(
   fetchDetailQuery,
   fileName = null,
   useInititalValues = false,
-  isRefetch = false
+  isRefetch = false,
+  alternateId = null
 ) {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({ ...values });
   const [stateUpdated, setStateUpdated] = useState(false);
-  const { data: queryData, isLoading } = fetchDetailQuery(id, {
-    skip: !id,
+  const { data: queryData, isLoading } = fetchDetailQuery(id || alternateId, {
+    skip: !id && !alternateId,
     refetchOnMountOrArgChange: isRefetch,
   });
 
@@ -23,11 +24,7 @@ function useInitialValues(
 
     Object.keys(useInititalValues ? values : data).forEach(key => {
       if (data[key] !== null || data[key] !== undefined) {
-        // if (typeof data[key] === 'boolean') {
-        // fetchedData[key] = data[key];
-        // } else {
         fetchedData[key] = data[key];
-        // }
       }
     });
 

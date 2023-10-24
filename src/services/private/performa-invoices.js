@@ -26,7 +26,7 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['addPerformaInvoice'],
-      invalidatesTags: ['getPerformaInvoicesList', 'getQuotationsList'],
+      invalidatesTags: ['getPerformaInvoicesList', 'getQuotationsList', 'getSingleQuotation'],
     }),
     editPerformaInvoice: builder.mutation({
       query: ({ id, payload }) => ({
@@ -49,7 +49,7 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         url: `api/accounting/sales/proInvoices/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getPerformaInvoicesList', 'getQuotationsList'],
+      invalidatesTags: ['getPerformaInvoicesList', 'getQuotationsList', 'getSingleQuotation'],
     }),
     uploadPerformaInvoiceDocumentFile: builder.mutation({
       query: ({ id, payload }) => ({
@@ -66,6 +66,13 @@ const performaInvoiceApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getSinglePerformaInvoice'],
     }),
+    changePerformaInvoiceStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `api/accounting/sales/proinvoices/${id}/statusUpdate?status=${status}`,
+        method: 'GET',
+      }),
+      invalidatesTags: ['getPerformaInvoicesList', 'getSinglePerformaInvoice'],
+    }),
   }),
 });
 
@@ -78,4 +85,5 @@ export const {
   useEditPerformaInvoiceMutation,
   useUploadPerformaInvoiceDocumentFileMutation,
   useDeletePerformaInvoiceDocumentFileMutation,
+  useChangePerformaInvoiceStatusMutation,
 } = performaInvoiceApi;

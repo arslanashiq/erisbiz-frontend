@@ -29,15 +29,24 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['addPurchaseInvoce'],
-      invalidatesTags: ['getPurchaseInvoiceList', 'getPurchaseOrdersList'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getPurchaseOrdersList', 'getSinglePurchaseOrder'],
     }),
     deletePurchaseInvoce: builder.mutation({
       query: id => ({
         url: `/api/accounting/purchases/bills/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getPurchaseInvoiceList', 'getPurchaseOrdersList'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getPurchaseOrdersList', 'getSinglePurchaseOrder'],
     }),
+    chagePurchaseInvoiceStatusToOpen: builder.mutation({
+      query: id => ({
+        url: `api/accounting/purchases/bills/${id}/open`,
+        method: 'GET',
+      }),
+      providesTags: ['chagePurchaseInvoiceStatusToOpen'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getSinglePurchaseInvoice'],
+    }),
+
     editPurchaseInvoce: builder.mutation({
       query: ({ id, payload }) => ({
         url: `/api/accounting/purchases/bills/${id}/`,
@@ -68,6 +77,18 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+    getJournalsAgainstPaymentInvoice: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/bill/${id}/journals`,
+        method: 'GET',
+      }),
+    }),
+    changeInvoiceStatusToVoid: builder.mutation({
+      query: ({ id, reason }) => ({
+        url: `api/accounting/purchases/bill/${id}/status?reason=${reason}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
@@ -76,9 +97,12 @@ export const {
   useAddPurchaseInvoceMutation,
   useGetPurchaseInvoceMutation,
   useGetSinglePurchaseInvoiceQuery,
+  useChagePurchaseInvoiceStatusToOpenMutation,
   useDeletePurchaseInvoceMutation,
   useEditPurchaseInvoceMutation,
   useUploadPurchaseInvoiceDocumentFileMutation,
   useDeletePurchaseInvoiceDocumentFileMutation,
   useGetPaymentsAgainstPaymentInvoiceQuery,
+  useGetJournalsAgainstPaymentInvoiceQuery,
+  useChangeInvoiceStatusToVoidMutation,
 } = purchaseInvoiceApi;

@@ -18,6 +18,7 @@ function FormikField({
   endIcon,
   endIconClick,
   labelClassName,
+  endIconClass,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
@@ -71,7 +72,7 @@ function FormikField({
           {touched && error && <span className="form__form-group-error">{error}</span>}
         </div>
         {endIcon && (
-          <Box className="form__form-group-icon cursor-pointer" type="button" onClick={endIconClick}>
+          <Box className={endIconClass} type="button" onClick={endIconClick}>
             {endIcon}
           </Box>
         )}
@@ -97,6 +98,7 @@ FormikField.propTypes = {
   endIcon: PropTypes.element,
   endIconClick: PropTypes.func,
   labelClassName: PropTypes.string,
+  endIconClass: PropTypes.string,
 };
 
 FormikField.defaultProps = {
@@ -115,6 +117,7 @@ FormikField.defaultProps = {
   endIconClick: () => {},
   onChange: () => {},
   onBlur: () => {},
+  endIconClass: 'form__form-group-icon cursor-pointer',
 };
 
 export default FormikField;

@@ -1,9 +1,11 @@
 import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import moment from 'moment';
+import { useSnackbar } from 'notistack';
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
+  useChangePerformaInvoiceStatusMutation,
   useDeletePerformaInvoiceDocumentFileMutation,
   useDeletePerformaInvoiceMutation,
   useGetSinglePerformaInvoiceQuery,
@@ -16,18 +18,42 @@ import { DATE_FORMAT_PRINT } from 'utilities/constants';
 const keyValue = 'pro_invoice_items';
 function PerformaInvoiceDetail() {
   const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
   const performaInvoiceDetailResponse = useGetSinglePerformaInvoiceQuery(id);
-  const purchaseOrderActionList = useMemo(
-    () => [
+  const [changePerformaInvoiceStatus] = useChangePerformaInvoiceStatusMutation();
+
+  const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
+    const response = await changeInvoiceStatus(payload);
+    if (response.error) {
+      enqueueSnackbar('Somthing went wrong', {
+        variant: 'error',
+      });
+      return false;
+    }
+    enqueueSnackbar(successMessage, {
+      variant: 'success',
+    });
+    return true;
+  };
+  const purchaseOrderActionList = useMemo(() => {
+    const status = performaInvoiceDetailResponse?.data?.status;
+    if (status === 'cancelled') return [];
+    let actionList = [
       {
         label: 'Edit',
         handleClick: () => {
-          navigate(`/pages/accounting/purchase/purchase-orders/edit/${id}`);
+          navigate(`/pages/accounting/sales/performa-invoice//edit/${id}`);
+        },
+      },
+      {
+        label: 'Edit & clone',
+        handleClick: () => {
+          navigate(`/pages/accounting/sales/performa-invoice/add?performaInvoice=${id}`);
         },
       },
       {
@@ -36,7 +62,7 @@ function PerformaInvoiceDetail() {
           let infoDescription =
             'You cannot delete this Purchase Order beacuse this order is used in purchase invoice';
           let showActionButton = false;
-          const cantDelete = performaInvoiceDetailResponse.data.status === 'closed';
+          const cantDelete = status === 'closed';
           if (!cantDelete) {
             infoDescription = 'Are you sure you want to delete?';
             showActionButton = true;
@@ -51,9 +77,33 @@ function PerformaInvoiceDetail() {
           // setOpenPopup({ ...openPopup, open: true });
         },
       },
-    ],
-    [performaInvoiceDetailResponse]
-  );
+    ];
+    if (status !== 'invoiced') {
+      actionList = [
+        ...actionList,
+
+        {
+          label: 'cancel',
+          handleClick: () => {
+            handleChangeStatus(
+              changePerformaInvoiceStatus,
+              { id, status: 'cancelled' },
+              'Performa Invoiced status changed'
+            );
+          },
+        },
+        {
+          label: 'create Invoice',
+          handleClick: () => {
+            navigate(`/pages/accounting/sales/sale-invoice/add?performaInvoice=${id}`);
+          },
+        },
+      ];
+    }
+
+    return actionList;
+  }, [performaInvoiceDetailResponse]);
+
   const orderInfo = useMemo(
     () => ({
       type: 'Performa Invoice',

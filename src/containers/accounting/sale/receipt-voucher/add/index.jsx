@@ -27,6 +27,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { PAYMENT_MODE } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import { receiptVoucherInitialValues } from '../utilities/initialValues';
 import { UnPaidSaleInvoiceHeadCells } from '../utilities/head-cells';
@@ -34,6 +35,7 @@ import 'styles/form/form.scss';
 
 function AddReceiptVoucher() {
   const { id } = useParams();
+  const { customerId } = getSearchParamsList();
   const navigate = useNavigate();
 
   const customerListResponse = useGetCustomersListQuery();
@@ -64,9 +66,11 @@ function AddReceiptVoucher() {
     try {
       const response = await getUnPaidSaleInvoices(value);
 
-      setFieldValue('invoice_payments', response.data);
+      if (setFieldValue) setFieldValue('invoice_payments', response.data);
+      return response.data;
     } catch (error) {
-      setFieldValue('invoice_payments', []);
+      if (setFieldValue) setFieldValue('invoice_payments', []);
+      return [];
     }
   };
 
@@ -77,14 +81,19 @@ function AddReceiptVoucher() {
         paymentNumber = latestreceiptVoucherNumber.data.latest_num;
       }
     }
-    setInitialValues({
-      ...initialValues,
+    setInitialValues(prev => ({
+      ...prev,
       used_amount: 0,
       last_payment_number: paymentNumber,
       payment_num: paymentNumber + 1,
-    });
+    }));
   }, [latestreceiptVoucherNumber]);
-
+  useEffect(() => {
+    (async () => {
+      const data = await handleChangeCustomer(customerId);
+      setInitialValues(prev => ({ ...prev, invoice_payments: data, account: Number(customerId) }));
+    })();
+  }, [customerId]);
   return (
     <SectionLoader
       options={[
@@ -117,6 +126,7 @@ function AddReceiptVoucher() {
               <Form className="form form--horizontal mt-3 row">
                 <FormikSelect
                   options={customersOptions}
+                  disabled={Boolean(customerId)}
                   name="account"
                   placeholder="Customer"
                   label="Customer"

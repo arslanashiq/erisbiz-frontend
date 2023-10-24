@@ -71,12 +71,21 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         </div>
       </div>
 
-      {orderDetail && orderDetail.over_payment !== '0.00' && (
+      {orderDetail && (orderDetail.over_payment > 0 || orderDetail.over_paid > 0) && (
         <div className="over-payment">
           <h5>Overpayment</h5>
           <h4>
             {orderDetail.currency_symbol}
-            {orderDetail.over_payment}
+            {orderDetail.over_payment || orderDetail.over_paid}
+          </h4>
+        </div>
+      )}
+      {orderDetail && orderDetail.refund_payment > 0 && (
+        <div className="over-payment">
+          <h5>Refunded</h5>
+          <h4>
+            {orderDetail.currency_symbol}
+            {orderDetail.refund_payment}
           </h4>
         </div>
       )}

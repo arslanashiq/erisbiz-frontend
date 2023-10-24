@@ -47,11 +47,23 @@ export const purchaseInvoiceHeadCells = [
     label: 'Status',
     align: 'left',
     style: value => {
-      if (value.includes('overdue')) {
+      if (value.includes('due')) {
         return {
           color: 'red',
         };
       }
+
+      if (value === 'paid') {
+        return {
+          color: 'green',
+        };
+      }
+      if (value === 'draft') {
+        return {
+          color: 'grey',
+        };
+      }
+
       return {};
     },
   },

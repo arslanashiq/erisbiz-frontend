@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from 'react';
+import { v4 as uuid } from 'uuid';
+import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent, Grid } from '@mui/material';
 // services
@@ -9,8 +11,10 @@ import {
   useGetPaymentVouchersDocumentsQuery,
   useGetSinglePaymentVoucherQuery,
   useUploadPaymentVoucherDocumentMutation,
+  useRefundPaymentVoucherMutation,
 } from 'services/private/payment-voucher';
 // shared
+import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import JournalTable from 'shared/components/accordion/JournalTable';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
@@ -23,6 +27,7 @@ import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 
 const keyValue = 'bill_payments';
 function PaymentVoucherDetail() {
+  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -30,10 +35,12 @@ function PaymentVoucherDetail() {
     open: false,
     infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
   });
+  const [openRefundModal, setOpenRefundModal] = useState(false);
 
   const PaymentVoucherDetailResponse = useGetSinglePaymentVoucherQuery(id);
   const paymenyVoucherJournalResponse = useGetPaymentVoucherJournalsQuery(id);
   const paymentVoucherDocumentsResponse = useGetPaymentVouchersDocumentsQuery(id);
+  const [refundPaymentVoucher] = useRefundPaymentVoucherMutation();
 
   const orderInfo = useMemo(
     () => ({
@@ -47,8 +54,8 @@ function PaymentVoucherDetail() {
     }),
     [PaymentVoucherDetailResponse]
   );
-  const PaymentVoucherActionList = useMemo(
-    () => [
+  const PaymentVoucherActionList = useMemo(() => {
+    const actionsList = [
       {
         label: 'Edit',
         handleClick: () => {
@@ -75,14 +82,41 @@ function PaymentVoucherDetail() {
           Journal.scrollIntoView({ behavior: 'smooth' });
         },
       },
-    ],
-    [PaymentVoucherDetailResponse]
-  );
-
+    ];
+    if (PaymentVoucherDetailResponse?.data?.over_payment > 0) {
+      actionsList.push({
+        label: 'Refund',
+        divider: true,
+        handleClick: () => {
+          setOpenRefundModal(true);
+        },
+      });
+    }
+    return actionsList;
+  }, [PaymentVoucherDetailResponse]);
+  const handleRefundPaymentVoucher = async (values, { setErrors }) => {
+    const payload = {
+      ...values,
+      payment_made: id,
+    };
+    const response = await refundPaymentVoucher(payload);
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
+    setOpenRefundModal(false);
+  };
   return (
     <SectionLoader
       options={[PaymentVoucherDetailResponse.isLoading, paymenyVoucherJournalResponse.isLoading]}
     >
+      <RefundDialog
+        open={openRefundModal}
+        setOpen={setOpenRefundModal}
+        handleRefund={handleRefundPaymentVoucher}
+        maxAmount={PaymentVoucherDetailResponse?.data?.over_payment}
+      />
       <DetailPageHeader
         title={`Payment Made: #${PaymentVoucherDetailResponse?.data?.payment_num}`}
         filesList={paymentVoucherDocumentsResponse?.data}
@@ -117,7 +151,7 @@ function PaymentVoucherDetail() {
               <PaymentVoucherHistory PaymentVoucher={PaymentVoucherDetailResponse.data} />
               <Grid marginTop={4} id="Journal">
                 {paymenyVoucherJournalResponse?.data?.map(journalItems => (
-                  <JournalTable key={Math.random()} journalItems={journalItems?.payment_made_journal_items} />
+                  <JournalTable key={uuid()} journalItems={journalItems?.payment_made_journal_items} />
                 ))}
               </Grid>
             </Grid>

@@ -34,6 +34,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import 'styles/form/form.scss';
 import FormikFileField from 'shared/components/form/FormikFileField';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import { quotationsInitialValues } from '../utilities/initialValues';
 
 function AddQuotation() {
@@ -44,13 +45,18 @@ function AddQuotation() {
   const [addQuotation] = useAddQuotationMutation();
   const [editQuotation] = useEditQuotationMutation();
   const { id } = useParams();
-  const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', { skip: id });
-  const { initialValues, setInitialValues } = useInitialValues(
+  const { quotationId } = getSearchParamsList();
+
+  const { initialValues, setInitialValues, queryResponse } = useInitialValues(
     quotationsInitialValues,
     useGetSingleQuotationQuery,
     null,
-    true
+    true,
+    false,
+    quotationId
   );
+  const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', { skip: id });
+
   const customersOptions = customerListResponse?.data?.results?.map(customer => ({
     value: customer.id,
     label: customer.contact_person,
@@ -113,16 +119,21 @@ function AddQuotation() {
   );
   useEffect(() => {
     if (!id) {
-      if (latastQuotationNumberResponse?.data?.latest_num) {
-        setInitialValues({
-          ...initialValues,
-          quotation_num: latastQuotationNumberResponse.data.latest_num + 1,
-        });
+      const latestnum = latastQuotationNumberResponse?.data?.latest_num;
+      if (latestnum) {
+        setInitialValues(prev => ({
+          ...prev,
+          quotation_num: latestnum + 1,
+        }));
       } else {
-        setInitialValues({ ...initialValues, quotation_num: 1000 });
+        setInitialValues(prev => ({
+          ...prev,
+          quotation_num: 1000,
+        }));
       }
     }
-  }, [latastQuotationNumberResponse]);
+  }, [latastQuotationNumberResponse, queryResponse]);
+
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
@@ -138,6 +149,7 @@ function AddQuotation() {
                 sales_person: 33,
                 quotation_docs: values.filesList,
                 quotation_items: handleGetFormatedItemsData(values.quotation_items),
+                status: id ? values.status : 'draft',
                 ...handleCalculateTotalAmount(values.quotation_items),
               };
               delete payload.quotation_num;

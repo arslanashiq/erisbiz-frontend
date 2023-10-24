@@ -1,8 +1,9 @@
 import React from 'react';
-import { useGetVATAuditQuery } from 'services/private/reports';
+import { useGetVATAuditQuery, useAddVATAuditFileMutation } from 'services/private/reports';
 import { VATAuditReportHeadCells } from 'containers/reports/utilities/head-cells';
 import useGetVATAuditData from 'containers/reports/custom-hooks/tax/useGetVATAuditData';
 import CustomReportDetailPage from '../CustomReportDetailPage';
+import GenerateTaxReportFile from './components/GenerateTaxReportFile';
 
 function VATAuditReport() {
   return (
@@ -11,9 +12,13 @@ function VATAuditReport() {
       reportHeadCells={VATAuditReportHeadCells}
       useGetReportQuery={useGetVATAuditQuery}
       useGetReportData={useGetVATAuditData}
+      CustomComponent={
+        <GenerateTaxReportFile title="Generate Audit File" useMutation={useAddVATAuditFileMutation} />
+      }
       options={{
         showFilter: false,
-        // customComponent:
+        replaceTableBody: true,
+        showCompanyInfoHeader: false,
       }}
     />
   );

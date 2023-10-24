@@ -27,7 +27,7 @@ function ReportsHeader({
   modifiedTableHead,
   options,
 }) {
-  const { showFilter } = options;
+  const { showFilter, showPrint } = options;
   const navigate = useNavigate();
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(initialFilterValue);
@@ -71,11 +71,13 @@ function ReportsHeader({
               <DownloadIcon sx={iconButtonStyle} />
             </Button>
           </Tooltip>
-          <Tooltip title="Print" placement="top" arrow>
-            <Button onClick={() => setIsPrintModalOpen(true)}>
-              <PrintIcon sx={iconButtonStyle} />
-            </Button>
-          </Tooltip>
+          {showPrint && (
+            <Tooltip title="Print" placement="top" arrow>
+              <Button onClick={() => setIsPrintModalOpen(true)}>
+                <PrintIcon sx={iconButtonStyle} />
+              </Button>
+            </Tooltip>
+          )}
           <Tooltip title="Print" placement="top" arrow>
             <Button onClick={() => navigate(-1)}>Back</Button>
           </Tooltip>
@@ -98,8 +100,9 @@ ReportsHeader.propTypes = {
   handleDownloadExcelSheet: PropTypes.func.isRequired,
   isMultiReport: PropTypes.bool,
   modifiedTableHead: PropTypes.array,
-  options: PropTypes.objectOf({
+  options: PropTypes.shape({
     showFilter: PropTypes.bool,
+    showPrint: PropTypes.bool,
   }),
 };
 ReportsHeader.defaultProps = {
@@ -117,6 +120,7 @@ ReportsHeader.defaultProps = {
   modifiedTableHead: [],
   options: {
     showFilter: true,
+    showPrint: true,
   },
 };
 

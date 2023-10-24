@@ -64,6 +64,14 @@ const quotationsApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getSingleQuotation'],
     }),
+    changeQuotationStatus: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `api/accounting/sales/quotations/${id}/statusUpdate?status=${status}`,
+        method: 'GET',
+      }),
+      providesTags: ['changeQuotationStatus'],
+      invalidatesTags: ['getSingleQuotation', 'getQuotationsList'],
+    }),
   }),
 });
 
@@ -76,4 +84,5 @@ export const {
   useGetSingleQuotationQuery,
   useUploadQuotationDocumentsMutation,
   useDeleteQuotationDocumentsMutation,
+  useChangeQuotationStatusMutation,
 } = quotationsApi;

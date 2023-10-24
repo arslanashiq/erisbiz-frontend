@@ -25,6 +25,13 @@ function PdfPrintModal({
         maxWidth={false}
         open={isPrintModalOpen}
         onClose={handleClose}
+        sx={{
+          '&.MuiDialog-root': {
+            '.css-4pp0nb-MuiPaper-root-MuiDialog-paper': {
+              minWidth: '900px',
+            },
+          },
+        }}
         className="theme-light modal-dialog--custom-max-width"
       >
         <Stack spacing={2}>

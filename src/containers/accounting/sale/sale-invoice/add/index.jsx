@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
@@ -14,7 +14,10 @@ import {
   useEditSaleInvoicesMutation,
   useGetSingleSaleInvoiceQuery,
 } from 'services/private/sale-invoice';
-import { useGetPerformaInvoicesListQuery } from 'services/private/performa-invoices';
+import {
+  useGetPerformaInvoicesListQuery,
+  useGetSinglePerformaInvoiceQuery,
+} from 'services/private/performa-invoices';
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
@@ -37,6 +40,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { saleInvoiceInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
@@ -44,14 +48,20 @@ import 'styles/form/form.scss';
 function AddInvoice() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { performaInvoice } = getSearchParamsList();
   const itemsListResponse = useGetItemsListQuery();
   const customerListResponse = useGetCustomersListQuery();
   const performaInvoiceListResponse = useGetPerformaInvoicesListQuery();
+  const performaInvoiceResponse = useGetSinglePerformaInvoiceQuery(performaInvoice);
 
   const [addSaleInvoice] = useAddSaleInvoicesMutation();
   const [editSaleInvoice] = useEditSaleInvoicesMutation();
 
-  const { initialValues } = useInitialValues(saleInvoiceInitialValues, useGetSingleSaleInvoiceQuery);
+  const { initialValues, setInitialValues } = useInitialValues(
+    saleInvoiceInitialValues,
+    useGetSingleSaleInvoiceQuery
+  );
+
   const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
     value: 'id',
     label: 'customer_name',
@@ -125,13 +135,28 @@ function AddInvoice() {
   );
 
   const handleChangePerformaInvoice = (value, setFieldValue) => {
-    const selectedPerformaInvoice = performaInvoiceOptions.filter(
-      performaInvoice => performaInvoice.value === value
-    );
+    const selectedPerformaInvoice = performaInvoiceOptions.filter(perInv => perInv.value === value);
     setFieldValue('invoice_items', selectedPerformaInvoice[0].pro_invoice_items);
     setFieldValue('customer', selectedPerformaInvoice[0].customer);
     setFieldValue('quotation', selectedPerformaInvoice[0].quotation);
   };
+
+  useEffect(() => {
+    if (performaInvoiceResponse?.data) {
+      const perInv = performaInvoiceResponse.data;
+      setInitialValues({
+        ...initialValues,
+        pro_invoice: perInv.id,
+        invoice_items: perInv.pro_invoice_items,
+        customer: perInv.customer,
+        sales_person: perInv.sales_person,
+        date: perInv.pro_invoice_date,
+        location: perInv.location,
+        invoice_docs: perInv.pro_invoice_docs,
+        remarks: perInv.remarks,
+      });
+    }
+  }, [performaInvoiceResponse]);
 
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
@@ -184,6 +209,7 @@ function AddInvoice() {
                   options={performaInvoiceOptions}
                   name="pro_invoice"
                   type="text"
+                  disabled={Boolean(performaInvoice)}
                   placeholder="Performa Invoice"
                   label="Performa Invoice"
                   startIcon={<TagIcon />}
@@ -207,6 +233,7 @@ function AddInvoice() {
                   options={customersOptions}
                   name="customer"
                   placeholder="Customer"
+                  disabled={Boolean(performaInvoice)}
                   label="Customer"
                 />
 

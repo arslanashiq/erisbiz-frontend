@@ -25,6 +25,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { PAYMENT_MODE } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 import { PurchaseVoucherInitialValues } from '../utilities/initialValues';
 // components
@@ -34,6 +35,7 @@ import 'styles/form/form.scss';
 
 function addPaymentVoucher() {
   const { id } = useParams();
+  const { supplierId } = getSearchParamsList();
   const navigate = useNavigate();
   const supplierListResponse = useGetSuppliersListQuery();
   const bankAccountListResponse = useGetBankAccountsListQuery();
@@ -44,6 +46,7 @@ function addPaymentVoucher() {
     PurchaseVoucherInitialValues,
     useGetSinglePaymentVoucherQuery
   );
+
   const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
     value: 'id',
     label: 'supplier_name',
@@ -53,15 +56,15 @@ function addPaymentVoucher() {
     label: 'bank_account_name',
   });
 
-  const handleChangeSupplier = async (supplierId, initial, setValues) => {
-    if (!supplierId) return;
-    const response = await getUnpaidBills(supplierId);
+  const handleChangeSupplier = async (selectedSupplierId, initial, setValues) => {
+    if (!selectedSupplierId) return;
+    const response = await getUnpaidBills(selectedSupplierId);
     const billPayment = [];
     response.data.forEach((bill, index) => {
       if (bill.bill_num === 'Supplier Opening Balance') {
         billPayment.push({
           bill_date: bill.bill_date,
-          supplier: supplierId,
+          supplier: selectedSupplierId,
           grand_total: bill.grand_total,
           amount_due: bill.amount_due,
           amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
@@ -86,17 +89,25 @@ function addPaymentVoucher() {
         ...initialValues,
         used_amount: initialValues.total - initialValues.unused_amount,
         bill_payments: billPayment,
+        supplier_id: Number(selectedSupplierId),
       });
     }
   };
 
   useEffect(() => {
-    if (id) {
-      if (!initialValues.used_amount) {
+    if (supplierId) {
+      handleChangeSupplier(supplierId, initialValues);
+    }
+  }, [supplierId]);
+
+  useEffect(() => {
+    if (id && !supplierId) {
+      if (!initialValues?.used_amount) {
         handleChangeSupplier(initialValues.supplier_id, initialValues);
       }
     }
   }, [initialValues]);
+
   return (
     <SectionLoader options={[supplierListResponse.isLoading, bankAccountListResponse.isLoading]}>
       <Card>
@@ -135,9 +146,10 @@ function addPaymentVoucher() {
                   name="supplier_id"
                   placeholder="Supplier"
                   label="Supplier"
+                  disabled={Boolean(supplierId)}
                   startIcon={<TagIcon />}
                   options={suppliersOptions}
-                  onChange={supplierId => handleChangeSupplier(supplierId, null, setFieldValue)}
+                  onChange={selectedSupplier => handleChangeSupplier(selectedSupplier, null, setFieldValue)}
                 />
                 {/* Payment date */}
 

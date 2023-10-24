@@ -181,7 +181,7 @@ function SupplierAddPage() {
                         <CheckBoxField
                           name="credit_limit"
                           onChange={e => {
-                            setFieldValue('set_credit_limit', '');
+                            setFieldValue('set_credit_limit', 0);
                             setFieldValue(e?.target?.name, e?.target?.checked);
                           }}
                           label="Set Credit Limit ($)"
@@ -228,7 +228,7 @@ function SupplierAddPage() {
                       <CreditTermsRadioButtons
                         name="set_credit_terms"
                         onChange={value => {
-                          setFieldValue('days_after_invoice', '');
+                          setFieldValue('days_after_invoice', 0);
                           setFieldValue('set_credit_terms', value);
                         }}
                         values={values}

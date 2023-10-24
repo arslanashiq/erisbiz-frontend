@@ -28,12 +28,8 @@ function PerformaInvoiceListing() {
     });
   };
   const deleteSinglePerformaInvoice = async id => {
-    const deleteItemResp = await deletePerformaInvoice(id);
-    if (deleteItemResp.data) {
-      enqueueSnackbar('Performa Invoice Deleted Successfully', { variant: 'success' });
-    } else {
-      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    }
+    deletePerformaInvoice(id);
+    enqueueSnackbar('Performa Invoice Deleted Successfully', { variant: 'success' });
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {

@@ -8,6 +8,7 @@ export const quotationsInitialValues = {
   remarks: '',
   sales_person: '',
   customers: '',
+  status: 'draft',
   quotation_items: [
     {
       service_type: '',

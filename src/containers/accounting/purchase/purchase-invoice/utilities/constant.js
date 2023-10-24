@@ -1,7 +1,8 @@
 import moment from 'moment';
+import { DATE_FORMATE_ADD } from 'utilities/constants';
 
 export const purchaseInvoiceInitialValue = {
-  invoice_date: moment().format('yyyy-MM-dd'),
+  invoice_date: moment().format(DATE_FORMATE_ADD),
   pur_order_id: '',
   location: '',
   supplier_id: '',

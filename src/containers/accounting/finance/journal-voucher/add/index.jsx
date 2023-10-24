@@ -100,7 +100,7 @@ function AddJournalVoucher() {
     }
   }, [latestJournalVoucher]);
   useEffect(() => {
-    if (initialValues.journal_num > 0 && !initialValues.last_journal_num) {
+    if (initialValues.journal_num > 1000 && !initialValues.last_journal_num) {
       setInitialValues({ ...initialValues, last_journal_num: initialValues.journal_num - 1 });
     }
   }, [initialValues]);
@@ -169,7 +169,19 @@ function AddJournalVoucher() {
 
               <FieldArray
                 name="journal_items"
-                render={props => <PurchaseItem inputList={quotationItemsList} {...props} />}
+                render={props => (
+                  <PurchaseItem
+                    inputList={quotationItemsList}
+                    newList={{
+                      chart_of_account: 0,
+                      debit: 0,
+                      credit: 0,
+                      description: '',
+                    }}
+                    showItemsAmount={false}
+                    {...props}
+                  />
+                )}
               />
 
               {/* Remarks */}

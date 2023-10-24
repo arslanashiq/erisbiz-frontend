@@ -1,28 +1,35 @@
-import { Card, CardContent } from '@mui/material';
-import SectionLoader from 'containers/common/loaders/SectionLoader';
 import React, { useMemo, useState } from 'react';
+import { useSnackbar } from 'notistack';
+import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 import {
   useDeleteReceiptVoucherDocumentsMutation,
   useAddReceiptVoucherDocumentsMutation,
   useGetSingleReceiptVoucherQuery,
   useGetReceiptVoucherDocumentsQuery,
   useDeleteReceiptVoucherMutation,
+  useRefundReceiptVoucherMutation,
 } from 'services/private/receipt-voucher';
+import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import { UnPaidSaleInvoiceHeadCells } from '../utilities/head-cells';
 
 const keyValue = 'invoice_payments';
 function ReceiptVoucherDetail() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { id } = useParams();
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
   });
+  const [openRefundModal, setOpenRefundModal] = useState(false);
+
   const receiptVoucherResponse = useGetSingleReceiptVoucherQuery(id);
   const receiptVoucherDocumentsList = useGetReceiptVoucherDocumentsQuery(id);
+  const [refundReceiptVoucher] = useRefundReceiptVoucherMutation();
   const orderInfo = useMemo(
     () => ({
       type: 'PAYMENT RECEIPT',
@@ -53,8 +60,8 @@ function ReceiptVoucherDetail() {
     }),
     [receiptVoucherResponse]
   );
-  const PaymentVoucherActionList = useMemo(
-    () => [
+  const PaymentVoucherActionList = useMemo(() => {
+    const actionsList = [
       {
         label: 'Edit',
         handleClick: () => {
@@ -77,11 +84,39 @@ function ReceiptVoucherDetail() {
           Journal.scrollIntoView({ behavior: 'smooth' });
         },
       },
-    ],
-    [receiptVoucherResponse]
-  );
+    ];
+    if (receiptVoucherResponse?.data?.over_payment > 0) {
+      actionsList.push({
+        label: 'Refund',
+        divider: true,
+        handleClick: () => {
+          setOpenRefundModal(true);
+        },
+      });
+    }
+    return actionsList;
+  }, [receiptVoucherResponse]);
+  const handleRefundPaymentVoucher = async (values, { setErrors }) => {
+    const payload = {
+      ...values,
+      payment_received: id,
+    };
+    const response = await refundReceiptVoucher(payload);
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
+    setOpenRefundModal(false);
+  };
   return (
     <SectionLoader options={[receiptVoucherResponse.isLoading, receiptVoucherDocumentsList.isLoading]}>
+      <RefundDialog
+        open={openRefundModal}
+        setOpen={setOpenRefundModal}
+        handleRefund={handleRefundPaymentVoucher}
+        maxAmount={receiptVoucherResponse?.data?.over_payment}
+      />
       <DetailPageHeader
         title={`Receipt Voucher: #${receiptVoucherResponse?.data?.payment_num}`}
         filesList={receiptVoucherDocumentsList?.data}
