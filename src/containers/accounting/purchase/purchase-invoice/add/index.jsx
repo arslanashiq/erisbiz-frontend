@@ -213,7 +213,7 @@ function AddPurchaseInvoice() {
                 due_date: values.invoice_date,
                 pur_order_id: values.pur_order,
                 bill_notes: [values.notes],
-                bill_docs: values.filesList,
+                bill_docs: values.filesList || [],
                 status: values.status || 'draft',
                 ...handleCalculateTotalAmount(values.bill_items),
               };

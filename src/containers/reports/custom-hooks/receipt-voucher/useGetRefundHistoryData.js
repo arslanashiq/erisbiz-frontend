@@ -3,27 +3,25 @@ import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 
 function useGetRefundHistoryData(refundHistoryResponse) {
-  const { tableBody, totalAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, currencySymbol } = useMemo(() => {
     let total = 0;
-    let dueAmount = 0;
 
     let currency = 'AED';
     const body = [];
     refundHistoryResponse?.data?.data.forEach(item => {
-      total += item.amount_total;
-      dueAmount += item.amount_due;
+      total += item.amount_applied;
       currency = item.currency_symbol;
       body.push([
         {
-          value: item.status,
+          value: moment(item.payment_date).format(DATE_FILTER_REPORT),
           style: { textAlign: 'start' },
         },
         {
-          value: moment(item.payment_date).format(DATE_FILTER_REPORT),
+          value: item.reference_num,
         },
         {
           value: item.formatted_number,
-          link: `/pages/accounting/sales/credit-notes/${item.id}/detail`,
+          // link: `/pages/accounting/sales/credit-notes/${item.id}/detail`,
         },
         {
           value: item.customer_name,
@@ -31,17 +29,16 @@ function useGetRefundHistoryData(refundHistoryResponse) {
         },
 
         {
-          value: `${currency} ${item.amount_total}`,
+          value: item.payment_mode,
         },
         {
-          value: `${currency} ${item.amount_due}`,
+          value: `${currency} ${item.amount_applied}`,
         },
       ]);
     });
     return {
       tableBody: body,
       totalAmount: total,
-      totalDueAmount: dueAmount,
       currencySymbol: currency,
     };
   }, [refundHistoryResponse]);
@@ -53,11 +50,11 @@ function useGetRefundHistoryData(refundHistoryResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
+        { value: '' },
         { value: `${currencySymbol} ${totalAmount}`, style: { textAlign: 'end', fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDueAmount}`, style: { textAlign: 'end', fontWeight: 700 } },
       ],
     ],
-    [totalAmount, totalDueAmount, currencySymbol]
+    [totalAmount, currencySymbol]
   );
   return { tableBody, tableFooter };
 }

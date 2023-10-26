@@ -11,7 +11,7 @@ export const receiptVoucherInitialValues = {
   remarks: '',
   invoice_payments: [],
   unused_amount: 0,
-  status: 'draft',
+  status: 'open',
   // extra
   used_amount: 0,
 };

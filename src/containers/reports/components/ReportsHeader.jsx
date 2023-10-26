@@ -66,11 +66,13 @@ function ReportsHeader({
           )}
         </Stack>
         <Stack direction="row" spacing={2}>
-          <Tooltip title="Download Excel Sheet" placement="top" arrow>
-            <Button onClick={handleDownloadExcelSheet}>
-              <DownloadIcon sx={iconButtonStyle} />
-            </Button>
-          </Tooltip>
+          {handleDownloadExcelSheet && (
+            <Tooltip title="Download Excel Sheet" placement="top" arrow>
+              <Button onClick={handleDownloadExcelSheet}>
+                <DownloadIcon sx={iconButtonStyle} />
+              </Button>
+            </Tooltip>
+          )}
           {showPrint && (
             <Tooltip title="Print" placement="top" arrow>
               <Button onClick={() => setIsPrintModalOpen(true)}>
@@ -97,7 +99,7 @@ ReportsHeader.propTypes = {
   customFilterInitialValues: PropTypes.object,
   customFilterInputsList: PropTypes.array,
   initialFilterValue: PropTypes.object,
-  handleDownloadExcelSheet: PropTypes.func.isRequired,
+  handleDownloadExcelSheet: PropTypes.func,
   isMultiReport: PropTypes.bool,
   modifiedTableHead: PropTypes.array,
   options: PropTypes.shape({
@@ -118,6 +120,7 @@ ReportsHeader.defaultProps = {
   initialFilterValue: {},
   isMultiReport: false,
   modifiedTableHead: [],
+  handleDownloadExcelSheet: null,
   options: {
     showFilter: true,
     showPrint: true,

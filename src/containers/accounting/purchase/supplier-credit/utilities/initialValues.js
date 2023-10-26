@@ -1,7 +1,6 @@
 import moment from 'moment';
 
 export const supplierCreditsInitialValues = {
-  voucher_number: '',
   debit_account_number: '',
   bill_id: '',
   supplier_id: '',

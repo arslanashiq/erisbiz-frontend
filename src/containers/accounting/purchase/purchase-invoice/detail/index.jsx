@@ -135,6 +135,14 @@ function PurchaseInvoiceDetail() {
         },
       });
     }
+    if (invoiceStatus === 'partially paid' || invoiceStatus === 'paid') {
+      actionsList.push({
+        label: 'Create Debit Note',
+        handleClick: async () => {
+          navigate(`/pages/accounting/purchase/debit-notes/add?purchaseId=${id}`);
+        },
+      });
+    }
 
     return actionsList;
   }, [purchaseInvoiceResponse]);

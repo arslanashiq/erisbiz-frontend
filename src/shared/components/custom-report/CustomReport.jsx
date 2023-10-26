@@ -1,24 +1,16 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
-import 'styles/reports/custom-report.scss';
 import { Link } from 'react-router-dom';
+import 'styles/reports/custom-report.scss';
+import CustomeReportTableHead from './CustomeReportTableHead';
 
 function CustomReport({ tableHeader, tableBody, tableFooter }) {
   return (
     <div className="custom-receipt-main-container" style={{ minWidth: 900 }}>
       <div style={{ padding: '0px 20px' }}>
         <table className="table1 w-100">
-          {/* head */}
-          <thead>
-            <tr>
-              {tableHeader.map(cell => (
-                <th key={uuid()} style={{ textAlign: 'right', textTransform: 'uppercase', ...cell.style }}>
-                  {cell.title}
-                </th>
-              ))}
-            </tr>
-          </thead>
+          <CustomeReportTableHead tableHeader={tableHeader} />
           {/* Detail */}
           <tbody>
             {tableBody.length === 0 && (

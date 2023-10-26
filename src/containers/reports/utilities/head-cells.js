@@ -264,6 +264,14 @@ export const creditNoteDetailReportHeadCells = [
   { title: 'CREDIT NOTE AMOUNT' },
   { title: 'BALANCE AMOUNT' },
 ];
+export const customerRefundReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'REFERENCE#' },
+  { title: 'TRANSACTION#' },
+  { title: 'CUSTOMER NAME' },
+  { title: 'MODE' },
+  { title: 'AMOUNT' },
+];
 
 // accountant
 export const accountTransactionReportHeadCells = [
@@ -305,9 +313,9 @@ export const journalReportHeadCells = [
   { title: 'CREDIT' },
 ];
 export const trialBalanceReportHeadCells = [
-  { title: 'Account', style: { textAlign: 'start' } },
-  { title: 'DEBIT' },
-  { title: 'CREDIT' },
+  { title: 'Account', style: { textAlign: 'start' }, key: 'chart_of_account' },
+  { title: 'DEBIT', style: { textAlign: 'end' } },
+  { title: 'CREDIT', style: { textAlign: 'end' } },
 ];
 // tax
 export const taxReturnReportHeadCells = [

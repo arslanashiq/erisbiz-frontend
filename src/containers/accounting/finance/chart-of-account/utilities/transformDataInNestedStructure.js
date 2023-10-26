@@ -1,36 +1,40 @@
-function transformDataInNestedStructure(data) {
+function transformDataInNestedStructure(data, key = 'id') {
   const nodesById = {};
   const roots = [];
-  if (!data) return [];
-  data.forEach(item => {
-    nodesById[item.id] = {
-      ...item,
-      child_accounts: [],
-    };
+  try {
+    if (data === undefined || data.length === 0) return [];
 
-    if (item.parent_account === null) {
-      roots.push(nodesById[item.id]);
-    }
-  });
+    data.forEach(item => {
+      nodesById[item[key]] = {
+        ...item,
+        child_accounts: [],
+      };
 
-  data.forEach(item => {
-    const node = nodesById[item.id];
-    if (item.parent_account === null) {
-      return;
-    }
-    const parent = nodesById[item.parent_account];
-    if (parent) {
-      parent.child_accounts.push(node);
-    }
-  });
+      if (item.parent_account === null) {
+        roots.push(nodesById[item[key]]);
+      }
+    });
 
-  data.forEach(item => {
-    if (nodesById[item.id].child_accounts.length === 0) {
-      delete nodesById[item.id].child_accounts;
-    }
-  });
+    data.forEach(item => {
+      const node = nodesById[item[key]];
+      if (item.parent_account === null) {
+        return;
+      }
+      const parent = nodesById[item.parent_account];
+      if (parent) {
+        parent.child_accounts.push(node);
+      }
+    });
+    data.forEach(item => {
+      if (nodesById[item[key]]?.child_accounts?.length === 0) {
+        delete nodesById[item[key]].child_accounts;
+      }
+    });
 
-  return roots;
+    return roots;
+  } catch (error) {
+    return roots;
+  }
 }
 
 export default transformDataInNestedStructure;

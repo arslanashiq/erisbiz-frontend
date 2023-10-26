@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import TagIcon from '@mui/icons-material/Tag';
+// import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -13,8 +13,11 @@ import {
   useEditSupplierCreditsMutation,
   useGetSingleSupplierCreditsQuery,
 } from 'services/private/debit-note';
-import { useGetPaymentVouchersListQuery } from 'services/private/payment-voucher';
-import { useGetPurchaseInvoceMutation } from 'services/private/purchase-invoice';
+import {
+  useGetPurchaseInvoceMutation,
+  useGetPurchaseInvoiceListQuery,
+  useGetSinglePurchaseInvoiceQuery,
+} from 'services/private/purchase-invoice';
 // shared
 import {
   handleCalculateTotalAmount,
@@ -35,21 +38,20 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
+import { VAT_CHARGES } from 'utilities/constants';
 import { supplierCreditsInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function AddSupplierCredit() {
   const { id } = useParams();
+  const { purchaseId } = getSearchParamsList();
   const navigate = useNavigate();
-  const [purchaseInvoiceListOptions, setPurchaseInvoiceListOptions] = useState(id ? null : []);
-  const [supplierCreditInitialValues, setSupplierCreditInitialValues] = useState(
-    supplierCreditsInitialValues
-  );
   const itemsListResponse = useGetItemsListQuery();
   const suppliersListResponse = useGetSuppliersListQuery();
   const bankAccountsListsponse = useGetBankAccountsListQuery();
-  const paymentVouchersListQuery = useGetPaymentVouchersListQuery();
+  const purchaseInvoiceListResponse = useGetPurchaseInvoiceListQuery();
+  const singlePurchaseInvoiceresponse = useGetSinglePurchaseInvoiceQuery(purchaseId, { skip: !purchaseId });
   const [getPurchaseInvoice] = useGetPurchaseInvoceMutation();
   const [addSupplierCredit] = useAddSupplierCreditsMutation();
   const [editSupplierCredit] = useEditSupplierCreditsMutation();
@@ -76,10 +78,11 @@ function AddSupplierCredit() {
     label: supplier.supplier_name,
     credit_account: supplier.account_default,
   }));
-  const paymentVoucherOptions = paymentVouchersListQuery?.data?.results?.map(voucher => ({
-    value: `${voucher.id}`,
-    label: voucher.id,
-    data: voucher,
+
+  const paymentInvoiceOptions = purchaseInvoiceListResponse?.data?.results?.map(invoice => ({
+    value: invoice.id,
+    label: invoice.bill_formated_number,
+    data: invoice,
   }));
 
   const purchaseItemsInputList = useMemo(
@@ -90,6 +93,7 @@ function AddSupplierCredit() {
         isSelect: true,
         options: itemsListOptions || [],
         width: '15%',
+        disabled: true,
         onChange: handleChangeItem,
       },
       {
@@ -114,6 +118,7 @@ function AddSupplierCredit() {
         name: 'discount',
         placeholder: 'Discount',
         type: 'number',
+        disabled: true,
         onChange: handleChangeDiscount,
       },
       {
@@ -122,6 +127,7 @@ function AddSupplierCredit() {
         isSelect: true,
         options: VAT_CHARGES,
         width: '15%',
+        disabled: true,
         onChange: hanldeVATChange,
       },
       {
@@ -134,32 +140,31 @@ function AddSupplierCredit() {
     [itemsListOptions]
   );
 
-  const { initialValues } = useInitialValues(supplierCreditsInitialValues, useGetSingleSupplierCreditsQuery);
+  const { initialValues, setInitialValues } = useInitialValues(
+    supplierCreditsInitialValues,
+    useGetSingleSupplierCreditsQuery
+  );
 
-  const handleChangeVoucher = (voucherId, setFieldValue) => {
-    const selectedVoucher = paymentVoucherOptions.filter(voucher => voucher.value === voucherId)[0];
-    if (!selectedVoucher) return;
-    if (setFieldValue) setFieldValue('supplier_id', selectedVoucher.data.supplier_id);
-    const billValues = selectedVoucher.data.bill_payments.map(bill => ({
-      value: bill?.bill?.id,
-      label: bill?.bill?.bill_num,
-    }));
-
-    setPurchaseInvoiceListOptions([...billValues]);
-  };
   const handleChangePurchaseInvoice = async (value, setFieldValue) => {
     if (!value) return;
     const purchaseInvoice = await getPurchaseInvoice(value);
-    if (setFieldValue) setFieldValue('supplier_credit_items', [...purchaseInvoice.data.bill_items]);
+    if (setFieldValue) {
+      setFieldValue('supplier_id', purchaseInvoice.data.supplier_id);
+      setFieldValue('supplier_credit_items', [...purchaseInvoice.data.bill_items]);
+    }
   };
 
   useEffect(() => {
-    if (paymentVoucherOptions && purchaseInvoiceListOptions === null) {
-      handleChangeVoucher(initialValues.voucher_number);
-      setSupplierCreditInitialValues({ ...initialValues });
+    if (singlePurchaseInvoiceresponse?.data) {
+      const { supplier_id: supplierId, bill_items: billItems } = singlePurchaseInvoiceresponse.data;
+      setInitialValues({
+        ...initialValues,
+        bill_id: Number(purchaseId),
+        supplier_credit_items: billItems,
+        supplier_id: supplierId,
+      });
     }
-  }, [initialValues, paymentVoucherOptions]);
-
+  }, [singlePurchaseInvoiceresponse, paymentInvoiceOptions]);
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
@@ -167,7 +172,7 @@ function AddSupplierCredit() {
           <FormHeader title="Purchase Debit Notes" />
           <Formik
             enableReinitialize
-            initialValues={supplierCreditInitialValues}
+            initialValues={initialValues}
             // validationSchema={bankFormValidationSchema}
             onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
               const supplierCreditTtems = values.supplier_credit_items.map(item => ({
@@ -201,13 +206,22 @@ function AddSupplierCredit() {
               <Form className="form form--horizontal mt-3 row">
                 {/* Purchase */}
 
-                <FormikSelect
+                {/* <FormikSelect
                   name="voucher_number"
                   placeholder="Voucher Number"
                   label="Voucher Number"
                   options={paymentVoucherOptions}
                   startIcon={<TagIcon />}
                   onChange={value => handleChangeVoucher(value, setFieldValue)}
+                /> */}
+                {/* Purchase Inv No */}
+                <FormikSelect
+                  name="bill_id"
+                  options={paymentInvoiceOptions || []}
+                  disabled={Boolean(purchaseId)}
+                  placeholder="Purchase Invoice Number"
+                  label="Purchase Inv No"
+                  onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}
                 />
                 {/* date */}
 
@@ -227,35 +241,23 @@ function AddSupplierCredit() {
                   disabled
                 />
 
-                {/* Purchase Inv No */}
-                <FormikSelect
-                  name="bill_id"
-                  options={purchaseInvoiceListOptions || []}
-                  placeholder="Purchase Invoice Number"
-                  label="Purchase Inv No"
-                  onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}
-                />
-
-                {/* Location */}
+                {/* debit account number */}
                 <FormikSelect
                   name="debit_account_number"
                   options={bankAccountOptions}
                   placeholder="Debit Account Number"
                   label="Debit Acc No"
-                  className="col-12"
                   // onChange={value => handleChangeDebitAccount(value, setFieldValue)}
                 />
 
                 {/* Item detail */}
                 <div className="form__form-group w-100">
                   <FieldArray
-                    name="supplier_credit_items"
                     render={props => (
                       <PurchaseItem
+                        {...props}
                         name="supplier_credit_items"
                         inputList={purchaseItemsInputList}
-                        newList={NEW_PURCHASE_ITEM_OBJECT}
-                        {...props}
                       />
                     )}
                   />

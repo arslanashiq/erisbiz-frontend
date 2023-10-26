@@ -90,8 +90,10 @@ function AddReceiptVoucher() {
   }, [latestreceiptVoucherNumber]);
   useEffect(() => {
     (async () => {
-      const data = await handleChangeCustomer(customerId);
-      setInitialValues(prev => ({ ...prev, invoice_payments: data, account: Number(customerId) }));
+      if (customerId) {
+        const data = await handleChangeCustomer(customerId);
+        setInitialValues(prev => ({ ...prev, invoice_payments: data, account: Number(customerId) }));
+      }
     })();
   }, [customerId]);
   return (

@@ -3,7 +3,7 @@ import React from 'react';
 import { useGetSupplierRefundHistoryQuery } from 'services/private/reports';
 // containers
 import { supplierRefundHistoryReportHeadCells } from 'containers/reports/utilities/head-cells';
-import useGetSupplierBalanceData from 'containers/reports/custom-hooks/payables/useGetSupplierBalanceData';
+import useSupplierRefundHistoryData from 'containers/reports/custom-hooks/payables/useSupplierRefundHistoryData';
 import CustomReportDetailPage from '../CustomReportDetailPage';
 
 function SupplierRefundHistory() {
@@ -12,7 +12,7 @@ function SupplierRefundHistory() {
       reportTitle="Supplier Refund History"
       reportHeadCells={supplierRefundHistoryReportHeadCells}
       useGetReportQuery={useGetSupplierRefundHistoryQuery}
-      useGetReportData={useGetSupplierBalanceData}
+      useGetReportData={useSupplierRefundHistoryData}
     />
   );
 }

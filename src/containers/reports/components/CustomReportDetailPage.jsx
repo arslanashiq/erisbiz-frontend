@@ -18,6 +18,7 @@ import { DATE_FILTER_REPORT } from 'utilities/constants';
 // components
 import ReportsHeader from './ReportsHeader';
 import CustomReportsDetailHeader from './CustomReportsDetailHeader';
+import { getSelectedFilter } from '../utilities/get-selected-filter';
 
 function CustomReportDetailPage({
   reportTitle,
@@ -35,31 +36,6 @@ function CustomReportDetailPage({
     useGetReportData(reportResponse);
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
 
-  const getSelectedFilter = () => {
-    const searchQuery = location.search;
-    let selectedFilter = '';
-    let filterDuration = 'this+month';
-    if (searchQuery) {
-      searchQuery.split('&').forEach(singleQuery => {
-        if (singleQuery.includes('duration')) {
-          let temp = singleQuery.replace('?', '');
-          temp = temp.replace('%20', ' ');
-          temp = temp.replace('+', ' ');
-          temp = temp.replace('duration=', '');
-          filterDuration = temp;
-        }
-      });
-    }
-    if (filterDuration) {
-      selectedFilter = FilterReportsList.filter(filter => filter.value === filterDuration);
-      if (selectedFilter.length > 0) {
-        [selectedFilter] = selectedFilter;
-      } else {
-        [, , selectedFilter] = FilterReportsList;
-      }
-    }
-    return selectedFilter;
-  };
   const startDate = moment(reportResponse?.data?.start_date).format(DATE_FILTER_REPORT);
   const endDate = moment(reportResponse?.data?.end_date).format(DATE_FILTER_REPORT);
   const timeInterval = `From ${startDate} To ${endDate}`;
@@ -69,8 +45,10 @@ function CustomReportDetailPage({
     endDate,
     timeInterval,
     options,
-    replaceTableBody ? modifiedTableHead : reportHeadCells,
-    replaceTableBody ? modifiedTableBody : tableBody,
+    [],
+    [],
+    // replaceTableBody ? modifiedTableHead : reportHeadCells,
+    // replaceTableBody ? modifiedTableBody : tableBody,
     tableFooter
   );
   return (
@@ -80,7 +58,7 @@ function CustomReportDetailPage({
         tableHeader={replaceTableBody ? modifiedTableHead : reportHeadCells}
         tableBody={replaceTableBody ? modifiedTableBody : tableBody}
         tableFooter={tableFooter}
-        initialFilterValue={getSelectedFilter()}
+        initialFilterValue={getSelectedFilter(FilterReportsList)}
         filterList={FilterReportsList}
         handleSubmitCustomDateFilter={handleSubmitCustomDateFilter}
         handleChangeFilter={handleChangeFilter}

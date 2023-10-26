@@ -51,7 +51,7 @@ function MuiTableHead(props) {
               direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
-              {headCell.label}
+              {headCell.label || headCell.title}
               {/* {orderBy === headCell.id ? (
                 <span component="span" sx={visuallyHidden}>
                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}

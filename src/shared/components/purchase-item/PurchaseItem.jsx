@@ -140,7 +140,9 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
       {showItemsAmount ? (
         <div className="row justify-content-between align-items-center pe-1">
           <div className="col-md-6">
-            <Button onClick={() => push(newList)}>Add New Item</Button>
+            <Button disabled={Boolean(!newList)} onClick={() => push(newList)}>
+              Add New Item
+            </Button>
           </div>
           <div className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Typography className="purchase-item-total-amount">Total Amount</Typography>
@@ -150,7 +152,9 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
       ) : (
         <div className="row justify-content-between align-items-center pe-1">
           <div className="col-md-5">
-            <Button onClick={() => push(newList)}>Add New Item</Button>
+            <Button disabled={Boolean(!newList)} onClick={() => push(newList)}>
+              Add New Item
+            </Button>
           </div>
           <div className="col-md-7 align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Stack direction="row" justifyContent="space-between">

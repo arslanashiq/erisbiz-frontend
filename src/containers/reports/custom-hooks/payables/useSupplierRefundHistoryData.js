@@ -1,23 +1,28 @@
+import moment from 'moment';
 import { useMemo } from 'react';
+import { DATE_FILTER_REPORT } from 'utilities/constants';
 
 function useSupplierRefundHistoryData(supplierRefundHistoryResponse) {
-  const { tableBody, totalBalance } = useMemo(() => {
+  const { tableBody, totalBalance, currencySymbol } = useMemo(() => {
     let balance = 0;
     const body = [];
+    let currency = 'AED';
     supplierRefundHistoryResponse?.data?.data.forEach(item => {
-      balance += item.balance_bcy;
+      balance += item.amount_applied;
+      currency = item.currency_symbol;
       body.push([
         {
-          value: item.supplier__supplier_name,
+          value: moment(item.refunded_on).format(DATE_FILTER_REPORT),
           style: { textAlign: 'start' },
-          link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
         },
-        { value: item.bill_balance },
-        { value: item.credit_balance },
-        { value: item.balance_bcy },
+        { value: item.reference_num },
+        { value: item.transaction_num },
+        { value: item.account_name },
+        { value: item.payment_mode },
+        { value: `${currency} ${item.amount_applied}` },
       ]);
     });
-    return { tableBody: body, totalBalance: balance };
+    return { tableBody: body, totalBalance: balance, currencySymbol: currency };
   }, [supplierRefundHistoryResponse]);
 
   const tableFooter = useMemo(
@@ -26,10 +31,12 @@ function useSupplierRefundHistoryData(supplierRefundHistoryResponse) {
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: '' },
-        { value: `AED ${totalBalance.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: '' },
+        { value: '' },
+        { value: `${currencySymbol} ${totalBalance.toFixed(2)}`, style: { fontWeight: 700 } },
       ],
     ],
-    [totalBalance]
+    [totalBalance, currencySymbol]
   );
   return { tableBody, totalBalance, tableFooter };
 }

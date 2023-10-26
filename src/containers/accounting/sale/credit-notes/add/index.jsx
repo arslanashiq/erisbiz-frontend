@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useMemo } from 'react';
 import { FieldArray, Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
@@ -34,15 +35,13 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
+import { VAT_CHARGES } from 'utilities/constants';
 import { creditNoteInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function index() {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [availableReceiptVouchers, setAvailableReceiptVouchers] = useState([]);
 
   const receiptVouchersListResponse = useGetReceiptVoucherListQuery();
   const saleInvoiceListResponse = useGetSaleInvoicesListQuery();
@@ -83,6 +82,7 @@ function index() {
         name: 'service_type',
         placeholder: 'Item',
         isSelect: true,
+        disabled: true,
         options: itemsListOptions || [],
         width: '15%',
         onChange: handleChangeItem,
@@ -96,8 +96,8 @@ function index() {
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
-        type: 'number',
         disabled: true,
+        type: 'number',
       },
       {
         name: 'gross_amount',
@@ -109,6 +109,7 @@ function index() {
         name: 'discount',
         placeholder: 'Discount',
         type: 'number',
+        disabled: true,
         onChange: handleChangeDiscount,
       },
       {
@@ -117,6 +118,7 @@ function index() {
         isSelect: true,
         options: VAT_CHARGES,
         width: '15%',
+        disabled: true,
         onChange: hanldeVATChange,
       },
       {
@@ -133,30 +135,20 @@ function index() {
     const selectedSaleInvoice = saleInvoiceListResponse.data.results.filter(
       saleInvoice => saleInvoice.id === value
     );
-    const rceiptVouchersList = [];
-    receiptVouchersListResponse.data.results.forEach(receiptVoucher => {
-      if (receiptVoucher.invoices.includes(value)) {
-        rceiptVouchersList.push({
-          label: receiptVoucher.payment_num,
-          value: receiptVoucher.id,
-        });
-      }
-    });
-    setAvailableReceiptVouchers(rceiptVouchersList);
     if (setFieldValue) setFieldValue('credit_note_items', selectedSaleInvoice[0].invoice_items);
   };
 
-  useEffect(() => {
-    if (
-      id &&
-      typeof initialValues.invoice === 'object' &&
-      saleInvoiceListResponse?.data?.results &&
-      receiptVouchersListResponse?.data?.results
-    ) {
-      handleChangeSaleInvoice(initialValues.invoice.id);
-      setInitialValues({ ...initialValues, invoice: initialValues.invoice.id });
-    }
-  }, [initialValues, saleInvoiceListResponse, receiptVouchersListResponse]);
+  // useEffect(() => {
+  //   if (
+  //     id &&
+  //     typeof initialValues.invoice === 'object' &&
+  //     saleInvoiceListResponse?.data?.results &&
+  //     receiptVouchersListResponse?.data?.results
+  //   ) {
+  //     handleChangeSaleInvoice(initialValues.invoice.id);
+  //     setInitialValues({ ...initialValues, invoice: initialValues.invoice.id });
+  //   }
+  // }, [initialValues, saleInvoiceListResponse, receiptVouchersListResponse]);
 
   return (
     <SectionLoader
@@ -174,7 +166,7 @@ function index() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            onSubmit={async (values, { setError }) => {
+            onSubmit={async (values, { setErrors }) => {
               const payload = {
                 ...values,
                 credit_note_items: handleGetFormatedItemsData(values.credit_note_items),
@@ -187,7 +179,8 @@ function index() {
                 response = await addCreditNote(payload);
               }
               if (response.error) {
-                setError(response.error.data);
+                console.log(response, 'asjlkd');
+                setErrors(response.error.data);
                 return;
               }
               navigate(-1);
@@ -212,14 +205,6 @@ function index() {
                 />
 
                 <FormikSelect
-                  options={availableReceiptVouchers}
-                  name="voucher_num"
-                  placeholder="Voucher Number"
-                  label="Voucher Number"
-                  startIcon={<TagIcon />}
-                />
-
-                <FormikSelect
                   options={bankAccountOptions}
                   name="account_num"
                   placeholder="Account Number"
@@ -230,16 +215,16 @@ function index() {
                   name="credit_account_num"
                   placeholder="Credit Account Number"
                   label="Credit Acc No"
-                  className="co-12"
                 />
 
                 <FieldArray
-                  name="credit_note_items"
                   render={props => (
                     <PurchaseItem
-                      inputList={purchaseItemsInputList}
-                      newList={NEW_PURCHASE_ITEM_OBJECT}
                       {...props}
+                      disableAdd
+                      name="credit_note_items"
+                      inputList={purchaseItemsInputList}
+                      // newList={NEW_PURCHASE_ITEM_OBJECT}
                     />
                   )}
                 />
