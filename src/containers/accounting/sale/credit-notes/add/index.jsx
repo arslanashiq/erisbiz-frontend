@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FieldArray, Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
@@ -68,7 +67,7 @@ function index() {
     label: 'bank_account_name',
   });
 
-  const { initialValues, setInitialValues, isLoading } = useInitialValues(
+  const { initialValues, isLoading } = useInitialValues(
     creditNoteInitialValues,
     useGetSingleCreditNoteQuery,
     null,

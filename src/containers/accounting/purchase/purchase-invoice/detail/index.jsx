@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';

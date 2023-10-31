@@ -24,3 +24,12 @@ export const tableCellFooter = {
   font: { size: 12, bold: true },
   alignment: { horizontal: 'left' },
 };
+export const tableCellChartOfAccountType = {
+  fill: { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFD0D0D0' } },
+  font: { size: 12, bold: true },
+  alignment: { horizontal: 'left' },
+};
+export const tableCellChartOfAccountTypeGreen = {
+  font: { size: 12, color: { argb: 'FF008000' } },
+  alignment: { horizontal: 'left' },
+};

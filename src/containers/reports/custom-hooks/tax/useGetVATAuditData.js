@@ -1,5 +1,3 @@
-/* eslint-disable no-sparse-arrays */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useMemo } from 'react';
 import moment from 'moment';
@@ -13,6 +11,7 @@ import {
 } from 'containers/reports/utilities/head-cells';
 import formatAmount from 'utilities/formatAmount';
 import { tableCellCompanyName } from 'styles/components/custom-hooks/use-excel-sheet';
+import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
 
 function useGetVATAuditData(reportVATAuditResponse) {
   const getTotalSummary = (auditReportData, key) => {
@@ -193,10 +192,8 @@ function useGetVATAuditData(reportVATAuditResponse) {
     header.splice(header.length - 1, 1);
     const body = [];
     const modifiedBody = [];
-    let auditReportData = {};
 
     reportVATAuditResponse?.data?.result.forEach(item => {
-      auditReportData = { ...item.record_data };
       const temp = [
         {
           value: moment(item.start_date).format(DATE_FILTER_REPORT),
@@ -216,7 +213,24 @@ function useGetVATAuditData(reportVATAuditResponse) {
       const excelSheetData = getVatAuditExcelSheetData(item);
       temp.push({
         value: (
-          <Button size="small" variant="text">
+          <Button
+            size="small"
+            variant="text"
+            onClick={async () => {
+              const timeInterval = `From ${item.start_date} To ${item.end_date}`;
+              const handleDownload = await excelSheet(
+                'Audit Report ',
+                moment(item.start_date).format(DATE_FILTER_REPORT),
+                moment(item.end_date).format(DATE_FILTER_REPORT),
+                timeInterval,
+                {},
+                header,
+                excelSheetData,
+                []
+              );
+              handleDownload();
+            }}
+          >
             <DownloadIcon />
             Download
           </Button>

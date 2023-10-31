@@ -181,7 +181,7 @@ export const accountant = {
       link: '/pages/reports/journal-report?duration=this+month',
     },
     {
-      label: 'Trial Balance (Not)',
+      label: 'Trial Balance',
       link: '/pages/reports/trial-balance?duration=this+month',
     },
   ],
@@ -194,11 +194,11 @@ export const financialReports = {
       link: '/pages/reports/profit-loss?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
     {
-      label: 'Cash Flow Statement (Not)',
+      label: 'Cash Flow Statement',
       link: '/pages/reports/cash-flow-statement?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
     {
-      label: 'Balance Sheet (Not)',
+      label: 'Balance Sheet',
       link: '/pages/reports/balance-sheet?duration=this+month&filter_accounts=accounts_without_zero_balance',
     },
   ],

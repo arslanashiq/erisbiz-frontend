@@ -161,14 +161,14 @@ const ReportAccountTypeSummaryPage = lazy(() => import('containers/reports/compo
 const ReportGeneralLedgerPage = lazy(() => import('containers/reports/components/accountant/GeneralLedger'));
 const ReportDetailGeneralLedgerPage = lazy(() => import('containers/reports/components/accountant/DetailGeneralLedger'));
 const ReportJournalReportPage = lazy(() => import('containers/reports/components/accountant/JournalReport'));
-const ReportTrialBalancePage = lazy(() => import('containers/reports/components/accountant/TrialBalance'));
+const ReportTrialBalancePage = lazy(() => import('containers/reports/components/accountant/trial-balance'));
 // tax
 const ReportTaxReturnReportPage = lazy(() => import('containers/reports/components/tax/TaxReturnReport'));
 const ReportVATAuditReportPage = lazy(() => import('containers/reports/components/tax/VATAuditReport'));
 // financial report
 const ProfitAndLossStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/ProfitAndLossStatement'));
-const CashFlowStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/CashFlowStatement'));
-const BalanceSheetStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/BalanceSheetStatement'));
+const CashFlowStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/cash-flow-statement'));
+const BalanceSheetStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/balance-sheet-statement'));
 // activity
 const ActivityLogsReportPage = lazy(() => import('containers/reports/components/activity/ActivityLogs'));
 

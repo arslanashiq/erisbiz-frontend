@@ -122,6 +122,7 @@ function useExcelSheet(
 
     buffer = await workbook.xlsx.writeBuffer();
     setIsLoading(false);
+    return true;
   };
   //   download file
   const handleDownload = () => {
@@ -138,6 +139,7 @@ function useExcelSheet(
   }, [reportTitle, startDate, endDate, timeInterval, excelHeading, excelBody, excelFooter]);
   return {
     isLoading,
+    createExcelSheet,
     handleDownload,
   };
 }

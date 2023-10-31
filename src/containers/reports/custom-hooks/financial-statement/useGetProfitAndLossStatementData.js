@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { useMemo } from 'react';
 
-const cellFontSize = 15;
+const cellFontSize = 12;
 const headerStyle = {
   fontSize: cellFontSize,
   textAlign: 'left',

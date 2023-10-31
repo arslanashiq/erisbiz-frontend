@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
 import { Card, CardContent } from '@mui/material';
 // shared
-import useExcelSheet from 'shared/custom-hooks/useExcelSheet';
+import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
 import CustomReport from 'shared/components/custom-report/CustomReport';
 // constainers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
@@ -39,18 +39,6 @@ function CustomReportDetailPage({
   const startDate = moment(reportResponse?.data?.start_date).format(DATE_FILTER_REPORT);
   const endDate = moment(reportResponse?.data?.end_date).format(DATE_FILTER_REPORT);
   const timeInterval = `From ${startDate} To ${endDate}`;
-  const { handleDownload: handleDownloadExcelSheet } = useExcelSheet(
-    reportTitle,
-    startDate,
-    endDate,
-    timeInterval,
-    options,
-    [],
-    [],
-    // replaceTableBody ? modifiedTableHead : reportHeadCells,
-    // replaceTableBody ? modifiedTableBody : tableBody,
-    tableFooter
-  );
   return (
     <SectionLoader options={[reportResponse.isLoading]}>
       <ReportsHeader
@@ -64,7 +52,19 @@ function CustomReportDetailPage({
         handleChangeFilter={handleChangeFilter}
         customFilterInitialValues={PayableReportFilterInitialValues}
         customFilterInputsList={payableReportsFilterInputList}
-        handleDownloadExcelSheet={handleDownloadExcelSheet}
+        handleDownloadExcelSheet={async () => {
+          const handleDownload = await excelSheet(
+            reportTitle,
+            startDate,
+            endDate,
+            timeInterval,
+            options,
+            replaceTableBody ? modifiedTableHead : reportHeadCells,
+            replaceTableBody ? modifiedTableBody : tableBody,
+            tableFooter
+          );
+          handleDownload();
+        }}
         isMultiReport={isMultiReport}
         modifiedTableHead={modifiedTableHead}
         options={options}

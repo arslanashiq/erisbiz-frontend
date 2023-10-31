@@ -1,35 +1,25 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-filename-extension */
-/* eslint-disable indent */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import transformHierarchicalData from 'containers/reports/utilities/transform-hierarchical-data';
-import { IconButton, Stack } from '@mui/material';
-import { testData } from 'utilities/constants';
+import { Stack } from '@mui/material';
+import { getSpaces } from 'utilities/constants';
 import { generalLedgerReportHeadCells } from 'containers/reports/utilities/head-cells';
 import { tableCellFooter } from 'styles/components/custom-hooks/use-excel-sheet';
 
 function useGetGeneralLedgerData(generalLedgerResponse) {
   const [formatedResponse, setFormatedResponse] = useState(null);
-  const getParents = dataList => {
-    let temp = [];
-    dataList.forEach(item => {
-      if (item.child_accounts) {
-        temp.push(false);
-        temp = [...temp, ...getParents(item.child_accounts)];
-      }
-    });
-    return temp;
-  };
-  const getSpaces = value => {
-    let spaces = '';
-    for (let i = 0; i <= value; i += 1) {
-      spaces += ' ';
-    }
-    return spaces;
-  };
+  // const getParents = dataList => {
+  //   let temp = [];
+  //   dataList.forEach(item => {
+  //     if (item.child_accounts) {
+  //       temp.push(false);
+  //       temp = [...temp, ...getParents(item.child_accounts)];
+  //     }
+  //   });
+  //   return temp;
+  // };
 
   const getBody = (dataList, nestedLevel) => {
     let body = [];

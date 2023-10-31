@@ -132,7 +132,7 @@ function ReportsPdfPrintModal({
         onClose={handleClose}
         className="theme-light modal-dialog--custom-max-width"
       >
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{ width: 900 }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: 1 }}>
             <Stack direction="row" className="text-left">
               <Typography variant="h5">Privew</Typography>

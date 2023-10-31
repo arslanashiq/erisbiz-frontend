@@ -313,9 +313,9 @@ export const journalReportHeadCells = [
   { title: 'CREDIT' },
 ];
 export const trialBalanceReportHeadCells = [
-  { title: 'Account', style: { textAlign: 'start' }, key: 'chart_of_account' },
-  { title: 'DEBIT', style: { textAlign: 'end' } },
-  { title: 'CREDIT', style: { textAlign: 'end' } },
+  { title: 'Account', style: { textAlign: 'left' }, key: 'chart_of_account' },
+  { title: 'DEBIT', style: { textAlign: 'right' } },
+  { title: 'CREDIT', style: { textAlign: 'right' } },
 ];
 // tax
 export const taxReturnReportHeadCells = [
@@ -394,11 +394,11 @@ export const singleVatAuditReportTotalHeadCells = [
 export const profitAndLossStatementHeadCells = [
   {
     title: 'ACCOUNT',
-    style: { textAlign: 'start', fontSize: 15 },
+    style: { textAlign: 'start', fontSize: 12 },
   },
   {
     title: 'TOTAL',
-    style: { fontSize: 15 },
+    style: { fontSize: 12 },
   },
 ];
 // activity

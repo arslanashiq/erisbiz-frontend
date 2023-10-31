@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Card, CardContent, Grid } from '@mui/material';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';

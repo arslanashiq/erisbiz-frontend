@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
 // services
 import { useGetSingleChartOfAccountQuery } from 'services/private/chart-of-account';
@@ -15,7 +14,6 @@ import { chartOfAccountDetailTableHeadCells } from '../utilities/head-cells';
 function ChartOfAccountDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const charOfAccountDetailResponse = useGetSingleChartOfAccountQuery(id);
   return (
     <SectionLoader options={[charOfAccountDetailResponse.isLoading]}>

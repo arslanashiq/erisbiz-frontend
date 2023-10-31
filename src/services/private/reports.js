@@ -343,6 +343,13 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getTrialBalance'],
     }),
+    getTrialBalanceAccountDetailReport: builder.query({
+      query: params => ({
+        url: 'api/accountant/chart/of/account/report/detail',
+        params,
+      }),
+      providesTags: ['getTrialBalanceAccountDetailReport'],
+    }),
 
     // tax
     getTaxReturn: builder.query({
@@ -403,6 +410,14 @@ const reportsApi = privateApi.injectEndpoints({
         params,
       }),
       providesTags: ['getCashFlowStatement'],
+    }),
+    getDetailCashFlowStatement: builder.query({
+      query: params => ({
+        url: 'api/accountant/chart/of/account/report/detail',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['getDetailCashFlowStatement'],
     }),
     getBalanceSheetStatement: builder.query({
       query: params => ({
@@ -480,6 +495,7 @@ export const {
   useGetDetailGeneralLedgerQuery,
   useGetJuornalReportQuery,
   useGetTrialBalanceQuery,
+  useGetTrialBalanceAccountDetailReportQuery,
 
   // tax
   useGetTaxReturnQuery,
@@ -491,6 +507,7 @@ export const {
   // final report
   useGetProfitAndLossStatementQuery,
   useGetCashFlowStatementQuery,
+  useGetDetailCashFlowStatementQuery,
   useGetBalanceSheetStatementQuery,
 
   // activity
