@@ -178,7 +178,6 @@ function index() {
                 response = await addCreditNote(payload);
               }
               if (response.error) {
-                console.log(response, 'asjlkd');
                 setErrors(response.error.data);
                 return;
               }
