@@ -14,6 +14,7 @@ import {
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
+import QuotationStatusChange from './components/QuotationStatusChange';
 
 const keyValue = 'quotation_items';
 function QuotationDetailPage() {
@@ -88,8 +89,13 @@ function QuotationDetailPage() {
     });
     return true;
   };
+  const handleStatus = (status = 'approved') => {
+    handleChangeStatus(changeQuotationStatus, { id, status }, 'Quotation status changed');
+  };
+
+  const quotationStatus = quotationsDetailResponse?.data?.status;
   const quotationsActionList = useMemo(() => {
-    const status = quotationsDetailResponse?.data?.status;
+    if (quotationStatus === 'declined') return [];
     const actionList = [
       {
         label: 'Edit & clone',
@@ -119,7 +125,7 @@ function QuotationDetailPage() {
         },
       },
     ];
-    if (status === 'draft') {
+    if (quotationStatus === 'draft') {
       actionList.splice(0, 0, {
         label: 'Edit',
         handleClick: () => {
@@ -129,12 +135,10 @@ function QuotationDetailPage() {
       actionList.push({
         label: 'Approve',
         divider: true,
-        handleClick: () => {
-          handleChangeStatus(changeQuotationStatus, { id, status: 'approved' }, 'Quotation status changed');
-        },
+        handleClick: handleStatus,
       });
     }
-    if (status === 'approved') {
+    if (quotationStatus === 'approved') {
       actionList.push({
         label: 'Create Proforma Invoice',
         handleClick: () => {
@@ -176,6 +180,14 @@ function QuotationDetailPage() {
             orderInfo={orderInfo}
             keyValue={keyValue}
             orderDetail={quotationsDetailResponse.data}
+            customComponent={
+              quotationStatus === 'draft' && (
+                <QuotationStatusChange
+                  handleApprove={handleStatus}
+                  handleDecline={() => handleStatus('declined')}
+                />
+              )
+            }
           />
         </CardContent>
       </Card>

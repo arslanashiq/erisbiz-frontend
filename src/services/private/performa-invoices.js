@@ -26,7 +26,12 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['addPerformaInvoice'],
-      invalidatesTags: ['getPerformaInvoicesList', 'getQuotationsList', 'getSingleQuotation'],
+      invalidatesTags: [
+        'getPerformaInvoicesList',
+        'getQuotationsList',
+        'getSingleQuotation',
+        'getLatestPerformaInvoice',
+      ],
     }),
     editPerformaInvoice: builder.mutation({
       query: ({ id, payload }) => ({
@@ -34,14 +39,19 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSinglePerformaInvoice', 'getPerformaInvoicesList', 'getQuotationsList'],
+      invalidatesTags: [
+        'getSinglePerformaInvoice',
+        'getPerformaInvoicesList',
+        'getQuotationsList',
+        'getLatestPerformaInvoice',
+      ],
     }),
     getLatestPerformaInvoice: builder.query({
       query: () => ({
         url: '/api/accounting/sales/proInvoices/latest',
         method: 'GET',
       }),
-      providesTags: ['getLatestPerformaInvoicesList'],
+      providesTags: ['getLatestPerformaInvoice'],
     }),
 
     deletePerformaInvoice: builder.mutation({
@@ -49,7 +59,12 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         url: `api/accounting/sales/proInvoices/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getPerformaInvoicesList', 'getQuotationsList', 'getSingleQuotation'],
+      invalidatesTags: [
+        'getPerformaInvoicesList',
+        'getQuotationsList',
+        'getSingleQuotation',
+        'getLatestPerformaInvoice',
+      ],
     }),
     uploadPerformaInvoiceDocumentFile: builder.mutation({
       query: ({ id, payload }) => ({

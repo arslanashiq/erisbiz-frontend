@@ -33,7 +33,7 @@ const quotationsApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleQuotation', 'getQuotationsList'],
+      invalidatesTags: ['getSingleQuotation', 'getQuotationsList', 'getLatestQuatitonNumber'],
     }),
     deleteQuotation: builder.mutation({
       query: id => ({

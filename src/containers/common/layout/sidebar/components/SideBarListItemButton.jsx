@@ -40,7 +40,7 @@ function SideBarListItemButton({
           {sideBarListItem.icon}
         </ListItemIcon>
       )}
-      <ListItemText primary={sideBarListItem.name} sx={{ opacity: open ? 1 : 0 }} />
+      <ListItemText primary={sideBarListItem.name} sx={{ opacity: open ? 1 : 0, fontWeight: 500 }} />
       {sideBarListItem.children && open && (
         <KeyboardArrowRightIcon
           className={showSideBarChildLink[sideBarListItem.index] ? 'sidebar-parent-list-icon' : ''}

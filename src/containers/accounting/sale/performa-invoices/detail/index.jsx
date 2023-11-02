@@ -45,12 +45,6 @@ function PerformaInvoiceDetail() {
     if (status === 'cancelled') return [];
     let actionList = [
       {
-        label: 'Edit',
-        handleClick: () => {
-          navigate(`/pages/accounting/sales/performa-invoice//edit/${id}`);
-        },
-      },
-      {
         label: 'Edit & clone',
         handleClick: () => {
           navigate(`/pages/accounting/sales/performa-invoice/add?performaInvoice=${id}`);
@@ -78,6 +72,14 @@ function PerformaInvoiceDetail() {
         },
       },
     ];
+    if (status === 'draft') {
+      actionList.splice(0, 0, {
+        label: 'Edit',
+        handleClick: () => {
+          navigate(`/pages/accounting/sales/performa-invoice//edit/${id}`);
+        },
+      });
+    }
     if (status !== 'invoiced') {
       actionList = [
         ...actionList,
@@ -88,7 +90,7 @@ function PerformaInvoiceDetail() {
             handleChangeStatus(
               changePerformaInvoiceStatus,
               { id, status: 'cancelled' },
-              'Performa Invoiced status changed'
+              'Proforma Invoice status changed'
             );
           },
         },
@@ -106,7 +108,7 @@ function PerformaInvoiceDetail() {
 
   const orderInfo = useMemo(
     () => ({
-      type: 'Performa Invoice',
+      type: 'Proforma Invoice',
       order_number: `#${performaInvoiceDetailResponse?.data?.pro_invoice_num}`,
       formated_order_number: performaInvoiceDetailResponse?.data?.pro_invoice_formatted_number,
       date: performaInvoiceDetailResponse?.data?.pro_invoice_date,

@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const invoiceHeadCell = [
   {
     id: 'date',
@@ -43,14 +45,7 @@ export const invoiceHeadCell = [
     disablePadding: false,
     label: 'Status',
     align: 'right',
-    class: value => {
-      const temp = value.toLowerCase();
-      if (temp === 'invoiced') return 'color-primary';
-      if (temp === 'draft') return 'color-silver';
-      if (temp === 'cancelled') return 'color-danger';
-
-      return '';
-    },
+    class: handleGetStatusBaseClass,
   },
 
   {
@@ -73,14 +68,7 @@ export const invoiceHeadCell = [
     id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
-    label: 'Total (FCY)',
-    align: 'center',
-    mergeCell: true,
-  },
-  {
-    id: 'bcy_grand_total_invoice_currency',
-    disablePadding: false,
-    label: 'Total (BCY)',
+    label: 'Total',
     align: 'center',
     mergeCell: true,
   },

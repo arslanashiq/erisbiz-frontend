@@ -29,7 +29,7 @@ function PerformaInvoiceListing() {
   };
   const deleteSinglePerformaInvoice = async id => {
     deletePerformaInvoice(id);
-    enqueueSnackbar('Performa Invoice Deleted Successfully', { variant: 'success' });
+    enqueueSnackbar('Proforma Invoice Deleted Successfully', { variant: 'success' });
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
@@ -39,13 +39,13 @@ function PerformaInvoiceListing() {
   return (
     <>
       <Helmet>
-        <title>Performa Invoice - ErisBiz</title>
+        <title>Proforma Invoice - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
         data={performaInvoicesListResponse?.data?.results}
         totalDataCount={performaInvoicesListResponse?.data?.count}
-        TableHeading="Performa Invoice"
+        TableHeading="Proforma Invoice"
         headCells={performaInvoiceHeadCell}
         showCheckbox
         otherOptions={[
@@ -53,7 +53,7 @@ function PerformaInvoiceListing() {
             label: (
               <>
                 <AddIcon sx={{ fontSize: 15 }} />
-                Add New Performa Invoice
+                Add New Proforma Invoice
               </>
             ),
             handleClick: () => navigate('add'),

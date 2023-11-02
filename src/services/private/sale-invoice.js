@@ -22,7 +22,12 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getSaleInvoicesList', 'getPerformaInvoicesList', 'getSinglePerformaInvoice'],
+      invalidatesTags: [
+        'getSaleInvoicesList',
+        'getPerformaInvoicesList',
+        'getSinglePerformaInvoice',
+        'getLatestSaleInvoice',
+      ],
     }),
     editSaleInvoices: builder.mutation({
       query: ({ id, payload }) => ({
@@ -35,6 +40,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getSaleInvoicesList',
         'getPerformaInvoicesList',
         'getSinglePerformaInvoice',
+        'getLatestSaleInvoice',
       ],
     }),
     deleteSaleInvoice: builder.mutation({
@@ -48,8 +54,17 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getSingleSaleInvoice',
         'getPerformaInvoicesList',
         'getSinglePerformaInvoice',
+        'getLatestSaleInvoice',
       ],
     }),
+    getLatestSaleInvoice: builder.query({
+      query: () => ({
+        url: 'api/accounting/sales/invoices/latest',
+        method: 'GET',
+      }),
+      providesTags: ['getLatestSaleInvoice'],
+    }),
+
     uploadSaleInvoiceDocuments: builder.mutation({
       query: ({ id, payload }) => ({
         url: `api/accounting/sales/invoices/${id}/uploadDoc`,
@@ -104,4 +119,5 @@ export const {
   useChangeSaleInvoiceStatusToSentMutation,
   useChangeSaleInvoiceStatusToVoidMutation,
   useGetSaleInvoiceJournalsQuery,
+  useGetLatestSaleInvoiceQuery,
 } = saleInvoiceApi;

@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const quotationsHeadCell = [
   {
     id: 'date',
@@ -36,15 +38,7 @@ export const quotationsHeadCell = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
-    class: value => {
-      if (!value) return '';
-      const temp = value.toLowerCase();
-      if (temp === 'invoiced') return 'color-primary';
-      if (temp === 'draft') return 'color-silver';
-      if (temp === 'cancelled') return 'color-danger';
-
-      return '';
-    },
+    class: handleGetStatusBaseClass,
   },
   // {
   //   id: 'created_by_employee_name',
@@ -73,7 +67,7 @@ export const quotationsHeadCell = [
     id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
-    label: 'Total (FCY)',
+    label: 'Total',
     align: 'center',
     mergeCell: true,
   },

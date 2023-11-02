@@ -119,16 +119,11 @@ function AddQuotation() {
   );
   useEffect(() => {
     if (!id) {
-      const latestnum = latastQuotationNumberResponse?.data?.latest_num;
+      const latestnum = latastQuotationNumberResponse?.data?.latest_quotation_num;
       if (latestnum) {
         setInitialValues(prev => ({
           ...prev,
-          quotation_num: latestnum + 1,
-        }));
-      } else {
-        setInitialValues(prev => ({
-          ...prev,
-          quotation_num: 1000,
+          quotation_num: latestnum,
         }));
       }
     }

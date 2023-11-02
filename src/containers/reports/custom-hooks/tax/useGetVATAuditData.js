@@ -113,19 +113,19 @@ function useGetVATAuditData(reportVATAuditResponse) {
 
     // gaterData
     const excelSheetData = [
-      // sale invoice
+      // sales invoice
       [
         { value: 'Customer Supply Listing Table', excelSheetStyle: tableCellCompanyName },
-        { value: 'Sale Invoices', excelSheetStyle: tableCellCompanyName },
+        { value: 'Sales Invoices', excelSheetStyle: tableCellCompanyName },
       ],
       singleVATAuditReportHeadCells,
       ...saleInvoice,
       [{ value: '' }],
 
-      // sale Invoice Total
+      // sales Invoice Total
       [
         { value: 'Customer Supply Listing Total', excelSheetStyle: tableCellCompanyName },
-        { value: 'Summary of Sale Invoices', excelSheetStyle: tableCellCompanyName },
+        { value: 'Summary of Sales Invoices', excelSheetStyle: tableCellCompanyName },
       ],
       singleVatAuditReportTotalHeadCells,
       getTotalSummary(auditReportData, 'sale_invoices'),

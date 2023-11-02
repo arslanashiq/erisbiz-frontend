@@ -71,12 +71,12 @@ const CustomerDetailPage = lazy(() => import('containers/accounting/sale/custome
 const QuotationListingPage = lazy(() => import('containers/accounting/sale/quotations/listing'));
 const AddQuotationPage = lazy(() => import('containers/accounting/sale/quotations/add'));
 const QuotationDetailPage = lazy(() => import('containers/accounting/sale/quotations/detail'));
-// Sale Performa Invoices
+// Sale Proforma Invoice
 const PerformaInvoiceListingPage = lazy(() => import('containers/accounting/sale/performa-invoices/listing'));
 const AddPerformaInvoicePage = lazy(() => import('containers/accounting/sale/performa-invoices/add'));
 const PerformaInvoiceDetailPage = lazy(() => import('containers/accounting/sale/performa-invoices/detail'));
 
-// Sale Invoices
+// Sales Invoices
 const SaleInvoiceListingPage = lazy(() => import('containers/accounting/sale/sale-invoice/listing'));
 const AddSaleInvoicePage = lazy(() => import('containers/accounting/sale/sale-invoice/add'));
 const SaleInvoiceDetailPage = lazy(() => import('containers/accounting/sale/sale-invoice/detail'));

@@ -12,6 +12,7 @@ import { useGetCustomersListQuery } from 'services/private/customers';
 import {
   useAddSaleInvoicesMutation,
   useEditSaleInvoicesMutation,
+  useGetLatestSaleInvoiceQuery,
   useGetSingleSaleInvoiceQuery,
 } from 'services/private/sale-invoice';
 import {
@@ -50,6 +51,7 @@ function AddInvoice() {
   const { id } = useParams();
   const { performaInvoice } = getSearchParamsList();
   const itemsListResponse = useGetItemsListQuery();
+  const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
   const customerListResponse = useGetCustomersListQuery();
   const performaInvoiceListResponse = useGetPerformaInvoicesListQuery();
   const performaInvoiceResponse = useGetSinglePerformaInvoiceQuery(performaInvoice, {
@@ -144,27 +146,38 @@ function AddInvoice() {
   };
 
   useEffect(() => {
+    let newData = {};
     if (performaInvoiceResponse?.data) {
-      const perInv = performaInvoiceResponse.data;
-      setInitialValues({
-        ...initialValues,
-        pro_invoice: perInv.id,
-        invoice_items: perInv.pro_invoice_items,
-        customer: perInv.customer,
-        sales_person: perInv.sales_person,
-        date: perInv.pro_invoice_date,
-        location: perInv.location,
-        invoice_docs: perInv.pro_invoice_docs,
-        remarks: perInv.remarks,
-      });
+      const proInv = performaInvoiceResponse.data;
+      newData = {
+        ...newData,
+        pro_invoice: proInv.id,
+        invoice_items: proInv.pro_invoice_items,
+        customer: proInv.customer,
+        sales_person: proInv.sales_person,
+        date: proInv.pro_invoice_date,
+        location: proInv.location,
+        invoice_docs: proInv.pro_invoice_docs,
+        remarks: proInv.remarks,
+      };
     }
-  }, [performaInvoiceResponse]);
+    if (latestSaleInvoiceResponse?.data) {
+      newData = {
+        ...newData,
+        sale_inv_number: latestSaleInvoiceResponse?.data?.latest_invoice_num,
+      };
+    }
+    setInitialValues({
+      ...initialValues,
+      ...newData,
+    });
+  }, [performaInvoiceResponse, latestSaleInvoiceResponse]);
 
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
         <CardContent>
-          <FormHeader title="Sale Invoice" />
+          <FormHeader title="Sales Invoice" />
           <Formik
             enableReinitialize
             initialValues={initialValues}
@@ -205,15 +218,22 @@ function AddInvoice() {
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Purchase */}
+                {/* Sale Invoice */}
+                {/* Sale Person */}
+                <FormikField
+                  name="sale_inv_number"
+                  type="text"
+                  placeholder="Sales Invoice Number"
+                  label="Sales Invoice"
+                />
 
                 <FormikSelect
                   options={performaInvoiceOptions}
                   name="pro_invoice"
                   type="text"
                   disabled={Boolean(performaInvoice)}
-                  placeholder="Performa Invoice"
-                  label="Performa Invoice"
+                  placeholder="Proforma Invoice"
+                  label="Proforma Invoice"
                   startIcon={<TagIcon />}
                   onChange={value => handleChangePerformaInvoice(value, setFieldValue)}
                 />

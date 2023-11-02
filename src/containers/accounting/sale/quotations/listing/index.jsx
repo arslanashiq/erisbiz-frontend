@@ -22,7 +22,7 @@ function QuotationListing() {
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
-      'You cannot delete these items because some of the selected items is used in Performa Invoiced';
+      'You cannot delete these items because some of the selected items is used in Proforma Invoice';
     let actionButton = false;
     const selectedData = [];
     data.forEach(item => {

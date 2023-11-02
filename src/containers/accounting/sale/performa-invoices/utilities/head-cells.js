@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const performaInvoiceHeadCell = [
   {
     id: 'pro_invoice_date',
@@ -37,14 +39,7 @@ export const performaInvoiceHeadCell = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
-    class: value => {
-      const temp = value.toLowerCase();
-      if (temp === 'invoiced') return 'color-primary';
-      if (temp === 'draft') return 'color-silver';
-      if (temp === 'cancelled') return 'color-danger';
-
-      return '';
-    },
+    class: handleGetStatusBaseClass,
   },
   // {
   //   id: 'created_by_employee_name',

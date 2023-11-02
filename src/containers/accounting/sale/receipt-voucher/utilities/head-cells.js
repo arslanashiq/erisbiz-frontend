@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const receiptVoucherHeadCells = [
   {
     id: 'payment_date',
@@ -53,6 +55,7 @@ export const receiptVoucherHeadCells = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
+    class: handleGetStatusBaseClass,
   },
   {
     id: 'total',

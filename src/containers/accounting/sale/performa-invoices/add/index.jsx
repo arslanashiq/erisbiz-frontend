@@ -12,6 +12,7 @@ import { useGetCustomersListQuery } from 'services/private/customers';
 import {
   useAddPerformaInvoiceMutation,
   useEditPerformaInvoiceMutation,
+  useGetLatestPerformaInvoiceQuery,
   // useGetLatestPerformaInvoiceQuery,
   useGetSinglePerformaInvoiceQuery,
 } from 'services/private/performa-invoices';
@@ -47,6 +48,7 @@ function AddPerformaInvoice() {
   const { id } = useParams();
   const { performaInvoice, quotationId } = getSearchParamsList();
   const navigate = useNavigate();
+  const latestPerformaInvoice = useGetLatestPerformaInvoiceQuery({}, { skip: id });
   const { initialValues, setInitialValues } = useInitialValues(
     proformaInvoicesInitialValues,
     useGetSinglePerformaInvoiceQuery,
@@ -136,8 +138,11 @@ function AddPerformaInvoice() {
       setFieldValue('pro_invoice_items', selectedQuotation[0].quotation_items);
     }
   };
+
+  // auto fill initialvalues if quotation id is given and also generate the random Pid
   useEffect(() => {
-    if (quotationResponse?.data) {
+    let newData = {};
+    if (quotationId && quotationResponse?.data) {
       const {
         quotation_items: quotationItems,
         id: quotationID,
@@ -147,24 +152,31 @@ function AddPerformaInvoice() {
         remarks,
         quotation_docs: quotationDocs,
       } = quotationResponse.data;
-      setInitialValues({
-        ...initialValues,
+      newData = {
+        ...newData,
         quotation: quotationID,
-        pro_invoice_items: quotationItems,
         customer: customers,
         sales_person: salesPerson,
-        pro_invoice_docs: quotationDocs,
         location,
         remarks,
-      });
+        pro_invoice_docs: quotationDocs,
+        pro_invoice_items: quotationItems,
+      };
     }
-  }, [quotationId, quotationResponse]);
+    if (latestPerformaInvoice?.data) {
+      newData = { ...newData, proforma_inv_number: latestPerformaInvoice?.data?.latest_pro_invoice_num };
+    }
+    setInitialValues({
+      ...initialValues,
+      ...newData,
+    });
+  }, [quotationId, quotationResponse, latestPerformaInvoice]);
 
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
         <CardContent>
-          <FormHeader title="Performa Invoice" />
+          <FormHeader title="Proforma Invoice" />
           <Formik
             enableReinitialize
             initialValues={initialValues}
@@ -202,7 +214,13 @@ function AddPerformaInvoice() {
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Purchase */}
+                {/* Proforma Invoice Number */}
+                <FormikField
+                  name="proforma_inv_number"
+                  type="text"
+                  placeholder="Proforma Invoice Number"
+                  label="Proforma Invoice"
+                />
 
                 <FormikSelect
                   name="quotation"
@@ -237,16 +255,6 @@ function AddPerformaInvoice() {
                   label="Customer"
                 />
 
-                {/* Location */}
-
-                <FormikField
-                  name="location"
-                  type="text"
-                  placeholder="Location"
-                  label="Location"
-                  startIcon={<LocationOnIcon />}
-                />
-
                 {/* Attackment */}
 
                 <FormikFileField
@@ -255,6 +263,16 @@ function AddPerformaInvoice() {
                   placeholder="Attachment"
                   label="Attachment"
                   startIcon={<AttachFileIcon />}
+                />
+                {/* Location */}
+
+                <FormikField
+                  name="location"
+                  type="text"
+                  placeholder="Location"
+                  label="Location"
+                  startIcon={<LocationOnIcon />}
+                  className="col-12"
                 />
 
                 {/* Item detail */}

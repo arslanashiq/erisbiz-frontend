@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const supplierCreditHeadCells = [
   {
     id: 'supplier_credit_date',
@@ -37,14 +39,7 @@ export const supplierCreditHeadCells = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
-    style: value => {
-      if (value.includes('overdue')) {
-        return {
-          color: 'red',
-        };
-      }
-      return {};
-    },
+    class: handleGetStatusBaseClass,
   },
   {
     id: 'currency_symbol',

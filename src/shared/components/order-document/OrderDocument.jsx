@@ -14,6 +14,7 @@ function OrderDocument({
   showItemsTable,
   showOrderVoucher,
   showJournalVoucher,
+  customComponent,
 }) {
   const { id } = useParams();
   return (
@@ -44,7 +45,7 @@ function OrderDocument({
           </blockquote>
         </div>
       )}
-
+      {customComponent && customComponent}
       {orderDetail && (
         <OrderReceipt
           orderDetail={orderDetail}
@@ -70,6 +71,7 @@ OrderDocument.propTypes = {
   showItemsTable: PropTypes.bool,
   showOrderVoucher: PropTypes.bool,
   showJournalVoucher: PropTypes.bool,
+  customComponent: PropTypes.node,
 };
 OrderDocument.defaultProps = {
   orderDetail: null,
@@ -78,6 +80,7 @@ OrderDocument.defaultProps = {
   showOrderVoucher: false,
   handleChangeStatus: null,
   showJournalVoucher: false,
+  customComponent: null,
 };
 
 export default OrderDocument;

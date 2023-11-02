@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const expensesHeadCells = [
   {
     id: 'expense_date',
@@ -45,14 +47,7 @@ export const expensesHeadCells = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
-    style: value => {
-      if (value.includes('overdue')) {
-        return {
-          color: 'red',
-        };
-      }
-      return {};
-    },
+    class: handleGetStatusBaseClass,
   },
   {
     id: 'total_without_tax',

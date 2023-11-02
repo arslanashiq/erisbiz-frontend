@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Button, Menu, MenuItem, Stack } from '@mui/material';
+import { Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
 import { Form, Formik } from 'formik';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import FormikDatePicker from '../form/FormikDatePicker';
@@ -27,18 +27,22 @@ function ActionMenu({
   const open = Boolean(anchorEl);
   return (
     <>
-      <Button
-        id="basic-button"
-        disabled={actionsList.length === 0}
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-        className="text-capitalize"
-        variant={variant}
-      >
-        {buttonTitle} <KeyboardArrowDownIcon />
-      </Button>
+      <Tooltip title={actionsList.length === 0 ? 'You can`t perform any action' : ''} placement="top" arrow>
+        <Stack>
+          <Button
+            id="basic-button"
+            disabled={actionsList.length === 0}
+            aria-controls={open ? 'basic-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleClick}
+            className="text-capitalize"
+            variant={variant}
+          >
+            {buttonTitle} <KeyboardArrowDownIcon />
+          </Button>
+        </Stack>
+      </Tooltip>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <Stack sx={{ minWidth: 130 }} spacing={2} direction="row">
           <Stack sx={{ width: buttonTitle === 'Custom' ? 'auto' : '100%' }}>

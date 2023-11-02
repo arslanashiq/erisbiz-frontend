@@ -114,6 +114,16 @@ export default function MuiTable({
     if (handleEdit) {
       handleEdit(data, selected, openInfoPopup, setOpenInfoPopup);
     } else {
+      const selectedData = data.filter(item => item.id === selected[0] || item.uuid === selected[0]);
+      if (selectedData[0].status !== 'draft') {
+        setOpenInfoPopup({
+          ...openInfoPopup,
+          status: true,
+          message: 'Can not edit this item. You can only edit when its status is draft',
+          actionButton: false,
+        });
+        return;
+      }
       navigate(`edit/${selected[0]}`);
     }
   };

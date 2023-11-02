@@ -8,7 +8,8 @@ function useInitialValues(
   fileName = null,
   useInititalValues = false,
   isRefetch = false,
-  alternateId = null
+  alternateId = null,
+  extraValues = {}
 ) {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({ ...values });
@@ -32,7 +33,7 @@ function useInitialValues(
       file = await convertURLToFile(data[fileName]);
       fetchedData[fileName] = file;
     }
-    setInitialValues({ ...initialValues, ...fetchedData });
+    setInitialValues({ ...initialValues, ...fetchedData, ...extraValues });
   };
 
   useEffect(() => {
@@ -40,7 +41,7 @@ function useInitialValues(
   }, [values, fetchDetailQuery, id, queryData]);
 
   return {
-    initialValues,
+    initialValues: { ...initialValues, ...initialValues },
     queryResponse: queryData,
     setInitialValues,
     stateUpdated,

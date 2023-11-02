@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const purchaseOrderHeadCells = [
   {
     id: 'date',
@@ -59,16 +61,7 @@ export const purchaseOrderHeadCells = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
-    style: value => {
-      if (value === 'issued') {
-        return {
-          color: 'green',
-        };
-      } if (value === 'closed') {
-        return { color: 'red' };
-      }
-      return {};
-    },
+    class: handleGetStatusBaseClass,
   },
 ];
 

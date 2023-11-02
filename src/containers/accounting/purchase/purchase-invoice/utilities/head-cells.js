@@ -1,3 +1,5 @@
+import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+
 export const purchaseInvoiceHeadCells = [
   {
     id: 'bill_date',
@@ -46,26 +48,7 @@ export const purchaseInvoiceHeadCells = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
-    style: value => {
-      if (value.includes('due')) {
-        return {
-          color: 'red',
-        };
-      }
-
-      if (value === 'paid') {
-        return {
-          color: 'green',
-        };
-      }
-      if (value === 'draft') {
-        return {
-          color: 'grey',
-        };
-      }
-
-      return {};
-    },
+    class: handleGetStatusBaseClass,
   },
   {
     id: 'currency_symbol',

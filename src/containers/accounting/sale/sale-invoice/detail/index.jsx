@@ -60,7 +60,7 @@ function SaleInvoiceDetailPage() {
   };
   const orderInfo = useMemo(
     () => ({
-      type: 'Sale Invoice',
+      type: 'Sales Invoice',
       order_number: `#${saleInvoiceDetailResponse?.data?.invoice_formatted_number}`,
       formated_order_number: saleInvoiceDetailResponse?.data?.invoice_num,
       date: saleInvoiceDetailResponse?.data?.date,
@@ -111,16 +111,10 @@ function SaleInvoiceDetailPage() {
     if (status === 'void') return [];
     const actionsList = [
       {
-        label: 'Edit',
-        handleClick: () => {
-          navigate(`/pages/accounting/sales/sale-invoice/edit/${id}`);
-        },
-      },
-      {
         label: 'Delete',
         handleClick: () => {
           let infoDescription =
-            'You cannot delete this Sale Invoice  beacuse this is used in purchase Receipt Vouchers';
+            'You cannot delete this Sales Invoice  beacuse this is used in purchase Receipt Vouchers';
           let showActionButton = false;
           const cantDelete = status === 'paid' || status === 'partially paid';
           if (!cantDelete) {
@@ -152,6 +146,12 @@ function SaleInvoiceDetailPage() {
       },
     ];
     if (status === 'draft') {
+      actionsList.splice(0, 0, {
+        label: 'Edit',
+        handleClick: () => {
+          navigate(`/pages/accounting/sales/sale-invoice/edit/${id}`);
+        },
+      });
       actionsList.splice(actionsList.length - 1, 0, {
         label: 'Mark as sent',
         handleClick: () => {
@@ -179,7 +179,7 @@ function SaleInvoiceDetailPage() {
         handleChangeStatus={handleChangeStatusToVoid}
       />
       <DetailPageHeader
-        title={`Sale Invoice: #${saleInvoiceDetailResponse?.data?.invoice_num}`}
+        title={`Sales Invoice: #${saleInvoiceDetailResponse?.data?.invoice_num}`}
         filesList={saleInvoiceDetailResponse?.data?.invoice_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}
