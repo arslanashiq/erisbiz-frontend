@@ -5,6 +5,11 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import HttpsIcon from '@mui/icons-material/Https';
 import { Box, Checkbox, Link, TableCell, TableRow, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router';
+import {
+  chartOfAccountCellIconStyle,
+  chartOfAccountRowStyle,
+  chartOfAccountCellBoxStyle,
+} from 'styles/mui/container/accounting/finance/chart-of-account/listing/components/render-chart-of-account';
 
 function RenderChartOfAccount({ chartOfAccounts, selected, handleClick }) {
   const navigate = useNavigate();
@@ -25,23 +30,18 @@ function RenderChartOfAccount({ chartOfAccounts, selected, handleClick }) {
           aria-checked={isItemSelected}
           tabIndex={-1}
           selected={isItemSelected}
-          sx={{ cursor: 'pointer', position: 'relative' }}
+          sx={chartOfAccountRowStyle}
         >
           <TableCell padding="checkbox">
             {account.child_accounts && (
-              <FolderOpenIcon
-                sx={{ position: 'absolute', fontSize: 20, left: 25 + padding * 20, top: '15%', zIndex: 10 }}
-              />
+              <FolderOpenIcon sx={{ ...chartOfAccountCellIconStyle, left: 25 + padding * 20 }} />
             )}
             {account.parent_account_name && (
               <Box
                 sx={{
+                  ...chartOfAccountCellBoxStyle,
                   width: account.child_accounts ? 10 : 30,
                   height: childIndex === 0 ? 30 : 40,
-                  position: 'absolute',
-                  borderLeft: '2px solid silver',
-                  borderBottom: '2px solid silver',
-                  zIndex: 9,
                   top: childIndex === 0 ? -13 : -20,
                   left: 15 + padding * 20,
                 }}

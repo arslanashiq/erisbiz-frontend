@@ -20,19 +20,20 @@ function useGetTaxReturnReportData(taxReturnResponse) {
       const temp = [
         {
           value: item.status,
+          link: `${item.id}`,
           style: { textAlign: 'start' },
         },
         {
           value: moment(item.tax_returns).format('MMMM YYYY'),
         },
         {
-          value: moment(item.tax_returns).format(DATE_FILTER_REPORT),
+          value: item.filed_on ? moment(item.filed_on).format(DATE_FILTER_REPORT) : '',
         },
         {
           value: `${currency} ${item.total_tax_payable}`,
         },
         {
-          value: `${currency} ${item.amount_due}`,
+          value: `${currency} ${item.due_amount}`,
         },
       ];
       modifiedBody.push([...temp]);

@@ -333,6 +333,13 @@ export const VATAuditReportHeadCells = [
   { title: 'GENERATED DATE' },
   { title: 'AUDIT FILE' },
 ];
+export const taxReturnDetailInformationReportHeadCells = [
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'ENTRY#' },
+  { title: 'TRANSACTION TYPE' },
+  { title: 'TAXABLE AMOUNT' },
+  { title: 'TAX AMOUNT' },
+];
 
 export const singleVATAuditReportHeadCells = [
   {
@@ -431,5 +438,41 @@ export const activityLogsExcelHeadCells = [
   {
     title: 'ACTION PERFORMED BY',
     style: { textAlign: 'left' },
+  },
+];
+
+export const vatReturnDetailTableCellStyle = { border: '1px solid lightgrey' };
+
+export const taxReturnDetailTableHeadCells = [
+  {
+    title: '#',
+    style: { textAlign: 'start', ...vatReturnDetailTableCellStyle },
+  },
+  {
+    title: 'DESCRIPTION',
+    style: { ...vatReturnDetailTableCellStyle, textAlign: 'start' },
+  },
+  {
+    title: 'TAXABLE AMOUNT',
+    style: { ...vatReturnDetailTableCellStyle },
+  },
+  {
+    title: 'TAX AMOUNT',
+    style: { ...vatReturnDetailTableCellStyle },
+  },
+];
+export const taxReturnDetailTableHeadCellsWithoutTablableAmount = [
+  {
+    title: '#',
+    style: { textAlign: 'start', ...vatReturnDetailTableCellStyle },
+  },
+  {
+    title: 'DESCRIPTION',
+    style: { ...vatReturnDetailTableCellStyle, textAlign: 'start' },
+  },
+
+  {
+    title: 'TAX AMOUNT',
+    style: { ...vatReturnDetailTableCellStyle },
   },
 ];

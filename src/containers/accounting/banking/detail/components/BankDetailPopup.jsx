@@ -18,8 +18,14 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+// components and styles
 import { useDeleteBankMutation } from 'services/private/banking';
 import InfoPopup from 'shared/modals/InfoPopup';
+import {
+  bankDetailPopupCloseButtonStyle,
+  bankDetailPopupInfoTitleStyle,
+  bankDetailPopupInfoBodyStyle,
+} from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 
 const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
 
@@ -96,7 +102,7 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <IconButton onClick={handleClose} sx={{ position: 'absolute', top: '0%', right: '0%' }}>
+        <IconButton onClick={handleClose} sx={bankDetailPopupCloseButtonStyle}>
           <CloseIcon />
         </IconButton>
         <Stack className="mt-2">
@@ -118,12 +124,10 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
               <TableBody>
                 {bankOptions.map(row => (
                   <TableRow key={row.label}>
-                    <TableCell sx={{ fontWeight: 'bold', border: '1px solid silver', minWidth: 250 }}>
+                    <TableCell sx={{ ...bankDetailPopupInfoTitleStyle, ...bankDetailPopupInfoBodyStyle }}>
                       {row.label}
                     </TableCell>
-                    <TableCell sx={{ border: '1px solid silver', minWidth: 250 }}>
-                      {row.value || 'N/A'}
-                    </TableCell>
+                    <TableCell sx={bankDetailPopupInfoBodyStyle}>{row.value || 'N/A'}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

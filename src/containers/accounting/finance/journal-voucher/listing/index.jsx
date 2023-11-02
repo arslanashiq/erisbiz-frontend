@@ -49,13 +49,13 @@ function JournalVoucherListing() {
   return (
     <SectionLoader options={[journalVoucherDetailResponse.isLoading]}>
       <Helmet>
-        <title>Quotations - ErisBiz</title>
+        <title>Journal Voucher - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
         data={journalVoucherDetailResponse?.data?.results}
         totalDataCount={journalVoucherDetailResponse?.data?.count}
-        TableHeading="Quotations"
+        TableHeading="Journal Voucher"
         headCells={journalVoucherHeadCells}
         showCheckbox
         otherOptions={[

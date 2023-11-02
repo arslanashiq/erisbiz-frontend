@@ -46,7 +46,6 @@ import 'styles/form/form.scss';
 function AddPerformaInvoice() {
   const { id } = useParams();
   const { performaInvoice, quotationId } = getSearchParamsList();
-
   const navigate = useNavigate();
   const { initialValues, setInitialValues } = useInitialValues(
     proformaInvoicesInitialValues,
@@ -54,7 +53,7 @@ function AddPerformaInvoice() {
     null,
     true,
     false,
-    performaInvoice
+    performaInvoice || null
   );
   const [addPerformaInvoice] = useAddPerformaInvoiceMutation();
   const [editPerformaInvoice] = useEditPerformaInvoiceMutation();

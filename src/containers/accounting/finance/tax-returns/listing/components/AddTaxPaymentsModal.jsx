@@ -18,6 +18,11 @@ import useListOptions from 'custom-hooks/useListOptions';
 // styles
 import StyledDialog from 'styles/mui/component/StyledDialog';
 import 'styles/form/form.scss';
+import {
+  addTaxPaymentFormChildWrapperStyle,
+  addTaxPaymentFormParentWrapperStyle,
+  fontWeightBold,
+} from 'styles/mui/container/accounting/finance/tax-returns/listing/components/add-tax-payment-modal';
 
 function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
   const bankAccountResponse = useGetBankAccountsListQuery();
@@ -74,23 +79,15 @@ function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
                 label="Paid Through"
                 className="col-12"
               />
-              <Stack sx={{ padding: '10px 130px' }}>
-                <Stack
-                  sx={{
-                    border: '1px solid #63CEB7',
-                    borderLeft: '3px solid #63CEB7',
-                    padding: 1,
-                    paddingRight: 40,
-                  }}
-                  spacing={2}
-                >
+              <Stack sx={addTaxPaymentFormParentWrapperStyle}>
+                <Stack sx={addTaxPaymentFormChildWrapperStyle} spacing={2}>
                   <Stack direction="row" justifyContent="space-between">
-                    <Typography sx={{ fontWeight: 'bold' }}>Total Payable Tax</Typography>
-                    <Typography sx={{ fontWeight: 'bold' }}>{selectedTax?.total_tax_payable}</Typography>
+                    <Typography sx={fontWeightBold}>Total Payable Tax</Typography>
+                    <Typography sx={fontWeightBold}>{selectedTax?.total_tax_payable}</Typography>
                   </Stack>
                   <Stack direction="row" justifyContent="space-between">
-                    <Typography sx={{ fontWeight: 'bold' }}>Amount Due</Typography>
-                    <Typography sx={{ fontWeight: 'bold' }}>{selectedTax?.amount_due}</Typography>
+                    <Typography sx={fontWeightBold}>Amount Due</Typography>
+                    <Typography sx={fontWeightBold}>{selectedTax?.amount_due}</Typography>
                   </Stack>
                 </Stack>
               </Stack>

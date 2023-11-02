@@ -16,6 +16,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { itemsHeadCell } from '../utilities/head-cells';
 // components
 import ItemFilter from './components/ItemFilter';
@@ -49,11 +50,7 @@ function ItemsListing() {
       navigate(`edit/${selected[0]}`);
     }
   };
-  const deleteSingleItem = async id => {
-    await deleteItem(id);
 
-    enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
-  };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';
     let actionButton = false;
@@ -81,7 +78,7 @@ function ItemsListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleItem(id);
+      handleDeleteResponse(deleteItem, id, enqueueSnackbar);
     });
   };
   return (

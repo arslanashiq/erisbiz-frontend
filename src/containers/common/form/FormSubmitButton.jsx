@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
 import { Button, Stack } from '@mui/material';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 
-function FormSubmitButton() {
+function FormSubmitButton({ submitButtonTitle }) {
   const { isSubmitting, resetForm } = useFormikContext();
 
   return (
@@ -12,7 +13,7 @@ function FormSubmitButton() {
 
       <Stack spacing={2} direction="row">
         <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-          {isSubmitting ? 'Saving...' : 'Save'}
+          {isSubmitting ? 'Saving...' : submitButtonTitle || 'Save'}
         </Button>
 
         <Button
@@ -27,5 +28,10 @@ function FormSubmitButton() {
     </>
   );
 }
-
+FormSubmitButton.propTypes = {
+  submitButtonTitle: PropTypes.string,
+};
+FormSubmitButton.defaultProps = {
+  submitButtonTitle: null,
+};
 export default FormSubmitButton;

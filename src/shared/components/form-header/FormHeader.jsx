@@ -1,12 +1,13 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 
-function FormHeader({ title }) {
+function FormHeader({ title, direction, className }) {
   const navigate = useNavigate();
   return (
-    <Stack direction="row" justifyContent="space-between" alignItems="center">
+    <Stack className={className} direction={direction} justifyContent="space-between" alignItems="center">
       <Typography variant="h6">{title}</Typography>
       <Button
         className="text-capitalize"
@@ -20,6 +21,13 @@ function FormHeader({ title }) {
   );
 }
 FormHeader.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  direction: PropTypes.string,
+  className: PropTypes.string,
+};
+FormHeader.defaultProps = {
+  title: '',
+  direction: 'row',
+  className: '',
 };
 export default FormHeader;

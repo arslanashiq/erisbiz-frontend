@@ -52,7 +52,9 @@ function AddInvoice() {
   const itemsListResponse = useGetItemsListQuery();
   const customerListResponse = useGetCustomersListQuery();
   const performaInvoiceListResponse = useGetPerformaInvoicesListQuery();
-  const performaInvoiceResponse = useGetSinglePerformaInvoiceQuery(performaInvoice);
+  const performaInvoiceResponse = useGetSinglePerformaInvoiceQuery(performaInvoice, {
+    skip: !performaInvoice,
+  });
 
   const [addSaleInvoice] = useAddSaleInvoicesMutation();
   const [editSaleInvoice] = useEditSaleInvoicesMutation();

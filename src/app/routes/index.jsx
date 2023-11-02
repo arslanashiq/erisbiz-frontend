@@ -108,69 +108,71 @@ const JournalVoucherDetailPage = lazy(() => import('containers/accounting/financ
 
 // Reports
 // payables
-const ReportsListPage = lazy(() => import('containers/reports'));
-const ReportSupplierBalancePage = lazy(() => import('containers/reports/components/payables/SupplierBalance'));
-const ReportSupplierBillBalanceReport = lazy(() => import('containers/reports/components/payables/SupplierBillBalance'));
-const ReportSupplierExcessPaymentBalanceReport = lazy(() => import('containers/reports/components/payables/SupplierExcessPaymentBalance'));
-const ReportSupplierBalanceDetailReport = lazy(() => import('containers/reports/components/payables/SupplierBalanceDetail'));
-const ReportApAgingSummaryPage = lazy(() => import('containers/reports/components/payables/ApAgingSummary'));
-const ReportApAgingDetailPage = lazy(() => import('containers/reports/components/payables/ApAgingDetail'));
-const ReportBillDetailsPage = lazy(() => import('containers/reports/components/payables/BillDetails'));
-const ReportPayableDebitNoteDetailPage = lazy(() => import('containers/reports/components/payables/PayableDebitNoteDetail'));
-const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/components/payables/PaymentsMade'));
-const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/components/payables/PurchaseOrderDetail'));
-const ReportPurchaseOrderBySupplierPage = lazy(() => import('containers/reports/components/payables/PurchaseOrderBySupplier'));
-const ReportPayableSummaryPage = lazy(() => import('containers/reports/components/payables/PayableSummary'));
-const ReportPayableDetailsPage = lazy(() => import('containers/reports/components/payables/PayableDetails'));
-const ReportSupplierRefundHistoryPage = lazy(() => import('containers/reports/components/payables/SupplierRefundHistory'));
+const ReportsListPage = lazy(() => import('containers/reports/listing'));
+const ReportSupplierBalancePage = lazy(() => import('containers/reports/payables/SupplierBalance'));
+const ReportSupplierBillBalanceReport = lazy(() => import('containers/reports/payables/SupplierBillBalance'));
+const ReportSupplierExcessPaymentBalanceReport = lazy(() => import('containers/reports/payables/SupplierExcessPaymentBalance'));
+const ReportSupplierBalanceDetailReport = lazy(() => import('containers/reports/payables/SupplierBalanceDetail'));
+const ReportApAgingSummaryPage = lazy(() => import('containers/reports/payables/ApAgingSummary'));
+const ReportApAgingDetailPage = lazy(() => import('containers/reports/payables/ApAgingDetail'));
+const ReportBillDetailsPage = lazy(() => import('containers/reports/payables/BillDetails'));
+const ReportPayableDebitNoteDetailPage = lazy(() => import('containers/reports/payables/PayableDebitNoteDetail'));
+const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/payables/PaymentsMade'));
+const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/payables/PurchaseOrderDetail'));
+const ReportPurchaseOrderBySupplierPage = lazy(() => import('containers/reports/payables/PurchaseOrderBySupplier'));
+const ReportPayableSummaryPage = lazy(() => import('containers/reports/payables/PayableSummary'));
+const ReportPayableDetailsPage = lazy(() => import('containers/reports/payables/PayableDetails'));
+const ReportSupplierRefundHistoryPage = lazy(() => import('containers/reports/payables/SupplierRefundHistory'));
 // receivables
-const ReportReceivableAccountBalancePage = lazy(() => import('containers/reports/components/receivables/ReceivableAccountBalance'));
-const ReportReceivablesInvoiceBalanceAgainstCustomerPage = lazy(() => import('containers/reports/components/receivables/ReceivablesInvoiceBalanceAgainstCustomer'));
-const ReportReceivablesCreditNoteBalanceAgainstCustomerPage = lazy(() => import('containers/reports/components/receivables/ReceivablesCreditNoteBalanceAgainstCustomer'));
-const ReportReceivableBalanceDetailAgainstCustomerPage = lazy(() => import('containers/reports/components/receivables/ReceivableBalanceDetailAgainstCustomer'));
-const ReportReceivableARAgingSummaryPage = lazy(() => import('containers/reports/components/receivables/ReceivableARAgingSummary'));
-const ReportReceivableARAgingDetailPage = lazy(() => import('containers/reports/components/receivables/ReceivableARAgingDetail'));
-const ReportReceivableInvoiceDetailPage = lazy(() => import('containers/reports/components/receivables/ReceivableInvoiceDetail'));
-const ReportReceivableSummaryPage = lazy(() => import('containers/reports/components/receivables/ReceivableSummary'));
-const ReportReceivableDetailsPage = lazy(() => import('containers/reports/components/receivables/ReceivableDetails'));
+const ReportReceivableAccountBalancePage = lazy(() => import('containers/reports/receivables/ReceivableAccountBalance'));
+const ReportReceivablesInvoiceBalanceAgainstCustomerPage = lazy(() => import('containers/reports/receivables/ReceivablesInvoiceBalanceAgainstCustomer'));
+const ReportReceivablesCreditNoteBalanceAgainstCustomerPage = lazy(() => import('containers/reports/receivables/ReceivablesCreditNoteBalanceAgainstCustomer'));
+const ReportReceivableBalanceDetailAgainstCustomerPage = lazy(() => import('containers/reports/receivables/ReceivableBalanceDetailAgainstCustomer'));
+const ReportReceivableARAgingSummaryPage = lazy(() => import('containers/reports/receivables/ReceivableARAgingSummary'));
+const ReportReceivableARAgingDetailPage = lazy(() => import('containers/reports/receivables/ReceivableARAgingDetail'));
+const ReportReceivableInvoiceDetailPage = lazy(() => import('containers/reports/receivables/ReceivableInvoiceDetail'));
+const ReportReceivableSummaryPage = lazy(() => import('containers/reports/receivables/ReceivableSummary'));
+const ReportReceivableDetailsPage = lazy(() => import('containers/reports/receivables/ReceivableDetails'));
 // purchase and expenses
-const ReportPurchaseBySupplierPage = lazy(() => import('containers/reports/components/purchase-and-expenses/PurchaseBySupplier'));
-const ReportPurchaseBySupplierDetailPage = lazy(() => import('containers/reports/components/purchase-and-expenses/PurchaseBySupplierDetail'));
-const ReportPurchaseByItemPage = lazy(() => import('containers/reports/components/purchase-and-expenses/PurchaseByItem'));
-const ReportPurchaseByItemDetailPage = lazy(() => import('containers/reports/components/purchase-and-expenses/PurchaseByItemDetail'));
-const ReportExpenseDetailsPage = lazy(() => import('containers/reports/components/purchase-and-expenses/ExpenseDetails'));
-const ReportExpenseByCategoryPage = lazy(() => import('containers/reports/components/purchase-and-expenses/ExpenseByCategory'));
-const ReportExpenseByCategoryDetailPage = lazy(() => import('containers/reports/components/purchase-and-expenses/ExpenseByCategoryDetail'));
+const ReportPurchaseBySupplierPage = lazy(() => import('containers/reports/purchase-and-expenses/PurchaseBySupplier'));
+const ReportPurchaseBySupplierDetailPage = lazy(() => import('containers/reports/purchase-and-expenses/PurchaseBySupplierDetail'));
+const ReportPurchaseByItemPage = lazy(() => import('containers/reports/purchase-and-expenses/PurchaseByItem'));
+const ReportPurchaseByItemDetailPage = lazy(() => import('containers/reports/purchase-and-expenses/PurchaseByItemDetail'));
+const ReportExpenseDetailsPage = lazy(() => import('containers/reports/purchase-and-expenses/ExpenseDetails'));
+const ReportExpenseByCategoryPage = lazy(() => import('containers/reports/purchase-and-expenses/ExpenseByCategory'));
+const ReportExpenseByCategoryDetailPage = lazy(() => import('containers/reports/purchase-and-expenses/ExpenseByCategoryDetail'));
 // sales Report
-const ReportSalesByCustomerPage = lazy(() => import('containers/reports/components/sales/SalesByCustomer'));
-const ReportSalesByCustomerDetailPage = lazy(() => import('containers/reports/components/sales/SalesByCustomerDetail'));
-const ReportSalesByItemPage = lazy(() => import('containers/reports/components/sales/SalesByItem'));
-const ReportSalesByItemDetailPage = lazy(() => import('containers/reports/components/sales/SalesByItemDetail'));
-const ReportSalesBySalesPersonPage = lazy(() => import('containers/reports/components/sales/SalesBySalesPerson'));
-const ReportSalesBySalesPersonDetailPage = lazy(() => import('containers/reports/components/sales/SalesBySalePersonDetail'));
-const ReportSalesBySalesTypePage = lazy(() => import('containers/reports/components/sales/SalesBySalesType'));
+const ReportSalesByCustomerPage = lazy(() => import('containers/reports/sales/SalesByCustomer'));
+const ReportSalesByCustomerDetailPage = lazy(() => import('containers/reports/sales/SalesByCustomerDetail'));
+const ReportSalesByItemPage = lazy(() => import('containers/reports/sales/SalesByItem'));
+const ReportSalesByItemDetailPage = lazy(() => import('containers/reports/sales/SalesByItemDetail'));
+const ReportSalesBySalesPersonPage = lazy(() => import('containers/reports/sales/SalesBySalesPerson'));
+const ReportSalesBySalesPersonDetailPage = lazy(() => import('containers/reports/sales/SalesBySalePersonDetail'));
+const ReportSalesBySalesTypePage = lazy(() => import('containers/reports/sales/SalesBySalesType'));
 
 // receipt voucher
-const ReportReceiptVoucherPage = lazy(() => import('containers/reports/components/receipt-voucher/ReceiptVoucherReport'));
-const ReportCreditNoteDetailPage = lazy(() => import('containers/reports/components/receipt-voucher/CreditNoteDetail'));
-const ReportRefundHistoryPage = lazy(() => import('containers/reports/components/receipt-voucher/RefundHistory'));
+const ReportReceiptVoucherPage = lazy(() => import('containers/reports/receipt-voucher/ReceiptVoucherReport'));
+const ReportCreditNoteDetailPage = lazy(() => import('containers/reports/receipt-voucher/CreditNoteDetail'));
+const ReportRefundHistoryPage = lazy(() => import('containers/reports/receipt-voucher/RefundHistory'));
 
 // accountant
-const ReportAccountTransactionPage = lazy(() => import('containers/reports/components/accountant/AccountTransaction'));
-const ReportAccountTypeSummaryPage = lazy(() => import('containers/reports/components/accountant/AccountTypeSummary'));
-const ReportGeneralLedgerPage = lazy(() => import('containers/reports/components/accountant/GeneralLedger'));
-const ReportDetailGeneralLedgerPage = lazy(() => import('containers/reports/components/accountant/DetailGeneralLedger'));
-const ReportJournalReportPage = lazy(() => import('containers/reports/components/accountant/JournalReport'));
-const ReportTrialBalancePage = lazy(() => import('containers/reports/components/accountant/trial-balance'));
+const ReportAccountTransactionPage = lazy(() => import('containers/reports/accountant/AccountTransaction'));
+const ReportAccountTypeSummaryPage = lazy(() => import('containers/reports/accountant/AccountTypeSummary'));
+const ReportGeneralLedgerPage = lazy(() => import('containers/reports/accountant/GeneralLedger'));
+const ReportDetailGeneralLedgerPage = lazy(() => import('containers/reports/accountant/DetailGeneralLedger'));
+const ReportJournalReportPage = lazy(() => import('containers/reports/accountant/JournalReport'));
+const ReportTrialBalancePage = lazy(() => import('containers/reports/accountant/trial-balance'));
 // tax
-const ReportTaxReturnReportPage = lazy(() => import('containers/reports/components/tax/TaxReturnReport'));
-const ReportVATAuditReportPage = lazy(() => import('containers/reports/components/tax/VATAuditReport'));
+const ReportTaxReturnReportPage = lazy(() => import('containers/reports/tax/TaxReturnReport'));
+const ReportTaxReturnDetailReportPage = lazy(() => import('containers/reports/tax/TaxReturnDetailReport'));
+const ReportTaxReturnDetailInformationReportPage = lazy(() => import('containers/reports/tax/TaxReturnDetailInformationReport'));
+const ReportVATAuditReportPage = lazy(() => import('containers/reports/tax/VATAuditReport'));
 // financial report
-const ProfitAndLossStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/ProfitAndLossStatement'));
-const CashFlowStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/cash-flow-statement'));
-const BalanceSheetStatementReportPage = lazy(() => import('containers/reports/components/financial-reports/balance-sheet-statement'));
+const ProfitAndLossStatementReportPage = lazy(() => import('containers/reports/financial-reports/ProfitAndLossStatement'));
+const CashFlowStatementReportPage = lazy(() => import('containers/reports/financial-reports/cash-flow-statement'));
+const BalanceSheetStatementReportPage = lazy(() => import('containers/reports/financial-reports/balance-sheet-statement'));
 // activity
-const ActivityLogsReportPage = lazy(() => import('containers/reports/components/activity/ActivityLogs'));
+const ActivityLogsReportPage = lazy(() => import('containers/reports/activity/ActivityLogs'));
 
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
@@ -418,6 +420,8 @@ function AppRoutes() {
                   <Route path="trial-balance" element={<ReportTrialBalancePage />} />
                   {/* tax */}
                   <Route path="tax-returns" element={<ReportTaxReturnReportPage />} />
+                  <Route path="tax-returns/:id" element={<ReportTaxReturnDetailReportPage />} />
+                  <Route path="tax-returns/:id/detail" element={<ReportTaxReturnDetailInformationReportPage />} />
                   <Route path="vat-audit" element={<ReportVATAuditReportPage />} />
                   {/* financial report */}
                   <Route path="profit-loss" element={<ProfitAndLossStatementReportPage />} />

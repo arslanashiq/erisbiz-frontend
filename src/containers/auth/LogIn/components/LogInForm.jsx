@@ -5,14 +5,21 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { Button, Grid, IconButton, Stack, Typography } from '@mui/material';
-import palette from 'styles/mui/theme/palette';
 import MuiFormikField from 'shared/components/form/MuiFormikField';
 import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { useAdminLoginMutation } from 'services/public/auth';
 import { setUser } from 'store/slices/userSlice';
-import { mainColor } from 'containers/auth/utilities/constant';
+import {
+  loginFormChildWrapperStyle,
+  loginFormIconStyle,
+  loginFormInputStyle,
+  loginFormParentWrapperStyle,
+  loginFormMainHeadingStyle,
+  loginFormIconButtonStyle,
+  loginFormLoginButtonStyle,
+} from 'styles/mui/container/auth/login/components/login-form';
 
 function LogInForm() {
   const { enqueueSnackbar } = useSnackbar();
@@ -28,10 +35,10 @@ function LogInForm() {
   };
 
   return (
-    <Stack sx={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-      <Stack sx={{ width: '100%', maxWidth: 500, padding: '0px 50px' }}>
+    <Stack sx={loginFormParentWrapperStyle}>
+      <Stack sx={loginFormChildWrapperStyle}>
         <Grid item xs={12} className="mb-3">
-          <Typography sx={{ fontSize: 30, color: mainColor }}>{'Let\'s Get Started!'}</Typography>
+          <Typography sx={loginFormMainHeadingStyle}>{'Let\'s Get Started!'}</Typography>
           <Typography>Enter Your credentials to access your account</Typography>
         </Grid>
         <Formik
@@ -85,27 +92,27 @@ function LogInForm() {
                 {/* email */}
                 <MuiFormikField
                   name="email"
-                  startIcon={<EmailOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />}
+                  startIcon={<EmailOutlinedIcon sx={loginFormIconStyle} />}
                   type="email"
                   placeholder="Email"
-                  sx={{ backgroundColor: palette.primary.contrastText, borderColor: mainColor }}
+                  sx={loginFormInputStyle}
                 />
                 {/* Password */}
                 <MuiFormikField
                   name="password"
-                  startIcon={<LockOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />}
+                  startIcon={<LockOutlinedIcon sx={loginFormIconStyle} />}
                   endIcon={(
-                    <IconButton sx={{ color: mainColor }} onClick={e => showPassword(e)}>
+                    <IconButton sx={loginFormIconButtonStyle} onClick={e => showPassword(e)}>
                       {state.showPassword ? (
-                        <VisibilityOffOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />
+                        <VisibilityOffOutlinedIcon sx={loginFormIconStyle} />
                       ) : (
-                        <VisibilityOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />
+                        <VisibilityOutlinedIcon sx={loginFormIconStyle} />
                       )}
                     </IconButton>
                   )}
                   type={state.showPassword ? 'text' : 'password'}
                   placeholder="Password"
-                  sx={{ backgroundColor: palette.primary.contrastText, borderColor: mainColor }}
+                  sx={loginFormInputStyle}
                 />
                 {/* forgot Password */}
                 <Grid item xs={12}>
@@ -119,7 +126,7 @@ function LogInForm() {
                   <Button
                     disabled={isSubmitting}
                     type="submit"
-                    sx={{ backgroundColor: mainColor, fontSize: 18, width: '100%' }}
+                    sx={loginFormLoginButtonStyle}
                   >
                     Sign In
                   </Button>

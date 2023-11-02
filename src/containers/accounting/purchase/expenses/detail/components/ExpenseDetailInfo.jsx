@@ -33,26 +33,26 @@ function ExpenseDetailInfo({ expense }) {
         >
           <Typography>{expense.expense_account && expense?.expense_account?.account_name}</Typography>
         </Stack>
-        <Stack sx={{ ...topSpacing }}>
+        <Stack sx={topSpacing}>
           <Typography sx={{ ...textColor }}>Paid Through</Typography>
           <Typography>
             {expense.paid_through_account && expense?.paid_through_account?.account_name}
           </Typography>
         </Stack>
         {expense.reference_num && (
-          <Stack sx={{ ...topSpacing }}>
+          <Stack sx={topSpacing}>
             <Typography>Ref #</Typography>
             <Typography> {expense?.reference_num}</Typography>
           </Stack>
         )}
         {expense.tax_rate && (
-          <Stack sx={{ ...topSpacing }}>
+          <Stack sx={topSpacing}>
             <Typography>Tax</Typography>
             <Typography>{expense?.tax_rate}</Typography>
           </Stack>
         )}
         {expense.tax_rate && (
-          <Stack sx={{ ...topSpacing }}>
+          <Stack sx={topSpacing}>
             <Typography>Tax Amount</Typography>
             <Typography>
               {expense.currency_symbol}
@@ -61,7 +61,7 @@ function ExpenseDetailInfo({ expense }) {
           </Stack>
         )}
         {expense.supplier && (
-          <Stack sx={{ ...topSpacing }}>
+          <Stack sx={topSpacing}>
             <Typography>Paid To</Typography>
             <Typography>
               <Link to={`/pages/accounting/purchases/suppliers/${expense.supplier.id}/detail`}>

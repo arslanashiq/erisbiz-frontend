@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, CircularProgress, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
@@ -12,13 +12,17 @@ import 'styles/topbar/recent-activity.scss';
 function RecentActivity() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const recentActivity = useGetRecentActivityQuery({}, { refetchOnMountOrArgChange: Boolean(anchorEl) });
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
+    if (recentActivity) {
+      recentActivity.refetch();
+    }
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const recentActivity = useGetRecentActivityQuery();
 
   const getActivityIcon = type => {
     switch (type) {
@@ -30,7 +34,6 @@ function RecentActivity() {
         return <AssignmentIcon className="recent-activity-menu-list-icon" />;
     }
   };
-
   return (
     <div>
       <Tooltip title="Recent Activity" placement="bottom" arrow>
@@ -54,16 +57,21 @@ function RecentActivity() {
         }}
       >
         <Box className="recent-activity-menu">
-          {recentActivity.isLoading === false &&
+          {recentActivity.status === 'fulfilled' ? (
             recentActivity?.data?.results.slice(0, 10).map(activity => (
               <MenuItem key={activity.id} className="recent-activity-menu-list">
                 {getActivityIcon(activity.type)}
                 <Stack>
-                  <Typography className="recent-activity-menu-list-title">{activity.title}</Typography>
+                  <Typography className="recent-activity-menu-list-title text-capitalize">
+                    {activity.title}
+                  </Typography>
                   <Typography className="recent-activity-menu-list-activity-type">{activity.type}</Typography>
                 </Stack>
               </MenuItem>
-            ))}
+            ))
+          ) : (
+            <CircularProgress />
+          )}
           {recentActivity?.data?.results?.length === 0 && (
             <MenuItem disabled className="recent-activity-menu-list">
               <Typography className="recent-activity-menu-list-title">No activity found</Typography>

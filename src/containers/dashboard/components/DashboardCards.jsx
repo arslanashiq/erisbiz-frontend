@@ -6,30 +6,33 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 
 import { Box, Card, Stack, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import {
+  dashboardEvenCardStyle,
+  dashboardCardChildWrapperStyle,
+  dashboardCardStackIconStyle,
+  dashboardCardStackLeftStyle,
+  dashboardCardStackTitleStyle,
+  dashboardOddCardStyle,
+  dashboardCardStackSubTitleStyle,
+  dashboardCardDetailStackStyle,
+  dashboardCardDetailStackTextStyle,
+} from 'styles/mui/container/dashboard/components/dashboard-cards';
 
 function DashboardCards({ card }) {
   return (
-    <Card
-      sx={{
-        backgroundColor: card.number % 2 === 0 ? '#08517e' : 'grey',
-        color: 'white',
-        borderRadius: 4,
-      }}
-    >
-      <Box sx={{ padding: '10px 20px 12px 10px' }}>
-        <Stack direction="row" sx={{ justifyContent: 'space-between', alignItems: 'start' }}>
+    <Card sx={card.number % 2 === 0 ? dashboardEvenCardStyle : dashboardOddCardStyle}>
+      <Box sx={dashboardCardChildWrapperStyle}>
+        <Stack direction="row" sx={dashboardCardStackLeftStyle}>
           {/* {card.icon} */}
-          <BarChartIcon sx={{ fontSize: 50 }} />
-          <Stack sx={{ alignItems: 'end' }}>
-            <Typography sx={{ fontSize: 14, fontWeight: 500 }}>{card.title}</Typography>
-            <Typography sx={{ fontSize: 11, fontWeight: 400 }}>{card.sub_title}</Typography>
+          <BarChartIcon sx={dashboardCardStackIconStyle} />
+          <Stack alignItems="end">
+            <Typography sx={dashboardCardStackTitleStyle}>{card.title}</Typography>
+            <Typography sx={dashboardCardStackSubTitleStyle}>{card.sub_title}</Typography>
           </Stack>
         </Stack>
-        <Stack direction="row" sx={{ marginTop: 2, justifyContent: 'space-between', alignItems: 'end' }}>
+        <Stack direction="row" sx={dashboardCardDetailStackStyle}>
           <Link to={card.link}>
-            <Typography sx={{ color: 'white', fontSize: 11, cursor: 'pointer', textDecoration: 'underline' }}>
-              View Detail
-            </Typography>
+            <Typography sx={dashboardCardDetailStackTextStyle}>View Detail</Typography>
           </Link>
 
           <ArrowCircleRightIcon />

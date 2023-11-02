@@ -15,13 +15,14 @@ function MuiTableHead(props) {
     showCheckbox,
     actionButtonKey,
     customActionButton,
+    headerStyles,
   } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
 
   return (
-    <TableHead>
+    <TableHead sx={headerStyles}>
       <TableRow>
         {showCheckbox && (
           <TableCell padding="checkbox">
@@ -87,6 +88,7 @@ MuiTableHead.propTypes = {
   showCheckbox: PropTypes.bool,
   actionButtonKey: PropTypes.string,
   customActionButton: PropTypes.array,
+  headerStyles: PropTypes.object,
 };
 
 MuiTableHead.defaultProps = {
@@ -99,5 +101,6 @@ MuiTableHead.defaultProps = {
   order: 'asc',
   orderBy: '',
   rowCount: 0,
+  headerStyles: {},
 };
 export default MuiTableHead;

@@ -1,16 +1,13 @@
 import React from 'react';
 import { Divider, Grid, Stack, Typography } from '@mui/material';
+import {
+  supplierOverviewPayableDividerStyle,
+  supplierOverviewPayableGridStyle,
+} from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-overview-payables';
 
 function SupplierOverviewPayables() {
   return (
-    <Grid
-      sx={{
-        borderBottom: 1,
-        borderColor: 'divider',
-        marginBottom: 4,
-        paddingBottom: 3,
-      }}
-    >
+    <Grid sx={supplierOverviewPayableGridStyle}>
       <Stack className="w-100" direction="row" spacing={3}>
         <Stack className="w-100">
           <h6>Outstanding Payables</h6>
@@ -19,7 +16,7 @@ function SupplierOverviewPayables() {
         <Divider
           orientation="vertical"
           variant="fullWidth"
-          sx={{ borderWidth: 1, backgroundColor: 'black' }}
+          sx={supplierOverviewPayableDividerStyle}
           flexItem
         />
         <Stack className="w-100">

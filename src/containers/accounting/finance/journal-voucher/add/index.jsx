@@ -165,7 +165,7 @@ function AddJournalVoucher() {
                 label="Last Journal No"
               />
 
-              <FormikField name="notes" placeholder="Note" label="Note" />
+              <FormikField name="notes" placeholder="Note" label="Note" className="col-12" />
 
               <FieldArray
                 name="journal_items"

@@ -6,12 +6,13 @@ import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typo
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import MuiTableHead from 'shared/components/table/MuiTableHead';
 import FormikField from 'shared/components/form/FormikField';
+import {
+  tableBottomTextClasses,
+  tableBottomTextStyle,
+  unPaidBillsTotalAmountInfoBoxStyle,
+  unPaidBillsTotalAmountWrapperStyle,
+} from 'styles/mui/container/accounting/purchase/payment-voucher/add/components/unpaid-bills-list';
 
-const tableBottomTextClasses = 'col-12 d-flex justify-content-between align-items-center pe-5 mx-2 mt-md-0 ';
-const tableBottomTextStyle = {
-  fontSize: '0.9rem',
-  fontWeight: '300',
-};
 function UnPaidBillsList({ name, form, headCells }) {
   const { values, setFieldValue } = form;
 
@@ -72,10 +73,7 @@ function UnPaidBillsList({ name, form, headCells }) {
       </TableContainer>
       <Box className="row justify-content-between align-items-center ">
         <Box className="col-md-4 col-xl-5" />
-        <Box
-          className="col-md-6 col-xl-5 d-flex row me-3 mt-2"
-          sx={{ padding: 2, backgroundColor: '#FBFAFA' }}
-        >
+        <Box className="col-md-6 col-xl-5 d-flex row me-3 mt-2 p-2" sx={unPaidBillsTotalAmountWrapperStyle}>
           <Box className={tableBottomTextClasses}>
             <Typography sx={tableBottomTextStyle}>Total Amount</Typography>
             <Typography sx={tableBottomTextStyle}>{values.total}</Typography>
@@ -88,7 +86,7 @@ function UnPaidBillsList({ name, form, headCells }) {
             direction="row"
             sx={{ display: values.used_amount && values.total < values.used_amount ? 'flex' : 'none' }}
           >
-            <Typography sx={{ color: 'red', fontSize: 10 }}>
+            <Typography sx={unPaidBillsTotalAmountInfoBoxStyle}>
               <ErrorOutlineIcon sx={{ fontSize: 14 }} />
               Total amount applied must be less than or equal to amount recieved
             </Typography>

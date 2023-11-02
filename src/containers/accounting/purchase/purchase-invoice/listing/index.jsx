@@ -11,6 +11,7 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilitues
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
 
@@ -22,10 +23,7 @@ function SupplierCreditListing() {
     getsearchQueryOffsetAndLimitParams(location)
   );
   const [deleteInvoice] = useDeletePurchaseInvoceMutation();
-  const deleteSingleItem = async id => {
-    await deleteInvoice(id);
-    enqueueSnackbar('Invoice Deleted Successfully', { variant: 'success' });
-  };
+
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';
     let actionButton = false;
@@ -51,9 +49,10 @@ function SupplierCreditListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleItem(id);
+      handleDeleteResponse(deleteInvoice, id, enqueueSnackbar);
     });
   };
+
   return (
     <>
       <Helmet>

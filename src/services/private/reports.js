@@ -358,6 +358,13 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getTaxReturn'],
     }),
+    getTaxReturnDetail: builder.query({
+      query: id => ({
+        url: `api/tax/return/report?tax_return_id=${id}`,
+      }),
+      providesTags: ['getTaxReturnDetail'],
+    }),
+
     addTaxReturn: builder.mutation({
       query: payload => ({
         url: 'api/tax/return/',
@@ -367,6 +374,23 @@ const reportsApi = privateApi.injectEndpoints({
       providesTags: ['addTaxReturn'],
       invalidatesTags: ['getTaxReturn'],
     }),
+    changeTaxReturnStatus: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/tax/return/${id}/`,
+        method: 'PUT',
+        body: payload,
+      }),
+      providesTags: ['fileTaxReturn'],
+      invalidatesTags: ['getTaxReturnDetail', 'getTaxReturn'],
+    }),
+    getTaxReturnDetailInformation: builder.query({
+      query: params => ({
+        url: 'api/tax/return/report/detail',
+        params,
+      }),
+      providesTags: ['getTaxReturnDetailInformation'],
+    }),
+
     removeTaxReturn: builder.mutation({
       query: id => ({
         url: `api/tax/return/${id}/`,
@@ -499,7 +523,10 @@ export const {
 
   // tax
   useGetTaxReturnQuery,
+  useGetTaxReturnDetailQuery,
+  useGetTaxReturnDetailInformationQuery,
   useAddTaxReturnMutation,
+  useChangeTaxReturnStatusMutation,
   useRemoveTaxReturnMutation,
   useGetVATAuditQuery,
   useAddVATAuditFileMutation,

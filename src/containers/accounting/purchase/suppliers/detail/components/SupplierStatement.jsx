@@ -2,6 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // styles
 import 'styles/template-style/template-styles.scss';
+import {
+  supplierStatementHeaderRowStyles,
+  supplierStatementHeaderCellStyles,
+  supplierStatementBodyRowStyles,
+  supplierStatementBodyCellStyles,
+  supplierStatementTable,
+} from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-statement';
 
 function SupplierStatement({ basicInfo, transactions }) {
   return (
@@ -94,69 +101,30 @@ function SupplierStatement({ basicInfo, transactions }) {
       </div>
       <div>
         <table
-          style={{ width: '100%', marginTop: 10, tableLayout: 'fixed' }}
+          style={supplierStatementTable}
           className="pcs-itemtable"
           border="0"
           cellSpacing="0"
           cellPadding="0"
         >
           <thead>
-            <tr style={{ height: 32 }}>
-              <td
-                style={{
-                  padding: '5px 10px 5px 10px',
-                  wordWrap: 'break-word',
-                }}
-                className="pcs-taxtable-header"
-              >
+            <tr style={supplierStatementHeaderRowStyles}>
+              <td style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
                 Date
               </td>
-              <td
-                style={{
-                  padding: '5px 10px 5px 5px',
-                  wordWrap: 'break-word',
-                }}
-                className="pcs-taxtable-header"
-              >
+              <td style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
                 Transactions
               </td>
-              <td
-                style={{
-                  padding: '5px 10px 5px 5px',
-                  wordWrap: 'break-word',
-                }}
-                className="pcs-taxtable-header"
-              >
+              <td style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
                 Details
               </td>
-              <td
-                align="right"
-                style={{
-                  padding: '5px 10px 5px 5px',
-                  wordWrap: 'break-word',
-                }}
-                className="pcs-taxtable-header"
-              >
+              <td align="right" style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
                 Amount
               </td>
-              <td
-                align="right"
-                style={{
-                  padding: '5px 10px 5px 5px',
-                  wordWrap: 'break-word',
-                }}
-                className="pcs-taxtable-header"
-              >
+              <td align="right" style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
                 Payments
               </td>
-              <td
-                align="right"
-                style={{
-                  padding: '5px 10px 5px 5px',
-                  wordWrap: 'break-word',
-                }}
-                className="pcs-taxtable-header"
-              >
+              <td align="right" style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
                 Balance
               </td>
             </tr>
@@ -165,61 +133,35 @@ function SupplierStatement({ basicInfo, transactions }) {
             {transactions &&
               transactions.map(item => (
                 <tr key={item.id}>
-                  <td valign="top" style={{ padding: '10px 0px 10px 10px' }} className="pcs-item-row">
-                    <span style={{ wordWrap: 'break-word' }} id="tmp_item_tax_rate_summary">
+                  <td valign="top" style={supplierStatementBodyRowStyles} className="pcs-item-row">
+                    <span style={supplierStatementBodyCellStyles} id="tmp_item_tax_rate_summary">
                       {item.date}
                     </span>
                     <br />
                   </td>
-                  <td
-                    valign="top"
-                    style={{
-                      padding: '10px 10px 5px 10px',
-                      wordWrap: 'break-word',
-                    }}
-                    className="pcs-item-row"
-                  >
+                  <td valign="top" style={supplierStatementHeaderCellStyles} className="pcs-item-row">
                     <span id="tmp_item_taxable_amount_summary">{item.transactions}</span>
                   </td>
-                  <td
-                    valign="top"
-                    style={{
-                      padding: '10px 10px 5px 10px',
-                      wordWrap: 'break-word',
-                    }}
-                    className="pcs-item-row"
-                  >
+                  <td valign="top" style={supplierStatementHeaderCellStyles} className="pcs-item-row">
                     <span id="tmp_item_tax_amount_summary">{item.details}</span>
                   </td>
                   <td
                     valign="top"
-                    style={{
-                      padding: '10px 10px 5px 10px',
-                      textAlign: 'right',
-                      wordWrap: 'break-word',
-                    }}
+                    style={{ ...supplierStatementHeaderCellStyles, textAlign: 'right' }}
                     className="pcs-item-row"
                   >
                     <span id="tmp_item_tax_amount_summary">{item.amount}</span>
                   </td>
                   <td
                     valign="top"
-                    style={{
-                      padding: '10px 10px 5px 10px',
-                      textAlign: 'right',
-                      wordWrap: 'break-word',
-                    }}
+                    style={{ ...supplierStatementHeaderCellStyles, textAlign: 'right' }}
                     className="pcs-item-row"
                   >
                     <span id="tmp_item_tax_amount_summary">{item.payment}</span>
                   </td>
                   <td
                     valign="top"
-                    style={{
-                      padding: '10px 10px 5px 10px',
-                      textAlign: 'right',
-                      wordWrap: 'break-word',
-                    }}
+                    style={{ ...supplierStatementHeaderCellStyles, textAlign: 'right' }}
                     className="pcs-item-row"
                   >
                     <span id="tmp_item_tax_amount_summary">{item.balance}</span>
@@ -228,25 +170,10 @@ function SupplierStatement({ basicInfo, transactions }) {
               ))}
             <tr>
               <td colSpan="4"> </td>
-              <td
-                valign="top"
-                style={{
-                  padding: '10px 10px 5px 10px',
-                  wordWrap: 'break-word',
-                }}
-                // className="pcs-item-row"
-              >
+              <td valign="top" style={supplierStatementHeaderCellStyles}>
                 <b>Balance Due</b>
               </td>
-              <td
-                valign="top"
-                style={{
-                  padding: '10px 10px 5px 10px',
-                  textAlign: 'right',
-                  wordWrap: 'break-word',
-                }}
-                // className="pcs-item-row"
-              >
+              <td valign="top" style={{ ...supplierStatementHeaderCellStyles, textAlign: 'right' }}>
                 <b>
                   {basicInfo.currency_symbol}
                   {basicInfo.totalBalanceDue}
