@@ -106,7 +106,7 @@ function BankDetail() {
           </Grid>
 
           <MuiTable
-            data={bankTransactionsResponse?.data?.data}
+            data={bankTransactionsResponse?.isSuccess ? bankTransactionsResponse?.data?.data : []}
             totalDataCount={bankTransactionsResponse?.data?.data.length}
             headCells={bankTransactionsHeadCells}
             tableHeight="50vh"
@@ -115,7 +115,7 @@ function BankDetail() {
                 column: [
                   { colSpan: 1 },
                   { data: 'Total Debits and Credits' },
-                  { data: 'AED-140.0' },
+                  { data: 'AED-0.0' },
                   { colSpan: 2 },
                 ],
               },
@@ -123,7 +123,7 @@ function BankDetail() {
                 column: [
                   { colSpan: 1 },
                   { data: 'Closing Balance' },
-                  { data: `AED-${bankTransactionsResponse?.data?.closing_balance}.0` },
+                  { data: `AED-${bankTransactionsResponse?.data?.closing_balance || 0}.0` },
                   { colSpan: 2 },
                 ],
               },
