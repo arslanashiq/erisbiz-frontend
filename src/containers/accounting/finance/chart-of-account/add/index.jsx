@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Formik } from 'formik';
 import { Helmet } from 'react-helmet';
-import { Card, CardContent } from '@mui/material';
+import { Box, Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 // services
 import {
@@ -99,7 +99,7 @@ function AddChartOfAccount() {
                 />
 
                 <FormikField name="description" type="text" textArea label="Description" className="col-12" />
-                <div className={`d-flex col-md-6 align-items-center ${values.is_parent ? '' : 'mt-3 mb-3'}`}>
+                <Box className={`d-flex col-md-6 align-items-center ${values.is_parent ? '' : 'mt-3 mb-3'}`}>
                   <CheckBoxField name="is_parent" label="Make this a sub-account" startLabel="  " />
                   {values.is_parent && (
                     <FormikSelect
@@ -110,7 +110,7 @@ function AddChartOfAccount() {
                       className="w-100"
                     />
                   )}
-                </div>
+                </Box>
 
                 <FormSubmitButton />
               </Form>

@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { activityLogsExcelHeadCells } from 'containers/reports/utilities/head-cells';
+import { Box } from '@mui/material';
 
 function useActivityLogsData(activityLogsResponse) {
   const getLink = item => {
@@ -47,14 +48,14 @@ function useActivityLogsData(activityLogsResponse) {
           value: getLink(item) ? (
             <>
               <Link to={getLink(item)}>{item.module_num}</Link>
-              <div>{item.description}</div>
-              <div className="font-weight-bold">by {item.created_by}</div>
+              <Box>{item.description}</Box>
+              <Box className="font-weight-bold">by {item.created_by}</Box>
             </>
           ) : (
             <>
-              <div>{item.module_num}</div>
-              <div>{item.description}</div>
-              <div className="font-weight-bold">by {item.created_by}</div>
+              <Box>{item.module_num}</Box>
+              <Box>{item.description}</Box>
+              <Box className="font-weight-bold">by {item.created_by}</Box>
             </>
           ),
 

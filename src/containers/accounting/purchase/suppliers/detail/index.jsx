@@ -40,10 +40,10 @@ function SupplierDetail() {
   const supplierDetailResponse = useGetSingleSupplierQuery(id);
   const supplierStatementResponse = useGetSupplierStatementQuery(id);
   const supplierCommentResponse = useGetSupplierCommentsQuery(id);
-  const { basicInfo, transactions } = useSupplierStatement({
-    ...supplierDetailResponse.data,
-    transactions: supplierStatementResponse.transactions,
-  });
+  const { basicInfo, transactions } = useSupplierStatement(
+    supplierDetailResponse?.data || {},
+    supplierStatementResponse?.data?.transactions || []
+  );
   const supplierActivityLogsResponse = useGetSupplierActivityLogsQuery(id);
   const supplierIncomeResponse = useGetSupplierIncomeQuery({ id, params: { duration: activityLogDuration } });
   const handleChangeActivityDuration = value => {

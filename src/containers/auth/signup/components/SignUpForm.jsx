@@ -8,13 +8,19 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 // shared
 import MuiFormikField from 'shared/components/form/MuiFormikField';
 import { CheckBoxField } from 'shared/components/form/CheckBox';
-// containers
-import { mainColor } from 'containers/auth/utilities/constant';
 // utilities
 import { RECAPTCHA_PRIVATE_KEY } from 'utilities/constants';
 // styles
-import palette from 'styles/mui/theme/palette';
 import { useAdminSignUpMutation } from 'services/public/auth';
+// utilities and styles
+import {
+  loginFormChildWrapperStyle,
+  loginFormIconStyle,
+  loginFormInputStyle,
+  loginFormLoginButtonStyle,
+  loginFormMainHeadingStyle,
+  loginFormParentWrapperStyle,
+} from 'styles/mui/container/auth/login/components/login-form';
 
 function SignUpForm() {
   const navigate = useNavigate();
@@ -28,10 +34,10 @@ function SignUpForm() {
   }
 
   return (
-    <Stack sx={{ height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-      <Stack sx={{ width: '100%', maxWidth: 500, padding: '0px 50px' }}>
+    <Stack sx={loginFormParentWrapperStyle}>
+      <Stack sx={loginFormChildWrapperStyle}>
         <Grid item xs={12}>
-          <Typography sx={{ fontSize: 30, color: mainColor }}>Let&apos;s Get Started!</Typography>
+          <Typography sx={loginFormMainHeadingStyle}>Let&apos;s Get Started!</Typography>
           <Typography>Enter Your credentials to access your account</Typography>
         </Grid>
 
@@ -61,11 +67,11 @@ function SignUpForm() {
                 {/* email */}
                 <MuiFormikField
                   name="email"
-                  startIcon={<EmailOutlinedIcon sx={{ color: mainColor, fontSize: 20 }} />}
+                  startIcon={<EmailOutlinedIcon sx={loginFormIconStyle} />}
                   type="email"
                   className="col-12"
                   placeholder="Email"
-                  sx={{ backgroundColor: palette.primary.contrastText, borderColor: mainColor }}
+                  sx={loginFormInputStyle}
                 />
 
                 <Grid item xs={12} className="mt-3">
@@ -81,11 +87,7 @@ function SignUpForm() {
                 </Grid>
 
                 <Grid item xs={12} className="mt-3">
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    sx={{ backgroundColor: mainColor, fontSize: 18, width: '100%', maxWidth: 400 }}
-                  >
+                  <Button disabled={isSubmitting} type="submit" sx={loginFormLoginButtonStyle}>
                     Sign Up
                   </Button>
                 </Grid>

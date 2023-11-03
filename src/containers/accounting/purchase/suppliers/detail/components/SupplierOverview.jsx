@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Box } from '@mui/material';
 // components
 import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
@@ -13,12 +14,12 @@ function SupplierOverview({
   handleClickMenu,
 }) {
   return (
-    <div className="container-fluid w-100">
-      <div className="row">
-        <div className="col-12 col-lg-5 col-xl-4">
+    <Box className="container-fluid w-100">
+      <Box className="row">
+        <Box className="col-12 col-lg-5 col-xl-4">
           <SupplierOverviewCard supplierDetail={supplierDetail} />
-        </div>
-        <div className="col-12 col-lg-7 col-xl-8 mt-5">
+        </Box>
+        <Box className="col-12 col-lg-7 col-xl-8 mt-5">
           {/* <SupplierOverviewPayables /> */}
           <SupplierOverviewCharts
             supplierDetail={supplierDetail}
@@ -27,9 +28,9 @@ function SupplierOverview({
             handleClickMenu={handleClickMenu}
           />
           <SupplierOverviewTimeline supplierActivity={supplierActivity} />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 SupplierOverview.propTypes = {

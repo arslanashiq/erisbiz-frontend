@@ -7,7 +7,12 @@ import ArticleIcon from '@mui/icons-material/Article';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PersonIcon from '@mui/icons-material/Person';
 import { useGetRecentActivityQuery } from 'services/private/user';
-import 'styles/topbar/recent-activity.scss';
+import {
+  recentActivityMenuList,
+  recentActivityMenuListActivityType,
+  recentActivityMenuListIcon,
+  recentActivityMenuListTitle,
+} from 'styles/mui/common/layouts/topbar/components/recent-activity';
 
 function RecentActivity() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -27,11 +32,11 @@ function RecentActivity() {
   const getActivityIcon = type => {
     switch (type) {
       case 'Invoice' || 'Invoice Payment' || 'Credit Note' || 'Payment Made':
-        return <ArticleIcon className="recent-activity-menu-list-icon" />;
+        return <ArticleIcon sx={recentActivityMenuListIcon} />;
       case 'Account' || 'Customer' || 'Supplier':
-        return <PersonIcon className="recent-activity-menu-list-icon" />;
+        return <PersonIcon sx={recentActivityMenuListIcon} />;
       default:
-        return <AssignmentIcon className="recent-activity-menu-list-icon" />;
+        return <AssignmentIcon sx={recentActivityMenuListIcon} />;
     }
   };
   return (
@@ -56,16 +61,16 @@ function RecentActivity() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <Box className="recent-activity-menu">
+        <Box>
           {recentActivity.status === 'fulfilled' ? (
             recentActivity?.data?.results.slice(0, 10).map(activity => (
-              <MenuItem key={activity.id} className="recent-activity-menu-list">
+              <MenuItem key={activity.id} sx={recentActivityMenuList}>
                 {getActivityIcon(activity.type)}
                 <Stack>
-                  <Typography className="recent-activity-menu-list-title text-capitalize">
+                  <Typography sx={recentActivityMenuListTitle} className="text-capitalize">
                     {activity.title}
                   </Typography>
-                  <Typography className="recent-activity-menu-list-activity-type">{activity.type}</Typography>
+                  <Typography sx={recentActivityMenuListActivityType}>{activity.type}</Typography>
                 </Stack>
               </MenuItem>
             ))
@@ -73,8 +78,8 @@ function RecentActivity() {
             <CircularProgress />
           )}
           {recentActivity?.data?.results?.length === 0 && (
-            <MenuItem disabled className="recent-activity-menu-list">
-              <Typography className="recent-activity-menu-list-title">No activity found</Typography>
+            <MenuItem disabled sx={recentActivityMenuList}>
+              <Typography sx={recentActivityMenuListTitle}>No activity found</Typography>
             </MenuItem>
           )}
         </Box>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LanguageIcon from '@mui/icons-material/Language';
-import { Button, Card, CardContent, Stack } from '@mui/material';
+import { Box, Button, Card, CardContent, Stack } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -163,7 +163,7 @@ function SupplierAddPage() {
 
               {/* Communication Tab */}
               {activeTab === supplierFormTabsList[0] && (
-                <div className="row form form--horizontal">
+                <Box className="row form form--horizontal">
                   {/* Address Line 1 */}
 
                   <FormikField
@@ -174,10 +174,10 @@ function SupplierAddPage() {
                   />
 
                   {/* Credit Limit */}
-                  <div className="form__form-group col-md-6">
+                  <Box className="form__form-group col-md-6">
                     <span className="form__form-group-label  col-lg-2" />
-                    <div className="row">
-                      <div className="form__form-group-field col-12">
+                    <Box className="row">
+                      <Box className="form__form-group-field col-12">
                         <CheckBoxField
                           name="credit_limit"
                           onChange={e => {
@@ -194,7 +194,7 @@ function SupplierAddPage() {
                           type="number"
                           placeholder="0.00"
                         />
-                      </div>
+                      </Box>
                       <CheckBoxField
                         name="credit_terms"
                         value={values.credit_terms}
@@ -203,8 +203,8 @@ function SupplierAddPage() {
                         }}
                         label="Set Credit Terms"
                       />
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                   {/* Address Line 2 */}
 
                   <FormikField
@@ -214,10 +214,10 @@ function SupplierAddPage() {
                     label="Address Line 2"
                   />
                   {/* Credit Terms */}
-                  <div className="form__form-group col-md-6">
+                  <Box className="form__form-group col-md-6">
                     <span className="form__form-group-label col-lg-2" />
 
-                    <div
+                    <Box
                       disabled={!values?.credit_terms}
                       style={{
                         pointerEvents: values?.credit_terms ? 'auto' : 'none',
@@ -234,8 +234,8 @@ function SupplierAddPage() {
                         values={values}
                         errors={errors}
                       />
-                    </div>
-                  </div>
+                    </Box>
+                  </Box>
                   {/* Country */}
 
                   <FormikSelect
@@ -248,19 +248,19 @@ function SupplierAddPage() {
                   {/* CIty */}
                   <FormikField name="city" type="text" placeholder="City" label="City" />
                   {/* Map */}
-                  <div className="form__form-group col-md-6">
+                  <Box className="form__form-group col-md-6">
                     <span className="form__form-group-label col-lg-2 required">Map</span>
-                    <div className="form__form-group-field">
+                    <Box className="form__form-group-field">
                       <FormikField name="longitude" placeholder="Longitude" className="w-100 pe-2" />
 
                       <FormikField name="latitude" type="text" placeholder="Latitude" />
-                    </div>
-                  </div>
-                </div>
+                    </Box>
+                  </Box>
+                </Box>
               )}
               {/* Bank And Transfer */}
               {activeTab === supplierFormTabsList[1] && (
-                <div className="row form form--horizontal">
+                <Box className="row form form--horizontal">
                   {/* Account Payee */}
 
                   <FormikField
@@ -308,8 +308,8 @@ function SupplierAddPage() {
                     placeholder="VAT Reverse Charges"
                     label="VAT Reverse Charges"
                   />
-                  <div className="form__form-group col-12 align-items-center">
-                    <div className="col-6" />
+                  <Box className="form__form-group col-12 align-items-center">
+                    <Box className="col-6" />
                     <span className="form__form-group-label col-lg-3 " />
 
                     <CheckBoxField
@@ -317,14 +317,14 @@ function SupplierAddPage() {
                       label="Supplier is Important Agent"
                       className="justify-content-end"
                     />
-                  </div>
-                  <div className="form__form-group col-12 align-items-center">
-                    <div className="col-6" />
+                  </Box>
+                  <Box className="form__form-group col-12 align-items-center">
+                    <Box className="col-6" />
                     <span className="form__form-group-label col-lg-3 " />
 
                     <CheckBoxField name="is_reverse_charge" label="VAT Reverse Charges" />
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               )}
               {/* COntact Info */}
               {activeTab === supplierFormTabsList[2] && (
@@ -332,7 +332,7 @@ function SupplierAddPage() {
               )}
               {/* Comments and Notes */}
               {activeTab === supplierFormTabsList[3] && (
-                <div className="row form form--horizontal">
+                <Box className="row form form--horizontal">
                   {/* COmments */}
                   <FormikField
                     name="comments_on_transactions"
@@ -351,10 +351,10 @@ function SupplierAddPage() {
                     label="Notes"
                     className="col-12"
                   />
-                </div>
+                </Box>
               )}
 
-              <div className="col-lg-12 mt-4">
+              <Box className="col-lg-12 mt-4">
                 <Stack spacing={2} direction="row">
                   <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
                     Save
@@ -372,7 +372,7 @@ function SupplierAddPage() {
                     Cancel
                   </Button>
                 </Stack>
-              </div>
+              </Box>
             </Form>
           )}
         </Formik>

@@ -16,7 +16,8 @@ import MuiTableHead from 'shared/components/table/MuiTableHead';
 import MuiTableToolbar from 'shared/components/table/MuiTableToolbar';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { chartOfAccountHeadCells } from '../utilities/head-cells';
 // components
 import RenderChartOfAccount from './components/RenderChartOfAccount';
@@ -140,7 +141,7 @@ function ChartOfAccountListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Chart of Account
               </>
             ),

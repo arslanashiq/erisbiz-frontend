@@ -66,12 +66,7 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
         aria-describedby="alert-dialog-slide-description"
         sx={{ zIndex: 1202 }}
       >
-        <Stack
-          sx={{
-            minWidth: 350,
-            padding: 1,
-          }}
-        >
+        <Stack minWidth={350} padding={1}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography color="primary">Uploaded Files</Typography>
             <IconButton onClick={handleClose}>
@@ -80,7 +75,9 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
           </Stack>
           {files && files?.length === 0 && (
             <Stack>
-              <Typography sx={{ textAlign: 'center', color: 'silver' }}>No Available Files</Typography>
+              <Typography color="silver" textAlign="center">
+                No Available Files
+              </Typography>
             </Stack>
           )}
           {files?.length > 0 &&
@@ -89,19 +86,16 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
                 key={file?.name ?? file.doc_name}
                 direction="row"
                 spacing={2}
-                sx={{ borderBottom: 1, padding: '10px 10px' }}
+                borderBottom={1}
+                padding="10px 10px"
               >
-                <InsertDriveFileIcon color="primary" sx={{ fontSize: 50 }} />
-                <Stack sx={{ maxWidth: 300 }}>
-                  <Typography
-                    noWrap
-                    color="primary"
-                    sx={{ width: 200, fontSize: 14, textOverflow: 'ellipsis' }}
-                  >
+                <InsertDriveFileIcon color="primary" fontSize={50} />
+                <Stack maxWidth={300}>
+                  <Typography noWrap color="primary" width={200} fontSize={14} textOverflow="ellipsis">
                     {file.doc_name || file.name}
                   </Typography>
 
-                  <Stack direction="row" sx={{ fontSize: 11, color: 'grey' }}>
+                  <Stack direction="row" fontSize={11} color="grey">
                     File Size:{convertFileSize(file.doc_size_bytes || file.size)}
                   </Stack>
 
@@ -127,7 +121,7 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
               fileInputRef.current.click();
             }}
           >
-            <UploadFileIcon color="primary" sx={{ fontSize: 40 }} />
+            <UploadFileIcon color="primary" fontSize={40} />
             <Typography color="primary">Upload File</Typography>
           </Stack>
           <input ref={fileInputRef} type="file" hidden onChange={handleSelectFiles} />

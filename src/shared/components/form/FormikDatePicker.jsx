@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'styles/form/date-picker.scss';
+import { Box } from '@mui/material';
 
 function DatePickerField({
   touched,
@@ -40,12 +41,12 @@ function DatePickerField({
 
   const selected = value ? moment(value, 'YYYY/MM/DD').toDate() : null;
   return (
-    <div className={`form__form-group ${className}`}>
+    <Box className={`form__form-group ${className}`}>
       <span className={`form__form-group-label ${labelClass} ${isRequired ? 'required' : ''}`}>{label}</span>
-      <div className="form__form-group-field ">
-        {startIcon && <div className="form__form-group-icon cursor-pointer">{startIcon}</div>}
+      <Box className="form__form-group-field ">
+        {startIcon && <Box className="form__form-group-icon cursor-pointer">{startIcon}</Box>}
 
-        <div className="date-picker">
+        <Box className="date-picker">
           <ReactDatePicker
             popperProps={{
               strategy: 'fixed',
@@ -70,9 +71,9 @@ function DatePickerField({
             disabled={disabled}
           />
           {touched && error && <span className="form__form-group-error">{error}</span>}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 DatePickerField.propTypes = {

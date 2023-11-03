@@ -46,7 +46,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box width="100%">
       <TableContainer sx={{ overflow: 'auto', minHeight: 'auto' }}>
         <Table sx={{ minWidth: '900px' }}>
           <TableHead className="purchase-item-head">
@@ -138,25 +138,25 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
         </Table>
       </TableContainer>
       {showItemsAmount ? (
-        <div className="row justify-content-between align-items-center pe-1">
-          <div className="col-md-6">
+        <Box className="row justify-content-between align-items-center pe-1">
+          <Box className="col-md-6">
             <Button disabled={Boolean(!newList)} onClick={() => push(newList)}>
               Add New Item
             </Button>
-          </div>
-          <div className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
+          </Box>
+          <Box className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Typography className="purchase-item-total-amount">Total Amount</Typography>
             <Typography className="purchase-item-total-amount">AED {getTotalAmount()}</Typography>
-          </div>
-        </div>
+          </Box>
+        </Box>
       ) : (
-        <div className="row justify-content-between align-items-center pe-1">
-          <div className="col-md-5">
+        <Box className="row justify-content-between align-items-center pe-1">
+          <Box className="col-md-5">
             <Button disabled={Boolean(!newList)} onClick={() => push(newList)}>
               Add New Item
             </Button>
-          </div>
-          <div className="col-md-7 align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
+          </Box>
+          <Box className="col-md-7 align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Stack direction="row" justifyContent="space-between">
               <Typography className="purchase-item-total-amount">Total Amount</Typography>
               <Typography className="purchase-item-total-amount">{getTotalAmount('debit')}</Typography>
@@ -172,8 +172,8 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
                 Total credited amount must be equal to debited amount
               </Typography>
             </Stack>
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
     </Box>
   );

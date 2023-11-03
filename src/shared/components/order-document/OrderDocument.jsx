@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import { useParams } from 'react-router';
 import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
 import OrderReceipt from './OrderReceipt';
@@ -18,11 +18,11 @@ function OrderDocument({
 }) {
   const { id } = useParams();
   return (
-    <div style={{ margin: '0 auto', boxShadow: 'border-box', overflow: 'auto' }}>
+    <Box style={{ margin: '0 auto', boxShadow: 'border-box', overflow: 'auto' }}>
       {handleChangeStatus && orderDetail && orderDetail.status === 'draft' && (
-        <div className="custom-box" style={{ maxWidth: 900 }}>
+        <Box className="custom-box" style={{ maxWidth: 900 }}>
           <blockquote className="clr-blue row align-items-center justify-content-between">
-            <div className="col-md-9 d-flex align-items-center p-3">
+            <Box className="col-md-9 d-flex align-items-center p-3">
               <span className="mr-3">
                 <DraftsOutlinedIcon sx={{ height: 80, width: 80 }} />
               </span>
@@ -30,7 +30,7 @@ function OrderDocument({
                 <h3>Payment</h3>
                 <p>Order has been created. You can request for payment.</p>
               </span>
-            </div>
+            </Box>
             <Stack className="col-md-3">
               <Button
                 type="button"
@@ -43,7 +43,7 @@ function OrderDocument({
               </Button>
             </Stack>
           </blockquote>
-        </div>
+        </Box>
       )}
       {customComponent && customComponent}
       {orderDetail && (
@@ -57,7 +57,7 @@ function OrderDocument({
           showJournalVoucher={showJournalVoucher}
         />
       )}
-    </div>
+    </Box>
   );
 }
 

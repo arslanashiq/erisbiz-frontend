@@ -1,6 +1,7 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
+import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 import OrderItemsTable from './OrderItemsTable';
 import OrderVoucher from './OrderVoucher';
@@ -17,15 +18,15 @@ function OrderReceipt({
   showJournalVoucher,
 }) {
   return (
-    <div className="invoice-receipt-main-container">
+    <Box className="invoice-receipt-main-container">
       {showStatus && (
-        <div className="check">
+        <Box className="check">
           <header className="paidArrow"> {orderDetail.status} </header>
-        </div>
+        </Box>
       )}
-      <div style={{ padding: 20 }}>
-        <div className="invoice-receipt-container">
-          <div className="box-1">
+      <Box style={{ padding: 20 }}>
+        <Box className="invoice-receipt-container">
+          <Box className="box-1">
             <img src="/logo.png" alt="" id="logo" />
             <p>Luxury Events and VIP Travel DMCC</p>
             <p>Office # 1206, JBC 4, Cluster N,</p>
@@ -34,9 +35,9 @@ function OrderReceipt({
             <p>Phone: +971 4 379 9960</p>
             <p>TRN: 100204615700003</p>
             <p>info@luxuryexplorersme.com</p>
-          </div>
+          </Box>
           {orderInfo.showCustomOptions ? (
-            <div className="box-2">
+            <Box className="box-2">
               <h1
                 style={{
                   fontSize: '27px',
@@ -55,21 +56,21 @@ function OrderReceipt({
               >
                 {orderInfo.order_number}
               </p>
-              <div className="boxSecond" style={{ fontSize: '16px' }}>
+              <Box className="boxSecond" style={{ fontSize: '16px' }}>
                 {orderInfo?.box1 &&
                   orderInfo.box1.map(option => (
-                    <div key={uuid()} className="entry-info">
+                    <Box key={uuid()} className="entry-info">
                       <p className="head">{option.label}:</p>
                       <p>{option.value}</p>
-                    </div>
+                    </Box>
                   ))}
-              </div>
+              </Box>
 
               {orderInfo?.box2 && (
-                <div id="bill_to">
-                  <div className="boxSecond" style={{ fontSize: '15px' }}>
+                <Box id="bill_to">
+                  <Box className="boxSecond" style={{ fontSize: '15px' }}>
                     {orderInfo.box2.map(option => (
-                      <div key={uuid()} className="entry-info">
+                      <Box key={uuid()} className="entry-info">
                         <p className="head">{option.label}:</p>
                         {option.link ? (
                           <p>
@@ -78,14 +79,14 @@ function OrderReceipt({
                         ) : (
                           <p>{option.value}</p>
                         )}
-                      </div>
+                      </Box>
                     ))}
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               )}
-            </div>
+            </Box>
           ) : (
-            <div className="box-2">
+            <Box className="box-2">
               <h1
                 style={{
                   fontSize: '27px',
@@ -104,56 +105,56 @@ function OrderReceipt({
               >
                 {orderInfo.order_number}
               </p>
-              <div className="boxSecond" style={{ fontSize: '16px' }}>
+              <Box className="boxSecond" style={{ fontSize: '16px' }}>
                 {orderInfo.formated_order_number && (
-                  <div className="entry-info">
+                  <Box className="entry-info">
                     <p className="head">OrderNumber:</p>
                     <p>{orderInfo.formated_order_number}</p>
-                  </div>
+                  </Box>
                 )}
 
                 {orderInfo.date && (
-                  <div className="entry-info">
+                  <Box className="entry-info">
                     <p className="head">Date:</p>
                     <p>{orderInfo.date}</p>
-                  </div>
+                  </Box>
                 )}
                 {orderInfo.location && (
-                  <div className="entry-info">
+                  <Box className="entry-info">
                     <p className="head">Location:</p>
                     <p>{orderInfo.location}</p>
-                  </div>
+                  </Box>
                 )}
-              </div>
-              <div id="bill_to">
-                <div className="boxSecond" style={{ fontSize: '15px' }}>
-                  <div className="entry-info">
+              </Box>
+              <Box id="bill_to">
+                <Box className="boxSecond" style={{ fontSize: '15px' }}>
+                  <Box className="entry-info">
                     <p className="head">{orderInfo.label ? orderInfo.label : 'Supplier'}:</p>
                     <p>
                       <Link to={`/pages/accounting/purchases/suppliers/${orderDetail.supplier_id}/detail`}>
                         {orderInfo.supplier.supplier_name}
                       </Link>
                     </p>
-                  </div>
-                  <div className="entry-info">
+                  </Box>
+                  <Box className="entry-info">
                     <p className="head">Country:</p>
                     <p>{orderInfo.supplier.country}</p>
-                  </div>
-                  <div className="entry-info">
+                  </Box>
+                  <Box className="entry-info">
                     <p className="head">City:</p>
                     <p>{orderInfo.supplier.city}</p>
-                  </div>
+                  </Box>
                   {orderInfo.supplier_trn && (
-                    <div className="entry-info">
+                    <Box className="entry-info">
                       <p className="head">TRN:</p>
                       <p>{orderInfo.supplier_trn}</p>
-                    </div>
+                    </Box>
                   )}
-                </div>
-              </div>
-            </div>
+                </Box>
+              </Box>
+            </Box>
           )}
-        </div>
+        </Box>
         {/* Purchase Order and Purchase Invoice */}
         {showItemsTable && <OrderItemsTable orderDetail={orderDetail} keyValue={keyValue} />}
 
@@ -163,8 +164,8 @@ function OrderReceipt({
         {showJournalVoucher && (
           <JournalVoucher orderDetail={orderDetail} keyValue={keyValue} orderInfo={orderInfo} />
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

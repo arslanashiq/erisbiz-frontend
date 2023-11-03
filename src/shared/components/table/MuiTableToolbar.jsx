@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // import { alpha } from '@mui/material/styles';
-import { Button, Stack, Toolbar, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Stack, Toolbar, Tooltip, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterDrawer from '../drawer/FilterDrawer';
 
@@ -56,13 +56,13 @@ function MuiTableToolbar(props) {
             <Typography sx={{ fontSize: 12 }}>{numSelected} Row Selected</Typography>
           </>
         ) : (
-          <div className="row w-100">
-            <div className="col-md-6">
-              <Typography sx={{ fontWeight: 'bold' }} variant="h6" id="tableTitle" component="div">
+          <Box className="row w-100">
+            <Box className="col-md-6">
+              <Typography sx={{ fontWeight: 'bold' }} variant="h6" id="tableTitle" component="Box">
                 {TableHeading}
               </Typography>
-            </div>
-            <div className="col-md-6 d-flex justify-content-md-end mb-3 mb-md-0 p-0">
+            </Box>
+            <Box className="col-md-6 d-flex justify-content-md-end mb-3 mb-md-0 p-0">
               <Stack direction="row" spacing={2}>
                 {filterButton && (
                   <Tooltip title="Search" arrow placement="top">
@@ -82,8 +82,8 @@ function MuiTableToolbar(props) {
                   </Button>
                 ))}
               </Stack>
-            </div>
-          </div>
+            </Box>
+          </Box>
         )}
       </Toolbar>
     </>

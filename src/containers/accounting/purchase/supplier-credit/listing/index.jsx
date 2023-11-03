@@ -10,7 +10,8 @@ import {
 } from 'services/private/debit-note';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { supplierCreditHeadCells } from '../utilities/head-cells';
@@ -65,7 +66,7 @@ function SupplierCreditListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Debit Note
               </>
             ),

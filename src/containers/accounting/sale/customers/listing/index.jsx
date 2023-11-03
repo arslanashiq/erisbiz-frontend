@@ -1,10 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
-import MuiTable from 'shared/components/table/MuiTable';
+import { useLocation, useNavigate } from 'react-router';
+// services
 import { useDeleteCutomerMutation, useGetCustomersListQuery } from 'services/private/customers';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+// utilities  and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import { customersHeadCell } from '../utilities/head-cells';
 
@@ -52,7 +56,7 @@ function CustomerListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 Add New Customer{' '}
               </>
             ),

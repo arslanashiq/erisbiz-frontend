@@ -12,7 +12,8 @@ import {
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utils
+// utilities  and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { PaymentVoucherHeadCells } from '../utilities/head-cells';
 
@@ -67,7 +68,7 @@ function paymentVoucherListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Purchase Invoice
               </>
             ),

@@ -9,7 +9,8 @@ import { useDeleteQuotationMutation, useGetQuotationsListQuery } from 'services/
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import { quotationsHeadCell } from '../utilities/head-cells';
 
@@ -67,7 +68,7 @@ function QuotationListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 Add New Quotation{' '}
               </>
             ),

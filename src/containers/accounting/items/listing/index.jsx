@@ -13,7 +13,8 @@ import {
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
@@ -98,7 +99,7 @@ function ItemsListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 Add New Item{' '}
               </>
             ),

@@ -2,6 +2,7 @@ import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import formatAmount from 'utilities/formatAmount';
+import { Box } from '@mui/material';
 
 function OrderItemsTable({ orderDetail, keyValue }) {
   const getTotalAmount = () => {
@@ -78,79 +79,79 @@ function OrderItemsTable({ orderDetail, keyValue }) {
           )} */}
         </tbody>
       </table>
-      <div>
-        <div className="entries">
-          <div className="entries-child">
-            <div className="names">
+      <Box>
+        <Box className="entries">
+          <Box className="entries-child">
+            <Box className="names">
               <p>Grand Total:</p>
-            </div>
-            <div className="amounts">
+            </Box>
+            <Box className="amounts">
               <p>
                 {formatAmount(orderDetail.without_change_grand_total - orderDetail.without_change_vat_total)}{' '}
                 {orderDetail.currency_symbol}
               </p>
-            </div>
-          </div>
-        </div>
-        <div className="entries">
-          <div className="entries-child">
-            <div className="names">
+            </Box>
+          </Box>
+        </Box>
+        <Box className="entries">
+          <Box className="entries-child">
+            <Box className="names">
               <p>VAT Total:</p>
-            </div>
-            <div className="amounts">
+            </Box>
+            <Box className="amounts">
               <p>
                 {orderDetail.without_change_vat_total} {orderDetail.currency_symbol}
               </p>
-            </div>
-          </div>
-        </div>
-        <div className="entries">
-          <div className="entries-child">
-            <div className="names">
+            </Box>
+          </Box>
+        </Box>
+        <Box className="entries">
+          <Box className="entries-child">
+            <Box className="names">
               <p>Total:</p>
-            </div>
-            <div className="amounts">
+            </Box>
+            <Box className="amounts">
               <p>
                 {formatAmount(orderDetail.without_change_grand_total)} {orderDetail.currency_symbol}
               </p>
-            </div>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </Box>
         {orderDetail?.refunded_amount > 0 && (
-          <div className="entries">
-            <div className="entries-child">
-              <div className="names">
+          <Box className="entries">
+            <Box className="entries-child">
+              <Box className="names">
                 <p>Refunded:</p>
-              </div>
-              <div className="amounts color-danger">
+              </Box>
+              <Box className="amounts color-danger">
                 <p>
                   (-){formatAmount(orderDetail.refunded_amount)} {orderDetail.currency_symbol}
                 </p>
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
         )}
         {orderDetail?.payment_amount > 0 && (
-          <div className="entries">
-            <div className="entries-child">
-              <div className="names">
+          <Box className="entries">
+            <Box className="entries-child">
+              <Box className="names">
                 <p>Payment Made:</p>
-              </div>
-              <div className="amounts color-danger">
+              </Box>
+              <Box className="amounts color-danger">
                 <p>
                   (-){formatAmount(orderDetail.payment_amount)} {orderDetail.currency_symbol}
                 </p>
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
         )}
-        <div className="pointer">
+        <Box className="pointer">
           <p style={{ marginLeft: 5 }}>Total ({orderDetail.currency_symbol}):</p>
           <p>
             {formatAmount(getTotalAmount())} {orderDetail.currency_symbol}
           </p>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </>
   );
 }

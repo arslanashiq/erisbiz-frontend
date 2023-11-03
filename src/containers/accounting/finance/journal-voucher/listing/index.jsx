@@ -13,7 +13,8 @@ import {
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { journalVoucherHeadCells } from '../utilities/head-cells';
 
 function JournalVoucherListing() {
@@ -53,7 +54,7 @@ function JournalVoucherListing() {
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
-        data={journalVoucherDetailResponse?.data?.results}
+        data={journalVoucherDetailResponse?.isSuccess ? journalVoucherDetailResponse?.data?.results : []}
         totalDataCount={journalVoucherDetailResponse?.data?.count}
         TableHeading="Journal Voucher"
         headCells={journalVoucherHeadCells}
@@ -62,7 +63,7 @@ function JournalVoucherListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Journal
               </>
             ),

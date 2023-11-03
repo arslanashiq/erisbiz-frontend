@@ -7,7 +7,8 @@ import { useLocation, useNavigate } from 'react-router';
 import { useDeleteCreditNoteMutation, useGetCreditNotesListQuery } from 'services/private/credit-notes';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { creditNoteHeadCells } from '../utilities/head-cells';
 
 function CreditNotesListing() {
@@ -51,7 +52,7 @@ function CreditNotesListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Credit Note
               </>
             ),

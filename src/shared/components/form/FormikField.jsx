@@ -39,15 +39,15 @@ function FormikField({
   };
 
   return (
-    <div className={`form__form-group align-items-center ${className}`}>
+    <Box className={`form__form-group align-items-center ${className}`}>
       {label && (
         <span className={`form__form-group-label ${labelClassName} ${isRequired ? 'required' : ''}`}>
           {label}
         </span>
       )}
-      <div className="form__form-group-field">
-        {startIcon && <div className="form__form-group-icon cursor-pointer">{startIcon}</div>}
-        <div className="w-100">
+      <Box className="form__form-group-field">
+        {startIcon && <Box className="form__form-group-icon cursor-pointer">{startIcon}</Box>}
+        <Box className="w-100">
           {textArea && (
             <textarea
               {...restFieldProps}
@@ -70,14 +70,14 @@ function FormikField({
             />
           )}
           {touched && error && <span className="form__form-group-error">{error}</span>}
-        </div>
+        </Box>
         {endIcon && (
           <Box className={endIconClass} type="button" onClick={endIconClick}>
             {endIcon}
           </Box>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

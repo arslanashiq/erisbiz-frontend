@@ -9,42 +9,42 @@ import 'styles/dashboard/dashboard.scss';
 
 const cardsList = [
   {
-    icon: <BarChartIcon sx={{ fontSize: 70 }} />,
+    icon: <BarChartIcon fontSize="70px" />,
     title: 'AED 183.75',
     sub_title: "Today's Sale",
     link: '',
     number: 2,
   },
   {
-    icon: <BarChartIcon sx={{ fontSize: 70 }} />,
+    icon: <BarChartIcon fontSize="70px" />,
     title: 'AED 183.75',
     sub_title: "Today's Sale",
     link: '',
     number: 3,
   },
   {
-    icon: <BarChartIcon sx={{ fontSize: 70 }} />,
+    icon: <BarChartIcon fontSize="70px" />,
     title: 'AED 183.75',
     sub_title: "Today's Sale",
     link: '',
     number: 4,
   },
   {
-    icon: <BarChartIcon sx={{ fontSize: 70 }} />,
+    icon: <BarChartIcon fontSize="70px" />,
     title: 'AED 183.75',
     sub_title: "Today's Sale",
     link: '',
     number: 6,
   },
   {
-    icon: <BarChartIcon sx={{ fontSize: 70 }} />,
+    icon: <BarChartIcon fontSize="70px" />,
     title: 'AED 183.75',
     sub_title: "Today's Sale",
     link: '',
     number: 7,
   },
   {
-    icon: <BarChartIcon sx={{ fontSize: 70 }} />,
+    icon: <BarChartIcon fontSize="70px" />,
     title: 'AED 183.75',
     sub_title: "Today's Sale",
     link: '',

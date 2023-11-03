@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import Timeline from '@mui/lab/Timeline';
 import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
@@ -21,7 +21,7 @@ export default function SupplierComment({ comments }) {
   const [deleteComment] = useDeleteSupplierCommentMutation();
 
   return (
-    <div style={{ maxWidth: 900 }}>
+    <Box style={{ maxWidth: 900 }}>
       <Timeline>
         <TimelineItem>
           <TimelineOppositeContent />
@@ -45,24 +45,24 @@ export default function SupplierComment({ comments }) {
                 <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
-                <div className="comment-box row align-items-center">
-                  <div className="col-md-8">
+                <Box className="comment-box row align-items-center">
+                  <Box className="col-md-8">
                     <Typography>{item.comments}</Typography>
-                  </div>
-                  <div className="col-md-4 text-right">
+                  </Box>
+                  <Box className="col-md-4 text-right">
                     <IconButton
                       className="customer__comment-item--delete-btn"
                       onClick={() => deleteComment(item.id)}
                     >
                       <DeleteIcon />
                     </IconButton>
-                  </div>
-                </div>
+                  </Box>
+                </Box>
               </TimelineContent>
             </TimelineItem>
           ))}
       </Timeline>
-    </div>
+    </Box>
   );
 }
 SupplierComment.propTypes = {

@@ -78,7 +78,7 @@ function TaxReturnListing() {
           >
             {activeTab === 0 && (
               <MuiTable
-                data={TaxReturnsResponse?.data?.results}
+                data={TaxReturnsResponse?.isSuccess ? TaxReturnsResponse?.data?.results : []}
                 totalDataCount={TaxReturnsResponse?.data?.count}
                 headCells={taxReturnsHeadCell}
                 customActionButton={[
@@ -98,7 +98,7 @@ function TaxReturnListing() {
             )}
             {activeTab === 1 && (
               <MuiTable
-                data={TaxReturnsPaymentsResponse?.data?.results}
+                data={TaxReturnsPaymentsResponse?.isSuccess ? TaxReturnsPaymentsResponse?.data?.results : []}
                 totalDataCount={TaxReturnsResponse?.data?.count}
                 headCells={taxReturnsPaymentsHeadCell}
                 customActionButton={[

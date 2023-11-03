@@ -33,14 +33,18 @@ function ChartOfAccountDetail() {
 
           <h4 className="font-weight-bold mt-4">Recent Transactions</h4>
           <MuiTable
-            data={charOfAccountDetailResponse?.data?.data}
+            data={
+              charOfAccountDetailResponse?.isSuccess && charOfAccountDetailResponse?.data?.data
+                ? charOfAccountDetailResponse?.data?.data
+                : []
+            }
             headCells={chartOfAccountDetailTableHeadCells}
           />
 
           <Button
             variant="text"
             onClick={() => {
-              navigate(`/pages/reports/account-transaction/${id}/detail?duration=this+month`);
+              navigate(`/pages/reports/account-transactions?duration=this%20year&chart_of_account_id=${id}`);
             }}
           >
             Detail View

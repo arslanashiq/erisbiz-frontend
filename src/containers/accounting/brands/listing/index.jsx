@@ -8,7 +8,8 @@ import { useDeleteBrandMutation, useGetBrandsListQuery } from 'services/private/
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import { brandsHeadCells } from '../utilities/head-cells';
@@ -52,7 +53,7 @@ function BrandsListing() {
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
-        data={brandsListResponse?.data?.results}
+        data={brandsListResponse?.isSuccess ? brandsListResponse?.data?.results : []}
         TableHeading="Brands"
         headCells={brandsHeadCells}
         showCheckbox
@@ -60,7 +61,7 @@ function BrandsListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Brand
               </>
             ),

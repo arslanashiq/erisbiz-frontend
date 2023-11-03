@@ -1,10 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import AddIcon from '@mui/icons-material/Add';
-import MuiTable from 'shared/components/table/MuiTable';
+import { useLocation, useNavigate } from 'react-router';
+// services
 import { useDeleteSaleInvoiceMutation, useGetSaleInvoicesListQuery } from 'services/private/sale-invoice';
+// shared
+import MuiTable from 'shared/components/table/MuiTable';
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { invoiceHeadCell } from '../utilities/head-cells';
 
 function PerformaInvoiceListing() {
@@ -47,7 +51,7 @@ function PerformaInvoiceListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Sales Invoice
               </>
             ),

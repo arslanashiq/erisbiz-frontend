@@ -7,9 +7,23 @@ const chartOfAccountApi = privateApi.injectEndpoints({
       providesTags: ['getChartOfAccountList'],
     }),
     getSingleChartOfAccount: builder.query({
-      query: id => ({ url: `/api/accounting/accountant/chartOfAccounts/${id}/`, method: 'GET' }),
+      query: id => ({
+        url: `api/accountant/chart/of/account/${id}/detail`,
+        method: 'GET',
+      }),
+
       providesTags: ['getSingleChartOfAccount'],
     }),
+    getSingleChartOfAccountDetailReport: builder.query({
+      query: ({ id, params }) => ({
+        url: `api/accountant/chart/of/account/report/${id}/detail?duration=this+month`,
+        method: 'GET',
+        params,
+      }),
+
+      providesTags: ['getSingleChartOfAccountDetailReport'],
+    }),
+
     addChartOfAccount: builder.mutation({
       query: payload => ({
         url: '/api/accounting/accountant/chartOfAccounts/',
@@ -68,5 +82,6 @@ export const {
   useEditaddChartOfAccountMutation,
   useDeleteChartOfAccountMutation,
   useGetChartOfAccountTypesQuery,
+  useGetSingleChartOfAccountDetailReportQuery,
 } = chartOfAccountApi;
 export const test = '';

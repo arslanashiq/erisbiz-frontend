@@ -8,7 +8,8 @@ import { useDeleteSupplierMutation, useGetSuppliersListQuery } from 'services/pr
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { supplierHeadCells } from '../utilities/head-cells';
 import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utilities/constants';
@@ -87,7 +88,7 @@ function SupplierListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Supplier
               </>
             ),

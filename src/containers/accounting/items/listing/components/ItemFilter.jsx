@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
@@ -36,12 +36,12 @@ function ItemFilter() {
     >
       {({ isSubmitting, resetForm }) => (
         <Form className="form personlized-search-form row pt-3">
-          <div className="form__form-group">
+          <Box className="form__form-group">
             <span className="form__form-group-label">Items</span>
-            <div className="form__form-group-field">
+            <Box className="form__form-group-field">
               <FormikSelect name="filter" type="text" options={itemFilterOptions} className="col-12" />
-            </div>
-          </div>
+            </Box>
+          </Box>
 
           <Stack spacing={2} direction="row">
             <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">

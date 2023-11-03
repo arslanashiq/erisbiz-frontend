@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { useField, useFormikContext } from 'formik';
 import 'styles/form/react-select.scss';
+import { Box } from '@mui/material';
 
 const CUSTOM_BUTTON_VALUE = 'custom-menu-button';
 
@@ -78,13 +79,13 @@ function FormikSelect({
   const modifiedOptions = useMemo(() => [...options]);
 
   return (
-    <div className={`form__form-group ${className}`}>
+    <Box className={`form__form-group ${className}`}>
       {label && (
         <span className={`form__form-group-label col-lg-3 ${isRequired ? 'required' : ''}`}>{label}</span>
       )}
-      <div className="form__form-group-field">
-        {startIcon && <div className="form__form-group-icon cursor-pointer">{startIcon}</div>}
-        <div className={`form__form-group-input-wrap ${customClass}`} id={name}>
+      <Box className="form__form-group-field">
+        {startIcon && <Box className="form__form-group-icon cursor-pointer">{startIcon}</Box>}
+        <Box className={`form__form-group-input-wrap ${customClass}`} id={name}>
           <Select
             {...restProps}
             id="select"
@@ -100,9 +101,9 @@ function FormikSelect({
             styles={{ ...commonStyles, ...(isGrouped ? groupedStyles : {}) }}
           />
           {touched && error && <span className="form__form-group-error">{error}</span>}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import formatAmount from 'utilities/formatAmount';
 
 function JournalTable({ journalItems, defaultValue }) {
@@ -26,7 +28,7 @@ function JournalTable({ journalItems, defaultValue }) {
         <Typography>Display Journal</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <div className="mt-4 w-100" style={{ fontSize: 15 }}>
+        <div className="mt-4 w-100" style={addButtonIconStyle}>
           <table className="line-item-table border-top-bottom w-100" id="lineitems-section">
             <thead className="line-item-header">
               <tr className="border-top-bottom">

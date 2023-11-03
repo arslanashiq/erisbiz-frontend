@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import PurchaseVoucherFooterDocument from './PurchaseVoucherFooterDocument';
@@ -8,105 +9,105 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
   return (
     <>
       {/* Payment Voucher */}
-      <div style={{ marginTop: 60 }}>
-        <div className="row">
-          <div className="col-sm-3 invoice-headings">
+      <Box style={{ marginTop: 60 }}>
+        <Box className="row">
+          <Box className="col-sm-3 invoice-headings">
             <p>Payment Date</p>
-          </div>
-          <div className="col-sm-9 invoice-details">
+          </Box>
+          <Box className="col-sm-9 invoice-details">
             <p>{orderDetail.payment_date}</p>
             <hr />
-          </div>
-        </div>
+          </Box>
+        </Box>
         {orderDetail.reference_num && (
-          <div className="row">
-            <div className="col-sm-3 invoice-headings">
+          <Box className="row">
+            <Box className="col-sm-3 invoice-headings">
               <p>Reference Number</p>
-            </div>
-            <div className="col-sm-9 invoice-details">
+            </Box>
+            <Box className="col-sm-9 invoice-details">
               <p>{orderDetail.reference_num}</p>
               <hr />
-            </div>
-          </div>
+            </Box>
+          </Box>
         )}
-        <div className="row">
-          <div className="col-sm-3 invoice-headings">
+        <Box className="row">
+          <Box className="col-sm-3 invoice-headings">
             <p>Payment Method</p>
-          </div>
-          <div className="col-sm-9 invoice-details">
+          </Box>
+          <Box className="col-sm-9 invoice-details">
             <p>{orderDetail.payment_mode}</p>
             <hr />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-3 invoice-headings">
+          </Box>
+        </Box>
+        <Box className="row">
+          <Box className="col-sm-3 invoice-headings">
             <p>Paid Through</p>
-          </div>
-          <div className="col-sm-9 invoice-details">
+          </Box>
+          <Box className="col-sm-9 invoice-details">
             <p>{orderDetail.chart_of_account_name}</p>
             <hr />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-3 invoice-headings">
+          </Box>
+        </Box>
+        <Box className="row">
+          <Box className="col-sm-3 invoice-headings">
             <p>Amount Paid (AED)</p>
-          </div>
-          <div className="col-sm-9 invoice-details">
+          </Box>
+          <Box className="col-sm-9 invoice-details">
             <p>
               {orderDetail.currency_symbol}
               {orderDetail.total}
             </p>
             <hr />
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
       {/* ******** Amount Recieved ************** */}
-      <div className="d-flex justify-content-end mt-5">
-        <div className="amount float-end">
+      <Box className="d-flex justify-content-end mt-5">
+        <Box className="amount float-end">
           <p>Amount Paid</p>
           <p style={{ fontSize: 25 }}>
             {orderDetail.currency_symbol}
             {orderDetail.total}
           </p>
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       {orderDetail && (orderDetail.over_payment > 0 || orderDetail.over_paid > 0) && (
-        <div className="over-payment">
+        <Box className="over-payment">
           <h5>Overpayment</h5>
           <h4>
             {orderDetail.currency_symbol}
             {orderDetail.over_payment || orderDetail.over_paid}
           </h4>
-        </div>
+        </Box>
       )}
       {orderDetail && orderDetail.refund_payment > 0 && (
-        <div className="over-payment">
+        <Box className="over-payment">
           <h5>Refunded</h5>
           <h4>
             {orderDetail.currency_symbol}
             {orderDetail.refund_payment}
           </h4>
-        </div>
+        </Box>
       )}
 
       {/* ********* Payment For  ************* */}
       {orderDetail[keyValue] && orderDetail[keyValue].length > 0 && (
-        <div className="row mt-5">
-          <div className="col-md-12">
+        <Box className="row mt-5">
+          <Box className="col-md-12">
             <h3 className="payment-for-heading">Payment For</h3>
-            <div className="payment-headings">
+            <Box className="payment-headings">
               {orderInfo.headCells.map(cell => (
                 <p key={uuid()}>{cell.label}</p>
               ))}
-            </div>
+            </Box>
             {orderInfo.showSaleSectionFooter ? (
               <ReceiptVoucherFooterDocument orderDetail={orderDetail} keyValue={keyValue} />
             ) : (
               <PurchaseVoucherFooterDocument orderDetail={orderDetail} keyValue={keyValue} />
             )}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )}
     </>
   );

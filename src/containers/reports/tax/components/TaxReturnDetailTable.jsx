@@ -9,7 +9,7 @@ import { VAT_CHARGES } from 'utilities/constants';
 
 function TaxReturnDetailTable({ taxReturnResponse, mainTitle, headCells, tableBody, tableStyles }) {
   const getTaxRate = item => {
-    if (item.tax_id >= 0) {
+    if (item.tax_id >= 0 && VAT_CHARGES[item.tax_id]?.label) {
       return `&tax_rate=${VAT_CHARGES[item.tax_id].label}`;
     }
     return `&tax_rate=${VAT_CHARGES[1].label}`;

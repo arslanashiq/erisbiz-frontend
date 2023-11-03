@@ -9,7 +9,8 @@ import { useDeleteExpenseMutation, useGetExpensesListQuery } from 'services/priv
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utlities
+// utlities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { expensesHeadCells } from '../utilities/head-cells';
 
@@ -59,7 +60,7 @@ function ExpensesListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Expense
               </>
             ),

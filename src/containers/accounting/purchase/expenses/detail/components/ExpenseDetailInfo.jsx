@@ -23,36 +23,34 @@ function ExpenseDetailInfo({ expense }) {
         </Stack>
         <Typography>{expense?.status?.toUpperCase()}</Typography>
         <Stack
-          sx={{
-            ...topSpacing,
-            ...textColor,
-            display: 'inline-flex',
-            padding: '8px 40px',
-            backgroundColor: '#FBFAFA',
-          }}
+          display="inline-flex"
+          padding="8px 40px"
+          backgroundColor="#FBFAFA"
+          {...topSpacing}
+          {...textColor}
         >
           <Typography>{expense.expense_account && expense?.expense_account?.account_name}</Typography>
         </Stack>
-        <Stack sx={topSpacing}>
-          <Typography sx={{ ...textColor }}>Paid Through</Typography>
+        <Stack {...topSpacing}>
+          <Typography {...topSpacing}>Paid Through</Typography>
           <Typography>
             {expense.paid_through_account && expense?.paid_through_account?.account_name}
           </Typography>
         </Stack>
         {expense.reference_num && (
-          <Stack sx={topSpacing}>
+          <Stack {...topSpacing}>
             <Typography>Ref #</Typography>
             <Typography> {expense?.reference_num}</Typography>
           </Stack>
         )}
         {expense.tax_rate && (
-          <Stack sx={topSpacing}>
+          <Stack {...topSpacing}>
             <Typography>Tax</Typography>
             <Typography>{expense?.tax_rate}</Typography>
           </Stack>
         )}
         {expense.tax_rate && (
-          <Stack sx={topSpacing}>
+          <Stack {...topSpacing}>
             <Typography>Tax Amount</Typography>
             <Typography>
               {expense.currency_symbol}
@@ -61,7 +59,7 @@ function ExpenseDetailInfo({ expense }) {
           </Stack>
         )}
         {expense.supplier && (
-          <Stack sx={topSpacing}>
+          <Stack {...topSpacing}>
             <Typography>Paid To</Typography>
             <Typography>
               <Link to={`/pages/accounting/purchases/suppliers/${expense.supplier.id}/detail`}>

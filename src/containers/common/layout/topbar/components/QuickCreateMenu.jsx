@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import AddIcon from '@mui/icons-material/Add';
-import MenuIcon from '@mui/icons-material/Menu';
-import RedeemIcon from '@mui/icons-material/Redeem';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import AddIcon from '@mui/icons-material/Add';
+import { useNavigate } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import {
+  menuItem,
+  menuItemIcon,
+  menuItemLabel,
+  quickCreateMenu,
+  quickCreateMenuHeader,
+} from 'styles/mui/common/layouts/topbar/components/quick-create-menu';
 import { generalOptions, purchaseOptions, salesOptions } from '../utilities/constant';
-import 'styles/topbar/quick-create-menu.scss';
 
 function QuickCreateMenu() {
   const navigate = useNavigate();
@@ -18,16 +24,16 @@ function QuickCreateMenu() {
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = link => {
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLinkClick = link => {
     setAnchorEl(null);
     if (link) {
       setTimeout(() => {
         navigate(link);
       }, 500);
     }
-  };
-  const handleLinkClick = link => {
-    handleClose(link);
   };
   const renderMenuItem = option => (
     <Stack
@@ -36,13 +42,12 @@ function QuickCreateMenu() {
       style={{ textDecoration: 'none' }}
       onClick={() => handleLinkClick(option.to)}
     >
-      <MenuItem className="menu-item">
-        <AddIcon className="menu-item-icon" />
-        <Typography className="menu-item-label">{option.label}</Typography>
+      <MenuItem sx={menuItem}>
+        <AddIcon sx={menuItemIcon} />
+        <Typography sx={menuItemLabel}>{option.label}</Typography>
       </MenuItem>
     </Stack>
   );
-
   return (
     <div>
       <Tooltip title="Quick Create" placement="bottom" arrow>
@@ -58,28 +63,28 @@ function QuickCreateMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <Box display="flex" className="quick-create-menu">
+        <Box display="flex" sx={quickCreateMenu}>
           <Box>
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center', marginBottom: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center" mb={2}>
               <MenuIcon />
-              <Typography className="quick-create-menu-header">GENERAL</Typography>
+              <Typography sx={quickCreateMenuHeader}>GENERAL</Typography>
             </Stack>
 
             {generalOptions.map(option => renderMenuItem(option))}
           </Box>
 
           <Box>
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center', marginBottom: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center" mb={2}>
               <RedeemIcon />
-              <Typography className="quick-create-menu-header">SALES</Typography>
+              <Typography sx={quickCreateMenuHeader}>SALES</Typography>
             </Stack>
 
             {salesOptions.map(option => renderMenuItem(option))}
           </Box>
           <Box>
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center', marginBottom: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center" mb={2}>
               <ShoppingBasketIcon />
-              <Typography className="quick-create-menu-header">PURCHASE</Typography>
+              <Typography sx={quickCreateMenuHeader}>PURCHASE</Typography>
             </Stack>
 
             {purchaseOptions.map(option => renderMenuItem(option))}

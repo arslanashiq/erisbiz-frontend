@@ -10,7 +10,8 @@ import {
 } from 'services/private/receipt-voucher';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
-// containers
+// utilities  and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { receiptVoucherHeadCells } from '../utilities/head-cells';
 
@@ -54,7 +55,7 @@ function ReceiptVoucher() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Receipt Voucher
               </>
             ),

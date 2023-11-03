@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Formik, Form, ErrorMessage } from 'formik';
 import PersonIcon from '@mui/icons-material/Person';
 import { EMAIL_REGEX } from 'utilities/constants';
@@ -31,16 +31,16 @@ function ForgetPassword() {
       >
         {({ isSubmitting }) => (
           <Form className="form auth-form">
-            <div className="form__form-group">
+            <Box className="form__form-group">
               <span className="form__form-group-label">Email</span>
-              <div className="form__form-group-field">
-                <div className="form__form-group-icon">
+              <Box className="form__form-group-field">
+                <Box className="form__form-group-icon">
                   <PersonIcon />
-                </div>
+                </Box>
                 <FormikField name="email" type="text" placeholder="Email" />
-              </div>
+              </Box>
               <ErrorMessage className="form__form-group-error" component="span" name="email" />
-            </div>
+            </Box>
             <Button
               size="large"
               type="submit"

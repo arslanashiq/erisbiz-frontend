@@ -18,7 +18,19 @@ import FormikSelect from 'shared/components/form/FormikSelect';
 import { registerCompanyInitialValues } from 'containers/auth/utilities/initialValues';
 // styles
 import 'styles/form/auth-form.scss';
-import palette from 'styles/mui/theme/palette';
+import {
+  registerCompanyChildWrapperStyle,
+  registerCompanyFormTitleStyle,
+  registerCompanyFormLogoStyle,
+  registerCompanyParentWrapperStyle,
+  registerCompanyFormWrapperStyle,
+  registerCompanyCompanyLogoWrapperStyle,
+  registerCompanyCompanyLogoStyle,
+  registerCompanyCompanyInnerFormWrapperStyle,
+  registerCompanyUploadLogoIconStyle,
+  registerCompanyUploadLogoTypography,
+  registerCompanySubmitButton,
+} from 'styles/mui/container/auth/register-company/components/register-company-form';
 // components
 import SecurityQuestions from './SecurityQuestions';
 
@@ -48,23 +60,14 @@ function RegisterCompanyForm() {
     return <Navigate to="/" replace />;
   }
   return (
-    <Stack className="main__wrapper" sx={{ height: '100vh', alignItems: 'center' }}>
-      <Stack sx={{ width: '100%', maxWidth: 600 }}>
+    <Stack className="main__wrapper" sx={registerCompanyParentWrapperStyle}>
+      <Stack sx={registerCompanyChildWrapperStyle}>
         <Stack alignItems="center">
-          <img src="/logo.png" alt="company-logo" style={{ maxWidth: 250 }} />
-          <Typography
-            sx={{
-              textAlign: 'center',
-              fontSize: 20,
-              fontWeight: 'bold',
-              color: palette.primary.main,
-            }}
-          >
-            Set up Your Company Profile
-          </Typography>
+          <img src="/logo.png" alt="company-logo" style={registerCompanyFormLogoStyle} />
+          <Typography sx={registerCompanyFormTitleStyle}>Set up Your Company Profile</Typography>
         </Stack>
 
-        <Stack sx={{ borderTop: `1px solid ${palette.primary.main}` }}>
+        <Stack sx={registerCompanyFormWrapperStyle}>
           <Formik
             initialValues={registerCompanyInitialValues}
             onSubmit={async (values, { setSubmitting, setErrors }) => {
@@ -90,7 +93,7 @@ function RegisterCompanyForm() {
           >
             {({ values, isSubmitting, setFieldValue }) => (
               <Form>
-                <Stack sx={{ maxWidth: 600, padding: '0px 30px' }}>
+                <Stack sx={registerCompanyCompanyInnerFormWrapperStyle}>
                   <Grid container>
                     {/* company Name */}
                     <MuiFormikField
@@ -132,29 +135,21 @@ function RegisterCompanyForm() {
                       <Grid item xs={12} md={6} className="mt-2 col-md-6">
                         <Typography>Company Logo</Typography>
                         <Stack
-                          sx={{
-                            cursor: 'pointer',
-                            backgroundColor: '#eaeaea',
-                            height: 180,
-                            width: '100%',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            '&:hover': { backgroundColor: '#e0e0e0' },
-                          }}
+                          sx={registerCompanyCompanyLogoWrapperStyle}
                           onClick={() => {
                             imageInputRef.current.click();
                           }}
                         >
                           {values.logo ? (
                             <img
-                              style={{ height: 170, width: '100%', objectFit: 'contain' }}
+                              style={registerCompanyCompanyLogoStyle}
                               src={URL.createObjectURL(values.logo)}
                               alt="company main profile logo"
                             />
                           ) : (
                             <>
-                              <ImageIcon sx={{ fontSize: 100 }} />
-                              <Typography sx={{ fontSize: 14 }}>Upload Logo</Typography>
+                              <ImageIcon sx={registerCompanyUploadLogoIconStyle} />
+                              <Typography sx={registerCompanyUploadLogoTypography}>Upload Logo</Typography>
                             </>
                           )}
 
@@ -195,7 +190,7 @@ function RegisterCompanyForm() {
                       <FieldArray name="security_question" component={SecurityQuestions} />
                     </Grid>
                     <Grid xs={12}>
-                      <Button disabled={isSubmitting} type="submit" sx={{ fontSize: 18, width: '100%' }}>
+                      <Button disabled={isSubmitting} type="submit" sx={registerCompanySubmitButton}>
                         Register
                       </Button>
                     </Grid>

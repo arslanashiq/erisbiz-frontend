@@ -64,9 +64,9 @@ function TaxReturnDetailReport() {
         </Ribbon>
         <Card>
           <CardContent>
-            <Card sx={{ marginTop: 5 }}>
+            <Card className="mt-5">
               <CardContent>
-                <Grid container className="tax-return-detail" sx={{ padding: '0px 30px' }}>
+                <Grid container className="tax-return-detail" padding="0px 30px">
                   <Grid item xs={6} md={4}>
                     <Stack spacing={1}>
                       <Typography>Tax Period :</Typography>
@@ -94,19 +94,14 @@ function TaxReturnDetailReport() {
                     </Stack>
                   </Grid>
 
-                  <Grid
-                    item
-                    xs={12}
-                    md={4}
-                    sx={{ display: 'flex', justifyContent: 'end', alignItems: 'center' }}
-                  >
+                  <Grid item xs={12} md={4} display="flex" justifyContent="end" alignItems="center">
                     <Button onClick={handleClick}>{isFiled ? 'Mark as Unflie' : 'Mark as Filed'}</Button>
                   </Grid>
                 </Grid>
               </CardContent>
             </Card>
-            <Stack sx={{ width: '100%', justifyContent: 'center', textAlign: 'center', marginTop: 5 }}>
-              <Typography sx={{ fontSize: 24 }}>{COMPANY_NAME}</Typography>
+            <Stack width="100%" justifyContent="center" textAlign="center" marginTop={5}>
+              <Typography fontSize={24}>{COMPANY_NAME}</Typography>
               <Typography>
                 {moment(taxResturnDetailResponse?.data?.start_date).format(DATE_FILTER_REPORT)}-
                 {moment(taxResturnDetailResponse?.data?.end_date).format(DATE_FILTER_REPORT)}

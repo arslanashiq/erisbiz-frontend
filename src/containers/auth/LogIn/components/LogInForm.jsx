@@ -35,8 +35,8 @@ function LogInForm() {
   };
 
   return (
-    <Stack sx={loginFormParentWrapperStyle}>
-      <Stack sx={loginFormChildWrapperStyle}>
+    <Stack {...loginFormParentWrapperStyle}>
+      <Stack {...loginFormChildWrapperStyle}>
         <Grid item xs={12} className="mb-3">
           <Typography sx={loginFormMainHeadingStyle}>{'Let\'s Get Started!'}</Typography>
           <Typography>Enter Your credentials to access your account</Typography>

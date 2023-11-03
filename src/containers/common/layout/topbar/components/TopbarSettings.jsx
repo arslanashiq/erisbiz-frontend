@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Tooltip, Typography, Menu, MenuItem } from '@mui/material';
-import 'styles/topbar/topbar-setting.scss';
+import {
+  topbarSettingMenuItem,
+  topbarSettingMenuItemLink,
+  topbarSettingMenuItemOption,
+} from 'styles/mui/common/layouts/topbar/components/topbar-setting';
 
 const settingOptions = [
   {
@@ -50,11 +54,11 @@ function TopbarSettings() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <Box className="topbar-setting">
+        <Box>
           {settingOptions.map(option => (
-            <MenuItem key={option.title} className="topbar-setting-menu-item">
-              <Link className="topbar-setting-menu-item-link" to={option.path}>
-                <Typography className="topbar-setting-menu-item-option">{option.title}</Typography>
+            <MenuItem key={option.title} sx={topbarSettingMenuItem}>
+              <Link style={topbarSettingMenuItemLink} to={option.path}>
+                <Typography sx={topbarSettingMenuItemOption}>{option.title}</Typography>
               </Link>
             </MenuItem>
           ))}

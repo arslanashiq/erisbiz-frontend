@@ -79,8 +79,8 @@ function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
                 label="Paid Through"
                 className="col-12"
               />
-              <Stack sx={addTaxPaymentFormParentWrapperStyle}>
-                <Stack sx={addTaxPaymentFormChildWrapperStyle} spacing={2}>
+              <Stack {...addTaxPaymentFormParentWrapperStyle}>
+                <Stack {...addTaxPaymentFormChildWrapperStyle} spacing={2}>
                   <Stack direction="row" justifyContent="space-between">
                     <Typography sx={fontWeightBold}>Total Payable Tax</Typography>
                     <Typography sx={fontWeightBold}>{selectedTax?.total_tax_payable}</Typography>

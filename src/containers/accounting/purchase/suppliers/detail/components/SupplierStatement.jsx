@@ -9,30 +9,31 @@ import {
   supplierStatementBodyCellStyles,
   supplierStatementTable,
 } from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-statement';
+import { Box } from '@mui/material';
 
 function SupplierStatement({ basicInfo, transactions }) {
   return (
-    <div className="statement-template">
-      <div className="d-flex justify-content-between">
-        <div className="w-50">
+    <Box className="statement-template">
+      <Box className="d-flex justify-content-between">
+        <Box className="w-50">
           <img src="/logo.png" alt="" className="statement-logo" />
-        </div>
-        <div className="text-right">
+        </Box>
+        <Box className="text-right">
           <h5 className="font-weight-bold">Luxury Events and VIP Travel DMCC</h5>
           <p className="m-0">Office # 1206, JBC 4, Cluster N,</p>
           <p className="m-0">Jumeirah Lake Towers, Dubai,</p>
           <p className="m-0">United Arab Emirates</p>
           <p className="m-0">Phone: +971 4 379 9960</p>
           <p className="m-0">info@luxuryexplorersme.com</p>
-          <div className="my-2 ml-auto">
+          <Box className="my-2 ml-auto">
             <h3>Statement of Accounts</h3>
             <p className="border-top border-bottom">{`${basicInfo.startDate} To ${basicInfo.endDate}`}</p>
-          </div>
-        </div>
-      </div>
-      <div className="d-flex justify-content-between">
-        <div className="d-flex align-items-center">
-          <div className="w-100">
+          </Box>
+        </Box>
+      </Box>
+      <Box className="d-flex justify-content-between">
+        <Box className="d-flex align-items-center">
+          <Box className="w-100">
             <p className="font-weight-bold m-0 p-0">To</p>
             <a
               href={`/pages/accounting/purchase/suppliers/${basicInfo.supplierId}/detail`}
@@ -45,61 +46,61 @@ function SupplierStatement({ basicInfo, transactions }) {
             <p className="m-0 p-0">{basicInfo.supplierState}</p>
             <p className="m-0 p-0">{basicInfo.supplierCountry}</p>
             {basicInfo.trn && <p className="m-0 p-0 text-nowrap">TRN: {basicInfo.trn}</p>}
-          </div>
-        </div>
-        <div className="w-50">
-          <div className="bg-grey py-2 px-2">
+          </Box>
+        </Box>
+        <Box className="w-50">
+          <Box className="bg-grey py-2 px-2">
             <strong>Account Summary</strong>
-          </div>
+          </Box>
           {basicInfo.filterType !== 'outstanding' && (
-            <div className="row py-2 ps-2">
-              <div className="col-sm-6">
+            <Box className="row py-2 ps-2">
+              <Box className="col-sm-6">
                 <p>Opening Balance</p>
-              </div>
-              <div className="col-sm-6 text-right">
+              </Box>
+              <Box className="col-sm-6 text-right">
                 <p>
                   {basicInfo.currency_symbol}
                   {basicInfo.openingBalance}
                 </p>
-              </div>
-            </div>
+              </Box>
+            </Box>
           )}
-          <div className="row py-2 ps-2">
-            <div className="col-sm-6">
+          <Box className="row py-2 ps-2">
+            <Box className="col-sm-6">
               <p>Billed Amount</p>
-            </div>
-            <div className="col-sm-6 text-right">
+            </Box>
+            <Box className="col-sm-6 text-right">
               <p>
                 {basicInfo.currency_symbol}
                 {basicInfo.totalBilledAmount}
               </p>
-            </div>
-          </div>
-          <div className="row py-2 ps-2">
-            <div className="col-sm-6">
+            </Box>
+          </Box>
+          <Box className="row py-2 ps-2">
+            <Box className="col-sm-6">
               <p>Amount Paid</p>
-            </div>
-            <div className="col-sm-6 text-right">
+            </Box>
+            <Box className="col-sm-6 text-right">
               <p>
                 {basicInfo.currency_symbol}
                 {basicInfo.totalPaymentAmount}
               </p>
-            </div>
-          </div>
-          <div className="row border-top py-2 ps-2">
-            <div className="col-sm-6">
+            </Box>
+          </Box>
+          <Box className="row border-top py-2 ps-2">
+            <Box className="col-sm-6">
               <p>Balance Due</p>
-            </div>
-            <div className="col-sm-6 text-right">
+            </Box>
+            <Box className="col-sm-6 text-right">
               <p>
                 {basicInfo.currency_symbol}
                 {basicInfo.totalBalanceDue}
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <Box>
         <table
           style={supplierStatementTable}
           className="pcs-itemtable"
@@ -182,8 +183,8 @@ function SupplierStatement({ basicInfo, transactions }) {
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

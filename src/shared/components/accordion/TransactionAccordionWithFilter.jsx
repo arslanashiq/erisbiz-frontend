@@ -97,7 +97,7 @@ export default function TransactionAccordionWithFilter({
               {title}
             </Typography>
           </Stack>
-          <Stack direction="row" sx={{ position: 'absolute', top: 2, right: 10, zIndex: 100 }}>
+          <Stack direction="row" position="absolute" top={2} right={10} zIndex={100}>
             {FiltersList && (
               <Stack direction="row" justifyContent="center" alignItems="center">
                 <Typography sx={{ fontSize: 10, marginRight: 1 }}>Status:</Typography>

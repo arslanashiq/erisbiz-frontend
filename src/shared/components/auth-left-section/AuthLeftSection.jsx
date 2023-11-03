@@ -18,8 +18,8 @@ function AuthLeftSection() {
         </Stack>
         <img src="/auth-screen-gif.gif" alt="log" style={{ height: '50vh' }} />
       </Stack>
-      <Box sx={{ position: 'absolute', left: '49%', top: '20%' }}>
-        <Stack sx={{ border: 1.5, borderColor: mainColor, height: '50vh' }} />
+      <Box position="absolute" left="49%" top="20%">
+        <Stack border={1.5} borderColor={mainColor} height="50vh" />
       </Box>
     </>
   );

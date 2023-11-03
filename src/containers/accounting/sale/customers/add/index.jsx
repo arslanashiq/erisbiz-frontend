@@ -149,11 +149,11 @@ function AddCustomer() {
 
               {/* Communication Tab */}
               {activeTab === customerFormTabsList[0] && (
-                <div className="row form form--horizontal">
-                  <div className="col-md-6">
-                    <div className="form-label">
+                <Box className="row form form--horizontal">
+                  <Box className="col-md-6">
+                    <Box className="form-label">
                       <span>Invoice Address</span>
-                    </div>
+                    </Box>
                     {/* Address Line 1 */}
                     <FormikField
                       name="invoice_address_line1"
@@ -200,15 +200,15 @@ function AddCustomer() {
                     />
 
                     {/* Map */}
-                    <div className="form__form-group row">
+                    <Box className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
                       <FormikField name="invoice_longitude" placeholder="Longitude" className="col" />
                       <FormikField name="invoice_latitude" placeholder="Latitude" className="col" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-label">
+                    </Box>
+                  </Box>
+                  <Box className="col-md-6">
+                    <Box className="form-label">
                       <span>Delivery Address</span>
                       <Box
                         style={{ fontSize: 10, cursor: 'pointer' }}
@@ -217,7 +217,7 @@ function AddCustomer() {
                         <ContentCopyIcon sx={{ fontSize: 10 }} />
                         Copy Invoice Address
                       </Box>
-                    </div>
+                    </Box>
                     {/* Address Line 1 */}
                     <FormikField
                       name="delivery_address_line1"
@@ -264,19 +264,19 @@ function AddCustomer() {
                     />
 
                     {/* Map */}
-                    <div className="form__form-group row">
+                    <Box className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
                       <FormikField name="delivery_longitude" placeholder="Longitude" className="col" />
                       <FormikField name="delivery_latitude" placeholder="Latitude" className="col" />
-                    </div>
-                  </div>
-                </div>
+                    </Box>
+                  </Box>
+                </Box>
               )}
               {/* Payment And Delivery */}
               {activeTab === customerFormTabsList[1] && (
-                <div className="row form form--horizontal">
-                  <div className="col-md-6">
+                <Box className="row form form--horizontal">
+                  <Box className="col-md-6">
                     {/* Opening Balance */}
                     <FormikField
                       name="opening_balance"
@@ -294,12 +294,12 @@ function AddCustomer() {
                       label="Delivery Terms"
                       className="col-12"
                     />
-                  </div>
-                  <div className="col-md-6">
+                  </Box>
+                  <Box className="col-md-6">
                     {/* credit Limit */}
-                    <div className="form__form-group">
-                      <div className="form__form-group-label col-lg-2" />
-                      <div className="form__form-group-field">
+                    <Box className="form__form-group">
+                      <Box className="form__form-group-label col-lg-2" />
+                      <Box className="form__form-group-field">
                         <CheckBoxField
                           name="credit_limit"
                           label="Set Credit Limit($)"
@@ -307,26 +307,26 @@ function AddCustomer() {
                             setFieldValue('set_credit_limit', 0);
                           }}
                         />
-                      </div>
+                      </Box>
                       <FormikField
                         disabled={!values.credit_limit}
                         name="set_credit_limit"
                         type="number"
                         placeholder="0.0"
                       />
-                    </div>
+                    </Box>
                     {/* credit terms */}
-                    <div className="form__form-group">
-                      <div className="form__form-group-label col-lg-2" />
-                      <div className="form__form-group-field">
+                    <Box className="form__form-group">
+                      <Box className="form__form-group-label col-lg-2" />
+                      <Box className="form__form-group-field">
                         <CheckBoxField name="credit_terms" label="Set Credit Terms" />
-                      </div>
-                    </div>
+                      </Box>
+                    </Box>
                     {/* Set Credit Terms */}
-                    <div className="form__form-group">
+                    <Box className="form__form-group">
                       <span className="form__form-group-label col-lg-2" />
 
-                      <div
+                      <Box
                         disabled={!values?.credit_terms}
                         style={{
                           pointerEvents: values?.credit_terms ? 'auto' : 'none',
@@ -343,10 +343,10 @@ function AddCustomer() {
                           values={values}
                           errors={errors}
                         />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
               )}
               {/* COntact Info */}
               {activeTab === customerFormTabsList[2] && (
@@ -354,7 +354,7 @@ function AddCustomer() {
               )}
               {/* Comments and Notes */}
               {activeTab === customerFormTabsList[3] && (
-                <div className="row form form--horizontal">
+                <Box className="row form form--horizontal">
                   {/* COmments */}
                   <FormikField
                     name="comments_on_transactions"
@@ -373,7 +373,7 @@ function AddCustomer() {
                     label="Notes"
                     className="col-12"
                   />
-                </div>
+                </Box>
               )}
 
               <FormSubmitButton />

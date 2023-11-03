@@ -10,7 +10,8 @@ import {
 } from 'services/private/purchase-invoice';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
-// utilitues
+// utilitues and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
@@ -69,7 +70,7 @@ function SupplierCreditListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Purchase Invoice
               </>
             ),

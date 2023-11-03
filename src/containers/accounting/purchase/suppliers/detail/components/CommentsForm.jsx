@@ -2,7 +2,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 import { useParams } from 'react-router';
-import { Button, Stack } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 // services
 import { useAddSupplierCommentMutation } from 'services/private/suppliers';
 // shares
@@ -17,7 +17,7 @@ function CommentsForm() {
   const { id } = useParams();
   const [addComment] = useAddSupplierCommentMutation();
   return (
-    <div className="grey-bg p-4 border" style={{ maxWidth: 500, marginBottom: 20 }}>
+    <Box className="grey-bg p-4 border" style={{ maxWidth: 500, marginBottom: 20 }}>
       <Formik
         enableReinitialize
         initialValues={initialValues}
@@ -42,8 +42,8 @@ function CommentsForm() {
       >
         {({ isSubmitting }) => (
           <Form className="form form--horizontal row pt-3">
-            <div className="form__form-group">
-              <div className="form__form-group-field">
+            <Box className="form__form-group">
+              <Box className="form__form-group-field">
                 <FormikField
                   textArea
                   name="comments"
@@ -51,19 +51,19 @@ function CommentsForm() {
                   placeholder="Add Comment..."
                   className="col-12"
                 />
-              </div>
-            </div>
-            <div>
+              </Box>
+            </Box>
+            <Box>
               <Stack direction="row">
                 <Button color="primary" type="submit" disabled={isSubmitting} className="icon-btn">
                   Add Comment
                 </Button>
               </Stack>
-            </div>
+            </Box>
           </Form>
         )}
       </Formik>
-    </div>
+    </Box>
   );
 }
 

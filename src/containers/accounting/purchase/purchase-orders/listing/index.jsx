@@ -11,7 +11,8 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { purchaseOrderHeadCells } from '../utilities/head-cells';
 import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utilities/constants';
 
@@ -75,7 +76,7 @@ function PurchaseOrderListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Purchase Order
               </>
             ),

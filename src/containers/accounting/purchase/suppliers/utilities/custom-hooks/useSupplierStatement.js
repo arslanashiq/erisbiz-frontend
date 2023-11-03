@@ -3,7 +3,7 @@ import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
 // import { useLocation } from 'react-router-dom';
 
-function useSupplierStatement(supplierStatement) {
+function useSupplierStatement(supplierStatement, supplierTransactions) {
   // const location = useLocation();
   // const query = new URLSearchParams(location.search);
   // const startDate = query.get('startDate') || moment.now();
@@ -13,14 +13,14 @@ function useSupplierStatement(supplierStatement) {
   const [paymentTotal, setPaymentTotal] = useState(0);
   const [openingBalanceAmount, setOpeningBalanceAmount] = useState(0);
 
-  const sortStatementData = (a, b) => {
-    if (a.transaction_date === b.transaction_date) {
-      if (a.transaction_type === 'Opening Balance') return -1;
-      if (b.transaction_type === 'Opening Balance') return 1;
-      return a.created_at < b.created_at ? -1 : 1;
-    }
-    return a.transaction_date > b.transaction_date ? 1 : -1;
-  };
+  // const sortStatementData = (a, b) => {
+  //   if (a.transaction_date === b.transaction_date) {
+  //     if (a.transaction_type === 'Opening Balance') return -1;
+  //     if (b.transaction_type === 'Opening Balance') return 1;
+  //     return a.created_at < b.created_at ? -1 : 1;
+  //   }
+  //   return a.transaction_date > b.transaction_date ? 1 : -1;
+  // };
 
   useEffect(() => {
     const amountTypes = ['Bill', 'Debit Note Refund'];
@@ -37,9 +37,7 @@ function useSupplierStatement(supplierStatement) {
       paymentTypes.push('Supplier Opening Balance');
     }
 
-    const { transactions: supplierTransactions } = supplierStatement;
-
-    if (supplierTransactions) {
+    if (supplierTransactions?.length > 0) {
       let commulativeBalance = 0;
 
       const openingBalance = supplierTransactions.find(item => item.transaction_type === 'Opening Balance');
@@ -55,7 +53,7 @@ function useSupplierStatement(supplierStatement) {
         setOpeningBalanceAmount(0);
       }
 
-      const transactionsData = supplierTransactions.sort(sortStatementData).map(item => {
+      const transactionsData = supplierTransactions.map(item => {
         if (amountTypes.includes(item.transaction_type)) {
           commulativeBalance += item.total_amount;
         } else {
@@ -87,7 +85,7 @@ function useSupplierStatement(supplierStatement) {
 
       setTransactions(transactionsData);
     }
-  }, [supplierStatement]);
+  }, [supplierStatement, supplierTransactions]);
 
   const basicInfo = {
     supplierId: supplierStatement.id,

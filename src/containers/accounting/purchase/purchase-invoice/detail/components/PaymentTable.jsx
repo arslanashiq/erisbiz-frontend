@@ -8,7 +8,7 @@ import { paymentsAgainstPurchaseInvoiceHeadCells } from '../../utilities/head-ce
 
 function PaymentTable({ payments }) {
   return (
-    <Stack sx={{ fontSize: 13, justifyContent: 'center', maxWidth: 900 }}>
+    <Stack fontSize={13} justifyContent="center" maxWidth={900}>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
           <Typography>Payments Made</Typography>

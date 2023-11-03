@@ -13,7 +13,8 @@ import {
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utilities
+// utilities and styles
+import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { BankingHeadCells } from '../utilities/head-cells';
@@ -64,7 +65,7 @@ function BankListing() {
       </Helmet>
       <MuiTable
         showCheckbox
-        data={bankAccountListResponse?.data?.results}
+        data={bankAccountListResponse?.isSuccess ? bankAccountListResponse?.data?.results : []}
         totalDataCount={bankAccountListResponse?.data?.count}
         TableHeading="Banking"
         headCells={BankingHeadCells}
@@ -74,7 +75,7 @@ function BankListing() {
           {
             label: (
               <>
-                <AddIcon sx={{ fontSize: 15 }} />
+                <AddIcon sx={addButtonIconStyle} />
                 New Bank Account
               </>
             ),

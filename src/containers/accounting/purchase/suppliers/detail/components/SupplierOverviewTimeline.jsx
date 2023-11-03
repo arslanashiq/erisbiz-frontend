@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CommentIcon from '@mui/icons-material/Comment';
-import { CardContent, Grid } from '@mui/material';
+import { Box, CardContent, Grid } from '@mui/material';
 import moment from 'moment';
 // styles
 import 'styles/timeline/timeline.scss';
@@ -26,7 +26,7 @@ function TimeLineIcon({ type }) {
       break;
   }
 
-  return <div className={`timeline__icon ${type}`}>{Icon}</div>;
+  return <Box className={`timeline__icon ${type}`}>{Icon}</Box>;
 }
 TimeLineIcon.propTypes = {
   type: PropTypes.string,
@@ -37,10 +37,10 @@ TimeLineIcon.defaultProps = {
 export default function SupplierOverviewTimeline({ supplierActivity }) {
   return (
     <Grid>
-      <div className="timeline mx-auto">
+      <Box className="timeline mx-auto">
         {supplierActivity &&
           supplierActivity.map(item => (
-            <div className="timeline__item">
+            <Box className="timeline__item">
               <TimeLineIcon type="comments" />
 
               <CardContent className="timeline__content">
@@ -52,9 +52,9 @@ export default function SupplierOverviewTimeline({ supplierActivity }) {
                 </h4>
                 <p className="timeline__description">{item.description}</p>
               </CardContent>
-            </div>
+            </Box>
           ))}
-      </div>
+      </Box>
     </Grid>
   );
 }

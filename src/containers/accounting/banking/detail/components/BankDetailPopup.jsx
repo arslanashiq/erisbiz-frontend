@@ -14,6 +14,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  Box,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
@@ -25,6 +26,7 @@ import {
   bankDetailPopupCloseButtonStyle,
   bankDetailPopupInfoTitleStyle,
   bankDetailPopupInfoBodyStyle,
+  bankingDetailPopupStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 
 const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
@@ -86,7 +88,7 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
     }
   };
   return (
-    <div>
+    <Box>
       <InfoPopup
         open={infoPopup.open}
         infoDescription={infoPopup.infoDescription}
@@ -95,7 +97,7 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
         handleYes={handleConfirmDelete}
       />
       <Dialog
-        sx={{ zIndex: 1201 }}
+        sx={bankingDetailPopupStyle}
         open={open}
         TransitionComponent={Transition}
         keepMounted
@@ -124,9 +126,7 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
               <TableBody>
                 {bankOptions.map(row => (
                   <TableRow key={row.label}>
-                    <TableCell sx={{ ...bankDetailPopupInfoTitleStyle, ...bankDetailPopupInfoBodyStyle }}>
-                      {row.label}
-                    </TableCell>
+                    <TableCell sx={bankDetailPopupInfoTitleStyle}>{row.label}</TableCell>
                     <TableCell sx={bankDetailPopupInfoBodyStyle}>{row.value || 'N/A'}</TableCell>
                   </TableRow>
                 ))}
@@ -135,7 +135,7 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
           </DialogContent>
         </Stack>
       </Dialog>
-    </div>
+    </Box>
   );
 }
 BankDetailPopup.propTypes = {
