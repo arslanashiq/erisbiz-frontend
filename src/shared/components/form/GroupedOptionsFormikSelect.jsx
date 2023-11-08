@@ -55,8 +55,17 @@ class GroupedOptionsFormikSelect extends Component {
   };
 
   render() {
-    const { itemOptions, touched, name, value, error, customClass, placeholder, menuPosition, disabled } =
-      this.props;
+    const {
+      itemOptions,
+      touched,
+      name,
+      value,
+      error,
+      customClass,
+      placeholder,
+      menuPosition,
+      disabled,
+    } = this.props;
     return (
       <div
         // styles={{ height: 22 }}
@@ -77,7 +86,9 @@ class GroupedOptionsFormikSelect extends Component {
           styles={customStyles}
           menuPosition={menuPosition}
         />
-        {touched && error && <span className="form__form-group-error">{error}</span>}
+        {touched && error && (
+          <span className="form__form-group-error">{error}</span>
+        )}
       </div>
     );
   }
@@ -102,8 +113,8 @@ GroupedOptionsFormikSelect.defaultProps = {
   error: null,
   customClass: null,
   placeholder: null,
+  menuPosition: null,
   disabled: false,
-  menuPosition: 'fixed',
 };
 
 export default GroupedOptionsFormikSelect;

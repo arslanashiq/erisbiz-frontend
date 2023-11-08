@@ -103,6 +103,7 @@ function AddItemPage() {
                 name="item_name"
                 placeholder="Item Name"
                 label="Item Name"
+                isRequired
                 startIcon={<ShoppingBasketIcon />}
               />
               {/* sku/HS code */}
@@ -115,9 +116,21 @@ function AddItemPage() {
               />
 
               {/* Sale price */}
-              <FormikField type="number" name="sale_price" placeholder="Sale Price" label="Sale Price" />
+              <FormikField
+                type="number"
+                isRequired
+                name="sale_price"
+                placeholder="Sale Price"
+                label="Sale Price"
+              />
               {/* cost Price */}
-              <FormikField type="number" name="cost_price" placeholder="Cost Price" label="Cost Price" />
+              <FormikField
+                type="number"
+                isRequired
+                name="cost_price"
+                placeholder="Cost Price"
+                label="Cost Price"
+              />
 
               {/* Item Type */}
               <FormikSelect
@@ -135,6 +148,7 @@ function AddItemPage() {
                 options={ITEM_STATUS_OOPTIONS}
                 startIcon={<CheckCircleOutlineIcon />}
                 label="Status"
+                isRequired
               />
 
               {/* Account Number */}
@@ -187,6 +201,7 @@ function AddItemPage() {
                   options={brandsOptions}
                   label="Brand"
                   className="col-12"
+                  isRequired
                 />
               </Box>
 

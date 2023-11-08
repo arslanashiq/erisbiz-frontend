@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const bankFormValidationSchema = Yup.object({
-  bank_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Account Name is required'),
+  bank_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Bank Name is required'),
   account_number: Yup.string()
     .matches(/^[0-9]*$/, 'Enter numbers only')
     .max(50, 'Cannot exceed 50 characters')
@@ -17,7 +17,7 @@ export const bankFormValidationSchema = Yup.object({
 
   gl_number: Yup.string()
     .matches(/^[0-9]*$/, 'Enter numbers only')
-    .required('Account Number is required'),
+    .required('GL Number is required'),
   notes: Yup.string().max(255, 'Cannot exceed 255 chracters'),
 });
 export const test = '';

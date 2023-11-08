@@ -115,7 +115,8 @@ export default function MuiTable({
       handleEdit(data, selected, openInfoPopup, setOpenInfoPopup);
     } else {
       const selectedData = data.filter(item => item.id === selected[0] || item.uuid === selected[0]);
-      if (selectedData[0].status !== 'draft') {
+
+      if (selectedData[0]?.status && selectedData[0].status !== 'draft') {
         setOpenInfoPopup({
           ...openInfoPopup,
           status: true,

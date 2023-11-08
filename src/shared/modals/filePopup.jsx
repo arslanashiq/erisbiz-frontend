@@ -89,13 +89,19 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
                 borderBottom={1}
                 padding="10px 10px"
               >
-                <InsertDriveFileIcon color="primary" fontSize={50} />
+                <InsertDriveFileIcon color="primary" sx={{ fontSize: 50 }} />
                 <Stack maxWidth={300}>
-                  <Typography noWrap color="primary" width={200} fontSize={14} textOverflow="ellipsis">
+                  <Typography
+                    noWrap
+                    color="primary"
+                    width={200}
+                    sx={{ fontSize: 14 }}
+                    textOverflow="ellipsis"
+                  >
                     {file.doc_name || file.name}
                   </Typography>
 
-                  <Stack direction="row" fontSize={11} color="grey">
+                  <Stack direction="row" sx={{ fontSize: 11 }} color="grey">
                     File Size:{convertFileSize(file.doc_size_bytes || file.size)}
                   </Stack>
 
@@ -121,7 +127,7 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
               fileInputRef.current.click();
             }}
           >
-            <UploadFileIcon color="primary" fontSize={40} />
+            <UploadFileIcon color="primary" sx={{ fontSize: 40 }} />
             <Typography color="primary">Upload File</Typography>
           </Stack>
           <input ref={fileInputRef} type="file" hidden onChange={handleSelectFiles} />

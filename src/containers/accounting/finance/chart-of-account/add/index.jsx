@@ -23,6 +23,7 @@ import useListOptions from 'custom-hooks/useListOptions';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
+import { getAccountTypesOptions } from 'utilities/get-account-type-options';
 import { chartOfAccountInitialValues } from '../utilities/initial-values';
 // styles
 import 'styles/form/form.scss';
@@ -37,10 +38,16 @@ function AddChartOfAccount() {
   const [addChartOfAccount] = useAddChartOfAccountMutation();
   const [editChartOfAccount] = useEditaddChartOfAccountMutation();
 
-  const { optionsList: accountTypeListOption } = useListOptions(accountTypesResponse?.data?.results, {
-    label: 'account_type_formatted',
-    value: 'id',
-  });
+  const { optionsList: accountTypeListOption } = useListOptions(
+    accountTypesResponse?.data?.results,
+    {
+      label: 'account_type_formatted',
+      value: 'id',
+    },
+    ['account_group']
+  );
+  const sortedAccountType = getAccountTypesOptions(accountTypeListOption);
+
   const { initialValues } = useInitialValues(
     chartOfAccountInitialValues,
     useGetSingleChartOfAccountQuery,
@@ -91,7 +98,7 @@ function AddChartOfAccount() {
                   label="Account Name"
                 />
                 <FormikSelect
-                  options={accountTypeListOption}
+                  options={sortedAccountType}
                   name="account_type"
                   type="text"
                   placeholder="Account Type"

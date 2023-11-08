@@ -11,12 +11,16 @@ import {
   useEditBankAccountMutation,
   useGetSingleBankAccountQuery,
 } from 'services/private/banking';
+import { useGetChartOfAccountTypesQuery } from 'services/private/chart-of-account';
 
 // COMPONENTS & UTILITIES & STYLES
 import FormikField from 'shared/components/form/FormikField';
+import FormikSelect from 'shared/components/form/FormikSelect';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import useListOptions from 'custom-hooks/useListOptions';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+import { getAccountTypesOptions } from 'utilities/get-account-type-options';
 import { bankingInitialValues } from '../utilities/initialValues';
 import { bankFormValidationSchema } from '../utilities/validationSchema';
 import 'styles/form/form.scss';
@@ -25,9 +29,22 @@ function AddBankAccountPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const accountTypesResponse = useGetChartOfAccountTypesQuery();
+
   const [addBankAccount] = useAddBankAccountMutation();
   const [editBankAccount] = useEditBankAccountMutation();
   const { initialValues } = useInitialValues(bankingInitialValues, useGetSingleBankAccountQuery);
+
+  const { optionsList: accountTypeListOption } = useListOptions(
+    accountTypesResponse?.data?.results,
+    {
+      label: 'account_type_formatted',
+      value: 'id',
+    },
+    ['account_group']
+  );
+
+  const accountsWithTypeAssets = getAccountTypesOptions(accountTypeListOption, 0);
   return (
     <Card>
       <CardContent>
@@ -64,6 +81,7 @@ function AddBankAccountPage() {
               type="text"
               placeholder="Bank Name"
               label="Bank Name"
+              isRequired
               startIcon={<AccountBalanceIcon />}
             />
             {/* Account Number */}
@@ -73,22 +91,43 @@ function AddBankAccountPage() {
               placeholder="Bank Account Number"
               startIcon={<PersonIcon />}
               label="Account Number"
+              isRequired
             />
             {/* Branch Name */}
-            <FormikField name="branch_name" type="text" label="Branch Name" />
+            <FormikField
+              name="branch_name"
+              type="text"
+              label="Branch Name"
+              placeholder="Branch Name"
+              isRequired
+            />
             {/* IBAN */}
             <FormikField
               name="IBAN"
               type="text"
               placeholder="International Bank Account Number"
               label="IBAN"
+              isRequired
             />
             {/* Swift Code */}
 
-            <FormikField name="swift_code" type="text" placeholder="Swift Code" label="Swift Code" />
+            <FormikField
+              name="swift_code"
+              isRequired
+              type="text"
+              placeholder="Swift Code"
+              label="Swift Code"
+            />
 
             {/* GL Number */}
-            <FormikField name="gl_number" type="text" placeholder="GL No" label="GL Number" />
+            <FormikSelect
+              options={accountsWithTypeAssets}
+              name="gl_number"
+              type="text"
+              isRequired
+              placeholder="GL No"
+              label="GL Number"
+            />
 
             {/* notes */}
 

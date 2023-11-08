@@ -58,7 +58,7 @@ function MuiTableToolbar(props) {
         ) : (
           <Box className="row w-100">
             <Box className="col-md-6">
-              <Typography sx={{ fontWeight: 'bold' }} variant="h6" id="tableTitle" component="Box">
+              <Typography sx={{ fontWeight: 'bold' }} variant="h6" id="tableTitle">
                 {TableHeading}
               </Typography>
             </Box>
