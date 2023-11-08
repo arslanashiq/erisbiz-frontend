@@ -70,7 +70,7 @@ function AddChartOfAccount() {
       </Helmet>
       <Card>
         <CardContent>
-          <FormHeader title="Chaer Of Account" />
+          <FormHeader title="Chart Of Account" />
           <Formik
             enableReinitialize
             initialValues={initialValues}

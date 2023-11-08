@@ -223,6 +223,10 @@
     background-color: $primary-color;
     color: white !important;
   }
-
+}
+.react-select__group-heading {
+  font-weight: bold;
+  font-size: 11px;
+  color: black;
 }
 // react-select end
