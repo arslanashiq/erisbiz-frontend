@@ -103,6 +103,7 @@ function AddChartOfAccount() {
                   type="text"
                   placeholder="Account Type"
                   label="Account Type"
+                  isGrouped
                 />
 
                 <FormikField name="description" type="text" textArea label="Description" className="col-12" />

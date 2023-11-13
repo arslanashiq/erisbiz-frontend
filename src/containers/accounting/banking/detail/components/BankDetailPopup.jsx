@@ -48,7 +48,7 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
     { label: 'Bank Name', value: bankDetail.bank_name },
     { label: 'Bank Account Name', value: bankDetail.bank_account_name },
     { label: 'Account Number', value: bankDetail.account_number },
-    { label: 'Branch Name', value: bankDetail.bank_branch_address },
+    { label: 'Branch Name', value: bankDetail.branch_name },
     { label: 'IBAN', value: bankDetail.IBAN },
     { label: 'Swift Code', value: bankDetail.swift_code },
   ];

@@ -8,6 +8,6 @@ export const registerCompanyInitialValues = {
   trade_license_number: '',
   location: '',
   website: '',
-  security_question: [],
+  security_question: [{}],
 };
 export const test = '';

@@ -72,7 +72,13 @@ function AddBrand() {
           >
             <Form className="form form--horizontal row mt-3">
               {/* Brand Name */}
-              <FormikField name="brand_name" type="text" placeholder="Brand Name" label="Brand Name" />
+              <FormikField
+                name="brand_name"
+                type="text"
+                placeholder="Brand Name"
+                label="Brand Name"
+                isRequired
+              />
 
               {/* Account Number */}
               <FormikSelect
@@ -80,6 +86,7 @@ function AddBrand() {
                 name="brand_region"
                 options={brandsRegionOptions}
                 label="Brand Region"
+                isRequired
               />
 
               <FormSubmitButton />

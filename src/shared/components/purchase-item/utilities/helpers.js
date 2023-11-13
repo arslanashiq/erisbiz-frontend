@@ -22,7 +22,7 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
   if (netAmount) {
     setFieldValue(`${name}.${index}.net_amount`, netAmount.toFixed(2));
   }
-  setFieldValue(`${name}.${index}.amount_ex_vat`, (grossTotal - values.discount).toFixed(2));
+  setFieldValue(`${name}.${index}.amount_ex_vat`, (grossTotal || 0 - values.discount || 0).toFixed(2));
 };
 export const handleChangeItem = (
   name,

@@ -16,6 +16,7 @@ import {
 import {
   useAddPurchaseInvoceMutation,
   useEditPurchaseInvoceMutation,
+  useGetLatestPurchaseInvoiceNumberQuery,
   useGetSinglePurchaseInvoiceQuery,
 } from 'services/private/purchase-invoice';
 import { useGetBankAccountsListQuery } from 'services/private/banking';
@@ -46,6 +47,7 @@ import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { purchaseInvoiceInitialValue } from '../utilities/constant';
 // styles
 import 'styles/form/form.scss';
+import { purchaseInvoiceFormValidationSchema } from '../utilities/validation-schema';
 
 function AddPurchaseInvoice() {
   const navigate = useNavigate();
@@ -57,12 +59,13 @@ function AddPurchaseInvoice() {
   const itemsListResponse = useGetItemsListQuery();
   const suppliersListResponse = useGetSuppliersListQuery();
   const bankAccountsListResponse = useGetBankAccountsListQuery();
-  const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery();
+  const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery(id ? '' : '?status=Issued');
+  const latestInvoiceNumber = useGetLatestPurchaseInvoiceNumberQuery({}, { skip: id });
 
   const [addPurchaseInvoice] = useAddPurchaseInvoceMutation();
   const [editPurchaseInvoice] = useEditPurchaseInvoceMutation();
 
-  const { initialValues, setInitialValues, isLoading } = useInitialValues(
+  const { initialValues, setInitialValues, isLoading, queryResponse } = useInitialValues(
     purchaseInvoiceInitialValue,
     useGetSinglePurchaseInvoiceQuery,
     null
@@ -161,7 +164,7 @@ function AddPurchaseInvoice() {
     selecteditem = selecteditem.pur_order_items.map(item => ({
       ...item,
       chart_of_account: values.credit_account,
-      amount_ex_vat: item.gross_amount - item.discount,
+      amount_ex_vat: item?.amount_ex_vat || item.gross_amount - item.discount,
     }));
     const selectedOrderItems = [...selecteditem];
     if (setFieldValue) setFieldValue('bill_items', selectedOrderItems);
@@ -169,26 +172,38 @@ function AddPurchaseInvoice() {
   };
 
   useEffect(() => {
-    if (purchaseId) {
-      setInitialValues({
-        ...initialValues,
+    let values = {};
+    if (purchaseId && purchaseOrderResponse) {
+      values = {
+        ...values,
         supplier_id: purchaseOrderResponse?.supplier_id,
-        pur_order: purchaseOrderResponse?.id,
+        pur_order_id: purchaseOrderResponse?.id,
         bill_docs: purchaseOrderResponse?.pur_order_docs || [],
         bill_items: purchaseOrderResponse?.pur_order_items || [],
         location: purchaseOrderResponse?.location,
         notes: purchaseOrderResponse?.remarks,
-      });
+      };
       handleGetPurchaseOrderAgainstSupplier(purchaseOrderResponse?.supplier_id);
     }
-  }, [purchaseId, purchaseOrderResponse, purchaseOrdersListResponse]);
+    if (latestInvoiceNumber?.data) {
+      values = {
+        ...values,
+        invoice_num: latestInvoiceNumber?.data?.latest_num,
+      };
+    }
+    if ((purchaseId && purchaseOrderResponse) || latestInvoiceNumber?.data) {
+      setInitialValues({
+        ...initialValues,
+        ...values,
+      });
+    }
+  }, [purchaseOrderResponse, purchaseOrdersListResponse, latestInvoiceNumber]);
 
   useEffect(() => {
-    if (!purchaseId) {
-      handleGetPurchaseOrderAgainstSupplier(initialValues?.supplier_id);
+    if (purchaseOrdersListResponse?.data) {
+      handleGetPurchaseOrderAgainstSupplier(queryResponse?.supplier_id || purchaseOrderResponse?.supplier_id);
     }
-  }, [initialValues, purchaseOrdersListResponse]);
-
+  }, [queryResponse, purchaseOrdersListResponse, purchaseOrderResponse]);
   return (
     <SectionLoader
       options={[
@@ -205,13 +220,12 @@ function AddPurchaseInvoice() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={bankFormValidationSchema}
+            validationSchema={purchaseInvoiceFormValidationSchema}
             onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
               let response = null;
               const payload = {
                 ...values,
                 due_date: values.invoice_date,
-                pur_order_id: values.pur_order,
                 bill_notes: [values.notes],
                 bill_docs: values.filesList || [],
                 status: values.status || 'draft',
@@ -235,7 +249,7 @@ function AddPurchaseInvoice() {
               if (id) {
                 response = await editPurchaseInvoice({ id, payload: formData });
               } else {
-                formData.append('bill_num', `#${values.invoice_num}`);
+                formData.append('bill_num', values.invoice_num);
                 response = await addPurchaseInvoice(formData);
               }
               setSubmitting(false);
@@ -250,26 +264,15 @@ function AddPurchaseInvoice() {
           >
             {({ setFieldValue, values }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Supplier */}
-                <FormikSelect
-                  options={suppliersListOptions}
-                  name="supplier_id"
-                  disabled={Boolean(purchaseId)}
-                  placeholder="Supplier"
-                  onChange={value => handleGetPurchaseOrderAgainstSupplier(value, setFieldValue)}
-                  label="Supplier"
-                />
-                {/* Purchase */}
+                {/* Supplier Invoice */}
 
-                <FormikSelect
-                  name="pur_order"
-                  placeholder="Purchase Order Number"
-                  options={purchaseOrdersListOptions}
-                  disabled={Boolean(purchaseId)}
-                  onChange={value => handleChangePurchaseOrderItem(value, values, setFieldValue)}
-                  startIcon={<TagIcon />}
-                  label="PO Number"
+                <FormikField
+                  name="invoice_num"
+                  placeholder="Purchase Invoice"
+                  label="Purchase Invoice"
+                  disabled
                 />
+
                 {/* due date */}
 
                 <FormikDatePicker
@@ -279,6 +282,29 @@ function AddPurchaseInvoice() {
                   label="Date"
                   startIcon={<CalendarMonthIcon />}
                 />
+                {/* Supplier */}
+                <FormikSelect
+                  options={suppliersListOptions}
+                  name="supplier_id"
+                  disabled={Boolean(purchaseId)}
+                  placeholder="Supplier"
+                  onChange={value => handleGetPurchaseOrderAgainstSupplier(value, setFieldValue)}
+                  label="Supplier"
+                  isRequired
+                />
+                {/* Purchase */}
+
+                <FormikSelect
+                  name="pur_order_id"
+                  placeholder="Purchase Order Number"
+                  options={purchaseOrdersListOptions}
+                  disabled={Boolean(purchaseId)}
+                  onChange={value => handleChangePurchaseOrderItem(value, values, setFieldValue)}
+                  startIcon={<TagIcon />}
+                  label="PO Number"
+                  isRequired
+                />
+
                 {/* Credit Acount */}
 
                 <FormikSelect
@@ -287,6 +313,7 @@ function AddPurchaseInvoice() {
                   placeholder="Credit Account"
                   label="Credit Account"
                   onChange={value => handleChangeChartOfAccount(value, values, 'bill_items', setFieldValue)}
+                  isRequired
                 />
 
                 {/* Location */}
@@ -314,15 +341,6 @@ function AddPurchaseInvoice() {
                   type="number"
                   placeholder="Supplier Invoice Number"
                   label="Supplier Inv No"
-                />
-
-                {/* Supplier Invoice */}
-
-                <FormikField
-                  name="invoice_num"
-                  type="number"
-                  placeholder="Supplier Invo"
-                  label="Supplier Invo"
                 />
 
                 {/* Item detail */}

@@ -69,7 +69,7 @@ function paymentVoucherListing() {
             label: (
               <>
                 <AddIcon sx={addButtonIconStyle} />
-                New Purchase Invoice
+                New Payment Voucher
               </>
             ),
             handleClick: () => navigate('add'),

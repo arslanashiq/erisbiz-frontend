@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
 import { Button, Card, Stack, Typography } from '@mui/material';
@@ -46,6 +46,59 @@ function SupplierDetail() {
   );
   const supplierActivityLogsResponse = useGetSupplierActivityLogsQuery(id);
   const supplierIncomeResponse = useGetSupplierIncomeQuery({ id, params: { duration: activityLogDuration } });
+
+  const actionsList = useMemo(
+    () => [
+      {
+        label: 'Edit',
+        handleClick: () => {
+          navigate(`/pages/accounting/purchase/suppliers/edit/${id}`);
+        },
+      },
+      {
+        label: 'Delete',
+        handleClick: () => {
+          let infoDescription =
+            'You cannot delete this Supplier beacuse this supplier is used in purchase Order';
+          let showActionButton = false;
+          infoDescription = 'Are you sure you want to delete?';
+          const {
+            have_expenses: haveExpense,
+            have_pur_orders: havePurchaseOrder,
+            have_bills: haveBills,
+            have_debit_notes: haveDebitNote,
+          } = supplierDetailResponse.data;
+          const canNotDelete = haveExpense || havePurchaseOrder || haveBills || haveDebitNote;
+
+          if (havePurchaseOrder) {
+            infoDescription =
+              'You cannot delete this Supplier beacuse this supplier is used in purchase Order';
+          }
+          if (haveExpense) {
+            infoDescription = 'You cannot delete this Supplier beacuse this supplier is used in Expenses';
+          }
+          if (haveBills) {
+            infoDescription = 'You cannot delete this Supplier beacuse this supplier is used in Bills';
+          }
+          if (haveDebitNote) {
+            infoDescription = 'You cannot delete this Supplier beacuse this supplier is used in Debit Notes';
+          }
+          if (!canNotDelete) {
+            showActionButton = true;
+          }
+
+          setPopup({
+            ...popup,
+            open: true,
+            message: infoDescription,
+            actionButton: showActionButton,
+          });
+        },
+      },
+    ],
+    [supplierDetailResponse]
+  );
+
   const handleChangeActivityDuration = value => {
     setActivityLogDuration(value.toLowerCase());
   };
@@ -68,12 +121,7 @@ function SupplierDetail() {
       <Stack direction="row" justifyContent="space-between" sx={{ margin: '10px auto' }}>
         <Typography className="item-name-wrapper">{supplierDetailResponse?.data?.supplier_name}</Typography>
         <Stack direction="row" spacing={2}>
-          <ActionMenu
-            actionsList={[
-              { label: 'Edit', handleClick: () => {} },
-              { label: 'Delete', handleClick: () => {} },
-            ]}
-          />
+          <ActionMenu actionsList={actionsList} />
           <Button
             onClick={() => {
               navigate(-1);

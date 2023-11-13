@@ -72,6 +72,10 @@ const chartOfAccountApi = privateApi.injectEndpoints({
       query: () => ({ url: '/api/accounting/accountant/accountTypes/', method: 'GET' }),
       providesTags: ['getChartOfAccountTypes'],
     }),
+    getSaleChartOfAccount: builder.query({
+      query: () => ({ url: '/api/accounting/accountant/chartOfAccounts/itemSale', method: 'GET' }),
+      providesTags: ['getSaleChartOfAccount'],
+    }),
   }),
 });
 
@@ -83,5 +87,6 @@ export const {
   useDeleteChartOfAccountMutation,
   useGetChartOfAccountTypesQuery,
   useGetSingleChartOfAccountDetailReportQuery,
+  useGetSaleChartOfAccountQuery,
 } = chartOfAccountApi;
 export const test = '';

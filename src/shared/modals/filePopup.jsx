@@ -83,7 +83,7 @@ function FilePopup({ open, handleClose, files, handleUploadFile, handleDeleteFil
           {files?.length > 0 &&
             files.map((file, index) => (
               <Stack
-                key={file?.name ?? file.doc_name}
+                key={file?.id || file?.name || file?.doc_name}
                 direction="row"
                 spacing={2}
                 borderBottom={1}

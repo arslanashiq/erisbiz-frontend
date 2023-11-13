@@ -1,16 +1,16 @@
 export const BankingHeadCells = [
   {
-    id: 'bank_account_name',
+    id: 'bank_name',
     numeric: false,
     disablePadding: true,
-    label: 'Account Name',
+    label: 'Bank Name',
     align: 'left',
     isLink: true,
   },
   {
-    id: 'bank_name',
+    id: 'branch_name',
     disablePadding: false,
-    label: 'Bank Name',
+    label: 'Branch Name',
     align: 'left',
   },
   {

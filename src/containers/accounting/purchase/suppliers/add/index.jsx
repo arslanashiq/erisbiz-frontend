@@ -31,6 +31,7 @@ import { supplierInitialValues } from '../utilities/constant';
 // components
 import CreditTermsRadioButtons from './components/CreditTermsRadioButtons';
 import 'styles/form/form.scss';
+import { supplierFormValidationSchema } from '../utilities/custom-hooks/validation-schema';
 
 function SupplierAddPage() {
   const { id } = useParams();
@@ -104,13 +105,19 @@ function SupplierAddPage() {
     <Card>
       <CardContent>
         <FormHeader title="Supplier Master" />
-        <Formik enableReinitialize initialValues={supplierFormInitialValues} onSubmit={handleSubmitForm}>
+        <Formik
+          enableReinitialize
+          validationSchema={supplierFormValidationSchema}
+          initialValues={supplierFormInitialValues}
+          onSubmit={handleSubmitForm}
+        >
           {({ values, isSubmitting, touched, resetForm, setFieldValue, errors }) => (
             <Form className="form form--horizontal row pt-3">
               {/* supplier name */}
               <FormikField
                 name="supplier_name"
                 type="text"
+                isRequired
                 placeholder="Supplier Name"
                 onChange={value => {
                   setFieldValue('account_payee', value);
@@ -164,96 +171,104 @@ function SupplierAddPage() {
               {/* Communication Tab */}
               {activeTab === supplierFormTabsList[0] && (
                 <Box className="row form form--horizontal">
-                  {/* Address Line 1 */}
+                  <Box className="col-md-6">
+                    {/* Address Line 1 */}
 
-                  <FormikField
-                    name="address_line1"
-                    type="text"
-                    placeholder="Address Line 1"
-                    label="Address Line 1"
-                  />
+                    <FormikField
+                      name="address_line1"
+                      type="text"
+                      placeholder="Address Line 1"
+                      label="Address Line 1"
+                      className="col-12"
+                    />
 
-                  {/* Credit Limit */}
-                  <Box className="form__form-group col-md-6">
-                    <span className="form__form-group-label  col-lg-2" />
-                    <Box className="row">
-                      <Box className="form__form-group-field col-12">
+                    {/* Address Line 2 */}
+
+                    <FormikField
+                      className="col-12"
+                      name="address_line2"
+                      type="text"
+                      placeholder="Address Line 2"
+                      label="Address Line 2"
+                    />
+
+                    {/* Country */}
+
+                    <FormikSelect
+                      className="col-12"
+                      options={countryOptions}
+                      name="country"
+                      placeholder="Country"
+                      label="Country"
+                    />
+
+                    {/* CIty */}
+                    <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
+                    {/* Map */}
+                    <Box className="form__form-group col-12">
+                      <span className="form__form-group-label col-lg-2 required">Map</span>
+                      <Box className="form__form-group-field">
+                        <FormikField name="longitude" placeholder="Longitude" className="col pe-2" />
+
+                        <FormikField name="latitude" type="text" placeholder="Latitude" className="col" />
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Box className="col-md-6">
+                    {/* Credit Limit */}
+                    <Box className="form__form-group col-12">
+                      <span className="form__form-group-label  col-lg-2" />
+                      <Box className="row">
+                        <Box className="form__form-group-field col-12">
+                          <CheckBoxField
+                            name="credit_limit"
+                            onChange={e => {
+                              setFieldValue('set_credit_limit', 0);
+                              setFieldValue(e?.target?.name, e?.target?.checked);
+                            }}
+                            label="Set Credit Limit ($)"
+                          />
+
+                          <FormikField
+                            disabled={!values?.credit_limit}
+                            className="col-4"
+                            name="set_credit_limit"
+                            type="number"
+                            placeholder="0.00"
+                          />
+                        </Box>
                         <CheckBoxField
-                          name="credit_limit"
+                          name="credit_terms"
+                          value={values.credit_terms}
                           onChange={e => {
-                            setFieldValue('set_credit_limit', 0);
                             setFieldValue(e?.target?.name, e?.target?.checked);
                           }}
-                          label="Set Credit Limit ($)"
-                        />
-
-                        <FormikField
-                          disabled={!values?.credit_limit}
-                          className="col-4"
-                          name="set_credit_limit"
-                          type="number"
-                          placeholder="0.00"
+                          label="Set Credit Terms"
                         />
                       </Box>
-                      <CheckBoxField
-                        name="credit_terms"
-                        value={values.credit_terms}
-                        onChange={e => {
-                          setFieldValue(e?.target?.name, e?.target?.checked);
-                        }}
-                        label="Set Credit Terms"
-                      />
                     </Box>
-                  </Box>
-                  {/* Address Line 2 */}
+                    {/* Credit Terms */}
+                    <Box className="form__form-group col-12">
+                      <span className="form__form-group-label col-lg-2" />
 
-                  <FormikField
-                    name="address_line2"
-                    type="text"
-                    placeholder="Address Line 2"
-                    label="Address Line 2"
-                  />
-                  {/* Credit Terms */}
-                  <Box className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2" />
-
-                    <Box
-                      disabled={!values?.credit_terms}
-                      style={{
-                        pointerEvents: values?.credit_terms ? 'auto' : 'none',
-                        opacity: values?.credit_terms ? 1 : 0.2,
-                      }}
-                      className="form__form-group-field"
-                    >
-                      <CreditTermsRadioButtons
-                        name="set_credit_terms"
-                        onChange={value => {
-                          setFieldValue('days_after_invoice', 0);
-                          setFieldValue('set_credit_terms', value);
+                      <Box
+                        disabled={!values?.credit_terms}
+                        style={{
+                          pointerEvents: values?.credit_terms ? 'auto' : 'none',
+                          opacity: values?.credit_terms ? 1 : 0.2,
                         }}
-                        values={values}
-                        errors={errors}
-                      />
-                    </Box>
-                  </Box>
-                  {/* Country */}
-
-                  <FormikSelect
-                    options={countryOptions}
-                    name="country"
-                    placeholder="Country"
-                    label="Country"
-                  />
-
-                  {/* CIty */}
-                  <FormikField name="city" type="text" placeholder="City" label="City" />
-                  {/* Map */}
-                  <Box className="form__form-group col-md-6">
-                    <span className="form__form-group-label col-lg-2 required">Map</span>
-                    <Box className="form__form-group-field">
-                      <FormikField name="longitude" placeholder="Longitude" className="w-100 pe-2" />
-
-                      <FormikField name="latitude" type="text" placeholder="Latitude" />
+                        className="form__form-group-field"
+                      >
+                        <CreditTermsRadioButtons
+                          name="set_credit_terms"
+                          onChange={value => {
+                            setFieldValue('days_after_invoice', 0);
+                            setFieldValue('set_credit_terms', value);
+                          }}
+                          values={values}
+                          errors={errors}
+                        />
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
@@ -278,6 +293,7 @@ function SupplierAddPage() {
                   <FormikSelect
                     options={bankAccountOptions}
                     name="account_default"
+                    isRequired
                     placeholder="Account Default"
                     label="Account Default"
                     onChange={value => handleChangeBank(setFieldValue, value)}
@@ -285,22 +301,29 @@ function SupplierAddPage() {
 
                   {/* IBAN */}
 
-                  <FormikField name="IBAN" placeholder="IBAN" label="IBAN" />
+                  <FormikField name="IBAN" placeholder="IBAN" label="IBAN" disabled />
 
                   {/* Bank Name and Account Name */}
 
-                  <FormikField name="bank_name" placeholder="bank Name" label="bank Name" />
+                  <FormikField name="bank_name" placeholder="bank Name" label="bank Name" disabled />
 
                   <FormikField
                     name="account_number"
                     type="text"
                     placeholder="Account Number"
                     label="Account Number"
+                    disabled
                   />
 
                   {/* Account Detail,Vat Reverse and radio Button */}
 
-                  <FormikField name="swift_code" type="number" placeholder="Swift Code" label="Swift Code" />
+                  <FormikField
+                    name="swift_code"
+                    type="number"
+                    placeholder="Swift Code"
+                    label="Swift Code"
+                    disabled
+                  />
 
                   <FormikField
                     name="vat_number"

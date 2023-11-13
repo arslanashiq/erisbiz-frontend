@@ -40,7 +40,7 @@ function MuiTableToolbar(props) {
       >
         {numSelected > 0 ? (
           <>
-            <Stack direction="row" spacing={3} alignItems="center">
+            <Stack direction="row" spacing={2} alignItems="center">
               {numSelected === 1 && (
                 <Button onClick={handleEditSelection} size="small" className="text-capitalize ">
                   Edit

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Button, ButtonGroup, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 // services
@@ -10,6 +10,7 @@ import FilterDropdown from 'shared/components/filters/FilterDropdown';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
+import formatAmount from 'utilities/formatAmount';
 import { bankTransactionsHeadCells } from '../utilities/head-cells';
 import { bankTransactionFilterList } from '../utilities/constants';
 // components
@@ -17,17 +18,21 @@ import BankDetailPopup from './components/BankDetailPopup';
 
 function BankDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('1');
   const [transactionFilter, setTransactionFilter] = useState('this month');
   const [showBankDetailPopup, setShowBankDetailPopup] = useState(false);
   const bankAccountDetail = useGetSingleBankAccountQuery(id);
 
-  const bankTransactionsResponse = useGetBankTransactionsQuery({
-    id: bankAccountDetail?.data?.chart_of_account,
-    params: {
-      duration: transactionFilter,
+  const bankTransactionsResponse = useGetBankTransactionsQuery(
+    {
+      id: bankAccountDetail?.data?.chart_of_account,
+      params: {
+        duration: transactionFilter,
+      },
     },
-  });
+    { skip: !bankAccountDetail?.data?.chart_of_account }
+  );
   const handleChangeButton = e => {
     setActiveTab(e.target.value);
   };
@@ -58,7 +63,15 @@ function BankDetail() {
               className="d-flex align-items-center"
               justifyContent={{ xs: 'start', md: 'end' }}
             >
-              <Stack>
+              <Stack direction="row" spacing={2}>
+                <Button
+                  className="text-capitalize"
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                >
+                  Back
+                </Button>
                 <Button className="text-capitalize" onClick={handleShowBankDetailPopup}>
                   <RemoveRedEyeIcon className="me-1" sx={{ fontSize: 18 }} />
                   View Bank Detail
@@ -70,7 +83,9 @@ function BankDetail() {
           <Grid container className="mb-2">
             <Grid item xs={12} md={6}>
               <Typography variant="body2">Amount</Typography>
-              <Typography variant="body1 color-dark font-weight-bold">AED-140.00</Typography>
+              <Typography variant="body1 color-dark font-weight-bold">
+                {formatAmount(bankTransactionsResponse?.data?.closing_balance || 0)}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container className="mb-2 d-flex d-flex justify-content-center">
@@ -115,7 +130,7 @@ function BankDetail() {
                 column: [
                   { colSpan: 1 },
                   { data: 'Total Debits and Credits' },
-                  { data: 'AED-0.0' },
+                  { data: formatAmount(bankTransactionsResponse?.data?.closing_balance || 0) },
                   { colSpan: 2 },
                 ],
               },
@@ -123,7 +138,7 @@ function BankDetail() {
                 column: [
                   { colSpan: 1 },
                   { data: 'Closing Balance' },
-                  { data: `AED-${bankTransactionsResponse?.data?.closing_balance || 0}.0` },
+                  { data: `${formatAmount(bankTransactionsResponse?.data?.closing_balance || 0)}` },
                   { colSpan: 2 },
                 ],
               },

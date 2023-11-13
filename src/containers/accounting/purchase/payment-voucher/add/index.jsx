@@ -32,6 +32,7 @@ import { PurchaseVoucherInitialValues } from '../utilities/initialValues';
 import UnPaidBillsList from './components/UnPaidBillsList';
 // styles
 import 'styles/form/form.scss';
+import { paymentVoucherFormValidationSchema } from '../utilities/validation-schema';
 
 function addPaymentVoucher() {
   const { id } = useParams();
@@ -116,7 +117,7 @@ function addPaymentVoucher() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={bankFormValidationSchema}
+            validationSchema={paymentVoucherFormValidationSchema}
             onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
               let response = null;
               const payload = {
@@ -149,6 +150,7 @@ function addPaymentVoucher() {
                   disabled={Boolean(supplierId)}
                   startIcon={<TagIcon />}
                   options={suppliersOptions}
+                  isRequired
                   onChange={selectedSupplier => handleChangeSupplier(selectedSupplier, null, setFieldValue)}
                 />
                 {/* Payment date */}
@@ -171,12 +173,14 @@ function addPaymentVoucher() {
                   placeholder="Payment Mode"
                   label="Payment Mode"
                   options={PAYMENT_MODE}
+                  isRequired
                 />
                 {/* Paid Through */}
                 <FormikSelect
                   name="chart_of_account_id"
                   placeholder="Paid Through"
                   label="Paid Through"
+                  isRequired
                   options={bankAccountOptions}
                 />
 

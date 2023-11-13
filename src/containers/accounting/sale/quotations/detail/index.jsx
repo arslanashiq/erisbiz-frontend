@@ -50,7 +50,7 @@ function QuotationDetailPage() {
         },
         {
           label: 'Currency',
-          value: quotationsDetailResponse?.data?.location,
+          value: quotationsDetailResponse?.data?.currency,
         },
       ],
       box2: [

@@ -32,26 +32,26 @@ function ExpenseDetailInfo({ expense }) {
           <Typography>{expense.expense_account && expense?.expense_account?.account_name}</Typography>
         </Stack>
         <Stack {...topSpacing}>
-          <Typography {...topSpacing}>Paid Through</Typography>
+          <Typography sx={textColor}>Paid Through</Typography>
           <Typography>
             {expense.paid_through_account && expense?.paid_through_account?.account_name}
           </Typography>
         </Stack>
         {expense.reference_num && (
           <Stack {...topSpacing}>
-            <Typography>Ref #</Typography>
+            <Typography sx={textColor}>Ref #</Typography>
             <Typography> {expense?.reference_num}</Typography>
           </Stack>
         )}
         {expense.tax_rate && (
           <Stack {...topSpacing}>
-            <Typography>Tax</Typography>
+            <Typography sx={textColor}>Tax</Typography>
             <Typography>{expense?.tax_rate}</Typography>
           </Stack>
         )}
         {expense.tax_rate && (
           <Stack {...topSpacing}>
-            <Typography>Tax Amount</Typography>
+            <Typography sx={textColor}>Tax Amount</Typography>
             <Typography>
               {expense.currency_symbol}
               {formatAmount(expense.vat_total)}
@@ -60,7 +60,7 @@ function ExpenseDetailInfo({ expense }) {
         )}
         {expense.supplier && (
           <Stack {...topSpacing}>
-            <Typography>Paid To</Typography>
+            <Typography sx={textColor}>Paid To</Typography>
             <Typography>
               <Link to={`/pages/accounting/purchases/suppliers/${expense.supplier.id}/detail`}>
                 {expense.supplier.supplier_name}

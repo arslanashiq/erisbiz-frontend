@@ -29,7 +29,7 @@ function SupplierListing() {
     let actionButton = false;
 
     const haveExpense = checkSelectedDataUsed(data, selected, 'have_expenses');
-    const havePurchaseOrder = checkSelectedDataUsed(data, selected, 'havePurchaseOrder');
+    const havePurchaseOrder = checkSelectedDataUsed(data, selected, 'have_pur_orders');
     const haveBills = checkSelectedDataUsed(data, selected, 'have_bills');
     const haveDebitNotes = checkSelectedDataUsed(data, selected, 'have_debit_notes');
     if (haveExpense.length > 0) {
@@ -59,12 +59,12 @@ function SupplierListing() {
     });
   };
   const deleteSingleSupplier = async id => {
-    await deleteSupplier(id);
-    // if (deleteItemResp.data) {
-    enqueueSnackbar('Supplier Deleted Successfully', { variant: 'success' });
-    // } else {
-    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    // }
+    const response = await deleteSupplier(id);
+    if (response.error) {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    } else {
+      enqueueSnackbar('Supplier Deleted Successfully', { variant: 'success' });
+    }
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {

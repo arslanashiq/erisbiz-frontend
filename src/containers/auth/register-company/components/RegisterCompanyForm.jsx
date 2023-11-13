@@ -189,7 +189,7 @@ function RegisterCompanyForm() {
                     <Grid item xs={12}>
                       <FieldArray name="security_question" component={SecurityQuestions} />
                     </Grid>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                       <Button disabled={isSubmitting} type="submit" sx={registerCompanySubmitButton}>
                         Register
                       </Button>

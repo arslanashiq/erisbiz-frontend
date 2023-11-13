@@ -39,6 +39,7 @@ import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { purchaseOrderInitialValues } from '../utilities/initialValues';
 // styles
 import 'styles/form/form.scss';
+import { purchaseOrderFormValidationSchema } from '../utilities/validation-schema';
 
 function AddPurchaseOrder() {
   const { id } = useParams();
@@ -125,7 +126,7 @@ function AddPurchaseOrder() {
     if (!id) {
       setInitialValues({
         ...initialValues,
-        pur_order_num: latestPurchaseOrder?.data?.latest_num ? latestPurchaseOrder.data.latest_num + 1 : 1,
+        pur_order_num: latestPurchaseOrder?.data?.latest_num ? latestPurchaseOrder.data.latest_num : 1000,
       });
     }
   }, [latestPurchaseOrder]);
@@ -137,10 +138,8 @@ function AddPurchaseOrder() {
           <FormHeader title="Purchase Order" />
           <Formik
             enableReinitialize
-            initialValues={{
-              ...initialValues,
-            }}
-            // validationSchema={bankFormValidationSchema}
+            initialValues={initialValues}
+            validationSchema={purchaseOrderFormValidationSchema}
             onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
               let response = null;
               const payload = {
@@ -203,6 +202,7 @@ function AddPurchaseOrder() {
                 name="supplier_id"
                 placeholder="Supplier"
                 label="Supplier"
+                isRequired
               />
 
               {/* Reference Number */}

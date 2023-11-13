@@ -127,6 +127,7 @@ function AddBankAccountPage() {
               isRequired
               placeholder="GL No"
               label="GL Number"
+              isGrouped
             />
 
             {/* notes */}
