@@ -68,96 +68,98 @@ const styles = StyleSheet.create({
   },
 });
 
-const TaxSummary = ({
+function TaxSummary({
   data,
   vatTotalAed,
   amountTotalAed,
   currency,
   aedConversionRate,
   isEmpLogo,
-}) => (
-  <View style={styles.container}>
-    <View>
-      {currency === 'AED' ? (
-        <Text style={{ fontSize: 12, color: '#000000' }}>Tax Summary</Text>
-      ) : (
-        <Text style={{ fontSize: 12, color: '#000000' }}>
-          Tax Summary (1 {currency} = {aedConversionRate} AED)
-        </Text>
-      )}
-    </View>
-    <View style={styles.table}>
-      <View
-        style={[
-          styles.tableRow,
-          {
-            backgroundColor: isEmpLogo ? '#48b2e8' : '#F7E18B',
-            color: '#000000',
-            fontWeight: 600,
-          },
-        ]}
-      >
-        <View style={styles.tableCol1Header}>
-          <Text style={styles.tableCellHeader}>Tax Details</Text>
-        </View>
-        <View style={styles.tableColHeader}>
-          <Text style={styles.tableCellHeader}>Taxable Amount (AED)</Text>
-        </View>
-        <View style={styles.tableColHeader}>
-          <Text style={styles.tableCellHeader}>Tax Amount (AED)</Text>
-        </View>
+}) {
+  return (
+    <View style={styles.container}>
+      <View>
+        {currency === 'AED' ? (
+          <Text style={{ fontSize: 12, color: '#000000' }}>Tax Summary</Text>
+        ) : (
+          <Text style={{ fontSize: 12, color: '#000000' }}>
+            Tax Summary (1 {currency} = {aedConversionRate} AED)
+          </Text>
+        )}
       </View>
-      {data.map(item => (
-        <View key={item.id} style={styles.tableRow}>
-          <View style={styles.tableCol1}>
-            <Text style={[styles.tableCell, { color: '#000000' }]}>
-              {item.vat_rate_name}
+      <View style={styles.table}>
+        <View
+          style={[
+            styles.tableRow,
+            {
+              backgroundColor: isEmpLogo ? '#48b2e8' : '#F7E18B',
+              color: '#000000',
+              fontWeight: 600,
+            },
+          ]}
+        >
+          <View style={styles.tableCol1Header}>
+            <Text style={styles.tableCellHeader}>Tax Details</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Taxable Amount (AED)</Text>
+          </View>
+          <View style={styles.tableColHeader}>
+            <Text style={styles.tableCellHeader}>Tax Amount (AED)</Text>
+          </View>
+        </View>
+        {data.map(item => (
+          <View key={item.id} style={styles.tableRow}>
+            <View style={styles.tableCol1}>
+              <Text style={[styles.tableCell, { color: '#000000' }]}>
+                {item.vat_rate_name}
+              </Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text
+                style={[styles.tableCell, { textAlign: 'right', color: 'gray' }]}
+              >
+                {item.gross_amount}
+              </Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text
+                style={[styles.tableCell, { textAlign: 'right', color: 'gray' }]}
+              >
+                {item.vat_amount}
+              </Text>
+            </View>
+          </View>
+        ))}
+        <View style={[styles.tableRow, { fontWeight: 600 }]}>
+          <View style={[styles.tableCol1, { borderRightWidth: 0 }]}>
+            <Text style={[styles.tableCell, { color: '#000000' }]}>Total</Text>
+          </View>
+          <View style={styles.tableCol}>
+            <Text
+              style={[
+                styles.tableCell,
+                { textAlign: 'right', color: 'gray', fontWeight: 600 },
+              ]}
+            >
+              AED{amountTotalAed}
             </Text>
           </View>
           <View style={styles.tableCol}>
             <Text
-              style={[styles.tableCell, { textAlign: 'right', color: 'gray' }]}
+              style={[
+                styles.tableCell,
+                { textAlign: 'right', color: 'gray', fontWeight: 'bold' },
+              ]}
             >
-              {item.gross_amount}
+              AED{vatTotalAed}
             </Text>
           </View>
-          <View style={styles.tableCol}>
-            <Text
-              style={[styles.tableCell, { textAlign: 'right', color: 'gray' }]}
-            >
-              {item.vat_amount}
-            </Text>
-          </View>
-        </View>
-      ))}
-      <View style={[styles.tableRow, { fontWeight: 600 }]}>
-        <View style={[styles.tableCol1, { borderRightWidth: 0 }]}>
-          <Text style={[styles.tableCell, { color: '#000000' }]}>Total</Text>
-        </View>
-        <View style={styles.tableCol}>
-          <Text
-            style={[
-              styles.tableCell,
-              { textAlign: 'right', color: 'gray', fontWeight: 600 },
-            ]}
-          >
-            AED{amountTotalAed}
-          </Text>
-        </View>
-        <View style={styles.tableCol}>
-          <Text
-            style={[
-              styles.tableCell,
-              { textAlign: 'right', color: 'gray', fontWeight: 'bold' },
-            ]}
-          >
-            AED{vatTotalAed}
-          </Text>
         </View>
       </View>
     </View>
-  </View>
-);
+  );
+}
 TaxSummary.defaultProps = {
   isEmpLogo: false,
 };

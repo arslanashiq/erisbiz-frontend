@@ -9,6 +9,7 @@ import { useDeleteCutomerMutation, useGetCustomersListQuery } from 'services/pri
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities  and styles
 import { addButtonIconStyle } from 'styles/common/common-styles';
+import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import { customersHeadCell } from '../utilities/head-cells';
 
@@ -20,11 +21,40 @@ function CustomerListing() {
   const [deleteCustomer] = useDeleteCutomerMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message =
+      'You cannot delete these customers because some of the selected customers have transactions';
+    let actionButton = false;
+    const haveCreditNote = checkSelectedDataUsed(data, selected, 'have_credit_notes');
+    const haveInvoice = checkSelectedDataUsed(data, selected, 'have_invoices');
+    const haveProformaInvoice = checkSelectedDataUsed(data, selected, 'have_pro_invoices');
+    const haveQuotations = checkSelectedDataUsed(data, selected, 'have_quotations');
+    if (haveCreditNote.length > 0) {
+      message =
+        selected.length === 1
+          ? 'This account has credit notes, please delete the credit notess first.'
+          : message;
+    } else if (haveInvoice.length > 0) {
+      message =
+        selected.length === 1 ? 'This account has a Invoices, please delete the Invoices first.' : message;
+    } else if (haveProformaInvoice.length > 0) {
+      message =
+        selected.length === 1
+          ? 'This account has a proforma invoices, please delete the proforma invoices first.'
+          : message;
+    } else if (haveQuotations.length > 0) {
+      message =
+        selected.length === 1
+          ? 'This account has a quotations, please delete the quotations first.'
+          : message;
+    } else {
+      message = 'Are you sure you want to delete?';
+      actionButton = true;
+    }
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
-      message: 'Are you sure you want to delete?',
-      actionButton: true,
+      message,
+      actionButton,
     });
   };
   const deleteSingleCustomer = async id => {
@@ -52,6 +82,7 @@ function CustomerListing() {
         TableHeading="Customers"
         headCells={customersHeadCell}
         showCheckbox
+        checkStatusBeforeEdit={false}
         otherOptions={[
           {
             label: (

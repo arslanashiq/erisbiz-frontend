@@ -25,6 +25,11 @@ import ChangeStatusToVoid from 'containers/accounting/purchase/purchase-invoice/
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 
 const keyValue = 'invoice_items';
+const handleCheck = status => {
+  if (!status) return true;
+  if (status === 'draft') return true;
+  return false;
+};
 function SaleInvoiceDetailPage() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -36,7 +41,9 @@ function SaleInvoiceDetailPage() {
   });
   const [openVoidModal, setOpenVoidModal] = useState(false);
   const saleInvoiceDetailResponse = useGetSingleSaleInvoiceQuery(id);
-  const saleInvoiceJournalsResponse = useGetSaleInvoiceJournalsQuery(id);
+  const saleInvoiceJournalsResponse = useGetSaleInvoiceJournalsQuery(id, {
+    skip: handleCheck(saleInvoiceDetailResponse?.data?.status),
+  });
   const [changeStatusToSent] = useChangeSaleInvoiceStatusToSentMutation();
   const [changeStatusToVoid] = useChangeSaleInvoiceStatusToVoidMutation();
 
@@ -69,7 +76,7 @@ function SaleInvoiceDetailPage() {
       box1: [
         {
           label: 'Invoice No',
-          value: saleInvoiceDetailResponse?.data?.quotation_formatted_number,
+          value: saleInvoiceDetailResponse?.data?.invoice_formatted_number,
         },
         {
           label: 'Invoice Date',
@@ -81,7 +88,7 @@ function SaleInvoiceDetailPage() {
         },
         {
           label: 'Currency',
-          value: saleInvoiceDetailResponse?.data?.location,
+          value: saleInvoiceDetailResponse?.data?.currency_symbol,
         },
       ],
       box2: [

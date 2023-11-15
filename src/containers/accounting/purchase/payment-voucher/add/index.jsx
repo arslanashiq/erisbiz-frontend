@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
@@ -38,12 +38,15 @@ function addPaymentVoucher() {
   const { id } = useParams();
   const { supplierId } = getSearchParamsList();
   const navigate = useNavigate();
+
+  const [selectedSupplier, setSelectedSupplier] = useState(supplierId || null);
+
   const supplierListResponse = useGetSuppliersListQuery();
   const bankAccountListResponse = useGetBankAccountsListQuery();
   const [addPaymentVouchser] = useAddPaymentVouchserMutation();
   const [editPaymentVouchser] = useEditPaymentVouchserMutation();
   const [getUnpaidBills] = useGetSuppliersUpaidBillsListMutation();
-  const { initialValues, setInitialValues } = useInitialValues(
+  const { initialValues, setInitialValues, queryResponse } = useInitialValues(
     PurchaseVoucherInitialValues,
     useGetSinglePaymentVoucherQuery
   );
@@ -96,19 +99,15 @@ function addPaymentVoucher() {
   };
 
   useEffect(() => {
-    if (supplierId) {
-      handleChangeSupplier(supplierId, initialValues);
+    if (queryResponse?.supplier_id) {
+      setSelectedSupplier(queryResponse?.supplier_id);
     }
-  }, [supplierId]);
-
+  }, [queryResponse]);
   useEffect(() => {
-    if (id && !supplierId) {
-      if (!initialValues?.used_amount) {
-        handleChangeSupplier(initialValues.supplier_id, initialValues);
-      }
+    if (selectedSupplier) {
+      handleChangeSupplier(selectedSupplier, initialValues);
     }
-  }, [initialValues]);
-
+  }, [selectedSupplier]);
   return (
     <SectionLoader options={[supplierListResponse.isLoading, bankAccountListResponse.isLoading]}>
       <Card>
@@ -151,7 +150,7 @@ function addPaymentVoucher() {
                   startIcon={<TagIcon />}
                   options={suppliersOptions}
                   isRequired
-                  onChange={selectedSupplier => handleChangeSupplier(selectedSupplier, null, setFieldValue)}
+                  onChange={supplier => handleChangeSupplier(supplier, null, setFieldValue)}
                 />
                 {/* Payment date */}
 
@@ -165,7 +164,7 @@ function addPaymentVoucher() {
                 />
 
                 {/* Amount */}
-                <FormikField name="total" type="number" placeholder="Amount" label="Amount" />
+                <FormikField isRequired name="total" type="number" placeholder="Amount" label="Amount" />
 
                 {/* Payment Mode */}
                 <FormikSelect

@@ -19,7 +19,6 @@ function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTa
             amountTotal={orderDetail.without_change_grand_total - orderDetail.without_change_vat_total}
             vatTotal={orderDetail.without_change_vat_total}
             grandTotal={orderDetail.without_change_grand_total}
-            currency={orderDetail.currency}
             currencySymbol={orderDetail.currency_symbol}
             subTotalName="Grand Total"
           />

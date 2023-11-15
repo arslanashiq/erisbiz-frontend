@@ -31,6 +31,7 @@ export default function MuiTable({
   customRows,
   customActionButton,
   hoverEffect,
+  checkStatusBeforeEdit,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -116,7 +117,14 @@ export default function MuiTable({
     } else {
       const selectedData = data.filter(item => item.id === selected[0] || item.uuid === selected[0]);
 
-      if (selectedData[0]?.status && selectedData[0].status !== 'draft') {
+      if (checkStatusBeforeEdit) {
+        if (
+          (selectedData[0]?.status && selectedData[0].status === 'draft') ||
+          selectedData[0].status === 'open'
+        ) {
+          navigate(`edit/${selected[0]}`);
+          return;
+        }
         setOpenInfoPopup({
           ...openInfoPopup,
           status: true,
@@ -222,6 +230,7 @@ MuiTable.propTypes = {
   customRows: PropTypes.array,
   customActionButton: PropTypes.array,
   hoverEffect: PropTypes.bool,
+  checkStatusBeforeEdit: PropTypes.bool,
 };
 MuiTable.defaultProps = {
   data: null,
@@ -239,4 +248,5 @@ MuiTable.defaultProps = {
   customRows: null,
   customActionButton: null,
   hoverEffect: true,
+  checkStatusBeforeEdit: true,
 };

@@ -79,7 +79,6 @@ function AddItemPage() {
                 } else {
                   response = await addItem(payload);
                 }
-                setSubmitting(false);
                 if (response.data) {
                   resetForm(initialValues);
                   navigate(-1);

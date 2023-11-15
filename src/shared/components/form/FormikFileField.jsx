@@ -48,6 +48,9 @@ function FormikFileField(props) {
   };
   const handleConvertLinkToFile = async () => {
     if (!value) return;
+    if (value.length === 0) {
+      setFieldValue('filesList', []);
+    }
     const valuesList = [...value];
 
     for (let i = 0; i < valuesList.length; i += 1) {
@@ -64,6 +67,7 @@ function FormikFileField(props) {
   const handleDeleteFile = (deleteFile, index) => {
     const newList = [...value];
     newList.splice(index, 1);
+    setFieldValue('filesList', [...newList]);
     setValue([...newList]);
   };
   useEffect(() => {

@@ -32,6 +32,7 @@ import { customerFormTabsList } from '../utilities/constant';
 import { customerFormInitialValues } from '../utilities/initialValues';
 // styles
 import 'styles/form/form.scss';
+import { customerFormValidationSchema } from '../utilities/validation-schema';
 
 function AddCustomer() {
   const { id } = useParams();
@@ -75,6 +76,7 @@ function AddCustomer() {
         <Formik
           enableReinitialize
           initialValues={initialValues}
+          validationSchema={customerFormValidationSchema}
           onSubmit={async (values, { setErrors, resetForm }) => {
             let response = null;
             if (id) {
@@ -99,6 +101,7 @@ function AddCustomer() {
                 placeholder="Customer Name"
                 startIcon={<PersonOutlineIcon />}
                 label="Customer Name"
+                isRequired
               />
               {/* email */}
               <FormikField
@@ -107,6 +110,7 @@ function AddCustomer() {
                 placeholder="Email"
                 startIcon={<AlternateEmailIcon />}
                 label="Email"
+                isRequired
               />
 
               {/* Contact Person */}
@@ -135,10 +139,17 @@ function AddCustomer() {
                 type="text"
                 placeholder="VAT Registration Number"
                 label="VAT Reg No"
+                isRequired
               />
 
               {/* Refrence */}
-              <FormikField name="reference_num" type="text" placeholder="Refrence" label="Reference" />
+              <FormikField
+                isRequired
+                name="reference_num"
+                type="text"
+                placeholder="Refrence"
+                label="Reference"
+              />
 
               <FormTabs
                 className="mt-2 mb-2"
@@ -188,6 +199,7 @@ function AddCustomer() {
                       placeholder="Country"
                       label="Country"
                       className="col-12"
+                      isRequired
                     />
 
                     {/* CIty */}
@@ -252,6 +264,7 @@ function AddCustomer() {
                       placeholder="Country"
                       label="Country"
                       className="col-12"
+                      isRequired
                     />
 
                     {/* CIty */}

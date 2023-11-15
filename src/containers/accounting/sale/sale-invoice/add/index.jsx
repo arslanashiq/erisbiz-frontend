@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
@@ -19,6 +19,7 @@ import {
   useGetPerformaInvoicesListQuery,
   useGetSinglePerformaInvoiceQuery,
 } from 'services/private/performa-invoices';
+import { useGetActiveSalePersonListQuery } from 'services/private/sale-person';
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
@@ -45,15 +46,24 @@ import getSearchParamsList from 'utilities/getSearchParamsList';
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { saleInvoiceInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
+import { saleInvoiceValidationSchema } from '../utilities/validation-schema';
 
 function AddInvoice() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { performaInvoice } = getSearchParamsList();
+
+  const [selectedCustomer, setSelectedCustomer] = useState(performaInvoice);
+
   const itemsListResponse = useGetItemsListQuery();
+  const salePersonListResponse = useGetActiveSalePersonListQuery();
+
   const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
   const customerListResponse = useGetCustomersListQuery();
-  const performaInvoiceListResponse = useGetPerformaInvoicesListQuery();
+  const performaInvoiceListResponse = useGetPerformaInvoicesListQuery(
+    { customer: selectedCustomer },
+    { skip: !selectedCustomer }
+  );
   const performaInvoiceResponse = useGetSinglePerformaInvoiceQuery(performaInvoice, {
     skip: !performaInvoice,
   });
@@ -61,14 +71,20 @@ function AddInvoice() {
   const [addSaleInvoice] = useAddSaleInvoicesMutation();
   const [editSaleInvoice] = useEditSaleInvoicesMutation();
 
-  const { initialValues, setInitialValues } = useInitialValues(
+  const { initialValues, setInitialValues, queryResponse, isLoading } = useInitialValues(
     saleInvoiceInitialValues,
-    useGetSingleSaleInvoiceQuery
+    useGetSingleSaleInvoiceQuery,
+    null,
+    true
   );
 
   const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
     value: 'id',
     label: 'customer_name',
+  });
+  const { optionsList: salePersonListOptions } = useListOptions(salePersonListResponse?.data?.results, {
+    value: 'id',
+    label: 'sales_person_name',
   });
   const { optionsList: performaInvoiceOptions } = useListOptions(
     performaInvoiceListResponse?.data?.results,
@@ -144,7 +160,9 @@ function AddInvoice() {
     setFieldValue('customer', selectedPerformaInvoice[0].customer);
     setFieldValue('quotation', selectedPerformaInvoice[0].quotation);
   };
-
+  const handleChangeCustomer = value => {
+    setSelectedCustomer(value);
+  };
   useEffect(() => {
     let newData = {};
     if (performaInvoiceResponse?.data) {
@@ -158,13 +176,15 @@ function AddInvoice() {
         date: proInv.pro_invoice_date,
         location: proInv.location,
         invoice_docs: proInv.pro_invoice_docs,
+        quotation: proInv.quotation,
         remarks: proInv.remarks,
       };
+      handleChangeCustomer(proInv.customer);
     }
     if (latestSaleInvoiceResponse?.data) {
       newData = {
         ...newData,
-        sale_inv_number: latestSaleInvoiceResponse?.data?.latest_invoice_num,
+        invoice_formatted_number: latestSaleInvoiceResponse?.data?.latest_num,
       };
     }
     setInitialValues({
@@ -173,19 +193,24 @@ function AddInvoice() {
     });
   }, [performaInvoiceResponse, latestSaleInvoiceResponse]);
 
+  useEffect(() => {
+    if (queryResponse?.customer) {
+      handleChangeCustomer(queryResponse.customer);
+    }
+  }, [queryResponse]);
+
   return (
-    <SectionLoader options={[itemsListResponse.isLoading]}>
+    <SectionLoader options={[itemsListResponse.isLoading, isLoading]}>
       <Card>
         <CardContent>
           <FormHeader title="Sales Invoice" />
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={bankFormValidationSchema}
+            validationSchema={saleInvoiceValidationSchema}
             onSubmit={async (values, { setError }) => {
               const payload = {
                 ...values,
-                sales_person: 33,
                 invoice_docs: values.filesList,
                 invoice_items: handleGetFormatedItemsData(values.invoice_items),
                 ...handleCalculateTotalAmount(values.invoice_items),
@@ -219,12 +244,23 @@ function AddInvoice() {
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
                 {/* Sale Invoice */}
-                {/* Sale Person */}
+
                 <FormikField
-                  name="sale_inv_number"
+                  name="invoice_formatted_number"
                   type="text"
                   placeholder="Sales Invoice Number"
                   label="Sales Invoice"
+                  disabled
+                />
+                {/* Customer */}
+                <FormikSelect
+                  options={customersOptions}
+                  name="customer"
+                  placeholder="Customer"
+                  disabled={Boolean(performaInvoice)}
+                  label="Customer"
+                  isRequired
+                  onChange={handleChangeCustomer}
                 />
 
                 <FormikSelect
@@ -235,6 +271,7 @@ function AddInvoice() {
                   placeholder="Proforma Invoice"
                   label="Proforma Invoice"
                   startIcon={<TagIcon />}
+                  isRequired
                   onChange={value => handleChangePerformaInvoice(value, setFieldValue)}
                 />
                 {/* date */}
@@ -248,15 +285,12 @@ function AddInvoice() {
                 />
 
                 {/* Sale Person */}
-                <FormikField name="sales_person" type="text" placeholder="Sale Person" label="Sale Person" />
-
-                {/* Customer */}
                 <FormikSelect
-                  options={customersOptions}
-                  name="customer"
-                  placeholder="Customer"
-                  disabled={Boolean(performaInvoice)}
-                  label="Customer"
+                  options={salePersonListOptions}
+                  name="sales_person"
+                  type="text"
+                  placeholder="Sale Person"
+                  label="Sale Person"
                 />
 
                 {/* Location */}

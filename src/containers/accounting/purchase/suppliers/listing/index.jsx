@@ -84,6 +84,7 @@ function SupplierListing() {
         TableHeading="Supplier"
         showCheckbox
         headCells={supplierHeadCells}
+        checkStatusBeforeEdit={false}
         otherOptions={[
           {
             label: (

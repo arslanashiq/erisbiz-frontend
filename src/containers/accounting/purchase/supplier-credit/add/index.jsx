@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
-// import TagIcon from '@mui/icons-material/Tag';
+import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -11,6 +11,7 @@ import { useGetBankAccountsListQuery } from 'services/private/banking';
 import {
   useAddSupplierCreditsMutation,
   useEditSupplierCreditsMutation,
+  useGetLatestSupplierCreditNumberQuery,
   useGetSingleSupplierCreditsQuery,
 } from 'services/private/debit-note';
 import {
@@ -42,6 +43,7 @@ import getSearchParamsList from 'utilities/getSearchParamsList';
 import { VAT_CHARGES } from 'utilities/constants';
 import { supplierCreditsInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
+import { supplierCreditFormValidationSchema } from '../utilities/validation-schema';
 
 function AddSupplierCredit() {
   const { id } = useParams();
@@ -52,6 +54,7 @@ function AddSupplierCredit() {
   const bankAccountsListsponse = useGetBankAccountsListQuery();
   const purchaseInvoiceListResponse = useGetPurchaseInvoiceListQuery();
   const singlePurchaseInvoiceresponse = useGetSinglePurchaseInvoiceQuery(purchaseId, { skip: !purchaseId });
+  const latestDebitNoteNumberResponse = useGetLatestSupplierCreditNumberQuery({}, { skip: id });
   const [getPurchaseInvoice] = useGetPurchaseInvoceMutation();
   const [addSupplierCredit] = useAddSupplierCreditsMutation();
   const [editSupplierCredit] = useEditSupplierCreditsMutation();
@@ -149,8 +152,14 @@ function AddSupplierCredit() {
     if (!value) return;
     const purchaseInvoice = await getPurchaseInvoice(value);
     if (setFieldValue) {
-      setFieldValue('supplier_id', purchaseInvoice.data.supplier_id);
-      setFieldValue('supplier_credit_items', [...purchaseInvoice.data.bill_items]);
+      if (setFieldValue) {
+        setFieldValue('supplier_id', purchaseInvoice.data.supplier_id);
+        const selectedInvoiceItemsList = purchaseInvoice.data.bill_items.map(invoiceItems => ({
+          ...invoiceItems,
+          invoice_num_nights: invoiceItems.num_nights,
+        }));
+        setFieldValue('supplier_credit_items', selectedInvoiceItemsList);
+      }
     }
   };
 
@@ -165,6 +174,16 @@ function AddSupplierCredit() {
       });
     }
   }, [singlePurchaseInvoiceresponse, paymentInvoiceOptions]);
+
+  useEffect(() => {
+    if (latestDebitNoteNumberResponse?.data?.latest_num) {
+      setInitialValues({
+        ...initialValues,
+        supplier_credit_formatted_number: latestDebitNoteNumberResponse?.data?.latest_num,
+      });
+    }
+  }, [latestDebitNoteNumberResponse]);
+
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
@@ -173,7 +192,7 @@ function AddSupplierCredit() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={bankFormValidationSchema}
+            validationSchema={supplierCreditFormValidationSchema}
             onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
               const supplierCreditTtems = values.supplier_credit_items.map(item => ({
                 ...item,
@@ -206,14 +225,13 @@ function AddSupplierCredit() {
               <Form className="form form--horizontal mt-3 row">
                 {/* Purchase */}
 
-                {/* <FormikSelect
-                  name="voucher_number"
-                  placeholder="Voucher Number"
-                  label="Voucher Number"
-                  options={paymentVoucherOptions}
+                <FormikField
+                  name="supplier_credit_formatted_number"
+                  placeholder="Debit Note"
+                  label="Debit Note"
                   startIcon={<TagIcon />}
-                  onChange={value => handleChangeVoucher(value, setFieldValue)}
-                /> */}
+                  disabled
+                />
                 {/* Purchase Inv No */}
                 <FormikSelect
                   name="bill_id"
@@ -221,6 +239,7 @@ function AddSupplierCredit() {
                   disabled={Boolean(purchaseId)}
                   placeholder="Purchase Invoice Number"
                   label="Purchase Inv No"
+                  isRequired
                   onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}
                 />
                 {/* date */}
@@ -239,6 +258,7 @@ function AddSupplierCredit() {
                   placeholder="Supplier"
                   label="Supplier"
                   disabled
+                  isRequired
                 />
 
                 {/* debit account number */}
@@ -247,6 +267,8 @@ function AddSupplierCredit() {
                   options={bankAccountOptions}
                   placeholder="Debit Account Number"
                   label="Debit Acc No"
+                  isRequired
+                  className="col-12"
                   // onChange={value => handleChangeDebitAccount(value, setFieldValue)}
                 />
 

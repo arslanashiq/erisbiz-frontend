@@ -2,6 +2,7 @@ import moment from 'moment';
 
 export const proformaInvoicesInitialValues = {
   customer: '',
+  pro_invoice_formatted_number: '',
   pro_invoice_date: moment().format('YYYY-MM-DD'),
   sales_person: '',
   remarks: '',

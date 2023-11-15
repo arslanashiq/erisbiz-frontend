@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function TotalDetails({ grandTotal, amountTotal, vatTotal, currency, currencySymbol, subTotalName }) {
+function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, subTotalName }) {
   const colorScheme = '#08517e';
   return (
     <View style={styles.mainContainer}>
@@ -110,7 +110,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currency, currencySym
               ]}
             >
               <View style={[styles.headerColumn]}>
-                <Text>Total ({currency})</Text>
+                <Text>Total ({currencySymbol})</Text>
               </View>
               <View style={[styles.valueColumn]}>
                 <Text>
@@ -134,7 +134,6 @@ TotalDetails.propTypes = {
   grandTotal: PropTypes.number.isRequired,
   amountTotal: PropTypes.number.isRequired,
   vatTotal: PropTypes.number.isRequired,
-  currency: PropTypes.string.isRequired,
   currencySymbol: PropTypes.string.isRequired,
   subTotalName: PropTypes.string,
 };

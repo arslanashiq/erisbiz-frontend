@@ -117,7 +117,7 @@ function PerformaInvoiceDetail() {
       box1: [
         {
           label: 'Quotation No',
-          value: performaInvoiceDetailResponse?.data?.quotation_formatted_number,
+          value: performaInvoiceDetailResponse?.data?.pro_invoice_formatted_number,
         },
         {
           label: 'Quotation Date',
@@ -126,6 +126,10 @@ function PerformaInvoiceDetail() {
         {
           label: 'Location',
           value: performaInvoiceDetailResponse?.data?.location,
+        },
+        {
+          label: 'Currency',
+          value: performaInvoiceDetailResponse?.data?.currency_symbol,
         },
       ],
       box2: [

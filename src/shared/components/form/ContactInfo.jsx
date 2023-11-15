@@ -20,7 +20,7 @@ function ContactInfo({ name, form, push, remove }) {
     <Box sx={{ minHeight: 200 }}>
       <Table>
         <TableBody>
-          {form.values[name].map((item, index) => (
+          {form.values[name].map((_, index) => (
             <TableRow key={index} sx={{ borderBottom: 0 }}>
               <TableCell>
                 <FormikField
@@ -42,7 +42,6 @@ function ContactInfo({ name, form, push, remove }) {
                 <FormikField
                   className="w-100"
                   name={`${name}.${index}.mobile_num`}
-                  type="number"
                   placeholder="Mobile Number"
                 />
               </TableCell>

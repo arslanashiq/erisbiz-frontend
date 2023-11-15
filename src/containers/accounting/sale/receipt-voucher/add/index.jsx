@@ -32,6 +32,7 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import { receiptVoucherInitialValues } from '../utilities/initialValues';
 import { UnPaidSaleInvoiceHeadCells } from '../utilities/head-cells';
 import 'styles/form/form.scss';
+import { receiptVoucherFormValidationSchema } from '../utilities/validation-schema';
 
 function AddReceiptVoucher() {
   const { id } = useParams();
@@ -110,6 +111,7 @@ function AddReceiptVoucher() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
+            validationSchema={receiptVoucherFormValidationSchema}
             onSubmit={async (values, { setError }) => {
               let response = null;
               if (id) {
@@ -133,6 +135,7 @@ function AddReceiptVoucher() {
                   placeholder="Customer"
                   label="Customer"
                   onChange={value => handleChangeCustomer(value, setFieldValue)}
+                  isRequired
                 />
 
                 <FormikDatePicker
@@ -163,6 +166,7 @@ function AddReceiptVoucher() {
                   placeholder="Amount"
                   label="Amount"
                   startIcon={<TagIcon />}
+                  isRequired
                 />
 
                 <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
@@ -171,6 +175,7 @@ function AddReceiptVoucher() {
                   placeholder="Payment Mode"
                   label="Payment Mode"
                   options={PAYMENT_MODE}
+                  isRequired
                 />
 
                 <FormikSelect
@@ -178,6 +183,7 @@ function AddReceiptVoucher() {
                   placeholder="Deposit To"
                   label="Deposit To"
                   options={bankAccountOptions}
+                  isRequired
                 />
 
                 <FieldArray

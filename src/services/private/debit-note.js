@@ -26,7 +26,7 @@ const debitNotesApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getSupplierCreditsList'],
+      invalidatesTags: ['getSupplierCreditsList', 'getLatestSupplierCreditNumber'],
     }),
     editSupplierCredits: builder.mutation({
       query: ({ id, payload }) => ({
@@ -41,7 +41,7 @@ const debitNotesApi = privateApi.injectEndpoints({
         url: `api/accounting/purchases/supplierCredits/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getSupplierCreditsList'],
+      invalidatesTags: ['getSupplierCreditsList', 'getLatestSupplierCreditNumber'],
     }),
     getSupplierCreditsDocuments: builder.query({
       query: id => ({
@@ -82,6 +82,13 @@ const debitNotesApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getSupplierCreditJournals'],
     }),
+    getLatestSupplierCreditNumber: builder.query({
+      query: () => ({
+        url: 'api/accounting/purchases/supplierCredits/latest',
+        method: 'GET',
+      }),
+      providesTags: ['getLatestSupplierCreditNumber'],
+    }),
   }),
 });
 
@@ -96,4 +103,5 @@ export const {
   useDeleteSupplierCreditsDocumentsMutation,
   useRefundSupplierCreditsMutation,
   useGetSupplierCreditJournalsQuery,
+  useGetLatestSupplierCreditNumberQuery,
 } = debitNotesApi;

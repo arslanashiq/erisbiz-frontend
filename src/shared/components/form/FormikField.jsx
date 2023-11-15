@@ -53,7 +53,7 @@ function FormikField({
               {...restFieldProps}
               {...restProps}
               className={`${textRight ? 'text-right' : ''} ${inputClassName}`}
-              value={value}
+              value={value || ''}
               onChange={handleChange}
               onBlur={handleBlur}
             />

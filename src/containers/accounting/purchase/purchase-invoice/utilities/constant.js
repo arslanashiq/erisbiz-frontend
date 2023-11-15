@@ -24,7 +24,7 @@ export const purchaseInvoiceInitialValue = {
   requestor_signature_show: true,
   show_stamp: true,
 
-  pur_order_suffix: 'LPO',
+  pur_order_suffix: 'PO',
   customer_type_suffix: '',
   currency: 'AED',
   currency_symbol: 'AED',

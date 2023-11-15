@@ -55,9 +55,9 @@ function LogInForm() {
               if (response.data) {
                 localStorage.setItem('token', response.data.token);
                 const companyStatus = response.data?.user?.is_regestered_company;
-                await dispatch(
+                dispatch(
                   setUser({
-                    user: response.data,
+                    user: response.data.user,
                     isAuthenticated: true,
                     is_regestered_company: companyStatus,
                     // is_regestered_company: true,

@@ -140,7 +140,7 @@ function AddPurchaseOrder() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={purchaseOrderFormValidationSchema}
-            onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+            onSubmit={async (values, { setErrors, resetForm }) => {
               let response = null;
               const payload = {
                 ...values,
@@ -159,12 +159,12 @@ function AddPurchaseOrder() {
                   formData.append(key, payload[key]);
                 }
               });
+
               if (id) {
                 response = await editPurchaseOrder({ id, payload: formData });
               } else {
                 response = await addPurchaseOrder(formData);
               }
-              setSubmitting(false);
               if (response.data) {
                 resetForm(initialValues);
                 navigate(-1);

@@ -28,6 +28,8 @@ function App() {
           isAuthenticated: true,
           // is_regestered_company: true,
           is_regestered_company: userResponse.data?.is_regestered_company,
+          profile: userResponse.data?.profile,
+          company: userResponse.data?.company,
         })
       );
     }

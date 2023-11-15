@@ -27,6 +27,7 @@ import useListOptions from 'custom-hooks/useListOptions';
 import { VAT_CHARGES } from 'utilities/constants';
 import { expensesInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
+import { expensesFormValidationSchema } from '../utilities/validation-schema';
 
 function AddExpense() {
   const { id } = useParams();
@@ -62,7 +63,7 @@ function AddExpense() {
         <Formik
           enableReinitialize
           initialValues={initialValues}
-          // validationSchema={bankFormValidationSchema}
+          validationSchema={expensesFormValidationSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {
               let response = null;
@@ -105,6 +106,7 @@ function AddExpense() {
               startIcon={<TagIcon />}
               label="Expense Account"
               options={bankOptions}
+              isRequired
             />
 
             {/* date */}
@@ -124,6 +126,7 @@ function AddExpense() {
               placeholder="Amount"
               label="Amount"
               startIcon={<PersonIcon />}
+              isRequired
             />
 
             {/* Paid Through */}
@@ -133,6 +136,7 @@ function AddExpense() {
               placeholder="Paid Through"
               label="Paid Through"
               options={bankOptions}
+              isRequired
             />
 
             {/* Supplier */}
@@ -141,11 +145,12 @@ function AddExpense() {
               name="supplier_id"
               placeholder="Supplier"
               label="Supplier"
+              isRequired
             />
 
             {/* Tax */}
 
-            <FormikSelect options={VAT_CHARGES} name="tax_rate_id" placeholder="Tax" label="Tax" />
+            <FormikSelect isRequired options={VAT_CHARGES} name="tax_rate_id" placeholder="Tax" label="Tax" />
 
             {/* Reference */}
 
@@ -154,7 +159,6 @@ function AddExpense() {
             {/* remarks */}
             <FormikField name="notes" type="text" textArea label="Remarks" className="col-12" />
 
-            {/* <ErrorFocus /> */}
             <FormSubmitButton />
           </Form>
         </Formik>

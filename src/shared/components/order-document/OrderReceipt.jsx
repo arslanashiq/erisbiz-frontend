@@ -58,12 +58,14 @@ function OrderReceipt({
               </p>
               <Box className="boxSecond" style={{ fontSize: '16px' }}>
                 {orderInfo?.box1 &&
-                  orderInfo.box1.map(option => (
+                  orderInfo.box1.map(option => (option.value ? (
                     <Box key={uuid()} className="entry-info">
                       <p className="head">{option.label}:</p>
                       <p>{option.value}</p>
                     </Box>
-                  ))}
+                  ) : (
+                    <div key={uuid()} />
+                  )))}
               </Box>
 
               {orderInfo?.box2 && (

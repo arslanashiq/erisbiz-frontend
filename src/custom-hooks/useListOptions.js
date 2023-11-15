@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 
 function useListOptions(dataList, requiredKeys, extraKeys = []) {
   const [optionsList, setOptionsList] = useState([]);
+
   useEffect(() => {
-    if (dataList?.length > 0) {
+    if (dataList?.length >= 0) {
       const options = [];
       dataList.forEach(data => {
         const singleOption = {

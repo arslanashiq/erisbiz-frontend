@@ -5,6 +5,7 @@ export const saleInvoiceInitialValues = {
   customer: '',
   pro_invoice: '',
   quotation: '',
+  invoice_formatted_number: '',
   date: moment().format('YYYY-MM-DD'),
   sales_person: '',
   location: '',

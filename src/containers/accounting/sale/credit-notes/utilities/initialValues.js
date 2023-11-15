@@ -8,5 +8,6 @@ export const creditNoteInitialValues = {
   customer_notes: '',
   invoice: '',
   credit_note_items: [{}],
+  status: 'open',
 };
 export const test = '';

@@ -32,12 +32,6 @@ function PurchaseOrderDetail() {
   const purchaseOrderActionList = useMemo(() => {
     const actionsList = [
       {
-        label: 'Edit',
-        handleClick: () => {
-          navigate(`/pages/accounting/purchase/purchase-orders/edit/${id}`);
-        },
-      },
-      {
         label: 'Delete',
         handleClick: () => {
           let infoDescription =
@@ -59,6 +53,14 @@ function PurchaseOrderDetail() {
         },
       },
     ];
+    if (purchaseOrderResponse?.data?.status === 'draft') {
+      actionsList.splice(0, 0, {
+        label: 'Edit',
+        handleClick: () => {
+          navigate(`/pages/accounting/purchase/purchase-orders/edit/${id}`);
+        },
+      });
+    }
     if (purchaseOrderResponse?.data?.status === 'issued') {
       actionsList.push({
         label: 'Convert to Bill',

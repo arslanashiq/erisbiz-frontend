@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
+import * as Yup from 'yup';
 import { FieldArray, Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
@@ -42,6 +43,8 @@ function index() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [selectedInoviceId, setSelectedInoviceId] = useState('');
+
   const receiptVouchersListResponse = useGetReceiptVoucherListQuery();
   const saleInvoiceListResponse = useGetSaleInvoicesListQuery();
   const itemsListResponse = useGetItemsListQuery();
@@ -67,12 +70,14 @@ function index() {
     label: 'bank_account_name',
   });
 
-  const { initialValues, isLoading } = useInitialValues(
+  const { initialValues, isLoading, queryResponse } = useInitialValues(
     creditNoteInitialValues,
     useGetSingleCreditNoteQuery,
     null,
     true,
-    false
+    false,
+    null,
+    selectedInoviceId ? { invoice: selectedInoviceId } : {}
   );
 
   const purchaseItemsInputList = useMemo(
@@ -134,7 +139,13 @@ function index() {
     const selectedSaleInvoice = saleInvoiceListResponse.data.results.filter(
       saleInvoice => saleInvoice.id === value
     );
-    if (setFieldValue) setFieldValue('credit_note_items', selectedSaleInvoice[0].invoice_items);
+    if (setFieldValue) {
+      const selectedInvoiceItemsList = selectedSaleInvoice[0].invoice_items.map(invoiceItems => ({
+        ...invoiceItems,
+        invoice_num_nights: invoiceItems.num_nights,
+      }));
+      setFieldValue('credit_note_items', selectedInvoiceItemsList);
+    }
   };
 
   // useEffect(() => {
@@ -148,6 +159,12 @@ function index() {
   //     setInitialValues({ ...initialValues, invoice: initialValues.invoice.id });
   //   }
   // }, [initialValues, saleInvoiceListResponse, receiptVouchersListResponse]);
+
+  useEffect(() => {
+    if (id && queryResponse?.invoice?.id) {
+      setSelectedInoviceId(queryResponse?.invoice?.id);
+    }
+  }, [queryResponse]);
 
   return (
     <SectionLoader
@@ -164,6 +181,20 @@ function index() {
           <FormHeader title="Credit Note" />
           <Formik
             enableReinitialize
+            validationSchema={Yup.object({
+              invoice: Yup.string().required('Invoice# is required'),
+
+              credit_note_items: Yup.array().of(
+                Yup.object().shape({
+                  num_nights: Yup.number()
+                    .required('Required')
+                    .integer('Value must be an integer (without decimal)')
+                    .max(Yup.ref('invoice_num_nights'), 'Must be less than Invoice item quantity')
+                    .min(1, 'Must be more than 0')
+                    .test('max-digits', 'Maximum 10 digits are allowed', value => `${value}`.length <= 10),
+                })
+              ),
+            })}
             initialValues={initialValues}
             onSubmit={async (values, { setErrors }) => {
               const payload = {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { convertURLToFile } from 'utilities/helpers';
@@ -13,7 +14,6 @@ function useInitialValues(
 ) {
   const { id } = useParams();
   const [initialValues, setInitialValues] = useState({ ...values });
-  const [stateUpdated, setStateUpdated] = useState(false);
   const { data: queryData, isLoading } = fetchDetailQuery(id || alternateId, {
     skip: !id && !alternateId,
     refetchOnMountOrArgChange: isRefetch,
@@ -22,9 +22,8 @@ function useInitialValues(
   const handleUpdateInitialValues = async data => {
     let file = null;
     const fetchedData = {};
-
     Object.keys(useInititalValues ? values : data).forEach(key => {
-      if (data[key] !== null || data[key] !== undefined) {
+      if (data[key] !== null && data[key] !== undefined) {
         fetchedData[key] = data[key];
       }
     });
@@ -33,19 +32,25 @@ function useInitialValues(
       file = await convertURLToFile(data[fileName]);
       fetchedData[fileName] = file;
     }
-    setInitialValues({ ...initialValues, ...fetchedData, ...extraValues });
+
+    const newData = { ...fetchedData, ...extraValues };
+    setInitialValues(newData);
+    return newData;
   };
 
   useEffect(() => {
-    if (queryData) handleUpdateInitialValues(queryData);
+    (async () => {
+      if (queryData) {
+        const updatedData = await handleUpdateInitialValues(queryData);
+        setInitialValues(updatedData);
+      }
+    })();
   }, [values, fetchDetailQuery, id, queryData]);
 
   return {
-    initialValues: { ...initialValues, ...initialValues },
+    initialValues: { ...initialValues, ...extraValues },
     queryResponse: queryData,
     setInitialValues,
-    stateUpdated,
-    setStateUpdated,
     isLoading,
   };
 }

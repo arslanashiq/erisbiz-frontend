@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Box, Button, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
+import { useSelector } from 'react-redux';
 
 function MuiTableBody({
   dataList,
@@ -18,6 +19,10 @@ function MuiTableBody({
   customActionButton,
   hoverEffect,
 }) {
+  const companyDetail = useSelector(state => state?.user?.company);
+  const {
+    currency: { currency_symbol: currencySymbol },
+  } = companyDetail;
   const handlegetCellStyle = (cell, value) => {
     if (cell && cell.style) {
       return cell.style(value);
@@ -34,7 +39,7 @@ function MuiTableBody({
   const getValue = (row, cell) => {
     let value = '';
     if (cell.mergeCell) {
-      value = 'AED ';
+      value = `${currencySymbol} `;
     }
     value += cell.date ? moment(row[cell.id]).format(DATE_FORMAT) : row[cell.id];
 
@@ -174,17 +179,16 @@ function MuiTableBody({
       {customRows &&
         customRows.map(row => (
           <TableRow key={uuid()}>
-            {row.column.map(col => (col.colSpan ? (
-              <TableCell key={uuid()} colSpan={col.colSpan} />
-            ) : (
+            {row.column.map(col => (
               <TableCell
                 key={uuid()}
-                align={col.align || 'left'}
-                sx={{ fontSize: '0.80rem', ...col.style }}
+                align={col?.align || 'left'}
+                sx={{ fontSize: '0.80rem', ...col?.style }}
+                colSpan={col?.colSpan}
               >
-                {col.data}
+                {col?.data || ''}
               </TableCell>
-            )))}
+            ))}
           </TableRow>
         ))}
     </TableBody>

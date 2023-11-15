@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -25,6 +26,10 @@ import FormikSelect from '../form/FormikSelect';
 import 'styles/purchase-item/purchase-item.scss';
 
 function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount }) {
+  const companyDetail = useSelector(state => state?.user?.company);
+  const {
+    currency: { currency_symbol: currencySymbol },
+  } = companyDetail;
   const getTotalAmount = (key = 'net_amount') => {
     let total = 0.0;
     if (form && form.values && form.values[name]) {
@@ -146,7 +151,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
           </Box>
           <Box className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Typography className="purchase-item-total-amount">Total Amount</Typography>
-            <Typography className="purchase-item-total-amount">AED {getTotalAmount()}</Typography>
+            <Typography className="purchase-item-total-amount">{currencySymbol} {getTotalAmount()}</Typography>
           </Box>
         </Box>
       ) : (

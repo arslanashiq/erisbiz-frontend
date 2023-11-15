@@ -14,6 +14,7 @@ import {
   useGetLatestQuatitonNumberQuery,
   useGetSingleQuotationQuery,
 } from 'services/private/quotations';
+import { useGetActiveSalePersonListQuery } from 'services/private/sale-person';
 // styles && components
 import FormikField from 'shared/components/form/FormikField';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
@@ -32,15 +33,19 @@ import {
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
-import 'styles/form/form.scss';
 import FormikFileField from 'shared/components/form/FormikFileField';
+// utilitis and styles
+import useListOptions from 'custom-hooks/useListOptions';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import { quotationsInitialValues } from '../utilities/initialValues';
+import 'styles/form/form.scss';
+import { quotationFormValidationSchema } from '../utilities/validation-schema';
 
 function AddQuotation() {
   const navigate = useNavigate();
   const itemsListResponse = useGetItemsListQuery();
   const customerListResponse = useGetCustomersListQuery();
+  const salePersonListResponse = useGetActiveSalePersonListQuery();
 
   const [addQuotation] = useAddQuotationMutation();
   const [editQuotation] = useEditQuotationMutation();
@@ -57,15 +62,21 @@ function AddQuotation() {
   );
   const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', { skip: id });
 
-  const customersOptions = customerListResponse?.data?.results?.map(customer => ({
-    value: customer.id,
-    label: customer.contact_person,
-  }));
+  const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
+    value: 'id',
+    label: 'customer_name',
+  });
+
+  const { optionsList: salePersonListOptions } = useListOptions(salePersonListResponse?.data?.results, {
+    value: 'id',
+    label: 'sales_person_name',
+  });
   const itemsListOptions = itemsListResponse?.data?.results?.map(item => ({
     label: item?.item_name,
     value: item?.item_name,
     price: item?.sale_price,
   }));
+
   const quotationItemsList = useMemo(
     () => [
       {
@@ -119,29 +130,34 @@ function AddQuotation() {
   );
   useEffect(() => {
     if (!id) {
-      const latestnum = latastQuotationNumberResponse?.data?.latest_quotation_num;
+      const latestnum = latastQuotationNumberResponse?.data?.latest_num;
       if (latestnum) {
         setInitialValues(prev => ({
           ...prev,
-          quotation_num: latestnum,
+          quotation_formatted_number: latestnum,
         }));
       }
     }
   }, [latastQuotationNumberResponse, queryResponse]);
 
   return (
-    <SectionLoader options={[itemsListResponse.isLoading]}>
+    <SectionLoader
+      options={[
+        itemsListResponse.isLoading,
+        customerListResponse.isLoading,
+        salePersonListResponse.isLoading,
+      ]}
+    >
       <Card>
         <CardContent>
           <FormHeader title="Sale Quotation" />
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={bankFormValidationSchema}
+            validationSchema={quotationFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               const payload = {
                 ...values,
-                sales_person: 33,
                 quotation_docs: values.filesList,
                 quotation_items: handleGetFormatedItemsData(values.quotation_items),
                 status: id ? values.status : 'draft',
@@ -178,7 +194,7 @@ function AddQuotation() {
               {/* Purchase */}
 
               <FormikField
-                name="quotation_num"
+                name="quotation_formatted_number"
                 type="text"
                 disabled
                 placeholder="Quotation Number"
@@ -196,7 +212,13 @@ function AddQuotation() {
               />
 
               {/* Sale Person */}
-              <FormikField name="sales_person" type="text" placeholder="Sale Person" label="Sale Person" />
+              <FormikSelect
+                name="sales_person"
+                options={salePersonListOptions}
+                type="text"
+                placeholder="Sale Person"
+                label="Sale Person"
+              />
 
               {/* Customer */}
               <FormikSelect
@@ -204,6 +226,7 @@ function AddQuotation() {
                 name="customers"
                 placeholder="Customer"
                 label="Customer"
+                isRequired
               />
 
               {/* Location */}
@@ -217,6 +240,7 @@ function AddQuotation() {
               {/* Attackment */}
               <FormikFileField
                 placeholder="Attachment"
+                label="Attachment"
                 name="quotation_docs"
                 startIcon={<AttachFileIcon />}
               />

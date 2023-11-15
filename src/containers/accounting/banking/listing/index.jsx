@@ -16,6 +16,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
 import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { BankingHeadCells } from '../utilities/head-cells';
 
@@ -48,13 +49,9 @@ function BankListing() {
       actionButton,
     });
   };
-  const deleteSingleBank = async id => {
-    await deletBank(id);
-    enqueueSnackbar('Bank Deleted Successfully', { variant: 'success' });
-  };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleBank(id);
+      handleDeleteResponse(deletBank, id, enqueueSnackbar);
     });
   };
   return (

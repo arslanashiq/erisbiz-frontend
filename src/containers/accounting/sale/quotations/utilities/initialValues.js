@@ -2,6 +2,7 @@ import moment from 'moment';
 
 export const quotationsInitialValues = {
   quotation_num: '',
+  quotation_formatted_number: '',
   date: moment().format('YYYY-MM-DD'),
   quotation_docs: [],
   location: '',

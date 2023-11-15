@@ -8,6 +8,7 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         params: {
           limit: params.limit,
           offset: params.offset || 0,
+          customer: params.customer,
         },
       }),
       providesTags: ['getPerformaInvoicesList'],

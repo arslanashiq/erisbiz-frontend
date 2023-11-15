@@ -69,7 +69,7 @@ function paymentVoucherListing() {
             label: (
               <>
                 <AddIcon sx={addButtonIconStyle} />
-                New Payment Voucher
+                Payment Voucher
               </>
             ),
             handleClick: () => navigate('add'),

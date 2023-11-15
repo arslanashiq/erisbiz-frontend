@@ -50,7 +50,7 @@ function QuotationDetailPage() {
         },
         {
           label: 'Currency',
-          value: quotationsDetailResponse?.data?.currency,
+          value: quotationsDetailResponse?.data?.currency_symbol,
         },
       ],
       box2: [
@@ -135,7 +135,7 @@ function QuotationDetailPage() {
       actionList.push({
         label: 'Approve',
         divider: true,
-        handleClick: handleStatus,
+        handleClick: () => handleStatus('approved'),
       });
     }
     if (quotationStatus === 'approved') {
@@ -145,12 +145,12 @@ function QuotationDetailPage() {
           navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
         },
       });
-      actionList.push({
-        label: 'Create Invoice',
-        handleClick: () => {
-          // navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
-        },
-      });
+      // actionList.push({
+      //   label: 'Create Invoice',
+      //   handleClick: () => {
+      //     navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
+      //   },
+      // });
     }
     return actionList;
   }, [quotationsDetailResponse]);
@@ -183,7 +183,7 @@ function QuotationDetailPage() {
             customComponent={
               quotationStatus === 'draft' && (
                 <QuotationStatusChange
-                  handleApprove={handleStatus}
+                  handleApprove={() => handleStatus('approved')}
                   handleDecline={() => handleStatus('declined')}
                 />
               )
