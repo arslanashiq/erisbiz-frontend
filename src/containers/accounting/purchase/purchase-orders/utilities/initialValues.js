@@ -10,7 +10,6 @@ export const purchaseOrderInitialValues = {
   exchange_rate: 1,
   attachment: '',
   remarks: '',
-  currency: 'AED',
   pur_order_items: [
     {
       service_type: '',

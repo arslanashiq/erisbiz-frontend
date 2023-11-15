@@ -1,19 +1,26 @@
+import { IBAN_REGIX, INTEGER_REGEX, NAME_AND_NUMBER_REGEX, NAME_REGEX } from 'utilities/constants';
 import * as Yup from 'yup';
 
 export const bankFormValidationSchema = Yup.object({
-  bank_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Bank Name is required'),
+  bank_name: Yup.string()
+    .matches(NAME_REGEX, 'Use alphabets only')
+    .max(50, 'Cannot exceed 50 characters')
+    .required('Bank Name is required'),
   account_number: Yup.string()
-    .matches(/^[0-9]*$/, 'Enter numbers only')
+    .matches(INTEGER_REGEX, 'Enter numbers only')
     .max(50, 'Cannot exceed 50 characters')
     .required('Account Number is required'),
-  branch_name: Yup.string().required('Branch Name is required'),
+  branch_name: Yup.string().matches(NAME_REGEX, 'Use alphabets only').required('Branch Name is required'),
 
   IBAN: Yup.string()
-    .matches(/^[A-Z]{2}[a-zA-Z\d]+$/, 'Invalid IBAN')
+    .matches(IBAN_REGIX, 'Invalid IBAN')
     .max(50, 'Cannot exceed 50 characters')
     .required('IBAN is required'),
 
-  swift_code: Yup.string().max(50, 'Cannot exceed 50 chracters').required('Swift Code is required'),
+  swift_code: Yup.string()
+    .matches(NAME_AND_NUMBER_REGEX, 'No spaces or special character allowded')
+    .max(50, 'Cannot exceed 50 chracters')
+    .required('Swift Code is required'),
 
   gl_number: Yup.string()
     .matches(/^[0-9]*$/, 'Enter numbers only')
