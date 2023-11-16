@@ -26,7 +26,12 @@ const quotationsApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getLatestQuatitonNumber', 'getQuotationsList'],
+      invalidatesTags: [
+        'getLatestQuatitonNumber',
+        'getQuotationsList',
+        'getCustomersList',
+        'getSingleCustomer',
+      ],
     }),
     editQuotation: builder.mutation({
       query: ({ id, payload }) => ({
@@ -34,14 +39,25 @@ const quotationsApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleQuotation', 'getQuotationsList', 'getLatestQuatitonNumber'],
+      invalidatesTags: [
+        'getSingleQuotation',
+        'getQuotationsList',
+        'getLatestQuatitonNumber',
+        'getCustomersList',
+        'getSingleCustomer',
+      ],
     }),
     deleteQuotation: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/quotations/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getLatestQuatitonNumber', 'getQuotationsList'],
+      invalidatesTags: [
+        'getLatestQuatitonNumber',
+        'getQuotationsList',
+        'getCustomersList',
+        'getSingleCustomer',
+      ],
     }),
     getLatestQuatitonNumber: builder.query({
       query: () => ({

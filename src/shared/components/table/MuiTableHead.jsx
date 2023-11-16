@@ -45,7 +45,7 @@ function MuiTableHead(props) {
             align={headCell.align ? headCell.align : 'left'}
             padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ fontWeight: 'bold', fontSize: '0.80rem' }}
+            sx={{ fontWeight: 'bold', fontSize: '0.80rem', ...headCell.headingStyle }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}

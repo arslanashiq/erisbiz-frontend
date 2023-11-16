@@ -106,7 +106,7 @@ function PurchaseInvoiceDetail() {
           setOpenInfoPopup({
             ...openInfoPopup,
             open: true,
-            infoDescription: 'Are you sure you want to change Status to Void',
+            infoDescription: 'Are you sure you want to change Status to Open',
             showActionButton: true,
             handleAction: async () => {
               handleChangeStatus(changeInvoiceStatusToOpen, id, 'Invoice status change to Open');

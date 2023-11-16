@@ -147,7 +147,7 @@ function AddCustomer() {
                 isRequired
                 name="reference_num"
                 type="text"
-                placeholder="Refrence"
+                placeholder="Reference"
                 label="Reference"
               />
 

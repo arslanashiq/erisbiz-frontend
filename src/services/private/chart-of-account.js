@@ -6,11 +6,20 @@ const chartOfAccountApi = privateApi.injectEndpoints({
       query: params => ({ url: '/api/accounting/accountant/list/chartOfAccounts', method: 'GET', params }),
       providesTags: ['getChartOfAccountList'],
     }),
+    getChartOfAccountListOfAssetsAndExpense: builder.query({
+      query: params => ({
+        url: 'api/accounting/accountant/chartOfAccounts/asset-expense/',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['getChartOfAccountListOfAssetsAndExpense'],
+    }),
     getSingleChartOfAccount: builder.query({
       query: id => ({
-        url: `api/accountant/chart/of/account/${id}/detail`,
+        url: `api/accounting/accountant/chartOfAccounts/${id}/`,
         method: 'GET',
       }),
+      invalidatesTags: ['getChartOfAccountList'],
 
       providesTags: ['getSingleChartOfAccount'],
     }),
@@ -30,7 +39,7 @@ const chartOfAccountApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getChartOfAccountList'],
+      invalidatesTags: ['getChartOfAccountList', 'getChartOfAccountListOfAssetsAndExpense'],
     }),
     editaddChartOfAccount: builder.mutation({
       query: ({ id, payload }) => ({
@@ -38,7 +47,8 @@ const chartOfAccountApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleJournalVoucher', 'getJournalVouchersList'],
+
+      invalidatesTags: ['getChartOfAccountList', 'getSingleJournalVoucher', 'getJournalVouchersList'],
     }),
     deleteChartOfAccount: builder.mutation({
       query: id => ({
@@ -46,7 +56,7 @@ const chartOfAccountApi = privateApi.injectEndpoints({
         method: 'DELETE',
       }),
       providesTags: ['deleteChartOfAccount'],
-      invalidatesTags: ['getChartOfAccountList'],
+      invalidatesTags: ['getChartOfAccountList', 'getChartOfAccountListOfAssetsAndExpense'],
     }),
 
     // getJournalVoucherDocuments: builder.query({
@@ -81,6 +91,7 @@ const chartOfAccountApi = privateApi.injectEndpoints({
 
 export const {
   useGetChartOfAccountListQuery,
+  useGetChartOfAccountListOfAssetsAndExpenseQuery,
   useGetSingleChartOfAccountQuery,
   useAddChartOfAccountMutation,
   useEditaddChartOfAccountMutation,

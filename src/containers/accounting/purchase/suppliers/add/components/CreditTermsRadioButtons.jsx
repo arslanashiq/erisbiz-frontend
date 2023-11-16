@@ -55,7 +55,7 @@ function CreditTermsRadioButtons({ name, values, errors, onChange, ...restProps 
             <span className="radio-btn__radio-custom" />
             <span className="radio-btn__label">{supplierPaymentInfo[1].label}</span>
           </label>
-          <label className="col-12 d-flex align-items-center radio-btn">
+          <label className="col-12 d-flex align-items-center radio-btn" style={{ marginTop: 10 }}>
             <input
               className="radio-btn__radio"
               type="radio"

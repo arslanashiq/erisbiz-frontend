@@ -1,3 +1,5 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable react/jsx-filename-extension */
 export const PaymentVoucherHeadCells = [
   {
     id: 'payment_date',
@@ -15,7 +17,7 @@ export const PaymentVoucherHeadCells = [
     id: 'payment_num',
     disablePadding: true,
     label: 'Payment Number',
-    align: 'left',
+    align: 'center',
     isLink: true,
   },
   {
@@ -32,7 +34,7 @@ export const PaymentVoucherHeadCells = [
     id: 'total',
     disablePadding: true,
     align: 'center',
-    label: 'Amount',
+    label: <>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Amount</>,
   },
   {
     id: 'over_payment',

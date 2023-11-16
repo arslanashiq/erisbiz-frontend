@@ -34,9 +34,8 @@ function AddBrand() {
     label: 'country',
     value: 'iso2',
   });
-
   return (
-    <SectionLoader options={[brandsRegionOptions.length === 0]}>
+    <SectionLoader>
       <Helmet>
         <title>Brands - ErisBiz</title>
         <meta name="description" content="CRM - Luxury Explorers" />

@@ -45,7 +45,7 @@ export const supplierCreditHeadCells = [
     id: 'currency_symbol',
     numeric: true,
     disablePadding: false,
-    label: 'currency',
+    label: 'Currency',
     align: 'left',
   },
   {

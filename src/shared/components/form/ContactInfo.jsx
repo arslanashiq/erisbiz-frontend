@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -53,21 +54,18 @@ function ContactInfo({ name, form, push, remove }) {
                   placeholder="Email"
                 />
               </TableCell>
-              <TableCell>
-                <Stack direction="row" spacing={2}>
-                  <FormikField
-                    className="w-100"
-                    name={`${name}.${index}.notes`}
-                    type="text"
-                    placeholder="Notes"
-                  />
-
-                  <Tooltip title="Remove" arrow placement="top">
-                    <IconButton onClick={() => remove(index)}>
-                      <HighlightOffIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Stack>
+              <TableCell sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FormikField
+                  className="w-100"
+                  name={`${name}.${index}.notes`}
+                  type="text"
+                  placeholder="Notes"
+                />
+                <Tooltip title="Remove" arrow placement="top">
+                  <IconButton color="error" onClick={() => remove(index)} className="mb-2 ms-2">
+                    <HighlightOffIcon />
+                  </IconButton>
+                </Tooltip>
               </TableCell>
             </TableRow>
           ))}

@@ -31,7 +31,7 @@ function MuiTableToolbar(props) {
       <Toolbar
         sx={{
           justifyContent: 'space-between',
-          pl: { sm: 2 },
+          pl: { sm: 0 },
           pr: { xs: 1, sm: 1 },
           // ...(numSelected > 0 && {
           //   bgcolor: theme => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),

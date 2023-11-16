@@ -326,6 +326,13 @@ function AddPurchaseInvoice() {
                   startIcon={<FmdGoodIcon />}
                 />
 
+                {/* Supplier Inv Number */}
+                <FormikField
+                  name="supplier_invoice_num"
+                  type="number"
+                  placeholder="Supplier Invoice Number"
+                  label="Supplier Inv No"
+                />
                 {/* Attachment */}
 
                 <FormikFileField
@@ -334,13 +341,6 @@ function AddPurchaseInvoice() {
                   placeholder="Attachment"
                   label="Attachment"
                   startIcon={<AttachFileIcon />}
-                />
-                {/* Supplier Inv Number */}
-                <FormikField
-                  name="supplier_invoice_num"
-                  type="number"
-                  placeholder="Supplier Invoice Number"
-                  label="Supplier Inv No"
                 />
 
                 {/* Item detail */}

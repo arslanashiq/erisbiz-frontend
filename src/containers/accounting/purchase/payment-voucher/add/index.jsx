@@ -3,6 +3,7 @@ import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
 import TagIcon from '@mui/icons-material/Tag';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // serivces
 import { useGetSuppliersListQuery, useGetSuppliersUpaidBillsListMutation } from 'services/private/suppliers';
@@ -164,7 +165,14 @@ function addPaymentVoucher() {
                 />
 
                 {/* Amount */}
-                <FormikField isRequired name="total" type="number" placeholder="Amount" label="Amount" />
+                <FormikField
+                  isRequired
+                  name="total"
+                  type="number"
+                  startIcon={<AttachMoneyIcon />}
+                  placeholder="Amount"
+                  label="Amount"
+                />
 
                 {/* Payment Mode */}
                 <FormikSelect

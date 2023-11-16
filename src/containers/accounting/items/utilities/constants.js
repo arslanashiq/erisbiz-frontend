@@ -32,6 +32,7 @@ export const itemsInitialValues = {
   opening_stock_per_unit: 0.0,
   dynamic_opening_stock: 0.0,
   dynamic_opening_stock_per_unit: 0.0,
+  is_item_used: false,
 };
 
 export const test = '';

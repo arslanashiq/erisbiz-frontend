@@ -30,7 +30,7 @@ export const purchaseInvoiceHeadCells = [
     id: 'bill_formated_number',
     numeric: true,
     disablePadding: false,
-    label: 'Refrence #',
+    label: 'Reference #',
     align: 'left',
   },
 
@@ -54,7 +54,7 @@ export const purchaseInvoiceHeadCells = [
     id: 'currency_symbol',
     numeric: true,
     disablePadding: false,
-    label: 'currency',
+    label: 'Currency',
     align: 'left',
   },
   {

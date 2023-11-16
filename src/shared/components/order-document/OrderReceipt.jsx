@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { COMPANY_NAME } from 'utilities/constants';
 import OrderItemsTable from './OrderItemsTable';
 import OrderVoucher from './OrderVoucher';
 import 'styles/purchase-order-template/purchase-order-template.scss';
@@ -28,7 +29,7 @@ function OrderReceipt({
         <Box className="invoice-receipt-container">
           <Box className="box-1">
             <img src="/logo.png" alt="" id="logo" />
-            <p>Luxury Events and VIP Travel DMCC</p>
+            <p>{COMPANY_NAME}</p>
             <p>Office # 1206, JBC 4, Cluster N,</p>
             <p>Jumeirah Lake Towers, Dubai,</p>
             <p>United Arab Emirates</p>

@@ -9,8 +9,8 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 // services
 import { useGetBrandsListQuery } from 'services/private/brands';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 import { useAddItemMutation, useEditItemMutation, useGetSingleItemQuery } from 'services/private/items';
+import { useGetChartOfAccountListOfAssetsAndExpenseQuery } from 'services/private/chart-of-account';
 // shared
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import FormHeader from 'shared/components/form-header/FormHeader';
@@ -25,10 +25,11 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
+import { getAccountTypesOptions } from 'utilities/get-account-type-options';
 import { itemsInitialValues } from '../utilities/constants';
+import { itemFormValidationSchema } from '../utilities/validationSchema';
 // styles
 import 'styles/form/form.scss';
-import { itemFormValidationSchema } from '../utilities/validationSchema';
 
 function AddItemPage() {
   const navigate = useNavigate();
@@ -36,25 +37,34 @@ function AddItemPage() {
   const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
   const [addItem] = useAddItemMutation();
   const [editItem] = useEditItemMutation();
-  const bankApiResponse = useGetBankAccountsListQuery();
   const supplierApiResponse = useGetSuppliersListQuery();
   const brandsApiResponse = useGetBrandsListQuery();
+  const chartOfAccountListResponse = useGetChartOfAccountListOfAssetsAndExpenseQuery();
   // options
   const { optionsList: suppliersOptions } = useListOptions(supplierApiResponse?.data?.results, {
     value: 'id',
     label: 'supplier_name',
   });
-  const { optionsList: bankOptions } = useListOptions(bankApiResponse?.data?.results, {
-    value: 'chart_of_account',
-    label: 'IBAN',
-  });
+  const { optionsList: bankOptions } = useListOptions(
+    chartOfAccountListResponse?.data?.results,
+    {
+      value: 'id',
+      label: 'account_name',
+    },
+    ['account_type']
+  );
+  const sortedChartOfAccount = getAccountTypesOptions(bankOptions, 2, 'account_type');
   const { optionsList: brandsOptions } = useListOptions(brandsApiResponse?.data?.results, {
     value: 'uid',
     label: 'brand_name',
   });
   return (
     <SectionLoader
-      options={[bankApiResponse.isLoading, supplierApiResponse.isLoading, brandsApiResponse.isLoading]}
+      options={[
+        chartOfAccountListResponse.isLoading,
+        supplierApiResponse.isLoading,
+        brandsApiResponse.isLoading,
+      ]}
     >
       <Card>
         <CardContent>
@@ -114,23 +124,6 @@ function AddItemPage() {
                 label="SKU/HS Code"
               />
 
-              {/* Sale price */}
-              <FormikField
-                type="number"
-                isRequired
-                name="sale_price"
-                placeholder="Sale Price"
-                label="Sale Price"
-              />
-              {/* cost Price */}
-              <FormikField
-                type="number"
-                isRequired
-                name="cost_price"
-                placeholder="Cost Price"
-                label="Cost Price"
-              />
-
               {/* Item Type */}
               <FormikSelect
                 name="item_type"
@@ -149,13 +142,31 @@ function AddItemPage() {
                 label="Status"
                 isRequired
               />
+              {/* Sale price */}
+              <FormikField
+                type="number"
+                isRequired
+                name="sale_price"
+                placeholder="Sale Price"
+                label="Sale Price"
+              />
+              {/* cost Price */}
+              <FormikField
+                type="number"
+                isRequired
+                name="cost_price"
+                placeholder="Cost Price"
+                label="Cost Price"
+              />
 
               {/* Account Number */}
               <FormikSelect
                 name="account_no"
-                options={bankOptions}
-                placeholder="Account Number"
-                label="Account Number"
+                options={sortedChartOfAccount}
+                placeholder="GL Number"
+                label="GL Number"
+                isRequired
+                isGrouped
               />
 
               {/* Bar Code */}
@@ -191,6 +202,7 @@ function AddItemPage() {
                   placeholder="Select Supplier"
                   className="col-12"
                   label="Supplier"
+                  isRequired
                 />
                 {/* Brand */}
 

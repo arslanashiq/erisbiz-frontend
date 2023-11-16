@@ -243,16 +243,22 @@ function AddInvoice() {
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Sale Invoice */}
-
                 <FormikField
                   name="invoice_formatted_number"
                   type="text"
                   placeholder="Sales Invoice Number"
                   label="Sales Invoice"
+                  startIcon={<TagIcon />}
                   disabled
                 />
-                {/* Customer */}
+
+                <FormikDatePicker
+                  name="date"
+                  type="text"
+                  placeholder="Date"
+                  label="Date"
+                  startIcon={<CalendarMonthIcon />}
+                />
                 <FormikSelect
                   options={customersOptions}
                   name="customer"
@@ -274,17 +280,6 @@ function AddInvoice() {
                   isRequired
                   onChange={value => handleChangePerformaInvoice(value, setFieldValue)}
                 />
-                {/* date */}
-
-                <FormikDatePicker
-                  name="date"
-                  type="text"
-                  placeholder="Date"
-                  label="Date"
-                  startIcon={<CalendarMonthIcon />}
-                />
-
-                {/* Sale Person */}
                 <FormikSelect
                   options={salePersonListOptions}
                   name="sales_person"
@@ -292,8 +287,13 @@ function AddInvoice() {
                   placeholder="Sale Person"
                   label="Sale Person"
                 />
-
-                {/* Location */}
+                <FormikFileField
+                  name="invoice_docs"
+                  type="file"
+                  placeholder="Attachment"
+                  label="Attachment"
+                  startIcon={<AttachFileIcon />}
+                />
 
                 <FormikField
                   name="location"
@@ -303,17 +303,6 @@ function AddInvoice() {
                   startIcon={<LocationOnIcon />}
                 />
 
-                {/* Attackment */}
-
-                <FormikFileField
-                  name="invoice_docs"
-                  type="file"
-                  placeholder="Attachment"
-                  label="Attachment"
-                  startIcon={<AttachFileIcon />}
-                />
-
-                {/* Item detail */}
                 <div className="form__form-group w-100">
                   <FieldArray
                     name="invoice_items"
@@ -327,7 +316,6 @@ function AddInvoice() {
                   />
                 </div>
 
-                {/* Remarks */}
                 <FormikField
                   name="remarks"
                   textArea

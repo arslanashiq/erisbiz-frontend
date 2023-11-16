@@ -26,13 +26,6 @@ export const invoiceHeadCell = [
     cellValueAction: customerInfo => customerInfo.customer_name,
   },
   {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: 'Status',
-    align: 'right',
-  },
-  {
     id: 'created_by_employee_name',
     numeric: true,
     disablePadding: false,

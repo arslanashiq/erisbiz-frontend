@@ -55,6 +55,9 @@ function BrandsListing() {
       <MuiTable
         data={brandsListResponse?.isSuccess ? brandsListResponse?.data?.results : []}
         TableHeading="Brands"
+        handleEdit={(_, selected) => {
+          navigate(`edit/${selected[0]}`);
+        }}
         headCells={brandsHeadCells}
         showCheckbox
         otherOptions={[

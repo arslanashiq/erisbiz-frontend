@@ -22,9 +22,7 @@ export const bankFormValidationSchema = Yup.object({
     .max(50, 'Cannot exceed 50 chracters')
     .required('Swift Code is required'),
 
-  gl_number: Yup.string()
-    .matches(/^[0-9]*$/, 'Enter numbers only')
-    .required('GL Number is required'),
+  gl_number: Yup.string().matches(INTEGER_REGEX, 'Enter numbers only').required('GL Number is required'),
   notes: Yup.string().max(255, 'Cannot exceed 255 chracters'),
 });
 export const test = '';

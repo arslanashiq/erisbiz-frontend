@@ -211,6 +211,21 @@ function AddQuotation() {
                 startIcon={<CalendarMonthIcon />}
               />
 
+              {/* Customer */}
+              <FormikSelect
+                options={customersOptions}
+                name="customers"
+                placeholder="Customer"
+                label="Customer"
+                isRequired
+              />
+              {/* Attackment */}
+              <FormikFileField
+                placeholder="Attachment"
+                label="Attachment"
+                name="quotation_docs"
+                startIcon={<AttachFileIcon />}
+              />
               {/* Sale Person */}
               <FormikSelect
                 name="sales_person"
@@ -220,15 +235,6 @@ function AddQuotation() {
                 label="Sale Person"
               />
 
-              {/* Customer */}
-              <FormikSelect
-                options={customersOptions}
-                name="customers"
-                placeholder="Customer"
-                label="Customer"
-                isRequired
-              />
-
               {/* Location */}
               <FormikField
                 name="location"
@@ -236,13 +242,6 @@ function AddQuotation() {
                 placeholder="Location"
                 className="col"
                 label="Location"
-              />
-              {/* Attackment */}
-              <FormikFileField
-                placeholder="Attachment"
-                label="Attachment"
-                name="quotation_docs"
-                startIcon={<AttachFileIcon />}
               />
 
               {/* Item detail */}

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TagIcon from '@mui/icons-material/Tag';
 // srvices
 import {
@@ -128,6 +129,21 @@ function AddReceiptVoucher() {
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
+                <FormikField
+                  name="payment_num"
+                  type="number"
+                  disabled
+                  placeholder="Payment Number"
+                  startIcon={<TagIcon />}
+                  label="Payment Number"
+                />
+                <FormikDatePicker
+                  name="payment_date"
+                  type="text"
+                  placeholder="Date"
+                  label="Date"
+                  startIcon={<CalendarMonthIcon />}
+                />
                 <FormikSelect
                   options={customersOptions}
                   disabled={Boolean(customerId)}
@@ -138,34 +154,20 @@ function AddReceiptVoucher() {
                   isRequired
                 />
 
-                <FormikDatePicker
-                  name="payment_date"
-                  type="text"
-                  placeholder="Date"
-                  label="Date"
-                  startIcon={<CalendarMonthIcon />}
-                />
-
-                <FormikField
-                  name="payment_num"
-                  type="number"
-                  disabled
-                  placeholder="Payment Number"
-                  label="Payment Number"
-                />
                 <FormikField
                   name="last_payment_number"
                   type="number"
                   disabled
                   placeholder="Last Payment Number"
                   label="Last Payment"
+                  startIcon={<TagIcon />}
                 />
                 <FormikField
                   name="total"
                   type="number"
                   placeholder="Amount"
                   label="Amount"
-                  startIcon={<TagIcon />}
+                  startIcon={<AttachMoneyIcon />}
                   isRequired
                 />
 

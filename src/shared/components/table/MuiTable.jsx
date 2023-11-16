@@ -119,8 +119,8 @@ export default function MuiTable({
 
       if (checkStatusBeforeEdit) {
         if (
-          (selectedData[0]?.status && selectedData[0].status === 'draft') ||
-          selectedData[0].status === 'open'
+          selectedData[0]?.status &&
+          (selectedData[0].status === 'draft' || selectedData[0].status === 'open')
         ) {
           navigate(`edit/${selected[0]}`);
           return;

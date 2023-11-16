@@ -30,7 +30,7 @@ export const expensesHeadCells = [
     id: 'reference_num',
     numeric: true,
     disablePadding: false,
-    label: 'Refrence #',
+    label: 'Reference #',
     align: 'left',
   },
   {
@@ -50,18 +50,11 @@ export const expensesHeadCells = [
     class: handleGetStatusBaseClass,
   },
   {
-    id: 'total_without_tax',
-    numeric: true,
-    disablePadding: false,
-    label: 'Amount',
-    align: 'center',
-  },
-  {
     id: 'total',
     numeric: true,
     disablePadding: false,
-    label: 'Expense Amount(WHT)',
-    align: 'center',
+    label: 'Amount',
+    align: 'left',
   },
 ];
 export const test = '';

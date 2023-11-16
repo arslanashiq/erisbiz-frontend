@@ -22,12 +22,12 @@ const groupedStyles = {
   groupHeading: provided => ({
     ...provided,
     fontSize: '12px',
-    fontWeight: 'bold',
-    color: '#000000',
+    fontWeight: 800,
+    color: '#00000',
   }),
   option: (styles, { isDisabled }) => ({
     ...styles,
-    paddingLeft: '20px',
+    paddingLeft: '20px !important',
     paddingTop: '5px',
     paddingBottom: '5px',
     fontSize: '13px',

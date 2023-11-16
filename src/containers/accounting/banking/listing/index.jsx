@@ -61,7 +61,6 @@ function BankListing() {
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
-        showCheckbox
         data={bankAccountListResponse?.isSuccess ? bankAccountListResponse?.data?.results : []}
         totalDataCount={bankAccountListResponse?.data?.count}
         TableHeading="Banking"

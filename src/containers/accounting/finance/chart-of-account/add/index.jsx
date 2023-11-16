@@ -52,6 +52,7 @@ function AddChartOfAccount() {
     chartOfAccountInitialValues,
     useGetSingleChartOfAccountQuery,
     null,
+    true,
     true
   );
   const { optionsList: bankAccountOptions } = useListOptions(

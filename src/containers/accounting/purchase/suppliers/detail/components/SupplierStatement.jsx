@@ -10,6 +10,7 @@ import {
   supplierStatementTable,
 } from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-statement';
 import { Box } from '@mui/material';
+import { COMPANY_NAME } from 'utilities/constants';
 
 function SupplierStatement({ basicInfo, transactions }) {
   return (
@@ -19,7 +20,7 @@ function SupplierStatement({ basicInfo, transactions }) {
           <img src="/logo.png" alt="" className="statement-logo" />
         </Box>
         <Box className="text-right">
-          <h5 className="font-weight-bold">Luxury Events and VIP Travel DMCC</h5>
+          <h5 className="font-weight-bold">{COMPANY_NAME}</h5>
           <p className="m-0">Office # 1206, JBC 4, Cluster N,</p>
           <p className="m-0">Jumeirah Lake Towers, Dubai,</p>
           <p className="m-0">United Arab Emirates</p>

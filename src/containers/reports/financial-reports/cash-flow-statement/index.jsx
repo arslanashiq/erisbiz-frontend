@@ -30,7 +30,7 @@ function CashFlowStatement() {
   const { sortedResponse, getTotalAmount, tableBody, totalAmount } = useCashFlowStatementData(reportResponse);
   const { duration } = getSearchParamsList();
   return (
-    <SectionLoader options={[!sortedResponse, reportResponse.isLoading]}>
+    <SectionLoader options={[reportResponse.isError, reportResponse.isLoading]}>
       <CustomCollapseAbleReport
         reportTitle="Cash Flow Statement"
         tableBody={tableBody}

@@ -204,7 +204,7 @@ export const financialReports = {
   ],
 };
 export const reciptVoucher = {
-  title: 'Recipt Voucher',
+  title: 'Receipt Voucher',
   reports: [
     {
       label: 'Receipt Voucehr',

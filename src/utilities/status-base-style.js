@@ -46,7 +46,7 @@ export const handleGetStatusBaseClass = status => {
   //   purchase invoice
   if (value === 'paid') return 'color-primary';
   if (value.includes('due')) return 'color-danger';
-  if (value === 'draft') return 'clr-grey';
+  if (value === 'draft') return 'color-grey';
 
   //   supplier credit note
   if (value.includes('overdue')) return 'color-danger';

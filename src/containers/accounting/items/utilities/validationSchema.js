@@ -11,7 +11,7 @@ export const itemFormValidationSchema = Yup.object({
     .required('Cost price is required'),
   item_type: Yup.string().required(),
   is_active: Yup.bool().required('Required'),
-  account_no: Yup.string(),
+  account_no: Yup.string().required('GL Number is required'),
   bar_code: Yup.string(),
   unit: Yup.string(),
   recorder: Yup.string(),

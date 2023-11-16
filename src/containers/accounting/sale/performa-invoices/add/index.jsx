@@ -246,15 +246,21 @@ function AddPerformaInvoice() {
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Proforma Invoice Number */}
                 <FormikField
                   name="pro_invoice_formatted_number"
                   type="text"
                   placeholder="Proforma Invoice Number"
                   label="Proforma Invoice"
+                  startIcon={<TagIcon />}
                   disabled
                 />
-                {/* Customer */}
+                <FormikDatePicker
+                  name="pro_invoice_date"
+                  type="text"
+                  placeholder="Date"
+                  label="Date"
+                  startIcon={<CalendarMonthIcon />}
+                />
 
                 <FormikSelect
                   options={customersOptions}
@@ -265,7 +271,6 @@ function AddPerformaInvoice() {
                   isRequired
                   onChange={handleChangeCustomer}
                 />
-                {/* date */}
 
                 <FormikSelect
                   name="quotation"
@@ -278,15 +283,6 @@ function AddPerformaInvoice() {
                   isRequired
                   onChange={value => handleChangeQuotationNumber(value, setFieldValue)}
                 />
-                <FormikDatePicker
-                  name="pro_invoice_date"
-                  type="text"
-                  placeholder="Date"
-                  label="Date"
-                  startIcon={<CalendarMonthIcon />}
-                />
-
-                {/* Sale Person */}
                 <FormikSelect
                   options={salePersonListOptions}
                   name="sales_person"
@@ -295,8 +291,6 @@ function AddPerformaInvoice() {
                   label="Sale Person"
                 />
 
-                {/* Attackment */}
-
                 <FormikFileField
                   name="pro_invoice_docs"
                   type="file"
@@ -304,7 +298,6 @@ function AddPerformaInvoice() {
                   label="Attachment"
                   startIcon={<AttachFileIcon />}
                 />
-                {/* Location */}
 
                 <FormikField
                   name="location"
@@ -312,10 +305,8 @@ function AddPerformaInvoice() {
                   placeholder="Location"
                   label="Location"
                   startIcon={<LocationOnIcon />}
-                  className="col-12"
                 />
 
-                {/* Item detail */}
                 <div className="form__form-group w-100">
                   <FieldArray
                     name="pro_invoice_items"
@@ -329,7 +320,6 @@ function AddPerformaInvoice() {
                   />
                 </div>
 
-                {/* Remarks */}
                 <FormikField
                   name="remarks"
                   textArea

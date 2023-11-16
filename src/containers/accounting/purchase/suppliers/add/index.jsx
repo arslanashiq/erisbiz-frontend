@@ -126,9 +126,6 @@ function SupplierAddPage() {
                 startIcon={<PersonOutlineIcon />}
               />
 
-              {/* Refrence */}
-              <FormikField name="reference_num" type="text" placeholder="Refrence" label="Refrence" />
-
               {/* Contact Person */}
               <FormikField
                 name="contact_person"
@@ -148,9 +145,6 @@ function SupplierAddPage() {
                 label="Website"
               />
 
-              {/* contact  */}
-              <FormikField name="mobile_num" type="text" placeholder="Contact" label="Contact" />
-
               {/* email */}
 
               <FormikField
@@ -160,6 +154,11 @@ function SupplierAddPage() {
                 startIcon={<AlternateEmailIcon />}
                 label="Email"
               />
+              {/* contact  */}
+              <FormikField name="mobile_num" type="text" placeholder="Contact" label="Contact" />
+
+              {/* Reference */}
+              <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
 
               <FormTabs
                 className="mt-2 mb-2"
@@ -305,7 +304,7 @@ function SupplierAddPage() {
 
                   {/* Bank Name and Account Name */}
 
-                  <FormikField name="bank_name" placeholder="bank Name" label="bank Name" disabled />
+                  <FormikField name="bank_name" placeholder="Bank Name" label="Bank Name" disabled />
 
                   <FormikField
                     name="account_number"
