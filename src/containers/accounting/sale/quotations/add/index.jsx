@@ -71,11 +71,15 @@ function AddQuotation() {
     value: 'id',
     label: 'sales_person_name',
   });
-  const itemsListOptions = itemsListResponse?.data?.results?.map(item => ({
-    label: item?.item_name,
-    value: item?.item_name,
-    price: item?.sale_price,
-  }));
+
+  const { optionsList: itemsListOptions } = useListOptions(
+    itemsListResponse?.data?.results,
+    {
+      value: 'item_name',
+      label: 'item_name',
+    },
+    ['sale_price', 'item_type', 'cost_price']
+  );
 
   const quotationItemsList = useMemo(
     () => [
@@ -98,6 +102,11 @@ function AddQuotation() {
         placeholder: 'Unit Price',
         type: 'number',
         disabled: true,
+      },
+      {
+        name: 'cost_price',
+        placeholder: 'Cost Price',
+        type: 'number',
       },
       {
         name: 'gross_amount',

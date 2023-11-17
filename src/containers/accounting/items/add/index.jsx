@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -34,12 +34,22 @@ import 'styles/form/form.scss';
 function AddItemPage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
+
+  const { initialValues, queryResponse } = useInitialValues(
+    itemsInitialValues,
+    useGetSingleItemQuery,
+    'item_image'
+  );
+
+  const [itemType, setItemType] = useState(id ? queryResponse?.itemType : initialValues?.item_type);
+
   const [addItem] = useAddItemMutation();
   const [editItem] = useEditItemMutation();
   const supplierApiResponse = useGetSuppliersListQuery();
   const brandsApiResponse = useGetBrandsListQuery();
-  const chartOfAccountListResponse = useGetChartOfAccountListOfAssetsAndExpenseQuery();
+  const chartOfAccountListResponse = useGetChartOfAccountListOfAssetsAndExpenseQuery(
+    `?item_type=${itemType}`
+  );
   // options
   const { optionsList: suppliersOptions } = useListOptions(supplierApiResponse?.data?.results, {
     value: 'id',
@@ -58,6 +68,7 @@ function AddItemPage() {
     value: 'uid',
     label: 'brand_name',
   });
+
   return (
     <SectionLoader
       options={[
@@ -132,6 +143,9 @@ function AddItemPage() {
                 startIcon={<CategoryIcon />}
                 label="Item Type"
                 isRequired
+                onChange={value => {
+                  setItemType(value);
+                }}
               />
               {/* Item Status */}
               <FormikSelect

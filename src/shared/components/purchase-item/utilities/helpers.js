@@ -37,6 +37,8 @@ export const handleChangeItem = (
   const selectedItem = itemsListOptions.filter(item => item.label === value);
   setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
+  setFieldValue(`${name}.${index}.service_type_name`, selectedItem[0].item_type);
+  setFieldValue(`${name}.${index}.cost_price`, selectedItem[0].cost_price);
   const newValues = {
     ...values,
     service_type: selectedItem[0].value,
@@ -77,9 +79,9 @@ export const handleCalculateTotalAmount = purchaseOrderItems => {
   let discountTotal = 0;
   let grandTotal = 0;
   purchaseOrderItems.forEach(item => {
-    amountTotal += item.gross_amount;
-    vatTotal += item.vat_amount;
-    discountTotal += item.discount;
+    amountTotal += item.gross_amount || 0;
+    vatTotal += item.vat_amount || 0;
+    discountTotal += item.discount || 0;
   });
 
   grandTotal = amountTotal - discountTotal + vatTotal;

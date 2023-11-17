@@ -100,7 +100,7 @@ function AddInvoice() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price']
+    ['sale_price', 'item_type', 'cost_price']
   );
   const saleInvoiceInputList = useMemo(
     () => [
@@ -123,6 +123,11 @@ function AddInvoice() {
         placeholder: 'Unit Price',
         type: 'number',
         disabled: true,
+      },
+      {
+        name: 'cost_price',
+        placeholder: 'Cost Price',
+        type: 'number',
       },
       {
         name: 'gross_amount',

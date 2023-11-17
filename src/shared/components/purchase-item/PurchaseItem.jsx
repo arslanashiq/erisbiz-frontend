@@ -50,6 +50,14 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
     [form]
   );
 
+  const getFieldDisabledStatus = (item, input) => {
+    if (input?.name === 'cost_price') {
+      if (item?.service_type_name === 'Service') return false;
+      return true;
+    }
+    return input?.disabled || false;
+  };
+
   return (
     <Box width="100%">
       <TableContainer sx={{ overflow: 'auto', minHeight: 'auto' }}>
@@ -103,7 +111,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
                       <FormikField
                         name={`${name}.${index}.${input.name}`}
                         placeholder={input.placeholder}
-                        disabled={input.disabled || false}
+                        disabled={getFieldDisabledStatus(item, input)}
                         type={input.type || 'number'}
                         onChange={key => {
                           if (input.onChange) {
@@ -151,7 +159,9 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
           </Box>
           <Box className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Typography className="purchase-item-total-amount">Total Amount</Typography>
-            <Typography className="purchase-item-total-amount">{currencySymbol} {getTotalAmount()}</Typography>
+            <Typography className="purchase-item-total-amount">
+              {currencySymbol} {getTotalAmount()}
+            </Typography>
           </Box>
         </Box>
       ) : (

@@ -32,7 +32,7 @@ const itemApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getItemsList'],
+      invalidatesTags: ['getSingleItem', 'getItemsList'],
     }),
     changeItemStatus: builder.mutation({
       query: id => ({
@@ -44,7 +44,7 @@ const itemApi = privateApi.injectEndpoints({
 
     deleteItem: builder.mutation({
       query: id => ({ url: `/api/accounting/items/${id}/`, method: 'DELETE' }),
-      invalidatesTags: ['getItemsList'],
+      invalidatesTags: ['getSingleItem', 'getItemsList'],
     }),
     getItemQuotation: builder.query({
       query: ({ id, params }) => ({

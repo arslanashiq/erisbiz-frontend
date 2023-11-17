@@ -21,14 +21,14 @@ const SideBarLinksList = [
     link: '/pages/accounting/banking',
   },
   {
-    name: 'Item Master',
-    icon: <ShoppingBasketOutlinedIcon />,
-    link: '/pages/accounting/items',
-  },
-  {
     name: 'Brands',
     icon: <ShoppingBasketIcon />,
     link: '/pages/accounting/brands',
+  },
+  {
+    name: 'Item Master',
+    icon: <ShoppingBasketOutlinedIcon />,
+    link: '/pages/accounting/items',
   },
 
   {

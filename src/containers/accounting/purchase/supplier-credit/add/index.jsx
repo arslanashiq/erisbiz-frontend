@@ -62,10 +62,10 @@ function AddSupplierCredit() {
   const { optionsList: itemsListOptions } = useListOptions(
     itemsListResponse?.data?.results,
     {
-      label: 'item_name',
       value: 'item_name',
+      label: 'item_name',
     },
-    ['sale_price']
+    ['sale_price', 'item_type', 'cost_price']
   );
   const { optionsList: bankAccountOptions } = useListOptions(
     bankAccountsListsponse?.data?.results,
@@ -110,6 +110,11 @@ function AddSupplierCredit() {
         placeholder: 'Unit Price',
         type: 'number',
         disabled: true,
+      },
+      {
+        name: 'cost_price',
+        placeholder: 'Cost Price',
+        type: 'number',
       },
       {
         name: 'gross_amount',
