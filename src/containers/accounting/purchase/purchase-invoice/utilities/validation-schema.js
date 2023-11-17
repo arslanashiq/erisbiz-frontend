@@ -8,5 +8,6 @@ export const purchaseInvoiceFormValidationSchema = Yup.object({
   supplier_invoice_num: Yup.number('Supplier Invoicemust be a number'),
 
   bill_items: purchaseOrderItemsValidationschema,
+  notes: Yup.string(''),
 });
 export const test = '';

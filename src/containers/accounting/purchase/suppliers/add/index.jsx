@@ -275,76 +275,72 @@ function SupplierAddPage() {
               {/* Bank And Transfer */}
               {activeTab === supplierFormTabsList[1] && (
                 <Box className="row form form--horizontal">
-                  {/* Account Payee */}
-
-                  <FormikField
-                    name="account_payee"
-                    disabled
-                    type="text"
-                    placeholder="Account Payee"
-                    label="Account Payee"
-                  />
-
-                  {/* Currency */}
-
-                  <FormikField name="currency" type="text" disabled placeholder="Currency" label="Currency" />
-
-                  <FormikSelect
-                    options={bankAccountOptions}
-                    name="account_default"
-                    isRequired
-                    placeholder="Account Default"
-                    label="Account Default"
-                    onChange={value => handleChangeBank(setFieldValue, value)}
-                  />
-
-                  {/* IBAN */}
-
-                  <FormikField name="IBAN" placeholder="IBAN" label="IBAN" disabled />
-
-                  {/* Bank Name and Account Name */}
-
-                  <FormikField name="bank_name" placeholder="Bank Name" label="Bank Name" disabled />
-
-                  <FormikField
-                    name="account_number"
-                    type="text"
-                    placeholder="Account Number"
-                    label="Account Number"
-                    disabled
-                  />
-
-                  {/* Account Detail,Vat Reverse and radio Button */}
-
-                  <FormikField
-                    name="swift_code"
-                    type="number"
-                    placeholder="Swift Code"
-                    label="Swift Code"
-                    disabled
-                  />
-
-                  <FormikField
-                    name="vat_number"
-                    type="number"
-                    placeholder="VAT Reverse Charges"
-                    label="VAT Reverse Charges"
-                  />
-                  <Box className="form__form-group col-12 align-items-center">
-                    <Box className="col-6" />
-                    <span className="form__form-group-label col-lg-3 " />
-
-                    <CheckBoxField
-                      name="is_import_agent"
-                      label="Supplier is Important Agent"
-                      className="justify-content-end"
+                  <Box className="col-6">
+                    <FormikField
+                      name="account_payee"
+                      disabled
+                      type="text"
+                      placeholder="Account Payee"
+                      label="Account Payee"
+                      className="col-12"
+                    />
+                    <FormikField name="IBAN" placeholder="IBAN" label="IBAN" disabled className="col-12" />
+                    <FormikField
+                      name="account_number"
+                      type="text"
+                      placeholder="Account Number"
+                      label="Account Number"
+                      disabled
+                      className="col-12"
+                    />
+                    <FormikField
+                      name="vat_number"
+                      type="number"
+                      placeholder="VAT Reverse Charges"
+                      label="VAT Reverse Charges"
+                      className="col-12"
                     />
                   </Box>
-                  <Box className="form__form-group col-12 align-items-center">
-                    <Box className="col-6" />
-                    <span className="form__form-group-label col-lg-3 " />
+                  <Box className="col-6">
+                    <FormikSelect
+                      options={bankAccountOptions}
+                      name="account_default"
+                      isRequired
+                      placeholder="Account Default"
+                      label="Account Default"
+                      onChange={value => handleChangeBank(setFieldValue, value)}
+                      className="col-12"
+                    />
 
-                    <CheckBoxField name="is_reverse_charge" label="VAT Reverse Charges" />
+                    <FormikField
+                      className="col-12"
+                      name="bank_name"
+                      placeholder="Bank Name"
+                      label="Bank Name"
+                      disabled
+                    />
+                    <FormikField
+                      name="swift_code"
+                      type="number"
+                      placeholder="Swift Code"
+                      label="Swift Code"
+                      disabled
+                      className="col-12"
+                    />
+                    <Box className="form__form-group align-items-center">
+                      <span className="form__form-group-label col-lg-3 " />
+
+                      <CheckBoxField
+                        name="is_import_agent"
+                        label="Supplier is Important Agent"
+                        className="justify-content-end"
+                      />
+                    </Box>
+                    <Box className="form__form-group align-items-center">
+                      <span className="form__form-group-label col-lg-3 " />
+
+                      <CheckBoxField name="is_reverse_charge" label="VAT Reverse Charges" />
+                    </Box>
                   </Box>
                 </Box>
               )}

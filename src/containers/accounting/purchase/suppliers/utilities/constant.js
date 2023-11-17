@@ -18,7 +18,7 @@ export const supplierInitialValues = {
   tax_treatment: '',
   trn: '',
   source_of_supply: '',
-  currency: 'AED',
+  // currency: 'AED',
   currency_id: '',
   opening_balance: 0,
   is_credit: 'true',

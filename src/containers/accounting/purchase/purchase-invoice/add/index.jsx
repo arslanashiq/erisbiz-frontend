@@ -152,14 +152,17 @@ function AddPurchaseInvoice() {
     const purchaseOrderAgainstSupplier = purchaseOrdersListResponse?.data?.results?.filter(
       purchaseOrder => Number(value) === purchaseOrder.supplier_id
     );
+
     setFieldValue('bill_items', [{}]);
-    setPurchaseOrdersListOptions(
-      purchaseOrderAgainstSupplier?.map(purchaseOrder => ({
-        label: purchaseOrder.pur_order_formatted_number,
-        value: purchaseOrder.id,
-        pur_order_items: purchaseOrder.pur_order_items,
-      }))
-    );
+    if (purchaseOrderAgainstSupplier) {
+      setPurchaseOrdersListOptions(
+        purchaseOrderAgainstSupplier?.map(purchaseOrder => ({
+          label: purchaseOrder.pur_order_formatted_number,
+          value: purchaseOrder.id,
+          pur_order_items: purchaseOrder.pur_order_items,
+        }))
+      );
+    }
   };
   const handleChangePurchaseOrderItem = (value, values, setFieldValue = null) => {
     let selecteditem = purchaseOrdersListResponse.data.results.filter(
@@ -186,7 +189,6 @@ function AddPurchaseInvoice() {
         bill_docs: purchaseOrderResponse?.pur_order_docs || [],
         bill_items: purchaseOrderResponse?.pur_order_items || [],
         location: purchaseOrderResponse?.location,
-        notes: purchaseOrderResponse?.remarks,
       };
       handleGetPurchaseOrderAgainstSupplier(purchaseOrderResponse?.supplier_id);
     }
@@ -231,7 +233,6 @@ function AddPurchaseInvoice() {
               const payload = {
                 ...values,
                 due_date: values.invoice_date,
-                bill_notes: [values.notes],
                 bill_docs: values.filesList || [],
                 status: values.status || 'draft',
                 ...handleCalculateTotalAmount(values.bill_items),
@@ -270,7 +271,6 @@ function AddPurchaseInvoice() {
             {({ setFieldValue, values }) => (
               <Form className="form form--horizontal mt-3 row">
                 {/* Supplier Invoice */}
-
                 <FormikField
                   name="invoice_num"
                   placeholder="Purchase Invoice"

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
@@ -148,7 +149,7 @@ function AddSupplierCredit() {
     [itemsListOptions]
   );
 
-  const { initialValues, setInitialValues } = useInitialValues(
+  const { initialValues, setInitialValues, queryResponse } = useInitialValues(
     supplierCreditsInitialValues,
     useGetSingleSupplierCreditsQuery
   );
@@ -189,6 +190,24 @@ function AddSupplierCredit() {
     }
   }, [latestDebitNoteNumberResponse]);
 
+  useEffect(() => {
+    if (
+      id &&
+      initialValues &&
+      initialValues?.supplier_credit_items?.length > 0 &&
+      !initialValues?.supplier_credit_items[0]?.invoice_num_nights
+    ) {
+      const updatedSupplierCreditItems = initialValues?.supplier_credit_items?.map(supplierCreditItems => ({
+        ...supplierCreditItems,
+        invoice_num_nights: supplierCreditItems.bill_num_unit,
+      }));
+      setInitialValues({
+        ...initialValues,
+        supplier_credit_items: updatedSupplierCreditItems,
+      });
+    }
+  }, [initialValues]);
+
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
@@ -207,8 +226,8 @@ function AddSupplierCredit() {
               const payload = {
                 ...values,
                 supplier_credit_items: supplierCreditTtems,
-                currency: 'AED',
-                status: 'open',
+                status: values.status || 'open',
+                paid_date: values.supplier_credit_date,
                 ...handleCalculateTotalAmount(values.supplier_credit_items),
               };
               if (id) {
@@ -226,10 +245,10 @@ function AddSupplierCredit() {
               }
             }}
           >
-            {({ setFieldValue }) => (
+            {({ values, setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
                 {/* Purchase */}
-
+                {/* {console.log(values?.supplier_credit_items, 'lkjdsalkflskjf')} */}
                 <FormikField
                   name="supplier_credit_formatted_number"
                   placeholder="Debit Note"

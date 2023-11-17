@@ -23,7 +23,9 @@ function useInitialValues(
     let file = null;
     const fetchedData = {};
     Object.keys(useInititalValues ? values : data).forEach(key => {
-      if (data[key] !== null && data[key] !== undefined) {
+      if (data[key] === null || data[key] === undefined) {
+        fetchedData[key] = '';
+      } else {
         fetchedData[key] = data[key];
       }
     });

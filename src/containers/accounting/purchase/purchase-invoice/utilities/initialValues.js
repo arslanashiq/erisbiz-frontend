@@ -20,13 +20,9 @@ export const purchaseInvoiceInitialValues = {
       net_amount: 0,
       account_code: '',
       service_type: '',
-      currency: 1,
     },
   ],
   notes: '',
-
-  // extra
-  currency: 'AED',
 };
 
 export const test = '';
