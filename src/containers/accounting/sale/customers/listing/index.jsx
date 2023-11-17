@@ -59,11 +59,11 @@ function CustomerListing() {
   };
   const deleteSingleCustomer = async id => {
     const deleteItemResp = await deleteCustomer(id);
-    if (deleteItemResp.data) {
-      enqueueSnackbar('Customer Deleted Successfully', { variant: 'success' });
-    } else {
+    if (deleteItemResp.error) {
       enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+      return;
     }
+    enqueueSnackbar('Customer Deleted Successfully', { variant: 'success' });
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
