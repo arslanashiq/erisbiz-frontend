@@ -28,6 +28,9 @@ const ItemDetailPage = lazy(() => import('containers/accounting/items/detail'));
 // Brands
 const BrandsListingPage = lazy(() => import('containers/accounting/brands/listing'));
 const AddBrandPage = lazy(() => import('containers/accounting/brands/add'));
+// Category
+const CategoryListingPage = lazy(() => import('containers/accounting/category/listing'));
+const AddCategoryPage = lazy(() => import('containers/accounting/category/add'));
 
 // Suppliers
 const SuppliersListingPage = lazy(() => import('containers/accounting/purchase/suppliers/listing'));
@@ -215,6 +218,12 @@ function AppRoutes() {
                     <Route path="" index element={<BrandsListingPage />} />
                     <Route path="add" element={<AddBrandPage />} />
                     <Route path="edit/:id" element={<AddBrandPage />} />
+                  </Route>
+                  {/* Category */}
+                  <Route path="category" element={<Outlet />}>
+                    <Route path="" index element={<CategoryListingPage />} />
+                    <Route path="add" element={<AddCategoryPage />} />
+                    <Route path="edit/:id" element={<AddCategoryPage />} />
                   </Route>
                   {/* Item Master */}
                   <Route path="items" element={<Outlet />}>

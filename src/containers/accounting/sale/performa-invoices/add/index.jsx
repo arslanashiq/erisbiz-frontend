@@ -31,6 +31,7 @@ import {
   hanldeVATChange,
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
+  handleGetItemWithRemainingStock,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormikFileField from 'shared/components/form/FormikFileField';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
@@ -57,7 +58,7 @@ function AddPerformaInvoice() {
 
   const quotationResponse = useGetSingleQuotationQuery(quotationId, { skip: !quotationId });
   const quotationsListResponse = useGetQuotationsListQuery(
-    { customer: selectedCustomer },
+    { customer: selectedCustomer, status: 'approved' },
     { skip: !selectedCustomer }
   );
   const { initialValues, setInitialValues, queryResponse } = useInitialValues(
@@ -90,7 +91,7 @@ function AddPerformaInvoice() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'remaining_stock']
   );
   const { optionsList: salePersonListOptions } = useListOptions(salePersonListResponse?.data?.results, {
     value: 'id',
@@ -108,22 +109,28 @@ function AddPerformaInvoice() {
         onChange: handleChangeItem,
       },
       {
-        name: 'num_nights',
-        placeholder: 'Quanitiy',
+        name: 'remaining_stock',
+        placeholder: 'Remaining Stock',
+        disabled: true,
         type: 'number',
-        onChange: handleChangeQuantity,
       },
       {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
+        name: 'num_nights',
+        placeholder: 'Quantity',
         type: 'number',
-        disabled: true,
+        onChange: handleChangeQuantity,
       },
       {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
       },
+      {
+        name: 'unit_price_ex_vat',
+        placeholder: 'Unit Price',
+        type: 'number',
+      },
+
       {
         name: 'gross_amount',
         placeholder: 'Gross Total',
@@ -153,10 +160,16 @@ function AddPerformaInvoice() {
     ],
     [itemsListOptions]
   );
+
   const handleChangeQuotationNumber = (value, setFieldValue) => {
     const selectedQuotation = quotationsListResponse.data.results.filter(quotation => quotation.id === value);
     if (selectedQuotation.length > 0) {
-      setFieldValue('pro_invoice_items', selectedQuotation[0].quotation_items);
+      const quotationItems = handleGetItemWithRemainingStock(
+        selectedQuotation[0].quotation_items,
+        itemsListOptions
+      );
+
+      setFieldValue('pro_invoice_items', quotationItems);
     }
   };
   const handleChangeCustomer = value => {
@@ -165,7 +178,7 @@ function AddPerformaInvoice() {
   // auto fill initialvalues if quotation id is given and also generate the random Pid
   useEffect(() => {
     let newData = {};
-    if (quotationId && quotationResponse?.data) {
+    if (quotationId && quotationResponse?.data && itemsListOptions) {
       const {
         quotation_items: quotationItems,
         id: quotationID,
@@ -194,7 +207,7 @@ function AddPerformaInvoice() {
       ...initialValues,
       ...newData,
     });
-  }, [quotationId, quotationResponse, latestPerformaInvoice]);
+  }, [quotationId, quotationResponse, latestPerformaInvoice, itemsListOptions]);
 
   useEffect(() => {
     if (queryResponse?.customer) {
@@ -214,7 +227,14 @@ function AddPerformaInvoice() {
           <FormHeader title="Proforma Invoice" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={{
+              ...initialValues,
+              pro_invoice_items: handleGetItemWithRemainingStock(
+                initialValues?.pro_invoice_items,
+                itemsListOptions,
+                id || false
+              ),
+            }}
             validationSchema={proformaInvoiceValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               const payload = {

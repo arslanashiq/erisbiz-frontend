@@ -125,8 +125,8 @@ function AddBankAccountPage() {
               name="gl_number"
               type="text"
               isRequired
-              placeholder="GL No"
-              label="GL Number"
+              placeholder="GL Account"
+              label="GL Account"
               isGrouped
             />
 

@@ -93,15 +93,15 @@ function index() {
       },
       {
         name: 'num_nights',
-        placeholder: 'Quanitiy',
+        placeholder: 'Quantity',
         type: 'number',
         onChange: handleChangeQuantity,
       },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
-        disabled: true,
         type: 'number',
+        disabled: true,
       },
       {
         name: 'gross_amount',

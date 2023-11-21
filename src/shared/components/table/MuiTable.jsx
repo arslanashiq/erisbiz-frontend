@@ -128,7 +128,9 @@ export default function MuiTable({
         setOpenInfoPopup({
           ...openInfoPopup,
           status: true,
-          message: 'Can not edit this item. You can only edit when its status is draft',
+          message: `Can not edit this item. You can only edit when its status is ${
+            selectedData[0].status === 'closed' || selectedData[0].status === 'close' ? 'Open' : 'Draft'
+          }`,
           actionButton: false,
         });
         return;

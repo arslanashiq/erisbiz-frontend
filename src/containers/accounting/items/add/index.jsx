@@ -8,6 +8,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 // services
 import { useGetBrandsListQuery } from 'services/private/brands';
+import { useGetCategoryListQuery } from 'services/private/category';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
 import { useAddItemMutation, useEditItemMutation, useGetSingleItemQuery } from 'services/private/items';
 import { useGetChartOfAccountListOfAssetsAndExpenseQuery } from 'services/private/chart-of-account';
@@ -47,6 +48,7 @@ function AddItemPage() {
   const [editItem] = useEditItemMutation();
   const supplierApiResponse = useGetSuppliersListQuery();
   const brandsApiResponse = useGetBrandsListQuery();
+  const categoryApiResponse = useGetCategoryListQuery();
   const chartOfAccountListResponse = useGetChartOfAccountListOfAssetsAndExpenseQuery(
     `?item_type=${itemType}`
   );
@@ -67,6 +69,10 @@ function AddItemPage() {
   const { optionsList: brandsOptions } = useListOptions(brandsApiResponse?.data?.results, {
     value: 'uid',
     label: 'brand_name',
+  });
+  const { optionsList: categoryOptions } = useListOptions(categoryApiResponse?.data?.results, {
+    value: 'uid',
+    label: 'category_name',
   });
 
   return (
@@ -117,7 +123,6 @@ function AddItemPage() {
             }}
           >
             <Form className="form form--horizontal row pt-3">
-              {/* item name */}
               <FormikField
                 type="text"
                 name="item_name"
@@ -126,7 +131,6 @@ function AddItemPage() {
                 isRequired
                 startIcon={<ShoppingBasketIcon />}
               />
-              {/* sku/HS code */}
               <FormikField
                 name="sku_hs_code"
                 placeholder="SKU/HS Code"
@@ -135,7 +139,6 @@ function AddItemPage() {
                 label="SKU/HS Code"
               />
 
-              {/* Item Type */}
               <FormikSelect
                 name="item_type"
                 type="text"
@@ -147,7 +150,6 @@ function AddItemPage() {
                   setItemType(value);
                 }}
               />
-              {/* Item Status */}
               <FormikSelect
                 name="is_active"
                 type="text"
@@ -156,15 +158,6 @@ function AddItemPage() {
                 label="Status"
                 isRequired
               />
-              {/* Sale price */}
-              <FormikField
-                type="number"
-                isRequired
-                name="sale_price"
-                placeholder="Sale Price"
-                label="Sale Price"
-              />
-              {/* cost Price */}
               <FormikField
                 type="number"
                 isRequired
@@ -172,35 +165,49 @@ function AddItemPage() {
                 placeholder="Cost Price"
                 label="Cost Price"
               />
+              <FormikField
+                type="number"
+                isRequired
+                name="sale_price"
+                placeholder="Sale Price"
+                label="Sale Price"
+              />
 
-              {/* Account Number */}
               <FormikSelect
                 name="account_no"
                 options={sortedChartOfAccount}
-                placeholder="GL Number"
-                label="GL Number"
+                placeholder="GL Account"
+                label="GL Account"
                 isRequired
                 isGrouped
               />
 
-              {/* Bar Code */}
               <FormikField name="bar_code" placeholder="Bar Code" label="Bar Code" />
 
-              {/* Unit */}
               <FormikField name="unit" label="Unit" />
 
-              {/* Recoder */}
               <FormikField name="recorder" type="text" placeholder="Recorder" label="Recorder" />
 
-              {/* description */}
               <FormikField name="description" textArea label="Description" className="col-12" />
 
-              {/* item image */}
-              <FormikImageInput name="item_image" type="file" accept="image/*" label="Item Image" />
-
-              {/* Part Number,Supplier,Brand */}
               <Box className="form__form-group col-md-6 row pe-0">
-                {/* Part Number */}
+                <FormikImageInput
+                  name="item_image"
+                  type="file"
+                  accept="image/*"
+                  label="Item Image"
+                  className="col-12"
+                />
+                <FormikField
+                  name="opening_stock"
+                  type="number"
+                  placeholder="Opening Stock"
+                  label="Opening Stock"
+                  className="col-12"
+                />
+              </Box>
+
+              <Box className="form__form-group col-md-6 row pe-0">
                 <FormikField
                   name="part_number"
                   type="number"
@@ -208,7 +215,6 @@ function AddItemPage() {
                   label="Part Number"
                   className="col-12"
                 />
-                {/* Supplier */}
 
                 <FormikSelect
                   name="supplier"
@@ -218,13 +224,20 @@ function AddItemPage() {
                   label="Supplier"
                   isRequired
                 />
-                {/* Brand */}
 
                 <FormikSelect
                   placeholder="Select Brand"
                   name="brand"
                   options={brandsOptions}
                   label="Brand"
+                  className="col-12"
+                  isRequired
+                />
+                <FormikSelect
+                  placeholder="Select Category"
+                  name="category"
+                  options={categoryOptions}
+                  label="Category"
                   className="col-12"
                   isRequired
                 />

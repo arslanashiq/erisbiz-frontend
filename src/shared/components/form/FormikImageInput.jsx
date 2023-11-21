@@ -52,14 +52,16 @@ function FormikImageInput(props) {
             />
 
             {/* Will preview only single image */}
-            {hasPreviewableImage && (
+            {(hasPreviewableImage || value) && (
               <Box className="border border-1">
-                <img
-                  className="w-100"
-                  src={URL.createObjectURL(value)}
-                  alt=""
-                  style={{ height: 150, objectFit: 'contain' }}
-                />
+                {hasPreviewableImage && (
+                  <img
+                    className="w-100"
+                    src={URL.createObjectURL(value)}
+                    alt=""
+                    style={{ height: 140, objectFit: 'contain' }}
+                  />
+                )}
                 <Box className="w-100 d-flex justify-content-between mt-2">
                   <label htmlFor={name} className="text-primary cursor-pointer">
                     Change Image

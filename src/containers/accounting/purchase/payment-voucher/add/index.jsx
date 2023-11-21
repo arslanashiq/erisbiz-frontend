@@ -120,15 +120,11 @@ function addPaymentVoucher() {
             validationSchema={paymentVoucherFormValidationSchema}
             onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
               let response = null;
-              const payload = {
-                ...values,
-                currency: 'AED',
-              };
 
               if (id) {
-                response = await editPaymentVouchser({ id, payload });
+                response = await editPaymentVouchser({ id, payload: values });
               } else {
-                response = await addPaymentVouchser(payload);
+                response = await addPaymentVouchser(values);
               }
               setSubmitting(false);
               if (response.data) {

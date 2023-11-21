@@ -37,7 +37,7 @@ function SupplierAddPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState(supplierFormTabsList[0]);
+  const [activeTab, setActiveTab] = useState(supplierFormTabsList[1]);
 
   const countriesListResponse = useGetAllCountriesListQuery();
   const bankAccountResponse = useGetBankAccountsListQuery();
@@ -48,7 +48,9 @@ function SupplierAddPage() {
 
   const { initialValues: supplierFormInitialValues, setInitialValues } = useInitialValues(
     supplierInitialValues,
-    useGetSingleSupplierQuery
+    useGetSingleSupplierQuery,
+    null,
+    true
   );
   const { optionsList: countryOptions } = useListOptions(countriesListResponse?.data?.data, {
     value: 'iso2',
@@ -153,6 +155,7 @@ function SupplierAddPage() {
                 placeholder="Email"
                 startIcon={<AlternateEmailIcon />}
                 label="Email"
+                isRequired
               />
               {/* contact  */}
               <FormikField name="mobile_num" type="text" placeholder="Contact" label="Contact" />

@@ -17,6 +17,7 @@ export const quotationsInitialValues = {
       num_nights: 0,
       unit_price_ex_vat: 0,
       gross_amount: 0,
+      remaining_stock: 0,
       discount: 0,
       vat_amount: 0,
       net_amount: 0,

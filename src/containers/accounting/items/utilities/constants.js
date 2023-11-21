@@ -14,6 +14,7 @@ export const itemsInitialValues = {
   part_number: '',
   supplier: '',
   brand: '',
+  category: '',
 
   current_value: 0.0,
   sale_account: '1',
@@ -28,7 +29,7 @@ export const itemsInitialValues = {
   item_cost_amount_prefix: 'AED',
   cost_description: null,
   is_tracking_inventory: false,
-  opening_stock: 0.0,
+  opening_stock: 0,
   opening_stock_per_unit: 0.0,
   dynamic_opening_stock: 0.0,
   dynamic_opening_stock_per_unit: 0.0,

@@ -134,7 +134,7 @@ function OrderReceipt({
                   <Box className="entry-info">
                     <p className="head">{orderInfo.label ? orderInfo.label : 'Supplier'}:</p>
                     <p>
-                      <Link to={`/pages/accounting/purchases/suppliers/${orderDetail.supplier_id}/detail`}>
+                      <Link to={`/pages/accounting/purchase/suppliers/${orderDetail.supplier_id}/detail`}>
                         {orderInfo.supplier.supplier_name}
                       </Link>
                     </p>

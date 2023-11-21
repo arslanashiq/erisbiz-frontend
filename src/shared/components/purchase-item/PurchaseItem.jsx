@@ -69,6 +69,11 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
                   {input.placeholder}
                 </TableCell>
               ))}
+              {form?.values[name].length > 1 && (
+                <TableCell key={uuid()} className="purchase-item-table-cell">
+                  Actions
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -132,7 +137,13 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
                   </TableCell>
                 ))}
                 {form?.values[name].length > 1 && (
-                  <TableCell key="remove button" sx={{ alignItems: 'center' }}>
+                  <TableCell
+                    key="remove button"
+                    className="purchase-item-table-cell"
+                    sx={{
+                      alignItems: 'center',
+                    }}
+                  >
                     <Tooltip arrow placement="top" title="Remove Item">
                       <IconButton
                         color="error"

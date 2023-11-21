@@ -33,6 +33,7 @@ import {
   hanldeVATChange,
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
+  handleGetItemWithRemainingStock,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormikFileField from 'shared/components/form/FormikFileField';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
@@ -61,7 +62,7 @@ function AddInvoice() {
   const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
   const customerListResponse = useGetCustomersListQuery();
   const performaInvoiceListResponse = useGetPerformaInvoicesListQuery(
-    { customer: selectedCustomer },
+    { customer: selectedCustomer, status: 'draft' },
     { skip: !selectedCustomer }
   );
   const performaInvoiceResponse = useGetSinglePerformaInvoiceQuery(performaInvoice, {
@@ -100,7 +101,7 @@ function AddInvoice() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'remaining_stock']
   );
   const saleInvoiceInputList = useMemo(
     () => [
@@ -113,22 +114,28 @@ function AddInvoice() {
         onChange: handleChangeItem,
       },
       {
+        name: 'remaining_stock',
+        placeholder: 'Remaining Stock',
+        disabled: true,
+        type: 'number',
+      },
+      {
         name: 'num_nights',
         placeholder: 'Quanitiy',
         type: 'number',
         onChange: handleChangeQuantity,
       },
       {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
-        type: 'number',
-        disabled: true,
-      },
-      {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
       },
+      {
+        name: 'unit_price_ex_vat',
+        placeholder: 'Unit Price',
+        type: 'number',
+      },
+
       {
         name: 'gross_amount',
         placeholder: 'Gross Total',
@@ -161,7 +168,10 @@ function AddInvoice() {
 
   const handleChangePerformaInvoice = (value, setFieldValue) => {
     const selectedPerformaInvoice = performaInvoiceOptions.filter(perInv => perInv.value === value);
-    setFieldValue('invoice_items', selectedPerformaInvoice[0].pro_invoice_items);
+    setFieldValue(
+      'invoice_items',
+      handleGetItemWithRemainingStock(selectedPerformaInvoice[0].pro_invoice_items, itemsListOptions, true)
+    );
     setFieldValue('customer', selectedPerformaInvoice[0].customer);
     setFieldValue('quotation', selectedPerformaInvoice[0].quotation);
   };
@@ -211,7 +221,14 @@ function AddInvoice() {
           <FormHeader title="Sales Invoice" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={{
+              ...initialValues,
+              invoice_items: handleGetItemWithRemainingStock(
+                initialValues?.invoice_items,
+                itemsListOptions,
+                true
+              ),
+            }}
             validationSchema={saleInvoiceValidationSchema}
             onSubmit={async (values, { setError }) => {
               const payload = {

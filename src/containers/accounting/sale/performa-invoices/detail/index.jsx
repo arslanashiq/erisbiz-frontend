@@ -76,7 +76,7 @@ function PerformaInvoiceDetail() {
       actionList.splice(0, 0, {
         label: 'Edit',
         handleClick: () => {
-          navigate(`/pages/accounting/sales/performa-invoice//edit/${id}`);
+          navigate(`/pages/accounting/sales/performa-invoice/edit/${id}`);
         },
       });
     }

@@ -64,6 +64,9 @@ function paymentVoucherListing() {
         TableHeading="Payment Voucher"
         showCheckbox
         headCells={PaymentVoucherHeadCells}
+        handleEdit={(_, selected) => {
+          navigate(`edit/${selected[0]}`);
+        }}
         otherOptions={[
           {
             label: (

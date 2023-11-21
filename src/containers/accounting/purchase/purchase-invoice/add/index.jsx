@@ -102,21 +102,21 @@ function AddPurchaseInvoice() {
       },
       {
         name: 'num_nights',
-        placeholder: 'Quanitiy',
+        placeholder: 'Quantity',
         type: 'number',
         onChange: handleChangeQuantity,
-      },
-      {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
-        type: 'number',
-        disabled: true,
       },
       {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
       },
+      {
+        name: 'unit_price_ex_vat',
+        placeholder: 'Unit Price',
+        type: 'number',
+      },
+
       {
         name: 'gross_amount',
         placeholder: 'Gross Total',

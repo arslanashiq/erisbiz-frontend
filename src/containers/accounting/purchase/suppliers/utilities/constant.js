@@ -18,6 +18,7 @@ export const supplierInitialValues = {
   tax_treatment: '',
   trn: '',
   source_of_supply: '',
+  account_default: '',
   // currency: 'AED',
   currency_id: '',
   opening_balance: 0,

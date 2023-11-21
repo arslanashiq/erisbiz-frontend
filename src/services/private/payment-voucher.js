@@ -27,7 +27,7 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getPurchaseInvoiceList', 'getPaymentVouchersList'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getPaymentVouchersList', 'getSinglePurchaseInvoice'],
     }),
 
     editPaymentVouchser: builder.mutation({
@@ -36,14 +36,14 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSinglePaymentVoucher', 'getPaymentVouchersList'],
+      invalidatesTags: ['getSinglePaymentVoucher', 'getPaymentVouchersList', 'getSinglePurchaseInvoice'],
     }),
     deletePaymentVoucher: builder.mutation({
       query: id => ({
         url: `api/accounting/purchases/paymentsMade/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getPurchaseInvoiceList', 'getPaymentVouchersList'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getPaymentVouchersList', 'getSinglePurchaseInvoice'],
     }),
     getPaymentVoucherJournals: builder.query({
       query: id => ({

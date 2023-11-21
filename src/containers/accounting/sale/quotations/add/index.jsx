@@ -29,6 +29,7 @@ import {
   hanldeVATChange,
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
+  handleGetItemWithRemainingStock,
 } from 'shared/components/purchase-item/utilities/helpers';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
@@ -78,7 +79,7 @@ function AddQuotation() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'remaining_stock']
   );
 
   const quotationItemsList = useMemo(
@@ -92,22 +93,28 @@ function AddQuotation() {
         onChange: handleChangeItem,
       },
       {
-        name: 'num_nights',
-        placeholder: 'Quanitiy',
+        name: 'remaining_stock',
+        placeholder: 'Remaining Stock',
+        disabled: true,
         type: 'number',
-        onChange: handleChangeQuantity,
       },
       {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
+        name: 'num_nights',
+        placeholder: 'Quantity',
         type: 'number',
-        disabled: true,
+        onChange: handleChangeQuantity,
       },
       {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
       },
+      {
+        name: 'unit_price_ex_vat',
+        placeholder: 'Unit Price',
+        type: 'number',
+      },
+
       {
         name: 'gross_amount',
         placeholder: 'Gross Total',
@@ -162,7 +169,13 @@ function AddQuotation() {
           <FormHeader title="Sale Quotation" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={{
+              ...initialValues,
+              quotation_items: handleGetItemWithRemainingStock(
+                initialValues?.quotation_items,
+                itemsListOptions
+              ),
+            }}
             validationSchema={quotationFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               const payload = {

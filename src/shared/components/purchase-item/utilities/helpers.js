@@ -1,4 +1,4 @@
-import { VAT_CHARGES } from 'utilities/constants';
+import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 
 export const handleChangeValues = (name, index, values, setFieldValue) => {
   const grossTotal = values.unit_price_ex_vat * values.num_nights;
@@ -39,6 +39,7 @@ export const handleChangeItem = (
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, selectedItem[0].item_type);
   setFieldValue(`${name}.${index}.cost_price`, selectedItem[0].cost_price);
+  setFieldValue(`${name}.${index}.remaining_stock`, selectedItem[0].remaining_stock);
   const newValues = {
     ...values,
     service_type: selectedItem[0].value,
@@ -103,5 +104,21 @@ export const handleGetFormatedItemsData = itemsList => itemsList.map(item => ({
   vat_amount: item.vat_amount,
   net_amount: item.net_amount,
   vat_rate: item.vat_rate,
+  cost_price: item.cost_price,
   amount_ex_vat: item.amount_ex_vat,
 }));
+export const handleGetItemWithRemainingStock = (itemsList, itemsListOptions, addexistingQuantity = false) => {
+  if (itemsListOptions?.length > 0 && itemsList?.length > 0) {
+    const updatedItemsList = itemsList.map(singleItem => {
+      const currentItem = itemsListOptions.filter(item => item.label === singleItem.service_type)[0];
+      return {
+        ...singleItem,
+        remaining_stock: addexistingQuantity
+          ? (currentItem?.remaining_stock || 0) + (singleItem?.num_nights || 0)
+          : currentItem?.remaining_stock || 0,
+      };
+    });
+    return updatedItemsList;
+  }
+  return itemsList || [NEW_PURCHASE_ITEM_OBJECT];
+};

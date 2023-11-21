@@ -102,9 +102,15 @@ function AddSupplierCredit() {
       },
       {
         name: 'num_nights',
-        placeholder: 'Quanitiy',
+        placeholder: 'Quantity',
         type: 'number',
         onChange: handleChangeQuantity,
+      },
+      {
+        name: 'cost_price',
+        placeholder: 'Cost Price',
+        type: 'number',
+        disabled: true,
       },
       {
         name: 'unit_price_ex_vat',
@@ -112,11 +118,7 @@ function AddSupplierCredit() {
         type: 'number',
         disabled: true,
       },
-      {
-        name: 'cost_price',
-        placeholder: 'Cost Price',
-        type: 'number',
-      },
+
       {
         name: 'gross_amount',
         placeholder: 'Gross Total',

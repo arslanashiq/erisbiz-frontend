@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 function useGetBillDetailData(supplierPayableBalanceResponse) {
   const getLinkByType = item => {
     if (item.type === 'Bill') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
+      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
     }
     return false;
   };

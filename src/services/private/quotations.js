@@ -9,6 +9,7 @@ const quotationsApi = privateApi.injectEndpoints({
           limit: params.limit,
           offset: params.offset || 0,
           customer: params.customer,
+          status: params.status || '',
         },
       }),
       providesTags: ['getQuotationsList'],
