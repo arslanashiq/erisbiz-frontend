@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
 // services
 import { useDeleteSupplierMutation, useGetSuppliersListQuery } from 'services/private/suppliers';
@@ -9,8 +8,8 @@ import { useDeleteSupplierMutation, useGetSuppliersListQuery } from 'services/pr
 import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { supplierHeadCells } from '../utilities/head-cells';
 import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utilities/constants';
 
@@ -28,10 +27,10 @@ function SupplierListing() {
       'You cannot delete these suppliers because some of the selected suppliers have transactions';
     let actionButton = false;
 
-    const haveExpense = checkSelectedDataUsed(data, selected, 'have_expenses');
     const havePurchaseOrder = checkSelectedDataUsed(data, selected, 'have_pur_orders');
     const haveBills = checkSelectedDataUsed(data, selected, 'have_bills');
     const haveDebitNotes = checkSelectedDataUsed(data, selected, 'have_debit_notes');
+    const haveExpense = checkSelectedDataUsed(data, selected, 'have_expenses');
     if (haveExpense.length > 0) {
       message =
         selected.length === 1 ? 'This account has expense, please delete the expenses first.' : message;
@@ -75,7 +74,6 @@ function SupplierListing() {
     <>
       <Helmet>
         <title>Supplier - ErisBiz</title>
-        <meta name="description" content="ErisBiz" />
       </Helmet>
       {/* {resp.isSuccess && resp?.data?.results?.length > 0 && ( */}
       <MuiTable
@@ -85,17 +83,7 @@ function SupplierListing() {
         showCheckbox
         headCells={supplierHeadCells}
         checkStatusBeforeEdit={false}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Supplier
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Supplier' })}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

@@ -1,19 +1,17 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import { useDeleteSaleInvoiceMutation, useGetSaleInvoicesListQuery } from 'services/private/sale-invoice';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { invoiceHeadCell } from '../utilities/head-cells';
 
 function PerformaInvoiceListing() {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const location = useLocation();
   const invoicesListResponse = useGetSaleInvoicesListQuery(location.search);
   const [deleteinvoice] = useDeleteSaleInvoiceMutation();
@@ -47,17 +45,7 @@ function PerformaInvoiceListing() {
         TableHeading="Sales Invoice"
         headCells={invoiceHeadCell}
         showCheckbox
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Sales Invoice
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Sales Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

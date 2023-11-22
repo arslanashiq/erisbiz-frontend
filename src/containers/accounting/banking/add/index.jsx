@@ -75,7 +75,6 @@ function AddBankAccountPage() {
           }}
         >
           <Form className="form form--horizontal row mt-3">
-            {/* Bank Name */}
             <FormikField
               name="bank_name"
               type="text"
@@ -84,7 +83,6 @@ function AddBankAccountPage() {
               isRequired
               startIcon={<AccountBalanceIcon />}
             />
-            {/* Account Number */}
             <FormikField
               name="account_number"
               type="text"
@@ -93,7 +91,6 @@ function AddBankAccountPage() {
               label="Account Number"
               isRequired
             />
-            {/* Branch Name */}
             <FormikField
               name="branch_name"
               type="text"
@@ -101,7 +98,6 @@ function AddBankAccountPage() {
               placeholder="Branch Name"
               isRequired
             />
-            {/* IBAN */}
             <FormikField
               name="IBAN"
               type="text"
@@ -109,7 +105,6 @@ function AddBankAccountPage() {
               label="IBAN"
               isRequired
             />
-            {/* Swift Code */}
 
             <FormikField
               name="swift_code"
@@ -119,7 +114,6 @@ function AddBankAccountPage() {
               label="Swift Code"
             />
 
-            {/* GL Number */}
             <FormikSelect
               options={accountsWithTypeAssets}
               name="gl_number"
@@ -129,8 +123,6 @@ function AddBankAccountPage() {
               label="GL Account"
               isGrouped
             />
-
-            {/* notes */}
 
             <FormikField name="notes" type="text" textArea label="Notes" className="col-12" />
 

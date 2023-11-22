@@ -4,56 +4,50 @@ import { Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 // services
-import { useAddBrandMutation, useEditBrandMutation, useGetSingleBrandQuery } from 'services/private/brands';
-import { useGetAllCountriesListQuery } from 'services/third-party/countries';
+import {
+  useAddCategoryMutation,
+  useEditCategoryMutation,
+  useGetSingleCategoryQuery,
+} from 'services/private/category';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
-import FormikSelect from 'shared/components/form/FormikSelect';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
-// custom hooks
-import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import { brandInitialValue } from '../utilities/constants';
+import { categoryInitialValue } from '../utilities/constants';
 // styles
 import 'styles/form/form.scss';
-import { brandsFormValidationSchema } from '../utilities/validation-schema';
+import { categoryFormValidationSchema } from '../utilities/validation-schema';
 
-function AddBrand() {
+function AddCategory() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const countriesResponse = useGetAllCountriesListQuery();
-  const [addBrand] = useAddBrandMutation();
-  const [editBrand] = useEditBrandMutation();
-  const { initialValues } = useInitialValues(brandInitialValue, useGetSingleBrandQuery);
-
-  const { optionsList: brandsRegionOptions } = useListOptions(countriesResponse?.data?.data, {
-    label: 'country',
-    value: 'iso2',
-  });
+  const [addCategory] = useAddCategoryMutation();
+  const [editCategory] = useEditCategoryMutation();
+  const { initialValues } = useInitialValues(categoryInitialValue, useGetSingleCategoryQuery);
   return (
     <SectionLoader>
       <Helmet>
-        <title>Brands - ErisBiz</title>
+        <title>Category - ErisBiz</title>
         <meta name="description" content="CRM - Luxury Explorers" />
       </Helmet>
       <Card>
         <CardContent>
-          <FormHeader title="Brands" />
+          <FormHeader title="Category" />
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            validationSchema={brandsFormValidationSchema}
+            validationSchema={categoryFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               try {
                 let response = null;
                 if (id) {
-                  response = await editBrand({ id, payload: values });
+                  response = await editCategory({ id, payload: values });
                 } else {
-                  response = await addBrand(values);
+                  response = await addCategory(values);
                 }
 
                 if (response.data) {
@@ -71,19 +65,12 @@ function AddBrand() {
           >
             <Form className="form form--horizontal row mt-3">
               <FormikField
-                name="brand_name"
+                name="category_name"
                 type="text"
-                placeholder="Brand Name"
-                label="Brand Name"
+                placeholder="Category Name"
+                label="Category Name"
                 isRequired
-              />
-
-              <FormikSelect
-                placeholder="Brand Region/Country"
-                name="brand_region"
-                options={brandsRegionOptions}
-                label="Brand Region"
-                isRequired
+                className="col-12"
               />
 
               <FormSubmitButton />
@@ -95,4 +82,4 @@ function AddBrand() {
   );
 }
 
-export default AddBrand;
+export default AddCategory;

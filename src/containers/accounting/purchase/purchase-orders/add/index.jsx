@@ -68,7 +68,7 @@ function AddPurchaseOrder() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price']
   );
   const purchaseItemsInputList = useMemo(
     () => [
@@ -179,8 +179,6 @@ function AddPurchaseOrder() {
             }}
           >
             <Form className="form form--horizontal mt-3 row">
-              {/* Purchase */}
-
               <FormikField
                 name="pur_order_num"
                 placeholder="Purchase Order Number"
@@ -188,7 +186,6 @@ function AddPurchaseOrder() {
                 label="Po Number"
                 startIcon={<TagIcon />}
               />
-              {/* date */}
 
               <FormikDatePicker
                 name="date"
@@ -199,8 +196,6 @@ function AddPurchaseOrder() {
                 startIcon={<CalendarMonthIcon />}
               />
 
-              {/* Supplier */}
-
               <FormikSelect
                 options={suppliersOptions}
                 name="supplier_id"
@@ -209,11 +204,7 @@ function AddPurchaseOrder() {
                 isRequired
               />
 
-              {/* Reference Number */}
-
               <FormikField name="reference_num" type="text" placeholder="Reference Number" label="Ref No" />
-
-              {/* Attackment */}
 
               <FormikFileField
                 name="pur_order_docs"
@@ -222,10 +213,8 @@ function AddPurchaseOrder() {
                 startIcon={<AttachFileIcon />}
                 label="Attachment"
               />
-              {/* Location */}
               <FormikField name="location" type="text" placeholder="Location" label="Location" />
 
-              {/* Item detail */}
               <div className="form__form-group w-100">
                 <FieldArray
                   name="pur_order_items"
@@ -238,8 +227,6 @@ function AddPurchaseOrder() {
                   )}
                 />
               </div>
-
-              {/* Remarks */}
 
               <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
 

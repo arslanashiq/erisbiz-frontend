@@ -21,6 +21,11 @@ const SideBarLinksList = [
     link: '/pages/accounting/banking',
   },
   {
+    name: 'Category',
+    icon: <ShoppingBasketIcon />,
+    link: '/pages/accounting/category',
+  },
+  {
     name: 'Brands',
     icon: <ShoppingBasketIcon />,
     link: '/pages/accounting/brands',

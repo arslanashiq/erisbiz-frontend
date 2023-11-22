@@ -1,20 +1,18 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import { useDeleteCreditNoteMutation, useGetCreditNotesListQuery } from 'services/private/credit-notes';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { creditNoteHeadCells } from '../utilities/head-cells';
 
 function CreditNotesListing() {
   const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
-  const navigate = useNavigate();
   const creditNotesListResponse = useGetCreditNotesListQuery(location.search);
   const [deleteCreditNote] = useDeleteCreditNoteMutation();
 
@@ -48,17 +46,7 @@ function CreditNotesListing() {
         TableHeading="Credit Notes"
         headCells={creditNoteHeadCells}
         showCheckbox
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Credit Note
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Credit Note' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

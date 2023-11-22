@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
 // services
 import { useDeleteQuotationMutation, useGetQuotationsListQuery } from 'services/private/quotations';
 // shared
@@ -10,13 +9,12 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getItemSearchQueryParams } from 'utilities/filters';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { quotationsHeadCell } from '../utilities/head-cells';
 
 function QuotationListing() {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const location = useLocation();
   const quotationDetailResponse = useGetQuotationsListQuery(getItemSearchQueryParams(location));
   const [deleteQuotation] = useDeleteQuotationMutation();
@@ -64,17 +62,7 @@ function QuotationListing() {
         TableHeading="Quotations"
         headCells={quotationsHeadCell}
         showCheckbox
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                Add New Quotation{' '}
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Quotation' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

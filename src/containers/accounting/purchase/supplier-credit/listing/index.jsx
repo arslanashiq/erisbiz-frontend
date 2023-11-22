@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import {
   useDeleteSupplierCreditsMutation,
@@ -11,14 +10,13 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { supplierCreditHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const location = useLocation();
   const supplierCreditResponse = useGetSupplierCreditsListQuery(getsearchQueryOffsetAndLimitParams(location));
   const [deleteSupplierCredit] = useDeleteSupplierCreditsMutation();
@@ -62,17 +60,7 @@ function SupplierCreditListing() {
         TableHeading="Purchase Debit Notes"
         showCheckbox
         headCells={supplierCreditHeadCells}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Debit Note
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Debit Note' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

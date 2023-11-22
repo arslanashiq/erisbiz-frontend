@@ -1,21 +1,19 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import { useDeleteCutomerMutation, useGetCustomersListQuery } from 'services/private/customers';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities  and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
-import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
+import ListingOtherOptions from 'utilities/other-options-listing';
+import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { customersHeadCell } from '../utilities/head-cells';
 
 function CustomerListing() {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const location = useLocation();
   const customersListResponse = useGetCustomersListQuery(getItemSearchQueryParams(location));
   const [deleteCustomer] = useDeleteCutomerMutation();
@@ -83,17 +81,7 @@ function CustomerListing() {
         headCells={customersHeadCell}
         showCheckbox
         checkStatusBeforeEdit={false}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                Add New Customer{' '}
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Customer' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

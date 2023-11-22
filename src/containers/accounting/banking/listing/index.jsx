@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import { useLocation, useNavigate } from 'react-router';
-import AddIcon from '@mui/icons-material/Add';
+import { useLocation } from 'react-router';
 // services
 import {
   useChangeBankAccountStatusMutation,
@@ -14,15 +13,14 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { BankingHeadCells } from '../utilities/head-cells';
 
 function BankListing() {
   const { enqueueSnackbar } = useSnackbar(0);
-  const navigate = useNavigate();
   const location = useLocation();
   const bankAccountListResponse = useGetBankAccountsListQuery(getsearchQueryOffsetAndLimitParams(location));
   const [handleChangeBankAccountStatus] = useChangeBankAccountStatusMutation();
@@ -67,17 +65,7 @@ function BankListing() {
         headCells={BankingHeadCells}
         actionButtonKey="is_active"
         handleTableBodyActionButton={handleChangeBankAccountStatus}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Bank Account
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Bank Account' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

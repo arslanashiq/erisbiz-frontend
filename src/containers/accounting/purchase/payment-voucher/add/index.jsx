@@ -138,7 +138,6 @@ function addPaymentVoucher() {
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Supplier */}
                 <FormikSelect
                   name="supplier_id"
                   placeholder="Supplier"
@@ -149,7 +148,6 @@ function addPaymentVoucher() {
                   isRequired
                   onChange={supplier => handleChangeSupplier(supplier, null, setFieldValue)}
                 />
-                {/* Payment date */}
 
                 <FormikDatePicker
                   name="payment_date"
@@ -160,7 +158,6 @@ function addPaymentVoucher() {
                   startIcon={<CalendarMonthIcon />}
                 />
 
-                {/* Amount */}
                 <FormikField
                   isRequired
                   name="total"
@@ -170,7 +167,6 @@ function addPaymentVoucher() {
                   label="Amount"
                 />
 
-                {/* Payment Mode */}
                 <FormikSelect
                   name="payment_mode"
                   placeholder="Payment Mode"
@@ -178,7 +174,6 @@ function addPaymentVoucher() {
                   options={PAYMENT_MODE}
                   isRequired
                 />
-                {/* Paid Through */}
                 <FormikSelect
                   name="chart_of_account_id"
                   placeholder="Paid Through"
@@ -187,19 +182,15 @@ function addPaymentVoucher() {
                   options={bankAccountOptions}
                 />
 
-                {/* Reference */}
                 <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
 
-                {/* Unpiad Bills */}
                 <FieldArray
                   name="bill_payments"
                   render={props => <UnPaidBillsList headCells={UnPaidBillsHeadCells} {...props} />}
                 />
 
-                {/* Remarks */}
                 <FormikField name="notes" textArea placeholder="Remarks" label="Remarks" className="col-12" />
 
-                {/* submit button and reset button */}
                 <FormSubmitButton />
               </Form>
             )}

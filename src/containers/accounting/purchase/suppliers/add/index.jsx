@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LanguageIcon from '@mui/icons-material/Language';
-import { Box, Button, Card, CardContent, Stack } from '@mui/material';
+import { Box, Card, CardContent } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
@@ -23,15 +23,14 @@ import { CheckBoxField } from 'shared/components/form/CheckBox';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import ContactInfo from 'shared/components/form/ContactInfo';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
-// custom-hooks
+// utils ,components and hooks
 import useListOptions from 'custom-hooks/useListOptions';
-// utils
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import { supplierFormTabsList } from '../utilities/constants';
 import { supplierInitialValues } from '../utilities/constant';
-// components
 import CreditTermsRadioButtons from './components/CreditTermsRadioButtons';
-import 'styles/form/form.scss';
 import { supplierFormValidationSchema } from '../utilities/custom-hooks/validation-schema';
+import 'styles/form/form.scss';
 
 function SupplierAddPage() {
   const { id } = useParams();
@@ -113,9 +112,8 @@ function SupplierAddPage() {
           initialValues={supplierFormInitialValues}
           onSubmit={handleSubmitForm}
         >
-          {({ values, isSubmitting, touched, resetForm, setFieldValue, errors }) => (
+          {({ values, setFieldValue, errors }) => (
             <Form className="form form--horizontal row pt-3">
-              {/* supplier name */}
               <FormikField
                 name="supplier_name"
                 type="text"
@@ -128,7 +126,6 @@ function SupplierAddPage() {
                 startIcon={<PersonOutlineIcon />}
               />
 
-              {/* Contact Person */}
               <FormikField
                 name="contact_person"
                 type="text"
@@ -136,8 +133,6 @@ function SupplierAddPage() {
                 startIcon={<SettingsPhoneIcon />}
                 label="Contact Person"
               />
-
-              {/* website */}
 
               <FormikField
                 name="website"
@@ -147,8 +142,6 @@ function SupplierAddPage() {
                 label="Website"
               />
 
-              {/* email */}
-
               <FormikField
                 name="email"
                 type="text"
@@ -157,10 +150,8 @@ function SupplierAddPage() {
                 label="Email"
                 isRequired
               />
-              {/* contact  */}
               <FormikField name="mobile_num" type="text" placeholder="Contact" label="Contact" />
 
-              {/* Reference */}
               <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
 
               <FormTabs
@@ -170,12 +161,9 @@ function SupplierAddPage() {
                 tabsList={supplierFormTabsList}
               />
 
-              {/* Communication Tab */}
               {activeTab === supplierFormTabsList[0] && (
                 <Box className="row form form--horizontal">
                   <Box className="col-md-6">
-                    {/* Address Line 1 */}
-
                     <FormikField
                       name="address_line1"
                       type="text"
@@ -183,8 +171,6 @@ function SupplierAddPage() {
                       label="Address Line 1"
                       className="col-12"
                     />
-
-                    {/* Address Line 2 */}
 
                     <FormikField
                       className="col-12"
@@ -194,8 +180,6 @@ function SupplierAddPage() {
                       label="Address Line 2"
                     />
 
-                    {/* Country */}
-
                     <FormikSelect
                       className="col-12"
                       options={countryOptions}
@@ -204,9 +188,7 @@ function SupplierAddPage() {
                       label="Country"
                     />
 
-                    {/* CIty */}
                     <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
-                    {/* Map */}
                     <Box className="form__form-group col-12">
                       <span className="form__form-group-label col-lg-2 required">Map</span>
                       <Box className="form__form-group-field">
@@ -217,7 +199,6 @@ function SupplierAddPage() {
                     </Box>
                   </Box>
                   <Box className="col-md-6">
-                    {/* Credit Limit */}
                     <Box className="form__form-group col-12">
                       <span className="form__form-group-label  col-lg-2" />
                       <Box className="row">
@@ -249,7 +230,6 @@ function SupplierAddPage() {
                         />
                       </Box>
                     </Box>
-                    {/* Credit Terms */}
                     <Box className="form__form-group col-12">
                       <span className="form__form-group-label col-lg-2" />
 
@@ -275,7 +255,6 @@ function SupplierAddPage() {
                   </Box>
                 </Box>
               )}
-              {/* Bank And Transfer */}
               {activeTab === supplierFormTabsList[1] && (
                 <Box className="row form form--horizontal">
                   <Box className="col-6">
@@ -347,14 +326,11 @@ function SupplierAddPage() {
                   </Box>
                 </Box>
               )}
-              {/* COntact Info */}
               {activeTab === supplierFormTabsList[2] && (
                 <FieldArray name="supplier_contacts" component={ContactInfo} />
               )}
-              {/* Comments and Notes */}
               {activeTab === supplierFormTabsList[3] && (
                 <Box className="row form form--horizontal">
-                  {/* COmments */}
                   <FormikField
                     name="comments_on_transactions"
                     type="text"
@@ -363,7 +339,6 @@ function SupplierAddPage() {
                     label="Comment on Transaction"
                     className="col-12"
                   />
-                  {/* Notes */}
                   <FormikField
                     name="notes"
                     type="text"
@@ -375,25 +350,7 @@ function SupplierAddPage() {
                 </Box>
               )}
 
-              <Box className="col-lg-12 mt-4">
-                <Stack spacing={2} direction="row">
-                  <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                    Save
-                  </Button>
-
-                  <Button
-                    type="button"
-                    disabled={!touched || isSubmitting}
-                    color="secondary"
-                    className="text-capitalize"
-                    onClick={() => {
-                      resetForm(supplierFormInitialValues);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
-              </Box>
+              <FormSubmitButton />
             </Form>
           )}
         </Formik>

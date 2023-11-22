@@ -56,6 +56,14 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
     setOpen(false);
   };
   const handleEditBank = () => {
+    if (bankDetail.is_active) {
+      setInfoPopup({
+        open: true,
+        infoDescription: 'Active banks cannot be deleted. Please inactive them first in order to Edit',
+        actionButton: false,
+      });
+      return;
+    }
     handleClose();
     navigate(`/pages/accounting/banking/edit/${id}`);
   };

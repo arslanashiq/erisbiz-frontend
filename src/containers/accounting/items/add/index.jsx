@@ -22,14 +22,12 @@ import FormikImageInput from 'shared/components/form/FormikImageInput';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// custom-hooks
+// utilities and styles and hooks
 import useListOptions from 'custom-hooks/useListOptions';
-// utilities
 import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
 import { getAccountTypesOptions } from 'utilities/get-account-type-options';
 import { itemsInitialValues } from '../utilities/constants';
 import { itemFormValidationSchema } from '../utilities/validationSchema';
-// styles
 import 'styles/form/form.scss';
 
 function AddItemPage() {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import PersonIcon from '@mui/icons-material/Person';
@@ -38,10 +38,7 @@ function AddExpense() {
   const [addExpense] = useAddExpenseMutation();
   const [editExpense] = useEditExpenseMutation();
 
-  const { initialValues, setInitialValues } = useInitialValues(
-    expensesInitialValues,
-    useGetSingleExpenseQuery
-  );
+  const { initialValues } = useInitialValues(expensesInitialValues, useGetSingleExpenseQuery);
   const { optionsList: bankOptions } = useListOptions(bankAccountsLIstResponse?.data?.results, {
     label: 'bank_account_name',
     value: 'chart_of_account',
@@ -51,10 +48,12 @@ function AddExpense() {
     value: 'id',
   });
 
-  useEffect(() => {
-    if (typeof initialValues.tax_rate_id === 'string') {
-      setInitialValues({ ...initialValues, tax_rate_id: Number(initialValues.tax_rate_id) });
+  const updatedExpenseInitialValues = useMemo(() => {
+    let newData = { ...initialValues };
+    if (typeof newData.tax_rate_id === 'string') {
+      newData = { ...newData, tax_rate_id: Number(initialValues.tax_rate_id) };
     }
+    return newData;
   }, [initialValues]);
   return (
     <Card>
@@ -62,7 +61,7 @@ function AddExpense() {
         <FormHeader title="Expenses" />
         <Formik
           enableReinitialize
-          initialValues={initialValues}
+          initialValues={updatedExpenseInitialValues}
           validationSchema={expensesFormValidationSchema}
           onSubmit={async (values, { setSubmitting, setErrors }) => {
             try {

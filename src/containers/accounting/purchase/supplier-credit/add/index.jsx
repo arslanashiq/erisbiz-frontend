@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
@@ -54,7 +53,7 @@ function AddSupplierCredit() {
   const suppliersListResponse = useGetSuppliersListQuery();
   const bankAccountsListsponse = useGetBankAccountsListQuery();
   const purchaseInvoiceListResponse = useGetPurchaseInvoiceListQuery();
-  const singlePurchaseInvoiceresponse = useGetSinglePurchaseInvoiceQuery(purchaseId, { skip: !purchaseId });
+  const singlePurchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(purchaseId, { skip: !purchaseId });
   const latestDebitNoteNumberResponse = useGetLatestSupplierCreditNumberQuery({}, { skip: id });
   const [getPurchaseInvoice] = useGetPurchaseInvoceMutation();
   const [addSupplierCredit] = useAddSupplierCreditsMutation();
@@ -66,7 +65,7 @@ function AddSupplierCredit() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price']
   );
   const { optionsList: bankAccountOptions } = useListOptions(
     bankAccountsListsponse?.data?.results,
@@ -151,10 +150,7 @@ function AddSupplierCredit() {
     [itemsListOptions]
   );
 
-  const { initialValues, setInitialValues, queryResponse } = useInitialValues(
-    supplierCreditsInitialValues,
-    useGetSingleSupplierCreditsQuery
-  );
+  const { initialValues } = useInitialValues(supplierCreditsInitialValues, useGetSingleSupplierCreditsQuery);
 
   const handleChangePurchaseInvoice = async (value, setFieldValue) => {
     if (!value) return;
@@ -171,28 +167,17 @@ function AddSupplierCredit() {
     }
   };
 
-  useEffect(() => {
-    if (singlePurchaseInvoiceresponse?.data) {
-      const { supplier_id: supplierId, bill_items: billItems } = singlePurchaseInvoiceresponse.data;
-      setInitialValues({
-        ...initialValues,
-        bill_id: Number(purchaseId),
-        supplier_credit_items: billItems,
-        supplier_id: supplierId,
-      });
-    }
-  }, [singlePurchaseInvoiceresponse, paymentInvoiceOptions]);
-
-  useEffect(() => {
+  const UpdatedSupplierCreditValues = useMemo(() => {
+    let newData = { ...initialValues };
+    // work when create a new debit note
     if (latestDebitNoteNumberResponse?.data?.latest_num) {
-      setInitialValues({
-        ...initialValues,
+      newData = {
+        ...newData,
         supplier_credit_formatted_number: latestDebitNoteNumberResponse?.data?.latest_num,
-      });
+      };
     }
-  }, [latestDebitNoteNumberResponse]);
 
-  useEffect(() => {
+    // works when we edit a existing debit note
     if (
       id &&
       initialValues &&
@@ -203,13 +188,24 @@ function AddSupplierCredit() {
         ...supplierCreditItems,
         invoice_num_nights: supplierCreditItems.bill_num_unit,
       }));
-      setInitialValues({
-        ...initialValues,
+      newData = {
+        ...newData,
         supplier_credit_items: updatedSupplierCreditItems,
-      });
+      };
     }
-  }, [initialValues]);
 
+    // work when comming from purchase invoice to create debit note
+    if (singlePurchaseInvoiceResponse?.data) {
+      const { supplier_id: supplierId, bill_items: billItems } = singlePurchaseInvoiceResponse.data;
+      newData = {
+        ...newData,
+        bill_id: Number(purchaseId),
+        supplier_credit_items: billItems,
+        supplier_id: supplierId,
+      };
+    }
+    return newData;
+  }, [initialValues, latestDebitNoteNumberResponse, singlePurchaseInvoiceResponse, paymentInvoiceOptions]);
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
@@ -217,7 +213,7 @@ function AddSupplierCredit() {
           <FormHeader title="Purchase Debit Notes" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={UpdatedSupplierCreditValues}
             validationSchema={supplierCreditFormValidationSchema}
             onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
               const supplierCreditTtems = values.supplier_credit_items.map(item => ({
@@ -247,10 +243,8 @@ function AddSupplierCredit() {
               }
             }}
           >
-            {({ values, setFieldValue }) => (
+            {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Purchase */}
-                {/* {console.log(values?.supplier_credit_items, 'lkjdsalkflskjf')} */}
                 <FormikField
                   name="supplier_credit_formatted_number"
                   placeholder="Debit Note"
@@ -258,7 +252,6 @@ function AddSupplierCredit() {
                   startIcon={<TagIcon />}
                   disabled
                 />
-                {/* Purchase Inv No */}
                 <FormikSelect
                   name="bill_id"
                   options={paymentInvoiceOptions || []}
@@ -268,7 +261,6 @@ function AddSupplierCredit() {
                   isRequired
                   onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}
                 />
-                {/* date */}
 
                 <FormikDatePicker
                   name="supplier_credit_date"
@@ -277,7 +269,6 @@ function AddSupplierCredit() {
                   startIcon={<CalendarMonthIcon />}
                   label="Date"
                 />
-                {/* Supplier */}
                 <FormikSelect
                   options={suppliersListOptions}
                   name="supplier_id"
@@ -287,7 +278,6 @@ function AddSupplierCredit() {
                   isRequired
                 />
 
-                {/* debit account number */}
                 <FormikSelect
                   name="debit_account_number"
                   options={bankAccountOptions}
@@ -295,10 +285,8 @@ function AddSupplierCredit() {
                   label="Debit Acc No"
                   isRequired
                   className="col-12"
-                  // onChange={value => handleChangeDebitAccount(value, setFieldValue)}
                 />
 
-                {/* Item detail */}
                 <div className="form__form-group w-100">
                   <FieldArray
                     render={props => (
@@ -311,7 +299,6 @@ function AddSupplierCredit() {
                   />
                 </div>
 
-                {/* Remarks */}
                 <FormikField
                   name="remarks"
                   textArea

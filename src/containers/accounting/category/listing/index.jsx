@@ -2,31 +2,31 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation, useNavigate } from 'react-router';
 // services
-import { useDeleteBrandMutation, useGetBrandsListQuery } from 'services/private/brands';
+import { useGetCategoryListQuery, useDeleteCategoryMutation } from 'services/private/category';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
-import { getItemSearchQueryParams } from 'utilities/filters';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
-import { brandsHeadCells } from '../utilities/head-cells';
+import { getItemSearchQueryParams } from 'utilities/filters';
+import { categoryHeadCells } from '../utilities/head-cells';
 
-function BrandsListing() {
+function CategoryListing() {
   const navigate = useNavigate();
   const location = useLocation();
-  const brandsListResponse = useGetBrandsListQuery(getItemSearchQueryParams(location));
-  const [deleteSingleBrand] = useDeleteBrandMutation();
+  const categoryListResponse = useGetCategoryListQuery(getItemSearchQueryParams(location));
+  const [deleteSingleCategory] = useDeleteCategoryMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these brands because some of the selected brands is used in items';
+    let message = 'You cannot delete these Category because some of the selected Category is used in items';
     let actionButton = false;
     const isUsed = checkSelectedDataUsed(data, selected, 'is_item_used');
     if (isUsed.length > 0) {
       message =
         selected.length === 1
-          ? 'You cannot delete these brands because some of the selected brands is used in items'
+          ? 'You cannot delete these Categories because some of the selected Categories is used in items'
           : message;
     } else {
       message = 'Are you sure you want to delete?';
@@ -42,24 +42,24 @@ function BrandsListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleBrand(id);
+      deleteSingleCategory(id);
     });
   };
   return (
-    <SectionLoader options={[brandsListResponse.isLoading]}>
+    <SectionLoader options={[categoryListResponse.isLoading]}>
       <Helmet>
-        <title>Brands - ErisBiz</title>
+        <title>Category - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
-        data={brandsListResponse?.isSuccess ? brandsListResponse?.data?.results : []}
-        TableHeading="Brands"
+        data={categoryListResponse?.isSuccess ? categoryListResponse?.data?.results : []}
+        TableHeading="Category"
         handleEdit={(_, selected) => {
           navigate(`edit/${selected[0]}`);
         }}
-        headCells={brandsHeadCells}
+        headCells={categoryHeadCells}
         showCheckbox
-        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Brand' })}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New category' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />
@@ -67,4 +67,4 @@ function BrandsListing() {
   );
 }
 
-export default BrandsListing;
+export default CategoryListing;

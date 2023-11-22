@@ -38,7 +38,10 @@ export const handleChangeItem = (
   setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, selectedItem[0].item_type);
-  setFieldValue(`${name}.${index}.cost_price`, selectedItem[0].cost_price);
+  setFieldValue(
+    `${name}.${index}.cost_price`,
+    selectedItem[0].weighted_cost_price || selectedItem[0].cost_price
+  );
   setFieldValue(`${name}.${index}.remaining_stock`, selectedItem[0].remaining_stock);
   const newValues = {
     ...values,

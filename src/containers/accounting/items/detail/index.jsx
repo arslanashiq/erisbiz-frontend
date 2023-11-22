@@ -54,7 +54,9 @@ function ItemDetail() {
     },
   ];
   const handleClickEdit = () => {
-    if (itemDetail.is_item_used) {
+    if (itemDetail.is_active) {
+      setPopup({ ...popup, open: true, message: 'Item is Active please deactive it first' });
+    } else if (itemDetail.is_item_used) {
       setPopup({ ...popup, open: true, message: 'Item is used in Transections' });
     } else navigate('/pages/accounting/items/edit/243');
   };

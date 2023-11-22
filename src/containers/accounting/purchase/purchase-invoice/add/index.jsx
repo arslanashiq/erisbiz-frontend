@@ -84,7 +84,7 @@ function AddPurchaseInvoice() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price']
   );
   const { optionsList: bankAccountOptions } = useListOptions(bankAccountsListResponse?.data?.results, {
     label: 'bank_account_name',
@@ -270,15 +270,12 @@ function AddPurchaseInvoice() {
           >
             {({ setFieldValue, values }) => (
               <Form className="form form--horizontal mt-3 row">
-                {/* Supplier Invoice */}
                 <FormikField
                   name="invoice_num"
                   placeholder="Purchase Invoice"
                   label="Purchase Invoice"
                   disabled
                 />
-
-                {/* due date */}
 
                 <FormikDatePicker
                   name="invoice_date"
@@ -287,7 +284,6 @@ function AddPurchaseInvoice() {
                   label="Date"
                   startIcon={<CalendarMonthIcon />}
                 />
-                {/* Supplier */}
                 <FormikSelect
                   options={suppliersListOptions}
                   name="supplier_id"
@@ -297,7 +293,6 @@ function AddPurchaseInvoice() {
                   label="Supplier"
                   isRequired
                 />
-                {/* Purchase */}
 
                 <FormikSelect
                   name="pur_order_id"
@@ -310,8 +305,6 @@ function AddPurchaseInvoice() {
                   isRequired
                 />
 
-                {/* Credit Acount */}
-
                 <FormikSelect
                   name="credit_account"
                   options={bankAccountOptions}
@@ -321,8 +314,6 @@ function AddPurchaseInvoice() {
                   isRequired
                 />
 
-                {/* Location */}
-
                 <FormikField
                   name="location"
                   type="text"
@@ -331,14 +322,12 @@ function AddPurchaseInvoice() {
                   startIcon={<FmdGoodIcon />}
                 />
 
-                {/* Supplier Inv Number */}
                 <FormikField
                   name="supplier_invoice_num"
                   type="number"
                   placeholder="Supplier Invoice Number"
                   label="Supplier Inv No"
                 />
-                {/* Attachment */}
 
                 <FormikFileField
                   name="bill_docs"
@@ -348,7 +337,6 @@ function AddPurchaseInvoice() {
                   startIcon={<AttachFileIcon />}
                 />
 
-                {/* Item detail */}
                 <div className="form__form-group w-100">
                   <FieldArray
                     name="bill_items"
@@ -362,7 +350,6 @@ function AddPurchaseInvoice() {
                   />
                 </div>
 
-                {/* Remarks */}
                 <FormikField name="notes" textArea placeholder="Remarks" label="Remarks" className="col-12" />
 
                 <FormSubmitButton />

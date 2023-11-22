@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import { useLocation, useNavigate } from 'react-router';
-import AddIcon from '@mui/icons-material/Add';
+import { useLocation } from 'react-router';
 // services
 import {
   useDeleteJournalVoucherMutation,
@@ -14,12 +13,11 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { journalVoucherHeadCells } from '../utilities/head-cells';
 
 function JournalVoucherListing() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const journalVoucherDetailResponse = useGetJournalVouchersListQuery(location.search);
   const [deleteJournalVoucher] = useDeleteJournalVoucherMutation();
@@ -59,17 +57,7 @@ function JournalVoucherListing() {
         TableHeading="Journal Voucher"
         headCells={journalVoucherHeadCells}
         showCheckbox
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Journal
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Journal' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

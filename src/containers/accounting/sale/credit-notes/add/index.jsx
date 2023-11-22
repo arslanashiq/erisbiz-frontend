@@ -63,7 +63,7 @@ function index() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'remaining_stock', 'weighted_cost_price']
   );
   const { optionsList: bankAccountOptions } = useListOptions(bankAccountResponse?.data?.results, {
     value: 'chart_of_account',

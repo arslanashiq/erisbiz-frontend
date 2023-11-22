@@ -3,10 +3,10 @@ import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
-import { Grid, Stack, Tooltip } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 // services
 import {
   useGetDashboardCurrentMonthSaleQuery,

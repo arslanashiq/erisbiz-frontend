@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
 // services
 import {
@@ -13,8 +12,8 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities  and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { PaymentVoucherHeadCells } from '../utilities/head-cells';
 
 function paymentVoucherListing() {
@@ -67,17 +66,7 @@ function paymentVoucherListing() {
         handleEdit={(_, selected) => {
           navigate(`edit/${selected[0]}`);
         }}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                Payment Voucher
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Payment Voucher' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

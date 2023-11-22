@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
 
 import { Paper, Table, TableBody, TableContainer } from '@mui/material';
@@ -17,11 +16,10 @@ import MuiTableToolbar from 'shared/components/table/MuiTableToolbar';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { chartOfAccountHeadCells } from '../utilities/head-cells';
-// components
-import RenderChartOfAccount from './components/RenderChartOfAccount';
 import transformDataInNestedStructure from '../utilities/transformDataInNestedStructure';
+import RenderChartOfAccount from './components/RenderChartOfAccount';
 
 function ChartOfAccountListing() {
   const location = useLocation();
@@ -137,17 +135,7 @@ function ChartOfAccountListing() {
         TableHeading="Chart Of Account"
         handleEditSelection={handleEditSelection}
         handleClearSelection={handleClearSelection}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Chart of Account
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Chart of Account' })}
         handleDeleteSelection={handleDelete}
       />
       <Paper>

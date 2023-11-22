@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import {
   useDeletePurchaseOrderMutation,
@@ -12,13 +11,12 @@ import {
 import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { purchaseOrderHeadCells } from '../utilities/head-cells';
 import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utilities/constants';
 
 function PurchaseOrderListing() {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const location = useLocation();
   const purchaseOrdersResponse = useGetPurchaseOrdersListQuery(location.search);
   const [deletePurchaseOrder] = useDeletePurchaseOrderMutation();
@@ -72,17 +70,7 @@ function PurchaseOrderListing() {
         TableHeading="Purchase Orders"
         showCheckbox
         headCells={purchaseOrderHeadCells}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Purchase Order
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Purchase Order' })}
         // handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import {
   useDeleteReceiptVoucherMutation,
@@ -11,13 +10,12 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities  and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { receiptVoucherHeadCells } from '../utilities/head-cells';
 
 function ReceiptVoucher() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const receiptVouchersResponse = useGetReceiptVoucherListQuery(location.search);
   const [deleteReceiptVoucher] = useDeleteReceiptVoucherMutation();
@@ -51,17 +49,7 @@ function ReceiptVoucher() {
         TableHeading="Receipt Voucher"
         showCheckbox
         headCells={receiptVoucherHeadCells}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Receipt Voucher
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Receipt Voucher' })}
         // handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

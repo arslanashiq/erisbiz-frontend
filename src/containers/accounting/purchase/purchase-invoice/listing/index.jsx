@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import {
   useDeletePurchaseInvoceMutation,
@@ -11,14 +10,13 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilitues and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const location = useLocation();
   const purchaseInvoiceResponse = useGetPurchaseInvoiceListQuery(
     getsearchQueryOffsetAndLimitParams(location)
@@ -66,17 +64,7 @@ function SupplierCreditListing() {
         TableHeading="Purchase Invoice"
         showCheckbox
         headCells={purchaseInvoiceHeadCells}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Purchase Invoice
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Purchase Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

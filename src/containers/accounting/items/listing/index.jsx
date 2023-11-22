@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
 // services
 import {
@@ -14,9 +13,9 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getItemSearchQueryParams } from 'utilities/filters';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { itemsHeadCell } from '../utilities/head-cells';
 // components
@@ -95,17 +94,7 @@ function ItemsListing() {
         headCells={itemsHeadCell}
         actionButtonKey="is_active"
         handleTableBodyActionButton={handleChangeItemStatus}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                Add New Item{' '}
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Item' })}
         showCheckbox
         handleEdit={handleEdit}
         handleDelete={handleDelete}

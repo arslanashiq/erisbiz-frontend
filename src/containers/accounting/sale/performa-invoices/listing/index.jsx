@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 // services
 import {
   useDeletePerformaInvoiceMutation,
@@ -11,13 +10,12 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
 import { getItemSearchQueryParams } from 'utilities/filters';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { performaInvoiceHeadCell } from '../utilities/head-cells';
 
 function PerformaInvoiceListing() {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const location = useLocation();
   const performaInvoicesListResponse = useGetPerformaInvoicesListQuery(getItemSearchQueryParams(location));
 
@@ -52,17 +50,7 @@ function PerformaInvoiceListing() {
         TableHeading="Proforma Invoice"
         headCells={performaInvoiceHeadCell}
         showCheckbox
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                Add New Proforma Invoice
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        otherOptions={ListingOtherOptions({ addButtonLabel: 'New Proforma Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

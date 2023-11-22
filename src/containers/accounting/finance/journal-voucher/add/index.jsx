@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
@@ -74,7 +74,7 @@ function AddJournalVoucher() {
     ],
     [bankAccountOptions]
   );
-  const { initialValues, setInitialValues } = useInitialValues(
+  const { initialValues } = useInitialValues(
     journalVoucherInitialValues,
     useGetSingleJournalVoucherQuery,
     null,
@@ -82,28 +82,28 @@ function AddJournalVoucher() {
     true
   );
 
-  useEffect(() => {
+  const updatedJournalInitialValues = useMemo(() => {
+    let newData = { ...initialValues };
     if (!id) {
       if (latestJournalVoucher?.data?.latest_num) {
-        setInitialValues({
-          ...initialValues,
+        newData = {
+          ...newData,
           journal_num: latestJournalVoucher.data.latest_num + 1,
           last_journal_num: latestJournalVoucher.data.latest_num,
-        });
+        };
       } else {
-        setInitialValues({
-          ...initialValues,
-          journal_num: 1,
+        newData = {
+          ...newData,
+          journal_num: 1000,
           last_journal_num: '',
-        });
+        };
       }
     }
-  }, [latestJournalVoucher]);
-  useEffect(() => {
     if (initialValues.journal_num > 1000 && !initialValues.last_journal_num) {
-      setInitialValues({ ...initialValues, last_journal_num: initialValues.journal_num - 1 });
+      newData = { ...newData, last_journal_num: initialValues.journal_num - 1 };
     }
-  }, [initialValues]);
+    return newData;
+  }, [initialValues, latestJournalVoucher]);
 
   return (
     <SectionLoader options={[latestJournalVoucher.isLoading, bankAccountResponse.isLoading]}>
@@ -112,7 +112,7 @@ function AddJournalVoucher() {
           <FormHeader title="Journal Voucher" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={updatedJournalInitialValues}
             validationSchema={journalVoucherValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               let totalCreditDebit = 0;

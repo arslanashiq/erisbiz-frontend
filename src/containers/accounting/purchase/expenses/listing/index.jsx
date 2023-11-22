@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import AddIcon from '@mui/icons-material/Add';
 import { useLocation, useNavigate } from 'react-router';
 // services
 import { useDeleteExpenseMutation, useGetExpensesListQuery } from 'services/private/expenses';
@@ -10,7 +9,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utlities and styles
-import { addButtonIconStyle } from 'styles/common/common-styles';
+import ListingOtherOptions from 'utilities/other-options-listing';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { expensesHeadCells } from '../utilities/head-cells';
 
@@ -44,6 +43,9 @@ function ExpensesListing() {
       deleteSingleExpense(id);
     });
   };
+  const handleEdit = (_, selected) => {
+    navigate(`edit/${selected[0]}`);
+  };
   return (
     <SectionLoader options={[expensesResponse.isLoading]}>
       <Helmet>
@@ -56,17 +58,8 @@ function ExpensesListing() {
         TableHeading="Expenses "
         showCheckbox
         headCells={expensesHeadCells}
-        otherOptions={[
-          {
-            label: (
-              <>
-                <AddIcon sx={addButtonIconStyle} />
-                New Expense
-              </>
-            ),
-            handleClick: () => navigate('add'),
-          },
-        ]}
+        handleEdit={handleEdit}
+        otherOptions={ListingOtherOptions({ addButtonLabel: ' New Expense' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />

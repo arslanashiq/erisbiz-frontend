@@ -101,7 +101,7 @@ function AddInvoice() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price', 'remaining_stock']
+    ['sale_price', 'item_type', 'cost_price', 'remaining_stock', 'weighted_cost_price']
   );
   const saleInvoiceInputList = useMemo(
     () => [

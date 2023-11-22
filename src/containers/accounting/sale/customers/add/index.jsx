@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { FieldArray, Form, Formik } from 'formik';
 import { Box, Card, CardContent } from '@mui/material';
@@ -46,10 +46,7 @@ function AddCustomer() {
     label: 'country',
     value: 'iso2',
   });
-  const { initialValues, setInitialValues } = useInitialValues(
-    customerFormInitialValues,
-    useGetSingleCustomerQuery
-  );
+  const { initialValues } = useInitialValues(customerFormInitialValues, useGetSingleCustomerQuery);
 
   const handleCopyValue = (values, setFieldValue) => {
     setFieldValue('delivery_address_line1', values.invoice_address_line1);
@@ -60,22 +57,24 @@ function AddCustomer() {
     setFieldValue('delivery_latitude', values.invoice_latitude);
     setFieldValue('delivery_longitude', values.invoice_longitude);
   };
-
-  useEffect(() => {
-    if (initialValues.set_credit_limit && initialValues.credit_limit === false) {
-      setInitialValues({ ...initialValues, credit_limit: true });
+  const customerFormUpdatedInitialValues = useMemo(() => {
+    const newData = { ...initialValues, credit_limit: false, credit_terms: false };
+    if (initialValues.set_credit_limit) {
+      newData.credit_limit = true;
     }
-    if (initialValues.set_credit_terms && initialValues.credit_terms === false) {
-      setInitialValues({ ...initialValues, credit_terms: true });
+    if (initialValues.set_credit_terms) {
+      newData.credit_terms = true;
     }
+    return newData;
   }, [initialValues]);
+
   return (
     <Card>
       <CardContent>
         <FormHeader title="Customer Master" />
         <Formik
           enableReinitialize
-          initialValues={initialValues}
+          initialValues={customerFormUpdatedInitialValues}
           validationSchema={customerFormValidationSchema}
           onSubmit={async (values, { setErrors, resetForm }) => {
             let response = null;
