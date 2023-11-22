@@ -63,10 +63,10 @@ function SupplierDetail() {
           let showActionButton = false;
           infoDescription = 'Are you sure you want to delete?';
           const {
-            have_expenses: haveExpense,
             have_pur_orders: havePurchaseOrder,
             have_bills: haveBills,
             have_debit_notes: haveDebitNote,
+            have_expenses: haveExpense,
           } = supplierDetailResponse.data;
           const canNotDelete = haveExpense || havePurchaseOrder || haveBills || haveDebitNote;
 

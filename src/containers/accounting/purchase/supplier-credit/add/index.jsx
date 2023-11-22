@@ -22,9 +22,11 @@ import {
 // shared
 import {
   handleCalculateTotalAmount,
+  handleChangeCostPrice,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
+  handleChangeUnitPrice,
   hanldeVATChange,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormHeader from 'shared/components/form-header/FormHeader';
@@ -109,15 +111,14 @@ function AddSupplierCredit() {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
-        disabled: true,
+        onChange: handleChangeCostPrice,
       },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
         type: 'number',
-        disabled: true,
+        onChange: handleChangeUnitPrice,
       },
-
       {
         name: 'gross_amount',
         placeholder: 'Gross Total',

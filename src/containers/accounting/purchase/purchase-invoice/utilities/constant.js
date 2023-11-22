@@ -23,7 +23,7 @@ export const purchaseInvoiceInitialValue = {
   ],
   requestor_signature_show: true,
   show_stamp: true,
-
+  credit_account: '',
   pur_order_suffix: 'PO',
   customer_type_suffix: '',
   currency: 'AED',

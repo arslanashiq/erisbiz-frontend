@@ -34,6 +34,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         'getPurchaseOrdersList',
         'getSinglePurchaseOrder',
         'getLatestPurchaseInvoiceNumber',
+        'getItemsList',
       ],
     }),
     deletePurchaseInvoce: builder.mutation({
@@ -46,6 +47,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         'getPurchaseOrdersList',
         'getSinglePurchaseOrder',
         'getLatestPurchaseInvoiceNumber',
+        'getItemsList',
       ],
     }),
     chagePurchaseInvoiceStatusToOpen: builder.mutation({
@@ -63,7 +65,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['addPurchaseInvoce', 'getPurchaseInvoiceList'],
+      invalidatesTags: ['addPurchaseInvoce', 'getPurchaseInvoiceList', 'getItemsList'],
     }),
     uploadPurchaseInvoiceDocumentFile: builder.mutation({
       query: ({ id, payload }) => ({

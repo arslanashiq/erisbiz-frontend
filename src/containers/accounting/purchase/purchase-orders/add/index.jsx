@@ -22,9 +22,11 @@ import FormikField from 'shared/components/form/FormikField';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import {
   handleCalculateTotalAmount,
+  handleChangeCostPrice,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
+  handleChangeUnitPrice,
   hanldeVATChange,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormikFileField from 'shared/components/form/FormikFileField';
@@ -90,11 +92,13 @@ function AddPurchaseOrder() {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
+        onChange: handleChangeCostPrice,
       },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
         type: 'number',
+        onChange: handleChangeUnitPrice,
       },
       {
         name: 'gross_amount',

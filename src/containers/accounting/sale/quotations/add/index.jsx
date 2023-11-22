@@ -30,6 +30,8 @@ import {
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
   handleGetItemWithRemainingStock,
+  handleChangeCostPrice,
+  handleChangeUnitPrice,
 } from 'shared/components/purchase-item/utilities/helpers';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
@@ -108,11 +110,13 @@ function AddQuotation() {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
+        onChange: handleChangeCostPrice,
       },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
         type: 'number',
+        onChange: handleChangeUnitPrice,
       },
 
       {

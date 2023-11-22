@@ -32,6 +32,8 @@ import {
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
   handleGetItemWithRemainingStock,
+  handleChangeCostPrice,
+  handleChangeUnitPrice,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormikFileField from 'shared/components/form/FormikFileField';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
@@ -124,11 +126,13 @@ function AddPerformaInvoice() {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
+        onChange: handleChangeCostPrice,
       },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
         type: 'number',
+        onChange: handleChangeUnitPrice,
       },
 
       {

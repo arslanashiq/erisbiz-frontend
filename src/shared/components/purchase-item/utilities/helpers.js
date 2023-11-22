@@ -52,6 +52,24 @@ export const handleChangeItem = (
 
   handleChangeValues(name, index, newValues, setFieldValue);
 };
+export const handleChangeCostPrice = (name, index, key, value, values, setFieldValue, allValues) => {
+  const newValues = {
+    ...values,
+    cost_price: value,
+    credit_account: allValues.credit_account,
+  };
+  setFieldValue(`${name}.${index}.cost_price`, Number(value));
+  handleChangeValues(name, index, newValues, setFieldValue);
+};
+export const handleChangeUnitPrice = (name, index, key, value, values, setFieldValue, allValues) => {
+  const newValues = {
+    ...values,
+    unit_price_ex_vat: value,
+    credit_account: allValues.credit_account,
+  };
+  setFieldValue(`${name}.${index}.unit_price_ex_vat`, Number(value));
+  handleChangeValues(name, index, newValues, setFieldValue);
+};
 export const handleChangeQuantity = (name, index, key, value, values, setFieldValue, allValues) => {
   const newValues = {
     ...values,

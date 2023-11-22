@@ -29,9 +29,11 @@ import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import {
   handleCalculateTotalAmount,
   handleChangeChartOfAccount,
+  handleChangeCostPrice,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
+  handleChangeUnitPrice,
   hanldeVATChange,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormikFileField from 'shared/components/form/FormikFileField';
@@ -110,11 +112,13 @@ function AddPurchaseInvoice() {
         name: 'cost_price',
         placeholder: 'Cost Price',
         type: 'number',
+        onChange: handleChangeCostPrice,
       },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
         type: 'number',
+        onChange: handleChangeUnitPrice,
       },
 
       {
