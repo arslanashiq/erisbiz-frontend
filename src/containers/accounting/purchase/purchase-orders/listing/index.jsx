@@ -12,6 +12,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 // utilities and styles
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { purchaseOrderHeadCells } from '../utilities/head-cells';
 import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utilities/constants';
 
@@ -44,17 +45,9 @@ function PurchaseOrderListing() {
       actionButton,
     });
   };
-  const deleteSingleItem = async id => {
-    await deletePurchaseOrder(id);
-    // if (deleteItemResp.data) {
-    enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
-    // } else {
-    //   enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    // }
-  };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleItem(id);
+      handleDeleteResponse(deletePurchaseOrder, id, enqueueSnackbar, 'Purchase Order Deleted Successfully');
     });
   };
   return (
@@ -63,7 +56,6 @@ function PurchaseOrderListing() {
         <title>Purchase Order - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
-      {/* {resp.isSuccess && resp?.data?.results?.length > 0 && ( */}
       <MuiTable
         data={purchaseOrdersResponse?.data?.results}
         totalDataCount={purchaseOrdersResponse?.data?.count}
@@ -71,7 +63,7 @@ function PurchaseOrderListing() {
         showCheckbox
         headCells={purchaseOrderHeadCells}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Purchase Order' })}
-        // handleEdit={handleEdit}
+        editableStatusList={['draft', 'issued']}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
         filterButton={(
@@ -81,7 +73,6 @@ function PurchaseOrderListing() {
           />
         )}
       />
-      {/* )} */}
     </>
   );
 }

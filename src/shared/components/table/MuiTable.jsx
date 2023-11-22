@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
@@ -32,6 +33,7 @@ export default function MuiTable({
   customActionButton,
   hoverEffect,
   checkStatusBeforeEdit,
+  editableStatusList,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -118,19 +120,18 @@ export default function MuiTable({
       const selectedData = data.filter(item => item.id === selected[0] || item.uuid === selected[0]);
 
       if (checkStatusBeforeEdit) {
-        if (
+        const isEditable =
           selectedData[0]?.status &&
-          (selectedData[0].status === 'draft' || selectedData[0].status === 'open')
-        ) {
+          editableStatusList.some(option => selectedData[0]?.status.toLowerCase().includes(option));
+
+        if (isEditable) {
           navigate(`edit/${selected[0]}`);
           return;
         }
         setOpenInfoPopup({
           ...openInfoPopup,
           status: true,
-          message: `Can not edit this item. You can only edit when its status is ${
-            selectedData[0].status === 'closed' || selectedData[0].status === 'close' ? 'Open' : 'Draft'
-          }`,
+          message: `Can not edit this item when its status is ${selectedData[0].status}`,
           actionButton: false,
         });
         return;
@@ -140,10 +141,11 @@ export default function MuiTable({
   };
 
   const visibleRows = useMemo(
-    () => stableSort(data || [], getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
-    ),
+    () =>
+      stableSort(data || [], getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
     [data, otherOptions, order, orderBy, page, rowsPerPage]
   );
   return (
@@ -228,7 +230,7 @@ MuiTable.propTypes = {
   handleConfirmDelete: PropTypes.func,
   filterButton: PropTypes.element,
   totalDataCount: PropTypes.number,
-  // tableHeight: PropTypes.string,
+  editableStatusList: PropTypes.array,
   customRows: PropTypes.array,
   customActionButton: PropTypes.array,
   hoverEffect: PropTypes.bool,
@@ -246,7 +248,7 @@ MuiTable.defaultProps = {
   handleEdit: null,
   filterButton: null,
   totalDataCount: ROWS_PER_PAGE,
-  // tableHeight: '65vh',
+  editableStatusList: ['draft', 'open'],
   customRows: null,
   customActionButton: null,
   hoverEffect: true,

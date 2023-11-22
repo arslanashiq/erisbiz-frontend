@@ -24,21 +24,22 @@ function SupplierCreditListing() {
   const [deleteInvoice] = useDeletePurchaseInvoceMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these items because some of the selected items is used in transactions';
-    let actionButton = false;
+    let message = 'Are you sure you want to delete?';
+    let actionButton = true;
     const selectedData = [];
     data.forEach(item => {
       if (selected.includes(item.id)) {
         selectedData.push(item);
       }
     });
-    const cantDelete = selectedData.some(item => item.status === 'partially paid' || item.status === 'void');
+    const cantDelete = selectedData.some(
+      item => item.status === 'void' || item.status === 'partially paid' || item.status === 'paid'
+    );
 
-    if (!cantDelete) {
-      message = 'Are you sure you want to delete?';
-      actionButton = true;
+    if (cantDelete) {
+      message = 'You cannot delete these items because some of the selected items is used in transactions';
+      actionButton = false;
     }
-
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
@@ -48,7 +49,7 @@ function SupplierCreditListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      handleDeleteResponse(deleteInvoice, id, enqueueSnackbar);
+      handleDeleteResponse(deleteInvoice, id, enqueueSnackbar, 'purchase Invoice Deleted Successfully');
     });
   };
 
@@ -63,6 +64,7 @@ function SupplierCreditListing() {
         totalDataCount={purchaseInvoiceResponse?.data?.count}
         TableHeading="Purchase Invoice"
         showCheckbox
+        editableStatusList={['draft', 'due']}
         headCells={purchaseInvoiceHeadCells}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Purchase Invoice' })}
         handleDelete={handleDelete}

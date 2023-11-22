@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
 // services
 import { useDeleteBrandMutation, useGetBrandsListQuery } from 'services/private/brands';
@@ -11,9 +12,12 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { brandsHeadCells } from '../utilities/head-cells';
 
 function BrandsListing() {
+  const { enqueueSnackbar } = useSnackbar();
+
   const navigate = useNavigate();
   const location = useLocation();
   const brandsListResponse = useGetBrandsListQuery(getItemSearchQueryParams(location));
@@ -42,7 +46,7 @@ function BrandsListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleBrand(id);
+      handleDeleteResponse(deleteSingleBrand, id, enqueueSnackbar, 'Brand Deleted Successfully');
     });
   };
   return (

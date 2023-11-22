@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
 // services
 import { useGetCategoryListQuery, useDeleteCategoryMutation } from 'services/private/category';
@@ -8,12 +9,14 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
+import { getItemSearchQueryParams } from 'utilities/filters';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
-import { getItemSearchQueryParams } from 'utilities/filters';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { categoryHeadCells } from '../utilities/head-cells';
 
 function CategoryListing() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const location = useLocation();
   const categoryListResponse = useGetCategoryListQuery(getItemSearchQueryParams(location));
@@ -42,7 +45,7 @@ function CategoryListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleCategory(id);
+      handleDeleteResponse(deleteSingleCategory, id, enqueueSnackbar, 'Category Deleted Successfully');
     });
   };
   return (

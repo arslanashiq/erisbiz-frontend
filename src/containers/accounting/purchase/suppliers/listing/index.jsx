@@ -10,6 +10,7 @@ import PersonlizedFilter from 'shared/components/personalized-filters/Personlize
 // utilities and styles
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { supplierHeadCells } from '../utilities/head-cells';
 import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utilities/constants';
 
@@ -57,17 +58,10 @@ function SupplierListing() {
       actionButton,
     });
   };
-  const deleteSingleSupplier = async id => {
-    const response = await deleteSupplier(id);
-    if (response.error) {
-      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
-    } else {
-      enqueueSnackbar('Supplier Deleted Successfully', { variant: 'success' });
-    }
-  };
+
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleSupplier(id);
+      handleDeleteResponse(deleteSupplier, id, enqueueSnackbar, 'Supplier Deleted Successfully');
     });
   };
   return (

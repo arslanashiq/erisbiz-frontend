@@ -72,20 +72,36 @@ function PurchaseInvoiceDetail() {
       {
         label: 'Edit',
         handleClick: () => {
+          const cantDelete =
+            invoiceStatus === 'void' || invoiceStatus === 'partially paid' || invoiceStatus === 'paid';
+
+          if (cantDelete) {
+            setOpenInfoPopup({
+              ...openInfoPopup,
+              open: true,
+              infoDescription:
+                'You cannot edit this Purchase Invoice beacuse this order is used in Payment Voucher',
+              showActionButton: false,
+              handleAction: null,
+            });
+            return;
+          }
+
           navigate(`/pages/accounting/purchase/purchase-invoice/edit/${id}`);
         },
       },
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription =
-            'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher';
-          let showActionButton = false;
-          const cantDelete = invoiceStatus === 'partially paid' || invoiceStatus === 'void';
+          let infoDescription = 'Are you sure you want to delete?';
+          let showActionButton = true;
+          const cantDelete =
+            invoiceStatus === 'void' || invoiceStatus === 'partially paid' || invoiceStatus === 'paid';
 
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
+          if (cantDelete) {
+            infoDescription =
+              'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher';
+            showActionButton = false;
           }
 
           setOpenInfoPopup({

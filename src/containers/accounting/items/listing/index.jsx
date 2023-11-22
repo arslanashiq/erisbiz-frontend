@@ -78,7 +78,7 @@ function ItemsListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      handleDeleteResponse(deleteItem, id, enqueueSnackbar);
+      handleDeleteResponse(deleteItem, id, enqueueSnackbar, 'Item Deleted Successfully');
     });
   };
   return (

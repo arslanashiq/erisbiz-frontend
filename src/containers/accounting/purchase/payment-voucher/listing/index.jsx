@@ -12,8 +12,8 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities  and styles
-import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { PaymentVoucherHeadCells } from '../utilities/head-cells';
 
 function paymentVoucherListing() {
@@ -23,12 +23,43 @@ function paymentVoucherListing() {
   const paymentVouchersListResponse = useGetPaymentVouchersListQuery(location.search);
   const [deletePaymentVoucher] = useDeletePaymentVoucherMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these items because some of the selected items is used in transactions';
+  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message = 'You cannot Edit these items because some of the selected items have refunds';
     let actionButton = false;
-    const haveDebitNotes = checkSelectedDataUsed(data, selected, 'have_debit_note');
-    if (haveDebitNotes.length > 0) {
-      message = selected.length === 1 ? 'Selected Voucher have credit Notes' : message;
+    const selectedData = [];
+    data.forEach(item => {
+      if (selected.includes(item.id)) {
+        selectedData.push(item);
+      }
+    });
+    const isRefunded = selectedData.some(item => item.over_paid > 0 && item.over_paid !== item.over_payment);
+    if (isRefunded) {
+      message = selected.length === 1 ? 'Selected Voucher have Refunds' : message;
+      actionButton = false;
+    } else {
+      navigate(`edit/${selected[0]}`);
+      return;
+    }
+
+    setOpenInfoPopup({
+      ...openInfoPopup,
+      status: true,
+      message,
+      actionButton,
+    });
+  };
+  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message = 'You cannot delete these items because some of the selected items have refund';
+    let actionButton = false;
+    const selectedData = [];
+    data.forEach(item => {
+      if (selected.includes(item.id)) {
+        selectedData.push(item);
+      }
+    });
+    const isRefunded = selectedData.some(item => item.over_paid > 0 && item.over_paid !== item.over_payment);
+    if (isRefunded) {
+      message = selected.length === 1 ? 'Selected Voucher have Refunds' : message;
       actionButton = false;
     } else {
       message = 'Are you sure you want to delete?';
@@ -42,13 +73,9 @@ function paymentVoucherListing() {
       actionButton,
     });
   };
-  const deleteSingleItem = async id => {
-    await deletePaymentVoucher(id);
-    enqueueSnackbar('Payment Voucher Deleted Successfully', { variant: 'success' });
-  };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleItem(id);
+      handleDeleteResponse(deletePaymentVoucher, id, enqueueSnackbar, 'Payment Voucher Deleted Successfully');
     });
   };
   return (
@@ -63,9 +90,7 @@ function paymentVoucherListing() {
         TableHeading="Payment Voucher"
         showCheckbox
         headCells={PaymentVoucherHeadCells}
-        handleEdit={(_, selected) => {
-          navigate(`edit/${selected[0]}`);
-        }}
+        handleEdit={handleEdit}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Payment Voucher' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

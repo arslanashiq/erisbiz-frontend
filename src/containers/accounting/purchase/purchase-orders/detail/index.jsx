@@ -34,21 +34,21 @@ function PurchaseOrderDetail() {
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription =
-            'You cannot delete this Purchase Order beacuse this order is used in purchase invoice';
-          let showActionButton = false;
-          const cantDelete = purchaseOrderResponse.data.status === 'closed';
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
+          let infoDescription = 'Are you sure you want to delete?';
+          let showActionButton = true;
+          const cantDelete = purchaseOrderResponse?.data?.status === 'closed';
+          if (cantDelete) {
+            infoDescription =
+              'You cannot delete this Purchase Order beacuse this order is used in purchase invoice';
+            showActionButton = false;
           }
-
           setOpenInfoPopup({
             ...openInfoPopup,
             open: true,
             infoDescription,
             showActionButton,
           });
+
           // setOpenPopup({ ...openPopup, open: true });
         },
       },

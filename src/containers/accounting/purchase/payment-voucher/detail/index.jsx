@@ -59,18 +59,35 @@ function PaymentVoucherDetail() {
       {
         label: 'Edit',
         handleClick: () => {
+          const cantDelete =
+            PaymentVoucherDetailResponse?.data?.over_paid > 0 &&
+            PaymentVoucherDetailResponse?.data?.over_paid !==
+              PaymentVoucherDetailResponse?.data?.over_payment;
+          if (cantDelete) {
+            setOpenInfoPopup({
+              ...openInfoPopup,
+              open: true,
+              infoDescription: 'You cannot edit this Payment Voucher beacuse this Voucher has refund',
+              showActionButton: false,
+            });
+            return;
+          }
+
           navigate(`/pages/accounting/purchase/payment-voucher/edit/${id}`);
         },
       },
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription = 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes';
-          let showActionButton = false;
-          const cantDelete = PaymentVoucherDetailResponse.data.have_debit_note;
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
+          let infoDescription = 'Are you sure you want to delete?';
+          let showActionButton = true;
+          const cantDelete =
+            PaymentVoucherDetailResponse?.data?.over_paid > 0 &&
+            PaymentVoucherDetailResponse?.data?.over_paid !==
+              PaymentVoucherDetailResponse?.data?.over_payment;
+          if (cantDelete) {
+            infoDescription = 'You cannot delete this Payment Voucher beacuse this Voucher has refund';
+            showActionButton = false;
           }
           setOpenInfoPopup({ ...openInfoPopup, open: true, infoDescription, showActionButton });
         },

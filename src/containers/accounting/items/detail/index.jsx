@@ -52,6 +52,11 @@ function ItemDetail() {
       value: itemDetail?.is_active ? 'Activated' : 'Deactivated',
       className: itemDetail?.is_active ? 'color-success' : 'color-danger',
     },
+    { label: 'Opening Stock', value: itemDetail?.opening_stock },
+    { label: 'Remaining Stock', value: itemDetail?.remaining_stock },
+    { label: 'Cost Price', value: itemDetail?.cost_price },
+    { label: 'Weighted Cost Price', value: itemDetail?.weighted_cost_price },
+    { label: 'Sale Price', value: itemDetail?.sale_price },
   ];
   const handleClickEdit = () => {
     if (itemDetail.is_active) {
