@@ -17,11 +17,29 @@ function PerformaInvoiceListing() {
   const [deleteinvoice] = useDeleteSaleInvoiceMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message = 'Are you sure you want to delete?';
+    let actionButton = true;
+    const selectedData = [];
+    data.forEach(item => {
+      if (selected.includes(item.uuid || item.id)) {
+        selectedData.push(item);
+      }
+    });
+    const cantDelete = selectedData.some(
+      item => item.status === 'void' || item.status === 'partially paid' || item.status === 'paid'
+    );
+    if (cantDelete) {
+      message =
+        selectedData.length === 1
+          ? 'This Sale Invoice has Payments delete them first'
+          : 'You cannot delete this Sale Invoice because some of the selected Sale Invoices are void or  have payments ';
+      actionButton = false;
+    }
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
-      message: 'Are you sure you want to delete?',
-      actionButton: true,
+      message,
+      actionButton,
     });
   };
   const deleteSingleInvoice = async id => {
@@ -45,6 +63,7 @@ function PerformaInvoiceListing() {
         TableHeading="Sales Invoice"
         headCells={invoiceHeadCell}
         showCheckbox
+        editableStatusList={['draft', 'due']}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Sales Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

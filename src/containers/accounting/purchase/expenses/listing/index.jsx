@@ -11,6 +11,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utlities and styles
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { expensesHeadCells } from '../utilities/head-cells';
 
 function ExpensesListing() {
@@ -20,27 +21,17 @@ function ExpensesListing() {
   const expensesResponse = useGetExpensesListQuery(getsearchQueryOffsetAndLimitParams(location));
   const [deleteExpense] = useDeleteExpenseMutation();
 
-  const deleteSingleExpense = async id => {
-    await deleteExpense(id);
-    enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
-  };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these items because some of the selected items is used in transactions';
-    let actionButton = false;
-
-    message = 'Are you sure you want to delete?';
-    actionButton = true;
-
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
-      message,
-      actionButton,
+      message: 'Are you sure you want to delete?',
+      actionButton: true,
     });
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleExpense(id);
+      handleDeleteResponse(deleteExpense, id, enqueueSnackbar, 'Expense Deleted Successfully');
     });
   };
   const handleEdit = (_, selected) => {

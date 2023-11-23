@@ -62,7 +62,7 @@ function DetailPageHeader({
   };
   const handleDeleteItem = async () => {
     await deleteItem(id);
-    enqueueSnackbar('Purchase Order Deleted', { variant: 'success' });
+    enqueueSnackbar('Deleted Successfully', { variant: 'success' });
     navigate(navigateAfterDelete);
   };
   const handleUploadDocfile = async file => {

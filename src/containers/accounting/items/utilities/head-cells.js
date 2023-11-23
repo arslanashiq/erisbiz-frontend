@@ -231,7 +231,7 @@ export const itemCreditNoteTransactionHeadCells = [
 ];
 export const itemPurchaseOrderTransactionHeadCells = [
   {
-    id: 'pur_order_date',
+    id: 'date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -296,7 +296,7 @@ export const itemBillTransactionHeadCells = [
     align: 'left',
   },
   {
-    id: 'amount_due_bill_currency',
+    id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
@@ -313,7 +313,7 @@ export const itemBillTransactionHeadCells = [
 ];
 export const itemDebitNoteTransactionHeadCells = [
   {
-    id: 'qutation_date',
+    id: 'supplier_credit_date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -323,7 +323,7 @@ export const itemDebitNoteTransactionHeadCells = [
   },
 
   {
-    id: 'debit_note',
+    id: 'supplier_credit_formatted_number',
     numeric: true,
     disablePadding: false,
     label: 'Debit Note #',
@@ -337,7 +337,7 @@ export const itemDebitNoteTransactionHeadCells = [
     align: 'left',
   },
   {
-    id: 'amount_due_debit_currency',
+    id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
     label: 'Amount',

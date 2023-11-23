@@ -23,7 +23,8 @@ function ExpenseDetail() {
 
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
-    infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
+    infoDescription: 'Are you sure you want to delete this expense?',
+    showActionButton: true,
   });
   const expenseDetail = useGetSingleExpenseQuery(id);
   const expenseJournals = useGetExpenseJournalsQuery(id);
@@ -49,9 +50,7 @@ function ExpenseDetail() {
   return (
     <SectionLoader options={[expenseDetail.isLoading, expenseJournals.isLoading]}>
       <DetailPageHeader
-        title={
-          expenseDetail.data ? `Purchase Debit Note:${expenseDetail.data.expense_account.account_name}` : ''
-        }
+        title={expenseDetail.data ? `Expense:${expenseDetail.data.expense_account.account_name}` : ''}
         filesList={expenseDetail?.data?.expense_docs}
         orderDetail={expenseDetail?.data}
         actionsList={ExpenseActionList}

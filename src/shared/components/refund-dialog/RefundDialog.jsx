@@ -60,7 +60,7 @@ function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
               }}
               validationSchema={Yup.object({
                 refunded_on: Yup.date().required('required'),
-                payment_mode: Yup.string().max(50, 'Cannot exceed 50 characters'),
+                payment_mode: Yup.string().max(50, 'Cannot exceed 50 characters').required('required'),
                 reference_num: Yup.string().max(50, 'Cannot exceed 50 characters'),
                 amount_applied: Yup.number('must be a number')
                   .positive('must be greater than zero')
@@ -86,6 +86,7 @@ function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
                     label="Payment Mode"
                     placeholder="Payment Mode"
                     className="col-12 mb-3"
+                    isRequired
                   />
                   <FormikField
                     name="reference_num"

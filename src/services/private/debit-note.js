@@ -26,7 +26,7 @@ const debitNotesApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getSupplierCreditsList', 'getLatestSupplierCreditNumber'],
+      invalidatesTags: ['getSupplierCreditsList', 'getLatestSupplierCreditNumber', 'getItemDebitNote'],
     }),
     editSupplierCredits: builder.mutation({
       query: ({ id, payload }) => ({
@@ -34,14 +34,14 @@ const debitNotesApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleSupplierCredits', 'getSupplierCreditsList'],
+      invalidatesTags: ['getSingleSupplierCredits', 'getSupplierCreditsList', 'getItemDebitNote'],
     }),
     deleteSupplierCredits: builder.mutation({
       query: id => ({
         url: `api/accounting/purchases/supplierCredits/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getSupplierCreditsList', 'getLatestSupplierCreditNumber'],
+      invalidatesTags: ['getSupplierCreditsList', 'getLatestSupplierCreditNumber', 'getItemDebitNote'],
     }),
     getSupplierCreditsDocuments: builder.query({
       query: id => ({
@@ -72,7 +72,8 @@ const debitNotesApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['refundSupplierCredits'],
+      providesTags: ['refundSupplierCredits'],
+      invalidatesTags: ['getSupplierCreditsList', 'getSingleSupplierCredits'],
     }),
 
     getSupplierCreditJournals: builder.query({

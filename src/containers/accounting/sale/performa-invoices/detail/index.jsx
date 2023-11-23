@@ -53,13 +53,13 @@ function PerformaInvoiceDetail() {
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription =
-            'You cannot delete this Purchase Order beacuse this order is used in purchase invoice';
-          let showActionButton = false;
-          const cantDelete = status === 'closed';
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
+          let infoDescription = 'Are you sure you want to delete?';
+          let showActionButton = true;
+          const cantDelete = status === 'invoiced';
+          if (cantDelete) {
+            infoDescription =
+              'You cannot delete this Proforma Invoice beacuse this invoice is used in sale invoice';
+            showActionButton = false;
           }
 
           setOpenInfoPopup({
@@ -68,7 +68,6 @@ function PerformaInvoiceDetail() {
             infoDescription,
             showActionButton,
           });
-          // setOpenPopup({ ...openPopup, open: true });
         },
       },
     ];

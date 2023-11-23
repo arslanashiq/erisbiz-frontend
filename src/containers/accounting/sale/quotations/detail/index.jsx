@@ -106,13 +106,13 @@ function QuotationDetailPage() {
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription =
-            'You cannot delete this Purchase Order beacuse this order is used in purchase invoice';
-          let showActionButton = false;
-          const cantDelete = quotationsDetailResponse.data.status === 'closed';
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
+          let infoDescription = 'Are you sure you want to delete?';
+          let showActionButton = true;
+          const cantDelete = quotationStatus === 'proforma-invoiced' || quotationStatus === 'invoiced';
+          if (cantDelete) {
+            infoDescription =
+              'This Quotation is used in proforma invoice or in sale invoice delete them first';
+            showActionButton = false;
           }
 
           setOpenInfoPopup({
@@ -121,7 +121,6 @@ function QuotationDetailPage() {
             infoDescription,
             showActionButton,
           });
-          // setOpenPopup({ ...openPopup, open: true });
         },
       },
     ];
@@ -145,12 +144,6 @@ function QuotationDetailPage() {
           navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
         },
       });
-      // actionList.push({
-      //   label: 'Create Invoice',
-      //   handleClick: () => {
-      //     navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
-      //   },
-      // });
     }
     return actionList;
   }, [quotationsDetailResponse]);

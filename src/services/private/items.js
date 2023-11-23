@@ -46,6 +46,7 @@ const itemApi = privateApi.injectEndpoints({
       query: id => ({ url: `/api/accounting/items/${id}/`, method: 'DELETE' }),
       invalidatesTags: ['getSingleItem', 'getItemsList'],
     }),
+
     getItemQuotation: builder.query({
       query: ({ id, params }) => ({
         url: `api/accounting/item/${id}/quotation/transactions`,
@@ -56,6 +57,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
+      providesTags: ['getItemQuotation'],
     }),
 
     getItemPerformaInvoice: builder.query({
@@ -68,6 +70,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
+      providesTags: ['getItemPerformaInvoice'],
     }),
     getItemInvoice: builder.query({
       query: ({ id, params }) => ({
@@ -79,6 +82,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
+      providesTags: ['getItemInvoice'],
     }),
     getItemCreditNote: builder.query({
       query: ({ id, params }) => ({
@@ -90,6 +94,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
+      providesTags: ['getItemCreditNote'],
     }),
     getItemPurchaseOrder: builder.query({
       query: ({ id, params }) => ({
@@ -101,6 +106,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
+      providesTags: ['getItemPurchaseOrder'],
     }),
     getItemBill: builder.query({
       query: ({ id, params }) => ({
@@ -112,6 +118,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
+      providesTags: ['getItemBill'],
     }),
     getItemDebitNote: builder.query({
       query: ({ id, params }) => ({
@@ -123,6 +130,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
+      providesTags: ['getItemDebitNote'],
     }),
   }),
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 // services
 import {
   useDeleteSupplierCreditsMutation,
@@ -13,24 +13,36 @@ import MuiTable from 'shared/components/table/MuiTable';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { supplierCreditHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
   const supplierCreditResponse = useGetSupplierCreditsListQuery(getsearchQueryOffsetAndLimitParams(location));
   const [deleteSupplierCredit] = useDeleteSupplierCreditsMutation();
 
-  const deleteSingleSupplierCredit = async id => {
-    await deleteSupplierCredit(id);
-    enqueueSnackbar('Supplier Credit Deleted Successfully', { variant: 'success' });
+  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    const filterResult = data.filter(row => row.id === selected[0]);
+    if (filterResult[0].is_applied) {
+      setOpenInfoPopup({
+        ...openInfoPopup,
+        status: true,
+        message: 'This Debit Note is used in bills or refunded',
+        actionButton: false,
+      });
+      return;
+    }
+    navigate(`edit/${selected[0]}`);
   };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'Are you sure you want to delete?';
+    let message =
+      'Can not delete Debit Notes because some of the selected debit notes are applied to bill or refunded';
     let actionButton = false;
     const isApplied = checkSelectedDataUsed(data, selected, 'is_applied');
     if (isApplied.length > 0) {
-      message = selected.length === 1 ? 'This Debit Note is applied to bill' : message;
+      message = selected.length === 1 ? 'This Debit Note is applied to bill or refunded' : message;
     } else {
       message = 'Are you sure you want to delete?';
       actionButton = true;
@@ -44,7 +56,7 @@ function SupplierCreditListing() {
   };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleSupplierCredit(id);
+      handleDeleteResponse(deleteSupplierCredit, id, enqueueSnackbar, 'Debit Note Deleted Successfully');
     });
   };
   return (
@@ -53,18 +65,17 @@ function SupplierCreditListing() {
         <title>Purchase Debit Notes - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
-      {/* {resp.isSuccess && resp?.data?.results?.length > 0 && ( */}
       <MuiTable
         data={supplierCreditResponse?.data?.results}
         totalDataCount={supplierCreditResponse?.data?.count}
         TableHeading="Purchase Debit Notes"
         showCheckbox
+        handleEdit={handleEdit}
         headCells={supplierCreditHeadCells}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Debit Note' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
       />
-      {/* )} */}
     </>
   );
 }

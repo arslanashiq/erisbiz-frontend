@@ -27,6 +27,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getPerformaInvoicesList',
         'getSinglePerformaInvoice',
         'getLatestSaleInvoice',
+        'getItemInvoice',
       ],
     }),
     editSaleInvoices: builder.mutation({
@@ -41,6 +42,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getPerformaInvoicesList',
         'getSinglePerformaInvoice',
         'getLatestSaleInvoice',
+        'getItemInvoice',
       ],
     }),
     deleteSaleInvoice: builder.mutation({
@@ -55,6 +57,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getPerformaInvoicesList',
         'getSinglePerformaInvoice',
         'getLatestSaleInvoice',
+        'getItemInvoice',
       ],
     }),
     getLatestSaleInvoice: builder.query({

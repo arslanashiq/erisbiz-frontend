@@ -32,6 +32,7 @@ const quotationsApi = privateApi.injectEndpoints({
         'getQuotationsList',
         'getCustomersList',
         'getSingleCustomer',
+        'getItemQuotation',
       ],
     }),
     editQuotation: builder.mutation({
@@ -46,6 +47,7 @@ const quotationsApi = privateApi.injectEndpoints({
         'getLatestQuatitonNumber',
         'getCustomersList',
         'getSingleCustomer',
+        'getItemQuotation',
       ],
     }),
     deleteQuotation: builder.mutation({
@@ -58,6 +60,7 @@ const quotationsApi = privateApi.injectEndpoints({
         'getQuotationsList',
         'getCustomersList',
         'getSingleCustomer',
+        'getItemQuotation',
       ],
     }),
     getLatestQuatitonNumber: builder.query({

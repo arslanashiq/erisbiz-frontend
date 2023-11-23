@@ -55,18 +55,28 @@ function SupplierCreditDetail() {
       {
         label: 'Edit',
         handleClick: () => {
+          const cantDelete = supplierCreditResponse?.data?.is_applied;
+          if (cantDelete) {
+            setOpenInfoPopup({
+              ...openInfoPopup,
+              open: true,
+              infoDescription: 'This Debit Note is either applied to bill or refunded.',
+              showActionButton: false,
+            });
+            return;
+          }
           navigate(`/pages/accounting/purchase/debit-notes/edit/${id}`);
         },
       },
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription = 'This Debit Note is either applied to bill or refunded.';
-          let showActionButton = false;
-          const cantDelete = supplierCreditResponse.data.is_applied;
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
+          let infoDescription = 'Are you sure you want to delete?';
+          let showActionButton = true;
+          const cantDelete = supplierCreditResponse?.data?.is_applied;
+          if (cantDelete) {
+            infoDescription = 'This Debit Note is either applied to bill or refunded.';
+            showActionButton = false;
           }
           setOpenInfoPopup({ ...openInfoPopup, open: true, infoDescription, showActionButton });
         },
@@ -92,7 +102,7 @@ function SupplierCreditDetail() {
         label: 'Apply to Bill',
         handleClick: () => {
           navigate(
-            `/pages/accounting/purchase/payment-voucher/add?supplierId=${supplierCreditResponse?.data?.supplier_id}`
+            `/pages/accounting/purchase/payment-voucher/add?supplierId=${supplierCreditResponse?.data?.supplier_id}&debitAmount=${supplierCreditResponse?.data?.credits_remaining}`
           );
         },
       });
@@ -112,6 +122,7 @@ function SupplierCreditDetail() {
       return;
     }
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
+    setOpenRefundModal(false);
   };
   return (
     <SectionLoader options={[supplierCreditResponse.isLoading]}>
@@ -119,7 +130,7 @@ function SupplierCreditDetail() {
         open={openRefundModal}
         setOpen={setOpenRefundModal}
         handleRefund={handleRefundSupplierCredit}
-        maxAmount={supplierCreditResponse?.data?.amount_total}
+        maxAmount={supplierCreditResponse?.data?.credits_remaining}
       />
       <DetailPageHeader
         title={`Purchase Debit Note:${supplierCreditResponse?.data?.supplier_credit_formatted_number}`}

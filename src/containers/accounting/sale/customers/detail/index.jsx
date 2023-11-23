@@ -43,9 +43,10 @@ function CustomerDetail() {
             have_quotations: haveQuotations,
           } = customerDetailResponse.data;
           if (haveCreditNotes || haveInvoices || havePurchaseInvoices || haveQuotations) {
-            showActionButton = true;
+            showActionButton = false;
           } else {
             infoDescription = 'Are you sure you want to delete?';
+            showActionButton = true;
           }
           setOpenInfoPopup({
             ...openInfoPopup,

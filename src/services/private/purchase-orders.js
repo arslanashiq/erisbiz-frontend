@@ -30,14 +30,14 @@ const purchaseOrdersApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getLatestPurchaseOrderNumber', 'getPurchaseOrdersList'],
+      invalidatesTags: ['getLatestPurchaseOrderNumber', 'getPurchaseOrdersList', 'getItemPurchaseOrder'],
     }),
     deletePurchaseOrder: builder.mutation({
       query: id => ({
         url: `/api/accounting/purchases/purOrders/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getPurchaseOrdersList'],
+      invalidatesTags: ['getLatestPurchaseOrderNumber', 'getPurchaseOrdersList', 'getItemPurchaseOrder'],
     }),
     editPurchaseOrder: builder.mutation({
       query: ({ id, payload }) => ({
@@ -45,7 +45,7 @@ const purchaseOrdersApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSinglePurchaseOrder', 'getPurchaseOrdersList'],
+      invalidatesTags: ['getLatestPurchaseOrderNumber', 'getPurchaseOrdersList', 'getItemPurchaseOrder'],
     }),
     addPurchaseOrderDocument: builder.mutation({
       query: ({ id, payload }) => ({

@@ -120,13 +120,13 @@ function SaleInvoiceDetailPage() {
       {
         label: 'Delete',
         handleClick: () => {
-          let infoDescription =
-            'You cannot delete this Sales Invoice  beacuse this is used in purchase Receipt Vouchers';
-          let showActionButton = false;
+          let infoDescription = 'Are you sure you want to delete?';
+          let showActionButton = true;
           const cantDelete = status === 'paid' || status === 'partially paid';
-          if (!cantDelete) {
-            infoDescription = 'Are you sure you want to delete?';
-            showActionButton = true;
+          if (cantDelete) {
+            infoDescription =
+              'You cannot delete this Sales Invoice  beacuse this is used in purchase Receipt Vouchers';
+            showActionButton = false;
           }
 
           setOpenInfoPopup({

@@ -12,6 +12,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
 import { getItemSearchQueryParams } from 'utilities/filters';
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { performaInvoiceHeadCell } from '../utilities/head-cells';
 
 function PerformaInvoiceListing() {
@@ -22,20 +23,38 @@ function PerformaInvoiceListing() {
   const [deletePerformaInvoice] = useDeletePerformaInvoiceMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message = 'Are you sure you want to delete?';
+    let actionButton = true;
+    const selectedData = [];
+    data.forEach(item => {
+      if (selected.includes(item.uuid || item.id)) {
+        selectedData.push(item);
+      }
+    });
+    const cantDelete = selectedData.some(item => item.status === 'invoiced');
+    if (cantDelete) {
+      message =
+        selectedData.length === 1
+          ? 'This Profoma Invoice is used in sale invoice delete them first'
+          : 'You cannot delete this Profoma Invoice because some of the selected Profoma Invoice are used in sale invoice';
+      actionButton = false;
+    }
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
-      message: 'Are you sure you want to delete?',
-      actionButton: true,
+      message,
+      actionButton,
     });
   };
-  const deleteSinglePerformaInvoice = async id => {
-    deletePerformaInvoice(id);
-    enqueueSnackbar('Proforma Invoice Deleted Successfully', { variant: 'success' });
-  };
+
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSinglePerformaInvoice(id);
+      handleDeleteResponse(
+        deletePerformaInvoice,
+        id,
+        enqueueSnackbar,
+        'Proforma Invoice Deleted Successfully'
+      );
     });
   };
   return (
@@ -50,6 +69,7 @@ function PerformaInvoiceListing() {
         TableHeading="Proforma Invoice"
         headCells={performaInvoiceHeadCell}
         showCheckbox
+        editableStatusList={['draft']}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Proforma Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

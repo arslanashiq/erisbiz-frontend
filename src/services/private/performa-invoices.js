@@ -34,6 +34,7 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         'getSingleQuotation',
         'getLatestPerformaInvoice',
         'getItemsList',
+        'getItemPerformaInvoice',
       ],
     }),
     editPerformaInvoice: builder.mutation({
@@ -48,6 +49,7 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         'getQuotationsList',
         'getLatestPerformaInvoice',
         'getItemsList',
+        'getItemPerformaInvoice',
       ],
     }),
     getLatestPerformaInvoice: builder.query({
@@ -69,6 +71,7 @@ const performaInvoiceApi = privateApi.injectEndpoints({
         'getSingleQuotation',
         'getLatestPerformaInvoice',
         'getItemsList',
+        'getItemPerformaInvoice',
       ],
     }),
     uploadPerformaInvoiceDocumentFile: builder.mutation({

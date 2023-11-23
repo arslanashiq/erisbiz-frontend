@@ -120,132 +120,136 @@ function AddItemPage() {
               }
             }}
           >
-            <Form className="form form--horizontal row pt-3">
-              <FormikField
-                type="text"
-                name="item_name"
-                placeholder="Item Name"
-                label="Item Name"
-                isRequired
-                startIcon={<ShoppingBasketIcon />}
-              />
-              <FormikField
-                name="sku_hs_code"
-                placeholder="SKU/HS Code"
-                type="number"
-                startIcon={<ContactPhoneIcon />}
-                label="SKU/HS Code"
-              />
-
-              <FormikSelect
-                name="item_type"
-                type="text"
-                options={ITEM_TYPES}
-                startIcon={<CategoryIcon />}
-                label="Item Type"
-                isRequired
-                onChange={value => {
-                  setItemType(value);
-                }}
-              />
-              <FormikSelect
-                name="is_active"
-                type="text"
-                options={ITEM_STATUS_OOPTIONS}
-                startIcon={<CheckCircleOutlineIcon />}
-                label="Status"
-                isRequired
-              />
-              <FormikField
-                type="number"
-                isRequired
-                name="cost_price"
-                placeholder="Cost Price"
-                label="Cost Price"
-              />
-              <FormikField
-                type="number"
-                isRequired
-                name="sale_price"
-                placeholder="Sale Price"
-                label="Sale Price"
-              />
-
-              <FormikSelect
-                name="account_no"
-                options={sortedChartOfAccount}
-                placeholder="GL Account"
-                label="GL Account"
-                isRequired
-                isGrouped
-              />
-
-              <FormikField name="bar_code" placeholder="Bar Code" label="Bar Code" />
-
-              <FormikField name="unit" label="Unit" />
-
-              <FormikField name="recorder" type="text" placeholder="Recorder" label="Recorder" />
-
-              <FormikField name="description" textArea label="Description" className="col-12" />
-
-              <Box className="form__form-group col-md-6 row pe-0">
-                <FormikImageInput
-                  name="item_image"
-                  type="file"
-                  accept="image/*"
-                  label="Item Image"
-                  className="col-12"
+            {({ values, setFieldValue }) => (
+              <Form className="form form--horizontal row pt-3">
+                <FormikField
+                  type="text"
+                  name="item_name"
+                  placeholder="Item Name"
+                  label="Item Name"
+                  isRequired
+                  startIcon={<ShoppingBasketIcon />}
                 />
                 <FormikField
-                  name="opening_stock"
+                  name="sku_hs_code"
+                  placeholder="SKU/HS Code"
                   type="number"
-                  placeholder="Opening Stock"
-                  label="Opening Stock"
-                  className="col-12"
+                  startIcon={<ContactPhoneIcon />}
+                  label="SKU/HS Code"
                 />
-              </Box>
 
-              <Box className="form__form-group col-md-6 row pe-0">
+                <FormikSelect
+                  name="item_type"
+                  type="text"
+                  options={ITEM_TYPES}
+                  startIcon={<CategoryIcon />}
+                  label="Item Type"
+                  isRequired
+                  onChange={value => {
+                    setItemType(value);
+                    setFieldValue('opening_stock', 0);
+                  }}
+                />
+                <FormikSelect
+                  name="is_active"
+                  type="text"
+                  options={ITEM_STATUS_OOPTIONS}
+                  startIcon={<CheckCircleOutlineIcon />}
+                  label="Status"
+                  isRequired
+                />
                 <FormikField
-                  name="part_number"
                   type="number"
-                  placeholder="Part Number"
-                  label="Part Number"
-                  className="col-12"
+                  isRequired
+                  name="cost_price"
+                  placeholder="Cost Price"
+                  label="Cost Price"
+                />
+                <FormikField
+                  type="number"
+                  isRequired
+                  name="sale_price"
+                  placeholder="Sale Price"
+                  label="Sale Price"
                 />
 
                 <FormikSelect
-                  name="supplier"
-                  options={suppliersOptions}
-                  placeholder="Select Supplier"
-                  className="col-12"
-                  label="Supplier"
+                  name="account_no"
+                  options={sortedChartOfAccount}
+                  placeholder="GL Account"
+                  label="GL Account"
                   isRequired
+                  isGrouped
                 />
 
-                <FormikSelect
-                  placeholder="Select Brand"
-                  name="brand"
-                  options={brandsOptions}
-                  label="Brand"
-                  className="col-12"
-                  isRequired
-                />
-                <FormikSelect
-                  placeholder="Select Category"
-                  name="category"
-                  options={categoryOptions}
-                  label="Category"
-                  className="col-12"
-                  isRequired
-                />
-              </Box>
+                <FormikField name="bar_code" placeholder="Bar Code" label="Bar Code" />
 
-              {/* ============================================================================================ */}
+                <FormikField name="unit" label="Unit" />
 
-              <ErrorFocus />
-              <FormSubmitButton />
-            </Form>
+                <FormikField name="recorder" type="text" placeholder="Recorder" label="Recorder" />
+
+                <FormikField name="description" textArea label="Description" className="col-12" />
+
+                <Box className="form__form-group col-md-6 row pe-0">
+                  <FormikImageInput
+                    name="item_image"
+                    type="file"
+                    accept="image/*"
+                    label="Item Image"
+                    className="col-12"
+                  />
+                  <FormikField
+                    name="opening_stock"
+                    type="number"
+                    placeholder="Opening Stock"
+                    label="Opening Stock"
+                    className="col-12"
+                    disabled={values.item_type !== 'Goods'}
+                  />
+                </Box>
+
+                <Box className="form__form-group col-md-6 row pe-0">
+                  <FormikField
+                    name="part_number"
+                    type="number"
+                    placeholder="Part Number"
+                    label="Part Number"
+                    className="col-12"
+                  />
+
+                  <FormikSelect
+                    name="supplier"
+                    options={suppliersOptions}
+                    placeholder="Select Supplier"
+                    className="col-12"
+                    label="Supplier"
+                    isRequired
+                  />
+
+                  <FormikSelect
+                    placeholder="Select Brand"
+                    name="brand"
+                    options={brandsOptions}
+                    label="Brand"
+                    className="col-12"
+                    isRequired
+                  />
+                  <FormikSelect
+                    placeholder="Select Category"
+                    name="category"
+                    options={categoryOptions}
+                    label="Category"
+                    className="col-12"
+                    isRequired
+                  />
+                </Box>
+
+                {/* ============================================================================================ */}
+
+                <ErrorFocus />
+                <FormSubmitButton />
+              </Form>
+            )}
           </Formik>
         </CardContent>
       </Card>
