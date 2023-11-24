@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Outlet, useLocation } from 'react-router';
 import { useTheme } from '@mui/material/styles';
@@ -16,7 +16,7 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
   const location = useLocation();
 
-  const [showSideBarChildLink, setShowSideBarChildLink] = useState([false, false]);
+  const [showSideBarChildLink, setShowSideBarChildLink] = useState([false, false, false]);
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -32,6 +32,10 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
     if (location.pathname.includes(link)) return true;
     return false;
   };
+  useEffect(() => {
+    setOpen(isLargeScreen);
+  }, [isLargeScreen]);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
