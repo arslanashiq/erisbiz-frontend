@@ -8,6 +8,7 @@ import { useDeleteSaleInvoiceMutation, useGetSaleInvoicesListQuery } from 'servi
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { invoiceHeadCell } from '../utilities/head-cells';
 
 function ProfomaInvoiceListing() {
@@ -42,13 +43,10 @@ function ProfomaInvoiceListing() {
       actionButton,
     });
   };
-  const deleteSingleInvoice = async id => {
-    await deleteinvoice(id);
-    enqueueSnackbar('Proforma Invoice Deleted Successfully', { variant: 'success' });
-  };
+
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleInvoice(id);
+      handleDeleteResponse(deleteinvoice, id, enqueueSnackbar, 'Sale Invoice Deleted Successfully');
     });
   };
   return (

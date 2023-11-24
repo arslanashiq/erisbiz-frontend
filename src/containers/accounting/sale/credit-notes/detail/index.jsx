@@ -63,8 +63,8 @@ function CreditNoteDetail() {
     }),
     [creditNoteDetailResponse]
   );
-  const quotationsActionList = useMemo(
-    () => [
+  const quotationsActionList = useMemo(() => {
+    const actionList = [
       {
         label: 'Edit',
         handleClick: () => {
@@ -82,9 +82,18 @@ function CreditNoteDetail() {
           });
         },
       },
-    ],
-    [creditNoteDetailResponse]
-  );
+    ];
+    // if (creditNoteDetailResponse?.data?.status === 'open') {
+    //   actionList.push({
+    //     label: 'Refund',
+    //     divider: true,
+    //     handleClick: () => {
+    //       // setOpenRefundModal(true);
+    //     },
+    //   });
+    // }
+    return actionList;
+  }, [creditNoteDetailResponse]);
   return (
     <SectionLoader options={[creditNoteDetailResponse.isLoading]}>
       <DetailPageHeader
