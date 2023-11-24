@@ -9,13 +9,14 @@ function PurchaseVoucherFooterDocument({ orderDetail, keyValue }) {
     orderDetail[keyValue]?.length > 0 &&
     orderDetail[keyValue].map(item => (
       <div key={uuid()} className="payment-details">
+        {item.bill && <p>{moment(item.bill.bill_date).format('YYYY-MM-DD')}</p>}
         {item.bill ? (
           <Link to={`/pages/accounting/purchases/bills/${item.bill.id}/detail`}>{item.bill.bill_num}</Link>
         ) : (
           <p>Supplier Opening Balance</p>
         )}
-        {item.bill && <p>{moment(item.bill.bill_date).format('YYYY-MM-DD')}</p>}
-        {item.supplier && <p>{moment(item.supplier.bill_date).format('YYYY-MM-DD')}</p>}
+        {item?.bill?.pur_order_num && <p>{item.bill.pur_order_num}</p>}
+
         {item.bill && (
           <p>
             {orderDetail.currency_symbol}

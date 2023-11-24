@@ -61,7 +61,11 @@ function DetailPageHeader({
     setIsPrintModalOpen(true);
   };
   const handleDeleteItem = async () => {
-    await deleteItem(id);
+    const response = await deleteItem(id);
+    if (response.error) {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+      return;
+    }
     enqueueSnackbar('Deleted Successfully', { variant: 'success' });
     navigate(navigateAfterDelete);
   };

@@ -50,7 +50,7 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         </Box>
         <Box className="row">
           <Box className="col-sm-3 invoice-headings">
-            <p>Amount Paid (AED)</p>
+            <p>Amount Paid</p>
           </Box>
           <Box className="col-sm-9 invoice-details">
             <p>
@@ -72,7 +72,7 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         </Box>
       </Box>
 
-      {orderDetail && orderDetail.over_paid && (
+      {orderDetail && orderDetail.over_payment > 0 && (
         <Box className="over-payment">
           <h5>Overpayment</h5>
           <h4>

@@ -65,6 +65,16 @@ function ReceiptVoucherDetail() {
       {
         label: 'Edit',
         handleClick: () => {
+          const isRefunded = receiptVoucherResponse?.data?.refund_payment > 0;
+          if (isRefunded) {
+            setOpenInfoPopup({
+              ...openInfoPopup,
+              open: true,
+              infoDescription: 'Selected Voucher have Refundds',
+              showActionButton: false,
+            });
+            return;
+          }
           navigate(`/pages/accounting/sales/receipt-voucher/edit/${id}`);
         },
       },
@@ -73,7 +83,16 @@ function ReceiptVoucherDetail() {
         handleClick: () => {
           const infoDescription = 'Are you sure you want to delete?';
           const showActionButton = true;
-
+          const isRefunded = receiptVoucherResponse?.data?.refund_payment > 0;
+          if (isRefunded) {
+            setOpenInfoPopup({
+              ...openInfoPopup,
+              open: true,
+              infoDescription: 'Selected Voucher have Refundds',
+              showActionButton: false,
+            });
+            return;
+          }
           setOpenInfoPopup({ ...openInfoPopup, open: true, infoDescription, showActionButton });
         },
       },

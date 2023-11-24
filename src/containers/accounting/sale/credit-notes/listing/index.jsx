@@ -8,6 +8,7 @@ import { useDeleteCreditNoteMutation, useGetCreditNotesListQuery } from 'service
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { creditNoteHeadCells } from '../utilities/head-cells';
 
 function CreditNotesListing() {
@@ -24,14 +25,10 @@ function CreditNotesListing() {
       actionButton: true,
     });
   };
-  const deleteSingleCreditNote = async id => {
-    await deleteCreditNote(id);
 
-    enqueueSnackbar('Credit Note Deleted Successfully', { variant: 'success' });
-  };
   const handleConfirmDelete = list => {
     list.forEach(id => {
-      deleteSingleCreditNote(id);
+      handleDeleteResponse(deleteCreditNote, id, enqueueSnackbar, 'Credit Note Deleted Successfully');
     });
   };
   return (
