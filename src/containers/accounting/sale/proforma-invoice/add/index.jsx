@@ -13,6 +13,7 @@ import {
   useGetSingleProformaInvoiceQuery,
   useEditProformaInvoiceMutation,
   useGetLatestProformaInvoiceQuery,
+  useAddProformaInvoiceMutation,
   // useGetLatestProformaInvoiceQuery,
 } from 'services/private/proforma-invoices';
 import { useGetQuotationsListQuery, useGetSingleQuotationQuery } from 'services/private/quotations';
@@ -75,7 +76,7 @@ function AddProfomaInvoice() {
   const customerListResponse = useGetCustomersListQuery();
   const salePersonListResponse = useGetActiveSalePersonListQuery();
 
-  const [addProfomaInvoice] = useGetSingleProformaInvoiceQuery();
+  const [addProfomaInvoice] = useAddProformaInvoiceMutation();
   const [editProfomaInvoice] = useEditProformaInvoiceMutation();
 
   const { optionsList: quotationsListOptions } = useListOptions(quotationsListResponse?.data?.results, {
