@@ -194,7 +194,8 @@ export default function MuiTable({
                 selected={selected}
                 handleClick={handleClick}
                 actionButtonKey={actionButtonKey}
-                handleTableBodyButtonAction={handleTableBodyActionButton}
+                handleTableBodyButtonAction={(id, detailInfo) =>
+                  handleTableBodyActionButton(id, detailInfo, openInfoPopup, setOpenInfoPopup)}
                 customRows={customRows}
                 customActionButton={customActionButton}
                 hoverEffect={hoverEffect}

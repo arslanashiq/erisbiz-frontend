@@ -29,7 +29,15 @@ function ItemsListing() {
   const [ChangeItemStatus] = useChangeItemStatusMutation();
   const [deleteItem] = useDeleteItemMutation();
 
-  const handleChangeItemStatus = async id => {
+  const handleChangeItemStatus = async (id, data, openInfoPopup, setOpenInfoPopup) => {
+    if (data?.is_item_used) {
+      setOpenInfoPopup({
+        ...openInfoPopup,
+        status: true,
+        message: 'This item is used in transactions, please delete them first',
+        actionButton: false,
+      });
+    }
     const chageStatusResp = await ChangeItemStatus(id);
     if (chageStatusResp.data) {
       enqueueSnackbar('Item Status Changed', { variant: 'success' });

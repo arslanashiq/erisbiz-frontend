@@ -166,7 +166,7 @@ function MuiTableBody({
                     size="small"
                     className="text-capitalize"
                     sx={{ fontSize: 10, width: 70 }}
-                    onClick={() => handleTableBodyButtonAction(row.id)}
+                    onClick={() => handleTableBodyButtonAction(row.id, row)}
                   >
                     {row[actionButtonKey] ? 'Deactivate' : 'Activate'}
                   </Button>
