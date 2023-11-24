@@ -36,18 +36,20 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { VAT_CHARGES } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import { creditNoteInitialValues } from '../utilities/initialValues';
 import 'styles/form/form.scss';
 
 function index() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { saleId } = getSearchParamsList();
 
   const [selectedInoviceId, setSelectedInoviceId] = useState('');
 
   const receiptVouchersListResponse = useGetReceiptVoucherListQuery();
   const saleInvoiceListResponse = useGetSaleInvoicesListQuery();
-  const itemsListResponse = useGetItemsListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const bankAccountResponse = useGetBankAccountsListQuery();
 
   const [addCreditNote] = useAddCreditNoteMutation();
@@ -70,7 +72,7 @@ function index() {
     label: 'bank_account_name',
   });
 
-  const { initialValues, isLoading, queryResponse } = useInitialValues(
+  const { initialValues, isLoading, queryResponse, setInitialValues } = useInitialValues(
     creditNoteInitialValues,
     useGetSingleCreditNoteQuery,
     null,
@@ -139,13 +141,13 @@ function index() {
     const selectedSaleInvoice = saleInvoiceListResponse.data.results.filter(
       saleInvoice => saleInvoice.id === value
     );
-    if (setFieldValue) {
-      const selectedInvoiceItemsList = selectedSaleInvoice[0].invoice_items.map(invoiceItems => ({
-        ...invoiceItems,
-        invoice_num_nights: invoiceItems.num_nights,
-      }));
-      setFieldValue('credit_note_items', selectedInvoiceItemsList);
-    }
+
+    const selectedInvoiceItemsList = selectedSaleInvoice[0]?.invoice_items?.map(invoiceItems => ({
+      ...invoiceItems,
+      invoice_num_nights: invoiceItems.num_nights,
+    }));
+    if (setFieldValue) setFieldValue('credit_note_items', selectedInvoiceItemsList);
+    return selectedInvoiceItemsList;
   };
 
   // useEffect(() => {
@@ -165,6 +167,13 @@ function index() {
       setSelectedInoviceId(queryResponse?.invoice?.id);
     }
   }, [queryResponse]);
+
+  useEffect(() => {
+    if (saleId && saleInvoiceListResponse?.data?.results) {
+      const saleItemsData = handleChangeSaleInvoice(Number(saleId));
+      setInitialValues({ ...initialValues, invoice: Number(saleId), credit_note_items: saleItemsData });
+    }
+  }, [saleId, saleInvoiceListResponse]);
 
   return (
     <SectionLoader
@@ -212,6 +221,10 @@ function index() {
                 setErrors(response.error.data);
                 return;
               }
+              if (saleId) {
+                navigate('/pages/accounting/sales/credit-notes', { replace: true });
+                return;
+              }
               navigate(-1);
             }}
           >
@@ -223,6 +236,7 @@ function index() {
                   placeholder="Invoice Number"
                   label="Invoice Number"
                   startIcon={<TagIcon />}
+                  disabled={Boolean(saleId)}
                   onChange={value => handleChangeSaleInvoice(value, setFieldValue)}
                 />
                 <FormikDatePicker

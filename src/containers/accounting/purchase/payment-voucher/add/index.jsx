@@ -118,7 +118,7 @@ function addPaymentVoucher() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={paymentVoucherFormValidationSchema}
-            onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+            onSubmit={async (values, { setErrors }) => {
               let response = null;
 
               if (id) {
@@ -126,14 +126,15 @@ function addPaymentVoucher() {
               } else {
                 response = await addPaymentVouchser(values);
               }
-              setSubmitting(false);
-              if (response.data) {
-                resetForm();
-                navigate(-1);
-              }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
               }
+              if (supplierId) {
+                navigate('/pages/accounting/purchase/payment-voucher', { replace: true });
+                return;
+              }
+              navigate(-1);
             }}
           >
             {({ setFieldValue }) => (

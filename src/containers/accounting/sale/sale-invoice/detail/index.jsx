@@ -176,6 +176,14 @@ function SaleInvoiceDetailPage() {
         },
       });
     }
+    if (status === 'partially paid' || status === 'paid') {
+      actionsList.push({
+        label: 'Create Credit Note',
+        handleClick: async () => {
+          navigate(`/pages/accounting/sales/credit-notes/add?saleId=${id}`);
+        },
+      });
+    }
     return actionsList;
   }, [saleInvoiceDetailResponse, saleInvoiceJournalsResponse]);
   return (

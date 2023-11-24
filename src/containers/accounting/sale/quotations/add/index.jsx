@@ -46,7 +46,7 @@ import { quotationFormValidationSchema } from '../utilities/validation-schema';
 
 function AddQuotation() {
   const navigate = useNavigate();
-  const itemsListResponse = useGetItemsListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const customerListResponse = useGetCustomersListQuery();
   const salePersonListResponse = useGetActiveSalePersonListQuery();
 

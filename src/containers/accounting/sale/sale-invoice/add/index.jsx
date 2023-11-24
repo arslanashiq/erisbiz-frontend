@@ -58,7 +58,7 @@ function AddInvoice() {
 
   const [selectedCustomer, setSelectedCustomer] = useState(performaInvoice);
 
-  const itemsListResponse = useGetItemsListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
 
   const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
@@ -261,6 +261,10 @@ function AddInvoice() {
               }
               if (response.error) {
                 setError(response.error.data);
+                return;
+              }
+              if (performaInvoice) {
+                navigate('/pages/accounting/sales/sale-invoice', { replace: true });
                 return;
               }
 

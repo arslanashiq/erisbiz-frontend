@@ -51,7 +51,7 @@ function AddSupplierCredit() {
   const { id } = useParams();
   const { purchaseId } = getSearchParamsList();
   const navigate = useNavigate();
-  const itemsListResponse = useGetItemsListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const suppliersListResponse = useGetSuppliersListQuery();
   const bankAccountsListsponse = useGetBankAccountsListQuery();
   const purchaseInvoiceListResponse = useGetPurchaseInvoiceListQuery();
@@ -216,7 +216,7 @@ function AddSupplierCredit() {
             enableReinitialize
             initialValues={UpdatedSupplierCreditValues}
             validationSchema={supplierCreditFormValidationSchema}
-            onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
+            onSubmit={async (values, { setErrors }) => {
               const supplierCreditTtems = values.supplier_credit_items.map(item => ({
                 ...item,
                 chart_of_account_id: values.debit_account_number,
@@ -234,14 +234,15 @@ function AddSupplierCredit() {
               } else {
                 response = await addSupplierCredit(payload);
               }
-              setSubmitting(false);
-              if (response.data) {
-                resetForm(initialValues);
-                navigate(-1);
-              }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
               }
+              if (purchaseId) {
+                navigate('/pages/accounting/purchase/debit-note', { replace: true });
+                return;
+              }
+              navigate(-1);
             }}
           >
             {({ setFieldValue }) => (

@@ -10,7 +10,14 @@ import {
   supplierStatementTable,
 } from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-statement';
 import { Box } from '@mui/material';
-import { COMPANY_NAME } from 'utilities/constants';
+import {
+  COMPANY_ADDRESS,
+  COMPANY_COUNTRY,
+  COMPANY_EMAIL,
+  COMPANY_NAME,
+  COMPANY_OFFICE_ADDRESS,
+  COMPANY_PHONE,
+} from 'utilities/constants';
 
 function SupplierStatement({ basicInfo, transactions }) {
   return (
@@ -21,11 +28,11 @@ function SupplierStatement({ basicInfo, transactions }) {
         </Box>
         <Box className="text-right">
           <h5 className="font-weight-bold">{COMPANY_NAME}</h5>
-          <p className="m-0">Office # 1206, JBC 4, Cluster N,</p>
-          <p className="m-0">Jumeirah Lake Towers, Dubai,</p>
-          <p className="m-0">United Arab Emirates</p>
-          <p className="m-0">Phone: +971 4 379 9960</p>
-          <p className="m-0">info@luxuryexplorersme.com</p>
+          <p className="m-0">{COMPANY_OFFICE_ADDRESS}</p>
+          <p className="m-0">{COMPANY_ADDRESS}</p>
+          <p className="m-0">{COMPANY_COUNTRY}</p>
+          <p className="m-0">{COMPANY_PHONE}</p>
+          <p className="m-0">{COMPANY_EMAIL}</p>
           <Box className="my-2 ml-auto">
             <h3>Statement of Accounts</h3>
             <p className="border-top border-bottom">{`${basicInfo.startDate} To ${basicInfo.endDate}`}</p>

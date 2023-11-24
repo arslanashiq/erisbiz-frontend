@@ -13,7 +13,7 @@ export const supplierPaymentInfo = [
 
 export const supplierFilterInitialValues = {
   supplier_name: '',
-  primary_contact_email: '',
+  email: '',
   primary_contact_phone: '',
   primary_contact_mobile: '',
 };
@@ -24,7 +24,7 @@ export const supplierFiltersOptionsList = [
     placeholder: 'Supplier Name',
   },
   {
-    name: 'primary_contact_email',
+    name: 'email',
     fullWidth: true,
     placeholder: 'Email',
   },

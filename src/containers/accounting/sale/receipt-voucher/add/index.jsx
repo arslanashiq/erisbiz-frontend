@@ -124,6 +124,10 @@ function AddReceiptVoucher() {
                 setError(response.error.data);
                 return;
               }
+              if (customerId) {
+                navigate('/pages/accounting/sales/receipt-voucher', { replace: true });
+                return;
+              }
               navigate(-1);
             }}
           >

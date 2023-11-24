@@ -123,6 +123,7 @@ function Dasbboard() {
             marginTop: 0.3,
             borderRadius: 3,
           }}
+          className="hide-scrolbar"
         >
           <Grid item xs={12} lg={12} xl={6} className="dashboard-table-left">
             <Stack
@@ -136,14 +137,12 @@ function Dasbboard() {
               }}
             >
               <Typography sx={{ fontSize: 19, fontWeight: 500 }}>Sale By Month</Typography>
-              <ResponsiveContainer height={200}>
+              <ResponsiveContainer height={180}>
                 <BarChart
-                  width={500}
-                  height={500}
                   data={[]}
                   margin={{
-                    top: 20,
-                    right: 40,
+                    top: 5,
+                    left: -55,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />

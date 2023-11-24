@@ -47,7 +47,7 @@ function AddPurchaseOrder() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const itemsListResponse = useGetItemsListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const supplierListResponse = useGetSuppliersListQuery();
   const latestPurchaseOrder = useGetLatestPurchaseOrderNumberQuery({}, { skip: id });
 
@@ -148,7 +148,7 @@ function AddPurchaseOrder() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={purchaseOrderFormValidationSchema}
-            onSubmit={async (values, { setErrors, resetForm }) => {
+            onSubmit={async (values, { setErrors }) => {
               let response = null;
               const payload = {
                 ...values,
@@ -173,13 +173,11 @@ function AddPurchaseOrder() {
               } else {
                 response = await addPurchaseOrder(formData);
               }
-              if (response.data) {
-                resetForm(initialValues);
-                navigate(-1);
-              }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
               }
+              navigate(-1);
             }}
           >
             <Form className="form form--horizontal mt-3 row">

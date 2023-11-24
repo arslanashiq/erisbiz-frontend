@@ -1,5 +1,5 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
-import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Form, Formik } from 'formik';
 import { useSnackbar } from 'notistack';
@@ -38,39 +38,33 @@ function PersonlizedFilter({ filterInitialValues, filtersList }) {
       {({ isSubmitting, resetForm }) => (
         <Form className="form personlized-search-form row pt-3 align-items-end">
           {/* Supplier Name */}
-          {filtersList.map(filter => (
-            <div key={uuid()} className={filter.fullWidth ? 'col-12' : 'col-md-6'}>
-              {filter.options && (
-                <FormikSelect
-                  name={filter.name}
-                  placeholder={filter.placeholder}
-                  options={filter.options}
-                  label={filter.placeholder}
-                  labelClassName="col-12"
-                  className="w-100"
-                />
-              )}
-              {filter.date && (
-                <FormikDatePicker
-                  name={filter.name}
-                  placeholder={filter.placeholder}
-                  label={filter.placeholder}
-                  labelClassName="col-12"
-                  className="w-100"
-                />
-              )}
-              {!filter.date && !filter.options && (
-                <FormikField
-                  name={filter.name}
-                  placeholder={filter.placeholder}
-                  type={filter.type}
-                  label={filter.placeholder}
-                  labelClassName="col-12"
-                  className="w-100"
-                />
-              )}
-            </div>
-          ))}
+          {filtersList.map(filter => (filter.options ? (
+            <FormikSelect
+              name={filter.name}
+              placeholder={filter.placeholder}
+              options={filter.options}
+              label={filter.placeholder}
+              labelClassName="col-12"
+              className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
+            />
+          ) : filter.date ? (
+            <FormikDatePicker
+              name={filter.name}
+              placeholder={filter.placeholder}
+              label={filter.placeholder}
+              labelClassName="col-12"
+              className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
+            />
+          ) : (
+            <FormikField
+              name={filter.name}
+              placeholder={filter.placeholder}
+              type={filter.type}
+              label={filter.placeholder}
+              labelClassName="col-12"
+              className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
+            />
+          )))}
 
           <Stack spacing={2} direction="row">
             <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">

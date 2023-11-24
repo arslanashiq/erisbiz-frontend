@@ -32,6 +32,24 @@ function ItemTransactionsTab() {
   return (
     <>
       <TransactionAccordionWithFilter
+        title="Purchase Order"
+        fetchData={useGetItemPurchaseOrderQuery}
+        headCells={itemPurchaseOrderTransactionHeadCells}
+        FiltersList={purchaseOrderFilters}
+      />
+      <TransactionAccordionWithFilter
+        title="Purchase Invoice"
+        fetchData={useGetItemBillQuery}
+        headCells={itemBillTransactionHeadCells}
+        FiltersList={billFilters}
+      />
+      <TransactionAccordionWithFilter
+        title="Purchase Debit Note"
+        fetchData={useGetItemDebitNoteQuery}
+        headCells={itemDebitNoteTransactionHeadCells}
+        FiltersList={debitNoteFilters}
+      />
+      <TransactionAccordionWithFilter
         title="Quotation"
         fetchData={useGetItemQuotationQuery}
         headCells={itemQuotationTransactionHeadCells}
@@ -45,34 +63,16 @@ function ItemTransactionsTab() {
         FiltersList={proformaInvoiceFilterList}
       />
       <TransactionAccordionWithFilter
-        title="Invoice"
+        title="Sale Invoice"
         fetchData={useGetItemInvoiceQuery}
         headCells={itemInvoiceTransactionHeadCells}
         FiltersList={invoiceFilters}
       />
       <TransactionAccordionWithFilter
-        title="Credit Note"
+        title="Sale Credit Note"
         fetchData={useGetItemCreditNoteQuery}
         headCells={itemCreditNoteTransactionHeadCells}
         FiltersList={creditNoteFilters}
-      />
-      <TransactionAccordionWithFilter
-        title="Purchase Order"
-        fetchData={useGetItemPurchaseOrderQuery}
-        headCells={itemPurchaseOrderTransactionHeadCells}
-        FiltersList={purchaseOrderFilters}
-      />
-      <TransactionAccordionWithFilter
-        title="Bill"
-        fetchData={useGetItemBillQuery}
-        headCells={itemBillTransactionHeadCells}
-        FiltersList={billFilters}
-      />
-      <TransactionAccordionWithFilter
-        title="Debit Note"
-        fetchData={useGetItemDebitNoteQuery}
-        headCells={itemDebitNoteTransactionHeadCells}
-        FiltersList={debitNoteFilters}
       />
     </>
   );

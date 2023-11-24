@@ -58,7 +58,7 @@ function AddPurchaseInvoice() {
 
   const [purchaseOrdersListOptions, setPurchaseOrdersListOptions] = useState([]);
 
-  const itemsListResponse = useGetItemsListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const suppliersListResponse = useGetSuppliersListQuery();
   const bankAccountsListResponse = useGetBankAccountsListQuery();
   const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery(id ? '' : '?status=Issued');
@@ -232,7 +232,7 @@ function AddPurchaseInvoice() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={purchaseInvoiceFormValidationSchema}
-            onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
+            onSubmit={async (values, { setErrors }) => {
               let response = null;
               const payload = {
                 ...values,
@@ -262,14 +262,15 @@ function AddPurchaseInvoice() {
                 formData.append('bill_num', values.invoice_num);
                 response = await addPurchaseInvoice(formData);
               }
-              setSubmitting(false);
-              if (response.data) {
-                resetForm(initialValues);
-                navigate(-1);
-              }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
               }
+              if (purchaseId) {
+                navigate('/pages/accounting/purchase/purchase-invoice', { replace: true });
+                return;
+              }
+              navigate(-1);
             }}
           >
             {({ setFieldValue, values }) => (

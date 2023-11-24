@@ -104,7 +104,7 @@
 }
 
 .chart-of-account-detail-head {
-  background-color: #fbfafa;
+  background-color: $background-color;
   padding: 20px;
   border-bottom: 2px dotted $primary-color;
 }
@@ -153,5 +153,14 @@
   }
   p {
     font-size: 12px;
+  }
+}
+
+// scrollbar
+
+/* width */
+.hide-scrolbar {
+  ::-webkit-scrollbar {
+    width: 0px;
   }
 }

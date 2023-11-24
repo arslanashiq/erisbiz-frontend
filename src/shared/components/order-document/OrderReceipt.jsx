@@ -3,7 +3,14 @@ import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { COMPANY_NAME } from 'utilities/constants';
+import {
+  COMPANY_ADDRESS,
+  COMPANY_COUNTRY,
+  COMPANY_EMAIL,
+  COMPANY_NAME,
+  COMPANY_OFFICE_ADDRESS,
+  COMPANY_PHONE,
+} from 'utilities/constants';
 import OrderItemsTable from './OrderItemsTable';
 import OrderVoucher from './OrderVoucher';
 import 'styles/purchase-order-template/purchase-order-template.scss';
@@ -30,12 +37,11 @@ function OrderReceipt({
           <Box className="box-1">
             <img src="/logo.png" alt="" id="logo" />
             <p>{COMPANY_NAME}</p>
-            <p>Office # 1206, JBC 4, Cluster N,</p>
-            <p>Jumeirah Lake Towers, Dubai,</p>
-            <p>United Arab Emirates</p>
-            <p>Phone: +971 4 379 9960</p>
-            <p>TRN: 100204615700003</p>
-            <p>info@luxuryexplorersme.com</p>
+            <p>{COMPANY_OFFICE_ADDRESS}</p>
+            <p>{COMPANY_ADDRESS}</p>
+            <p>{COMPANY_COUNTRY}</p>
+            <p>{COMPANY_PHONE}</p>
+            <p>{COMPANY_EMAIL}</p>
           </Box>
           {orderInfo.showCustomOptions ? (
             <Box className="box-2">

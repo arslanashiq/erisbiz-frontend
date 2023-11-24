@@ -72,7 +72,7 @@ function AddPerformaInvoice() {
     performaInvoice || null
   );
 
-  const itemsListResponse = useGetItemsListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const customerListResponse = useGetCustomersListQuery();
   const salePersonListResponse = useGetActiveSalePersonListQuery();
 
@@ -268,6 +268,10 @@ function AddPerformaInvoice() {
               }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
+              }
+              if (quotationId) {
+                navigate('/pages/accounting/sales/performa-invoice', { replace: true });
                 return;
               }
               navigate(-1);

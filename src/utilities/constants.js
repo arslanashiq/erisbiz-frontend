@@ -98,6 +98,12 @@ export const PAYMENT_MODE = [
 ];
 
 export const COMPANY_NAME = 'Erisbiz';
+export const COMPANY_OFFICE_ADDRESS = 'Office # 1206, JBC 4, Cluster N,';
+export const COMPANY_ADDRESS = 'Jumeirah Lake Towers, Dubai,';
+export const COMPANY_COUNTRY = 'United Arab Emirates';
+export const COMPANY_PHONE = 'Phone: +971 4 379 9960';
+export const COMPANY_EMAIL = 'info@luxuryexplorersme.com';
+export const COMPANY_TRN = 'TRN: 100204615700003';
 
 export const testDataForReports = {
   beginning_cash_balance: {
