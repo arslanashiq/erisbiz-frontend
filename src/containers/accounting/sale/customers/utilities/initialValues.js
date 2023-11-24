@@ -21,14 +21,14 @@ export const customerFormInitialValues = {
   delivery_po_box: '',
   notes: '',
   comments_on_transactions: '',
-  set_credit_limit: false,
+  set_credit_limit: 0,
   set_credit_terms: 'immediately',
   delivery_terms: '',
   opening_balance: 0,
   sales_company_contact: [],
   days_after_invoice: 0,
-  credit_limit: false,
-  credit_terms: false,
+  credit_limit: true,
+  credit_terms: true,
 };
 
 export const test = '';

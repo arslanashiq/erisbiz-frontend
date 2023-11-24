@@ -1,8 +1,8 @@
 import { privateApi } from './index';
 
-const performaInvoiceApi = privateApi.injectEndpoints({
+const proformaInvoiceApi = privateApi.injectEndpoints({
   endpoints: builder => ({
-    getPerformaInvoicesList: builder.query({
+    getProformaInvoicesList: builder.query({
       query: (params = {}) => ({
         url: 'api/accounting/sales/proInvoices/',
         params: {
@@ -12,101 +12,101 @@ const performaInvoiceApi = privateApi.injectEndpoints({
           status: params.status || '',
         },
       }),
-      providesTags: ['getPerformaInvoicesList'],
+      providesTags: ['getProformaInvoicesList'],
     }),
-    getSinglePerformaInvoice: builder.query({
+    getSingleProformaInvoice: builder.query({
       query: id => ({
         url: `api/accounting/sales/proInvoices/${id}/`,
         method: 'GET',
       }),
-      providesTags: ['getSinglePerformaInvoice'],
+      providesTags: ['getSingleProformaInvoice'],
     }),
-    addPerformaInvoice: builder.mutation({
+    addProformaInvoice: builder.mutation({
       query: payload => ({
         url: 'api/accounting/sales/proInvoices/',
         method: 'POST',
         body: payload,
       }),
-      providesTags: ['addPerformaInvoice'],
+      providesTags: ['addProformaInvoice'],
       invalidatesTags: [
-        'getPerformaInvoicesList',
+        'getProformaInvoicesList',
         'getQuotationsList',
         'getSingleQuotation',
-        'getLatestPerformaInvoice',
+        'getLatestProformaInvoice',
         'getItemsList',
-        'getItemPerformaInvoice',
+        'getItemProformaInvoice',
       ],
     }),
-    editPerformaInvoice: builder.mutation({
+    editProformaInvoice: builder.mutation({
       query: ({ id, payload }) => ({
         url: `api/accounting/sales/proInvoices/${id}/`,
         method: 'PATCH',
         body: payload,
       }),
       invalidatesTags: [
-        'getSinglePerformaInvoice',
-        'getPerformaInvoicesList',
+        'getSingleProformaInvoice',
+        'getProformaInvoicesList',
         'getQuotationsList',
-        'getLatestPerformaInvoice',
+        'getLatestProformaInvoice',
         'getItemsList',
-        'getItemPerformaInvoice',
+        'getItemProformaInvoice',
       ],
     }),
-    getLatestPerformaInvoice: builder.query({
+    getLatestProformaInvoice: builder.query({
       query: () => ({
         url: '/api/accounting/sales/proInvoices/latest',
         method: 'GET',
       }),
-      providesTags: ['getLatestPerformaInvoice'],
+      providesTags: ['getLatestProformaInvoice'],
     }),
 
-    deletePerformaInvoice: builder.mutation({
+    deleteProformaInvoice: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/proInvoices/${id}/`,
         method: 'DELETE',
       }),
       invalidatesTags: [
-        'getPerformaInvoicesList',
+        'getProformaInvoicesList',
         'getQuotationsList',
         'getSingleQuotation',
-        'getLatestPerformaInvoice',
+        'getLatestProformaInvoice',
         'getItemsList',
-        'getItemPerformaInvoice',
+        'getItemProformaInvoice',
       ],
     }),
-    uploadPerformaInvoiceDocumentFile: builder.mutation({
+    uploadProformaInvoiceDocumentFile: builder.mutation({
       query: ({ id, payload }) => ({
         url: `api/accounting/sales/proInvoices/${id}/uploadDoc`,
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getSinglePerformaInvoice'],
+      invalidatesTags: ['getSingleProformaInvoice'],
     }),
-    deletePerformaInvoiceDocumentFile: builder.mutation({
+    deleteProformaInvoiceDocumentFile: builder.mutation({
       query: ({ id }) => ({
         url: `api/accounting/sales/proInvoices/docs/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getSinglePerformaInvoice'],
+      invalidatesTags: ['getSingleProformaInvoice'],
     }),
-    changePerformaInvoiceStatus: builder.mutation({
+    changeProformaInvoiceStatus: builder.mutation({
       query: ({ id, status }) => ({
         url: `api/accounting/sales/proinvoices/${id}/statusUpdate?status=${status}`,
         method: 'GET',
       }),
-      invalidatesTags: ['getPerformaInvoicesList', 'getSinglePerformaInvoice'],
+      invalidatesTags: ['getProformaInvoicesList', 'getSingleProformaInvoice'],
     }),
   }),
 });
 
 export const {
-  useGetPerformaInvoicesListQuery,
-  useDeletePerformaInvoiceMutation,
-  useGetLatestPerformaInvoiceQuery,
-  useGetSinglePerformaInvoiceQuery,
-  useAddPerformaInvoiceMutation,
-  useEditPerformaInvoiceMutation,
-  useUploadPerformaInvoiceDocumentFileMutation,
-  useDeletePerformaInvoiceDocumentFileMutation,
-  useChangePerformaInvoiceStatusMutation,
-} = performaInvoiceApi;
+  useGetProformaInvoicesListQuery,
+  useDeleteProformaInvoiceMutation,
+  useGetLatestProformaInvoiceQuery,
+  useGetSingleProformaInvoiceQuery,
+  useAddProformaInvoiceMutation,
+  useEditProformaInvoiceMutation,
+  useUploadProformaInvoiceDocumentFileMutation,
+  useDeleteProformaInvoiceDocumentFileMutation,
+  useChangeProformaInvoiceStatusMutation,
+} = proformaInvoiceApi;

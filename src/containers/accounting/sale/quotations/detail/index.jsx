@@ -141,7 +141,7 @@ function QuotationDetailPage() {
       actionList.push({
         label: 'Create Proforma Invoice',
         handleClick: () => {
-          navigate(`/pages/accounting/sales/performa-invoice/add?quotationId=${id}`);
+          navigate(`/pages/accounting/sales/proforma-invoice/add?quotationId=${id}`);
         },
       });
     }

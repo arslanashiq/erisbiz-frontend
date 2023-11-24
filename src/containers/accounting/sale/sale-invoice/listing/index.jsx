@@ -10,7 +10,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { invoiceHeadCell } from '../utilities/head-cells';
 
-function PerformaInvoiceListing() {
+function ProfomaInvoiceListing() {
   const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
   const invoicesListResponse = useGetSaleInvoicesListQuery(location.search);
@@ -72,4 +72,4 @@ function PerformaInvoiceListing() {
   );
 }
 
-export default PerformaInvoiceListing;
+export default ProfomaInvoiceListing;

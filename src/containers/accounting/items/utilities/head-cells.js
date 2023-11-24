@@ -113,7 +113,7 @@ export const itemQuotationTransactionHeadCells = [
     align: 'center',
   },
 ];
-export const itemPerformaInvoiceTransactionHeadCells = [
+export const itemProformaInvoiceTransactionHeadCells = [
   {
     id: 'pro_invoice_date',
     numeric: false,

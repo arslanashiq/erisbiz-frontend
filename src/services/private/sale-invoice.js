@@ -24,8 +24,8 @@ const saleInvoiceApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: [
         'getSaleInvoicesList',
-        'getPerformaInvoicesList',
-        'getSinglePerformaInvoice',
+        'getProfomaInvoicesList',
+        'getSingleProfomaInvoice',
         'getLatestSaleInvoice',
         'getItemInvoice',
       ],
@@ -39,8 +39,8 @@ const saleInvoiceApi = privateApi.injectEndpoints({
       invalidatesTags: [
         'getSingleSaleInvoice',
         'getSaleInvoicesList',
-        'getPerformaInvoicesList',
-        'getSinglePerformaInvoice',
+        'getProfomaInvoicesList',
+        'getSingleProfomaInvoice',
         'getLatestSaleInvoice',
         'getItemInvoice',
       ],
@@ -54,8 +54,8 @@ const saleInvoiceApi = privateApi.injectEndpoints({
       invalidatesTags: [
         'getSaleInvoicesList',
         'getSingleSaleInvoice',
-        'getPerformaInvoicesList',
-        'getSinglePerformaInvoice',
+        'getProfomaInvoicesList',
+        'getSingleProfomaInvoice',
         'getLatestSaleInvoice',
         'getItemInvoice',
       ],

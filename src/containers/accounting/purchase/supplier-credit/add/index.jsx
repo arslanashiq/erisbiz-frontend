@@ -13,7 +13,7 @@ import {
   useEditSupplierCreditsMutation,
   useGetLatestSupplierCreditNumberQuery,
   useGetSingleSupplierCreditsQuery,
-} from 'services/private/debit-note';
+} from 'services/private/supplier-credit';
 import {
   useGetPurchaseInvoceMutation,
   useGetPurchaseInvoiceListQuery,

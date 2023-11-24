@@ -4,23 +4,23 @@ import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
 // services
 import {
-  useDeletePerformaInvoiceMutation,
-  useGetPerformaInvoicesListQuery,
-} from 'services/private/performa-invoices';
+  useDeleteProformaInvoiceMutation,
+  useGetProformaInvoicesListQuery,
+} from 'services/private/proforma-invoices';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
 import { getItemSearchQueryParams } from 'utilities/filters';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
-import { performaInvoiceHeadCell } from '../utilities/head-cells';
+import { proformaInvoiceHeadCell } from '../utilities/head-cells';
 
-function PerformaInvoiceListing() {
+function ProfomaInvoiceListing() {
   const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
-  const performaInvoicesListResponse = useGetPerformaInvoicesListQuery(getItemSearchQueryParams(location));
+  const proformaInvoicesListResponse = useGetProformaInvoicesListQuery(getItemSearchQueryParams(location));
 
-  const [deletePerformaInvoice] = useDeletePerformaInvoiceMutation();
+  const [deleteProfomaInvoice] = useDeleteProformaInvoiceMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'Are you sure you want to delete?';
@@ -50,7 +50,7 @@ function PerformaInvoiceListing() {
   const handleConfirmDelete = list => {
     list.forEach(id => {
       handleDeleteResponse(
-        deletePerformaInvoice,
+        deleteProfomaInvoice,
         id,
         enqueueSnackbar,
         'Proforma Invoice Deleted Successfully'
@@ -64,10 +64,10 @@ function PerformaInvoiceListing() {
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
-        data={performaInvoicesListResponse?.data?.results}
-        totalDataCount={performaInvoicesListResponse?.data?.count}
+        data={proformaInvoicesListResponse?.data?.results}
+        totalDataCount={proformaInvoicesListResponse?.data?.count}
         TableHeading="Proforma Invoice"
-        headCells={performaInvoiceHeadCell}
+        headCells={proformaInvoiceHeadCell}
         showCheckbox
         editableStatusList={['draft']}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Proforma Invoice' })}
@@ -78,4 +78,4 @@ function PerformaInvoiceListing() {
   );
 }
 
-export default PerformaInvoiceListing;
+export default ProfomaInvoiceListing;

@@ -1,6 +1,6 @@
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
-export const performaInvoiceHeadCell = [
+export const proformaInvoiceHeadCell = [
   {
     id: 'pro_invoice_date',
     numeric: false,

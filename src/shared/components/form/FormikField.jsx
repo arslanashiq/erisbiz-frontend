@@ -39,7 +39,7 @@ function FormikField({
   };
 
   return (
-    <Box className={`form__form-group align-items-center ${className}`}>
+    <Box className={`form__form-group ${className}`}>
       {label && (
         <span className={`form__form-group-label ${labelClassName} ${isRequired ? 'required' : ''}`}>
           {label}

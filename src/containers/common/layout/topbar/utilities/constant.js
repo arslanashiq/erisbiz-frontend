@@ -6,7 +6,7 @@ export const generalOptions = [
 export const salesOptions = [
   { label: 'Customer', to: '/pages/accounting/sales/customers/add' },
   { label: 'Quotation', to: '/pages/accounting/sales/quotations/add' },
-  { label: 'Proforma Invoice', to: '/pages/accounting/sales/performa-invoice/add' },
+  { label: 'Proforma Invoice', to: '/pages/accounting/sales/proforma-invoice/add' },
   { label: 'Sales Invoice', to: '/pages/accounting/sales/sale-invoice/add' },
   { label: 'Receipt Voucher', to: '/pages/accounting/sales/receipt-voucher/add' },
   { label: 'Sale Credit Note', to: '/pages/accounting/sales/credit-notes/add' },

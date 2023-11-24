@@ -16,9 +16,9 @@ import {
   useGetSingleSaleInvoiceQuery,
 } from 'services/private/sale-invoice';
 import {
-  useGetPerformaInvoicesListQuery,
-  useGetSinglePerformaInvoiceQuery,
-} from 'services/private/performa-invoices';
+  useGetProformaInvoicesListQuery,
+  useGetSingleProformaInvoiceQuery,
+} from 'services/private/proforma-invoices';
 import { useGetActiveSalePersonListQuery } from 'services/private/sale-person';
 // shared
 import FormikField from 'shared/components/form/FormikField';
@@ -54,21 +54,21 @@ import { saleInvoiceValidationSchema } from '../utilities/validation-schema';
 function AddInvoice() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { performaInvoice } = getSearchParamsList();
+  const { proformaInvoice } = getSearchParamsList();
 
-  const [selectedCustomer, setSelectedCustomer] = useState(performaInvoice);
+  const [selectedCustomer, setSelectedCustomer] = useState(proformaInvoice);
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
 
   const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
   const customerListResponse = useGetCustomersListQuery();
-  const performaInvoiceListResponse = useGetPerformaInvoicesListQuery(
+  const proformaInvoiceListResponse = useGetProformaInvoicesListQuery(
     { customer: selectedCustomer, status: 'draft' },
     { skip: !selectedCustomer }
   );
-  const performaInvoiceResponse = useGetSinglePerformaInvoiceQuery(performaInvoice, {
-    skip: !performaInvoice,
+  const proformaInvoiceResponse = useGetSingleProformaInvoiceQuery(proformaInvoice, {
+    skip: !proformaInvoice,
   });
 
   const [addSaleInvoice] = useAddSaleInvoicesMutation();
@@ -89,8 +89,8 @@ function AddInvoice() {
     value: 'id',
     label: 'sales_person_name',
   });
-  const { optionsList: performaInvoiceOptions } = useListOptions(
-    performaInvoiceListResponse?.data?.results,
+  const { optionsList: proformaInvoiceOptions } = useListOptions(
+    proformaInvoiceListResponse?.data?.results,
     {
       value: 'id',
       label: 'pro_invoice_formatted_number',
@@ -170,22 +170,22 @@ function AddInvoice() {
     [itemsListOptions]
   );
 
-  const handleChangePerformaInvoice = (value, setFieldValue) => {
-    const selectedPerformaInvoice = performaInvoiceOptions.filter(perInv => perInv.value === value);
+  const handleChangeProfomaInvoice = (value, setFieldValue) => {
+    const selectedProfomaInvoice = proformaInvoiceOptions.filter(perInv => perInv.value === value);
     setFieldValue(
       'invoice_items',
-      handleGetItemWithRemainingStock(selectedPerformaInvoice[0].pro_invoice_items, itemsListOptions, true)
+      handleGetItemWithRemainingStock(selectedProfomaInvoice[0].pro_invoice_items, itemsListOptions, true)
     );
-    setFieldValue('customer', selectedPerformaInvoice[0].customer);
-    setFieldValue('quotation', selectedPerformaInvoice[0].quotation);
+    setFieldValue('customer', selectedProfomaInvoice[0].customer);
+    setFieldValue('quotation', selectedProfomaInvoice[0].quotation);
   };
   const handleChangeCustomer = value => {
     setSelectedCustomer(value);
   };
   useEffect(() => {
     let newData = {};
-    if (performaInvoiceResponse?.data) {
-      const proInv = performaInvoiceResponse.data;
+    if (proformaInvoiceResponse?.data) {
+      const proInv = proformaInvoiceResponse.data;
       newData = {
         ...newData,
         pro_invoice: proInv.id,
@@ -210,7 +210,7 @@ function AddInvoice() {
       ...initialValues,
       ...newData,
     });
-  }, [performaInvoiceResponse, latestSaleInvoiceResponse]);
+  }, [proformaInvoiceResponse, latestSaleInvoiceResponse]);
 
   useEffect(() => {
     if (queryResponse?.customer) {
@@ -263,7 +263,7 @@ function AddInvoice() {
                 setError(response.error.data);
                 return;
               }
-              if (performaInvoice) {
+              if (proformaInvoice) {
                 navigate('/pages/accounting/sales/sale-invoice', { replace: true });
                 return;
               }
@@ -293,22 +293,22 @@ function AddInvoice() {
                   options={customersOptions}
                   name="customer"
                   placeholder="Customer"
-                  disabled={Boolean(performaInvoice)}
+                  disabled={Boolean(proformaInvoice)}
                   label="Customer"
                   isRequired
                   onChange={handleChangeCustomer}
                 />
 
                 <FormikSelect
-                  options={performaInvoiceOptions}
+                  options={proformaInvoiceOptions}
                   name="pro_invoice"
                   type="text"
-                  disabled={Boolean(performaInvoice)}
+                  disabled={Boolean(proformaInvoice)}
                   placeholder="Proforma Invoice"
                   label="Proforma Invoice"
                   startIcon={<TagIcon />}
                   isRequired
-                  onChange={value => handleChangePerformaInvoice(value, setFieldValue)}
+                  onChange={value => handleChangeProfomaInvoice(value, setFieldValue)}
                 />
                 <FormikSelect
                   options={salePersonListOptions}

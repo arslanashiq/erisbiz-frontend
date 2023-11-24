@@ -37,16 +37,20 @@ import { customerFormValidationSchema } from '../utilities/validation-schema';
 function AddCustomer() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState(customerFormTabsList[0]);
+
   const countriesResponse = useGetAllCountriesListQuery();
+
   const [addCustomer] = useAddCustomerMutation();
   const [editCustomer] = useEditCustomerMutation();
+
+  const { initialValues } = useInitialValues(customerFormInitialValues, useGetSingleCustomerQuery);
 
   const { optionsList: countriesOption } = useListOptions(countriesResponse?.data?.data, {
     label: 'country',
     value: 'iso2',
   });
-  const { initialValues } = useInitialValues(customerFormInitialValues, useGetSingleCustomerQuery);
 
   const handleCopyValue = (values, setFieldValue) => {
     setFieldValue('delivery_address_line1', values.invoice_address_line1);
@@ -57,6 +61,8 @@ function AddCustomer() {
     setFieldValue('delivery_latitude', values.invoice_latitude);
     setFieldValue('delivery_longitude', values.invoice_longitude);
   };
+
+  // setinitial values memeo
   const customerFormUpdatedInitialValues = useMemo(() => {
     const newData = { ...initialValues, credit_limit: false, credit_terms: false };
     if (initialValues.set_credit_limit) {
@@ -91,9 +97,8 @@ function AddCustomer() {
             navigate(-1);
           }}
         >
-          {({ values, errors, setFieldValue }) => (
+          {({ values, setFieldValue }) => (
             <Form className="form form--horizontal row pt-3">
-              {/* supplier name */}
               <FormikField
                 name="customer_name"
                 type="text"
@@ -102,7 +107,6 @@ function AddCustomer() {
                 label="Customer Name"
                 isRequired
               />
-              {/* email */}
               <FormikField
                 name="email"
                 type="text"
@@ -112,8 +116,6 @@ function AddCustomer() {
                 isRequired
               />
 
-              {/* Contact Person */}
-
               <FormikField
                 name="contact_person"
                 type="text"
@@ -121,8 +123,6 @@ function AddCustomer() {
                 startIcon={<SettingsPhoneIcon />}
                 label="Contact Person"
               />
-
-              {/* contact  */}
 
               <FormikField
                 name="contact"
@@ -132,7 +132,6 @@ function AddCustomer() {
                 label="Contact"
               />
 
-              {/* VAT */}
               <FormikField
                 name="vat_reg_no"
                 type="text"
@@ -141,7 +140,6 @@ function AddCustomer() {
                 isRequired
               />
 
-              {/* Refrence */}
               <FormikField
                 isRequired
                 name="reference_num"
@@ -157,14 +155,12 @@ function AddCustomer() {
                 tabsList={customerFormTabsList}
               />
 
-              {/* Communication Tab */}
               {activeTab === customerFormTabsList[0] && (
                 <Box className="row form form--horizontal">
                   <Box className="col-md-6">
                     <Box className="form-label">
                       <span>Invoice Address</span>
                     </Box>
-                    {/* Address Line 1 */}
                     <FormikField
                       name="invoice_address_line1"
                       type="text"
@@ -173,8 +169,6 @@ function AddCustomer() {
                       className="col-12"
                     />
 
-                    {/* Address Line 2 */}
-
                     <FormikField
                       name="invoice_address_line2"
                       type="text"
@@ -182,7 +176,6 @@ function AddCustomer() {
                       label="Address Line 2"
                       className="col-12"
                     />
-                    {/* PO Box */}
                     <FormikField
                       name="invoice_po_box"
                       type="text"
@@ -191,7 +184,6 @@ function AddCustomer() {
                       className="col-12"
                     />
 
-                    {/* Country */}
                     <FormikSelect
                       options={countriesOption}
                       name="invoice_country"
@@ -201,7 +193,6 @@ function AddCustomer() {
                       isRequired
                     />
 
-                    {/* CIty */}
                     <FormikField
                       name="invoice_city"
                       type="text"
@@ -210,7 +201,6 @@ function AddCustomer() {
                       className="col-12"
                     />
 
-                    {/* Map */}
                     <Box className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
@@ -229,7 +219,6 @@ function AddCustomer() {
                         Copy Invoice Address
                       </Box>
                     </Box>
-                    {/* Address Line 1 */}
                     <FormikField
                       name="delivery_address_line1"
                       type="text"
@@ -238,8 +227,6 @@ function AddCustomer() {
                       className="col-12"
                     />
 
-                    {/* Address Line 2 */}
-
                     <FormikField
                       name="delivery_address_line2"
                       type="text"
@@ -247,7 +234,6 @@ function AddCustomer() {
                       label="Address Line 2"
                       className="col-12"
                     />
-                    {/* PO Box */}
                     <FormikField
                       name="delivery_po_box"
                       type="text"
@@ -256,7 +242,6 @@ function AddCustomer() {
                       className="col-12"
                     />
 
-                    {/* Country */}
                     <FormikSelect
                       options={countriesOption}
                       name="delivery_country"
@@ -266,7 +251,6 @@ function AddCustomer() {
                       isRequired
                     />
 
-                    {/* CIty */}
                     <FormikField
                       name="delivery_city"
                       type="text"
@@ -275,7 +259,6 @@ function AddCustomer() {
                       className="col-12"
                     />
 
-                    {/* Map */}
                     <Box className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
@@ -285,11 +268,9 @@ function AddCustomer() {
                   </Box>
                 </Box>
               )}
-              {/* Payment And Delivery */}
               {activeTab === customerFormTabsList[1] && (
                 <Box className="row form form--horizontal">
                   <Box className="col-md-6">
-                    {/* Opening Balance */}
                     <FormikField
                       name="opening_balance"
                       type="number"
@@ -297,7 +278,6 @@ function AddCustomer() {
                       label="OB Amount"
                       className="col-12"
                     />
-                    {/* Delivery Terms */}
                     <FormikField
                       name="delivery_terms"
                       type="text"
@@ -308,7 +288,6 @@ function AddCustomer() {
                     />
                   </Box>
                   <Box className="col-md-6">
-                    {/* credit Limit */}
                     <Box className="form__form-group">
                       <Box className="form__form-group-label col-lg-2" />
                       <Box className="form__form-group-field">
@@ -327,14 +306,12 @@ function AddCustomer() {
                         placeholder="0.0"
                       />
                     </Box>
-                    {/* credit terms */}
                     <Box className="form__form-group">
                       <Box className="form__form-group-label col-lg-2" />
                       <Box className="form__form-group-field">
                         <CheckBoxField name="credit_terms" label="Set Credit Terms" />
                       </Box>
                     </Box>
-                    {/* Set Credit Terms */}
                     <Box className="form__form-group">
                       <span className="form__form-group-label col-lg-2" />
 
@@ -353,7 +330,6 @@ function AddCustomer() {
                             setFieldValue('set_credit_terms', value);
                           }}
                           values={values}
-                          errors={errors}
                         />
                       </Box>
                     </Box>

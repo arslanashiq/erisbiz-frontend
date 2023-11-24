@@ -10,12 +10,11 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useGetItemsListQuery } from 'services/private/items';
 import { useGetCustomersListQuery } from 'services/private/customers';
 import {
-  useAddPerformaInvoiceMutation,
-  useEditPerformaInvoiceMutation,
-  useGetLatestPerformaInvoiceQuery,
-  // useGetLatestPerformaInvoiceQuery,
-  useGetSinglePerformaInvoiceQuery,
-} from 'services/private/performa-invoices';
+  useGetSingleProformaInvoiceQuery,
+  useEditProformaInvoiceMutation,
+  useGetLatestProformaInvoiceQuery,
+  // useGetLatestProformaInvoiceQuery,
+} from 'services/private/proforma-invoices';
 import { useGetQuotationsListQuery, useGetSingleQuotationQuery } from 'services/private/quotations';
 import { useGetActiveSalePersonListQuery } from 'services/private/sale-person';
 // shared
@@ -49,14 +48,14 @@ import { proformaInvoicesInitialValues } from '../utilities/initialValues';
 import { proformaInvoiceValidationSchema } from '../utilities/validation-schema';
 import 'styles/form/form.scss';
 
-function AddPerformaInvoice() {
+function AddProfomaInvoice() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { performaInvoice, quotationId } = getSearchParamsList();
+  const { proformaInvoice, quotationId } = getSearchParamsList();
 
   const [selectedCustomer, setSelectedCustomer] = useState('');
 
-  const latestPerformaInvoice = useGetLatestPerformaInvoiceQuery({}, { skip: id });
+  const latestProfomaInvoice = useGetLatestProformaInvoiceQuery({}, { skip: id });
 
   const quotationResponse = useGetSingleQuotationQuery(quotationId, { skip: !quotationId });
   const quotationsListResponse = useGetQuotationsListQuery(
@@ -65,19 +64,19 @@ function AddPerformaInvoice() {
   );
   const { initialValues, setInitialValues, queryResponse } = useInitialValues(
     proformaInvoicesInitialValues,
-    useGetSinglePerformaInvoiceQuery,
+    useGetSingleProformaInvoiceQuery,
     null,
     true,
     false,
-    performaInvoice || null
+    proformaInvoice || null
   );
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const customerListResponse = useGetCustomersListQuery();
   const salePersonListResponse = useGetActiveSalePersonListQuery();
 
-  const [addPerformaInvoice] = useAddPerformaInvoiceMutation();
-  const [editPerformaInvoice] = useEditPerformaInvoiceMutation();
+  const [addProfomaInvoice] = useGetSingleProformaInvoiceQuery();
+  const [editProfomaInvoice] = useEditProformaInvoiceMutation();
 
   const { optionsList: quotationsListOptions } = useListOptions(quotationsListResponse?.data?.results, {
     label: 'quotation_formatted_number',
@@ -204,14 +203,14 @@ function AddPerformaInvoice() {
       };
       handleChangeCustomer(customers);
     }
-    if (latestPerformaInvoice?.data) {
-      newData = { ...newData, pro_invoice_formatted_number: latestPerformaInvoice?.data?.latest_num };
+    if (latestProfomaInvoice?.data) {
+      newData = { ...newData, pro_invoice_formatted_number: latestProfomaInvoice?.data?.latest_num };
     }
     setInitialValues({
       ...initialValues,
       ...newData,
     });
-  }, [quotationId, quotationResponse, latestPerformaInvoice, itemsListOptions]);
+  }, [quotationId, quotationResponse, latestProfomaInvoice, itemsListOptions]);
 
   useEffect(() => {
     if (queryResponse?.customer) {
@@ -262,16 +261,16 @@ function AddPerformaInvoice() {
               });
               let response = null;
               if (id) {
-                response = await editPerformaInvoice({ id, payload: formData });
+                response = await editProfomaInvoice({ id, payload: formData });
               } else {
-                response = await addPerformaInvoice(formData);
+                response = await addProfomaInvoice(formData);
               }
               if (response.error) {
                 setErrors(response.error.data);
                 return;
               }
               if (quotationId) {
-                navigate('/pages/accounting/sales/performa-invoice', { replace: true });
+                navigate('/pages/accounting/sales/proforma-invoice', { replace: true });
                 return;
               }
               navigate(-1);
@@ -370,4 +369,4 @@ function AddPerformaInvoice() {
   );
 }
 
-export default AddPerformaInvoice;
+export default AddProfomaInvoice;

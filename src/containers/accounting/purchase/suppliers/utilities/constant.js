@@ -46,7 +46,7 @@ export const supplierInitialValues = {
   longitude: '',
   city: '',
   set_credit_limit: 0,
-  set_credit_terms: null,
+  set_credit_terms: '',
   days_after_invoice: 0,
   is_import_agent: false,
   is_reverse_charge: false,

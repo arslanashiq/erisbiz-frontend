@@ -75,9 +75,9 @@ const QuotationListingPage = lazy(() => import('containers/accounting/sale/quota
 const AddQuotationPage = lazy(() => import('containers/accounting/sale/quotations/add'));
 const QuotationDetailPage = lazy(() => import('containers/accounting/sale/quotations/detail'));
 // Sale Proforma Invoice
-const PerformaInvoiceListingPage = lazy(() => import('containers/accounting/sale/performa-invoices/listing'));
-const AddPerformaInvoicePage = lazy(() => import('containers/accounting/sale/performa-invoices/add'));
-const PerformaInvoiceDetailPage = lazy(() => import('containers/accounting/sale/performa-invoices/detail'));
+const ProformaInvoiceListingPage = lazy(() => import('containers/accounting/sale/proforma-invoice/listing'));
+const AddProformaInvoicePage = lazy(() => import('containers/accounting/sale/proforma-invoice/add'));
+const ProformaInvoiceDetailPage = lazy(() => import('containers/accounting/sale/proforma-invoice/detail'));
 
 // Sales Invoices
 const SaleInvoiceListingPage = lazy(() => import('containers/accounting/sale/sale-invoice/listing'));
@@ -301,12 +301,12 @@ function AppRoutes() {
                       <Route path="edit/:id" element={<AddQuotationPage />} />
                       <Route path=":id/detail" element={<QuotationDetailPage />} />
                     </Route>
-                    {/* performa-invoice */}
-                    <Route path="performa-invoice" element={<Outlet />}>
-                      <Route path="" index element={<PerformaInvoiceListingPage />} />
-                      <Route path="add" element={<AddPerformaInvoicePage />} />
-                      <Route path="edit/:id" element={<AddPerformaInvoicePage />} />
-                      <Route path=":id/detail" element={<PerformaInvoiceDetailPage />} />
+                    {/* proforma-invoice */}
+                    <Route path="proforma-invoice" element={<Outlet />}>
+                      <Route path="" index element={<ProformaInvoiceListingPage />} />
+                      <Route path="add" element={<AddProformaInvoicePage />} />
+                      <Route path="edit/:id" element={<AddProformaInvoicePage />} />
+                      <Route path=":id/detail" element={<ProformaInvoiceDetailPage />} />
                     </Route>
                     {/* invoice */}
                     <Route path="sale-invoice" element={<Outlet />}>
@@ -401,7 +401,10 @@ function AppRoutes() {
                   <Route path="receivable-details" element={<ReportReceivableDetailsPage />} />
                   {/* purchase and expenses */}
                   <Route path="purchases-by-supplier" element={<ReportPurchaseBySupplierPage />} />
-                  <Route path="purchases-by-supplier/detail" element={<ReportPurchaseBySupplierDetailPage />} />
+                  <Route
+                    path="purchases-by-supplier/detail"
+                    element={<ReportPurchaseBySupplierDetailPage />}
+                  />
                   <Route path="purchases-by-item" element={<ReportPurchaseByItemPage />} />
                   <Route path="purchases-by-item/detail" element={<ReportPurchaseByItemDetailPage />} />
                   <Route path="expense-details" element={<ReportExpenseDetailsPage />} />
@@ -413,7 +416,10 @@ function AppRoutes() {
                   <Route path="sales-by-item" element={<ReportSalesByItemPage />} />
                   <Route path="sales-by-item/detail" element={<ReportSalesByItemDetailPage />} />
                   <Route path="sales-by-sales-person" element={<ReportSalesBySalesPersonPage />} />
-                  <Route path="sales-by-sales-person/detail" element={<ReportSalesBySalesPersonDetailPage />} />
+                  <Route
+                    path="sales-by-sales-person/detail"
+                    element={<ReportSalesBySalesPersonDetailPage />}
+                  />
                   <Route path="sales-by-sales-type" element={<ReportSalesBySalesTypePage />} />
 
                   {/* Receipt Voucher */}
@@ -430,7 +436,10 @@ function AppRoutes() {
                   {/* tax */}
                   <Route path="tax-returns" element={<ReportTaxReturnReportPage />} />
                   <Route path="tax-returns/:id" element={<ReportTaxReturnDetailReportPage />} />
-                  <Route path="tax-returns/:id/detail" element={<ReportTaxReturnDetailInformationReportPage />} />
+                  <Route
+                    path="tax-returns/:id/detail"
+                    element={<ReportTaxReturnDetailInformationReportPage />}
+                  />
                   <Route path="vat-audit" element={<ReportVATAuditReportPage />} />
                   {/* financial report */}
                   <Route path="profit-loss" element={<ProfitAndLossStatementReportPage />} />
@@ -438,7 +447,6 @@ function AppRoutes() {
                   <Route path="balance-sheet" element={<BalanceSheetStatementReportPage />} />
                   {/* activity */}
                   <Route path="activity-logs" element={<ActivityLogsReportPage />} />
-
                 </Route>
               </Route>
             </Route>

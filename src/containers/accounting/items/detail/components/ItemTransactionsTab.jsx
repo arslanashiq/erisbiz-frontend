@@ -5,7 +5,7 @@ import {
   useGetItemCreditNoteQuery,
   useGetItemDebitNoteQuery,
   useGetItemInvoiceQuery,
-  useGetItemPerformaInvoiceQuery,
+  useGetItemProformaInvoiceQuery,
   useGetItemPurchaseOrderQuery,
   useGetItemQuotationQuery,
 } from 'services/private/items';
@@ -14,7 +14,7 @@ import {
   itemCreditNoteTransactionHeadCells,
   itemDebitNoteTransactionHeadCells,
   itemInvoiceTransactionHeadCells,
-  itemPerformaInvoiceTransactionHeadCells,
+  itemProformaInvoiceTransactionHeadCells,
   itemPurchaseOrderTransactionHeadCells,
   itemQuotationTransactionHeadCells,
 } from '../../utilities/head-cells';
@@ -58,8 +58,8 @@ function ItemTransactionsTab() {
       />
       <TransactionAccordionWithFilter
         title="Proforma Invoice"
-        fetchData={useGetItemPerformaInvoiceQuery}
-        headCells={itemPerformaInvoiceTransactionHeadCells}
+        fetchData={useGetItemProformaInvoiceQuery}
+        headCells={itemProformaInvoiceTransactionHeadCells}
         FiltersList={proformaInvoiceFilterList}
       />
       <TransactionAccordionWithFilter

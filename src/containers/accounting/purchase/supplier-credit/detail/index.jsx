@@ -12,7 +12,7 @@ import {
   useGetSupplierCreditsDocumentsQuery,
   useRefundSupplierCreditsMutation,
   useUploadSupplierCreditsDocumentsMutation,
-} from 'services/private/debit-note';
+} from 'services/private/supplier-credit';
 // shared
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';

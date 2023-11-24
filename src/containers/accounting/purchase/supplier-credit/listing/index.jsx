@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import {
   useDeleteSupplierCreditsMutation,
   useGetSupplierCreditsListQuery,
-} from 'services/private/debit-note';
+} from 'services/private/supplier-credit';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles

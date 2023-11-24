@@ -60,7 +60,7 @@ const itemApi = privateApi.injectEndpoints({
       providesTags: ['getItemQuotation'],
     }),
 
-    getItemPerformaInvoice: builder.query({
+    getItemProformaInvoice: builder.query({
       query: ({ id, params }) => ({
         url: `api/accounting/item/${id}/proinvoice/transactions`,
         method: 'GET',
@@ -70,7 +70,7 @@ const itemApi = privateApi.injectEndpoints({
           offset: params.offset,
         },
       }),
-      providesTags: ['getItemPerformaInvoice'],
+      providesTags: ['getItemProformaInvoice'],
     }),
     getItemInvoice: builder.query({
       query: ({ id, params }) => ({
@@ -143,7 +143,7 @@ export const {
   useGetSingleItemQuery,
   useDeleteItemMutation,
   useGetItemQuotationQuery,
-  useGetItemPerformaInvoiceQuery,
+  useGetItemProformaInvoiceQuery,
   useGetItemInvoiceQuery,
   useGetItemCreditNoteQuery,
   useGetItemPurchaseOrderQuery,

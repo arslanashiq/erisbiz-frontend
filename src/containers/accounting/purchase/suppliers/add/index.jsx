@@ -36,7 +36,7 @@ function SupplierAddPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState(supplierFormTabsList[1]);
+  const [activeTab, setActiveTab] = useState(supplierFormTabsList[0]);
 
   const countriesListResponse = useGetAllCountriesListQuery();
   const bankAccountResponse = useGetBankAccountsListQuery();
@@ -112,7 +112,7 @@ function SupplierAddPage() {
           initialValues={supplierFormInitialValues}
           onSubmit={handleSubmitForm}
         >
-          {({ values, setFieldValue, errors }) => (
+          {({ values, setFieldValue }) => (
             <Form className="form form--horizontal row pt-3">
               <FormikField
                 name="supplier_name"
@@ -201,7 +201,7 @@ function SupplierAddPage() {
                   <Box className="col-md-6">
                     <Box className="form__form-group col-12">
                       <span className="form__form-group-label  col-lg-2" />
-                      <Box className="row">
+                      <Box className="row w-100 p-0">
                         <Box className="form__form-group-field col-12">
                           <CheckBoxField
                             name="credit_limit"
@@ -225,21 +225,22 @@ function SupplierAddPage() {
                           value={values.credit_terms}
                           onChange={e => {
                             setFieldValue(e?.target?.name, e?.target?.checked);
+                            setFieldValue('set_credit_terms', '');
+                            setFieldValue('days_after_invoice', 0);
                           }}
                           label="Set Credit Terms"
                         />
                       </Box>
                     </Box>
-                    <Box className="form__form-group col-12">
+                    <Box className="form__form-group p-0 w-100">
                       <span className="form__form-group-label col-lg-2" />
-
                       <Box
                         disabled={!values?.credit_terms}
                         style={{
                           pointerEvents: values?.credit_terms ? 'auto' : 'none',
                           opacity: values?.credit_terms ? 1 : 0.2,
                         }}
-                        className="form__form-group-field"
+                        className="form__form-group-field w-100"
                       >
                         <CreditTermsRadioButtons
                           name="set_credit_terms"
@@ -248,7 +249,6 @@ function SupplierAddPage() {
                             setFieldValue('set_credit_terms', value);
                           }}
                           values={values}
-                          errors={errors}
                         />
                       </Box>
                     </Box>

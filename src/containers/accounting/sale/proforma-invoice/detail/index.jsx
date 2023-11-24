@@ -5,18 +5,18 @@ import { useSnackbar } from 'notistack';
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
-  useChangePerformaInvoiceStatusMutation,
-  useDeletePerformaInvoiceDocumentFileMutation,
-  useDeletePerformaInvoiceMutation,
-  useGetSinglePerformaInvoiceQuery,
-  useUploadPerformaInvoiceDocumentFileMutation,
-} from 'services/private/performa-invoices';
+  useChangeProformaInvoiceStatusMutation,
+  useDeleteProformaInvoiceDocumentFileMutation,
+  useDeleteProformaInvoiceMutation,
+  useGetSingleProformaInvoiceQuery,
+  useUploadProformaInvoiceDocumentFileMutation,
+} from 'services/private/proforma-invoices';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 
 const keyValue = 'pro_invoice_items';
-function PerformaInvoiceDetail() {
+function ProfomaInvoiceDetail() {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ function PerformaInvoiceDetail() {
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
-  const performaInvoiceDetailResponse = useGetSinglePerformaInvoiceQuery(id);
-  const [changePerformaInvoiceStatus] = useChangePerformaInvoiceStatusMutation();
+  const proformaInvoiceDetailResponse = useGetSingleProformaInvoiceQuery(id);
+  const [changeProfomaInvoiceStatus] = useChangeProformaInvoiceStatusMutation();
 
   const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
     const response = await changeInvoiceStatus(payload);
@@ -41,13 +41,13 @@ function PerformaInvoiceDetail() {
     return true;
   };
   const purchaseOrderActionList = useMemo(() => {
-    const status = performaInvoiceDetailResponse?.data?.status;
+    const status = proformaInvoiceDetailResponse?.data?.status;
     if (status === 'cancelled') return [];
     let actionList = [
       {
         label: 'Edit & clone',
         handleClick: () => {
-          navigate(`/pages/accounting/sales/performa-invoice/add?performaInvoice=${id}`);
+          navigate(`/pages/accounting/sales/proforma-invoice/add?proformaInvoice=${id}`);
         },
       },
       {
@@ -75,7 +75,7 @@ function PerformaInvoiceDetail() {
       actionList.splice(0, 0, {
         label: 'Edit',
         handleClick: () => {
-          navigate(`/pages/accounting/sales/performa-invoice/edit/${id}`);
+          navigate(`/pages/accounting/sales/proforma-invoice/edit/${id}`);
         },
       });
     }
@@ -87,7 +87,7 @@ function PerformaInvoiceDetail() {
           label: 'cancel',
           handleClick: () => {
             handleChangeStatus(
-              changePerformaInvoiceStatus,
+              changeProfomaInvoiceStatus,
               { id, status: 'cancelled' },
               'Proforma Invoice status changed'
             );
@@ -96,89 +96,89 @@ function PerformaInvoiceDetail() {
         {
           label: 'create Invoice',
           handleClick: () => {
-            navigate(`/pages/accounting/sales/sale-invoice/add?performaInvoice=${id}`);
+            navigate(`/pages/accounting/sales/sale-invoice/add?proformaInvoice=${id}`);
           },
         },
       ];
     }
 
     return actionList;
-  }, [performaInvoiceDetailResponse]);
+  }, [proformaInvoiceDetailResponse]);
 
   const orderInfo = useMemo(
     () => ({
       type: 'Proforma Invoice',
-      order_number: `#${performaInvoiceDetailResponse?.data?.pro_invoice_num}`,
-      formated_order_number: performaInvoiceDetailResponse?.data?.pro_invoice_formatted_number,
-      date: performaInvoiceDetailResponse?.data?.pro_invoice_date,
+      order_number: `#${proformaInvoiceDetailResponse?.data?.pro_invoice_num}`,
+      formated_order_number: proformaInvoiceDetailResponse?.data?.pro_invoice_formatted_number,
+      date: proformaInvoiceDetailResponse?.data?.pro_invoice_date,
       supplier: null,
-      location: performaInvoiceDetailResponse?.data?.location,
+      location: proformaInvoiceDetailResponse?.data?.location,
       box1: [
         {
           label: 'Quotation No',
-          value: performaInvoiceDetailResponse?.data?.pro_invoice_formatted_number,
+          value: proformaInvoiceDetailResponse?.data?.pro_invoice_formatted_number,
         },
         {
           label: 'Quotation Date',
-          value: moment(performaInvoiceDetailResponse?.data?.quotation_num).format(DATE_FORMAT_PRINT),
+          value: moment(proformaInvoiceDetailResponse?.data?.quotation_num).format(DATE_FORMAT_PRINT),
         },
         {
           label: 'Location',
-          value: performaInvoiceDetailResponse?.data?.location,
+          value: proformaInvoiceDetailResponse?.data?.location,
         },
         {
           label: 'Currency',
-          value: performaInvoiceDetailResponse?.data?.currency_symbol,
+          value: proformaInvoiceDetailResponse?.data?.currency_symbol,
         },
       ],
       box2: [
         {
           label: 'Customer',
-          value: performaInvoiceDetailResponse?.data?.customer_info?.customer_name,
+          value: proformaInvoiceDetailResponse?.data?.customer_info?.customer_name,
         },
         {
           label: 'Country',
-          value: performaInvoiceDetailResponse?.data?.customer_info?.invoice_country_name,
+          value: proformaInvoiceDetailResponse?.data?.customer_info?.invoice_country_name,
         },
         {
           label: 'City',
-          value: performaInvoiceDetailResponse?.data?.customer_info?.invoice_city,
+          value: proformaInvoiceDetailResponse?.data?.customer_info?.invoice_city,
         },
         {
           label: 'Address ',
-          value: performaInvoiceDetailResponse?.data?.customer_info?.invoice_address_line1,
+          value: proformaInvoiceDetailResponse?.data?.customer_info?.invoice_address_line1,
         },
       ],
       showCustomOptions: true,
     }),
-    [performaInvoiceDetailResponse]
+    [proformaInvoiceDetailResponse]
   );
   return (
-    <SectionLoader options={[performaInvoiceDetailResponse.isLoading]}>
+    <SectionLoader options={[proformaInvoiceDetailResponse.isLoading]}>
       <DetailPageHeader
-        title={`Po:#${performaInvoiceDetailResponse?.data?.pro_invoice_formatted_number}`}
-        filesList={performaInvoiceDetailResponse?.data?.pro_invoice_docs}
+        title={`Po:#${proformaInvoiceDetailResponse?.data?.pro_invoice_formatted_number}`}
+        filesList={proformaInvoiceDetailResponse?.data?.pro_invoice_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}
-        orderDetail={performaInvoiceDetailResponse?.data}
+        orderDetail={proformaInvoiceDetailResponse?.data}
         actionsList={purchaseOrderActionList}
-        useDeleteItemMutation={useDeletePerformaInvoiceMutation}
-        useUploadDocumentFileMutation={useUploadPerformaInvoiceDocumentFileMutation}
-        useDeleteDocumentFileMutation={useDeletePerformaInvoiceDocumentFileMutation}
+        useDeleteItemMutation={useDeleteProformaInvoiceMutation}
+        useUploadDocumentFileMutation={useUploadProformaInvoiceDocumentFileMutation}
+        useDeleteDocumentFileMutation={useDeleteProformaInvoiceDocumentFileMutation}
         openPopup={openInfoPopup}
         setOpenPopup={setOpenInfoPopup}
         pdfOptions={{
           showItemsTable: true,
           showVoucherTable: false,
         }}
-        navigateAfterDelete="/pages/accounting/sales/performa-invoice"
+        navigateAfterDelete="/pages/accounting/sales/proforma-invoice"
       />
       <Card>
         <CardContent>
           <OrderDocument
             orderInfo={orderInfo}
             keyValue={keyValue}
-            orderDetail={performaInvoiceDetailResponse.data}
+            orderDetail={proformaInvoiceDetailResponse.data}
           />
         </CardContent>
       </Card>
@@ -186,4 +186,4 @@ function PerformaInvoiceDetail() {
   );
 }
 
-export default PerformaInvoiceDetail;
+export default ProfomaInvoiceDetail;

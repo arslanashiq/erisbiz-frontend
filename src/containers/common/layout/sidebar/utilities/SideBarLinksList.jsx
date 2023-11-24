@@ -58,7 +58,7 @@ const SideBarLinksList = [
     children: [
       { name: 'Customer Master', link: '/pages/accounting/sales/customers' },
       { name: 'Quotation', link: '/pages/accounting/sales/quotations' },
-      { name: 'Proforma Invoice', link: '/pages/accounting/sales/performa-invoice' },
+      { name: 'Proforma Invoice', link: '/pages/accounting/sales/proforma-invoice' },
       { name: 'Sales Invoice', link: '/pages/accounting/sales/sale-invoice' },
       { name: 'Receipt Voucher', link: '/pages/accounting/sales/receipt-voucher' },
       { name: 'Sales Credit Note', link: '/pages/accounting/sales/credit-notes' },
