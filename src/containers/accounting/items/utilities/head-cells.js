@@ -74,7 +74,7 @@ export const itemInventoryAdjustmentTransactionHeadCells = [
 ];
 export const itemQuotationTransactionHeadCells = [
   {
-    id: 'quotation_date',
+    id: 'date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -90,19 +90,14 @@ export const itemQuotationTransactionHeadCells = [
     label: 'Qutation #',
     align: 'left',
   },
+
   {
-    id: 'event',
-    numeric: true,
-    disablePadding: false,
-    label: 'Event',
-    align: 'left',
-  },
-  {
-    id: 'grand_total_aed',
+    id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
     align: 'center',
+    mergeCell: true,
   },
 
   {
@@ -131,19 +126,14 @@ export const itemProformaInvoiceTransactionHeadCells = [
     label: 'Qutation #',
     align: 'left',
   },
-  {
-    id: 'event',
-    numeric: true,
-    disablePadding: false,
-    label: 'Event',
-    align: 'left',
-  },
+
   {
     id: 'grand_total_aed',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
     align: 'center',
+    mergeCell: true,
   },
 
   {
@@ -156,7 +146,7 @@ export const itemProformaInvoiceTransactionHeadCells = [
 ];
 export const itemInvoiceTransactionHeadCells = [
   {
-    id: 'pro_invoice_date',
+    id: 'date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -172,19 +162,14 @@ export const itemInvoiceTransactionHeadCells = [
     label: 'Qutation #',
     align: 'left',
   },
-  {
-    id: 'event',
-    numeric: true,
-    disablePadding: false,
-    label: 'Event',
-    align: 'left',
-  },
+
   {
     id: 'bcy_grand_total_invoice_currency',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
     align: 'center',
+    mergeCell: true,
   },
 
   {
@@ -197,7 +182,7 @@ export const itemInvoiceTransactionHeadCells = [
 ];
 export const itemCreditNoteTransactionHeadCells = [
   {
-    id: 'pro_invoice_date',
+    id: 'credit_note_date',
     numeric: false,
     disablePadding: true,
     label: 'Date',
@@ -207,18 +192,19 @@ export const itemCreditNoteTransactionHeadCells = [
   },
 
   {
-    id: 'invoice_formatted_number',
+    id: 'credit_note_formatted_number',
     numeric: true,
     disablePadding: false,
     label: 'CREDIT NOTE #',
     align: 'left',
   },
   {
-    id: 'bcy_grand_total_invoice_currency',
+    id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
     align: 'center',
+    mergeCell: true,
   },
 
   {
@@ -258,6 +244,7 @@ export const itemPurchaseOrderTransactionHeadCells = [
     id: 'without_change_amount_total',
     numeric: true,
     disablePadding: false,
+    mergeCell: true,
     label: 'Amount',
     align: 'left',
   },
@@ -301,6 +288,7 @@ export const itemBillTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
+    mergeCell: true,
   },
 
   {
@@ -341,6 +329,7 @@ export const itemDebitNoteTransactionHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Amount',
+    mergeCell: true,
     align: 'left',
   },
 

@@ -30,7 +30,7 @@ const categoeyApi = privateApi.injectEndpoints({
     }),
     deleteCategory: builder.mutation({
       query: id => ({
-        url: `/api/category/${id}`,
+        url: `/api/category/${id}/`,
         method: 'DELETE',
       }),
       providesTags: ['deleteCategory'],
