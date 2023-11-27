@@ -82,6 +82,17 @@ function Dasbboard() {
     ],
     [dashboardDetail]
   );
+
+  const graphData = useMemo(() => {
+    if (saleByMonth?.data) {
+      return Object.keys(saleByMonth?.data).map(key => ({
+        name: key.slice(0, 3),
+        [currencySymbol]: saleByMonth?.data[key],
+        amt: saleByMonth?.data[key],
+      }));
+    }
+    return [];
+  }, [saleByMonth]);
   return (
     <SectionLoader
       options={[
@@ -137,19 +148,21 @@ function Dasbboard() {
               }}
             >
               <Typography sx={{ fontSize: 19, fontWeight: 500 }}>Sale By Month</Typography>
-              <ResponsiveContainer height={180}>
+              <ResponsiveContainer height={250}>
                 <BarChart
-                  data={[]}
+                  width={500}
+                  height={300}
+                  data={graphData}
                   margin={{
-                    top: 5,
-                    left: -55,
+                    top: 20,
+                    right: 40,
                   }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar maxBarSize={15} dataKey="Data" fill="#8884d8" />
+                  <Bar maxBarSize={15} dataKey={currencySymbol} fill="#8884d8" />
                 </BarChart>
               </ResponsiveContainer>
             </Stack>
