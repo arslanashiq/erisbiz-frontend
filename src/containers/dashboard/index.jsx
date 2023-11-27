@@ -46,7 +46,7 @@ function Dasbboard() {
       },
       {
         icon: <BarChartIcon fontSize="70px" />,
-        title: `${currencySymbol} ${formatAmount(dashboardDetail?.data?.today__cash_sale)}`,
+        title: `${currencySymbol} ${formatAmount(dashboardDetail?.data?.today_cash_sale)}`,
         sub_title: "Today's Cash Sale",
         link: '',
         number: 3,
