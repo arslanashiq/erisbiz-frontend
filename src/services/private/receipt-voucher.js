@@ -22,7 +22,14 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getReceiptVoucherList', 'getSingleSaleInvoice', 'getSaleInvoicesList'],
+      providesTags: ['addReceiptVoucher'],
+
+      invalidatesTags: [
+        'getReceiptVoucherList',
+        'getSingleSaleInvoice',
+        'getSaleInvoicesList',
+        'getLatestReceiptVoucher',
+      ],
     }),
     editReceiptVoucher: builder.mutation({
       query: ({ id, payload }) => ({
@@ -30,20 +37,28 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getReceiptVoucherList', 'getSingleReceiptVoucher'],
+      providesTags: ['editReceiptVoucher'],
+      invalidatesTags: ['getReceiptVoucherList', 'getSingleReceiptVoucher', 'getLatestReceiptVoucher'],
     }),
     deleteReceiptVoucher: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/paymentsReceived/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getReceiptVoucherList', 'getSingleSaleInvoice', 'getSaleInvoicesList'],
+      providesTags: ['deleteReceiptVoucher'],
+      invalidatesTags: [
+        'getReceiptVoucherList',
+        'getSingleSaleInvoice',
+        'getSaleInvoicesList',
+        'getLatestReceiptVoucher',
+      ],
     }),
     getLatestReceiptVoucher: builder.query({
       query: () => ({
         url: 'api/accounting/sales/paymentsReceived/latest',
         method: 'GET',
       }),
+      providesTags: ['getLatestReceiptVoucher'],
     }),
     getUnpaidInvoicesAgainstCustomer: builder.mutation({
       query: id => ({
