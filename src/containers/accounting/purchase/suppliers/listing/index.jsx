@@ -69,7 +69,6 @@ function SupplierListing() {
       <Helmet>
         <title>Supplier - ErisBiz</title>
       </Helmet>
-      {/* {resp.isSuccess && resp?.data?.results?.length > 0 && ( */}
       <MuiTable
         data={suppliersListingResponse?.data?.results}
         totalDataCount={suppliersListingResponse?.data?.count}
@@ -88,7 +87,6 @@ function SupplierListing() {
           />
         )}
       />
-      {/* )} */}
     </>
   );
 }

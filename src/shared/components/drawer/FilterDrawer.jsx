@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Divider, Drawer, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, Divider, Drawer, IconButton, Stack, Typography } from '@mui/material';
+import { Form, Formik } from 'formik';
+import { useNavigate } from 'react-router';
+import { useSnackbar } from 'notistack';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 // import { Form, Formik } from 'formik';
 // import FormikField from '../form/FormikField';
 
 function FilterDrawer({ open, setOpen, children }) {
+  const initialValues = getSearchParamsList();
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   const handleClose = () => {
     setOpen(false);
   };
@@ -26,7 +33,52 @@ function FilterDrawer({ open, setOpen, children }) {
         <Divider sx={{ height: 3, backgroundColor: 'black', marginBottom: 2 }} />
 
         <Box component="div" className="container">
-          {children}
+          <Formik
+            initialValues={initialValues}
+            onSubmit={async (
+              values
+              //  { setSubmitting, resetForm, setErrors }
+            ) => {
+              try {
+                let searchQueryParams = '';
+                Object.keys(values).forEach(key => {
+                  searchQueryParams = `${searchQueryParams}&${key}=${values[key]}`;
+                });
+                if (searchQueryParams === '') navigate(window.location.pathname);
+                else {
+                  navigate({ pathname: `${window.location.pathname}`, search: searchQueryParams });
+                }
+                handleClose();
+              } catch (err) {
+                enqueueSnackbar(err.message, { variant: 'error' });
+              }
+            }}
+          >
+            {({ isSubmitting, resetForm }) => (
+              <Form className="form personlized-search-form row pt-3">
+                {children}
+
+                <Stack spacing={2} direction="row">
+                  <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
+                    Filter
+                  </Button>
+
+                  <Button
+                    color="secondary"
+                    onClick={() => {
+                      resetForm();
+                      navigate(window.location.pathname);
+                      handleClose();
+                    }}
+                    //   disabled={!touched || isSubmitting}
+                    className="text-capitalize"
+                  >
+                    Reset
+                  </Button>
+                </Stack>
+              </Form>
+            )}
+          </Formik>
         </Box>
       </Box>
     </Drawer>

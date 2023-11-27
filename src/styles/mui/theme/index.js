@@ -11,6 +11,9 @@ const theme = createTheme({
       xl: 1200,
     },
   },
+  typography: {
+    fontFamily: ['Roboto', 'sans-serif'].join(','),
+  },
 
   palette,
 

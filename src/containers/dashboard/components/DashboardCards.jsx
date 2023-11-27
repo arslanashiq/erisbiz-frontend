@@ -35,7 +35,9 @@ function DashboardCards({ card }) {
             <Typography sx={dashboardCardDetailStackTextStyle}>View Detail</Typography>
           </Link>
 
-          <ArrowCircleRightIcon />
+          <Link to={card.link}>
+            <ArrowCircleRightIcon sx={{ color: 'white' }} />
+          </Link>
         </Stack>
       </Box>
     </Card>

@@ -1,3 +1,7 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable react/jsx-filename-extension */
+import { Link } from 'react-router-dom';
+
 export const currentMonthSalesHeadCells = [
   {
     id: 'date',
@@ -13,6 +17,11 @@ export const currentMonthSalesHeadCells = [
     disablePadding: false,
     label: 'Invoice #',
     align: 'left',
+    handleData: (row, cell) => (
+      <Link style={{ textDecoration: 'none' }} to={`/pages/accounting/sales/sale-invoice/${row?.id}/detail`}>
+        {row[cell.id]}
+      </Link>
+    ),
   },
   {
     id: 'without_change_grand_total',

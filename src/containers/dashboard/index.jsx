@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
+import palette from 'styles/mui/theme/palette';
 import Box from '@mui/material/Box';
 import { Grid, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -41,14 +42,15 @@ function Dasbboard() {
         icon: <BarChartIcon fontSize="70px" />,
         title: `${currencySymbol} ${formatAmount(dashboardDetail?.data?.today_sale)}`,
         sub_title: "Today's Sale",
-        link: '',
+        link: '/pages/accounting/sales/sale-invoice',
+
         number: 2,
       },
       {
         icon: <BarChartIcon fontSize="70px" />,
         title: `${currencySymbol} ${formatAmount(dashboardDetail?.data?.today_cash_sale)}`,
         sub_title: "Today's Cash Sale",
-        link: '',
+        link: '/pages/accounting/sales/receipt-voucher',
         number: 3,
       },
       {
@@ -62,14 +64,14 @@ function Dasbboard() {
         icon: <BarChartIcon fontSize="70px" />,
         title: `${currencySymbol} ${formatAmount(dashboardDetail?.data?.today_card_sale)}`,
         sub_title: "Today's Card Sale",
-        link: '',
+        link: '/pages/accounting/sales/receipt-voucher',
         number: 6,
       },
       {
         icon: <BarChartIcon fontSize="70px" />,
         title: `${currencySymbol} ${formatAmount(dashboardDetail?.data?.cash_on_hand)}`,
         sub_title: 'Cash on hand',
-        link: '',
+        link: '/pages/accounting/finance/chart-of-account',
         number: 7,
       },
       {
@@ -107,7 +109,7 @@ function Dasbboard() {
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <Box sx={{ flexGrow: 1 }}>
-        <Typography sx={{ fontWeight: 500, fontSize: 19 }}>Dashboard</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: 19 }}>Dashboard</Typography>
         <Grid
           container
           spacing={2}
@@ -158,11 +160,11 @@ function Dasbboard() {
                     right: 40,
                   }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid strokeDasharray="0" />
                   <XAxis dataKey="name" />
-                  <YAxis />
+                  <YAxis st />
                   <Tooltip />
-                  <Bar maxBarSize={15} dataKey={currencySymbol} fill="#8884d8" />
+                  <Bar maxBarSize={15} dataKey={currencySymbol} fill={palette.primary.main} />
                 </BarChart>
               </ResponsiveContainer>
             </Stack>

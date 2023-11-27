@@ -17,11 +17,21 @@ import moment from 'moment';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 
 function DashboardTable({ className, title, data, headCells }) {
+  const renderData = (row, cell) => {
+    if (cell.handleData) {
+      return cell.handleData(row, cell);
+    }
+
+    if (cell.isDate) {
+      return moment(row[cell.id]).format(DATE_FORMAT_PRINT);
+    }
+    return row[cell.id];
+  };
   return (
     <Grid item xs={12} lg={12} xl={6} className={`${className} `}>
       <Stack
         sx={{
-          height: 250,
+          height: 320,
           width: '100%',
           backgroundColor: 'white',
           marginTop: 0.3,
@@ -30,7 +40,7 @@ function DashboardTable({ className, title, data, headCells }) {
         }}
       >
         <Typography sx={{ fontSize: 19, fontWeight: 500 }}>{title}</Typography>
-        <TableContainer sx={{ overflow: 'auto' }}>
+        <TableContainer sx={{ overflow: 'auto', height: '100%', outline: '1px solid silver' }}>
           <Table stickyHeader size="small">
             <TableHead>
               <TableRow>
@@ -40,8 +50,8 @@ function DashboardTable({ className, title, data, headCells }) {
                     sx={{
                       backgroundColor: palette.primary.main,
                       color: 'white',
-                      border: '1px solid silver',
-                      fontSize: 10,
+                      outline: '1px solid silver',
+                      fontSize: 11,
                     }}
                   >
                     {cell.label}
@@ -54,8 +64,8 @@ function DashboardTable({ className, title, data, headCells }) {
                 data.map(row => (
                   <TableRow key={uuid()}>
                     {headCells.map(cell => (
-                      <TableCell key={uuid()} sx={{ fontSize: 10, border: '1px solid silver' }}>
-                        {cell.isDate ? moment(row[cell.id]).format(DATE_FORMAT_PRINT) : row[cell.id]}
+                      <TableCell key={uuid()} sx={{ fontSize: 11, outline: '1px solid silver' }}>
+                        {renderData(row, cell)}
                       </TableCell>
                     ))}
                   </TableRow>
