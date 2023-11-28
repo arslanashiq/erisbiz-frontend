@@ -56,13 +56,13 @@ function SupplierCreditListing() {
   return (
     <>
       <Helmet>
-        <title>Purchase Invoice - ErisBiz</title>
+        <title>Purchase Invoices - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
         data={purchaseInvoiceResponse?.data?.results}
         totalDataCount={purchaseInvoiceResponse?.data?.count}
-        TableHeading="Purchase Invoice"
+        TableHeading="Purchase Invoices"
         showCheckbox
         editableStatusList={['draft', 'due']}
         headCells={purchaseInvoiceHeadCells}

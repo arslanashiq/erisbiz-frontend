@@ -72,7 +72,7 @@ function SupplierListing() {
       <MuiTable
         data={suppliersListingResponse?.data?.results}
         totalDataCount={suppliersListingResponse?.data?.count}
-        TableHeading="Supplier"
+        TableHeading="Suppliers"
         showCheckbox
         headCells={supplierHeadCells}
         checkStatusBeforeEdit={false}

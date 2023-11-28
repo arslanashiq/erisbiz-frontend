@@ -108,7 +108,7 @@ function Dasbboard() {
         <title>Dashboard - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
         <Typography sx={{ fontWeight: 700, fontSize: 19 }}>Dashboard</Typography>
         <Grid
           container
@@ -149,7 +149,7 @@ function Dasbboard() {
                 padding: '20px 20px',
               }}
             >
-              <Typography sx={{ fontSize: 19, fontWeight: 500 }}>Sale By Month</Typography>
+              <Typography sx={{ fontSize: 19, fontWeight: 500 }}>Sales by Month</Typography>
               <ResponsiveContainer height={250}>
                 <BarChart
                   width={500}
@@ -170,7 +170,7 @@ function Dasbboard() {
             </Stack>
           </Grid>
           <DashboardTable
-            title="Current Month Sale"
+            title="Current Month Sales"
             headCells={currentMonthSalesHeadCells}
             data={currentMonthSale?.data?.results || []}
             className="dashboard-table-right"

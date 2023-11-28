@@ -335,7 +335,7 @@ function SupplierAddPage() {
                     name="comments_on_transactions"
                     type="text"
                     textArea
-                    placeholder="comment"
+                    placeholder="Comment"
                     label="Comment on Transaction"
                     className="col-12"
                   />

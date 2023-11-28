@@ -117,7 +117,7 @@ function ChartOfAccountListing() {
   return (
     <SectionLoader options={[chartOfAccountListResponse.isLoading]}>
       <Helmet>
-        <title>Chart Of Account - ErisBiz</title>
+        <title>Chart of Accounts - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <InfoPopup
@@ -131,8 +131,8 @@ function ChartOfAccountListing() {
         }}
       />
       <MuiTableToolbar
+        TableHeading="Chart of Accounts"
         numSelected={selected?.length || 0}
-        TableHeading="Chart Of Account"
         handleEditSelection={handleEditSelection}
         handleClearSelection={handleClearSelection}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Chart of Account' })}

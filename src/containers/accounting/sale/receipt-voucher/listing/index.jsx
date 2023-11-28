@@ -80,14 +80,14 @@ function ReceiptVoucher() {
   return (
     <SectionLoader options={[receiptVouchersResponse.isLoading]}>
       <Helmet>
-        <title>Receipt Voucher - ErisBiz</title>
+        <title>Receipt Vouchers - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
 
       <MuiTable
+        TableHeading="Receipt Vouchers"
         data={receiptVouchersResponse?.data?.results}
         totalDataCount={receiptVouchersResponse?.data?.count}
-        TableHeading="Receipt Voucher"
         showCheckbox
         headCells={receiptVoucherHeadCells}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Receipt Voucher' })}

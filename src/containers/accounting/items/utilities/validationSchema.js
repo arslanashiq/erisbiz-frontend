@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const itemFormValidationSchema = Yup.object({
   item_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Item Name is required'),
   sku_hs_code: Yup.string(),
-  category: Yup.string().required('Category is Required'),
+  category: Yup.string().required('Category is required'),
   sale_price: Yup.number('Must be a number')
     .positive('Must be Positive Number')
     .required('Sale price is required'),

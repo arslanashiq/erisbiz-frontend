@@ -9,13 +9,13 @@ export const journalVoucherInitialValues = {
   total: 0,
   journal_items: [
     {
-      chart_of_account: 0,
+      chart_of_account: '',
       debit: 0,
       credit: 0,
       description: '',
     },
     {
-      chart_of_account: 0,
+      chart_of_account: '',
       debit: 0,
       credit: 0,
       description: '',

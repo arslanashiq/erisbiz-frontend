@@ -34,13 +34,13 @@ export const receiptVoucherHeadCells = [
     label: 'Reference Number',
     align: 'left',
   },
-  {
-    id: 'created_by_employee_name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Added By',
-    align: 'left',
-  },
+  // {
+  //   id: 'created_by_employee_name',
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: 'Added By',
+  //   align: 'left',
+  // },
 
   {
     id: 'payment_mode',

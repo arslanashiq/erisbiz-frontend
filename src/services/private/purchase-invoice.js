@@ -67,7 +67,13 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['addPurchaseInvoce', 'getPurchaseInvoiceList', 'getItemsList', 'getItemBill'],
+      invalidatesTags: [
+        'addPurchaseInvoce',
+        'getPurchaseInvoiceList',
+        'getItemsList',
+        'getItemBill',
+        'getSinglePurchaseInvoice',
+      ],
     }),
     uploadPurchaseInvoiceDocumentFile: builder.mutation({
       query: ({ id, payload }) => ({

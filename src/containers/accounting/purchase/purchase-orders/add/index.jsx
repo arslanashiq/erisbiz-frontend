@@ -185,7 +185,7 @@ function AddPurchaseOrder() {
                 name="pur_order_num"
                 placeholder="Purchase Order Number"
                 disabled
-                label="Po Number"
+                label="PO Number"
                 startIcon={<TagIcon />}
               />
 

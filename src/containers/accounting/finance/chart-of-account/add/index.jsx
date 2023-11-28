@@ -27,6 +27,7 @@ import { getAccountTypesOptions } from 'utilities/get-account-type-options';
 import { chartOfAccountInitialValues } from '../utilities/initial-values';
 // styles
 import 'styles/form/form.scss';
+import { chartOfAccountFormValidationSchema } from '../utilities/validation-schema';
 
 function AddChartOfAccount() {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ function AddChartOfAccount() {
           <Formik
             enableReinitialize
             initialValues={initialValues}
-            // validationSchema={brandsFormValidationSchema}
+            validationSchema={chartOfAccountFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               let response = null;
               if (id) {
@@ -97,6 +98,7 @@ function AddChartOfAccount() {
                   type="text"
                   placeholder="Account Name"
                   label="Account Name"
+                  isRequired
                 />
                 <FormikSelect
                   options={sortedAccountType}
@@ -105,6 +107,7 @@ function AddChartOfAccount() {
                   placeholder="Account Type"
                   label="Account Type"
                   isGrouped
+                  isRequired
                 />
 
                 <FormikField name="description" type="text" textArea label="Description" className="col-12" />

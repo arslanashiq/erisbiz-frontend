@@ -60,13 +60,13 @@ function ProfomaInvoiceListing() {
   return (
     <>
       <Helmet>
-        <title>Proforma Invoice - ErisBiz</title>
+        <title>Proforma Invoices - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
+        TableHeading="Proforma Invoices"
         data={proformaInvoicesListResponse?.data?.results}
         totalDataCount={proformaInvoicesListResponse?.data?.count}
-        TableHeading="Proforma Invoice"
         headCells={proformaInvoiceHeadCell}
         showCheckbox
         editableStatusList={['draft']}
