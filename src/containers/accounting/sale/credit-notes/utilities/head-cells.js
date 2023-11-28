@@ -28,7 +28,7 @@ export const creditNoteHeadCells = [
   //   id: 'sales_person',
   //   numeric: true,
   //   disablePadding: false,
-  //   label: 'Sale Person',
+  //   label: 'Sales Person',
   //   align: 'right',
   // },
   {

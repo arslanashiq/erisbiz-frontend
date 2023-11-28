@@ -21,7 +21,7 @@ export const proformaInvoiceHeadCell = [
     id: 'customer_info',
     numeric: true,
     disablePadding: false,
-    label: 'Customer Name',
+    label: 'Customer',
     align: 'left',
     cellValueAction: customerInfo => customerInfo.customer_name,
   },
@@ -30,7 +30,7 @@ export const proformaInvoiceHeadCell = [
   //   id: 'sales_person',
   //   numeric: true,
   //   disablePadding: false,
-  //   label: 'Sale Person',
+  //   label: 'Sales Person',
   //   align: 'right',
   // },
   {

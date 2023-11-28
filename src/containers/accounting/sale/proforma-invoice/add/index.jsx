@@ -320,8 +320,8 @@ function AddProfomaInvoice() {
                   options={salePersonListOptions}
                   name="sales_person"
                   type="text"
-                  placeholder="Sale Person"
-                  label="Sale Person"
+                  placeholder="Sales Person"
+                  label="Sales Person"
                 />
 
                 <FormikFileField

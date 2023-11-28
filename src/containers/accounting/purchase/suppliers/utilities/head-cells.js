@@ -3,7 +3,7 @@ export const supplierHeadCells = [
     id: 'supplier_name',
     numeric: false,
     disablePadding: true,
-    label: 'Supplier Name',
+    label: 'Supplier ',
     align: 'left',
     isLink: true,
   },
@@ -73,7 +73,7 @@ export const supplierBillTransactionHeadCells = [
     id: 'supplier_name',
     numeric: true,
     disablePadding: false,
-    label: 'Supplier Name',
+    label: 'Supplier ',
     align: 'left',
   },
 

@@ -242,7 +242,7 @@ function AddSupplierCredit() {
                 return;
               }
               if (purchaseId) {
-                navigate('/pages/accounting/purchase/debit-note', { replace: true });
+                navigate('/pages/accounting/purchase/debit-notes', { replace: true });
                 return;
               }
               navigate(-1);

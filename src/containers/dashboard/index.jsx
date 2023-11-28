@@ -108,7 +108,7 @@ function Dasbboard() {
         <title>Dashboard - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
-      <Box sx={{ flexGrow: 1, marginBottom: 4, margin: 'auto 20px 20px 20px' }}>
+      <Box sx={{ flexGrow: 1, margin: 'auto auto auto 15px' }}>
         <Typography sx={{ fontWeight: 700, fontSize: 19 }}>Dashboard</Typography>
         <Grid
           container
@@ -141,23 +141,20 @@ function Dasbboard() {
           <Grid item xs={12} lg={12} xl={6} className="dashboard-table-left">
             <Stack
               sx={{
-                height: '100%',
+                height: 310,
                 width: '100%',
                 backgroundColor: 'white',
                 marginTop: 0.3,
                 borderRadius: 3,
-                padding: '20px 20px',
+                padding: '20px 20px 0px 20px',
               }}
             >
-              <Typography sx={{ fontSize: 19, fontWeight: 500 }}>Sales by Month</Typography>
-              <ResponsiveContainer height={250}>
+              <Typography sx={{ fontSize: 19, fontWeight: 500, marginBottom: 1 }}>Sales by Month</Typography>
+              <ResponsiveContainer height={245}>
                 <BarChart
-                  width={500}
-                  height={300}
                   data={graphData}
                   margin={{
-                    top: 20,
-                    right: 40,
+                    left: -6,
                   }}
                 >
                   <CartesianGrid strokeDasharray="0" />

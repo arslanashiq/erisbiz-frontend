@@ -237,7 +237,7 @@ export const itemPurchaseOrderTransactionHeadCells = [
     id: 'supplier_name',
     numeric: true,
     disablePadding: false,
-    label: 'Supplier Name',
+    label: 'Supplier ',
     align: 'center',
   },
   {
@@ -279,7 +279,7 @@ export const itemBillTransactionHeadCells = [
     id: 'supplier_name',
     numeric: true,
     disablePadding: false,
-    label: 'Supplier Name',
+    label: 'Supplier ',
     align: 'left',
   },
   {
@@ -321,7 +321,7 @@ export const itemDebitNoteTransactionHeadCells = [
     id: 'supplier_name',
     numeric: true,
     disablePadding: false,
-    label: 'Supplier Name',
+    label: 'Supplier ',
     align: 'left',
   },
   {

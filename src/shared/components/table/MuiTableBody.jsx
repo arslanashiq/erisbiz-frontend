@@ -80,7 +80,9 @@ function MuiTableBody({
 
   const tableBodyDefaultStyle = {
     fontSize: '14px',
-    padding: '8px 16px',
+    padding: '10px',
+    borderBottom: '1px solid rgba(224, 224, 224, 1)',
+    lineSpacing: '0.01071em',
   };
   return (
     <TableBody>
@@ -92,7 +94,6 @@ function MuiTableBody({
               padding: '30px 0px',
               textAlign: 'center',
               fontSize: 16,
-              border: 0,
             }}
             colSpan={actionButtonKey ? headCells.length + 1 : headCells.length}
           >
@@ -174,12 +175,12 @@ function MuiTableBody({
                   scope="row"
                   padding="normal"
                   align="center"
-                  style={{ fontSize: '0.80rem' }}
+                  style={tableBodyDefaultStyle}
                 >
                   <Button
                     size="small"
                     className="text-capitalize"
-                    sx={{ fontSize: 10, width: 70 }}
+                    sx={{ fontSize: 11, width: 70 }}
                     onClick={() => handleTableBodyButtonAction(row.id, row)}
                   >
                     {row[actionButtonKey] ? 'Deactivate' : 'Activate'}

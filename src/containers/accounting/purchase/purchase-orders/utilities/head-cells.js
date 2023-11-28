@@ -14,7 +14,7 @@ export const purchaseOrderHeadCells = [
     id: 'supplier_name',
     numeric: true,
     disablePadding: false,
-    label: 'Supplier Name',
+    label: 'Supplier ',
     align: 'left',
   },
   {
@@ -24,14 +24,6 @@ export const purchaseOrderHeadCells = [
     label: 'Purchase Order Number',
     align: 'left',
     isLink: true,
-  },
-
-  {
-    id: 'created_by_employee_name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Add By',
-    align: 'left',
   },
 
   {

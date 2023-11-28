@@ -3,7 +3,7 @@ export const customersHeadCell = [
     id: 'customer_name',
     numeric: true,
     disablePadding: false,
-    label: 'Customer Name',
+    label: 'Customer',
     align: 'left',
     isLink: true,
   },

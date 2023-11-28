@@ -31,7 +31,7 @@ function DashboardTable({ className, title, data, headCells }) {
     <Grid item xs={12} lg={12} xl={6} className={`${className} `}>
       <Stack
         sx={{
-          height: 320,
+          height: 310,
           width: '100%',
           backgroundColor: 'white',
           marginTop: 0.3,
@@ -39,7 +39,7 @@ function DashboardTable({ className, title, data, headCells }) {
           padding: '20px 20px',
         }}
       >
-        <Typography sx={{ fontSize: 19, fontWeight: 500 }}>{title}</Typography>
+        <Typography sx={{ fontSize: 19, fontWeight: 500, marginBottom: 1 }}>{title}</Typography>
         <TableContainer sx={{ overflow: 'auto', height: '100%', outline: '1px solid silver' }}>
           <Table stickyHeader size="small">
             <TableHead>

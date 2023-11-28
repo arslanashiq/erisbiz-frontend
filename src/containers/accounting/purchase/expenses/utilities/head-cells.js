@@ -14,7 +14,7 @@ export const expensesHeadCells = [
     id: 'supplier_name',
     numeric: true,
     disablePadding: false,
-    label: 'Supplier Name',
+    label: 'Supplier ',
     align: 'left',
   },
   {

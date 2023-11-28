@@ -42,7 +42,7 @@ export const bankTransactionsHeadCells = [
   {
     id: 'reference_number',
     disablePadding: false,
-    label: 'Reference Number',
+    label: 'Reference #',
     align: 'left',
   },
   {

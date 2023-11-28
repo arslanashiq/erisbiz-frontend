@@ -21,10 +21,10 @@ function MuiTableHead(props) {
     onRequestSort(event, property);
   };
   const tableHeadDefaultStyle = {
-    fontWeight: 'bold',
-    fontSize: '15px',
-    padding: '8px 16px',
-    backgroundColor: '#c7c7c7',
+    fontWeight: 600,
+    fontSize: '14px',
+    padding: '10px',
+    backgroundColor: '#E3E3E3',
   };
   const borderRadius = 10;
   return (
@@ -55,7 +55,9 @@ function MuiTableHead(props) {
               ...tableHeadDefaultStyle,
               borderTopLeftRadius: !showCheckbox && headCells[0].id === headCell.id ? borderRadius : 0,
               borderTopRightRadius:
-                !actionButtonKey && headCells[headCells.length - 1].id === headCell.id ? borderRadius : 0,
+                !actionButtonKey && !customActionButton && headCells[headCells.length - 1].id === headCell.id
+                  ? borderRadius
+                  : 0,
               ...headCell.headingStyle,
             }}
           >
@@ -88,7 +90,15 @@ function MuiTableHead(props) {
         )}
         {customActionButton &&
           customActionButton.map(btn => (
-            <TableCell key={uuid()} align="center" padding="normal" sx={{ fontWeight: 'bold' }}>
+            <TableCell
+              key={uuid()}
+              align="center"
+              padding="normal"
+              sx={{
+                ...tableHeadDefaultStyle,
+                borderTopRightRadius: borderRadius,
+              }}
+            >
               {btn.title}
             </TableCell>
           ))}

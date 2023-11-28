@@ -252,13 +252,12 @@ function AddQuotation() {
                 name="quotation_docs"
                 startIcon={<AttachFileIcon />}
               />
-              {/* Sale Person */}
               <FormikSelect
                 name="sales_person"
                 options={salePersonListOptions}
                 type="text"
-                placeholder="Sale Person"
-                label="Sale Person"
+                placeholder="Sales Person"
+                label="Sales Person"
               />
 
               {/* Location */}

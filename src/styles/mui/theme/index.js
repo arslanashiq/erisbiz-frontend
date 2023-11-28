@@ -12,7 +12,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ['Roboto', 'sans-serif'].join(','),
+    fontFamily: ['Roboto', 'Helvetica', 'Arial', 'sans-serif'].join(','),
   },
 
   palette,

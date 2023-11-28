@@ -81,6 +81,7 @@ function TaxReturnListing() {
                 data={TaxReturnsResponse?.isSuccess ? TaxReturnsResponse?.data?.results : []}
                 totalDataCount={TaxReturnsResponse?.data?.count}
                 headCells={taxReturnsHeadCell}
+                showActionButton
                 customActionButton={[
                   {
                     title: 'Actions',

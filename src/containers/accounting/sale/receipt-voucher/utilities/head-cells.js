@@ -31,7 +31,7 @@ export const receiptVoucherHeadCells = [
     id: 'reference_num',
     numeric: true,
     disablePadding: false,
-    label: 'Reference Number',
+    label: 'Reference #',
     align: 'left',
   },
   // {
@@ -61,7 +61,7 @@ export const receiptVoucherHeadCells = [
     id: 'total',
     numeric: true,
     disablePadding: false,
-    label: 'Total Amount',
+    label: 'Amount',
     align: 'left',
     mergeCell: true,
   },
