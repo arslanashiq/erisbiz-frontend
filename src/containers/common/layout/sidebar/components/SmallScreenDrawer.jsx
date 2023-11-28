@@ -25,7 +25,7 @@ function SmallScreenDrawer({
     >
       <DrawerHeader />
       <Divider />
-      <List sx={{ width: DRAWER_WIDTH }}>
+      <List sx={{ width: DRAWER_WIDTH, paddingTop: 0 }}>
         {AccountantSideBarLinks.map(sideBar => (
           <div key={sideBar.name}>
             <SideBarListItem
@@ -57,16 +57,16 @@ function SmallScreenDrawer({
                 </NavLink>
               )}
             </SideBarListItem>
-            {sideBar.children &&
-              sideBar.children.length > 0 &&
-              showSideBarChildLink[sideBar.index] === true && (
-                <SideBarChildLinks
-                  childList={sideBar.children}
-                  open={open}
-                  setOpen={setOpen}
-                  index={sideBar.index}
-                  checkActive={checkActive}
-                />
+            {sideBar?.children?.length > 0 && (
+              <SideBarChildLinks
+                childList={sideBar.children}
+                open={open}
+                setOpen={setOpen}
+                index={sideBar.index}
+                checkActive={checkActive}
+                showSideBarChildLink={showSideBarChildLink}
+                setShowSideBarChildLink={setShowSideBarChildLink}
+              />
             )}
           </div>
         ))}

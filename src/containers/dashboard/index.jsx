@@ -109,7 +109,7 @@ function Dasbboard() {
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <Box sx={{ flexGrow: 1, margin: 'auto auto auto 15px' }}>
-        <Typography sx={{ fontWeight: 700, fontSize: 19 }}>Dashboard</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: 20 }}>Dashboard</Typography>
         <Grid
           container
           spacing={2}

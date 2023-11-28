@@ -26,12 +26,12 @@ function MuiTableHead(props) {
     padding: '10px',
     backgroundColor: '#E3E3E3',
   };
-  const borderRadius = 10;
+
   return (
     <TableHead sx={{ ...headerStyles }}>
       <TableRow>
         {showCheckbox && (
-          <TableCell padding="checkbox" sx={{ ...tableHeadDefaultStyle, borderTopLeftRadius: borderRadius }}>
+          <TableCell padding="checkbox" sx={tableHeadDefaultStyle}>
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -53,11 +53,6 @@ function MuiTableHead(props) {
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               ...tableHeadDefaultStyle,
-              borderTopLeftRadius: !showCheckbox && headCells[0].id === headCell.id ? borderRadius : 0,
-              borderTopRightRadius:
-                !actionButtonKey && !customActionButton && headCells[headCells.length - 1].id === headCell.id
-                  ? borderRadius
-                  : 0,
               ...headCell.headingStyle,
             }}
           >
@@ -76,29 +71,13 @@ function MuiTableHead(props) {
           </TableCell>
         ))}
         {actionButtonKey && (
-          <TableCell
-            key="Action-Button"
-            align="center"
-            padding="normal"
-            sx={{
-              ...tableHeadDefaultStyle,
-              borderTopRightRadius: borderRadius,
-            }}
-          >
+          <TableCell key="Action-Button" align="center" padding="normal" sx={tableHeadDefaultStyle}>
             Actions
           </TableCell>
         )}
         {customActionButton &&
           customActionButton.map(btn => (
-            <TableCell
-              key={uuid()}
-              align="center"
-              padding="normal"
-              sx={{
-                ...tableHeadDefaultStyle,
-                borderTopRightRadius: borderRadius,
-              }}
-            >
+            <TableCell key={uuid()} align="center" padding="normal" sx={tableHeadDefaultStyle}>
               {btn.title}
             </TableCell>
           ))}

@@ -7,6 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // styled components
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
 // components
+import { DRAWER_WIDTH } from 'utilities/constants';
 import LargeScreenDrawer from './components/LargeScreenDrawer';
 import SmallScreenDrawer from './components/SmallScreenDrawer';
 import SideBarLinksList from './utilities/SideBarLinksList';
@@ -68,7 +69,7 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
         sx={{
           width: {
             sm: '100%',
-            md: `calc(100% - ${open ? '240' : '65'}px)`,
+            md: `calc(100% - ${open ? DRAWER_WIDTH : '65'}px)`,
           },
         }}
         className="main-wrapper"

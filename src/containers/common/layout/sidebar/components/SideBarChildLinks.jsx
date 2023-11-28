@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import { NavLink } from 'react-router-dom';
@@ -10,26 +11,31 @@ function SideBarChildLinks({
   setOpen,
   showSideBarChildLink,
   setShowSideBarChildLink,
+  index,
 }) {
-  return childList.map(child => (
-    <SideBarListItem
-      selected={checkActive(child.link)}
-      key={child.name}
-      disablePadding
-      sx={{ display: open ? 'auto' : 'none' }}
-    >
-      <NavLink to={child.link} style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}>
-        <SideBarListItemButton
-          sideBarListItem={child}
-          open={open}
-          setOpen={setOpen}
-          showSideBarChildLink={showSideBarChildLink}
-          setShowSideBarChildLink={setShowSideBarChildLink}
-          isParent={false}
-        />
-      </NavLink>
-    </SideBarListItem>
-  ));
+  return (
+    <div className={showSideBarChildLink[index] === true ? 'show-transition' : 'hide-transition'}>
+      {childList.map(child => (
+        <SideBarListItem
+          selected={checkActive(child.link)}
+          key={child.name}
+          disablePadding
+          sx={{ display: open ? 'auto' : 'none' }}
+        >
+          <NavLink to={child.link} style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}>
+            <SideBarListItemButton
+              sideBarListItem={child}
+              open={open}
+              setOpen={setOpen}
+              showSideBarChildLink={showSideBarChildLink}
+              setShowSideBarChildLink={setShowSideBarChildLink}
+              isParent={false}
+            />
+          </NavLink>
+        </SideBarListItem>
+      ))}
+    </div>
+  );
 }
 
 export default SideBarChildLinks;

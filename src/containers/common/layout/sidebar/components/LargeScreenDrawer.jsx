@@ -12,6 +12,7 @@ import StyledDrawer from 'styles/mui/component/StyledDrawer';
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
 import SideBarListItem from 'styles/mui/component/SideBarListItem';
 // components
+import { DRAWER_WIDTH } from 'utilities/constants';
 import SideBarChildLinks from './SideBarChildLinks';
 import SideBarListItemButton from './SideBarListItemButton';
 
@@ -33,7 +34,7 @@ function LargeScreenDrawer({
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List>
+      <List sx={{ width: DRAWER_WIDTH, paddingTop: 0 }}>
         {AccountantSideBarLinks.map(sideBar => (
           <div key={sideBar.name}>
             <SideBarListItem
@@ -71,7 +72,8 @@ function LargeScreenDrawer({
                 </NavLink>
               )}
             </SideBarListItem>
-            {sideBar?.children?.length > 0 && showSideBarChildLink[sideBar.index] === true && (
+
+            {sideBar?.children?.length > 0 && (
               <SideBarChildLinks
                 childList={sideBar.children}
                 open={open}

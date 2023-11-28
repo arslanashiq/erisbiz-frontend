@@ -79,13 +79,12 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
           <TableBody>
             {form?.values[name]?.map((item, index) => (
               <TableRow key={`${name}.${item.name}.${index}`}>
-                {inputList?.map((input, idx) => (
+                {inputList?.map(input => (
                   <TableCell
                     key={input.name}
                     className="purchase-item-table-cell"
                     sx={{
                       width: input.width || 'auto',
-                      display: idx === inputList.length - 1 ? 'flex' : 'auto',
                       alignItems: 'center',
                     }}
                   >

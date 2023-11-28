@@ -10,9 +10,6 @@
   transform: rotate(-90deg);
 }
 
-.sidebar-parent-list-icon {
-  transform: rotate((90deg));
-}
 // .small-screen-drawer {
 //   .MuiBackdrop-root {
 //     opacity: 0 !important;
@@ -163,4 +160,22 @@
   ::-webkit-scrollbar {
     width: 0px;
   }
+}
+
+// transitions
+
+.sidebar-parent-list-icon {
+  transform: rotate((90deg));
+}
+.show-transition {
+  transition: all 0.3s ease;
+  min-height: 50px;
+  max-height: 500px;
+  overflow: hidden;
+}
+.hide-transition {
+  transition: all 0.3s ease;
+  min-height: 0px;
+  max-height: 0px;
+  overflow: hidden;
 }

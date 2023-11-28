@@ -148,6 +148,7 @@ export default function MuiTable({
       ),
     [data, otherOptions, order, orderBy, page, rowsPerPage]
   );
+  const borderRadius = '10px';
   return (
     <SectionLoader options={[data === undefined, data === null]}>
       <Box sx={{ width: '100%' }}>
@@ -172,8 +173,8 @@ export default function MuiTable({
             handleDeleteSelection={() => handleDelete(data, selected, openInfoPopup, setOpenInfoPopup)}
           />
         )}
-        <Paper>
-          <TableContainer>
+        <Paper sx={{ borderRadius }}>
+          <TableContainer sx={{ borderRadius }}>
             <Table stickyHeader size="small" sx={{ minWidth: 650 }}>
               <MuiTableHead
                 showCheckbox={showCheckbox}
