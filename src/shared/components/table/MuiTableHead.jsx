@@ -20,12 +20,18 @@ function MuiTableHead(props) {
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
-
+  const tableHeadDefaultStyle = {
+    fontWeight: 'bold',
+    fontSize: '15px',
+    padding: '8px 16px',
+    backgroundColor: '#c7c7c7',
+  };
+  const borderRadius = 10;
   return (
-    <TableHead sx={headerStyles}>
+    <TableHead sx={{ ...headerStyles }}>
       <TableRow>
         {showCheckbox && (
-          <TableCell padding="checkbox">
+          <TableCell padding="checkbox" sx={{ ...tableHeadDefaultStyle, borderTopLeftRadius: borderRadius }}>
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -45,7 +51,13 @@ function MuiTableHead(props) {
             align={headCell.align ? headCell.align : 'left'}
             padding="normal"
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ fontWeight: 'bold', fontSize: '0.80rem', ...headCell.headingStyle }}
+            sx={{
+              ...tableHeadDefaultStyle,
+              borderTopLeftRadius: !showCheckbox && headCells[0].id === headCell.id ? borderRadius : 0,
+              borderTopRightRadius:
+                !actionButtonKey && headCells[headCells.length - 1].id === headCell.id ? borderRadius : 0,
+              ...headCell.headingStyle,
+            }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -62,7 +74,15 @@ function MuiTableHead(props) {
           </TableCell>
         ))}
         {actionButtonKey && (
-          <TableCell key="Action-Button" align="center" padding="normal" sx={{ fontWeight: 'bold' }}>
+          <TableCell
+            key="Action-Button"
+            align="center"
+            padding="normal"
+            sx={{
+              ...tableHeadDefaultStyle,
+              borderTopRightRadius: borderRadius,
+            }}
+          >
             Actions
           </TableCell>
         )}

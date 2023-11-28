@@ -69,7 +69,7 @@ export const proformaInvoiceHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Total',
-    align: 'center',
+    align: 'left',
     mergeCell: true,
   },
 ];

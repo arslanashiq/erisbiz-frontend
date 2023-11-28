@@ -78,12 +78,22 @@ function MuiTableBody({
 
   const isSelected = id => selected.indexOf(id) !== -1;
 
+  const tableBodyDefaultStyle = {
+    fontSize: '14px',
+    padding: '8px 16px',
+  };
   return (
     <TableBody>
       {dataList.length === 0 ? (
         <TableRow>
           <TableCell
-            style={{ padding: '30px 0px', textAlign: 'center', fontSize: 16, border: 0 }}
+            style={{
+              ...tableBodyDefaultStyle,
+              padding: '30px 0px',
+              textAlign: 'center',
+              fontSize: 16,
+              border: 0,
+            }}
             colSpan={actionButtonKey ? headCells.length + 1 : headCells.length}
           >
             No Data Found
@@ -108,6 +118,7 @@ function MuiTableBody({
               {showCheckbox && (
                 <TableCell padding="checkbox">
                   <Checkbox
+                    sx={tableBodyDefaultStyle}
                     onClick={event => {
                       if (showCheckbox) handleClick(event, id);
                     }}
@@ -131,7 +142,10 @@ function MuiTableBody({
                   padding="normal"
                   align={cell.align || 'left'}
                   className={`text-capitalize ${handlegetCellClass(cell, row[cell.id])}`}
-                  style={{ ...handlegetCellStyle(cell, row[cell.id]), fontSize: '0.80rem' }}
+                  style={{
+                    ...tableBodyDefaultStyle,
+                    ...handlegetCellStyle(cell, row[cell.id]),
+                  }}
                 >
                   {renderCellValue(row, cell)}
                 </TableCell>
@@ -147,7 +161,7 @@ function MuiTableBody({
                     scope="row"
                     padding="normal"
                     align="center"
-                    style={{ fontSize: '0.80rem' }}
+                    style={tableBodyDefaultStyle}
                   >
                     <Box onClick={() => btn.handleClick(row.id || row)}>{btn.element}</Box>
                   </TableCell>

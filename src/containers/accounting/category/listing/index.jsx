@@ -51,12 +51,12 @@ function CategoryListing() {
   return (
     <SectionLoader options={[categoryListResponse.isLoading]}>
       <Helmet>
-        <title>Category - ErisBiz</title>
+        <title>Categories - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
         data={categoryListResponse?.isSuccess ? categoryListResponse?.data?.results : []}
-        TableHeading="Category"
+        TableHeading="Categories"
         handleEdit={(_, selected) => {
           navigate(`edit/${selected[0]}`);
         }}

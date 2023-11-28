@@ -23,7 +23,7 @@ export const receiptVoucherHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Payment Number',
-    align: 'center',
+    align: 'left',
     isLink: true,
   },
 
@@ -47,7 +47,7 @@ export const receiptVoucherHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Payment Mode',
-    align: 'center',
+    align: 'left',
   },
   {
     id: 'status',

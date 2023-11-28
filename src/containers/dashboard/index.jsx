@@ -108,7 +108,7 @@ function Dasbboard() {
         <title>Dashboard - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
-      <Box sx={{ flexGrow: 1, marginBottom: 4 }}>
+      <Box sx={{ flexGrow: 1, marginBottom: 4, margin: 'auto 20px 20px 20px' }}>
         <Typography sx={{ fontWeight: 700, fontSize: 19 }}>Dashboard</Typography>
         <Grid
           container

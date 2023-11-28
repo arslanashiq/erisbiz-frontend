@@ -60,7 +60,7 @@ export const quotationsHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'VAT',
-    align: 'center',
+    align: 'left',
     mergeCell: true,
   },
   {
@@ -68,7 +68,7 @@ export const quotationsHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Total',
-    align: 'center',
+    align: 'left',
     mergeCell: true,
   },
 ];

@@ -22,7 +22,7 @@ export const purchaseOrderHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Purchase Order Number',
-    align: 'center',
+    align: 'left',
     isLink: true,
   },
 
@@ -53,7 +53,8 @@ export const purchaseOrderHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'VAT Total',
-    align: 'center',
+    align: 'left',
+    mergeCell: true,
   },
   {
     id: 'status',

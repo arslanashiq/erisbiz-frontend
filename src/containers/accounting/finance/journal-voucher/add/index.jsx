@@ -140,6 +140,7 @@ function AddJournalVoucher() {
                 placeholder="Reference Number"
                 startIcon={<TagIcon />}
                 label="Reference NO "
+                isRequired
               />
 
               <FormikDatePicker

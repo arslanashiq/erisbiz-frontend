@@ -201,7 +201,10 @@ function AddSupplierCredit() {
       newData = {
         ...newData,
         bill_id: Number(purchaseId),
-        supplier_credit_items: billItems,
+        supplier_credit_items: billItems.map(invoiceItems => ({
+          ...invoiceItems,
+          invoice_num_nights: invoiceItems.num_nights,
+        })),
         supplier_id: supplierId,
       };
     }

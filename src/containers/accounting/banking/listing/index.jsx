@@ -26,7 +26,7 @@ function BankListing() {
       <MuiTable
         data={bankAccountListResponse?.isSuccess ? bankAccountListResponse?.data?.results : []}
         totalDataCount={bankAccountListResponse?.data?.count}
-        TableHeading="Banking"
+        TableHeading="Banking Overview"
         headCells={BankingHeadCells}
         actionButtonKey="is_active"
         handleTableBodyActionButton={handleChangeBankAccountStatus}

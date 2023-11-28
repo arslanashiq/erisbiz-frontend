@@ -22,7 +22,7 @@ export const invoiceHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Customer Name',
-    align: 'right',
+    align: 'left',
     cellValueAction: customerInfo => customerInfo.customer_name,
   },
   {
@@ -30,14 +30,14 @@ export const invoiceHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Added By',
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'status',
     numeric: true,
     disablePadding: false,
     label: 'Status',
-    align: 'right',
+    align: 'left',
     class: handleGetStatusBaseClass,
   },
 
@@ -46,7 +46,7 @@ export const invoiceHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Gross Total',
-    align: 'center',
+    align: 'left',
     mergeCell: true,
   },
   {
@@ -54,7 +54,7 @@ export const invoiceHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'VAT',
-    align: 'center',
+    align: 'left',
     mergeCell: true,
   },
   {
@@ -62,7 +62,7 @@ export const invoiceHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Total',
-    align: 'center',
+    align: 'left',
     mergeCell: true,
   },
 ];

@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
@@ -7,11 +7,12 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 
 const SideBarLinksList = [
   {
     name: 'Dashboard',
-    icon: <DashboardIcon />,
+    icon: <DashboardOutlinedIcon />,
     link: '/',
     divider: true,
   },
@@ -22,7 +23,7 @@ const SideBarLinksList = [
   },
   {
     name: 'Category',
-    icon: <ShoppingBasketIcon />,
+    icon: <CategoryOutlinedIcon />,
     link: '/pages/accounting/category',
   },
   {

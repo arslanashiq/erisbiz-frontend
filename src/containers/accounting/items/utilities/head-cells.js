@@ -12,14 +12,14 @@ export const itemsHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'Item Type',
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'description',
     numeric: true,
     disablePadding: false,
     label: 'Description',
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'is_active',

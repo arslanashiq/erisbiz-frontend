@@ -33,21 +33,21 @@ export const customersHeadCell = [
     numeric: true,
     disablePadding: false,
     label: 'VAT Registration',
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'invoice_city',
     numeric: true,
     disablePadding: false,
     label: 'City',
-    align: 'right',
+    align: 'left',
   },
   {
     id: 'invoice_country',
     numeric: true,
     disablePadding: false,
     label: 'Country',
-    align: 'right',
+    align: 'left',
   },
 ];
 export const customerContactHeadCells = [

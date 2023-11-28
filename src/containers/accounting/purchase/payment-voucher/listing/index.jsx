@@ -81,13 +81,13 @@ function paymentVoucherListing() {
   return (
     <SectionLoader options={[paymentVouchersListResponse.isLoading]}>
       <Helmet>
-        <title>Payment vouchers - ErisBiz</title>
+        <title>Payment Vouchers - ErisBiz</title>
         <meta name="description" content="ErisBiz" />
       </Helmet>
       <MuiTable
         data={paymentVouchersListResponse?.data?.results}
         totalDataCount={paymentVouchersListResponse?.data?.count}
-        TableHeading="Payment vouchers"
+        TableHeading="Payment Vouchers"
         showCheckbox
         headCells={PaymentVoucherHeadCells}
         handleEdit={handleEdit}

@@ -17,7 +17,7 @@ export const PaymentVoucherHeadCells = [
     id: 'payment_num',
     disablePadding: true,
     label: 'Payment Number',
-    align: 'center',
+    align: 'left',
     isLink: true,
   },
   {
