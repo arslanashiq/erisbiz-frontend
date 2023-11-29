@@ -57,6 +57,7 @@ function BrandsListing() {
       </Helmet>
       <MuiTable
         data={brandsListResponse?.isSuccess ? brandsListResponse?.data?.results : []}
+        totalDataCount={brandsListResponse?.data?.count || 0}
         TableHeading="Brands"
         handleEdit={(_, selected) => {
           navigate(`edit/${selected[0]}`);

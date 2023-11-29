@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
   },
 });
 
-function PDFHeader({ orderInfo }) {
+function PDFHeader({ orderInfo, companyName, companyLogo }) {
   return (
     <View>
       <View style={styles.container}>
-        <LogoAndCompanyInfo />
+        <LogoAndCompanyInfo companyName={companyName} companyLogo={companyLogo} />
         <View style={{ minWidth: 200, marginTop: 20 }}>
           {orderInfo && (
             <>
@@ -101,10 +101,14 @@ function PDFHeader({ orderInfo }) {
 
 PDFHeader.propTypes = {
   orderInfo: PropTypes.object,
+  companyName: PropTypes.string,
+  companyLogo: PropTypes.string,
   // orderDetail: PropTypes.object.isRequired,
 };
 PDFHeader.defaultProps = {
   orderInfo: null,
+  companyLogo: '',
+  companyName: '',
   // orderDetail: PropTypes.object.isRequired,
 };
 

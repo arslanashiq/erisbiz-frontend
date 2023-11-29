@@ -237,6 +237,7 @@ function index() {
                   label="Invoice Number"
                   startIcon={<TagIcon />}
                   disabled={Boolean(saleId)}
+                  isRequired
                   onChange={value => handleChangeSaleInvoice(value, setFieldValue)}
                 />
                 <FormikDatePicker
@@ -250,8 +251,8 @@ function index() {
                 <FormikSelect
                   options={bankAccountOptions}
                   name="account_num"
-                  placeholder="Account Number"
-                  label="Account No"
+                  placeholder="Account"
+                  label="Account"
                 />
                 <FormikSelect
                   options={bankAccountOptions}

@@ -29,7 +29,7 @@ function SmallScreenDrawer({
         {AccountantSideBarLinks.map(sideBar => {
           if (sideBar.name === 'space') {
             return (
-              <Box sx={{ padding: '10px 0px' }}>
+              <Box key={sideBar.name} sx={{ padding: '10px 0px' }}>
                 <Box sx={{ borderBottom: 1, borderBottomColor: 'silver' }} />
               </Box>
             );

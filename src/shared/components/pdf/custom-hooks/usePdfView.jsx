@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import printJS from 'print-js';
 import { saveAs } from 'file-saver';
+import { useSelector } from 'react-redux';
 import { pdf } from '@react-pdf/renderer';
 import PdfDoc from '../components/PdfDoc';
 
 function usePdfView(orderInfo, orderDetail, keyValue, options) {
+  const { name: companyName, logo: companyLogo } = useSelector(state => state.user.company);
+
   const [data, setData] = useState({});
   const [actionLoading, setActionLoading] = useState(false);
   const [component, setComponent] = useState(null);
@@ -41,11 +44,13 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
             showItemsTable={options.showItemsTable}
             showVoucherTable={options.showVoucherTable}
             showJournalVoucher={options.showJournalVoucher}
+            companyName={companyName}
+            companyLogo={companyLogo}
           />
         );
       }
     }
-  }, [orderInfo, orderDetail, keyValue]);
+  }, [orderInfo, orderDetail, keyValue, companyName, companyLogo]);
 
   return {
     actionLoading,

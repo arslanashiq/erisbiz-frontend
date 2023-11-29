@@ -7,10 +7,10 @@ import {
   COMPANY_ADDRESS,
   COMPANY_COUNTRY,
   COMPANY_EMAIL,
-  COMPANY_NAME,
   COMPANY_OFFICE_ADDRESS,
   COMPANY_PHONE,
 } from 'utilities/constants';
+import { useSelector } from 'react-redux';
 import OrderItemsTable from './OrderItemsTable';
 import OrderVoucher from './OrderVoucher';
 import 'styles/purchase-order-template/purchase-order-template.scss';
@@ -25,6 +25,8 @@ function OrderReceipt({
   showOrderVoucher,
   showJournalVoucher,
 }) {
+  const { name: companyName, logo: companyLogo } = useSelector(state => state.user.company);
+
   return (
     <Box className="invoice-receipt-main-container">
       {showStatus && (
@@ -35,8 +37,8 @@ function OrderReceipt({
       <Box style={{ padding: 20 }}>
         <Box className="invoice-receipt-container">
           <Box className="box-1">
-            <img src="/logo.png" alt="" id="logo" />
-            <p>{COMPANY_NAME}</p>
+            <img src={companyLogo} alt="" id="logo" />
+            <p>{companyName}</p>
             <p>{COMPANY_OFFICE_ADDRESS}</p>
             <p>{COMPANY_ADDRESS}</p>
             <p>{COMPANY_COUNTRY}</p>

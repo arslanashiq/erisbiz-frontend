@@ -3,7 +3,15 @@ import { privateApi } from './index';
 const categoeyApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getCategoryList: builder.query({
-      query: () => '/api/category/',
+      query: (params = {}) => ({
+        url: '/api/category/',
+        params: {
+          limit: params.limit,
+          offset: params.offset || 0,
+          is_active: params.is_active,
+          item_type: params.item_type,
+        },
+      }),
       providesTags: ['getCategoryList'],
     }),
     getSingleCategory: builder.query({
@@ -21,7 +29,7 @@ const categoeyApi = privateApi.injectEndpoints({
     }),
     editCategory: builder.mutation({
       query: ({ id, payload }) => ({
-        url: `/api/category/${id}`,
+        url: `/api/category/${id}/`,
         method: 'PATCH',
         body: payload,
       }),

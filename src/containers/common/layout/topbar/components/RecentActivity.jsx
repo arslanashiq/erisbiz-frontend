@@ -63,7 +63,7 @@ function RecentActivity() {
       >
         <Box>
           {recentActivity.status === 'fulfilled' ? (
-            recentActivity?.data?.results.slice(0, 10).map(activity => (
+            recentActivity?.data?.results?.slice(0, 10).map(activity => (
               <MenuItem key={activity.id} sx={recentActivityMenuList}>
                 {getActivityIcon(activity.type)}
                 <Stack>

@@ -33,14 +33,15 @@ export const PaymentVoucherHeadCells = [
   {
     id: 'total',
     disablePadding: true,
-    align: 'center',
-    label: <>&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Amount</>,
+    align: 'left',
+    label: 'Amount',
   },
   {
     id: 'over_payment',
     disablePadding: true,
-    align: 'center',
+    align: 'left',
     label: 'Unused Amount',
+    mregeCell: true,
   },
 ];
 

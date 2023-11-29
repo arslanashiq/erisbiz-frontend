@@ -25,7 +25,7 @@ function BankListing() {
       </Helmet>
       <MuiTable
         data={bankAccountListResponse?.isSuccess ? bankAccountListResponse?.data?.results : []}
-        totalDataCount={bankAccountListResponse?.data?.count}
+        totalDataCount={bankAccountListResponse?.data?.count || 0}
         TableHeading="Banking Overview"
         headCells={BankingHeadCells}
         actionButtonKey="is_active"

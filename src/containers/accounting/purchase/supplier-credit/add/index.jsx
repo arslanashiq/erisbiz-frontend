@@ -286,8 +286,8 @@ function AddSupplierCredit() {
                 <FormikSelect
                   name="debit_account_number"
                   options={bankAccountOptions}
-                  placeholder="Debit Account Number"
-                  label="Debit Acc No"
+                  placeholder="Debit Account"
+                  label="Debit Account"
                   isRequired
                   className="col-12"
                 />

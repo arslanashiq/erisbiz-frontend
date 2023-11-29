@@ -1,12 +1,11 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Button, Stack, Typography } from '@mui/material';
 import StyledDialog from 'styles/mui/component/StyledDialog';
 import { PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { useSelector } from 'react-redux';
 import MainComponent from '../components/MainComponent';
-import LogoAndCompanyInfo from '../components/LogoAndCompanyInfo';
 import PDFHeader from '../components/PDFHeader';
 
 const BORDER_COLOR = '#08517e';
@@ -61,6 +60,8 @@ function ReportsPdfPrintModal({
   isMultiReport,
   modifiedTableHead,
 }) {
+  const { name: companyName, logo: companyLogo } = useSelector(state => state.user.company);
+
   const handleClose = () => {
     setIsPrintModalOpen(false);
   };
@@ -151,7 +152,7 @@ function ReportsPdfPrintModal({
           <PDFViewer style={{ height: '75vh', width: '100%' }}>
             <MainComponent subject={reportTitle} title={reportTitle}>
               {/* header */}
-              <PDFHeader />
+              <PDFHeader companyName={companyName} companyLogo={companyLogo} />
               {isMultiReport
                 ? tableBody.map((body, index) => renderReport(modifiedTableHead[index], body, tableFooter[index]))
                 : renderReport(tableHeader, tableBody, tableFooter)}

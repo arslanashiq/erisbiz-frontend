@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { RibbonContainer, Ribbon } from 'react-ribbons';
 import { Button, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { useChangeTaxReturnStatusMutation, useGetTaxReturnDetailQuery } from 'services/private/reports';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-import { COMPANY_NAME, DATE_FILTER_REPORT } from 'utilities/constants';
+import { DATE_FILTER_REPORT } from 'utilities/constants';
 import TaxReturnDetailTable from './components/TaxReturnDetailTable';
 import {
   taxReturnDetailTableHeadCells,
@@ -23,7 +24,11 @@ import ChangeTaxReturnStatus from './components/ChangeTaxReturnStatus';
 function TaxReturnDetailReport() {
   const { id } = useParams();
   const { enqueueSnackbar } = useSnackbar();
+
+  const { name: companyName } = useSelector(state => state.user.company);
+
   const [openPopup, setOpenPopup] = useState(false);
+
   const taxResturnDetailResponse = useGetTaxReturnDetailQuery(id);
   const [changeTaxReturnStatus] = useChangeTaxReturnStatusMutation();
 
@@ -101,7 +106,7 @@ function TaxReturnDetailReport() {
               </CardContent>
             </Card>
             <Stack width="100%" justifyContent="center" textAlign="center" marginTop={5}>
-              <Typography fontSize={24}>{COMPANY_NAME}</Typography>
+              <Typography fontSize={24}>{companyName}</Typography>
               <Typography>
                 {moment(taxResturnDetailResponse?.data?.start_date).format(DATE_FILTER_REPORT)}-
                 {moment(taxResturnDetailResponse?.data?.end_date).format(DATE_FILTER_REPORT)}

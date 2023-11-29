@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import {
   COMPANY_ADDRESS,
@@ -30,11 +31,11 @@ const styles = StyleSheet.create({
   },
 });
 
-function LogoAndCompanyInfo() {
+function LogoAndCompanyInfo({ companyName, companyLogo }) {
   return (
     <View style={styles.header}>
-      <Image style={styles.logo} src="/logo.png" alt="Image" />
-      <Text style={styles.subtitle}>{COMPANY_NAME}</Text>
+      <Image style={styles.logo} src={companyLogo || '/logo.png'} alt="Image" />
+      <Text style={styles.subtitle}>{companyName || COMPANY_NAME}</Text>
       <Text style={styles.subtitle}>{COMPANY_OFFICE_ADDRESS}</Text>
       <Text style={styles.subtitle}>{COMPANY_ADDRESS}</Text>
       <Text style={styles.subtitle}>{COMPANY_COUNTRY}</Text>
@@ -44,5 +45,12 @@ function LogoAndCompanyInfo() {
     </View>
   );
 }
-
+LogoAndCompanyInfo.propTypes = {
+  companyName: PropTypes.string,
+  companyLogo: PropTypes.string,
+};
+LogoAndCompanyInfo.defaultProps = {
+  companyName: '',
+  companyLogo: '',
+};
 export default LogoAndCompanyInfo;

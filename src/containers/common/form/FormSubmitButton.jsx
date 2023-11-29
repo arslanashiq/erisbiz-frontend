@@ -4,7 +4,7 @@ import { useFormikContext } from 'formik';
 import { Button, Stack } from '@mui/material';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 
-function FormSubmitButton({ submitButtonTitle }) {
+function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonAction }) {
   const { isSubmitting, resetForm } = useFormikContext();
 
   return (
@@ -18,11 +18,16 @@ function FormSubmitButton({ submitButtonTitle }) {
 
         <Button
           color="secondary"
-          onClick={() => resetForm()}
+          onClick={() => {
+            if (clearButtonAction) {
+              clearButtonAction();
+            }
+            resetForm();
+          }}
           disabled={isSubmitting}
           className="text-capitalize"
         >
-          Clear
+          {clearButtonTitle}
         </Button>
       </Stack>
     </>
@@ -30,8 +35,12 @@ function FormSubmitButton({ submitButtonTitle }) {
 }
 FormSubmitButton.propTypes = {
   submitButtonTitle: PropTypes.string,
+  clearButtonTitle: PropTypes.string,
+  clearButtonAction: PropTypes.func,
 };
 FormSubmitButton.defaultProps = {
   submitButtonTitle: null,
+  clearButtonTitle: 'Clear',
+  clearButtonAction: null,
 };
 export default FormSubmitButton;

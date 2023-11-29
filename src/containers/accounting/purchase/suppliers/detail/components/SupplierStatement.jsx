@@ -14,20 +14,22 @@ import {
   COMPANY_ADDRESS,
   COMPANY_COUNTRY,
   COMPANY_EMAIL,
-  COMPANY_NAME,
   COMPANY_OFFICE_ADDRESS,
   COMPANY_PHONE,
 } from 'utilities/constants';
+import { useSelector } from 'react-redux';
 
 function SupplierStatement({ basicInfo, transactions }) {
+  const { name: companyName, logo: companyLogo } = useSelector(state => state.user.company);
+
   return (
     <Box className="statement-template">
       <Box className="d-flex justify-content-between">
         <Box className="w-50">
-          <img src="/logo.png" alt="" className="statement-logo" />
+          <img src={companyLogo} alt="" className="statement-logo" />
         </Box>
         <Box className="text-right">
-          <h5 className="font-weight-bold">{COMPANY_NAME}</h5>
+          <h5 className="font-weight-bold">{companyName}</h5>
           <p className="m-0">{COMPANY_OFFICE_ADDRESS}</p>
           <p className="m-0">{COMPANY_ADDRESS}</p>
           <p className="m-0">{COMPANY_COUNTRY}</p>

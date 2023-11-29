@@ -7,7 +7,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'store/slices/userSlice';
-import { Link } from 'react-router-dom';
 import { Box, Typography, Menu, MenuItem, Avatar, Stack } from '@mui/material';
 import {
   topbarIcon,
@@ -15,7 +14,7 @@ import {
   topbarProfileMenu,
   topbarProfileMenuItem,
   topbarProfileMenuItemIcon,
-  topbarProfileMenuItemLink,
+  // topbarProfileMenuItemLink,
   topbarProfileMenuItemOption,
   topbarProfileName,
 } from 'styles/mui/common/layouts/topbar/components/topbar-profile';
@@ -31,19 +30,26 @@ function TopbarProfile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogout = async () => {
-    localStorage.clear();
-    await dispatch(setUser({ isAuthenticated: false, user: { email: '', groups: [], profile: {} } }));
-    navigate('/auth/login');
-  };
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
+  const handleLogout = async () => {
+    localStorage.clear();
+    await dispatch(setUser({ isAuthenticated: false, user: { email: '', groups: [], profile: {} } }));
+    navigate('/auth/login');
+  };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleNavigate = link => {
+    handleClose();
+    if (link) {
+      setTimeout(() => {
+        navigate(link);
+      }, 400);
+    }
   };
   return (
     <>
@@ -65,21 +71,17 @@ function TopbarProfile() {
         }}
       >
         <Box sx={topbarProfileMenu}>
-          <MenuItem sx={topbarProfileMenuItem}>
-            <Link style={topbarProfileMenuItemLink} to="/pages/user/profile">
-              <Stack direction="row" spacing={2} alignItems="center">
-                <PermIdentityIcon sx={topbarProfileMenuItemIcon} />
-                <Typography sx={topbarProfileMenuItemOption}>My Profile</Typography>
-              </Stack>
-            </Link>
+          <MenuItem sx={topbarProfileMenuItem} onClick={() => handleNavigate('/user/profile')}>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <PermIdentityIcon sx={topbarProfileMenuItemIcon} />
+              <Typography sx={topbarProfileMenuItemOption}>My Account</Typography>
+            </Stack>
           </MenuItem>
-          <MenuItem sx={topbarProfileMenuItem}>
-            <Link style={topbarProfileMenuItemLink} to="/pages/user/calendar">
-              <Stack direction="row" spacing={2} alignItems="center">
-                <CalendarMonthIcon sx={topbarProfileMenuItemIcon} />
-                <Typography sx={topbarProfileMenuItemOption}>Calender</Typography>
-              </Stack>
-            </Link>
+          <MenuItem sx={topbarProfileMenuItem} onClick={() => handleNavigate('/user/calendar')}>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <CalendarMonthIcon sx={topbarProfileMenuItemIcon} />
+              <Typography sx={topbarProfileMenuItemOption}>Calender</Typography>
+            </Stack>
           </MenuItem>
           <MenuItem sx={topbarProfileMenuItem} onClick={handleLogout}>
             <Stack direction="row" spacing={2} alignItems="center">

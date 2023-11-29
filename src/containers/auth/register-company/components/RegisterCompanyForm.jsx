@@ -33,6 +33,7 @@ import {
 } from 'styles/mui/container/auth/register-company/components/register-company-form';
 // components
 import SecurityQuestions from './SecurityQuestions';
+import { CompanyFormValidationSchema } from '../utilities/validation-schema';
 
 function RegisterCompanyForm() {
   const dispatch = useDispatch();
@@ -70,6 +71,7 @@ function RegisterCompanyForm() {
         <Stack sx={registerCompanyFormWrapperStyle}>
           <Formik
             initialValues={registerCompanyInitialValues}
+            validationSchema={CompanyFormValidationSchema}
             onSubmit={async (values, { setSubmitting, setErrors }) => {
               try {
                 const response = await registerCompany(values);

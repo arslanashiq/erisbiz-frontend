@@ -8,10 +8,19 @@ import VoucherContent from './VoucherContent';
 import VoucherFooter from './VoucherFooter';
 import JournalVoucher from './JournalVoucher';
 
-function PdfDoc({ orderInfo, orderDetail, keyName, showItemsTable, showVoucherTable, showJournalVoucher }) {
+function PdfDoc({
+  orderInfo,
+  orderDetail,
+  keyName,
+  showItemsTable,
+  showVoucherTable,
+  showJournalVoucher,
+  companyName,
+  companyLogo,
+}) {
   return (
     <MainComponent subject={orderInfo.type} title={orderInfo.type}>
-      <PDFHeader orderInfo={orderInfo} />
+      <PDFHeader orderInfo={orderInfo} companyName={companyName} companyLogo={companyLogo} />
       {showItemsTable && (
         <>
           <Items orderDetail={orderDetail} subTotalName="Grand Total" keyName={keyName} />
@@ -44,12 +53,16 @@ PdfDoc.propTypes = {
   showItemsTable: PropTypes.bool,
   showVoucherTable: PropTypes.bool,
   showJournalVoucher: PropTypes.bool,
+  companyName: PropTypes.string,
+  companyLogo: PropTypes.string,
 };
 PdfDoc.defaultProps = {
   orderDetail: {},
   showItemsTable: true,
   showVoucherTable: false,
   showJournalVoucher: false,
+  companyLogo: '',
+  companyName: '',
 };
 
 export default PdfDoc;

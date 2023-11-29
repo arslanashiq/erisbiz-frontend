@@ -10,6 +10,9 @@ const SignUpPage = lazy(() => import('containers/auth/signup'));
 const RegisterCompanyPage = lazy(() => import('containers/auth/register-company'));
 const ForgetPasswordPage = lazy(() => import('containers/auth/ForgotPassword'));
 
+// USER
+const UserProfilePage = lazy(() => import('containers/user/profile'));
+
 // Private Routes
 const DashboardPage = lazy(() => import('containers/dashboard'));
 
@@ -198,6 +201,9 @@ function AppRoutes() {
 
             <Route path="/" element={<PrivateRoutes />}>
               <Route path="/" element={<DashboardPage />} />
+              <Route path="user" element={<Outlet />}>
+                <Route path="profile" element={<UserProfilePage />} />
+              </Route>
               <Route path="/pages" element={<Outlet />}>
                 {/* user info */}
                 <Route path="user" element={<ClanderPage />}>

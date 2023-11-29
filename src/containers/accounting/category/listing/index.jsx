@@ -56,6 +56,7 @@ function CategoryListing() {
       </Helmet>
       <MuiTable
         data={categoryListResponse?.isSuccess ? categoryListResponse?.data?.results : []}
+        totalDataCount={categoryListResponse?.data?.count || 0}
         TableHeading="Categories"
         handleEdit={(_, selected) => {
           navigate(`edit/${selected[0]}`);

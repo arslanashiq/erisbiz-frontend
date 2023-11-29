@@ -83,7 +83,7 @@ export default function MuiTable({
 
   const handleChangePage = (event, newPage) => {
     const search = new URLSearchParams(location.search);
-    search.set('offset', newPage);
+    search.set('offset', newPage * rowsPerPage);
     navigate({
       pathname: location.pathname,
       search: search.toString(),
@@ -209,7 +209,7 @@ export default function MuiTable({
             component="div"
             count={totalDataCount}
             rowsPerPage={handleGetPaginationData().limit || ROWS_PER_PAGE}
-            page={handleGetPaginationData().offset}
+            page={handleGetPaginationData().offset / rowsPerPage}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />

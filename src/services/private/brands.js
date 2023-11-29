@@ -3,7 +3,13 @@ import { privateApi } from './index';
 const brandsApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getBrandsList: builder.query({
-      query: () => '/api/brands/',
+      query: (params = {}) => ({
+        url: '/api/brands/',
+        params: {
+          limit: params.limit,
+          offset: params.offset || 0,
+        },
+      }),
       providesTags: ['getBrandsList'],
     }),
     getSingleBrand: builder.query({
