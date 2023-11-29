@@ -80,7 +80,7 @@ export const UnPaidBillsHeadCells = [
   {
     id: 'payment',
     disablePadding: true,
-    align: 'center',
+    align: 'left',
     label: 'Payment',
     isInput: true,
   },

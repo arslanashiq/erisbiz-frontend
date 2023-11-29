@@ -63,7 +63,7 @@ function MuiTableBody({
 
     // to show active status
     if (typeof row[cell.id] === 'boolean') {
-      return row[cell.id] ? 'Activated' : 'Inactive';
+      return row[cell.id] ? 'Active' : 'Inactive';
     }
 
     // simple value

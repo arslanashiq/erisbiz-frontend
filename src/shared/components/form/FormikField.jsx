@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 import { Box } from '@mui/material';
@@ -38,6 +38,13 @@ function FormikField({
     if (onBlur) onBlur(name, event.target.value);
   };
 
+  const inputValue = useMemo(() => {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    return value;
+  }, [value]);
+
   return (
     <Box className={`form__form-group ${className}`}>
       {label && (
@@ -53,7 +60,7 @@ function FormikField({
               {...restFieldProps}
               {...restProps}
               className={`${textRight ? 'text-right' : ''} ${inputClassName}`}
-              value={value || ''}
+              value={inputValue}
               onChange={handleChange}
               onBlur={handleBlur}
             />
@@ -64,7 +71,7 @@ function FormikField({
               {...restProps}
               type={type}
               className={`${textRight ? 'text-right' : ''} ${inputClassName}`}
-              value={value || ''}
+              value={inputValue}
               onChange={handleChange}
               onBlur={handleBlur}
             />

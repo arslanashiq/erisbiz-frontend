@@ -34,13 +34,9 @@ function AddItemPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { initialValues, queryResponse } = useInitialValues(
-    itemsInitialValues,
-    useGetSingleItemQuery,
-    'item_image'
-  );
+  const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
 
-  const [itemType, setItemType] = useState(id ? queryResponse?.itemType : initialValues?.item_type);
+  const [itemType, setItemType] = useState(initialValues?.item_type);
 
   const [addItem] = useAddItemMutation();
   const [editItem] = useEditItemMutation();

@@ -23,10 +23,6 @@ export const BankingHeadCells = [
     disablePadding: false,
     label: 'Status',
     align: 'left',
-    cellValueAction: value => {
-      if (value === true) return 'Activated';
-      return 'Deactivated';
-    },
   },
 ];
 
