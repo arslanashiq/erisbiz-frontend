@@ -14,6 +14,10 @@ const SideBarLinksList = [
     name: 'Dashboard',
     icon: <DashboardOutlinedIcon />,
     link: '/',
+  },
+  {
+    name: 'space',
+    link: '/',
     divider: true,
   },
   {

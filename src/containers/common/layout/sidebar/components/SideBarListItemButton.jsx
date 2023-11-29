@@ -15,7 +15,7 @@ function SideBarListItemButton({
     <ListItemButton
       divider={sideBarListItem.divider}
       sx={{
-        minHeight: 48,
+        maxHeight: 45,
         justifyContent: open ? 'initial' : 'center',
         px: isParent ? 2 : 0,
         paddingLeft: isParent ? 2 : 6,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import { NavLink } from 'react-router-dom';
@@ -34,34 +35,31 @@ function LargeScreenDrawer({
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List sx={{ width: DRAWER_WIDTH, paddingTop: 0 }}>
-        {AccountantSideBarLinks.map(sideBar => (
-          <div key={sideBar.name}>
-            <SideBarListItem
-              // onMouseEnter={() => {
-              //   setOpen(true);
-              // }}
-              // onMouseLeave={() => {
-              //   setOpen(false);
-              // }}
-              key={sideBar.name}
-              disablePadding
-              selected={checkActive(sideBar.link)}
-              sx={{ display: 'block' }}
-            >
-              {sideBar.children ? (
-                <SideBarListItemButton
-                  sideBarListItem={sideBar}
-                  open={open}
-                  setOpen={setOpen}
-                  showSideBarChildLink={showSideBarChildLink}
-                  setShowSideBarChildLink={setShowSideBarChildLink}
-                />
-              ) : (
-                <NavLink
-                  to={sideBar.link}
-                  style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}
-                >
+      <List sx={{ width: DRAWER_WIDTH, paddingTop: 2 }}>
+        {AccountantSideBarLinks.map(sideBar => {
+          if (sideBar.name === 'space') {
+            return (
+              <Box sx={{ padding: '10px 0px' }}>
+                <Box sx={{ borderBottom: 1, borderBottomColor: 'silver' }} />
+              </Box>
+            );
+          }
+
+          return (
+            <div key={sideBar.name}>
+              <SideBarListItem
+                // onMouseEnter={() => {
+                //   setOpen(true);
+                // }}
+                // onMouseLeave={() => {
+                //   setOpen(false);
+                // }}
+                key={sideBar.name}
+                disablePadding
+                selected={checkActive(sideBar.link)}
+                sx={{ display: 'block' }}
+              >
+                {sideBar.children ? (
                   <SideBarListItemButton
                     sideBarListItem={sideBar}
                     open={open}
@@ -69,23 +67,36 @@ function LargeScreenDrawer({
                     showSideBarChildLink={showSideBarChildLink}
                     setShowSideBarChildLink={setShowSideBarChildLink}
                   />
-                </NavLink>
-              )}
-            </SideBarListItem>
+                ) : (
+                  <NavLink
+                    to={sideBar.link}
+                    style={{ color: 'inherit', textDecoration: 'none', width: '100%' }}
+                  >
+                    <SideBarListItemButton
+                      sideBarListItem={sideBar}
+                      open={open}
+                      setOpen={setOpen}
+                      showSideBarChildLink={showSideBarChildLink}
+                      setShowSideBarChildLink={setShowSideBarChildLink}
+                    />
+                  </NavLink>
+                )}
+              </SideBarListItem>
 
-            {sideBar?.children?.length > 0 && (
-              <SideBarChildLinks
-                childList={sideBar.children}
-                open={open}
-                setOpen={setOpen}
-                index={sideBar.index}
-                checkActive={checkActive}
-                showSideBarChildLink={showSideBarChildLink}
-                setShowSideBarChildLink={setShowSideBarChildLink}
-              />
-            )}
-          </div>
-        ))}
+              {sideBar?.children?.length > 0 && (
+                <SideBarChildLinks
+                  childList={sideBar.children}
+                  open={open}
+                  setOpen={setOpen}
+                  index={sideBar.index}
+                  checkActive={checkActive}
+                  showSideBarChildLink={showSideBarChildLink}
+                  setShowSideBarChildLink={setShowSideBarChildLink}
+                />
+              )}
+            </div>
+          );
+        })}
       </List>
     </StyledDrawer>
   );
