@@ -28,6 +28,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getSingleProfomaInvoice',
         'getLatestSaleInvoice',
         'getItemInvoice',
+        'getItemsList',
       ],
     }),
     editSaleInvoices: builder.mutation({
@@ -43,6 +44,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getSingleProfomaInvoice',
         'getLatestSaleInvoice',
         'getItemInvoice',
+        'getItemsList',
       ],
     }),
     deleteSaleInvoice: builder.mutation({
@@ -58,6 +60,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         'getSingleProfomaInvoice',
         'getLatestSaleInvoice',
         'getItemInvoice',
+        'getItemsList',
       ],
     }),
     getLatestSaleInvoice: builder.query({
@@ -98,7 +101,12 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         method: 'PATCH',
       }),
       providesTags: ['changeSaleInvoiceStatusToSent'],
-      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicesList', 'getSaleInvoiceJournals'],
+      invalidatesTags: [
+        'getSingleSaleInvoice',
+        'getSaleInvoicesList',
+        'getSaleInvoiceJournals',
+        'getItemsList',
+      ],
     }),
     changeSaleInvoiceStatusToVoid: builder.mutation({
       query: ({ id, reason }) => ({

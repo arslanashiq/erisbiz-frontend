@@ -202,6 +202,12 @@
     }
   }
 }
+.user-profile {
+  *:disabled {
+    pointer-events: all;
+    cursor: auto;
+  }
+}
 
 .form__form-group {
   margin-bottom: 10px;

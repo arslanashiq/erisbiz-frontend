@@ -9,20 +9,19 @@ import 'styles/topbar/topbar-search-menu.scss';
 
 const searchOptions = [
   { link: 'items', label: 'Items' },
-  { link: 'sales/accounts', label: 'Accounts' },
+  { link: '/purchase/suppliers', label: 'Suppliers' },
+  { link: '/purchase/purchase-order', label: 'Purchase Orders' },
+  { link: '/purchase/purchase-invoice', label: 'Bills' },
+  { link: '/purchase/payment-voucehr', label: 'Payments Made' },
+  { link: '/purchase/debit-note', label: 'Debit Notes' },
+  { link: '/purchase/expenses', label: 'Expenses' },
   { link: 'sales/customers', label: 'Customers' },
   { link: 'sales/quotations', label: 'Quotations' },
-  { link: 'sales/proInvoices', label: 'Proforma Invoices' },
-  { link: 'sales/invoices', label: 'Invoices' },
-  { link: 'sales/paymentsReceived', label: 'Payments Received' },
-  { link: 'sales/creditNotes', label: 'Credit Notes' },
-  { link: 'purchases/suppliers', label: 'Suppliers' },
-  { link: 'purchases/expenses', label: 'Expenses' },
-  { link: 'purchases/purOrders', label: 'Purchase Orders' },
-  { link: 'purchases/bills', label: 'Bills' },
-  { link: 'purchases/paymentsMade', label: 'Payments Made' },
-  { link: 'purchases/supplierCredits', label: 'Debit Notes' },
-  { link: 'accountant/journals', label: 'Manual Journals' },
+  { link: 'sales/proforma-invoice', label: 'Proforma Invoices' },
+  { link: 'sales/sale-invoice', label: 'Invoices' },
+  { link: 'sales/payment-received', label: 'Payments Voucher' },
+  { link: 'sales/credit-note', label: 'Credit Notes' },
+  { link: 'accountant/manual-journal', label: 'Manual Journals' },
 ];
 
 function SearchBar() {

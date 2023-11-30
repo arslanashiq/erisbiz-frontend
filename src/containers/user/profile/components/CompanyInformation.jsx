@@ -30,22 +30,22 @@ function CompanyInformation({ companyData }) {
       validationSchema={CompanyFormValidationSchema}
     >
       <Box>
-        <Form className="form form--horizontal row pt-3">
+        <Form className={`${isDisabled ? 'user-profile' : 'form'} form form--horizontal row pt-3`}>
           <FormikField name="name" label="Company Name" className="col-12" isRequired disabled />
-          <FormikField name="vat_number" label="VAT Number" className="col-6" disabled={isDisabled} />
+          <FormikField name="vat_number" label="VAT Number" className="col-lg-6" disabled={isDisabled} />
           <FormikField
             name="trade_license_number"
             label="License #"
-            className="col-6"
+            className="col-lg-6"
             disabled={isDisabled}
           />
-          <FormikField name="phone" label="Phone Number" className="col-6" disabled={isDisabled} />
-          <FormikField name="website" label="Website" className="col-6" disabled={isDisabled} />
+          <FormikField name="phone" label="Phone Number" className="col-lg-6" disabled={isDisabled} />
+          <FormikField name="website" label="Website" className="col-lg-6" disabled={isDisabled} />
           <FormikSelect
             name="country"
             options={countriesList}
             label="Country"
-            className="col-6"
+            className="col-lg-6"
             disabled={isDisabled}
             isRequired
           />
@@ -53,7 +53,7 @@ function CompanyInformation({ companyData }) {
             name="currency"
             options={currenciesOption}
             label="Currency"
-            className="col-6"
+            className="col-lg-6"
             isRequired
             disabled
           />

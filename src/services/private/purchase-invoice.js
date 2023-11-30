@@ -58,7 +58,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['chagePurchaseInvoiceStatusToOpen'],
-      invalidatesTags: ['getPurchaseInvoiceList', 'getSinglePurchaseInvoice'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getSinglePurchaseInvoice', 'getItemsList'],
     }),
 
     editPurchaseInvoce: builder.mutation({

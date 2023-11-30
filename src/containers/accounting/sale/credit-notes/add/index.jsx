@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import * as Yup from 'yup';
 import { FieldArray, Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
@@ -45,8 +45,6 @@ function index() {
   const navigate = useNavigate();
   const { saleId } = getSearchParamsList();
 
-  const [selectedInoviceId, setSelectedInoviceId] = useState('');
-
   const receiptVouchersListResponse = useGetReceiptVoucherListQuery();
   const saleInvoiceListResponse = useGetSaleInvoicesListQuery();
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
@@ -72,14 +70,13 @@ function index() {
     label: 'bank_account_name',
   });
 
-  const { initialValues, isLoading, queryResponse, setInitialValues } = useInitialValues(
+  const { initialValues, isLoading } = useInitialValues(
     creditNoteInitialValues,
     useGetSingleCreditNoteQuery,
     null,
     true,
     false,
-    null,
-    selectedInoviceId ? { invoice: selectedInoviceId } : {}
+    null
   );
 
   const purchaseItemsInputList = useMemo(
@@ -150,31 +147,26 @@ function index() {
     return selectedInvoiceItemsList;
   };
 
-  // useEffect(() => {
-  //   if (
-  //     id &&
-  //     typeof initialValues.invoice === 'object' &&
-  //     saleInvoiceListResponse?.data?.results &&
-  //     receiptVouchersListResponse?.data?.results
-  //   ) {
-  //     handleChangeSaleInvoice(initialValues.invoice.id);
-  //     setInitialValues({ ...initialValues, invoice: initialValues.invoice.id });
-  //   }
-  // }, [initialValues, saleInvoiceListResponse, receiptVouchersListResponse]);
-
-  useEffect(() => {
-    if (id && queryResponse?.invoice?.id) {
-      setSelectedInoviceId(queryResponse?.invoice?.id);
+  const updatedInitialValues = useMemo(() => {
+    let newData = {
+      ...initialValues,
+    };
+    if (id && initialValues?.invoice?.id) {
+      newData = {
+        ...newData,
+        invoice: initialValues?.invoice?.id,
+        credit_note_items: initialValues?.invoice?.invoice_items?.map(invoiceItems => ({
+          ...invoiceItems,
+          invoice_num_nights: invoiceItems.num_nights,
+        })),
+      };
     }
-  }, [queryResponse]);
-
-  useEffect(() => {
     if (saleId && saleInvoiceListResponse?.data?.results) {
       const saleItemsData = handleChangeSaleInvoice(Number(saleId));
-      setInitialValues({ ...initialValues, invoice: Number(saleId), credit_note_items: saleItemsData });
+      newData = { ...newData, invoice: Number(saleId), credit_note_items: saleItemsData };
     }
-  }, [saleId, saleInvoiceListResponse]);
-
+    return newData;
+  }, [initialValues, saleId, saleInvoiceListResponse]);
   return (
     <SectionLoader
       options={[
@@ -204,7 +196,7 @@ function index() {
                 })
               ),
             })}
-            initialValues={initialValues}
+            initialValues={updatedInitialValues}
             onSubmit={async (values, { setErrors }) => {
               const payload = {
                 ...values,

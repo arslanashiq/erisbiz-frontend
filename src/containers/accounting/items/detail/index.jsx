@@ -62,7 +62,7 @@ function ItemDetail() {
         3,
         0,
         { label: 'Opening Stock', value: itemDetail?.opening_stock },
-        { label: 'Remaining Stock', value: itemDetail?.remaining_stock },
+        { label: 'Available Stock', value: itemDetail?.remaining_stock },
         { label: 'Weighted Cost Price', value: itemDetail?.weighted_cost_price }
       );
     }

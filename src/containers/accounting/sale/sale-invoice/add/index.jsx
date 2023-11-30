@@ -64,7 +64,7 @@ function AddInvoice() {
   const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
   const customerListResponse = useGetCustomersListQuery();
   const proformaInvoiceListResponse = useGetProformaInvoicesListQuery(
-    { customer: selectedCustomer, status: 'draft' },
+    { customer: selectedCustomer, status: id ? '' : 'draft' },
     { skip: !selectedCustomer }
   );
   const proformaInvoiceResponse = useGetSingleProformaInvoiceQuery(proformaInvoice, {
@@ -117,7 +117,7 @@ function AddInvoice() {
       },
       {
         name: 'remaining_stock',
-        placeholder: 'Remaining Stock',
+        placeholder: 'Available Stock',
         disabled: true,
         type: 'number',
       },
@@ -169,12 +169,25 @@ function AddInvoice() {
     ],
     [itemsListOptions]
   );
+  const handleGetStatus = () => {
+    if (proformaInvoice) {
+      return false;
+    }
+    if (id) {
+      return false;
+    }
 
+    return false;
+  };
   const handleChangeProfomaInvoice = (value, setFieldValue) => {
     const selectedProfomaInvoice = proformaInvoiceOptions.filter(perInv => perInv.value === value);
     setFieldValue(
       'invoice_items',
-      handleGetItemWithRemainingStock(selectedProfomaInvoice[0].pro_invoice_items, itemsListOptions, true)
+      handleGetItemWithRemainingStock(
+        selectedProfomaInvoice[0].pro_invoice_items,
+        itemsListOptions,
+        handleGetStatus()
+      )
     );
     setFieldValue('customer', selectedProfomaInvoice[0].customer);
     setFieldValue('quotation', selectedProfomaInvoice[0].quotation);
@@ -230,7 +243,7 @@ function AddInvoice() {
               invoice_items: handleGetItemWithRemainingStock(
                 initialValues?.invoice_items,
                 itemsListOptions,
-                true
+                handleGetStatus()
               ),
             }}
             validationSchema={saleInvoiceValidationSchema}

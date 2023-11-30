@@ -96,7 +96,7 @@ function AddQuotation() {
       },
       {
         name: 'remaining_stock',
-        placeholder: 'Remaining Stock',
+        placeholder: 'Available Stock',
         disabled: true,
         type: 'number',
       },

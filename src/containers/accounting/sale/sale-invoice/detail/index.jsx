@@ -152,13 +152,15 @@ function SaleInvoiceDetailPage() {
         },
       },
     ];
-    if (status === 'draft') {
+    if (status !== 'paid' && status !== 'partially paid') {
       actionsList.splice(0, 0, {
         label: 'Edit',
         handleClick: () => {
           navigate(`/pages/accounting/sales/sale-invoice/edit/${id}`);
         },
       });
+    }
+    if (status === 'draft') {
       actionsList.splice(actionsList.length - 1, 0, {
         label: 'Mark as sent',
         handleClick: () => {

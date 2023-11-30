@@ -93,11 +93,10 @@ function RegisterCompanyForm() {
               }
             }}
           >
-            {({ values, isSubmitting, setFieldValue }) => (
+            {({ values, isSubmitting, setFieldValue, touched, errors }) => (
               <Form>
                 <Stack sx={registerCompanyCompanyInnerFormWrapperStyle}>
                   <Grid container>
-                    {/* company Name */}
                     <MuiFormikField
                       name="name"
                       placeholder="Company Name"
@@ -105,10 +104,8 @@ function RegisterCompanyForm() {
                       size="small"
                       label="Company Name"
                     />
-                    {/* country,currency phone and logo */}
                     <Grid container columnSpacing={2}>
                       <Grid item xs={12} md={6}>
-                        {/* country */}
                         <FormikSelect
                           name="country"
                           placeholder="Country Name"
@@ -116,7 +113,6 @@ function RegisterCompanyForm() {
                           className="col-12 mt-2"
                           options={CountriesOptions}
                         />
-                        {/* currency */}
                         <FormikSelect
                           name="currency"
                           placeholder="Currency"
@@ -124,7 +120,6 @@ function RegisterCompanyForm() {
                           className="col-12 mt-2"
                           options={currenciesOption}
                         />
-                        {/* phone num */}
                         <MuiFormikField
                           name="phone"
                           placeholder="Phone"
@@ -133,9 +128,8 @@ function RegisterCompanyForm() {
                           className="mt-2"
                         />
                       </Grid>
-                      {/* logo */}
                       <Grid item xs={12} md={6} className="mt-2 col-md-6">
-                        <Typography>Company Logo</Typography>
+                        <Typography className="required">Company Logo</Typography>
                         <Stack
                           sx={registerCompanyCompanyLogoWrapperStyle}
                           onClick={() => {
@@ -163,6 +157,9 @@ function RegisterCompanyForm() {
                             onChange={e => handleChangeImage(e, setFieldValue)}
                           />
                         </Stack>
+                        {touched?.logo && errors?.logo && (
+                          <span className="form__form-group-error">{errors.logo}</span>
+                        )}
                       </Grid>
                     </Grid>
                     {/* Address */}

@@ -56,9 +56,9 @@ function SecurityQuestions({ name, form, push, remove, showLabel, useMuiField, d
                     disabled={disabled}
                   />
                 )}
-                {disabled ? (
+                {form?.values[name]?.length === 1 || disabled ? (
                   <IconButton
-                    disabled={disabled}
+                    disabled={form?.values[name]?.length === 1 || disabled}
                     onClick={() => remove(index)}
                     className={useMuiField ? 'pt-4' : 'mb-1 mt-1'}
                   >

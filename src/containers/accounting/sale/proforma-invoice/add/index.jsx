@@ -60,7 +60,7 @@ function AddProfomaInvoice() {
 
   const quotationResponse = useGetSingleQuotationQuery(quotationId, { skip: !quotationId });
   const quotationsListResponse = useGetQuotationsListQuery(
-    { customer: selectedCustomer, status: 'approved' },
+    { customer: selectedCustomer, status: id ? '' : 'approved' },
     { skip: !selectedCustomer }
   );
   const { initialValues, setInitialValues, queryResponse } = useInitialValues(
@@ -112,7 +112,7 @@ function AddProfomaInvoice() {
       },
       {
         name: 'remaining_stock',
-        placeholder: 'Remaining Stock',
+        placeholder: 'Available Stock',
         disabled: true,
         type: 'number',
       },
@@ -236,7 +236,7 @@ function AddProfomaInvoice() {
               pro_invoice_items: handleGetItemWithRemainingStock(
                 initialValues?.pro_invoice_items,
                 itemsListOptions,
-                id || false
+                false
               ),
             }}
             validationSchema={proformaInvoiceValidationSchema}

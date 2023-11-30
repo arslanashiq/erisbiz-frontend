@@ -19,7 +19,7 @@ function UserProfilePage() {
 
             <img
               style={{
-                width: '100%',
+                width: '95%',
                 minHeight: '100px',
                 maxHeight: '400px',
                 objectFit: 'contain',
