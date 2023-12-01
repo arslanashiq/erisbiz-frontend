@@ -33,7 +33,7 @@ function ItemDetail() {
     message: '',
     actionButton: false,
   });
-  const itemDetailResponse = useGetSingleItemQuery(id);
+  const itemDetailResponse = useGetSingleItemQuery(id, { refetchOnMountOrArgChange: true });
   const [handleDeleteItem] = useDeleteItemMutation();
 
   const handleClosePopup = () => {
@@ -59,7 +59,7 @@ function ItemDetail() {
   const itemStockInformation = [
     { label: 'Opening Stock', value: itemDetail?.opening_stock },
     { label: 'Available Stock', value: itemDetail?.remaining_stock },
-    { label: 'Forcated Stock', value: itemDetail?.forecast_stock },
+    { label: 'Forecated Stock', value: itemDetail?.forecast_stock },
     { label: 'Committed Stock', value: itemDetail?.committed_stock },
     { label: 'Weighted Cost Price', value: itemDetail?.weighted_cost_price },
   ];
