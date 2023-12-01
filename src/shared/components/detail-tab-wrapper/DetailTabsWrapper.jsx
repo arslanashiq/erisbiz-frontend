@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Tab, Tabs } from '@mui/material';
 import a11yProps from 'utilities/allyProps';
 
-function DetailTabsWrapper({ activeTab, setActiveTab, className, tabsList, children }) {
+function DetailTabsWrapper({ activeTab, setActiveTab, className, tabsList, tabStyles, children }) {
   const handleChange = (_, newValue) => {
     setActiveTab(newValue);
   };
@@ -18,7 +18,7 @@ function DetailTabsWrapper({ activeTab, setActiveTab, className, tabsList, child
           aria-label="basic tabs example"
         >
           {tabsList.map((tab, index) => (
-            <Tab key={tab} label={tab} {...a11yProps(index)} />
+            <Tab sx={tabStyles} key={tab} label={tab} {...a11yProps(index)} />
           ))}
         </Tabs>
       </Box>
@@ -34,8 +34,10 @@ DetailTabsWrapper.propTypes = {
   tabsList: PropTypes.array.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  tabStyles: PropTypes.object,
 };
 DetailTabsWrapper.defaultProps = {
   className: '',
+  tabStyles: {},
 };
 export default DetailTabsWrapper;

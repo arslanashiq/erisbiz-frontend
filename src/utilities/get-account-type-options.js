@@ -9,7 +9,7 @@ export function getAccountTypesOptions(accountTypes, groupIndex = [2], key = 'ac
   const typeOptions = groups[groupIndex].map(group => ({
     label: group,
     options: accountTypes
-      .filter(type => type[key] === group.toLowerCase())
+      .filter(type => type[key] === group?.toLowerCase())
       .map(item => ({
         label: item.label,
         value: item.value,

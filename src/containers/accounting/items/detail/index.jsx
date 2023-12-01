@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
@@ -45,29 +45,24 @@ function ItemDetail() {
 
   const itemDetail = itemDetailResponse?.data;
 
-  const customItemDetail = useMemo(() => {
-    const itemDetailInfo = [
-      { label: 'Item Type', value: itemDetail?.item_type },
-      { label: 'Creation Data', value: moment(itemDetail?.created_at).format(DATE_FORMAT) },
-      {
-        label: 'Item Status',
-        value: itemDetail?.is_active ? 'Activated' : 'Deactivated',
-        className: itemDetail?.is_active ? 'color-success' : 'color-danger',
-      },
-      { label: 'Cost Price', value: itemDetail?.cost_price },
-      { label: 'Sale Price', value: itemDetail?.sale_price },
-    ];
-    if (itemDetail?.item_type === 'Goods') {
-      itemDetailInfo.splice(
-        3,
-        0,
-        { label: 'Opening Stock', value: itemDetail?.opening_stock },
-        { label: 'Available Stock', value: itemDetail?.remaining_stock },
-        { label: 'Weighted Cost Price', value: itemDetail?.weighted_cost_price }
-      );
-    }
-    return itemDetailInfo;
-  }, [itemDetail]);
+  const itemDetailInfo = [
+    { label: 'Item Type', value: itemDetail?.item_type },
+    { label: 'Creation Data', value: moment(itemDetail?.created_at).format(DATE_FORMAT) },
+    {
+      label: 'Item Status',
+      value: itemDetail?.is_active ? 'Activated' : 'Deactivated',
+      className: itemDetail?.is_active ? 'color-success' : 'color-danger',
+    },
+    { label: 'Cost Price', value: itemDetail?.cost_price },
+    { label: 'Sale Price', value: itemDetail?.sale_price },
+  ];
+  const itemStockInformation = [
+    { label: 'Opening Stock', value: itemDetail?.opening_stock },
+    { label: 'Available Stock', value: itemDetail?.remaining_stock },
+    { label: 'Forcated Stock', value: itemDetail?.forecast_stock },
+    { label: 'Committed Stock', value: itemDetail?.committed_stock },
+    { label: 'Weighted Cost Price', value: itemDetail?.weighted_cost_price },
+  ];
   const handleClickEdit = () => {
     if (itemDetail.is_active) {
       setPopup({ ...popup, open: true, message: 'Item is Active please deactive it first' });
@@ -143,7 +138,11 @@ function ItemDetail() {
           tabsList={['Overview', 'Transactions']}
         >
           {activeTab === 0 && (
-            <ItemOverViewTab itemDetail={customItemDetail} itemImage={itemDetail?.item_image} />
+            <ItemOverViewTab
+              itemDetail={itemDetailInfo}
+              itemStock={itemStockInformation}
+              itemImage={itemDetail?.item_image}
+            />
           )}
           {activeTab === 1 && <ItemTransactionsTab />}
         </DetailTabsWrapper>

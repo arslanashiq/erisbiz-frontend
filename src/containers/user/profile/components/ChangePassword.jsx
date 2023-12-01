@@ -32,11 +32,12 @@ function ChangePassword({ userData }) {
       })}
     >
       <Form className="form form--horizontal row pt-3">
-        <FormikField name="email" label="Email" className="col-12" type="email" isRequired disabled />
+        <FormikField name="email" label="Email" placeholder="Email" className="col-md-6" type="email" isRequired disabled />
         <FormikField
           name="old_password"
           label="Old Password"
-          className="col-12"
+          placeholder="Old Password"
+          className="col-md-6"
           type={showOldPasword ? 'text' : 'password'}
           endIcon={showOldPasword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
           endIconClick={() => setShowOldPasword(!showOldPasword)}
@@ -45,6 +46,7 @@ function ChangePassword({ userData }) {
         <FormikField
           name="new_password"
           label="New Password"
+          placeholder="New Password"
           className="col-12"
           type={showNewPasword ? 'text' : 'password'}
           endIcon={showNewPasword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
@@ -54,6 +56,7 @@ function ChangePassword({ userData }) {
         <FormikField
           name="confirm_new_password"
           label="Confirm New Password"
+          placeholder="Confirm New Password"
           className="col-12"
           type={showNewConfirmPassword ? 'text' : 'password'}
           endIcon={showNewConfirmPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}

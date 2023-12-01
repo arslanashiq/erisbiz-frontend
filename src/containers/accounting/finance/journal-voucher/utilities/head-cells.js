@@ -31,7 +31,7 @@ export const journalVoucherHeadCells = [
     align: 'left',
     class: value => {
       if (!value) return '';
-      const temp = value.toLowerCase();
+      const temp = value?.toLowerCase();
       if (temp === 'invoiced') return 'color-primary';
       if (temp === 'draft') return 'color-silver';
       if (temp === 'cancelled') return 'color-danger';

@@ -58,7 +58,7 @@ export const handleChangeCostPrice = (name, index, key, value, values, setFieldV
     cost_price: value,
     credit_account: allValues.credit_account,
   };
-  setFieldValue(`${name}.${index}.cost_price`, Number(value));
+  setFieldValue(`${name}.${index}.cost_price`, value);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeUnitPrice = (name, index, key, value, values, setFieldValue, allValues) => {
@@ -67,7 +67,7 @@ export const handleChangeUnitPrice = (name, index, key, value, values, setFieldV
     unit_price_ex_vat: value,
     credit_account: allValues.credit_account,
   };
-  setFieldValue(`${name}.${index}.unit_price_ex_vat`, Number(value));
+  setFieldValue(`${name}.${index}.unit_price_ex_vat`, value);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeQuantity = (name, index, key, value, values, setFieldValue, allValues) => {
@@ -77,7 +77,7 @@ export const handleChangeQuantity = (name, index, key, value, values, setFieldVa
     num_units: value,
     credit_account: allValues.credit_account,
   };
-  setFieldValue(`${name}.${index}.num_units`, Number(value));
+  setFieldValue(`${name}.${index}.num_units`, value);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const hanldeVATChange = (name, index, key, value, values, setFieldValue, allValues) => {
@@ -85,7 +85,7 @@ export const hanldeVATChange = (name, index, key, value, values, setFieldValue, 
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeDiscount = (name, index, key, value, values, setFieldValue, allValues) => {
-  const newValues = { ...values, discount: Number(value), credit_account: allValues.credit_account };
+  const newValues = { ...values, discount: value, credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeChartOfAccount = (value, allValues, key, setFieldValue) => {

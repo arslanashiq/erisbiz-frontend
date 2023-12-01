@@ -13,7 +13,7 @@ export const CompanyFormValidationSchema = Yup.object({
   remarks: Yup.string(),
   logo: Yup.mixed()
     .required('Logo is required')
-    .test('is-valid-type', 'Not a valid image type', value => isValidFileType(value && value.name.toLowerCase(), 'image')),
+    .test('is-valid-type', 'Not a valid image type', value => isValidFileType(value?.name?.toLowerCase(), 'image')),
   total: Yup.number().min(0),
 
   security_question: Yup.array().of(

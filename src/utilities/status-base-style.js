@@ -7,7 +7,7 @@ const yellowColor = { color: '#E7CF7E' };
 
 export const handleGetStatusBaseStyle = status => {
   if (!status) return '';
-  const value = status.toLowerCase();
+  const value = status?.toLowerCase();
   // purchase order
   if (value === 'issued') return greenColor;
   if (value === 'closed') return redColor;
@@ -38,7 +38,7 @@ export const handleGetStatusBaseStyle = status => {
 };
 export const handleGetStatusBaseClass = status => {
   if (!status) return '';
-  const value = status.toLowerCase();
+  const value = status?.toLowerCase();
   // purchase order
   if (value === 'issued') return 'color-primary';
   if (value === 'closed') return 'color-danger';

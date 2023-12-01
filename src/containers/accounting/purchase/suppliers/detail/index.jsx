@@ -100,7 +100,7 @@ function SupplierDetail() {
   );
 
   const handleChangeActivityDuration = value => {
-    setActivityLogDuration(value.toLowerCase());
+    setActivityLogDuration(value?.toLowerCase());
   };
   const handleClosePopup = () => {
     setPopup({ ...popup, open: false });

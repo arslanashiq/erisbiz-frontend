@@ -122,7 +122,7 @@ export default function MuiTable({
       if (checkStatusBeforeEdit) {
         const isEditable =
           selectedData[0]?.status &&
-          editableStatusList.some(option => selectedData[0]?.status.toLowerCase().includes(option));
+          editableStatusList.some(option => selectedData[0]?.status?.toLowerCase()?.includes(option));
 
         if (isEditable) {
           navigate(`edit/${selected[0]}`);
