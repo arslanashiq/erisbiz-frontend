@@ -258,6 +258,7 @@ function AddQuotation() {
                 type="text"
                 placeholder="Sales Person"
                 label="Sales Person"
+                isRequired
               />
 
               {/* Location */}

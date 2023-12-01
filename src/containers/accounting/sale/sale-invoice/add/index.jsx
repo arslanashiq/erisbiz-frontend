@@ -329,6 +329,7 @@ function AddInvoice() {
                   type="text"
                   placeholder="Sales Person"
                   label="Sales Person"
+                  isRequired
                 />
                 <FormikFileField
                   name="invoice_docs"

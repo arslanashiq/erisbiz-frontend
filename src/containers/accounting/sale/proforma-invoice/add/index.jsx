@@ -322,6 +322,7 @@ function AddProfomaInvoice() {
                   type="text"
                   placeholder="Sales Person"
                   label="Sales Person"
+                  isRequired
                 />
 
                 <FormikFileField
