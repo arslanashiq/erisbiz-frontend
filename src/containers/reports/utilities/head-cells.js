@@ -415,16 +415,33 @@ export const activityLogsHeadCells = [
     style: { textAlign: 'left' },
   },
   {
-    title: 'ACTIVITY DETAILS',
+    title: 'Method',
+    style: { textAlign: 'left' },
   },
   {
-    title: 'DESCRIPTION',
+    title: 'Response Status',
+    style: { textAlign: 'left' },
+  },
+  {
+    title: 'IP Address',
+    style: { textAlign: 'left' },
+  },
+  {
+    title: 'User Email',
+    style: { textAlign: 'left' },
+  },
+  {
+    title: 'payload',
     style: { textAlign: 'left' },
   },
 ];
 export const activityLogsExcelHeadCells = [
   {
     title: 'DATE',
+    style: { textAlign: 'left' },
+  },
+  {
+    title: 'Request Method',
     style: { textAlign: 'left' },
   },
   {

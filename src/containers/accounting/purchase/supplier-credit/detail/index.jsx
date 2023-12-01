@@ -113,7 +113,6 @@ function SupplierCreditDetail() {
   const handleRefundSupplierCredit = async (values, { setErrors }) => {
     const payload = {
       bill_credit_notes: [{ ...values }],
-      credit_note_id: id,
       supplier_credit_id: id,
     };
     const response = await refundSupplierCredit(payload);

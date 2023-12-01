@@ -1,84 +1,62 @@
-/* eslint-disable react/jsx-filename-extension */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
-import { activityLogsExcelHeadCells } from 'containers/reports/utilities/head-cells';
-import { Box } from '@mui/material';
 
 function useActivityLogsData(activityLogsResponse) {
-  const getLink = item => {
-    if (item.activity_type === 'Supplier') {
-      return `/pages/accounting/purchase/suppliers/${item.module_id}/detail`;
-    }
-    if (item.activity_type === 'Purchase Order') {
-      return `/pages/accounting/purchase/purchase-orders/${item.module_id}/detail`;
-    }
-    if (item.activity_type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.module_id}/detail`;
-    }
-    if (item.activity_type === 'Payment Made') {
-      return `/pages/accounting/purchase/payment-voucher/${item.module_id}/detail`;
-    }
-    if (item.activity_type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.module_id}/detail`;
-    }
+  // const getLink = item => {
+  //   if (item.activity_type === 'Supplier') {
+  //     return `/pages/accounting/purchase/suppliers/${item.module_id}/detail`;
+  //   }
+  //   if (item.activity_type === 'Purchase Order') {
+  //     return `/pages/accounting/purchase/purchase-orders/${item.module_id}/detail`;
+  //   }
+  //   if (item.activity_type === 'Bill') {
+  //     return `/pages/accounting/purchase/purchase-invoice/${item.module_id}/detail`;
+  //   }
+  //   if (item.activity_type === 'Payment Made') {
+  //     return `/pages/accounting/purchase/payment-voucher/${item.module_id}/detail`;
+  //   }
+  //   if (item.activity_type === 'Debit Note') {
+  //     return `/pages/accounting/purchase/debit-notes/${item.module_id}/detail`;
+  //   }
 
-    if (item.activity_type === 'Customer') {
-      return `/pages/accounting/sales/customers/${item.customer__id}/detail`;
-    }
+  //   if (item.activity_type === 'Customer') {
+  //     return `/pages/accounting/sales/customers/${item.customer__id}/detail`;
+  //   }
 
-    if (item.activity_type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.module_id}/detail`;
-    }
-    return false;
-  };
-  const { tableBody, modifiedTableBody } = useMemo(() => {
+  //   if (item.activity_type === 'Invoice') {
+  //     return `/pages/accounting/sales/sale-invoice/${item.module_id}/detail`;
+  //   }
+  //   return false;
+  // };
+  const { tableBody } = useMemo(() => {
     const body = [];
     const modifiedBody = [];
-    activityLogsResponse?.data?.data.forEach(item => {
+    activityLogsResponse?.data?.results.forEach(item => {
       body.push([
         {
-          value: moment(item.date).format('DD MMM YYYY HH:MM'),
+          value: moment(item.datetime).format('DD MMM YYYY'),
           style: { textAlign: 'start' },
         },
         {
-          value: item.activity_type,
+          value: item.request_method,
+          style: { textAlign: 'start' },
         },
         {
-          value: getLink(item) ? (
-            <>
-              <Link to={getLink(item)}>{item.module_num}</Link>
-              <Box>{item.description}</Box>
-              <Box className="font-weight-bold">by {item.created_by}</Box>
-            </>
-          ) : (
-            <>
-              <Box>{item.module_num}</Box>
-              <Box>{item.description}</Box>
-              <Box className="font-weight-bold">by {item.created_by}</Box>
-            </>
-          ),
+          value: item.response_code,
+          style: { textAlign: 'start' },
+        },
 
+        {
+          value: item.ip_address,
           style: { textAlign: 'start' },
         },
-      ]);
-      modifiedBody.push([
+
         {
-          value: moment(item.date).format('DD MMM YYYY HH:MM'),
-          style: { textAlign: 'start' },
-        },
-        {
-          value: item.activity_type,
-        },
-        {
-          value: item?.customer__sales_account_name || 'N/A',
-        },
-        {
-          value: item.description,
+          value: item.user,
           style: { textAlign: 'start' },
         },
         {
-          value: item.created_by,
+          value: item.payload,
           style: { textAlign: 'start' },
         },
       ]);
@@ -92,8 +70,6 @@ function useActivityLogsData(activityLogsResponse) {
   return {
     tableBody,
     tableFooter: [],
-    modifiedTableHead: activityLogsExcelHeadCells,
-    modifiedTableBody,
   };
 }
 

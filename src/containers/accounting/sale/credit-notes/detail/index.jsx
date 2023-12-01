@@ -1,23 +1,32 @@
 import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import moment from 'moment';
+import { useSnackbar } from 'notistack';
 import React, { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { useDeleteCreditNoteMutation, useGetSingleCreditNoteQuery } from 'services/private/credit-notes';
+import {
+  useDeleteCreditNoteMutation,
+  useGetSingleCreditNoteQuery,
+  useRefundCreditNoteMutation,
+} from 'services/private/credit-notes';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
+import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 
 const keyValue = 'credit_note_items';
 function CreditNoteDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
+  const [openRefundModal, setOpenRefundModal] = useState(false);
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
 
+  const [refundCreditNote] = useRefundCreditNoteMutation();
   const creditNoteDetailResponse = useGetSingleCreditNoteQuery(id);
   const orderInfo = useMemo(
     () => ({
@@ -83,19 +92,46 @@ function CreditNoteDetail() {
         },
       },
     ];
-    // if (creditNoteDetailResponse?.data?.status === 'open') {
-    //   actionList.push({
-    //     label: 'Refund',
-    //     divider: true,
-    //     handleClick: () => {
-    //       // setOpenRefundModal(true);
-    //     },
-    //   });
-    // }
+    if (creditNoteDetailResponse?.data?.status === 'open') {
+      actionList.push({
+        label: 'Refund',
+        divider: true,
+        handleClick: () => {
+          setOpenRefundModal(true);
+        },
+      });
+      actionList.push({
+        label: 'Apply to Invoice',
+        handleClick: () => {
+          navigate(
+            `/pages/accounting/sales/receipt-voucher/add?customerId=${creditNoteDetailResponse?.data?.invoice?.customer_info?.id}`
+          );
+        },
+      });
+    }
     return actionList;
   }, [creditNoteDetailResponse]);
+  const handleCreditNote = async (values, { setErrors }) => {
+    const payload = {
+      invoice_credit_notes: [{ ...values }],
+      credit_note_id: id,
+    };
+    const response = await refundCreditNote(payload);
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    enqueueSnackbar('Credit Note Updated', { variant: 'success' });
+    setOpenRefundModal(false);
+  };
   return (
     <SectionLoader options={[creditNoteDetailResponse.isLoading]}>
+      <RefundDialog
+        open={openRefundModal}
+        setOpen={setOpenRefundModal}
+        handleRefund={handleCreditNote}
+        maxAmount={creditNoteDetailResponse?.data?.credits_remaining}
+      />
       <DetailPageHeader
         title={`Credit Note: #${creditNoteDetailResponse?.data?.credit_note_formatted_number}`}
         // filesList={creditNoteDetailResponse?.data?.quotation_docs}

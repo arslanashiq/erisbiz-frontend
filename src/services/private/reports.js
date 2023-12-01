@@ -455,7 +455,7 @@ const reportsApi = privateApi.injectEndpoints({
     // activity
     getActivityLogs: builder.query({
       query: params => ({
-        url: 'api/activity/log/report',
+        url: '/api/user/custom/logs',
         method: 'GET',
         params,
       }),

@@ -40,6 +40,14 @@ const creditNotesApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getCreditNotesList', 'getSingleCreditNote', 'getItemCreditNote'],
     }),
+    refundCreditNote: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/sales/creditnote/amountapply',
+        method: 'Post',
+        body: payload,
+      }),
+      invalidatesTags: ['getCreditNotesList', 'getSingleCreditNote', 'getItemCreditNote'],
+    }),
   }),
 });
 
@@ -49,5 +57,6 @@ export const {
   useAddCreditNoteMutation,
   useEditCreditNoteMutation,
   useDeleteCreditNoteMutation,
+  useRefundCreditNoteMutation,
 } = creditNotesApi;
 export const test = '';

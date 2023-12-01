@@ -37,7 +37,7 @@ import { paymentVoucherFormValidationSchema } from '../utilities/validation-sche
 
 function addPaymentVoucher() {
   const { id } = useParams();
-  const { supplierId } = getSearchParamsList();
+  const { supplierId, debitAmount } = getSearchParamsList();
   const navigate = useNavigate();
 
   const [selectedSupplier, setSelectedSupplier] = useState(supplierId || null);
@@ -95,6 +95,7 @@ function addPaymentVoucher() {
         used_amount: initialValues.total - initialValues.unused_amount,
         bill_payments: billPayment,
         supplier_id: Number(selectedSupplierId),
+        total: debitAmount ? Number(debitAmount) : 0,
       });
     }
   };
@@ -109,6 +110,7 @@ function addPaymentVoucher() {
       handleChangeSupplier(selectedSupplier, initialValues);
     }
   }, [selectedSupplier]);
+
   return (
     <SectionLoader options={[supplierListResponse.isLoading, bankAccountListResponse.isLoading]}>
       <Card>
@@ -165,6 +167,7 @@ function addPaymentVoucher() {
                   type="number"
                   startIcon={<AttachMoneyIcon />}
                   placeholder="Amount"
+                  disabled={Boolean(debitAmount)}
                   label="Amount"
                 />
 
