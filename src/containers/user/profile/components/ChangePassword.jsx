@@ -13,7 +13,7 @@ import { EMAIL_REGEX } from 'utilities/constants';
 function ChangePassword({ userData }) {
   const [showOldPasword, setShowOldPasword] = useState(false);
   const [showNewPasword, setShowNewPasword] = useState(false);
-  const [showNewConfirmPassword, setShowNewConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <Formik
       initialValues={{
@@ -26,13 +26,21 @@ function ChangePassword({ userData }) {
         email: Yup.string().matches(EMAIL_REGEX, 'Must be a valid Email').required('Email is required'),
         old_password: Yup.string().required('Old Password is required'),
         new_password: Yup.string().required('New Password is required'),
-        confirm_new_password: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'New Password and Confirm New Password not match')
+        confirm_password: Yup.string()
+          .oneOf([Yup.ref('password'), null], 'New Password and Confirm Password not match')
           .required('Confirm Password is required'),
       })}
     >
       <Form className="form form--horizontal row pt-3">
-        <FormikField name="email" label="Email" placeholder="Email" className="col-md-6" type="email" isRequired disabled />
+        <FormikField
+          name="email"
+          label="Email"
+          placeholder="Email"
+          className="col-md-6"
+          type="email"
+          isRequired
+          disabled
+        />
         <FormikField
           name="old_password"
           label="Old Password"
@@ -54,13 +62,13 @@ function ChangePassword({ userData }) {
           isRequired
         />
         <FormikField
-          name="confirm_new_password"
-          label="Confirm New Password"
-          placeholder="Confirm New Password"
+          name="confirm_password"
+          label="Confirm Password"
+          placeholder="Confirm Password"
           className="col-12"
-          type={showNewConfirmPassword ? 'text' : 'password'}
-          endIcon={showNewConfirmPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
-          endIconClick={() => setShowNewConfirmPassword(!showNewConfirmPassword)}
+          type={showConfirmPassword ? 'text' : 'password'}
+          endIcon={showConfirmPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
+          endIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
           isRequired
         />
         <FormSubmitButton />
