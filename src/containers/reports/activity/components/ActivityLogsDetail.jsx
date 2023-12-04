@@ -1,7 +1,6 @@
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable react/prop-types */
 import React, { useMemo } from 'react';
 import moment from 'moment';
+import { v4 as uuid } from 'uuid';
 import { useNavigate, useParams } from 'react-router';
 import {
   Button,
@@ -110,29 +109,27 @@ function ActivityLogsDetail() {
     return 'value';
   };
 
-  const renderObject = (payloadInfo, spaceCount) =>
-    Object.keys(payloadInfo).map(key => {
-      if (isValidValue(payloadInfo[key]) === 'list') {
-        return payloadInfo[key]?.map((pay, index) => (
-          <>
-            <li>
-              {key}[{index}]
-            </li>
-            <ul>{renderObject(pay, spaceCount + 1)}</ul>
-          </>
-        ));
-      }
-      if (isValidValue(payloadInfo[key]) === 'object') {
-        return (
-          <>
-            <li>{key}</li>
-            {renderObject(payloadInfo[key], spaceCount + 1)}
-          </>
-        );
-      }
-      return <li>{`${key} : ${renderValue(payloadInfo[key])}`}</li>;
-    });
-
+  const renderObject = (payloadInfo, spaceCount) => Object.keys(payloadInfo).map(key => {
+    if (isValidValue(payloadInfo[key]) === 'list') {
+      return payloadInfo[key]?.map((pay, index) => (
+        <ul key={uuid()}>
+          <li>
+            {key}[{index}]
+          </li>
+          <ul>{renderObject(pay, spaceCount + 1)}</ul>
+        </ul>
+      ));
+    }
+    if (isValidValue(payloadInfo[key]) === 'object') {
+      return (
+        <ul key={uuid()}>
+          <li>{key}</li>
+          {renderObject(payloadInfo[key], spaceCount + 1)}
+        </ul>
+      );
+    }
+    return <li key={uuid()}>{`${key} : ${renderValue(payloadInfo[key])}`}</li>;
+  });
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>
@@ -145,7 +142,7 @@ function ActivityLogsDetail() {
             <Table>
               <TableBody>
                 {activityDetailInfo.map(row => (
-                  <TableRow key={row.label}>
+                  <TableRow key={uuid()}>
                     <TableCell sx={bankDetailPopupInfoTitleStyle}>{row.label}</TableCell>
                     <TableCell sx={{ ...bankDetailPopupInfoBodyStyle, fontWeight: 400 }}>
                       {row.value || 'N/A'}
@@ -153,7 +150,7 @@ function ActivityLogsDetail() {
                   </TableRow>
                 ))}
                 {activityDetail?.payload && payload && (
-                  <TableRow>
+                  <TableRow key={uuid()}>
                     <TableCell sx={bankDetailPopupInfoTitleStyle}>Payload</TableCell>
                     <TableCell
                       sx={{
@@ -164,7 +161,7 @@ function ActivityLogsDetail() {
                     </TableCell>
                   </TableRow>
                 )}
-                {activityDetail?.payload && !payload && (
+                {/* {activityDetail?.payload && !payload && (
                   <TableRow>
                     <TableCell sx={bankDetailPopupInfoTitleStyle}>Payload</TableCell>
                     <TableCell
@@ -175,7 +172,7 @@ function ActivityLogsDetail() {
                       <ul>{activityDetail.payload}</ul>
                     </TableCell>
                   </TableRow>
-                )}
+                )} */}
               </TableBody>
             </Table>
           </DialogContent>
