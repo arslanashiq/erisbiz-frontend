@@ -111,7 +111,7 @@ export const activity = {
   reports: [
     {
       label: 'Activity Logs',
-      link: '/pages/reports/activity-logs?duration=this+month',
+      link: '/pages/reports/activity-logs?duration=today',
     },
   ],
 };

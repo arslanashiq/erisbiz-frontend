@@ -43,7 +43,6 @@ function useGetTrialBalanceData(trialBalanceResponse) {
       };
     }
     finalSortedData?.asset?.forEach(item => {
-      console.log(item, 'djkslaaksdlksa');
       body.push([
         {
           value: <RenderItemCell item={item} handleChanageData={handleChanage} />,

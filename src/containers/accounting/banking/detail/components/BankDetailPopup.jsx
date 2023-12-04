@@ -29,7 +29,7 @@ import {
   bankingDetailPopupStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 
-const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
+export const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
 
 function BankDetailPopup({ open, setOpen, bankDetail }) {
   const [infoPopup, setInfoPopup] = useState({

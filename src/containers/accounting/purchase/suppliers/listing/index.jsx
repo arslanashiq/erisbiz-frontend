@@ -64,7 +64,6 @@ function SupplierListing() {
       handleDeleteResponse(deleteSupplier, id, enqueueSnackbar, 'Supplier Deleted Successfully');
     });
   };
-  console.log(suppliersListingResponse, 'suppliersListingResponse');
   return (
     <>
       <Helmet>

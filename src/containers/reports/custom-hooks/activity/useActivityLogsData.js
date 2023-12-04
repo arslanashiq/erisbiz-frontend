@@ -28,14 +28,34 @@ function useActivityLogsData(activityLogsResponse) {
   //   }
   //   return false;
   // };
+  const getEndpoint = endpointValue => {
+    let endpoint = endpointValue;
+    try {
+      if (endpoint?.includes('/api/')) {
+        [, endpoint] = endpoint.split('/api/');
+      }
+      if (endpoint?.includes('?')) {
+        [endpoint] = endpoint.split('?');
+      }
+      return endpoint;
+    } catch (error) {
+      return endpoint;
+    }
+  };
   const { tableBody } = useMemo(() => {
     const body = [];
     const modifiedBody = [];
     activityLogsResponse?.data?.results.forEach(item => {
       body.push([
         {
-          value: moment(item.datetime).format('DD MMM YYYY'),
+          value: moment(item.datetime).format('DD-MMM-YY hh:mm A'),
           style: { textAlign: 'start' },
+        },
+        {
+          value: getEndpoint(item.request_url),
+          link: `${window.location.pathname}/${item.id}`,
+
+          style: { textAlign: 'start', textTransform: 'lowercase' },
         },
         {
           value: item.request_method,
@@ -46,19 +66,15 @@ function useActivityLogsData(activityLogsResponse) {
           style: { textAlign: 'start' },
         },
 
-        {
-          value: item.ip_address,
-          style: { textAlign: 'start' },
-        },
-
-        {
-          value: item.user,
-          style: { textAlign: 'start' },
-        },
-        {
-          value: item.payload,
-          style: { textAlign: 'start' },
-        },
+        // {
+        //   value: item.user,
+        //   style: { textAlign: 'start' },
+        // },
+        // {
+        //   value: 'Detail',
+        //   link: `${window.location.pathname}/${item.id}`,
+        //   style: { textAlign: 'start' },
+        // },
       ]);
     });
     return {

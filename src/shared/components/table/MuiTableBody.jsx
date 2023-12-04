@@ -21,7 +21,7 @@ function MuiTableBody({
 }) {
   const companyDetail = useSelector(state => state?.user?.company);
   const {
-    currency: { currency_symbol: currencySymbol },
+    currency_detail: { currency_symbol: currencySymbol },
   } = companyDetail;
   const handlegetCellStyle = (cell, value) => {
     if (cell && cell.style) {

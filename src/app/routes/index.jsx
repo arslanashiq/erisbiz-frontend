@@ -179,6 +179,7 @@ const CashFlowStatementReportPage = lazy(() => import('containers/reports/financ
 const BalanceSheetStatementReportPage = lazy(() => import('containers/reports/financial-reports/balance-sheet-statement'));
 // activity
 const ActivityLogsReportPage = lazy(() => import('containers/reports/activity/ActivityLogs'));
+const ActivityLogsDetailPage = lazy(() => import('containers/reports/activity/components/ActivityLogsDetail'));
 
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
@@ -452,7 +453,10 @@ function AppRoutes() {
                   <Route path="cash-flow-statement" element={<CashFlowStatementReportPage />} />
                   <Route path="balance-sheet" element={<BalanceSheetStatementReportPage />} />
                   {/* activity */}
-                  <Route path="activity-logs" element={<ActivityLogsReportPage />} />
+                  <Route path="activity-logs" element={<Outlet />}>
+                    <Route path="" index element={<ActivityLogsReportPage />} />
+                    <Route path=":id" index element={<ActivityLogsDetailPage />} />
+                  </Route>
                 </Route>
               </Route>
             </Route>

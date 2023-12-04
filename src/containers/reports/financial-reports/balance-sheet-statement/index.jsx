@@ -33,7 +33,6 @@ function BalanceSheetStatement() {
         {['asset', 'liability', 'Equity'].map(
           group => sortedResponse[group] && (
           <tbody key={uuid()}>
-            {/* {console.log(sortedResponse[group], 'sortedResponse[group]')} */}
             <tr>
               <td colSpan={2} style={balanceSheetgroupStyle}>
                 {group}

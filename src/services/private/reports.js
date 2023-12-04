@@ -461,6 +461,13 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getActivityLogs'],
     }),
+    getActivityLogsDetail: builder.query({
+      query: id => ({
+        url: `/api/user/custom/logs/${id}/`,
+        method: 'GET',
+      }),
+      providesTags: ['getActivityLogsDetail'],
+    }),
   }),
 });
 
@@ -539,4 +546,5 @@ export const {
 
   // activity
   useGetActivityLogsQuery,
+  useGetActivityLogsDetailQuery,
 } = reportsApi;

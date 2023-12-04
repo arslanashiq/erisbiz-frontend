@@ -34,7 +34,7 @@ function Dasbboard() {
   const dashboardDetail = useGetDashboardDetailQuery();
   const productCategory = useGetDashboardProductCategoryDetailQuery();
   const totalReceivables = useGetDashboardTotalReceivablesQuery();
-  const currencySymbol = useSelector(state => state?.user?.company?.currency?.currency_code);
+  const currencySymbol = useSelector(state => state?.user?.company?.currency_detail?.currency_symbol);
 
   const cardsList = useMemo(
     () => [
