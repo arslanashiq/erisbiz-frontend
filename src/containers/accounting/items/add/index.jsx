@@ -24,7 +24,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles and hooks
 import useListOptions from 'custom-hooks/useListOptions';
-import { ITEM_STATUS_OOPTIONS, ITEM_TYPES } from 'utilities/constants';
+import { ITEM_STATUS_OPTIONS, ITEM_TYPES, ITEM_UNIT_LIST } from 'utilities/constants';
 import { getAccountTypesOptions } from 'utilities/get-account-type-options';
 import { itemsInitialValues } from '../utilities/constants';
 import { itemFormValidationSchema } from '../utilities/validationSchema';
@@ -149,7 +149,7 @@ function AddItemPage() {
                 <FormikSelect
                   name="is_active"
                   type="text"
-                  options={ITEM_STATUS_OOPTIONS}
+                  options={ITEM_STATUS_OPTIONS}
                   startIcon={<CheckCircleOutlineIcon />}
                   label="Status"
                   isRequired
@@ -180,7 +180,7 @@ function AddItemPage() {
 
                 <FormikField name="bar_code" placeholder="Bar Code" label="Bar Code" />
 
-                <FormikField name="unit" label="Unit" />
+                <FormikSelect options={ITEM_UNIT_LIST} name="unit" label="Unit" />
 
                 <FormikField name="recorder" type="text" placeholder="Recorder" label="Recorder" />
 

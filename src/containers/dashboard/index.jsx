@@ -138,7 +138,7 @@ function Dasbboard() {
           }}
           className="hide-scrolbar"
         >
-          <Grid item xs={12} lg={12} xl={6} className="dashboard-table-left">
+          <Grid item xl={6} className="dashboard-table-left">
             <Stack
               sx={{
                 height: 310,

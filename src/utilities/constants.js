@@ -3,7 +3,7 @@ export const RECAPTCHA_PRIVATE_KEY = process.env.REACT_APP_PRIVATE_RECAPTCHA_KEY
 export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
-// export const API_URL = 'http://192.168.0.216:8000/';
+// export const API_URL = 'http://192.168.1.148:8000/';
 
 export const ROWS_PER_PAGE = 20;
 
@@ -46,9 +46,22 @@ export const ITEM_TYPES = [
   { value: 'Service', label: 'Service' },
 ];
 
-export const ITEM_STATUS_OOPTIONS = [
+export const ITEM_STATUS_OPTIONS = [
   { value: true, label: 'Active' },
   { value: false, label: 'Inactive' },
+];
+export const ITEM_UNIT_LIST = [
+  { label: 'Subscriber Unit', value: 'pcs' },
+  { label: 'Kilogram', value: 'kg' },
+  { label: 'Pound', value: 'lb' },
+  { label: 'Gram', value: 'g' },
+  { label: 'Miligram', value: 'mg' },
+  { label: 'Kilometer', value: 'km' },
+  { label: 'Meter', value: 'm' },
+  { label: 'Feet', value: 'ft' },
+  { label: 'Inches', value: 'in' },
+  { label: 'Dozen', value: 'dz' },
+  { label: 'Box', value: 'box' },
 ];
 
 export const CURRENCY_ID = 2;

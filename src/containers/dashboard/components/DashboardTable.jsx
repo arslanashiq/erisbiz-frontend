@@ -28,7 +28,7 @@ function DashboardTable({ className, title, data, headCells }) {
     return row[cell.id];
   };
   return (
-    <Grid item xs={12} lg={12} xl={6} className={`${className} `}>
+    <Grid item xl={6} className={`${className} `}>
       <Stack
         sx={{
           height: 310,
