@@ -93,7 +93,7 @@ export default function TransactionAccordionWithFilter({
         <AccordionSummary>
           <Stack direction="row" sx={{ padding: 2, cursor: 'pointer' }} onClick={handleChange}>
             <ExpandMoreIcon className={`accordion-icon accordion-${expanded ? 'expand' : 'close'}-icon`} />
-            <Typography variant="body2" className="font-weight-bold">
+            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
               {title}
             </Typography>
           </Stack>

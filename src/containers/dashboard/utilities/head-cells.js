@@ -54,17 +54,51 @@ export const productCategoryStockPositionHeadCells = [
 ];
 export const totalReceivablesHeadCells = [
   {
-    id: 'invoice_formatted_number',
+    id: 'date',
     numeric: false,
     disablePadding: true,
-    label: 'Customer',
+    label: 'Date',
     align: 'left',
-    isLink: true,
+    isDate: true,
   },
   {
-    id: 'branch_name',
+    id: 'payer_name',
     disablePadding: false,
-    label: 'Open Account',
+    label: 'Payer Name',
+    align: 'left',
+    handleData: (row, cell) => (
+      <Link style={{ textDecoration: 'none' }} to={row.payer_link}>
+        {row[cell.id]}
+      </Link>
+    ),
+  },
+  {
+    id: 'payment_num',
+    disablePadding: false,
+    label: 'Payment #',
+    align: 'left',
+    handleData: (row, cell) => (
+      <Link style={{ textDecoration: 'none' }} to={row.payment_link}>
+        {row[cell.id]}
+      </Link>
+    ),
+  },
+  {
+    id: 'amount_total',
+    disablePadding: false,
+    label: 'Amount',
+    align: 'left',
+  },
+  {
+    id: 'amount_due',
+    disablePadding: false,
+    label: 'Balance',
+    align: 'left',
+  },
+  {
+    id: 'status',
+    disablePadding: false,
+    label: 'Status',
     align: 'left',
   },
 ];

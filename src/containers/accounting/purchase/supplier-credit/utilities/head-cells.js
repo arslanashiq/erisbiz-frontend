@@ -54,13 +54,15 @@ export const supplierCreditHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
+    mergeCell: true,
   },
   {
-    id: 'amount_due_bill_currency',
+    id: 'credits_remaining_debitnote_currency',
     numeric: true,
     disablePadding: false,
     label: 'Balance',
     align: 'left',
+    mergeCell: true,
   },
 ];
 

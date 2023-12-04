@@ -6,7 +6,7 @@ function RadioButtons({ name, options, onChange, ...restProps }) {
   return (
     <Field name={name}>
       {({ field: { value: fieldValue, onChange: onFieldChange, ...restFieldProps } }) => options.map(option => (
-        <label className="radio-btn">
+        <label key={option.value} className="radio-btn">
           <input
             className="radio-btn__radio"
             type="radio"

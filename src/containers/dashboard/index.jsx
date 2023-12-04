@@ -1,3 +1,5 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-unused-vars */
 import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
@@ -36,6 +38,56 @@ function Dasbboard() {
   const totalReceivables = useGetDashboardTotalReceivablesQuery();
   const currencySymbol = useSelector(state => state?.user?.company?.currency_detail?.currency_symbol);
 
+  const totalReceivablesValue = useMemo(() => {
+    const receivablesData = totalReceivables?.data?.data;
+    if (!receivablesData) {
+      return [];
+    }
+    const saleInvoiceData = [];
+    receivablesData?.sale_invoices?.map(saleInvoice =>
+      saleInvoice?.invoices?.forEach(sale => {
+        saleInvoiceData.push({
+          date: sale?.date,
+          payer_name: saleInvoice?.name,
+          payment_num: sale?.invoice_formatted_number,
+          amount_total: sale?.without_change_grand_total,
+          amount_due: sale?.other_amount,
+          status: sale?.status,
+          payer_link: `/pages/accounting/sales/customers/${saleInvoice?.id}/detail`,
+          payment_link: `/pages/accounting/sales/sale-invoice/${sale?.id}/detail`,
+        });
+      })
+    );
+    const saleCreditNotesData = [];
+    receivablesData?.sale_credit_notes?.map(saleCreditNote =>
+      saleCreditNote?.credit_notes?.forEach(credit => {
+        saleCreditNotesData.push({
+          date: credit?.date,
+          payer_name: saleCreditNote?.name,
+          payment_num: credit?.credit_note_formatted_number,
+          amount_total: credit?.without_change_grand_total,
+          amount_due: (credit?.without_change_grand_total || 0) - (credit?.refunded_amount || 0),
+          status: credit?.status,
+          payer_link: `/pages/accounting/sales/customers/${saleCreditNote?.id}/detail`,
+          payment_link: `/pages/accounting/sales/credit-notes/${credit?.id}/detail`,
+        });
+      })
+    );
+    const purchaseDebitNoteData = [];
+    receivablesData?.purchase_debit_notes?.forEach(purchaseDebitNote => {
+      purchaseDebitNoteData.push({
+        date: purchaseDebitNote?.supplier_credit_date,
+        payer_name: purchaseDebitNote?.supplier_name,
+        payment_num: purchaseDebitNote?.supplier_credit_formatted_number,
+        amount_total: purchaseDebitNote?.without_change_grand_total,
+        amount_due: purchaseDebitNote?.credits_remaining_debitnote_currency || 0,
+        status: purchaseDebitNote?.status,
+        payer_link: `/pages/accounting/purchase/suppliers/${purchaseDebitNote?.supplier_id}/detail`,
+        payment_link: `/pages/accounting/purchase/debit-notes/${purchaseDebitNote?.id}/detail`,
+      });
+    });
+    return [...saleInvoiceData, ...saleCreditNotesData, ...purchaseDebitNoteData];
+  }, [totalReceivables]);
   const cardsList = useMemo(
     () => [
       {
@@ -138,7 +190,7 @@ function Dasbboard() {
           }}
           className="hide-scrolbar"
         >
-          <Grid item xl={6} className="dashboard-table-left">
+          <Grid item xs={12} xl={6} className="dashboard-table-left">
             <Stack
               sx={{
                 height: 310,
@@ -181,7 +233,7 @@ function Dasbboard() {
           <DashboardTable
             title="Total Receivables"
             headCells={totalReceivablesHeadCells}
-            data={totalReceivables?.data?.data || []}
+            data={totalReceivablesValue || []}
             className="dashboard-table-right"
           />
         </Grid>

@@ -13,6 +13,7 @@ import FormikDatePicker from '../form/FormikDatePicker';
 function PersonlizedFilter({ filtersList }) {
   return filtersList.map(filter => (filter.options ? (
     <FormikSelect
+      key={filter.name}
       name={filter.name}
       placeholder={filter.placeholder}
       options={filter.options}
@@ -22,6 +23,7 @@ function PersonlizedFilter({ filtersList }) {
     />
   ) : filter.date ? (
     <FormikDatePicker
+      key={filter.name}
       name={filter.name}
       placeholder={filter.placeholder}
       label={filter.placeholder}
@@ -30,6 +32,7 @@ function PersonlizedFilter({ filtersList }) {
     />
   ) : (
     <FormikField
+      key={filter.name}
       name={filter.name}
       placeholder={filter.placeholder}
       type={filter.type}
