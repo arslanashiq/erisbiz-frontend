@@ -37,7 +37,6 @@ function AddSupplierContact() {
       setInitialValues({ ...singleSupplierContactResponse?.data });
     }
   }, [id, singleSupplierContactResponse]);
-  console.log(initialValues, 'initialValues');
   return (
     <>
       <Helmet>

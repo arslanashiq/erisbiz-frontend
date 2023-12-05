@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -87,13 +88,19 @@ function ActivityLogsDetail() {
     return data;
   }, [activityDetail]);
 
-  const payload = useMemo(() => {
+  const { payload, oldPayload } = useMemo(() => {
+    let payloadData = '';
+    let oldPayloadData = '';
     try {
-      return activityDetail?.payload?.length > 0 ? JSON.parse(activityDetail?.payload) : '';
+      payloadData = activityDetail?.payload?.length > 0 ? JSON.parse(activityDetail?.payload) : '';
+      oldPayloadData = activityDetail?.old_payload?.length > 0 ? JSON.parse(activityDetail?.old_payload) : '';
     } catch (error) {
-      console.log(error);
-      return '';
+      // console.log(first)
     }
+    return {
+      payload: payloadData,
+      oldPayload: oldPayloadData,
+    };
   }, [activityDetail]);
 
   const renderValue = payloadInfo => payloadInfo;
@@ -110,27 +117,30 @@ function ActivityLogsDetail() {
     return 'value';
   };
 
-  const renderObject = (payloadInfo, spaceCount) => Object.keys(payloadInfo).map(key => {
-    if (isValidValue(payloadInfo[key]) === 'list') {
-      return payloadInfo[key]?.map((pay, index) => (
-        <ul key={uuid()}>
-          <li>
-            {key}[{index}]
-          </li>
-          <ul>{renderObject(pay, spaceCount + 1)}</ul>
-        </ul>
-      ));
-    }
-    if (isValidValue(payloadInfo[key]) === 'object') {
-      return (
-        <ul key={uuid()}>
-          <li>{key}</li>
-          {renderObject(payloadInfo[key], spaceCount + 1)}
-        </ul>
-      );
-    }
-    return <li key={uuid()}>{`${key} : ${renderValue(payloadInfo[key])}`}</li>;
-  });
+  const renderObject = (payloadInfo, spaceCount) =>
+    Object.keys(payloadInfo).map(key => {
+      if (isValidValue(payloadInfo[key]) === 'list') {
+        return payloadInfo[key]?.map((pay, index) => (
+          <ul key={uuid()}>
+            <li>
+              {key}[{index}]
+            </li>
+            <ul>{renderObject(pay, spaceCount + 1)}</ul>
+          </ul>
+        ));
+      }
+      if (isValidValue(payloadInfo[key]) === 'object') {
+        return (
+          <React.Fragment key={uuid()}>
+            <li>{key}</li>
+            {renderObject(payloadInfo[key], spaceCount + 1)}
+          </React.Fragment>
+        );
+      }
+      return <li key={uuid()}>{`${key} : ${renderValue(payloadInfo[key])}`}</li>;
+    });
+
+  console.log(payload, 'skjdallak');
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>
@@ -152,13 +162,25 @@ function ActivityLogsDetail() {
                 ))}
                 {activityDetail?.payload && payload && (
                   <TableRow key={uuid()}>
-                    <TableCell sx={bankDetailPopupInfoTitleStyle}>Payload</TableCell>
+                    <TableCell sx={bankDetailPopupInfoTitleStyle}>New Payload</TableCell>
                     <TableCell
                       sx={{
                         border: '1px solid silver',
                       }}
                     >
                       <ul>{renderObject(payload, 1)}</ul>
+                    </TableCell>
+                  </TableRow>
+                )}
+                {activityDetail?.old_payload && oldPayload && (
+                  <TableRow key={uuid()}>
+                    <TableCell sx={bankDetailPopupInfoTitleStyle}>Old Payload</TableCell>
+                    <TableCell
+                      sx={{
+                        border: '1px solid silver',
+                      }}
+                    >
+                      <ul>{renderObject(oldPayload, 1)}</ul>
                     </TableCell>
                   </TableRow>
                 )}
