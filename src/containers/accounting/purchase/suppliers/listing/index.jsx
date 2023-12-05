@@ -8,6 +8,7 @@ import { useDeleteSupplierMutation, useGetSuppliersListQuery } from 'services/pr
 import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 // utilities and styles
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
@@ -18,7 +19,7 @@ function SupplierListing() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
-  const suppliersListingResponse = useGetSuppliersListQuery(location.search);
+  const suppliersListingResponse = useGetSuppliersListQuery(location.search || DEFAULT_PARAMS);
   const [deleteSupplier] = useDeleteSupplierMutation();
   const handleEdit = (data, selected) => {
     navigate(`edit/${selected[0]}`);

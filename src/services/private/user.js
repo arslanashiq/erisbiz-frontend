@@ -4,6 +4,7 @@ const userApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     loadUser: builder.query({
       query: () => 'api/auth/user',
+      providesTags: ['loadUser'],
     }),
     getRecentActivity: builder.query({
       query: () => 'api/user/recent/activity/',
@@ -29,7 +30,23 @@ const userApi = privateApi.injectEndpoints({
         };
       },
     }),
+    updateCompany: builder.mutation({
+      query: values => ({ url: 'api/update/company', method: 'PATCH', body: values }),
+      providesTags: ['updateCompany'],
+      invalidatesTags: ['loadUser'],
+    }),
+    updatePassword: builder.mutation({
+      query: values => ({ url: 'api/auth/changePassword/', method: 'PATCH', body: values }),
+      providesTags: ['updatePassword'],
+      invalidatesTags: ['loadUser'],
+    }),
   }),
 });
 
-export const { useLoadUserQuery, useGetRecentActivityQuery, useRegisterCompanyMutation } = userApi;
+export const {
+  useLoadUserQuery,
+  useGetRecentActivityQuery,
+  useRegisterCompanyMutation,
+  useUpdateCompanyMutation,
+  useUpdatePasswordMutation,
+} = userApi;

@@ -51,7 +51,7 @@ function Dasbboard() {
           payer_name: saleInvoice?.name,
           payment_num: sale?.invoice_formatted_number,
           amount_total: sale?.without_change_grand_total,
-          amount_due: sale?.other_amount,
+          amount_due: sale?.amount_due,
           status: sale?.status,
           payer_link: `/pages/accounting/sales/customers/${saleInvoice?.id}/detail`,
           payment_link: `/pages/accounting/sales/sale-invoice/${sale?.id}/detail`,

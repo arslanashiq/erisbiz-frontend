@@ -8,13 +8,13 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
-import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { BankingHeadCells } from '../utilities/head-cells';
 
 function BankListing() {
   const location = useLocation();
-  const bankAccountListResponse = useGetBankAccountsListQuery(getsearchQueryOffsetAndLimitParams(location));
+  const bankAccountListResponse = useGetBankAccountsListQuery(location.search || DEFAULT_PARAMS);
   const [handleChangeBankAccountStatus] = useChangeBankAccountStatusMutation();
 
   return (

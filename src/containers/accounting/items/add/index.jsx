@@ -84,7 +84,7 @@ function AddItemPage() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={itemFormValidationSchema}
-            onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
+            onSubmit={async (values, { setSubmitting, setErrors }) => {
               try {
                 let response = null;
                 const payload = new FormData();
@@ -100,13 +100,11 @@ function AddItemPage() {
                 } else {
                   response = await addItem(payload);
                 }
-                if (response.data) {
-                  resetForm(initialValues);
-                  navigate(-1);
-                }
                 if (response.error) {
                   setErrors(response.error.data);
+                  return;
                 }
+                navigate(-1);
               } catch (err) {
                 if (err?.response?.status === 400) {
                   setSubmitting(true);

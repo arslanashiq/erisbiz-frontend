@@ -20,7 +20,11 @@ import {
 import { useSelector } from 'react-redux';
 
 function SupplierStatement({ basicInfo, transactions }) {
-  const { name: companyName, logo: companyLogo } = useSelector(state => state.user.company);
+  const {
+    name: companyName,
+    logo: companyLogo,
+    currency_detail: { currency_symbol: currencySymbol },
+  } = useSelector(state => state.user.company);
 
   return (
     <Box className="statement-template">
@@ -69,7 +73,7 @@ function SupplierStatement({ basicInfo, transactions }) {
               </Box>
               <Box className="col-sm-6 text-right">
                 <p>
-                  {basicInfo.currency_symbol}
+                  {currencySymbol}
                   {basicInfo.openingBalance}
                 </p>
               </Box>
@@ -81,7 +85,7 @@ function SupplierStatement({ basicInfo, transactions }) {
             </Box>
             <Box className="col-sm-6 text-right">
               <p>
-                {basicInfo.currency_symbol}
+                {currencySymbol}
                 {basicInfo.totalBilledAmount}
               </p>
             </Box>
@@ -92,7 +96,7 @@ function SupplierStatement({ basicInfo, transactions }) {
             </Box>
             <Box className="col-sm-6 text-right">
               <p>
-                {basicInfo.currency_symbol}
+                {currencySymbol}
                 {basicInfo.totalPaymentAmount}
               </p>
             </Box>
@@ -103,7 +107,7 @@ function SupplierStatement({ basicInfo, transactions }) {
             </Box>
             <Box className="col-sm-6 text-right">
               <p>
-                {basicInfo.currency_symbol}
+                {currencySymbol}
                 {basicInfo.totalBalanceDue}
               </p>
             </Box>
@@ -186,7 +190,7 @@ function SupplierStatement({ basicInfo, transactions }) {
               </td>
               <td valign="top" style={{ ...supplierStatementHeaderCellStyles, textAlign: 'right' }}>
                 <b>
-                  {basicInfo.currency_symbol}
+                  {currencySymbol}
                   {basicInfo.totalBalanceDue}
                 </b>
               </td>

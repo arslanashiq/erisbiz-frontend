@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 import { Form, Formik } from 'formik';
+import { useSnackbar } from 'notistack';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 // shared
@@ -9,11 +10,17 @@ import FormikField from 'shared/components/form/FormikField';
 // utilities and components
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import { EMAIL_REGEX } from 'utilities/constants';
+import { useUpdatePasswordMutation } from 'services/private/user';
 
 function ChangePassword({ userData }) {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [updatePassword] = useUpdatePasswordMutation();
+
   const [showOldPasword, setShowOldPasword] = useState(false);
   const [showNewPasword, setShowNewPasword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   return (
     <Formik
       initialValues={{
@@ -27,9 +34,19 @@ function ChangePassword({ userData }) {
         old_password: Yup.string().required('Old Password is required'),
         new_password: Yup.string().required('New Password is required'),
         confirm_password: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'New Password and Confirm Password not match')
+          .oneOf([Yup.ref('new_password'), null], 'New Password and Confirm Password not match')
           .required('Confirm Password is required'),
       })}
+      onSubmit={async (values, { setErrors }) => {
+        const response = await updatePassword(values);
+        if (response.error) {
+          setErrors(response.error.data);
+          return;
+        }
+        enqueueSnackbar('Password Change Successfully', { varient: 'Success' });
+        localStorage.clear();
+        window.location.reload();
+      }}
     >
       <Form className="form form--horizontal row pt-3">
         <FormikField

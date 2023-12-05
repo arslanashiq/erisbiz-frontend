@@ -37,7 +37,7 @@ function AddSupplierContact() {
       setInitialValues({ ...singleSupplierContactResponse?.data });
     }
   }, [id, singleSupplierContactResponse]);
-
+  console.log(initialValues, 'initialValues');
   return (
     <>
       <Helmet>
@@ -46,7 +46,7 @@ function AddSupplierContact() {
       </Helmet>
       <Card>
         <CardContent>
-          <FormHeader title="Brands" />
+          <FormHeader title="Supplier Contact" />
           <Formik
             enableReinitialize
             initialValues={initialValues}

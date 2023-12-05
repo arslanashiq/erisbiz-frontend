@@ -89,8 +89,9 @@ function ActivityLogsDetail() {
 
   const payload = useMemo(() => {
     try {
-      return activityDetail?.payload?.length > 0 ? JSON.parse(activityDetail?.payload) : null;
+      return activityDetail?.payload?.length > 0 ? JSON.parse(activityDetail?.payload) : '';
     } catch (error) {
+      console.log(error);
       return '';
     }
   }, [activityDetail]);

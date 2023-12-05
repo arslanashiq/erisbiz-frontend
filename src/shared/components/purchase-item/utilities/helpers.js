@@ -14,7 +14,7 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
     setFieldValue(`${name}.${index}.vat_rate`, vatRate);
   }
   if (vatAmount) {
-    setFieldValue(`${name}.${index}.vat_amount`, vatAmount);
+    setFieldValue(`${name}.${index}.vat_amount`, vatAmount?.toFixed(2));
   }
   if (grossTotal) {
     setFieldValue(`${name}.${index}.gross_amount`, grossTotal);
@@ -102,7 +102,7 @@ export const handleCalculateTotalAmount = purchaseOrderItems => {
   let grandTotal = 0;
   purchaseOrderItems.forEach(item => {
     amountTotal += item.gross_amount || 0;
-    vatTotal += item.vat_amount || 0;
+    vatTotal += item?.vat_amount?.toFixed(2) || 0;
     discountTotal += item.discount || 0;
   });
 
@@ -122,7 +122,7 @@ export const handleGetFormatedItemsData = itemsList => itemsList.map(item => ({
   unit_price_ex_vat: item.unit_price_ex_vat,
   gross_amount: item.gross_amount,
   discount: item.discount,
-  vat_amount: item.vat_amount,
+  vat_amount: item?.vat_amount?.toFixed(2),
   net_amount: item.net_amount,
   vat_rate: item.vat_rate,
   cost_price: item.cost_price,

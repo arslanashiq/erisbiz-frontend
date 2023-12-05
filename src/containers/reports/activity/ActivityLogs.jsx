@@ -11,6 +11,12 @@ function ActivityLogs() {
       reportHeadCells={activityLogsHeadCells}
       useGetReportQuery={useGetActivityLogsQuery}
       useGetReportData={useActivityLogsData}
+      options={{
+        showFilter: true,
+        showCompanyInfoHeader: true,
+        replaceTableBody: false,
+        showPrint: false,
+      }}
     />
   );
 }

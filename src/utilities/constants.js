@@ -3,9 +3,13 @@ export const RECAPTCHA_PRIVATE_KEY = process.env.REACT_APP_PRIVATE_RECAPTCHA_KEY
 export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
-// export const API_URL = 'http://192.168.1.148:8000/';
+// export const API_URL = 'http://192.168.0.216:8000/';
 
 export const ROWS_PER_PAGE = 20;
+export const DEFAULT_PARAMS = {
+  limit: ROWS_PER_PAGE,
+  offset: 0,
+};
 
 export const EMAIL_REGEX =
   /^(([^`~!$%^&*?/|}{#=<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -114,8 +118,8 @@ export const COMPANY_NAME = 'Erisbiz';
 export const COMPANY_OFFICE_ADDRESS = 'Office # 1206, JBC 4, Cluster N,';
 export const COMPANY_ADDRESS = 'Jumeirah Lake Towers, Dubai,';
 export const COMPANY_COUNTRY = 'United Arab Emirates';
-export const COMPANY_PHONE = 'Phone: +971 4 379 9960';
-export const COMPANY_EMAIL = 'info@luxuryexplorersme.com';
+export const COMPANY_PHONE = 'Phone: +971 5 075 26499';
+export const COMPANY_EMAIL = 'info@beyonderissolutions.com';
 export const COMPANY_TRN = 'TRN: 100204615700003';
 
 export const testDataForReports = {

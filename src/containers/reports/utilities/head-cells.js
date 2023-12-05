@@ -415,22 +415,13 @@ export const activityLogsHeadCells = [
     style: { textAlign: 'left' },
   },
   {
-    title: 'Endpoint',
+    title: 'Activity Detail',
     style: { textAlign: 'left' },
   },
   {
-    title: 'Method',
+    title: 'Description',
     style: { textAlign: 'left' },
   },
-  {
-    title: 'Status',
-    style: { textAlign: 'left' },
-  },
-
-  // {
-  //   title: 'Detail',
-  //   style: { textAlign: 'left' },
-  // },
 ];
 export const activityLogsExcelHeadCells = [
   {

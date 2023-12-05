@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent, Grid } from '@mui/material';
@@ -8,6 +9,7 @@ import {
   useChangeInvoiceStatusToVoidMutation,
   useDeletePurchaseInvoceMutation,
   useDeletePurchaseInvoiceDocumentFileMutation,
+  useGetJournalsAgainstPaymentInvoiceQuery,
   useGetPaymentsAgainstPaymentInvoiceQuery,
   useGetSinglePurchaseInvoiceQuery,
   useUploadPurchaseInvoiceDocumentFileMutation,
@@ -15,6 +17,7 @@ import {
 // shared
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
+import JournalTable from 'shared/components/accordion/JournalTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
@@ -35,7 +38,12 @@ function PurchaseInvoiceDetail() {
     infoDescription: 'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher',
   });
   const [openVoidModal, setOpenVoidModal] = useState(false);
+  const [defaultExpanded, setDefaultExpanded] = useState(false);
+
   const purchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(id);
+  const purchaseInvoiceJournals = useGetJournalsAgainstPaymentInvoiceQuery(id, {
+    skip: purchaseInvoiceResponse?.data?.status === 'draft',
+  });
 
   const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
     const response = await changeInvoiceStatus(payload);
@@ -131,6 +139,16 @@ function PurchaseInvoiceDetail() {
         },
       });
     }
+    if (invoiceStatus !== 'draft' && invoiceStatus !== 'void') {
+      actionsList.push({
+        label: 'View Journal',
+        handleClick: () => {
+          const Journal = document.getElementById('Journal');
+          Journal.scrollIntoView({ behavior: 'smooth' });
+          setDefaultExpanded(true);
+        },
+      });
+    }
     if (invoiceStatus !== 'draft' && invoiceStatus !== 'paid' && invoiceStatus !== 'partially paid') {
       actionsList.push({
         label: 'Void',
@@ -211,6 +229,17 @@ function PurchaseInvoiceDetail() {
             orderDetail={purchaseInvoiceResponse.data}
             // handleChangeStatus={changeInvoiceStatus}
           />
+          <Grid container>
+            <Grid item xs={12} style={{ maxWidth: 900, margin: '20px auto', paddingBottom: 50 }}>
+              <Grid marginTop={4} id="Journal">
+                <JournalTable
+                  key={uuid()}
+                  defaultValue={defaultExpanded}
+                  journalItems={purchaseInvoiceJournals?.data?.bill_journal_items}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
     </SectionLoader>

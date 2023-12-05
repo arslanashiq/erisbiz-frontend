@@ -1,3 +1,5 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable react/jsx-filename-extension */
 import { useMemo } from 'react';
 import moment from 'moment';
 
@@ -28,20 +30,37 @@ function useActivityLogsData(activityLogsResponse) {
   //   }
   //   return false;
   // };
-  const getEndpoint = endpointValue => {
-    let endpoint = endpointValue;
-    try {
-      if (endpoint?.includes('/api/')) {
-        [, endpoint] = endpoint.split('/api/');
-      }
-      if (endpoint?.includes('?')) {
-        [endpoint] = endpoint.split('?');
-      }
-      return endpoint;
-    } catch (error) {
-      return endpoint;
-    }
-  };
+  // const getEndpoint = endpointValue => {
+  //   let endpoint = endpointValue;
+  //   try {
+  //     if (endpoint?.includes('/api/')) {
+  //       [, endpoint] = endpoint.split('/api/');
+  //     }
+  //     if (endpoint?.includes('?')) {
+  //       [endpoint] = endpoint.split('?');
+  //     }
+  //     return endpoint;
+  //   } catch (error) {
+  //     return endpoint;
+  //   }
+  // };
+  // const getMethod = item => {
+  //   if (item.request_method === 'POST') {
+  //     return 'Created';
+  //   }
+
+  //   if (item.request_method === 'PUT' || item.request_method === 'PATCH') {
+  //     return 'Updated';
+  //   }
+  //   if (item.request_method === 'DELETE') {
+  //     return 'Deleted';
+  //   }
+  //   if (item.request_method === 'GET') {
+  //     return 'View';
+  //   }
+  //   return 'Action Performed';
+  // };
+
   const { tableBody } = useMemo(() => {
     const body = [];
     const modifiedBody = [];
@@ -52,29 +71,16 @@ function useActivityLogsData(activityLogsResponse) {
           style: { textAlign: 'start' },
         },
         {
-          value: getEndpoint(item.request_url),
+          value: item.module_name || 'Module',
           link: `${window.location.pathname}/${item.id}`,
 
-          style: { textAlign: 'start', textTransform: 'lowercase' },
-        },
-        {
-          value: item.request_method,
-          style: { textAlign: 'start' },
-        },
-        {
-          value: item.response_code,
           style: { textAlign: 'start' },
         },
 
-        // {
-        //   value: item.user,
-        //   style: { textAlign: 'start' },
-        // },
-        // {
-        //   value: 'Detail',
-        //   link: `${window.location.pathname}/${item.id}`,
-        //   style: { textAlign: 'start' },
-        // },
+        {
+          value: item?.description,
+          style: { textAlign: 'start' },
+        },
       ]);
     });
     return {
