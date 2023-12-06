@@ -47,7 +47,7 @@ function ItemDetail() {
 
   const itemDetailInfo = [
     { label: 'Item Type', value: itemDetail?.item_type },
-    { label: 'Creation Data', value: moment(itemDetail?.created_at).format(DATE_FORMAT) },
+    { label: 'Creation Date', value: moment(itemDetail?.created_at).format(DATE_FORMAT) },
     {
       label: 'Item Status',
       value: itemDetail?.is_active ? 'Activated' : 'Deactivated',
@@ -59,9 +59,9 @@ function ItemDetail() {
   const itemStockInformation = [
     { label: 'Opening Stock', value: itemDetail?.opening_stock },
     { label: 'Available Stock', value: itemDetail?.remaining_stock },
-    { label: 'Forecated Stock', value: itemDetail?.forecast_stock },
+    { label: 'Forecasted Stock', value: itemDetail?.forecast_stock },
     { label: 'Committed Stock', value: itemDetail?.committed_stock },
-    { label: 'Weighted Cost Price', value: itemDetail?.weighted_cost_price },
+    { label: 'Weightage Cost Price', value: itemDetail?.weighted_cost_price },
   ];
   const handleClickEdit = () => {
     if (itemDetail.is_active) {
