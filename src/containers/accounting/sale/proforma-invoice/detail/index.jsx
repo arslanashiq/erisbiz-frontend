@@ -55,10 +55,9 @@ function ProfomaInvoiceDetail() {
         handleClick: () => {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
-          const cantDelete = status === 'invoiced';
-          if (cantDelete) {
-            infoDescription =
-              'You cannot delete this Proforma Invoice beacuse this invoice is used in sale invoice';
+          const canDelete = status === 'draft';
+          if (!canDelete) {
+            infoDescription = 'Cannot delete this Profoma Invoice because its status is no draft';
             showActionButton = false;
           }
 

@@ -58,7 +58,7 @@ function ItemDetail() {
   ];
   const itemStockInformation = [
     { label: 'Opening Stock', value: itemDetail?.opening_stock },
-    { label: 'Available Stock', value: itemDetail?.remaining_stock },
+    { label: 'Stock In Hand', value: itemDetail?.remaining_stock },
     { label: 'Forecasted Stock', value: itemDetail?.forecast_stock },
     { label: 'Committed Stock', value: itemDetail?.committed_stock },
     { label: 'Weightage Cost Price', value: itemDetail?.weighted_cost_price },

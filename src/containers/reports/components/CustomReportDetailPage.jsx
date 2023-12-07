@@ -28,11 +28,12 @@ function CustomReportDetailPage({
   CustomComponent,
   options,
   parentWrapperClassName,
+  queryOptions,
 }) {
   const { replaceTableBody } = options;
   const location = useLocation();
 
-  const reportResponse = useGetReportQuery(location.search);
+  const reportResponse = useGetReportQuery(location.search, queryOptions);
   const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } =
     useGetReportData(reportResponse);
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
@@ -111,6 +112,7 @@ CustomReportDetailPage.propTypes = {
     showCompanyInfoHeader: PropTypes.bool,
   }),
   parentWrapperClassName: PropTypes.string,
+  queryOptions: PropTypes.object,
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
@@ -122,5 +124,6 @@ CustomReportDetailPage.defaultProps = {
   },
   CustomComponent: null,
   parentWrapperClassName: 'custom-receipt-main-container',
+  queryOptions: {},
 };
 export default CustomReportDetailPage;

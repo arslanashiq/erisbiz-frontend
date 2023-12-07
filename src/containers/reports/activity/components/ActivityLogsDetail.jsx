@@ -104,7 +104,8 @@ function ActivityLogsDetail() {
     const show =
       activityDetail?.request_method === 'PUT' ||
       activityDetail?.request_method === 'PATCH' ||
-      activityDetail?.request_method === 'POST';
+      activityDetail?.request_method === 'POST' ||
+      activityDetail?.request_method === 'DELETE';
     try {
       payloadData = activityDetail?.payload?.length > 0 ? JSON.parse(activityDetail?.payload) : '';
       oldPayloadData = activityDetail?.old_payload?.length > 0 ? JSON.parse(activityDetail?.old_payload) : '';
@@ -119,18 +120,12 @@ function ActivityLogsDetail() {
     };
   }, [activityDetail]);
 
-  const renderValue = (payloadInfo, payloadStyles) =>
-    payloadStyles ? (
-      <Typography sx={payloadStyles} key={uuid()}>
-        {payloadInfo}
-      </Typography>
-    ) : (
-      <li>
-        <Typography sx={{ fontSize: '14px' }} key={uuid()}>
-          {payloadInfo}
-        </Typography>
-      </li>
-    );
+  const renderValue = (previousPayload = '-', newPayload = '-') => (
+    <TableRow>
+      <TableCell sx={tableCellStyle}>{previousPayload || '-'}</TableCell>
+      <TableCell sx={tableCellStyle}>{newPayload || '-'}</TableCell>
+    </TableRow>
+  );
 
   const isValidValue = payloadInfo => {
     if (payloadInfo) {
@@ -145,7 +140,7 @@ function ActivityLogsDetail() {
   };
 
   const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  const renderObject = (payloadInfo, styles = { padding: '16px', fontSize: '14px', ...tableCellStyle }) =>
+  const renderObject = payloadInfo =>
     Object.keys(payloadInfo).map(key => {
       if (!checkDataAllowdedToPrint(key)) return;
       const valueType = isValidValue(payloadInfo[key]);
@@ -160,12 +155,38 @@ function ActivityLogsDetail() {
           </TableCell>
         );
       }
-      if (payloadInfo[key] !== '' && payloadInfo[key] !== null && payloadInfo[key] !== undefined) {
-        return renderValue(payloadInfo[key], styles);
+      if (
+        payloadInfo[key] !== '' &&
+        payloadInfo[key] !== null &&
+        payloadInfo[key] !== 'null' &&
+        payloadInfo[key] !== undefined
+      ) {
+        return <TableCell sx={tableCellStyle}>{payloadInfo[key] || '-'}</TableCell>;
       }
       return '';
     });
 
+  const renderRow = (previousPayload, newPayload) =>
+    Object.keys(newPayload).map(key => {
+      if (!checkDataAllowdedToPrint(key)) return;
+      const valueType = isValidValue(newPayload[key]);
+
+      if (valueType === 'list') {
+        return newPayload[key]?.map((_, index) => renderRow(previousPayload[index], newPayload[index]));
+      }
+      if (valueType === 'object') {
+        return renderRow(previousPayload[key], newPayload[key], null);
+      }
+      if (
+        newPayload[key] !== '' &&
+        newPayload[key] !== null &&
+        newPayload[key] !== 'null' &&
+        newPayload[key] !== undefined
+      ) {
+        return renderValue(previousPayload[key], newPayload[key], { tableCellStyle });
+      }
+      return '';
+    });
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>
@@ -191,37 +212,38 @@ function ActivityLogsDetail() {
                 {showData && isDataUpdated && (
                   <>
                     <TableRow>
-                      <TableCell sx={bankDetailPopupInfoTitleStyle}>Old Data</TableCell>
-                      <TableCell sx={bankDetailPopupInfoTitleStyle}>New Data</TableCell>
+                      <TableCell sx={bankDetailPopupInfoTitleStyle}>Existing Data</TableCell>
+                      <TableCell sx={bankDetailPopupInfoTitleStyle}>Updated Data</TableCell>
                     </TableRow>
-                    <TableRow>
-                      <TableCell sx={{ padding: 0, margin: 0 }}>
-                        {activityDetail?.payload && payload && <Stack>{renderObject(oldPayload)}</Stack>}
-                      </TableCell>
-                      <TableCell sx={{ padding: 0, margin: 0 }}>
-                        {activityDetail?.payload && payload && <Stack>{renderObject(payload)}</Stack>}
-                      </TableCell>
-                    </TableRow>
+                    {renderRow(oldPayload, payload)}
                   </>
                 )}
                 {showData && !isDataUpdated && (
-                  <>
-                    <TableRow>
-                      <TableCell sx={bankDetailPopupInfoTitleStyle} colSpan={2}>
-                        Data
+                  <TableRow>
+                    <TableCell style={bankDetailPopupInfoTitleStyle} colSpan={2}>
+                      Data
+                    </TableCell>
+                  </TableRow>
+                )}
+                {showData && !isDataUpdated && (
+                  <TableRow>
+                    {activityDetail?.payload && payload && (
+                      <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
+                        <Stack>
+                          {renderObject(payload)}
+                          {/* <ol>{renderObject(payload, 0)}</ol> */}
+                        </Stack>
                       </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      {activityDetail?.payload && payload && (
-                        <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
-                          <Stack>
-                            {renderObject(payload)}
-                            {/* <ol>{renderObject(payload, 0)}</ol> */}
-                          </Stack>
-                        </TableCell>
-                      )}
-                    </TableRow>
-                  </>
+                    )}
+                    {activityDetail?.old_payload && oldPayload && (
+                      <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
+                        <Stack>
+                          {renderObject(oldPayload)}
+                          {/* <ol>{renderObject(payload, 0)}</ol> */}
+                        </Stack>
+                      </TableCell>
+                    )}
+                  </TableRow>
                 )}
               </TableBody>
             </Table>

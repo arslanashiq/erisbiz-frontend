@@ -18,6 +18,7 @@ function ActivityLogs() {
         showPrint: false,
       }}
       parentWrapperClassName="custom-receipt-activity-log"
+      queryOptions={{ refetchOnMountOrArgChange: true }}
     />
   );
 }

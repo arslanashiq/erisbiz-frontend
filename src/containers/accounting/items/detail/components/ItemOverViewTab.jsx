@@ -14,7 +14,7 @@ function ItemOverViewTab({ itemDetail, itemStock, itemImage }) {
               <Box className="col-8 col-md-3">
                 <h5 className="item-overview-title">{key.label}</h5>
               </Box>
-              <Box className=" col-4 col-md-9">
+              <Box className="col-4 col-md-9">
                 <p className={`item-overview-value ${key.className}`}>{key.value}</p>
               </Box>
             </Box>

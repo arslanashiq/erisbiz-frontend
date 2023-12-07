@@ -11,7 +11,7 @@ function PurchaseVoucherFooterDocument({ orderDetail, keyValue }) {
       <div key={uuid()} className="payment-details">
         {item.bill && <p>{moment(item.bill.bill_date).format('YYYY-MM-DD')}</p>}
         {item.bill ? (
-          <Link to={`/pages/accounting/purchases/bills/${item.bill.id}/detail`}>{item.bill.bill_num}</Link>
+          <Link to={`/pages/accounting/purchase/purchase-invoice/${item.bill.id}/detail`}>{item.bill.bill_num}</Link>
         ) : (
           <p>Supplier Opening Balance</p>
         )}

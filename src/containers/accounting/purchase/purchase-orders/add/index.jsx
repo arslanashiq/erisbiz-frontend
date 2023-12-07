@@ -22,7 +22,7 @@ import FormikField from 'shared/components/form/FormikField';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import {
   handleCalculateTotalAmount,
-  handleChangeCostPrice,
+  // handleChangeCostPrice,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
@@ -87,12 +87,6 @@ function AddPurchaseOrder() {
         placeholder: 'Quantity',
         type: 'number',
         onChange: handleChangeQuantity,
-      },
-      {
-        name: 'cost_price',
-        placeholder: 'Cost Price',
-        type: 'number',
-        onChange: handleChangeCostPrice,
       },
       {
         name: 'unit_price_ex_vat',
@@ -222,6 +216,7 @@ function AddPurchaseOrder() {
                   name="pur_order_items"
                   render={props => (
                     <PurchaseItem
+                      hideCostPriceOnGoods
                       inputList={purchaseItemsInputList}
                       newList={NEW_PURCHASE_ITEM_OBJECT}
                       {...props}

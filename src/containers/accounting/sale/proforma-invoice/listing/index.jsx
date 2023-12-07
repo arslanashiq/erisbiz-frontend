@@ -31,12 +31,12 @@ function ProfomaInvoiceListing() {
         selectedData.push(item);
       }
     });
-    const cantDelete = selectedData.some(item => item.status === 'invoiced');
-    if (cantDelete) {
+    const canDelete = selectedData.some(item => item.status === 'draft');
+    if (!canDelete) {
       message =
         selectedData.length === 1
-          ? 'This Profoma Invoice is used in sale invoice delete them first'
-          : 'You cannot delete this Profoma Invoice because some of the selected Profoma Invoice are used in sale invoice';
+          ? 'Cannot delete this Profoma Invoice because its status is no draft'
+          : 'You cannot delete this Profoma Invoice because some of the selected Profoma Invoice are used in sale invoice or status is not draft';
       actionButton = false;
     }
     setOpenInfoPopup({

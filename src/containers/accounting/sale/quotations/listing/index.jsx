@@ -29,14 +29,12 @@ function QuotationListing() {
         selectedData.push(item);
       }
     });
-    const cantDelete = selectedData.some(
-      item => item.status === 'proforma-invoiced' || item.status === 'invoiced'
-    );
-    if (cantDelete) {
+    const canDelete = selectedData.some(item => item.status === 'draft');
+    if (!canDelete) {
       message =
         selectedData.length === 1
-          ? 'This Quotation is used in proforma invoice or in sale invoice delete them first'
-          : 'You cannot delete this quotation because some of the selected quotations are used in proforma invoice or in sale invoice';
+          ? 'Cannot delete this Quotation because its status is no draft'
+          : 'You cannot delete these quotation because some of the selected quotations are used in proforma invoice or in sale invoice or not have draft status';
       actionButton = false;
     }
     setOpenInfoPopup({

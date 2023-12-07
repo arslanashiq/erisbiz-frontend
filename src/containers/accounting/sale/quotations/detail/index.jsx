@@ -108,10 +108,10 @@ function QuotationDetailPage() {
         handleClick: () => {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
-          const cantDelete = quotationStatus === 'proforma-invoiced' || quotationStatus === 'invoiced';
-          if (cantDelete) {
+          const canDelete = quotationStatus === 'draft';
+          if (!canDelete) {
             infoDescription =
-              'This Quotation is used in proforma invoice or in sale invoice delete them first';
+              'Cannot delete this Quotation because its status is no draft';
             showActionButton = false;
           }
 

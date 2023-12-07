@@ -29,7 +29,7 @@ import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import {
   handleCalculateTotalAmount,
   handleChangeChartOfAccount,
-  handleChangeCostPrice,
+  // handleChangeCostPrice,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
@@ -107,12 +107,6 @@ function AddPurchaseInvoice() {
         placeholder: 'Quantity',
         type: 'number',
         onChange: handleChangeQuantity,
-      },
-      {
-        name: 'cost_price',
-        placeholder: 'Cost Price',
-        type: 'number',
-        onChange: handleChangeCostPrice,
       },
       {
         name: 'unit_price_ex_vat',
@@ -215,6 +209,7 @@ function AddPurchaseInvoice() {
       handleGetPurchaseOrderAgainstSupplier(queryResponse?.supplier_id || purchaseOrderResponse?.supplier_id);
     }
   }, [queryResponse, purchaseOrdersListResponse, purchaseOrderResponse]);
+
   return (
     <SectionLoader
       options={[
@@ -332,6 +327,7 @@ function AddPurchaseInvoice() {
                   type="number"
                   placeholder="Supplier Invoice Number"
                   label="Supplier Inv No"
+                  isRequired
                 />
 
                 <FormikFileField

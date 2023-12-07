@@ -37,7 +37,7 @@ function SaleInvoiceDetailPage() {
   const { id } = useParams();
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
-    infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
+    infoDescription: 'Cannot delete  this Sale Invoice because its status is not draft',
   });
   const [openVoidModal, setOpenVoidModal] = useState(false);
   const saleInvoiceDetailResponse = useGetSingleSaleInvoiceQuery(id);
@@ -122,10 +122,9 @@ function SaleInvoiceDetailPage() {
         handleClick: () => {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
-          const cantDelete = status === 'paid' || status === 'partially paid';
-          if (cantDelete) {
-            infoDescription =
-              'You cannot delete this Sales Invoice  beacuse this is used in purchase Receipt Vouchers';
+          const canDelete = status === 'draft';
+          if (!canDelete) {
+            infoDescription = 'Cannot delete  this Sale Invoice because its status is not draft';
             showActionButton = false;
           }
 

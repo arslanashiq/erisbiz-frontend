@@ -32,12 +32,10 @@ function SupplierCreditListing() {
         selectedData.push(item);
       }
     });
-    const cantDelete = selectedData.some(
-      item => item.status === 'void' || item.status === 'partially paid' || item.status === 'paid'
-    );
+    const canDelete = selectedData.some(item => item.status === 'draft');
 
-    if (cantDelete) {
-      message = 'You cannot delete these items because some of the selected items is used in transactions';
+    if (!canDelete) {
+      message = 'You cannot delete these Invoices because some of the selected invoices not draft';
       actionButton = false;
     }
     setOpenInfoPopup({

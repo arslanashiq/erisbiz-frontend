@@ -103,12 +103,11 @@ function PurchaseInvoiceDetail() {
         handleClick: () => {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
-          const cantDelete =
-            invoiceStatus === 'void' || invoiceStatus === 'partially paid' || invoiceStatus === 'paid';
+          const canDelete = invoiceStatus === 'draft';
 
-          if (cantDelete) {
+          if (!canDelete) {
             infoDescription =
-              'You cannot delete this Purchase Invoice beacuse this order is used in Payment Voucher';
+              'You cannot delete this Purchase Invoice beacuse this Invoice status is not draft';
             showActionButton = false;
           }
 

@@ -119,7 +119,7 @@ function OrderReceipt({
               <Box className="boxSecond" style={{ fontSize: '16px' }}>
                 {orderInfo.formated_order_number && (
                   <Box className="entry-info">
-                    <p className="head">OrderNumber:</p>
+                    <p className="head">Order Number:</p>
                     <p>{orderInfo.formated_order_number}</p>
                   </Box>
                 )}

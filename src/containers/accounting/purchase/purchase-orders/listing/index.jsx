@@ -23,7 +23,7 @@ function PurchaseOrderListing() {
   const [deletePurchaseOrder] = useDeletePurchaseOrderMutation();
 
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these items because some of the selected items is used in transactions';
+    let message = 'You cannot delete these Purchase Orders because some of the selected items status is not draft';
     let actionButton = false;
     const selectedData = [];
     data.forEach(item => {
@@ -32,8 +32,8 @@ function PurchaseOrderListing() {
       }
     });
 
-    const cantDelete = selectedData.some(item => item.status === 'closed');
-    if (!cantDelete) {
+    const canDelete = selectedData.some(item => item.status === 'draft');
+    if (canDelete) {
       message = 'Are you sure you want to delete?';
       actionButton = true;
     }

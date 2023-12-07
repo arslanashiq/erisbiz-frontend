@@ -26,14 +26,12 @@ function ProfomaInvoiceListing() {
         selectedData.push(item);
       }
     });
-    const cantDelete = selectedData.some(
-      item => item.status === 'void' || item.status === 'partially paid' || item.status === 'paid'
-    );
-    if (cantDelete) {
+    const canDelete = selectedData.some(item => item.status === 'draft');
+    if (!canDelete) {
       message =
         selectedData.length === 1
-          ? 'This Sale Invoice has Payments delete them first'
-          : 'You cannot delete this Sale Invoice because some of the selected Sale Invoices are void or  have payments ';
+          ? 'Cannot delete  this Sale Invoice because its status is not draft'
+          : 'You cannot delete this Sale Invoice because some of the selected Sale Invoices are void or  have payments or status is not draft';
       actionButton = false;
     }
     setOpenInfoPopup({

@@ -36,10 +36,9 @@ function PurchaseOrderDetail() {
         handleClick: () => {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
-          const cantDelete = purchaseOrderResponse?.data?.status === 'closed';
-          if (cantDelete) {
-            infoDescription =
-              'You cannot delete this Purchase Order beacuse this order is used in purchase invoice';
+          const canDelete = purchaseOrderResponse?.data?.status === 'draft';
+          if (!canDelete) {
+            infoDescription = 'You cannot delete this Purchase Order beacuse its status is not draft';
             showActionButton = false;
           }
           setOpenInfoPopup({
@@ -87,7 +86,7 @@ function PurchaseOrderDetail() {
   return (
     <SectionLoader options={[purchaseOrderResponse.isLoading]}>
       <DetailPageHeader
-        title={`Po:#${purchaseOrderResponse?.data?.pur_order_num}`}
+        title={`PO : ${purchaseOrderResponse?.data?.pur_order_num}`}
         filesList={purchaseOrderResponse?.data?.pur_order_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}
