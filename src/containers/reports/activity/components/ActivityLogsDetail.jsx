@@ -191,10 +191,10 @@ function ActivityLogsDetail() {
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>New Data</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell sx={{ ...tableCellStyle, padding: 0, margin: 0 }}>
+                      <TableCell sx={{ padding: 0, margin: 0 }}>
                         {activityDetail?.payload && payload && <Stack>{renderObject(oldPayload, 0)}</Stack>}
                       </TableCell>
-                      <TableCell sx={{ ...tableCellStyle, padding: 0, margin: 0 }}>
+                      <TableCell sx={{ padding: 0, margin: 0 }}>
                         {activityDetail?.payload && payload && <Stack>{renderObject(payload, 0)}</Stack>}
                       </TableCell>
                     </TableRow>
@@ -209,7 +209,7 @@ function ActivityLogsDetail() {
                     </TableRow>
                     <TableRow>
                       {activityDetail?.payload && payload && (
-                        <TableCell sx={{ ...tableCellStyle, padding: 0, margin: 0 }} colSpan={2}>
+                        <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
                           <Stack>
                             {renderObject(payload, 0)}
                             {/* <ol>{renderObject(payload, 0)}</ol> */}
