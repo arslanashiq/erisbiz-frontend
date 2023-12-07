@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable consistent-return */
 import React, { useMemo } from 'react';
 import moment from 'moment';
@@ -24,7 +25,14 @@ import {
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 
 // contant
-const inValidKeys = ['uid', 'id', 'created_by', 'created_at', 'created_by_employee_name', 'currency'];
+const inValidKeys = [
+  'uid',
+  'id',
+  // 'created_by',
+  'created_at',
+  'created_by_employee_name',
+  'currency',
+];
 const tableCellStyle = {
   border: '1px solid silver',
 };
@@ -110,7 +118,11 @@ function ActivityLogsDetail() {
     };
   }, [activityDetail]);
 
-  const renderValue = payloadInfo => payloadInfo;
+  const renderValue = payloadInfo => (
+    <Typography sx={{ padding: '16px', ...tableCellStyle }} key={uuid()}>
+      {payloadInfo}
+    </Typography>
+  );
 
   const isValidValue = payloadInfo => {
     if (payloadInfo) {
@@ -125,31 +137,30 @@ function ActivityLogsDetail() {
   };
 
   const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  const renderObject = (payloadInfo, spaceCount) => Object.keys(payloadInfo).map(key => {
-    if (!checkDataAllowdedToPrint(key)) return;
-    const valueType = isValidValue(payloadInfo[key]);
+  // eslint-disable-next-line no-unused-vars
+  const renderObject = (payloadInfo, spaceCount) =>
+    Object.keys(payloadInfo).map(key => {
+      if (!checkDataAllowdedToPrint(key)) return;
+      const valueType = isValidValue(payloadInfo[key]);
 
-    if (valueType === 'list') {
-      return payloadInfo[key]?.map(pay => (
-        <React.Fragment key={uuid()}>
-          <li>{key?.replaceAll('_', ' ')}.</li>
-          <ul>{renderObject(pay, spaceCount)}</ul>
-        </React.Fragment>
-      ));
-    }
-    if (valueType === 'object') {
-      return (
-        <React.Fragment key={uuid()}>
-          <li>{key}</li>
-          <ul>{renderObject(payloadInfo[key], spaceCount)}</ul>
-        </React.Fragment>
-      );
-    }
-    if (payloadInfo[key] !== '' && payloadInfo[key] !== null && payloadInfo[key] !== undefined) {
-      return <li key={uuid()}>{renderValue(payloadInfo[key])}</li>;
-    }
-    return '';
-  });
+      if (valueType === 'list') {
+        // return payloadInfo[key]?.map(pay => (
+        //   <React.Fragment key={uuid()}>
+        //     <li>{key?.replaceAll('_', ' ')}.</li>
+        //     <ul>{renderObject(pay, spaceCount)}</ul>
+        //   </React.Fragment>
+        // ));
+        return renderValue(`${key?.replaceAll('_', ' ')} list`);
+      }
+      if (valueType === 'object') {
+        // retu
+        return renderValue(`${key?.replaceAll('_', ' ')} object`);
+      }
+      if (payloadInfo[key] !== '' && payloadInfo[key] !== null && payloadInfo[key] !== undefined) {
+        return renderValue(payloadInfo[key]);
+      }
+      return '';
+    });
 
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
@@ -180,11 +191,11 @@ function ActivityLogsDetail() {
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>New Data</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell sx={tableCellStyle}>
-                        {activityDetail?.payload && payload && <ol>{renderObject(oldPayload, 0)}</ol>}
+                      <TableCell sx={{ ...tableCellStyle, padding: 0, margin: 0 }}>
+                        {activityDetail?.payload && payload && <Stack>{renderObject(oldPayload, 0)}</Stack>}
                       </TableCell>
-                      <TableCell sx={tableCellStyle}>
-                        {activityDetail?.payload && payload && <ol>{renderObject(payload, 0)}</ol>}
+                      <TableCell sx={{ ...tableCellStyle, padding: 0, margin: 0 }}>
+                        {activityDetail?.payload && payload && <Stack>{renderObject(payload, 0)}</Stack>}
                       </TableCell>
                     </TableRow>
                   </>
@@ -197,13 +208,14 @@ function ActivityLogsDetail() {
                       </TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell sx={tableCellStyle} colSpan={2}>
-                        {activityDetail?.payload && payload && (
+                      {activityDetail?.payload && payload && (
+                        <TableCell sx={{ ...tableCellStyle, padding: 0, margin: 0 }} colSpan={2}>
                           <Stack>
-                            <ol>{renderObject(payload, 0)}</ol>
+                            {renderObject(payload, 0)}
+                            {/* <ol>{renderObject(payload, 0)}</ol> */}
                           </Stack>
-                        )}
-                      </TableCell>
+                        </TableCell>
+                      )}
                     </TableRow>
                   </>
                 )}
