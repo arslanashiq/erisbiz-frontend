@@ -35,7 +35,7 @@ function CompanyInformation({ companyData }) {
     label: 'country',
     value: 'iso2',
   });
-  const { optionsList: currenciesList } = useListOptions(activeCurrenciesResponse?.data?.results, {
+  const { optionsList: currenciesList } = useListOptions(activeCurrenciesResponse?.data, {
     label: 'currency_name',
     value: 'id',
   });
@@ -57,6 +57,7 @@ function CompanyInformation({ companyData }) {
       setUpdatedCompanyData(updatedDataWithLogo);
     })();
   }, [companyData]);
+
   return (
     <Formik
       enableReinitialize
