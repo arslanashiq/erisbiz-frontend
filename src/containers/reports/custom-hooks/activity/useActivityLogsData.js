@@ -67,19 +67,37 @@ function useActivityLogsData(activityLogsResponse) {
     activityLogsResponse?.data?.results.forEach(item => {
       body.push([
         {
-          value: moment(item.datetime).format('DD-MMM-YY hh:mm A'),
-          style: { textAlign: 'start' },
+          value: (
+            <span>
+              {moment(item.datetime).format('DD-MMM-YY')}
+              <br />
+              {moment(item.datetime).format('hh:mm A')}
+            </span>
+          ),
+          style: {
+            textAlign: 'start',
+          },
         },
         {
           value: item.module_name || 'Module',
           link: `${window.location.pathname}/${item.id}`,
 
-          style: { textAlign: 'start' },
+          style: {
+            textAlign: 'start',
+          },
         },
 
         {
           value: item?.description,
-          style: { textAlign: 'start' },
+          style: {
+            textAlign: 'start',
+          },
+        },
+        {
+          value: item?.user_details?.profile?.employee_name,
+          style: {
+            textAlign: 'start',
+          },
         },
       ]);
     });

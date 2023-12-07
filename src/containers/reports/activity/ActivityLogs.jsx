@@ -17,6 +17,7 @@ function ActivityLogs() {
         replaceTableBody: false,
         showPrint: false,
       }}
+      parentWrapperClassName="custom-receipt-activity-log"
     />
   );
 }

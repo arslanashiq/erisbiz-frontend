@@ -31,12 +31,13 @@ import {
 import 'styles/dashboard/dashboard.scss';
 
 function Dasbboard() {
+  const currencySymbol = useSelector(state => state?.user?.company?.currency_detail?.currency_symbol);
+
   const currentMonthSale = useGetDashboardCurrentMonthSaleQuery();
   const saleByMonth = useGetDashboardSaleByMonthQuery();
   const dashboardDetail = useGetDashboardDetailQuery();
   const productCategory = useGetDashboardProductCategoryDetailQuery();
   const totalReceivables = useGetDashboardTotalReceivablesQuery();
-  const currencySymbol = useSelector(state => state?.user?.company?.currency_detail?.currency_symbol);
 
   const totalReceivablesValue = useMemo(() => {
     const receivablesData = totalReceivables?.data?.data;
@@ -88,6 +89,7 @@ function Dasbboard() {
     });
     return [...saleInvoiceData, ...saleCreditNotesData, ...purchaseDebitNoteData];
   }, [totalReceivables]);
+
   const cardsList = useMemo(
     () => [
       {
@@ -147,6 +149,7 @@ function Dasbboard() {
     }
     return [];
   }, [saleByMonth]);
+
   return (
     <SectionLoader
       options={[

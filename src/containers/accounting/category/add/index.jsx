@@ -50,12 +50,11 @@ function AddCategory() {
                   response = await addCategory(values);
                 }
 
-                if (response.data) {
-                  navigate(-1);
-                }
                 if (response.error) {
                   setErrors(response.error.data);
+                  return;
                 }
+                navigate(-1);
               } catch (err) {
                 if (err?.response?.status === 400) {
                   setErrors(err.response.data);

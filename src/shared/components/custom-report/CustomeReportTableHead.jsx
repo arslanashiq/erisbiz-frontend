@@ -7,7 +7,16 @@ function CustomeReportTableHead({ tableHeader }) {
     <thead>
       <tr>
         {tableHeader.map(cell => (
-          <th key={uuid()} style={{ textAlign: 'right', textTransform: 'uppercase', ...cell.style }}>
+          <th
+            key={uuid()}
+            style={{
+              textAlign: 'right',
+              textTransform: 'uppercase',
+              padding: '8px 10px',
+              fontSize: '13px',
+              ...cell.style,
+            }}
+          >
             {cell.title}
           </th>
         ))}

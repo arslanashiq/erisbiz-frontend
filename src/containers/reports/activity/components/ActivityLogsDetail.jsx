@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable implicit-arrow-linebreak */
 import React, { useMemo } from 'react';
 import moment from 'moment';
@@ -23,74 +24,79 @@ import {
   bankDetailPopupInfoTitleStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 
+// contant
+const inValidKeys = ['uid', 'id', 'created_by', 'created_at', 'created_by_employee_name', 'currency'];
+const tableCellStyle = {
+  border: '1px solid silver',
+};
 function ActivityLogsDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { data: activityDetail, isLoading } = useGetActivityLogsDetailQuery(id);
 
-  const getDomain = endpointValue => {
-    let domain = '';
-    try {
-      if (endpointValue?.includes('/api')) {
-        [domain] = endpointValue.split('/api');
-      }
-    } catch (error) {
-      domain = '';
-    }
-    return domain;
-  };
-  const getEndpoint = endpointValue => {
-    let endpoint = endpointValue;
-    try {
-      if (endpoint?.includes('/api')) {
-        [, endpoint] = endpoint.split('/api');
-      }
-      if (endpoint?.includes('?')) {
-        [endpoint] = endpoint.split('?');
-      }
-      return `api${endpoint}`;
-    } catch (error) {
-      return '';
-    }
-  };
+  // const getDomain = endpointValue => {
+  //   let domain = '';
+  //   try {
+  //     if (endpointValue?.includes('/api')) {
+  //       [domain] = endpointValue.split('/api');
+  //     }
+  //   } catch (error) {
+  //     domain = '';
+  //   }
+  //   return domain;
+  // };
+  // const getEndpoint = endpointValue => {
+  //   let endpoint = endpointValue;
+  //   try {
+  //     if (endpoint?.includes('/api')) {
+  //       [, endpoint] = endpoint.split('/api');
+  //     }
+  //     if (endpoint?.includes('?')) {
+  //       [endpoint] = endpoint.split('?');
+  //     }
+  //     return `api${endpoint}`;
+  //   } catch (error) {
+  //     return '';
+  //   }
+  // };
 
-  const getqueryParams = endpointValue => {
-    let queryParams = '';
-    try {
-      if (endpointValue?.includes('?')) {
-        [, queryParams] = endpointValue.split('?');
-      }
-    } catch (error) {
-      queryParams = '';
-    }
-    return queryParams;
-  };
+  // const getqueryParams = endpointValue => {
+  //   let queryParams = '';
+  //   try {
+  //     if (endpointValue?.includes('?')) {
+  //       [, queryParams] = endpointValue.split('?');
+  //     }
+  //   } catch (error) {
+  //     queryParams = '';
+  //   }
+  //   return queryParams;
+  // };
 
   const activityDetailInfo = useMemo(() => {
     const data = [];
-    data.push({ label: 'User', value: activityDetail?.user });
+    data.push({ label: 'User Name', value: activityDetail?.user });
     data.push({
       label: 'Action Date',
       value: moment(activityDetail?.datetime).format('DD-MMMM-YYYY'),
     });
     data.push({ label: 'Action Time', value: moment(activityDetail?.datetime).format('hh:mm:ss A') });
-    data.push({
-      label: 'Request Method',
-      value: `${activityDetail?.request_method} with Status ${activityDetail?.response_code || 'N/A'}`,
-    });
+
     data.push({ label: 'Location', value: `${activityDetail?.city},${activityDetail?.country}` });
     data.push({ label: 'IP Address', value: activityDetail?.ip_address });
-    data.push({ label: 'Domain', value: getDomain(activityDetail?.request_url) });
-    data.push({ label: 'Endpoints', value: getEndpoint(activityDetail?.request_url) });
-    data.push({ label: 'Params', value: getqueryParams(activityDetail?.request_url) });
 
     return data;
   }, [activityDetail]);
 
-  const { payload, oldPayload } = useMemo(() => {
+  const { payload, oldPayload, showData, isDataUpdated } = useMemo(() => {
     let payloadData = '';
     let oldPayloadData = '';
+    const dataUpdated =
+      activityDetail?.request_method === 'PUT' || activityDetail?.request_method === 'PATCH';
+    const show =
+      activityDetail?.request_method === 'PUT' ||
+      activityDetail?.request_method === 'PATCH' ||
+      activityDetail?.request_method === 'POST';
     try {
       payloadData = activityDetail?.payload?.length > 0 ? JSON.parse(activityDetail?.payload) : '';
       oldPayloadData = activityDetail?.old_payload?.length > 0 ? JSON.parse(activityDetail?.old_payload) : '';
@@ -100,6 +106,8 @@ function ActivityLogsDetail() {
     return {
       payload: payloadData,
       oldPayload: oldPayloadData,
+      isDataUpdated: dataUpdated,
+      showData: show,
     };
   }, [activityDetail]);
 
@@ -117,30 +125,34 @@ function ActivityLogsDetail() {
     return 'value';
   };
 
+  const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
   const renderObject = (payloadInfo, spaceCount) =>
     Object.keys(payloadInfo).map(key => {
-      if (isValidValue(payloadInfo[key]) === 'list') {
-        return payloadInfo[key]?.map((pay, index) => (
-          <ul key={uuid()}>
-            <li>
-              {key}[{index}]
-            </li>
-            <ul>{renderObject(pay, spaceCount + 1)}</ul>
-          </ul>
+      if (!checkDataAllowdedToPrint(key)) return;
+      const valueType = isValidValue(payloadInfo[key]);
+
+      if (valueType === 'list') {
+        return payloadInfo[key]?.map(pay => (
+          <React.Fragment key={uuid()}>
+            <li>{key?.replaceAll('_', ' ')}.</li>
+            <ul>{renderObject(pay, spaceCount)}</ul>
+          </React.Fragment>
         ));
       }
-      if (isValidValue(payloadInfo[key]) === 'object') {
+      if (valueType === 'object') {
         return (
           <React.Fragment key={uuid()}>
             <li>{key}</li>
-            {renderObject(payloadInfo[key], spaceCount + 1)}
+            <ul>{renderObject(payloadInfo[key], spaceCount)}</ul>
           </React.Fragment>
         );
       }
-      return <li key={uuid()}>{`${key} : ${renderValue(payloadInfo[key])}`}</li>;
+      if (payloadInfo[key] !== '' && payloadInfo[key] !== null && payloadInfo[key] !== undefined) {
+        return <li key={uuid()}>{renderValue(payloadInfo[key])}</li>;
+      }
+      return '';
     });
 
-  console.log(payload, 'skjdallak');
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>
@@ -154,48 +166,49 @@ function ActivityLogsDetail() {
               <TableBody>
                 {activityDetailInfo.map(row => (
                   <TableRow key={uuid()}>
-                    <TableCell sx={bankDetailPopupInfoTitleStyle}>{row.label}</TableCell>
-                    <TableCell sx={{ ...bankDetailPopupInfoBodyStyle, fontWeight: 400 }}>
+                    <TableCell key={uuid()} sx={{ ...bankDetailPopupInfoTitleStyle }}>
+                      {row.value || 'N/A'}
+                    </TableCell>
+                    <TableCell key={uuid()} sx={{ ...bankDetailPopupInfoBodyStyle, fontWeight: 400 }}>
                       {row.value || 'N/A'}
                     </TableCell>
                   </TableRow>
                 ))}
-                {activityDetail?.payload && payload && (
-                  <TableRow key={uuid()}>
-                    <TableCell sx={bankDetailPopupInfoTitleStyle}>New Payload</TableCell>
-                    <TableCell
-                      sx={{
-                        border: '1px solid silver',
-                      }}
-                    >
-                      <ul>{renderObject(payload, 1)}</ul>
-                    </TableCell>
-                  </TableRow>
+
+                {showData && isDataUpdated && (
+                  <>
+                    <TableRow>
+                      <TableCell sx={bankDetailPopupInfoTitleStyle}>Old Data</TableCell>
+                      <TableCell sx={bankDetailPopupInfoTitleStyle}>New Data</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell sx={tableCellStyle}>
+                        {activityDetail?.payload && payload && <ol>{renderObject(oldPayload, 0)}</ol>}
+                      </TableCell>
+                      <TableCell sx={tableCellStyle}>
+                        {activityDetail?.old_payload && oldPayload && <ol>{renderObject(oldPayload, 0)}</ol>}
+                      </TableCell>
+                    </TableRow>
+                  </>
                 )}
-                {activityDetail?.old_payload && oldPayload && (
-                  <TableRow key={uuid()}>
-                    <TableCell sx={bankDetailPopupInfoTitleStyle}>Old Payload</TableCell>
-                    <TableCell
-                      sx={{
-                        border: '1px solid silver',
-                      }}
-                    >
-                      <ul>{renderObject(oldPayload, 1)}</ul>
-                    </TableCell>
-                  </TableRow>
+                {showData && !isDataUpdated && (
+                  <>
+                    <TableRow>
+                      <TableCell sx={bankDetailPopupInfoTitleStyle} colSpan={2}>
+                        Data
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell sx={tableCellStyle} colSpan={2}>
+                        {activityDetail?.payload && payload && (
+                          <Stack>
+                            <ol>{renderObject(payload, 0)}</ol>
+                          </Stack>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </>
                 )}
-                {/* {activityDetail?.payload && !payload && (
-                  <TableRow>
-                    <TableCell sx={bankDetailPopupInfoTitleStyle}>Payload</TableCell>
-                    <TableCell
-                      sx={{
-                        border: '1px solid silver',
-                      }}
-                    >
-                      <ul>{activityDetail.payload}</ul>
-                    </TableCell>
-                  </TableRow>
-                )} */}
               </TableBody>
             </Table>
           </DialogContent>

@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import 'styles/reports/custom-report.scss';
 import CustomeReportTableHead from './CustomeReportTableHead';
 
-function CustomReport({ tableHeader, tableBody, tableFooter }) {
+function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassName }) {
   return (
-    <div className="custom-receipt-main-container" style={{ minWidth: 900 }}>
+    <div className={parentWrapperClassName} style={{ minWidth: 900 }}>
       <div style={{ padding: '0px 20px' }}>
         <table className="table1 w-100">
           <CustomeReportTableHead tableHeader={tableHeader} />
@@ -64,10 +64,12 @@ CustomReport.propTypes = {
   tableHeader: PropTypes.array,
   tableBody: PropTypes.array,
   tableFooter: PropTypes.array,
+  parentWrapperClassName: PropTypes.string,
 };
 CustomReport.defaultProps = {
   tableHeader: [],
   tableBody: [],
   tableFooter: [[]],
+  parentWrapperClassName: 'custom-receipt-main-container',
 };
 export default CustomReport;

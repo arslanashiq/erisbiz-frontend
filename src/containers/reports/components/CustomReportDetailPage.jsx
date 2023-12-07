@@ -27,6 +27,7 @@ function CustomReportDetailPage({
   useGetReportData,
   CustomComponent,
   options,
+  parentWrapperClassName,
 }) {
   const { replaceTableBody } = options;
   const location = useLocation();
@@ -81,10 +82,16 @@ function CustomReportDetailPage({
                   tableHeader={modifiedTableHead[index]}
                   tableBody={item}
                   tableFooter={tableFooter[index]}
+                  parentWrapperClassName={parentWrapperClassName}
                 />
               ))
             ) : (
-              <CustomReport tableHeader={reportHeadCells} tableBody={tableBody} tableFooter={tableFooter} />
+              <CustomReport
+                tableHeader={reportHeadCells}
+                tableBody={tableBody}
+                tableFooter={tableFooter}
+                parentWrapperClassName={parentWrapperClassName}
+              />
             )}
           </div>
         </CardContent>
@@ -103,6 +110,7 @@ CustomReportDetailPage.propTypes = {
     replaceTableBody: PropTypes.bool,
     showCompanyInfoHeader: PropTypes.bool,
   }),
+  parentWrapperClassName: PropTypes.string,
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
@@ -113,5 +121,6 @@ CustomReportDetailPage.defaultProps = {
     showPrint: true,
   },
   CustomComponent: null,
+  parentWrapperClassName: 'custom-receipt-main-container',
 };
 export default CustomReportDetailPage;

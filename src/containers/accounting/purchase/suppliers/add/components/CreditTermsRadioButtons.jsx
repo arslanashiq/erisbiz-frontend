@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Field } from 'formik';
 import PropTypes from 'prop-types';

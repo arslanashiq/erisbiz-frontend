@@ -83,7 +83,6 @@ export default function TransactionAccordionWithFilter({
         sx={{
           // padding: '10px 0px',
           boxShadow: 'none',
-          borderBottom: 1,
           borderRadius: '0px !important',
           zIndex: 1,
         }}

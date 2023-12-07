@@ -1,5 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
-/* eslint-disable react/jsx-filename-extension */
 export const PaymentVoucherHeadCells = [
   {
     id: 'payment_date',

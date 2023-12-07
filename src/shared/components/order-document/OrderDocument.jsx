@@ -27,8 +27,8 @@ function OrderDocument({
                 <DraftsOutlinedIcon sx={{ height: 80, width: 80 }} />
               </span>
               <span>
-                <h3>Payment</h3>
-                <p>Order has been created. You can request for payment.</p>
+                <h3>Mark As Issue</h3>
+                <p>Order has been created. You can now mark as issue.</p>
               </span>
             </Box>
             <Stack className="col-md-3">
@@ -39,7 +39,7 @@ function OrderDocument({
                 onClick={() => handleChangeStatus(id)}
                 disabled={orderDetail && orderDetail.status !== 'draft'}
               >
-                Request Payment
+                Mark as Issue
               </Button>
             </Stack>
           </blockquote>
