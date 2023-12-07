@@ -1,3 +1,4 @@
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable consistent-return */
 import React, { useMemo } from 'react';
@@ -118,11 +119,18 @@ function ActivityLogsDetail() {
     };
   }, [activityDetail]);
 
-  const renderValue = payloadInfo => (
-    <Typography sx={{ padding: '16px', ...tableCellStyle }} key={uuid()}>
-      {payloadInfo}
-    </Typography>
-  );
+  const renderValue = (payloadInfo, payloadStyles = { padding: '16px', ...tableCellStyle }) =>
+    payloadStyles ? (
+      <Typography sx={payloadStyles} key={uuid()}>
+        {payloadInfo}
+      </Typography>
+    ) : (
+      <li>
+        <Typography sx={payloadStyles} key={uuid()}>
+          {payloadInfo}
+        </Typography>
+      </li>
+    );
 
   const isValidValue = payloadInfo => {
     if (payloadInfo) {
@@ -137,27 +145,23 @@ function ActivityLogsDetail() {
   };
 
   const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  // eslint-disable-next-line no-unused-vars
-  const renderObject = (payloadInfo, spaceCount) =>
+  const renderObject = (payloadInfo, styles = { padding: '16px', ...tableCellStyle }) =>
     Object.keys(payloadInfo).map(key => {
       if (!checkDataAllowdedToPrint(key)) return;
       const valueType = isValidValue(payloadInfo[key]);
 
       if (valueType === 'list') {
-        // return payloadInfo[key]?.map(pay => (
-        //   <React.Fragment key={uuid()}>
-        //     <li>{key?.replaceAll('_', ' ')}.</li>
-        //     <ul>{renderObject(pay, spaceCount)}</ul>
-        //   </React.Fragment>
-        // ));
-        return renderValue(`${key?.replaceAll('_', ' ')} list`);
+        return payloadInfo[key]?.map(pay => renderObject(pay));
       }
       if (valueType === 'object') {
-        // retu
-        return renderValue(`${key?.replaceAll('_', ' ')} object`);
+        return (
+          <TableCell sx={tableCellStyle}>
+            <ul>{renderObject(payloadInfo[key], null)}</ul>
+          </TableCell>
+        );
       }
       if (payloadInfo[key] !== '' && payloadInfo[key] !== null && payloadInfo[key] !== undefined) {
-        return renderValue(payloadInfo[key]);
+        return renderValue(payloadInfo[key], styles);
       }
       return '';
     });
@@ -192,10 +196,10 @@ function ActivityLogsDetail() {
                     </TableRow>
                     <TableRow>
                       <TableCell sx={{ padding: 0, margin: 0 }}>
-                        {activityDetail?.payload && payload && <Stack>{renderObject(oldPayload, 0)}</Stack>}
+                        {activityDetail?.payload && payload && <Stack>{renderObject(oldPayload)}</Stack>}
                       </TableCell>
                       <TableCell sx={{ padding: 0, margin: 0 }}>
-                        {activityDetail?.payload && payload && <Stack>{renderObject(payload, 0)}</Stack>}
+                        {activityDetail?.payload && payload && <Stack>{renderObject(payload)}</Stack>}
                       </TableCell>
                     </TableRow>
                   </>
@@ -211,7 +215,7 @@ function ActivityLogsDetail() {
                       {activityDetail?.payload && payload && (
                         <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
                           <Stack>
-                            {renderObject(payload, 0)}
+                            {renderObject(payload)}
                             {/* <ol>{renderObject(payload, 0)}</ol> */}
                           </Stack>
                         </TableCell>
