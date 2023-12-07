@@ -119,14 +119,14 @@ function ActivityLogsDetail() {
     };
   }, [activityDetail]);
 
-  const renderValue = (payloadInfo, payloadStyles = { padding: '16px', ...tableCellStyle }) =>
+  const renderValue = (payloadInfo, payloadStyles) =>
     payloadStyles ? (
       <Typography sx={payloadStyles} key={uuid()}>
         {payloadInfo}
       </Typography>
     ) : (
       <li>
-        <Typography sx={payloadStyles} key={uuid()}>
+        <Typography sx={{ fontSize: '14px' }} key={uuid()}>
           {payloadInfo}
         </Typography>
       </li>
@@ -145,7 +145,7 @@ function ActivityLogsDetail() {
   };
 
   const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  const renderObject = (payloadInfo, styles = { padding: '16px', ...tableCellStyle }) =>
+  const renderObject = (payloadInfo, styles = { padding: '16px', fontSize: '14px', ...tableCellStyle }) =>
     Object.keys(payloadInfo).map(key => {
       if (!checkDataAllowdedToPrint(key)) return;
       const valueType = isValidValue(payloadInfo[key]);
