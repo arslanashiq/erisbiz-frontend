@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-/* eslint-disable implicit-arrow-linebreak */
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -126,32 +125,31 @@ function ActivityLogsDetail() {
   };
 
   const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  const renderObject = (payloadInfo, spaceCount) =>
-    Object.keys(payloadInfo).map(key => {
-      if (!checkDataAllowdedToPrint(key)) return;
-      const valueType = isValidValue(payloadInfo[key]);
+  const renderObject = (payloadInfo, spaceCount) => Object.keys(payloadInfo).map(key => {
+    if (!checkDataAllowdedToPrint(key)) return;
+    const valueType = isValidValue(payloadInfo[key]);
 
-      if (valueType === 'list') {
-        return payloadInfo[key]?.map(pay => (
-          <React.Fragment key={uuid()}>
-            <li>{key?.replaceAll('_', ' ')}.</li>
-            <ul>{renderObject(pay, spaceCount)}</ul>
-          </React.Fragment>
-        ));
-      }
-      if (valueType === 'object') {
-        return (
-          <React.Fragment key={uuid()}>
-            <li>{key}</li>
-            <ul>{renderObject(payloadInfo[key], spaceCount)}</ul>
-          </React.Fragment>
-        );
-      }
-      if (payloadInfo[key] !== '' && payloadInfo[key] !== null && payloadInfo[key] !== undefined) {
-        return <li key={uuid()}>{renderValue(payloadInfo[key])}</li>;
-      }
-      return '';
-    });
+    if (valueType === 'list') {
+      return payloadInfo[key]?.map(pay => (
+        <React.Fragment key={uuid()}>
+          <li>{key?.replaceAll('_', ' ')}.</li>
+          <ul>{renderObject(pay, spaceCount)}</ul>
+        </React.Fragment>
+      ));
+    }
+    if (valueType === 'object') {
+      return (
+        <React.Fragment key={uuid()}>
+          <li>{key}</li>
+          <ul>{renderObject(payloadInfo[key], spaceCount)}</ul>
+        </React.Fragment>
+      );
+    }
+    if (payloadInfo[key] !== '' && payloadInfo[key] !== null && payloadInfo[key] !== undefined) {
+      return <li key={uuid()}>{renderValue(payloadInfo[key])}</li>;
+    }
+    return '';
+  });
 
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
@@ -167,7 +165,7 @@ function ActivityLogsDetail() {
                 {activityDetailInfo.map(row => (
                   <TableRow key={uuid()}>
                     <TableCell key={uuid()} sx={{ ...bankDetailPopupInfoTitleStyle }}>
-                      {row.value || 'N/A'}
+                      {row.label || 'N/A'}
                     </TableCell>
                     <TableCell key={uuid()} sx={{ ...bankDetailPopupInfoBodyStyle, fontWeight: 400 }}>
                       {row.value || 'N/A'}
@@ -186,7 +184,7 @@ function ActivityLogsDetail() {
                         {activityDetail?.payload && payload && <ol>{renderObject(oldPayload, 0)}</ol>}
                       </TableCell>
                       <TableCell sx={tableCellStyle}>
-                        {activityDetail?.old_payload && oldPayload && <ol>{renderObject(oldPayload, 0)}</ol>}
+                        {activityDetail?.payload && payload && <ol>{renderObject(payload, 0)}</ol>}
                       </TableCell>
                     </TableRow>
                   </>
