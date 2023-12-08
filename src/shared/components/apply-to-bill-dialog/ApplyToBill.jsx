@@ -43,7 +43,15 @@ function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues, hea
                   .positive('must be greater than zero')
                   .max(maxAmount, `must be leass tha ${maxAmount}`)
                   .required('required'),
-                bill_credit_notes: Yup.array(),
+                bill_credit_notes: Yup.array().of(
+                  Yup.object().shape({
+                    amount_applied: Yup.number()
+                      .min(0, 'Payment Must be greater than 0')
+                      .max(maxAmount, `Must be less than ${maxAmount}`)
+
+                      .required('Payment is require'),
+                  })
+                ),
               })}
               onSubmit={handleApply}
             >
