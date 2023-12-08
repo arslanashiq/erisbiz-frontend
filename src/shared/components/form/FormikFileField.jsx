@@ -102,8 +102,6 @@ function FormikFileField(props) {
                 setValue(target);
                 handleUploadFile(target[0]);
                 if (onChange) onChange(target);
-                // eslint-disable-next-line no-param-reassign
-                event.target.value = null;
               }}
             />
             {value?.length > 0 && (

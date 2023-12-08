@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
@@ -44,18 +44,26 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
   const { id } = useParams();
 
   const [deleteBank] = useDeleteBankMutation(0);
-  const bankOptions = [
-    { label: 'Bank Name', value: bankDetail.bank_name },
-    { label: 'Bank Account Name', value: bankDetail.bank_account_name },
-    { label: 'Account Number', value: bankDetail.account_number },
-    { label: 'Branch Name', value: bankDetail.branch_name },
-    { label: 'IBAN', value: bankDetail.IBAN },
-    { label: 'Swift Code', value: bankDetail.swift_code },
-  ];
+
+  const bankOptions = useMemo(
+    () => [
+      { label: 'Bank Name', value: bankDetail.bank_name },
+      { label: 'Bank Account Name', value: bankDetail.bank_account_name },
+      { label: 'Account Number', value: bankDetail.account_number },
+      { label: 'Branch Name', value: bankDetail.branch_name },
+      { label: 'IBAN', value: bankDetail.IBAN },
+      { label: 'Swift Code', value: bankDetail.swift_code },
+    ],
+    [bankDetail]
+  );
+
   const handleClose = () => {
     setOpen(false);
   };
-  const handleEditBank = () => {
+  const handleClosePopup = () => {
+    setInfoPopup({ ...infoPopup, open: false });
+  };
+  const handleEditBank = useCallback(() => {
     if (bankDetail.is_active) {
       setInfoPopup({
         open: true,
@@ -66,11 +74,8 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
     }
     handleClose();
     navigate(`/pages/accounting/banking/edit/${id}`);
-  };
-  const handleClosePopup = () => {
-    setInfoPopup({ ...infoPopup, open: false });
-  };
-  const handleDeleteBank = async () => {
+  }, []);
+  const handleDeleteBank = useCallback(async () => {
     if (bankDetail.is_active) {
       setInfoPopup({
         open: true,
@@ -85,8 +90,8 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
       actionButton: true,
       infoDescription: 'Are you sure you want to delete this bank?',
     });
-  };
-  const handleConfirmDelete = async () => {
+  }, [bankDetail]);
+  const handleConfirmDelete = useCallback(async () => {
     const res = await deleteBank(id);
     if (res.error) {
       enqueueSnackbar(res.error.error, { variant: 'error' });
@@ -94,7 +99,8 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
       enqueueSnackbar('Bank Deleted SuccessFully', { variant: 'success' });
       navigate('/pages/accounting/banking');
     }
-  };
+  }, []);
+
   return (
     <Box>
       <InfoPopup
@@ -110,7 +116,6 @@ function BankDetailPopup({ open, setOpen, bankDetail }) {
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
       >
         <IconButton onClick={handleClose} sx={bankDetailPopupCloseButtonStyle}>
           <CloseIcon />

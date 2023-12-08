@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Button, ButtonGroup, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
@@ -19,11 +19,12 @@ import BankDetailPopup from './components/BankDetailPopup';
 function BankDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState('1');
   const [transactionFilter, setTransactionFilter] = useState('this month');
   const [showBankDetailPopup, setShowBankDetailPopup] = useState(false);
-  const bankAccountDetail = useGetSingleBankAccountQuery(id);
 
+  const bankAccountDetail = useGetSingleBankAccountQuery(id);
   const bankTransactionsResponse = useGetBankTransactionsQuery(
     {
       id: bankAccountDetail?.data?.chart_of_account,
@@ -33,12 +34,13 @@ function BankDetail() {
     },
     { skip: !bankAccountDetail?.data?.chart_of_account }
   );
-  const handleChangeButton = e => {
+
+  const handleChangeButton = useCallback(e => {
     setActiveTab(e.target.value);
-  };
-  const handleShowBankDetailPopup = () => {
+  }, []);
+  const handleShowBankDetailPopup = useCallback(() => {
     setShowBankDetailPopup(true);
-  };
+  }, []);
 
   return (
     <SectionLoader options={[bankAccountDetail.isLoading, bankTransactionsResponse.isLoading]}>

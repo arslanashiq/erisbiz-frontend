@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
@@ -35,18 +34,15 @@ const styles = StyleSheet.create({
 
 function InfoBox({ orderInfo }) {
   return orderInfo.showCustomOptions ? (
-    orderInfo.box2 ? (
-      <View style={styles.infobox}>
-        {orderInfo.box2.map(option => (
+    <View style={styles.infobox}>
+      {orderInfo.box2 &&
+        orderInfo.box2.map(option => (
           <View key={uuid()} style={styles.row}>
             <Text style={styles.infoboxText}>{option.label}</Text>
             <Text style={styles.infoboxText}>{option.value}</Text>
           </View>
         ))}
-      </View>
-    ) : (
-      <View />
-    )
+    </View>
   ) : (
     <View style={styles.infobox}>
       <View style={styles.row}>

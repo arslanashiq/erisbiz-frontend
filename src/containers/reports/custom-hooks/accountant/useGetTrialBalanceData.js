@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/jsx-filename-extension */
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import { generalLedgerReportHeadCells } from 'containers/reports/utilities/head-cells';
@@ -10,18 +9,20 @@ import { sortDataByType } from 'containers/reports/utilities/sort-data-by-type';
 import { Stack } from '@mui/material';
 
 function RenderItemCell({ item }) {
+  const { chitd_account: childAccounts, collapse, chart_of_account: chartOfAccount } = item;
   return (
     <Stack direction="row" alignItems="center">
-      {item.child_account && item.collapse && (
-        <IndeterminateCheckBoxIcon sx={{ fontSize: 20, cursor: 'pointer' }} />
-      )}
+      {childAccounts && collapse && <IndeterminateCheckBoxIcon sx={{ fontSize: 20, cursor: 'pointer' }} />}
 
-      {item.child_account && !item.collapse && <AddBoxIcon sx={{ fontSize: 20, cursor: 'pointer' }} />}
+      {childAccounts && !collapse && <AddBoxIcon sx={{ fontSize: 20, cursor: 'pointer' }} />}
 
-      {item?.chart_of_account}
+      {chartOfAccount}
     </Stack>
   );
 }
+RenderItemCell.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 function useGetTrialBalanceData(trialBalanceResponse) {
   const [finalSortedData, setFinalSortedData] = useState({});
   const handleChanage = child => {

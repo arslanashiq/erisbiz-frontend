@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import { NavLink } from 'react-router-dom';
 import SideBarListItemButton from './SideBarListItemButton';
@@ -38,4 +38,19 @@ function SideBarChildLinks({
   );
 }
 
+SideBarChildLinks.propTypes = {
+  childList: PropTypes.array.isRequired,
+  open: PropTypes.bool.isRequired,
+  checkActive: PropTypes.func.isRequired,
+  setOpen: PropTypes.func.isRequired,
+  showSideBarChildLink: PropTypes.array,
+  setShowSideBarChildLink: PropTypes.func,
+  index: PropTypes.number,
+};
+
+SideBarChildLinks.defaultProps = {
+  index: 0,
+  showSideBarChildLink: [],
+  setShowSideBarChildLink: () => {},
+};
 export default SideBarChildLinks;

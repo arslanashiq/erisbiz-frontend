@@ -1,5 +1,3 @@
-/* eslint-disable no-confusing-arrow */
-/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable consistent-return */
 import React, { useMemo } from 'react';
 import moment from 'moment';
@@ -141,57 +139,55 @@ function ActivityLogsDetail() {
   };
 
   const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  const renderObject = payloadInfo =>
-    Object.keys(payloadInfo).map(key => {
-      if (!checkDataAllowdedToPrint(key)) return;
-      const valueType = isValidValue(payloadInfo[key]);
+  const renderObject = payloadInfo => Object.keys(payloadInfo).map(key => {
+    if (!checkDataAllowdedToPrint(key)) return;
+    const valueType = isValidValue(payloadInfo[key]);
 
-      if (valueType === 'list') {
-        return payloadInfo[key]?.map(pay => renderObject(pay));
-      }
-      if (valueType === 'object') {
-        return (
-          <TableCell sx={tableCellStyle}>
-            <ul key={uuid()}>{renderObject(payloadInfo[key], null)}</ul>
-          </TableCell>
-        );
-      }
-      if (
-        payloadInfo[key] !== '' &&
+    if (valueType === 'list') {
+      return payloadInfo[key]?.map(pay => renderObject(pay));
+    }
+    if (valueType === 'object') {
+      return (
+        <TableCell sx={tableCellStyle}>
+          <ul key={uuid()}>{renderObject(payloadInfo[key], null)}</ul>
+        </TableCell>
+      );
+    }
+    if (
+      payloadInfo[key] !== '' &&
         payloadInfo[key] !== null &&
         payloadInfo[key] !== 'null' &&
         payloadInfo[key] !== undefined
-      ) {
-        return (
-          <TableCell key={uuid()} sx={tableCellStyle}>
-            {payloadInfo[key] || '-'}
-          </TableCell>
-        );
-      }
-      return '';
-    });
+    ) {
+      return (
+        <TableCell key={uuid()} sx={tableCellStyle}>
+          {payloadInfo[key] || '-'}
+        </TableCell>
+      );
+    }
+    return <> </>;
+  });
 
-  const renderRow = (previousPayload, newPayload) =>
-    Object.keys(newPayload).map(key => {
-      if (!checkDataAllowdedToPrint(key)) return;
-      const valueType = isValidValue(newPayload[key]);
+  const renderRow = (previousPayload, newPayload) => Object.keys(newPayload).map(key => {
+    if (!checkDataAllowdedToPrint(key)) return;
+    const valueType = isValidValue(newPayload[key]);
 
-      if (valueType === 'list') {
-        return newPayload[key]?.map((_, index) => renderRow(previousPayload[index], newPayload[index]));
-      }
-      if (valueType === 'object') {
-        return renderRow(previousPayload[key], newPayload[key], null);
-      }
-      if (
-        newPayload[key] !== '' &&
+    if (valueType === 'list') {
+      return newPayload[key]?.map((_, index) => renderRow(previousPayload[index], newPayload[index]));
+    }
+    if (valueType === 'object') {
+      return renderRow(previousPayload[key], newPayload[key], null);
+    }
+    if (
+      newPayload[key] !== '' &&
         newPayload[key] !== null &&
         newPayload[key] !== 'null' &&
         newPayload[key] !== undefined
-      ) {
-        return renderValue(previousPayload[key], newPayload[key], { tableCellStyle });
-      }
-      return '';
-    });
+    ) {
+      return renderValue(previousPayload[key], newPayload[key], { tableCellStyle });
+    }
+    return '';
+  });
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>

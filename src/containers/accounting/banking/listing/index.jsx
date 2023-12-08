@@ -14,7 +14,9 @@ import { BankingHeadCells } from '../utilities/head-cells';
 
 function BankListing() {
   const location = useLocation();
+
   const bankAccountListResponse = useGetBankAccountsListQuery(location.search || DEFAULT_PARAMS);
+
   const [handleChangeBankAccountStatus] = useChangeBankAccountStatusMutation();
 
   return (

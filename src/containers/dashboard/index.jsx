@@ -1,6 +1,3 @@
-/* eslint-disable function-paren-newline */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable no-unused-vars */
 import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
@@ -45,35 +42,31 @@ function Dasbboard() {
       return [];
     }
     const saleInvoiceData = [];
-    receivablesData?.sale_invoices?.map(saleInvoice =>
-      saleInvoice?.invoices?.forEach(sale => {
-        saleInvoiceData.push({
-          date: sale?.date,
-          payer_name: saleInvoice?.name,
-          payment_num: sale?.invoice_formatted_number,
-          amount_total: sale?.without_change_grand_total,
-          amount_due: sale?.amount_due,
-          status: sale?.status,
-          payer_link: `/pages/accounting/sales/customers/${saleInvoice?.id}/detail`,
-          payment_link: `/pages/accounting/sales/sale-invoice/${sale?.id}/detail`,
-        });
-      })
-    );
+    receivablesData?.sale_invoices?.map(saleInvoice => saleInvoice?.invoices?.forEach(sale => {
+      saleInvoiceData.push({
+        date: sale?.date,
+        payer_name: saleInvoice?.name,
+        payment_num: sale?.invoice_formatted_number,
+        amount_total: sale?.without_change_grand_total,
+        amount_due: sale?.amount_due,
+        status: sale?.status,
+        payer_link: `/pages/accounting/sales/customers/${saleInvoice?.id}/detail`,
+        payment_link: `/pages/accounting/sales/sale-invoice/${sale?.id}/detail`,
+      });
+    }));
     const saleCreditNotesData = [];
-    receivablesData?.sale_credit_notes?.map(saleCreditNote =>
-      saleCreditNote?.credit_notes?.forEach(credit => {
-        saleCreditNotesData.push({
-          date: credit?.date,
-          payer_name: saleCreditNote?.name,
-          payment_num: credit?.credit_note_formatted_number,
-          amount_total: credit?.without_change_grand_total,
-          amount_due: (credit?.without_change_grand_total || 0) - (credit?.refunded_amount || 0),
-          status: credit?.status,
-          payer_link: `/pages/accounting/sales/customers/${saleCreditNote?.id}/detail`,
-          payment_link: `/pages/accounting/sales/credit-notes/${credit?.id}/detail`,
-        });
-      })
-    );
+    receivablesData?.sale_credit_notes?.map(saleCreditNote => saleCreditNote?.credit_notes?.forEach(credit => {
+      saleCreditNotesData.push({
+        date: credit?.date,
+        payer_name: saleCreditNote?.name,
+        payment_num: credit?.credit_note_formatted_number,
+        amount_total: credit?.without_change_grand_total,
+        amount_due: (credit?.without_change_grand_total || 0) - (credit?.refunded_amount || 0),
+        status: credit?.status,
+        payer_link: `/pages/accounting/sales/customers/${saleCreditNote?.id}/detail`,
+        payment_link: `/pages/accounting/sales/credit-notes/${credit?.id}/detail`,
+      });
+    }));
     const purchaseDebitNoteData = [];
     receivablesData?.purchase_debit_notes?.forEach(purchaseDebitNote => {
       purchaseDebitNoteData.push({

@@ -1,4 +1,3 @@
-/* eslint-disable implicit-arrow-linebreak */
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 
 export const handleChangeValues = (name, index, values, setFieldValue) => {
@@ -116,20 +115,19 @@ export const handleCalculateTotalAmount = purchaseOrderItems => {
   };
 };
 
-export const handleGetFormatedItemsData = itemsList =>
-  itemsList.map(item => ({
-    service_type: item.service_type,
-    num_units: item.num_nights,
-    num_nights: item.num_nights,
-    unit_price_ex_vat: item.unit_price_ex_vat,
-    gross_amount: item.gross_amount,
-    discount: item.discount,
-    vat_amount: item.vat_amount,
-    net_amount: item.net_amount,
-    vat_rate: item.vat_rate,
-    cost_price: item.cost_price,
-    amount_ex_vat: item.amount_ex_vat,
-  }));
+export const handleGetFormatedItemsData = itemsList => itemsList.map(item => ({
+  service_type: item.service_type,
+  num_units: item.num_nights,
+  num_nights: item.num_nights,
+  unit_price_ex_vat: item.unit_price_ex_vat,
+  gross_amount: item.gross_amount,
+  discount: item.discount,
+  vat_amount: item.vat_amount,
+  net_amount: item.net_amount,
+  vat_rate: item.vat_rate,
+  cost_price: item.cost_price,
+  amount_ex_vat: item.amount_ex_vat,
+}));
 export const handleGetItemWithRemainingStock = (itemsList, itemsListOptions, addexistingQuantity = false) => {
   if (itemsListOptions?.length > 0 && itemsList?.length > 0) {
     const updatedItemsList = itemsList.map(singleItem => {

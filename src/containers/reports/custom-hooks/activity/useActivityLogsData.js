@@ -1,6 +1,5 @@
-/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/jsx-filename-extension */
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import moment from 'moment';
 
 function useActivityLogsData(activityLogsResponse) {

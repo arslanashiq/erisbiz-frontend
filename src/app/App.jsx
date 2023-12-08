@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { ThemeProvider } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
-import { isUserAuthenticated } from 'store/slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLoadUserQuery } from 'services/private/user';
+import { isUserAuthenticated } from 'store/slices/userSlice';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import AppRoutes from './routes';
 import theme from '../styles/mui/theme';

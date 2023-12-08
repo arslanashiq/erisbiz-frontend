@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
-import { Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 // services
-import { useAddBrandMutation, useEditBrandMutation, useGetSingleBrandQuery } from 'services/private/brands';
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
+import { useAddBrandMutation, useEditBrandMutation, useGetSingleBrandQuery } from 'services/private/brands';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
+import FormikWrapper from 'containers/common/form/FormikWrapper';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
@@ -19,21 +19,45 @@ import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { brandInitialValue } from '../utilities/constants';
 // styles
-import 'styles/form/form.scss';
 import { brandsFormValidationSchema } from '../utilities/validation-schema';
 
 function AddBrand() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const countriesResponse = useGetAllCountriesListQuery();
+
   const [addBrand] = useAddBrandMutation();
   const [editBrand] = useEditBrandMutation();
+
   const { initialValues } = useInitialValues(brandInitialValue, useGetSingleBrandQuery);
 
   const { optionsList: brandsRegionOptions } = useListOptions(countriesResponse?.data?.data, {
     label: 'country',
     value: 'iso2',
   });
+
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+    try {
+      let response = null;
+      if (id) {
+        response = await editBrand({ id, payload: values });
+      } else {
+        response = await addBrand(values);
+      }
+
+      if (response.data) {
+        navigate(-1);
+      }
+      if (response.error) {
+        setErrors(response.error.data);
+      }
+    } catch (err) {
+      if (err?.response?.status === 400) {
+        setErrors(err.response.data);
+      }
+    }
+  }, []);
   return (
     <SectionLoader>
       <Helmet>
@@ -43,52 +67,29 @@ function AddBrand() {
       <Card>
         <CardContent>
           <FormHeader title="Brands" />
-          <Formik
-            enableReinitialize
+          <FormikWrapper
             initialValues={initialValues}
             validationSchema={brandsFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
-              try {
-                let response = null;
-                if (id) {
-                  response = await editBrand({ id, payload: values });
-                } else {
-                  response = await addBrand(values);
-                }
-
-                if (response.data) {
-                  navigate(-1);
-                }
-                if (response.error) {
-                  setErrors(response.error.data);
-                }
-              } catch (err) {
-                if (err?.response?.status === 400) {
-                  setErrors(err.response.data);
-                }
-              }
-            }}
+            onSubmit={handleSubmitForm}
           >
-            <Form className="form form--horizontal row mt-3">
-              <FormikField
-                name="brand_name"
-                type="text"
-                placeholder="Brand Name"
-                label="Brand Name"
-                isRequired
-              />
+            <FormikField
+              name="brand_name"
+              type="text"
+              placeholder="Brand Name"
+              label="Brand Name"
+              isRequired
+            />
 
-              <FormikSelect
-                placeholder="Brand Region/Country"
-                name="brand_region"
-                options={brandsRegionOptions}
-                label="Brand Region"
-                isRequired
-              />
+            <FormikSelect
+              placeholder="Brand Region/Country"
+              name="brand_region"
+              options={brandsRegionOptions}
+              label="Brand Region"
+              isRequired
+            />
 
-              <FormSubmitButton />
-            </Form>
-          </Formik>
+            <FormSubmitButton />
+          </FormikWrapper>
         </CardContent>
       </Card>
     </SectionLoader>

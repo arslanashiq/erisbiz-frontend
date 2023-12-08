@@ -1,4 +1,3 @@
-/* eslint-disable implicit-arrow-linebreak */
 import React, { useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
@@ -141,11 +140,10 @@ export default function MuiTable({
   };
 
   const visibleRows = useMemo(
-    () =>
-      stableSort(data || [], getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
+    () => stableSort(data || [], getComparator(order, orderBy)).slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage
+    ),
     [data, otherOptions, order, orderBy, page, rowsPerPage]
   );
   const borderRadius = '10px';
@@ -195,8 +193,7 @@ export default function MuiTable({
                 selected={selected}
                 handleClick={handleClick}
                 actionButtonKey={actionButtonKey}
-                handleTableBodyButtonAction={(id, detailInfo) =>
-                  handleTableBodyActionButton(id, detailInfo, openInfoPopup, setOpenInfoPopup)}
+                handleTableBodyButtonAction={(id, detailInfo) => handleTableBodyActionButton(id, detailInfo, openInfoPopup, setOpenInfoPopup)}
                 customRows={customRows}
                 customActionButton={customActionButton}
                 hoverEffect={hoverEffect}

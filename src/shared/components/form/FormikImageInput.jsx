@@ -44,8 +44,7 @@ function FormikImageInput(props) {
               onChange={event => {
                 event.preventDefault();
                 const target = multiple ? [...event.target.files] : event.target.files[0];
-                // eslint-disable-next-line no-param-reassign
-                event.target.value = null;
+
                 setValue(target);
                 if (onChange) onChange(target);
               }}

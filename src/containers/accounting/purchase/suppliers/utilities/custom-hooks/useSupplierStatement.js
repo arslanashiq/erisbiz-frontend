@@ -12,6 +12,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
   const [amountTotal, setAmountTotal] = useState(0);
   const [paymentTotal, setPaymentTotal] = useState(0);
   const [openingBalanceAmount, setOpeningBalanceAmount] = useState(0);
+  const [balanceDue, setBalanceDue] = useState(0);
 
   // const sortStatementData = (a, b) => {
   //   if (a.transaction_date === b.transaction_date) {
@@ -22,6 +23,24 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
   //   return a.transaction_date > b.transaction_date ? 1 : -1;
   // };
 
+  const getAmount = (item, amountTypes) => {
+    if (item.invoice_num) {
+      return formatAmount(item.without_change_grand_total);
+    }
+    if (amountTypes.includes(item.transaction_type)) {
+      return formatAmount(item.total_amount);
+    }
+    return '';
+  };
+  const getBalance = (item, paymentTypes) => {
+    if (item.invoice_num) {
+      return '';
+    }
+    if (paymentTypes.includes(item.transaction_type)) {
+      return formatAmount(item.total_amount);
+    }
+    return '';
+  };
   useEffect(() => {
     const amountTypes = ['Bill', 'Debit Note Refund'];
     const paymentTypes = [
@@ -54,32 +73,36 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
       }
 
       const transactionsData = supplierTransactions.map(item => {
-        if (amountTypes.includes(item.transaction_type)) {
+        if (item.invoice_num) {
+          commulativeBalance += item.without_change_grand_total;
+        } else if (amountTypes.includes(item.transaction_type)) {
           commulativeBalance += item.total_amount;
         } else {
           commulativeBalance -= item.total_amount;
         }
+        setBalanceDue(commulativeBalance);
 
         return {
           id: item.id,
           date: moment(item.transaction_date).format('DD MMM YYYY'),
-          transactions: item.transaction_type,
-          details: item.formatted_transaction_number || '-',
-          amount: amountTypes.includes(item.transaction_type) ? formatAmount(item.total_amount) : '',
-          payment: paymentTypes.includes(item.transaction_type) ? formatAmount(item.total_amount) : '',
+          transactions: item.transaction_type || 'Bill',
+          details: item.formatted_transaction_number || item.invoice_num || '-',
+          amount: getAmount(item, amountTypes),
+
+          payment: getBalance(item, paymentTypes),
           balance: formatAmount(commulativeBalance),
         };
       });
 
       const totalAmount = supplierTransactions
-        .filter(item => amountTypes.includes(item.transaction_type))
-        .reduce((acc, val) => acc + val.total_amount, 0);
+        .filter(item => amountTypes.includes(item.transaction_type || item.bill_num))
+        .reduce((acc, val) => acc + val.total_amount || val.without_change_grand_total, 0);
 
       setAmountTotal(totalAmount);
 
       const totalPayment = supplierTransactions
-        .filter(item => paymentTypes.includes(item.transaction_type))
-        .reduce((acc, val) => acc + val.total_amount, 0);
+        .filter(item => paymentTypes.includes(item.transaction_type || item.bill_num))
+        .reduce((acc, val) => acc + val.total_amount || val.without_change_grand_total, 0);
 
       setPaymentTotal(totalPayment);
 
@@ -99,7 +122,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
     openingBalance: formatAmount(openingBalanceAmount),
     totalBilledAmount: formatAmount(amountTotal),
     totalPaymentAmount: formatAmount(paymentTotal),
-    totalBalanceDue: formatAmount(amountTotal - paymentTotal),
+    totalBalanceDue: formatAmount(balanceDue),
     startDate: moment(supplierStatement.start_date).format('DD MMM YYYY'),
     endDate: moment(supplierStatement.end_date).format('DD MMM YYYY'),
   };

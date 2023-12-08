@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import {
   Grid,
@@ -88,5 +88,17 @@ function DashboardTable({ className, title, data, headCells }) {
     </Grid>
   );
 }
+DashboardTable.propTypes = {
+  className: PropTypes.string,
+  title: PropTypes.string,
+  data: PropTypes.array,
+  headCells: PropTypes.array,
+};
 
+DashboardTable.defaultProps = {
+  className: '',
+  title: '',
+  data: [],
+  headCells: [],
+};
 export default DashboardTable;

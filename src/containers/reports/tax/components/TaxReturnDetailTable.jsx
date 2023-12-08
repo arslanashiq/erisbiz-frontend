@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import { Box, Stack, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import MuiTableHead from 'shared/components/table/MuiTableHead';
@@ -111,5 +111,19 @@ function TaxReturnDetailTable({ taxReturnResponse, mainTitle, headCells, tableBo
     </Box>
   );
 }
+TaxReturnDetailTable.propTypes = {
+  taxReturnResponse: PropTypes.object,
+  mainTitle: PropTypes.string,
+  tableBody: PropTypes.array,
+  tableStyles: PropTypes.object,
+  headCells: PropTypes.array,
+};
 
+TaxReturnDetailTable.defaultProps = {
+  taxReturnResponse: {},
+  mainTitle: '',
+  tableStyles: {},
+  tableBody: [],
+  headCells: [],
+};
 export default TaxReturnDetailTable;

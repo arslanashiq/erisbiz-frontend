@@ -1,46 +1,48 @@
-/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Form, Formik } from 'formik';
-// import { useSnackbar } from 'notistack';
-// import { useLocation, useNavigate } from 'react-router';
 import FormikField from 'shared/components/form/FormikField';
-// import { getsearchQueryOffsetAndLimitParams, handlePersonlizedFilterString } from 'utilities/filters';
 import 'styles/form/form.scss';
 import FormikSelect from '../form/FormikSelect';
 import FormikDatePicker from '../form/FormikDatePicker';
 
 function PersonlizedFilter({ filtersList }) {
-  return filtersList.map(filter => (filter.options ? (
-    <FormikSelect
-      key={filter.name}
-      name={filter.name}
-      placeholder={filter.placeholder}
-      options={filter.options}
-      label={filter.placeholder}
-      labelClassName="col-12"
-      className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
-    />
-  ) : filter.date ? (
-    <FormikDatePicker
-      key={filter.name}
-      name={filter.name}
-      placeholder={filter.placeholder}
-      label={filter.placeholder}
-      labelClassName="col-12"
-      className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
-    />
-  ) : (
-    <FormikField
-      key={filter.name}
-      name={filter.name}
-      placeholder={filter.placeholder}
-      type={filter.type}
-      label={filter.placeholder}
-      labelClassName="col-12"
-      className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
-    />
-  )));
+  filtersList.map(filter => {
+    if (filter.options) {
+      return (
+        <FormikSelect
+          key={filter.name}
+          name={filter.name}
+          placeholder={filter.placeholder}
+          options={filter.options}
+          label={filter.placeholder}
+          labelClassName="col-12"
+          className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
+        />
+      );
+    } if (filter.date) {
+      return (
+        <FormikDatePicker
+          key={filter.name}
+          name={filter.name}
+          placeholder={filter.placeholder}
+          label={filter.placeholder}
+          labelClassName="col-12"
+          className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
+        />
+      );
+    }
+    return (
+      <FormikField
+        key={filter.name}
+        name={filter.name}
+        placeholder={filter.placeholder}
+        type={filter.type}
+        label={filter.placeholder}
+        labelClassName="col-12"
+        className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
+      />
+    );
+  });
 }
 PersonlizedFilter.propTypes = {
   filterInitialValues: PropTypes.object.isRequired,
