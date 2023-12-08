@@ -10,14 +10,12 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // components
 import StyledDialog from 'styles/mui/component/StyledDialog';
 import UnPaidBillsList from 'containers/accounting/purchase/payment-voucher/add/components/UnPaidBillsList';
-import { UnPaidBillsHeadCells } from 'containers/accounting/purchase/payment-voucher/utilities/head-cells';
 import 'styles/form/form.scss';
 
-function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues }) {
+function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues, headCells, title }) {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
     <StyledDialog maxWidth={false} open={open} onClose={handleClose}>
       <Card>
@@ -25,7 +23,7 @@ function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues }) {
           <Stack sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                Apply To Bill
+                {title}
               </Typography>
               <IconButton onClick={handleClose} sx={{ color: 'black' }}>
                 <CloseIcon />
@@ -52,7 +50,7 @@ function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues }) {
               <Form className="form form--horizontal row pt-3 justify-content-center">
                 <FieldArray
                   name="bill_credit_notes"
-                  render={props => <UnPaidBillsList headCells={UnPaidBillsHeadCells} {...props} />}
+                  render={props => <UnPaidBillsList headCells={headCells} {...props} />}
                 />
                 <FormSubmitButton />
               </Form>
@@ -69,10 +67,14 @@ ApplyToBill.propTypes = {
   handleApply: PropTypes.func.isRequired,
   maxAmount: PropTypes.number,
   initialValues: PropTypes.array,
+  headCells: PropTypes.array,
+  title: PropTypes.string,
 };
 ApplyToBill.defaultProps = {
   maxAmount: 0,
   initialValues: [],
+  headCells: [],
+  title: 'Apply To Bill',
 };
 
 export default ApplyToBill;

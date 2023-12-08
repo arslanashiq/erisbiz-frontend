@@ -105,7 +105,6 @@ function SupplierDetail() {
   const handleClosePopup = () => {
     setPopup({ ...popup, open: false });
   };
-
   return (
     <SectionLoader options={[supplierActivityLogsResponse.isLoading]}>
       <Helmet>

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
@@ -23,6 +22,7 @@ import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import JournalTable from 'shared/components/accordion/JournalTable';
 import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import { useGetSuppliersUpaidBillsListMutation } from 'services/private/suppliers';
+import { UnPaidBillsHeadCells } from '../../payment-voucher/utilities/head-cells';
 
 const keyValue = 'supplier_credit_items';
 function SupplierCreditDetail() {
@@ -107,10 +107,10 @@ function SupplierCreditDetail() {
       actionList.push({
         label: 'Apply to Bill',
         handleClick: () => {
-          // setOpenApplyToBillModal(true);
-          navigate(
-            `/pages/accounting/purchase/payment-voucher/add?supplierId=${supplierCreditResponse?.data?.supplier_id}&debitAmount=${supplierCreditResponse?.data?.credits_remaining}`
-          );
+          setOpenApplyToBillModal(true);
+          // navigate(
+          //   `/pages/accounting/purchase/payment-voucher/add?supplierId=${supplierCreditResponse?.data?.supplier_id}&debitAmount=${supplierCreditResponse?.data?.credits_remaining}`
+          // );
         },
       });
     }
@@ -131,9 +131,17 @@ function SupplierCreditDetail() {
     setOpenRefundModal(false);
   };
   const handleApplyToBill = async (values, { setErrors }) => {
+    const billCreditNotes = values.bill_credit_notes
+      .filter(cn => cn.amount_applied > 0)
+      .map(cn => ({
+        amount_applied: cn.amount_applied,
+        bill_id: cn.id,
+      }));
+
     const payload = {
-      bill_credit_notes: [{ ...values }],
-      supplier_credit_id: id,
+      credit_note_id: supplierCreditResponse?.data.id,
+      supplier_credit_id: supplierCreditResponse?.data.id,
+      bill_credit_notes: billCreditNotes,
     };
     const response = await refundSupplierCredit(payload);
     if (response.error) {
@@ -160,13 +168,14 @@ function SupplierCreditDetail() {
         handleRefund={handleRefundSupplierCredit}
         maxAmount={supplierCreditResponse?.data?.credits_remaining}
       />
-      {/* <ApplyToBill
+      <ApplyToBill
         open={openApplyToBillModal}
         setOpen={setOpenApplyToBillModal}
         handleApply={handleApplyToBill}
         maxAmount={supplierCreditResponse?.data?.credits_remaining}
         initialValues={applyToBillInitialValues}
-      /> */}
+        headCells={UnPaidBillsHeadCells}
+      />
       <DetailPageHeader
         title={`Purchase Debit Note:${supplierCreditResponse?.data?.supplier_credit_formatted_number}`}
         filesList={SupplierCreditDocumentsResponse?.data}

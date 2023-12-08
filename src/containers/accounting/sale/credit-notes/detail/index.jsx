@@ -2,17 +2,20 @@ import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
   useDeleteCreditNoteMutation,
   useGetSingleCreditNoteQuery,
   useRefundCreditNoteMutation,
 } from 'services/private/credit-notes';
+import { useGetUnpaidInvoicesAgainstCustomerMutation } from 'services/private/receipt-voucher';
+import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
+import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
 
 const keyValue = 'credit_note_items';
 function CreditNoteDetail() {
@@ -21,12 +24,15 @@ function CreditNoteDetail() {
   const { enqueueSnackbar } = useSnackbar();
 
   const [openRefundModal, setOpenRefundModal] = useState(false);
+  const [openApplyToInvoiceModal, setOpenApplyToInvoiceModal] = useState(false);
+  const [applyToInvoiceInitialValues, setApplyToInvoiceInitialValues] = useState([]);
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
 
   const [refundCreditNote] = useRefundCreditNoteMutation();
+  const [getUnpaidInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
   const creditNoteDetailResponse = useGetSingleCreditNoteQuery(id);
   const orderInfo = useMemo(
     () => ({
@@ -103,9 +109,10 @@ function CreditNoteDetail() {
       actionList.push({
         label: 'Apply to Invoice',
         handleClick: () => {
-          navigate(
-            `/pages/accounting/sales/receipt-voucher/add?customerId=${creditNoteDetailResponse?.data?.invoice?.customer_info?.id}`
-          );
+          // navigate(
+          //   `/pages/accounting/sales/receipt-voucher/add?customerId=${creditNoteDetailResponse?.data?.invoice?.customer_info?.id}`
+          // );
+          setOpenApplyToInvoiceModal(true);
         },
       });
     }
@@ -124,6 +131,34 @@ function CreditNoteDetail() {
     enqueueSnackbar('Credit Note Updated', { variant: 'success' });
     setOpenRefundModal(false);
   };
+  const handleApplyToInvoice = async (values, { setErrors }) => {
+    const billCreditNotes = values.bill_credit_notes
+      .filter(cn => cn.amount_applied > 0)
+      .map(cn => ({
+        amount_applied: cn.amount_applied,
+        invoice_id: cn.id,
+      }));
+
+    const payload = {
+      invoice_credit_notes: billCreditNotes,
+      credit_note_id: id,
+    };
+    const response = await refundCreditNote(payload);
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    enqueueSnackbar('Credit Note Updated', { variant: 'success' });
+    setOpenApplyToInvoiceModal(false);
+  };
+  useEffect(() => {
+    (async () => {
+      if (openApplyToInvoiceModal) {
+        const response = await getUnpaidInvoices(creditNoteDetailResponse?.data?.invoice?.customer);
+        setApplyToInvoiceInitialValues(response?.data);
+      }
+    })();
+  }, [openApplyToInvoiceModal]);
   return (
     <SectionLoader options={[creditNoteDetailResponse.isLoading]}>
       <RefundDialog
@@ -131,6 +166,15 @@ function CreditNoteDetail() {
         setOpen={setOpenRefundModal}
         handleRefund={handleCreditNote}
         maxAmount={creditNoteDetailResponse?.data?.credits_remaining}
+      />
+      <ApplyToBill
+        open={openApplyToInvoiceModal}
+        setOpen={setOpenApplyToInvoiceModal}
+        handleApply={handleApplyToInvoice}
+        maxAmount={creditNoteDetailResponse?.data?.credits_remaining}
+        initialValues={applyToInvoiceInitialValues}
+        headCells={UnPaidSaleInvoiceHeadCells}
+        title="Apply To Invoice"
       />
       <DetailPageHeader
         title={`Credit Note: #${creditNoteDetailResponse?.data?.credit_note_formatted_number}`}

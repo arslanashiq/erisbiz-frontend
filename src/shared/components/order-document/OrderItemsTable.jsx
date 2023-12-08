@@ -9,6 +9,8 @@ function OrderItemsTable({ orderDetail, keyValue }) {
     let amount = orderDetail.without_change_grand_total;
     if (orderDetail?.refunded_amount) amount -= orderDetail.refunded_amount;
     if (orderDetail?.payment_amount) amount -= orderDetail.payment_amount;
+    if (orderDetail?.credits_used) amount -= orderDetail.credits_used;
+    if (orderDetail?.credit_applied) amount -= orderDetail.credit_applied;
 
     return amount;
   };
@@ -126,6 +128,34 @@ function OrderItemsTable({ orderDetail, keyValue }) {
               <Box className="amounts color-danger">
                 <p>
                   (-){formatAmount(orderDetail.refunded_amount)} {orderDetail.currency_symbol}
+                </p>
+              </Box>
+            </Box>
+          </Box>
+        )}
+        {orderDetail?.credits_used > 0 && (
+          <Box className="entries">
+            <Box className="entries-child">
+              <Box className="names">
+                <p>Credits Used:</p>
+              </Box>
+              <Box className="amounts color-danger">
+                <p>
+                  (-){formatAmount(orderDetail.credits_used)} {orderDetail.currency_symbol}
+                </p>
+              </Box>
+            </Box>
+          </Box>
+        )}
+        {orderDetail?.credit_applied > 0 && (
+          <Box className="entries">
+            <Box className="entries-child">
+              <Box className="names">
+                <p>Credit Applied:</p>
+              </Box>
+              <Box className="amounts color-danger">
+                <p>
+                  (-){formatAmount(orderDetail.credit_applied)} {orderDetail.currency_symbol}
                 </p>
               </Box>
             </Box>

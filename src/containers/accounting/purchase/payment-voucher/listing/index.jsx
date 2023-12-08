@@ -23,8 +23,9 @@ function paymentVoucherListing() {
   const paymentVouchersListResponse = useGetPaymentVouchersListQuery(location.search);
   const [deletePaymentVoucher] = useDeletePaymentVoucherMutation();
 
-  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot Edit these items because some of the selected items have refunds';
+  const checkStatus = (data, selected) => {
+    let message =
+      'You cannot delete these items because some of the selected items have refund or debit note or payment applied';
     let actionButton = false;
     const selectedData = [];
     data.forEach(item => {
@@ -33,14 +34,30 @@ function paymentVoucherListing() {
       }
     });
     const isRefunded = selectedData.some(item => item.over_paid > 0 && item.over_paid !== item.over_payment);
+    const paymentApplied = selectedData.some(item => item.have_debit_note || item.is_payment_applied);
     if (isRefunded) {
       message = selected.length === 1 ? 'Selected Voucher have Refunds' : message;
       actionButton = false;
+    }
+    if (paymentApplied) {
+      message = selected.length === 1 ? 'Selected Voucher have Debit Note or payment Applied' : message;
+      actionButton = false;
     } else {
+      message = 'Are you sure you want to delete?';
+      actionButton = true;
+    }
+
+    return {
+      actionButton,
+      message,
+    };
+  };
+  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+    const { actionButton, message } = checkStatus(data, selected, openInfoPopup, setOpenInfoPopup);
+    if (actionButton) {
       navigate(`edit/${selected[0]}`);
       return;
     }
-
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
@@ -49,22 +66,7 @@ function paymentVoucherListing() {
     });
   };
   const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these items because some of the selected items have refund';
-    let actionButton = false;
-    const selectedData = [];
-    data.forEach(item => {
-      if (selected.includes(item.id)) {
-        selectedData.push(item);
-      }
-    });
-    const isRefunded = selectedData.some(item => item.over_paid > 0 && item.over_paid !== item.over_payment);
-    if (isRefunded) {
-      message = selected.length === 1 ? 'Selected Voucher have Refunds' : message;
-      actionButton = false;
-    } else {
-      message = 'Are you sure you want to delete?';
-      actionButton = true;
-    }
+    const { actionButton, message } = checkStatus(data, selected, openInfoPopup, setOpenInfoPopup);
 
     setOpenInfoPopup({
       ...openInfoPopup,
