@@ -30,19 +30,20 @@ export const supplierHeadCells = [
     align: 'left',
   },
 
-  {
-    id: 'currency_symbol',
-    numeric: true,
-    disablePadding: false,
-    label: 'Currency',
-    align: 'left',
-  },
+  // {
+  //   id: 'currency_symbol',
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: 'Currency',
+  //   align: 'left',
+  // },
   {
     id: 'payables',
     numeric: true,
     disablePadding: false,
     label: 'Payables',
     align: 'left',
+    mergeCell: true,
   },
 ];
 

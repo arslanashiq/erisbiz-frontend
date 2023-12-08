@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
@@ -20,6 +21,8 @@ import DetailPageHeader from 'shared/components/detail-page-heaher-component/Det
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import JournalTable from 'shared/components/accordion/JournalTable';
+import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
+import { useGetSuppliersUpaidBillsListMutation } from 'services/private/suppliers';
 
 const keyValue = 'supplier_credit_items';
 function SupplierCreditDetail() {
@@ -33,12 +36,15 @@ function SupplierCreditDetail() {
   });
   const [defaultExpanded, setDefaultExpanded] = useState(false);
   const [openRefundModal, setOpenRefundModal] = useState(false);
+  const [openApplyToBillModal, setOpenApplyToBillModal] = useState(false);
+  const [applyToBillInitialValues, setApplyToBillInitialValues] = useState([]);
 
   const supplierCreditResponse = useGetSingleSupplierCreditsQuery(id);
   const supplierCreditJournalsReponse = useGetSupplierCreditJournalsQuery(id);
   const SupplierCreditDocumentsResponse = useGetSupplierCreditsDocumentsQuery(id);
 
   const [refundSupplierCredit] = useRefundSupplierCreditsMutation();
+  const [getUnpaidBills] = useGetSuppliersUpaidBillsListMutation();
 
   const orderInfo = useMemo(
     () => ({
@@ -55,8 +61,8 @@ function SupplierCreditDetail() {
       {
         label: 'Edit',
         handleClick: () => {
-          const cantDelete = supplierCreditResponse?.data?.is_applied;
-          if (cantDelete) {
+          const cantEdit = supplierCreditResponse?.data?.is_applied;
+          if (cantEdit) {
             setOpenInfoPopup({
               ...openInfoPopup,
               open: true,
@@ -101,6 +107,7 @@ function SupplierCreditDetail() {
       actionList.push({
         label: 'Apply to Bill',
         handleClick: () => {
+          // setOpenApplyToBillModal(true);
           navigate(
             `/pages/accounting/purchase/payment-voucher/add?supplierId=${supplierCreditResponse?.data?.supplier_id}&debitAmount=${supplierCreditResponse?.data?.credits_remaining}`
           );
@@ -123,6 +130,28 @@ function SupplierCreditDetail() {
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
     setOpenRefundModal(false);
   };
+  const handleApplyToBill = async (values, { setErrors }) => {
+    const payload = {
+      bill_credit_notes: [{ ...values }],
+      supplier_credit_id: id,
+    };
+    const response = await refundSupplierCredit(payload);
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
+    setOpenApplyToBillModal(false);
+  };
+  useEffect(() => {
+    (async () => {
+      if (openApplyToBillModal) {
+        const response = await getUnpaidBills(supplierCreditResponse?.data?.supplier_id);
+        setApplyToBillInitialValues(response?.data);
+      }
+    })();
+  }, [openApplyToBillModal]);
+
   return (
     <SectionLoader options={[supplierCreditResponse.isLoading]}>
       <RefundDialog
@@ -131,6 +160,13 @@ function SupplierCreditDetail() {
         handleRefund={handleRefundSupplierCredit}
         maxAmount={supplierCreditResponse?.data?.credits_remaining}
       />
+      {/* <ApplyToBill
+        open={openApplyToBillModal}
+        setOpen={setOpenApplyToBillModal}
+        handleApply={handleApplyToBill}
+        maxAmount={supplierCreditResponse?.data?.credits_remaining}
+        initialValues={applyToBillInitialValues}
+      /> */}
       <DetailPageHeader
         title={`Purchase Debit Note:${supplierCreditResponse?.data?.supplier_credit_formatted_number}`}
         filesList={SupplierCreditDocumentsResponse?.data}

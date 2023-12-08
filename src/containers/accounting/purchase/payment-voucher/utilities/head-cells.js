@@ -14,7 +14,7 @@ export const PaymentVoucherHeadCells = [
   {
     id: 'payment_num',
     disablePadding: true,
-    label: 'Payment Number',
+    label: 'Payment #',
     align: 'left',
     isLink: true,
   },
@@ -33,13 +33,14 @@ export const PaymentVoucherHeadCells = [
     disablePadding: true,
     align: 'left',
     label: 'Amount',
+    mergeCell: true,
   },
   {
     id: 'over_payment',
     disablePadding: true,
     align: 'left',
     label: 'Unused Amount',
-    mregeCell: true,
+    mergeCell: true,
   },
 ];
 

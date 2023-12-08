@@ -108,6 +108,8 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         url: `api/accounting/purchases/bill/${id}/status?reason=${reason}`,
         method: 'GET',
       }),
+      providesTags: ['changeInvoiceStatusToVoid'],
+      invalidatesTags: ['getPurchaseInvoiceList', 'getSinglePurchaseInvoice'],
     }),
     getLatestPurchaseInvoiceNumber: builder.query({
       query: () => ({

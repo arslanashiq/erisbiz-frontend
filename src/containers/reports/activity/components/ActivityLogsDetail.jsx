@@ -6,6 +6,7 @@ import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { useNavigate, useParams } from 'react-router';
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -21,7 +22,7 @@ import {
 import { useGetActivityLogsDetailQuery } from 'services/private/reports';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import {
-  bankDetailPopupInfoBodyStyle,
+  // bankDetailPopupInfoBodyStyle,
   bankDetailPopupInfoTitleStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 
@@ -121,7 +122,7 @@ function ActivityLogsDetail() {
   }, [activityDetail]);
 
   const renderValue = (previousPayload = '-', newPayload = '-') => (
-    <TableRow>
+    <TableRow key={uuid()}>
       <TableCell sx={tableCellStyle}>{previousPayload || '-'}</TableCell>
       <TableCell sx={tableCellStyle}>{newPayload || '-'}</TableCell>
     </TableRow>
@@ -151,7 +152,7 @@ function ActivityLogsDetail() {
       if (valueType === 'object') {
         return (
           <TableCell sx={tableCellStyle}>
-            <ul>{renderObject(payloadInfo[key], null)}</ul>
+            <ul key={uuid()}>{renderObject(payloadInfo[key], null)}</ul>
           </TableCell>
         );
       }
@@ -161,7 +162,11 @@ function ActivityLogsDetail() {
         payloadInfo[key] !== 'null' &&
         payloadInfo[key] !== undefined
       ) {
-        return <TableCell sx={tableCellStyle}>{payloadInfo[key] || '-'}</TableCell>;
+        return (
+          <TableCell key={uuid()} sx={tableCellStyle}>
+            {payloadInfo[key] || '-'}
+          </TableCell>
+        );
       }
       return '';
     });
@@ -196,19 +201,20 @@ function ActivityLogsDetail() {
       <Card className="background-color-white modal-dialog--custom-max-width">
         <CardContent>
           <DialogContent>
+            <Box className="col-8 row">
+              {activityDetailInfo.map(row => (
+                <Box key={uuid()} className="row">
+                  <Box className="col-8 col-md-3">
+                    <h5 style={{ fontWeight: 600, fontSize: '14px' }}>{row.label}</h5>
+                  </Box>
+                  <Box className="col-4 col-md-9">
+                    <p style={{ fontSize: '14px' }}>{row.value}</p>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
             <Table>
               <TableBody>
-                {activityDetailInfo.map(row => (
-                  <TableRow key={uuid()}>
-                    <TableCell key={uuid()} sx={{ ...bankDetailPopupInfoTitleStyle }}>
-                      {row.label || 'N/A'}
-                    </TableCell>
-                    <TableCell key={uuid()} sx={{ ...bankDetailPopupInfoBodyStyle, fontWeight: 400 }}>
-                      {row.value || 'N/A'}
-                    </TableCell>
-                  </TableRow>
-                ))}
-
                 {showData && isDataUpdated && (
                   <>
                     <TableRow>
@@ -237,10 +243,7 @@ function ActivityLogsDetail() {
                     )}
                     {activityDetail?.old_payload && oldPayload && (
                       <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
-                        <Stack>
-                          {renderObject(oldPayload)}
-                          {/* <ol>{renderObject(payload, 0)}</ol> */}
-                        </Stack>
+                        <Stack>{renderObject(oldPayload)}</Stack>
                       </TableCell>
                     )}
                   </TableRow>

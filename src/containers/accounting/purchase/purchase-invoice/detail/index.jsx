@@ -60,7 +60,12 @@ function PurchaseInvoiceDetail() {
   };
   const handleChangeStatusToVoid = async values => {
     const { reason } = values;
-    handleChangeStatus(changeInvoiceStatusToVoid, { id, reason }, 'Invoice status change to Void');
+    const response = await handleChangeStatus(
+      changeInvoiceStatusToVoid,
+      { id, reason },
+      'Invoice status change to Void'
+    );
+    if (response) setOpenVoidModal(false);
   };
 
   const orderInfo = useMemo(
@@ -76,6 +81,9 @@ function PurchaseInvoiceDetail() {
   );
   const purchaseInvoiceActionList = useMemo(() => {
     const invoiceStatus = purchaseInvoiceResponse?.data?.status;
+    if (invoiceStatus === 'void') {
+      return [];
+    }
     const actionsList = [
       {
         label: 'Edit',

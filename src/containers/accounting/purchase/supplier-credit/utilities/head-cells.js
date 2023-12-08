@@ -42,13 +42,6 @@ export const supplierCreditHeadCells = [
     class: handleGetStatusBaseClass,
   },
   {
-    id: 'currency_symbol',
-    numeric: true,
-    disablePadding: false,
-    label: 'Currency',
-    align: 'left',
-  },
-  {
     id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
