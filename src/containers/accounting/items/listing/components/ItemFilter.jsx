@@ -3,17 +3,17 @@ import { Box } from '@mui/material';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import 'styles/form/form.scss';
 
-const itemFilterOptions = useMemo(
-  () => [
-    { value: '', label: 'All', selectedValue: 'All Items' },
-    { value: 'True', label: 'Active', selectedValue: 'Active Items' },
-    { value: 'False', label: 'Inactive', selectedValue: 'Inactive Items' },
-    { value: 'Goods', label: 'Goods', selectedValue: 'Goods' },
-    { value: 'Service', label: 'Services', selectedValue: 'Services' },
-  ],
-  []
-);
 function ItemFilter() {
+  const itemFilterOptions = useMemo(
+    () => [
+      { value: '', label: 'All', selectedValue: 'All Items' },
+      { value: 'True', label: 'Active', selectedValue: 'Active Items' },
+      { value: 'False', label: 'Inactive', selectedValue: 'Inactive Items' },
+      { value: 'Goods', label: 'Goods', selectedValue: 'Goods' },
+      { value: 'Service', label: 'Services', selectedValue: 'Services' },
+    ],
+    []
+  );
   return (
     <Box className="form__form-group">
       <span className="form__form-group-label">Items</span>
