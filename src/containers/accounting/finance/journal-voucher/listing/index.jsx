@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
@@ -8,20 +8,22 @@ import {
   useGetJournalVouchersListQuery,
 } from 'services/private/journal-voucher';
 
-// shared
+// shared components and styles
 import MuiTable from 'shared/components/table/MuiTable';
-// containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// utilities and styles
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { journalVoucherHeadCells } from '../utilities/head-cells';
 
 function JournalVoucherListing() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
+
   const journalVoucherDetailResponse = useGetJournalVouchersListQuery(location.search);
+
   const [deleteJournalVoucher] = useDeleteJournalVoucherMutation();
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
       'You cannot delete these items because some of the selected items is used in Proforma Invoice';
     let actionButton = false;
@@ -35,16 +37,13 @@ function JournalVoucherListing() {
       message,
       actionButton,
     });
-  };
-  const deleteSingleJournalVoucher = async id => {
-    await deleteJournalVoucher(id);
-    enqueueSnackbar('Journal Voucher Deleted Successfully', { variant: 'success' });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
-      deleteSingleJournalVoucher(id);
+      handleDeleteResponse(deleteJournalVoucher, id, enqueueSnackbar, 'Journal Voucher Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <SectionLoader options={[journalVoucherDetailResponse.isLoading]}>
       <Helmet>

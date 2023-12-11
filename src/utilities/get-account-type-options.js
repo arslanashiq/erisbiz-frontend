@@ -2,6 +2,7 @@ export const groups = [
   ['Asset'],
   ['Asset', 'Expense'],
   ['Asset', 'Liability', 'Equity', 'Income', 'Expense'],
+  ['Liability'],
 ];
 export function getAccountTypesOptions(accountTypes, groupIndex = [2], key = 'account_group') {
   const typeOptions = groups[groupIndex].map(group => ({

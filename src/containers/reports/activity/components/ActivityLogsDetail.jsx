@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return */
+
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -148,7 +149,7 @@ function ActivityLogsDetail() {
     }
     if (valueType === 'object') {
       return (
-        <TableCell sx={tableCellStyle}>
+        <TableCell key={uuid()} sx={tableCellStyle}>
           <ul key={uuid()}>{renderObject(payloadInfo[key], null)}</ul>
         </TableCell>
       );
@@ -165,7 +166,7 @@ function ActivityLogsDetail() {
         </TableCell>
       );
     }
-    return <> </>;
+    return <div key={uuid()} />;
   });
 
   const renderRow = (previousPayload, newPayload) => Object.keys(newPayload).map(key => {
@@ -194,7 +195,7 @@ function ActivityLogsDetail() {
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>Activity Detail</Typography>
         <Button onClick={() => navigate(-1)}>Back</Button>
       </Stack>
-      <Card className="background-color-white modal-dialog--custom-max-width">
+      <Card>
         <CardContent>
           <DialogContent>
             <Box className="col-8 row">
@@ -229,19 +230,9 @@ function ActivityLogsDetail() {
                 )}
                 {showData && !isDataUpdated && (
                   <TableRow>
-                    {activityDetail?.payload && payload && (
-                      <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
-                        <Stack>
-                          {renderObject(payload)}
-                          {/* <ol>{renderObject(payload, 0)}</ol> */}
-                        </Stack>
-                      </TableCell>
-                    )}
-                    {activityDetail?.old_payload && oldPayload && (
-                      <TableCell sx={{ padding: 0, margin: 0 }} colSpan={2}>
-                        <Stack>{renderObject(oldPayload)}</Stack>
-                      </TableCell>
-                    )}
+                    <TableCell key={uuid()} sx={{ padding: 0, margin: 0 }}>
+                      <Stack key={uuid()}>{renderObject(payload || oldPayload)}</Stack>
+                    </TableCell>
                   </TableRow>
                 )}
               </TableBody>

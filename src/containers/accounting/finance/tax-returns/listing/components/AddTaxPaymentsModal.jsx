@@ -1,7 +1,5 @@
-import React from 'react';
-import moment from 'moment';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Formik } from 'formik';
 import CloseIcon from '@mui/icons-material/Close';
 import { Card, CardContent, IconButton, Stack, Typography } from '@mui/material';
 // services
@@ -12,20 +10,22 @@ import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 // containers
+import FormikWrapper from 'containers/common/form/FormikWrapper';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // styles
 import StyledDialog from 'styles/mui/component/StyledDialog';
-import 'styles/form/form.scss';
 import {
   addTaxPaymentFormChildWrapperStyle,
   addTaxPaymentFormParentWrapperStyle,
   fontWeightBold,
 } from 'styles/mui/container/accounting/finance/tax-returns/listing/components/add-tax-payment-modal';
+import { taxPaymentsInitialValues } from '../../utilities/initial-values';
 
 function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
   const bankAccountResponse = useGetBankAccountsListQuery();
+
   const { optionsList: bankAccountOptions } = useListOptions(
     bankAccountResponse?.data?.results,
     {
@@ -36,6 +36,24 @@ function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
   );
 
   const [addTaxPayment] = useAddTaxReturnPaymentMutation();
+
+  const updatedTaxPaymentsInitialValues = useMemo(
+    () => ({
+      ...taxPaymentsInitialValues,
+      amount_applied: selectedTax?.amount_due,
+      tax_return_id: selectedTax.id,
+    }),
+    [taxPaymentsInitialValues, selectedTax]
+  );
+
+  const handleSubmitData = useCallback(async (values, { setErrors }) => {
+    const response = await addTaxPayment(values);
+    if (response.error) {
+      setErrors(response.error.data);
+    }
+    handleClose();
+  }, []);
+
   return (
     <StyledDialog
       maxWidth={false}
@@ -51,76 +69,55 @@ function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
               <CloseIcon />
             </IconButton>
           </Stack>
-          <Formik
-            enableReinitialize
-            initialValues={{
-              paid_through_account: '',
-              amount_applied: selectedTax?.amount_due,
-              payment_date: moment().format('YYYY-MM-DD'),
-              reference_num: '',
-              notes: '',
-              is_reclaimed: false,
-              tax_return_id: selectedTax.id,
-            }}
-            // validationSchema={brandsFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
-              const response = await addTaxPayment(values);
-              if (response.error) {
-                setErrors(response.error.data);
-              }
-              handleClose();
-            }}
-          >
-            <Form className="form form--horizontal row mt-3">
-              <FormikSelect
-                placeholder="Paid Through"
-                name="paid_through_account"
-                options={bankAccountOptions}
-                label="Paid Through"
-                className="col-12"
-              />
-              <Stack {...addTaxPaymentFormParentWrapperStyle}>
-                <Stack {...addTaxPaymentFormChildWrapperStyle} spacing={2}>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography sx={fontWeightBold}>Total Payable Tax</Typography>
-                    <Typography sx={fontWeightBold}>{selectedTax?.total_tax_payable}</Typography>
-                  </Stack>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography sx={fontWeightBold}>Amount Due</Typography>
-                    <Typography sx={fontWeightBold}>{selectedTax?.amount_due}</Typography>
-                  </Stack>
+          <FormikWrapper initialValues={updatedTaxPaymentsInitialValues} onSubmit={handleSubmitData}>
+            <FormikSelect
+              placeholder="Paid Through"
+              name="paid_through_account"
+              options={bankAccountOptions}
+              label="Paid Through"
+              className="col-12"
+            />
+            <Stack {...addTaxPaymentFormParentWrapperStyle}>
+              <Stack {...addTaxPaymentFormChildWrapperStyle} spacing={2}>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography sx={fontWeightBold}>Total Payable Tax</Typography>
+                  <Typography sx={fontWeightBold}>{selectedTax?.total_tax_payable}</Typography>
+                </Stack>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography sx={fontWeightBold}>Amount Due</Typography>
+                  <Typography sx={fontWeightBold}>{selectedTax?.amount_due}</Typography>
                 </Stack>
               </Stack>
-              <FormikField
-                name="amount_applied"
-                type="number"
-                placeholder="Amount Paid"
-                label="Amount Paid"
-                className="col-12"
-              />
-              <FormikDatePicker
-                name="payment_date"
-                label="Payment Date"
-                placeholder="Payment Date"
-                className="col-12"
-              />
-              <FormikField
-                name="reference_num"
-                label="Reference Number"
-                placeholder="Reerence Number"
-                className="col-12"
-              />
-              <FormikField
-                name="notes"
-                textArea
-                label="Payment Note"
-                placeholder="Payment Note"
-                className="col-12"
-              />
+            </Stack>
+            <FormikField
+              name="amount_applied"
+              type="number"
+              placeholder="Amount Paid"
+              label="Amount Paid"
+              className="col-12"
+            />
+            <FormikDatePicker
+              name="payment_date"
+              label="Payment Date"
+              placeholder="Payment Date"
+              className="col-12"
+            />
+            <FormikField
+              name="reference_num"
+              label="Reference Number"
+              placeholder="Reerence Number"
+              className="col-12"
+            />
+            <FormikField
+              name="notes"
+              textArea
+              label="Payment Note"
+              placeholder="Payment Note"
+              className="col-12"
+            />
 
-              <FormSubmitButton />
-            </Form>
-          </Formik>
+            <FormSubmitButton />
+          </FormikWrapper>
         </CardContent>
       </Card>
     </StyledDialog>

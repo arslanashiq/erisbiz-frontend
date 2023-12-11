@@ -9,6 +9,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 // services
 import { useGetItemsListQuery } from 'services/private/items';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 import {
   useGetPurchaseOrdersListQuery,
   useGetSinglePurchaseOrderQuery,
@@ -19,7 +20,6 @@ import {
   useGetLatestPurchaseInvoiceNumberQuery,
   useGetSinglePurchaseInvoiceQuery,
 } from 'services/private/purchase-invoice';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
@@ -60,7 +60,8 @@ function AddPurchaseInvoice() {
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const suppliersListResponse = useGetSuppliersListQuery();
-  const bankAccountsListResponse = useGetBankAccountsListQuery();
+
+  const chartOfAccountsListResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_payable' });
   const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery(id ? '' : '?status=Issued');
   const latestInvoiceNumber = useGetLatestPurchaseInvoiceNumberQuery({}, { skip: id });
 
@@ -88,9 +89,9 @@ function AddPurchaseInvoice() {
     },
     ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price']
   );
-  const { optionsList: bankAccountOptions } = useListOptions(bankAccountsListResponse?.data?.results, {
-    label: 'bank_account_name',
-    value: 'chart_of_account',
+  const { optionsList: chartOfAccountOptions } = useListOptions(chartOfAccountsListResponse?.data?.results, {
+    label: 'account_name',
+    value: 'id',
   });
   const purchaseItemsInputList = useMemo(
     () => [
@@ -215,7 +216,7 @@ function AddPurchaseInvoice() {
       options={[
         itemsListResponse.isLoading,
         suppliersListResponse.isLoading,
-        bankAccountsListResponse.isLoading,
+        chartOfAccountsListResponse.isLoading,
         purchaseOrdersListResponse.isLoading,
         isLoading,
       ]}
@@ -307,7 +308,7 @@ function AddPurchaseInvoice() {
 
                 <FormikSelect
                   name="credit_account"
-                  options={bankAccountOptions}
+                  options={chartOfAccountOptions}
                   placeholder="Credit Account"
                   label="Credit Account"
                   onChange={value => handleChangeChartOfAccount(value, values, 'bill_items', setFieldValue)}

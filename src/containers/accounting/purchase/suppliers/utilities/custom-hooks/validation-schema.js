@@ -1,4 +1,4 @@
-import { EMAIL_REGEX } from 'utilities/constants';
+import { EMAIL_REGEX, IBAN_REGIX } from 'utilities/constants';
 import * as Yup from 'yup';
 
 export const supplierFormValidationSchema = Yup.object({
@@ -19,5 +19,7 @@ export const supplierFormValidationSchema = Yup.object({
     is: 'invoice_date',
     then: () => Yup.number().min(1, 'Days must be greater tha 1').required('required'),
   }),
+  account_number: Yup.number('Must be a valid Account Number').required('Account Number is required'),
+  IBAN: Yup.string().matches(IBAN_REGIX, 'Must be a valid IBAN'),
 });
 export const test = '';

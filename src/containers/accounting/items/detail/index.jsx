@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import moment from 'moment';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
@@ -22,55 +22,65 @@ import ItemTransactionsTab from './components/ItemTransactionsTab';
 import 'styles/items/item-detail.scss';
 
 function ItemDetail() {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(0);
-
-  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
+  const [activeTab, setActiveTab] = useState(0);
   const [popup, setPopup] = useState({
     open: false,
     message: '',
     actionButton: false,
   });
+
   const itemDetailResponse = useGetSingleItemQuery(id, { refetchOnMountOrArgChange: true });
+
   const [handleDeleteItem] = useDeleteItemMutation();
 
-  const handleClosePopup = () => {
+  const handleClosePopup = useCallback(() => {
     setPopup({
       ...popup,
       open: false,
     });
-  };
+  }, []);
 
-  const itemDetail = itemDetailResponse?.data;
+  const { itemDetail, itemDetailInfo, itemStockInformation } = useMemo(() => {
+    const item = itemDetailResponse?.data;
 
-  const itemDetailInfo = [
-    { label: 'Item Type', value: itemDetail?.item_type },
-    { label: 'Creation Date', value: moment(itemDetail?.created_at).format(DATE_FORMAT) },
-    {
-      label: 'Item Status',
-      value: itemDetail?.is_active ? 'Activated' : 'Deactivated',
-      className: itemDetail?.is_active ? 'color-success' : 'color-danger',
-    },
-    { label: 'Cost Price', value: itemDetail?.cost_price },
-    { label: 'Sale Price', value: itemDetail?.sale_price },
-  ];
-  const itemStockInformation = [
-    { label: 'Opening Stock', value: itemDetail?.opening_stock },
-    { label: 'Stock In Hand', value: itemDetail?.remaining_stock },
-    { label: 'Forecasted Stock', value: itemDetail?.forecast_stock },
-    { label: 'Committed Stock', value: itemDetail?.committed_stock },
-    { label: 'Weightage Cost Price', value: itemDetail?.weighted_cost_price },
-  ];
-  const handleClickEdit = () => {
+    const detailInfo = [
+      { label: 'Item Type', value: item?.item_type },
+      { label: 'Creation Date', value: moment(item?.created_at).format(DATE_FORMAT) },
+      {
+        label: 'Item Status',
+        value: item?.is_active ? 'Activated' : 'Deactivated',
+        className: item?.is_active ? 'color-success' : 'color-danger',
+      },
+      { label: 'Cost Price', value: item?.cost_price },
+      { label: 'Sale Price', value: item?.sale_price },
+    ];
+    const stockInformation = [
+      { label: 'Opening Stock', value: item?.opening_stock },
+      { label: 'Stock In Hand', value: item?.remaining_stock },
+      { label: 'Forecasted Stock', value: item?.forecast_stock },
+      { label: 'Committed Stock', value: item?.committed_stock },
+      { label: 'Weightage Cost Price', value: item?.weighted_cost_price },
+    ];
+
+    return {
+      itemDetail: item,
+      itemDetailInfo: detailInfo,
+      itemStockInformation: stockInformation,
+    };
+  }, [itemDetailResponse]);
+
+  const handleClickEdit = useCallback(() => {
     if (itemDetail.is_active) {
       setPopup({ ...popup, open: true, message: 'Item is Active please deactive it first' });
     } else if (itemDetail.is_item_used) {
       setPopup({ ...popup, open: true, message: 'Item is used in Transections' });
-    } else navigate('/pages/accounting/items/edit/243');
-  };
-  const handleClickDelete = () => {
+    } else navigate(`/pages/accounting/items/edit/${id}`);
+  }, [itemDetail]);
+  const handleClickDelete = useCallback(() => {
     if (itemDetail.is_active) {
       setPopup({ ...popup, open: true, message: 'Item is Active please Deactivate it first' });
     } else if (itemDetail.is_item_used) {
@@ -87,8 +97,8 @@ function ItemDetail() {
         actionButton: true,
       });
     }
-  };
-  const handleConfirmDeleteItem = async () => {
+  }, [itemDetail]);
+  const handleConfirmDeleteItem = useCallback(async () => {
     const delteItemResponse = await handleDeleteItem(id);
     if (delteItemResponse.error) {
       enqueueSnackbar(delteItemResponse.error.message, { variant: 'error' });
@@ -96,7 +106,7 @@ function ItemDetail() {
       navigate('/pages/accounting/items');
       enqueueSnackbar('Item Deleted Successfully', { variant: 'success' });
     }
-  };
+  }, [itemDetail]);
 
   return (
     <SectionLoader options={[itemDetailResponse.isLoading]}>

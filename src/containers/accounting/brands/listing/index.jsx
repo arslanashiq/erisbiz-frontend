@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -23,7 +23,7 @@ function BrandsListing() {
   const brandsListResponse = useGetBrandsListQuery(getItemSearchQueryParams(location));
   const [deleteSingleBrand] = useDeleteBrandMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these brands because some of the selected brands is used in items';
     let actionButton = false;
     const isUsed = checkSelectedDataUsed(data, selected, 'is_item_used');
@@ -43,12 +43,13 @@ function BrandsListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteSingleBrand, id, enqueueSnackbar, 'Brand Deleted Successfully');
     });
-  };
+  }, []);
+
   return (
     <SectionLoader options={[brandsListResponse.isLoading]}>
       <Helmet>

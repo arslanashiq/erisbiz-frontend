@@ -108,7 +108,7 @@ function DetailPageHeader({
         <Stack spacing={2} direction="row">
           {keyValue && (
             <Tooltip title="Download" placement="top" arrow>
-              <Button disabled={actionLoading} onClick={handleDownload}>
+              <Button sx={{ padding: 0 }} disabled={actionLoading} onClick={handleDownload}>
                 <CloudDownloadIcon sx={iconButtonStyle} />
               </Button>
             </Tooltip>

@@ -1,2 +1,2 @@
-export const iconButtonStyle = { height: 19, width: 19 };
+export const iconButtonStyle = { height: 23, width: 23 };
 export const test = '';

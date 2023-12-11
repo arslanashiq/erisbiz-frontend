@@ -3,7 +3,7 @@ export const RECAPTCHA_PRIVATE_KEY = process.env.REACT_APP_PRIVATE_RECAPTCHA_KEY
 export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
-// export const API_URL = 'http://192.168.1.148:8000/';
+// export const API_URL = 'http://192.168.43.252:8000/';
 
 export const ROWS_PER_PAGE = 20;
 export const DEFAULT_PARAMS = {
@@ -55,7 +55,7 @@ export const ITEM_STATUS_OPTIONS = [
   { value: false, label: 'Inactive' },
 ];
 export const ITEM_UNIT_LIST = [
-  { label: 'Subscriber Unit', value: 'pcs' },
+  { label: 'Units', value: 'pcs' },
   { label: 'Kilogram', value: 'kg' },
   { label: 'Pound', value: 'lb' },
   { label: 'Gram', value: 'g' },

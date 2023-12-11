@@ -19,7 +19,7 @@ export const supplierInitialValues = {
   trn: '',
   source_of_supply: '',
   account_default: '',
-  // currency: 'AED',
+  country: 'AE',
   currency_id: '',
   opening_balance: 0,
   is_credit: 'true',

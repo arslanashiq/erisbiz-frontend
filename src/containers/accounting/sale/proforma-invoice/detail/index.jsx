@@ -44,12 +44,12 @@ function ProfomaInvoiceDetail() {
     const status = proformaInvoiceDetailResponse?.data?.status;
     if (status === 'cancelled') return [];
     let actionList = [
-      {
-        label: 'Edit & clone',
-        handleClick: () => {
-          navigate(`/pages/accounting/sales/proforma-invoice/add?proformaInvoice=${id}`);
-        },
-      },
+      // {
+      //   label: 'Edit & clone',
+      //   handleClick: () => {
+      //     navigate(`/pages/accounting/sales/proforma-invoice/add?proformaInvoice=${id}`);
+      //   },
+      // },
       {
         label: 'Delete',
         handleClick: () => {

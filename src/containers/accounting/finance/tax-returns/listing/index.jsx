@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
@@ -39,17 +39,21 @@ function TaxReturnListing() {
 
   const [deletePayment] = useDeleteTaxReturnPaymentMutation();
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setAddTaxPaymentModal(false);
-  };
-  const handleCloseDeletePopup = () => {
+  }, []);
+  const handleCloseDeletePopup = useCallback(() => {
     setOpenInfoPopup({ ...openInfoPopup, open: false });
-  };
-  const handleDeleteItem = async () => {
-    await deletePayment(paymentId);
-    enqueueSnackbar('Purchase Order Deleted', { variant: 'success' });
+  }, []);
+  const handleDeleteItem = useCallback(async () => {
+    const response = await deletePayment(paymentId);
+    if (response.error) {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+      return;
+    }
+    enqueueSnackbar('Payment Deleted successfully', { variant: 'success' });
     handleCloseDeletePopup();
-  };
+  }, []);
 
   return (
     <SectionLoader options={[TaxReturnsResponse.isLoading, TaxReturnsPaymentsResponse.isLoading]}>

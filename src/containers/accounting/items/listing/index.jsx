@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -23,13 +23,15 @@ import ItemFilter from './components/ItemFilter';
 
 function ItemsListing() {
   const location = useLocation();
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const itemsListResponse = useGetItemsListQuery(getItemSearchQueryParams(location));
+
   const [ChangeItemStatus] = useChangeItemStatusMutation();
   const [deleteItem] = useDeleteItemMutation();
 
-  const handleChangeItemStatus = async (id, data, openInfoPopup, setOpenInfoPopup) => {
+  const handleChangeItemStatus = useCallback(async (id, data, openInfoPopup, setOpenInfoPopup) => {
     if (data?.is_item_used) {
       setOpenInfoPopup({
         ...openInfoPopup,
@@ -44,8 +46,8 @@ function ItemsListing() {
     } else {
       enqueueSnackbar('Somthing Went Wrong', { variant: 'success' });
     }
-  };
-  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleEdit = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     const filterResult = data.filter(row => row.id === selected[0]);
     if (filterResult[0].is_item_used) {
       setOpenInfoPopup({
@@ -57,9 +59,8 @@ function ItemsListing() {
     } else {
       navigate(`edit/${selected[0]}`);
     }
-  };
-
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these items because some of the selected items is used in transactions';
     let actionButton = false;
     const isActive = checkSelectedDataUsed(data, selected, 'is_active');
@@ -83,12 +84,12 @@ function ItemsListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteItem, id, enqueueSnackbar, 'Item Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Helmet>

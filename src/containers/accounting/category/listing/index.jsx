@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -16,13 +16,15 @@ import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { categoryHeadCells } from '../utilities/head-cells';
 
 function CategoryListing() {
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const categoryListResponse = useGetCategoryListQuery(getItemSearchQueryParams(location));
+
   const [deleteSingleCategory] = useDeleteCategoryMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'You cannot delete these Category because some of the selected Category is used in items';
     let actionButton = false;
     const isUsed = checkSelectedDataUsed(data, selected, 'is_item_used');
@@ -42,12 +44,13 @@ function CategoryListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteSingleCategory, id, enqueueSnackbar, 'Category Deleted Successfully');
     });
-  };
+  }, []);
+
   return (
     <SectionLoader options={[categoryListResponse.isLoading]}>
       <Helmet>

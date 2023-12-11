@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -31,8 +31,8 @@ import { itemFormValidationSchema } from '../utilities/validationSchema';
 import 'styles/form/form.scss';
 
 function AddItemPage() {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
 
@@ -40,6 +40,7 @@ function AddItemPage() {
 
   const [addItem] = useAddItemMutation();
   const [editItem] = useEditItemMutation();
+
   const supplierApiResponse = useGetSuppliersListQuery();
   const brandsApiResponse = useGetBrandsListQuery();
   const categoryApiResponse = useGetCategoryListQuery();
@@ -59,6 +60,7 @@ function AddItemPage() {
     },
     ['account_type']
   );
+
   const sortedChartOfAccount = getAccountTypesOptions(bankOptions, 2, 'account_type');
   const { optionsList: brandsOptions } = useListOptions(brandsApiResponse?.data?.results, {
     value: 'uid',
@@ -68,6 +70,36 @@ function AddItemPage() {
     value: 'uid',
     label: 'category_name',
   });
+
+  const handleSumbitForm = useCallback(async (values, { setSubmitting, setErrors }) => {
+    try {
+      let response = null;
+      const payload = new FormData();
+      Object.keys(initialValues).forEach(key => {
+        payload.append(key, values[key]);
+      });
+      payload.append('sale_account', values.account_no);
+      payload.append('cost_account', values.account_no);
+      payload.append('inventory_coa', values.account_no);
+
+      if (id) {
+        response = await editItem({ id, payload });
+      } else {
+        response = await addItem(payload);
+      }
+      if (response.error) {
+        setErrors(response.error.data);
+        return;
+      }
+      navigate(-1);
+    } catch (err) {
+      if (err?.response?.status === 400) {
+        setSubmitting(true);
+        setErrors(err.response.data);
+        setSubmitting(false);
+      }
+    }
+  }, []);
 
   return (
     <SectionLoader
@@ -84,35 +116,7 @@ function AddItemPage() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={itemFormValidationSchema}
-            onSubmit={async (values, { setSubmitting, setErrors }) => {
-              try {
-                let response = null;
-                const payload = new FormData();
-                Object.keys(initialValues).forEach(key => {
-                  payload.append(key, values[key]);
-                });
-                payload.append('sale_account', values.account_no);
-                payload.append('cost_account', values.account_no);
-                payload.append('inventory_coa', values.account_no);
-
-                if (id) {
-                  response = await editItem({ id, payload });
-                } else {
-                  response = await addItem(payload);
-                }
-                if (response.error) {
-                  setErrors(response.error.data);
-                  return;
-                }
-                navigate(-1);
-              } catch (err) {
-                if (err?.response?.status === 400) {
-                  setSubmitting(true);
-                  setErrors(err.response.data);
-                  setSubmitting(false);
-                }
-              }
-            }}
+            onSubmit={handleSumbitForm}
           >
             {({ values, setFieldValue }) => (
               <Form className="form form--horizontal row pt-3">
@@ -127,7 +131,7 @@ function AddItemPage() {
                 <FormikField
                   name="sku_hs_code"
                   placeholder="SKU/HS Code"
-                  type="number"
+                  type="text"
                   startIcon={<ContactPhoneIcon />}
                   label="SKU/HS Code"
                 />

@@ -14,7 +14,9 @@ import { chartOfAccountDetailTableHeadCells } from '../utilities/head-cells';
 function ChartOfAccountDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const charOfAccountDetailResponse = useGetSingleChartOfAccountQuery(id);
+
   return (
     <SectionLoader options={[charOfAccountDetailResponse.isLoading]}>
       <FormHeader title={charOfAccountDetailResponse?.data?.account_name} />

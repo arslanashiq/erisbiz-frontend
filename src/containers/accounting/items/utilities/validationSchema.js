@@ -1,8 +1,9 @@
+import { NAME_AND_NUMBER_REGEX } from 'utilities/constants';
 import * as Yup from 'yup';
 
 export const itemFormValidationSchema = Yup.object({
   item_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Item Name is required'),
-  sku_hs_code: Yup.string(),
+  sku_hs_code: Yup.string().matches(NAME_AND_NUMBER_REGEX, 'SKU/HS code must be alpha numeric'),
   category: Yup.string().required('Category is required'),
   sale_price: Yup.number('Must be a number')
     .positive('Must be Positive Number')
@@ -18,7 +19,7 @@ export const itemFormValidationSchema = Yup.object({
   recorder: Yup.string(),
   description: Yup.string(),
   // item_image: Yup.o(),
-  part_number: Yup.string(),
+  part_number: Yup.string().matches(NAME_AND_NUMBER_REGEX, 'Part Number must be alpha numeric'),
   supplier: Yup.number().positive().required('Supplier is required'),
   brand: Yup.string().required('Brand is required'),
 });

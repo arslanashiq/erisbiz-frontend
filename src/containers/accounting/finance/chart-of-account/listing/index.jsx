@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -17,6 +17,7 @@ import MuiTableToolbar from 'shared/components/table/MuiTableToolbar';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities and styles
 import ListingOtherOptions from 'utilities/other-options-listing';
+import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { chartOfAccountHeadCells } from '../utilities/head-cells';
 import transformDataInNestedStructure from '../utilities/transformDataInNestedStructure';
 import RenderChartOfAccount from './components/RenderChartOfAccount';
@@ -27,7 +28,6 @@ function ChartOfAccountListing() {
   const { enqueueSnackbar } = useSnackbar();
 
   const [selected, setSelected] = useState([]);
-
   const [openInfoPopup, setOpenInfoPopup] = useState({
     status: false,
     message: null,
@@ -35,6 +35,7 @@ function ChartOfAccountListing() {
   });
 
   const chartOfAccountListResponse = useGetChartOfAccountListQuery(location.search);
+
   const [deleteChartOfAccount] = useDeleteChartOfAccountMutation();
 
   const getAllUnlockedAcocunt = useMemo(
@@ -52,18 +53,18 @@ function ChartOfAccountListing() {
     },
     [chartOfAccountListResponse]
   );
-  const handleClearSelection = () => {
+  const handleClearSelection = useCallback(() => {
     setSelected([]);
-  };
-  const handleSelectAll = event => {
+  }, []);
+  const handleSelectAll = useCallback(event => {
     if (event.target.checked) {
       const newSelected = getAllUnlockedAcocunt(chartOfAccountListResponse.data.results);
       setSelected(newSelected);
       return;
     }
     handleClearSelection();
-  };
-  const handleClickSingleRow = (event, name) => {
+  }, []);
+  const handleClickSingleRow = useCallback((event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
 
@@ -78,15 +79,14 @@ function ChartOfAccountListing() {
     }
 
     setSelected(newSelected);
-  };
-
-  const handleEditSelection = () => {
+  }, []);
+  const handleEditSelection = useCallback(() => {
     navigate(`edit/${selected[0]}`);
-  };
-  const handleCloseInfoPopup = () => {
+  }, []);
+  const handleCloseInfoPopup = useCallback(() => {
     setOpenInfoPopup({ ...openInfoPopup, status: false });
-  };
-  const handleDelete = () => {
+  }, []);
+  const handleDelete = useCallback(() => {
     let message =
       'You cannot delete these items because some of the selected items is used in Proforma Invoice';
     let actionButton = false;
@@ -100,16 +100,18 @@ function ChartOfAccountListing() {
       message,
       actionButton,
     });
-  };
-  const deleteSingleChartOfAccount = async id => {
-    await deleteChartOfAccount(id);
-    enqueueSnackbar('Journal Voucher Deleted Successfully', { variant: 'success' });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
-      deleteSingleChartOfAccount(id);
+      handleDeleteResponse(
+        deleteChartOfAccount,
+        id,
+        enqueueSnackbar,
+        'Chart of Account Deleted Successfully'
+      );
     });
-  };
+  }, []);
   const updatedChartOfAccounts = useMemo(
     () => transformDataInNestedStructure(chartOfAccountListResponse?.data?.results),
     [chartOfAccountListResponse]

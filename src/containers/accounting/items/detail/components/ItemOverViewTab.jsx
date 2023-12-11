@@ -43,10 +43,9 @@ function ItemOverViewTab({ itemDetail, itemStock, itemImage }) {
             </Box>
           </Box>
         ))}
-      </Box>
 
-      <h2 className="item-overview-heading ">Purchase Information</h2>
-      <Box className="col-8 row item-overview-wrapper">
+        <h2 className="item-overview-heading ">Purchase Information</h2>
+
         <Box className="col-8 col-md-3">
           <h5 className="item-overview-title">Purchase Account</h5>
         </Box>

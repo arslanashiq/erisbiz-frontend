@@ -64,13 +64,13 @@ function SupplierAddPage() {
     ['swift_code', 'bank_name', 'account_number', 'IBAN']
   );
 
-  const handleChangeBank = (setFieldValue, value) => {
-    const selectedBank = bankAccountOptions.filter(account => value === account.value)[0];
-    setFieldValue('swift_code', selectedBank.swift_code);
-    setFieldValue('bank_name', selectedBank.bank_name);
-    setFieldValue('account_number', selectedBank.account_number);
-    setFieldValue('IBAN', selectedBank.IBAN);
-  };
+  // const handleChangeBank = (setFieldValue, value) => {
+  //   const selectedBank = bankAccountOptions.filter(account => value === account.value)[0];
+  //   setFieldValue('swift_code', selectedBank.swift_code);
+  //   setFieldValue('bank_name', selectedBank.bank_name);
+  //   setFieldValue('account_number', selectedBank.account_number);
+  //   setFieldValue('IBAN', selectedBank.IBAN);
+  // };
   const handleSubmitForm = async (values, { setSubmitting, setErrors }) => {
     let response = null;
     if (id) {
@@ -152,7 +152,7 @@ function SupplierAddPage() {
               />
               <FormikField name="mobile_num" type="text" placeholder="Contact" label="Contact" />
 
-              <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
+              <FormikField name="reference_num" type="text" placeholder="VAT Reg No" label="VAT Reg No" />
 
               <FormTabs
                 className="mt-2 mb-2"
@@ -266,17 +266,18 @@ function SupplierAddPage() {
                       label="Account Payee"
                       className="col-12"
                     />
-                    <FormikField name="IBAN" placeholder="IBAN" label="IBAN" disabled className="col-12" />
+                    <FormikField name="IBAN" placeholder="IBAN" label="IBAN" className="col-12" />
                     <FormikField
                       name="account_number"
-                      type="text"
+                      type="number"
                       placeholder="Account Number"
                       label="Account Number"
-                      disabled
+                      isRequired
                       className="col-12"
                     />
                     <FormikField
                       name="vat_number"
+                      disabled={!values.is_reverse_charge}
                       type="number"
                       placeholder="VAT Reverse Charges"
                       label="VAT Reverse Charges"
@@ -290,7 +291,7 @@ function SupplierAddPage() {
                       isRequired
                       placeholder="Account Default"
                       label="Account Default"
-                      onChange={value => handleChangeBank(setFieldValue, value)}
+                      // onChange={value => handleChangeBank(setFieldValue, value)}
                       className="col-12"
                     />
 
@@ -299,14 +300,12 @@ function SupplierAddPage() {
                       name="bank_name"
                       placeholder="Bank Name"
                       label="Bank Name"
-                      disabled
                     />
                     <FormikField
                       name="swift_code"
                       type="number"
                       placeholder="Swift Code"
                       label="Swift Code"
-                      disabled
                       className="col-12"
                     />
                     <Box className="form__form-group align-items-center">
@@ -321,7 +320,13 @@ function SupplierAddPage() {
                     <Box className="form__form-group align-items-center">
                       <span className="form__form-group-label col-lg-3 " />
 
-                      <CheckBoxField name="is_reverse_charge" label="VAT Reverse Charges" />
+                      <CheckBoxField
+                        onChange={() => {
+                          setFieldValue('vat_number', '');
+                        }}
+                        name="is_reverse_charge"
+                        label="VAT Reverse Charges"
+                      />
                     </Box>
                   </Box>
                 </Box>

@@ -32,16 +32,16 @@ import {
 export const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
 
 function BankDetailPopup({ open, setOpen, bankDetail }) {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [infoPopup, setInfoPopup] = useState({
     open: false,
     infoDescription: 'Active banks cannot be deleted. Please inactive them first in order to delete',
 
     actionButton: false,
   });
-  const { enqueueSnackbar } = useSnackbar();
-
-  const navigate = useNavigate();
-  const { id } = useParams();
 
   const [deleteBank] = useDeleteBankMutation(0);
 

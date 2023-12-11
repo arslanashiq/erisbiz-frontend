@@ -241,7 +241,7 @@ export const itemPurchaseOrderTransactionHeadCells = [
     align: 'center',
   },
   {
-    id: 'without_change_amount_total',
+    id: 'without_change_grand_total',
     numeric: true,
     disablePadding: false,
     mergeCell: true,
