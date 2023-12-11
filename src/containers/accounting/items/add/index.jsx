@@ -209,7 +209,7 @@ function AddItemPage() {
                 <Box className="form__form-group col-md-6 row pe-0">
                   <FormikField
                     name="part_number"
-                    type="number"
+                    type="text"
                     placeholder="Part Number"
                     label="Part Number"
                     className="col-12"
