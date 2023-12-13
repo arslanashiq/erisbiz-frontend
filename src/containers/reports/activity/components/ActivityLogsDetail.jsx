@@ -183,7 +183,8 @@ function ActivityLogsDetail() {
       newPayload[key] !== '' &&
         newPayload[key] !== null &&
         newPayload[key] !== 'null' &&
-        newPayload[key] !== undefined
+        newPayload[key] !== undefined &&
+        newPayload[key] !== previousPayload[key]
     ) {
       return renderValue(previousPayload[key], newPayload[key], { tableCellStyle });
     }
