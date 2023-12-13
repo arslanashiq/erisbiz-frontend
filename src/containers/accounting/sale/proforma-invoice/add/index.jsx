@@ -32,7 +32,7 @@ import {
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
   handleGetItemWithRemainingStock,
-  handleChangeCostPrice,
+  // handleChangeCostPrice,
   handleChangeUnitPrice,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormikFileField from 'shared/components/form/FormikFileField';
@@ -122,12 +122,12 @@ function AddProfomaInvoice() {
         type: 'number',
         onChange: handleChangeQuantity,
       },
-      {
-        name: 'cost_price',
-        placeholder: 'Cost Price',
-        type: 'number',
-        onChange: handleChangeCostPrice,
-      },
+      // {
+      //   name: 'cost_price',
+      //   placeholder: 'Cost Price',
+      //   type: 'number',
+      //   onChange: handleChangeCostPrice,
+      // },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',

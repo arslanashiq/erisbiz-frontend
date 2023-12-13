@@ -1,3 +1,4 @@
+import formatAmount from 'utilities/formatAmount';
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
 export const purchaseOrderHeadCells = [
@@ -32,22 +33,15 @@ export const purchaseOrderHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
-  // {
-  //   id: 'currency_symbol',
-  //   numeric: true,
-  //   disablePadding: false,
-  //   label: 'Currency',
-  //   align: 'left',
-  // },
   {
     id: 'without_change_vat_total',
     numeric: true,
     disablePadding: false,
     label: 'VAT',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
   {
     id: 'status',

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
 import { Card, CardContent } from '@mui/material';
 // shared
 import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
@@ -30,12 +31,16 @@ function CustomReportDetailPage({
   parentWrapperClassName,
   queryOptions,
 }) {
+  const { name: companyName } = useSelector(state => state?.user?.company);
+
   const { replaceTableBody } = options;
   const location = useLocation();
 
   const reportResponse = useGetReportQuery(location.search, queryOptions);
-  const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } =
-    useGetReportData(reportResponse);
+  const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } = useGetReportData(
+    reportResponse,
+    companyName
+  );
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
 
   const startDate = moment(reportResponse?.data?.start_date).format(DATE_FILTER_REPORT);
@@ -63,7 +68,8 @@ function CustomReportDetailPage({
             options,
             replaceTableBody ? modifiedTableHead : reportHeadCells,
             replaceTableBody ? modifiedTableBody : tableBody,
-            tableFooter
+            tableFooter,
+            companyName
           );
           handleDownload();
         }}

@@ -20,6 +20,9 @@ export const itemsHeadCell = [
     disablePadding: false,
     label: 'Description',
     align: 'left',
+    style: () => ({
+      maxWidth: '200px',
+    }),
   },
   {
     id: 'is_active',

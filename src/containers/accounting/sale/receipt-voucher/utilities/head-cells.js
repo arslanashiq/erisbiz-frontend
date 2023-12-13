@@ -1,3 +1,4 @@
+import formatAmount from 'utilities/formatAmount';
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
 export const receiptVoucherHeadCells = [
@@ -62,16 +63,16 @@ export const receiptVoucherHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Amount',
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
     align: 'left',
-    mergeCell: true,
   },
   {
     id: 'over_payment',
     numeric: true,
     disablePadding: false,
     label: 'Unused Amount',
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
     align: 'left',
-    mergeCell: true,
   },
 ];
 export const UnPaidSaleInvoiceHeadCells = [

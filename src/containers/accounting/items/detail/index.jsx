@@ -57,6 +57,7 @@ function ItemDetail() {
       },
       { label: 'Cost Price', value: item?.cost_price },
       { label: 'Sale Price', value: item?.sale_price },
+      { label: 'Description', value: item?.description },
     ];
     const stockInformation = [
       { label: 'Opening Stock', value: item?.opening_stock },

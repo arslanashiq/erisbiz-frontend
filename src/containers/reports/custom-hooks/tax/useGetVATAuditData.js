@@ -13,7 +13,7 @@ import formatAmount from 'utilities/formatAmount';
 import { tableCellCompanyName } from 'styles/components/custom-hooks/use-excel-sheet';
 import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
 
-function useGetVATAuditData(reportVATAuditResponse) {
+function useGetVATAuditData(reportVATAuditResponse, companyName) {
   const getTotalSummary = (auditReportData, key) => {
     if (auditReportData[key]) {
       return [
@@ -226,7 +226,8 @@ function useGetVATAuditData(reportVATAuditResponse) {
                 {},
                 header,
                 excelSheetData,
-                []
+                [],
+                companyName
               );
               handleDownload();
             }}

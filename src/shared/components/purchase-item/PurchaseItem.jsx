@@ -20,6 +20,7 @@ import {
   Typography,
 } from '@mui/material';
 // components
+import formatAmount from 'utilities/formatAmount';
 import FormikField from '../form/FormikField';
 import FormikSelect from '../form/FormikSelect';
 // styles
@@ -170,7 +171,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
           <Box className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Typography className="purchase-item-total-amount">Total Amount</Typography>
             <Typography className="purchase-item-total-amount">
-              {currencySymbol} {getTotalAmount()}
+              {currencySymbol} {formatAmount(Number(getTotalAmount()) || getTotalAmount())}
             </Typography>
           </Box>
         </Box>
@@ -184,8 +185,13 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
           <Box className="col-md-7 align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
             <Stack direction="row" justifyContent="space-between">
               <Typography className="purchase-item-total-amount">Total Amount</Typography>
-              <Typography className="purchase-item-total-amount">{getTotalAmount('debit')}</Typography>
-              <Typography className="purchase-item-total-amount">{getTotalAmount('credit')}</Typography>
+              <Typography className="purchase-item-total-amount">
+                {formatAmount(Number(getTotalAmount('debit')) || getTotalAmount('debit'))}
+              </Typography>
+              <Typography className="purchase-item-total-amount">
+                {' '}
+                {formatAmount(Number(getTotalAmount('debit')) || getTotalAmount('credit'))}
+              </Typography>
             </Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography className="purchase-item-total-difference">Difference</Typography>

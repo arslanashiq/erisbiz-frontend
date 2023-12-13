@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -21,14 +21,14 @@ function ExpensesListing() {
   const expensesResponse = useGetExpensesListQuery(getsearchQueryOffsetAndLimitParams(location));
   const [deleteExpense] = useDeleteExpenseMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
       message: 'Are you sure you want to delete?',
       actionButton: true,
     });
-  };
+  }, []);
   const handleConfirmDelete = list => {
     list.forEach(id => {
       handleDeleteResponse(deleteExpense, id, enqueueSnackbar, 'Expense Deleted Successfully');

@@ -78,7 +78,8 @@ export const createExcelSheet = async (
   footer,
   options,
   reportTitle,
-  timeInterval
+  timeInterval,
+  companyName = COMPANY_NAME
 ) => {
   const { workbook, sheet } = makeWorkSheet(sheetName);
   const { showCompanyInfoHeader } = options;
@@ -86,7 +87,7 @@ export const createExcelSheet = async (
   selectedRow = 1;
   // COMPANY INFO
   if (showCompanyInfoHeader) {
-    const headerData = [COMPANY_NAME, reportTitle, timeInterval];
+    const headerData = [companyName, reportTitle, timeInterval];
     for (let i = 0; i < headerData.length; i += 1) {
       addDataInSheetAndMergeCells(header.length, sheet, headerData[i], tableCellCompanyName);
     }
@@ -134,7 +135,8 @@ export const excelSheet = async (
   options,
   excelHeading = [],
   excelBody = [],
-  excelFooter = []
+  excelFooter = [],
+  companyName = COMPANY_NAME
 ) => {
   const fileName = `${reportTitle} (${startDate}-${endDate})`;
   const sheetName = `(${startDate}-${endDate})`;
@@ -145,7 +147,8 @@ export const excelSheet = async (
     excelFooter,
     options,
     reportTitle,
-    timeInterval
+    timeInterval,
+    companyName
   );
   return () => {
     handleDownload(buffer, fileName);

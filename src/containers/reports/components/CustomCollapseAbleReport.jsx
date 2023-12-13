@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Card, CardContent } from '@mui/material';
 // shared
 import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
@@ -19,6 +20,8 @@ import ReportsHeader from './ReportsHeader';
 import CustomReportsDetailHeader from './CustomReportsDetailHeader';
 
 function CustomCollapseAbleReport({ reportResponse, reportTitle, reportHeadCells, tableBody, children }) {
+  const { name: companyName } = useSelector(state => state?.user?.company);
+
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
   const startDate = moment(reportResponse?.data?.start_date).format(DATE_FILTER_REPORT);
   const endDate = moment(reportResponse?.data?.end_date).format(DATE_FILTER_REPORT);
@@ -40,7 +43,8 @@ function CustomCollapseAbleReport({ reportResponse, reportTitle, reportHeadCells
             { showCompanyInfoHeader: true },
             reportHeadCells,
             tableBody,
-            []
+            [],
+            companyName
           );
           handleDownload();
         }}

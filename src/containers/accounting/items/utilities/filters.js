@@ -1,3 +1,11 @@
+export const itemFilterOptions = [
+  { value: '', label: 'All', selectedValue: 'All Items' },
+  { value: 'True', label: 'Active', selectedValue: 'Active Items' },
+  { value: 'False', label: 'Inactive', selectedValue: 'Inactive Items' },
+  { value: 'Goods', label: 'Goods', selectedValue: 'Goods' },
+  { value: 'Service', label: 'Services', selectedValue: 'Services' },
+];
+
 export const quotationFilterList = [
   { label: 'Draft', value: 'draft' },
   { label: 'Approved', value: 'approved' },

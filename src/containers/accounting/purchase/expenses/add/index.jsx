@@ -35,10 +35,12 @@ function AddExpense() {
 
   const bankAccountsLIstResponse = useGetBankAccountsListQuery();
   const supplierListResponse = useGetSuppliersListQuery();
+
   const [addExpense] = useAddExpenseMutation();
   const [editExpense] = useEditExpenseMutation();
 
   const { initialValues } = useInitialValues(expensesInitialValues, useGetSingleExpenseQuery);
+
   const { optionsList: bankOptions } = useListOptions(bankAccountsLIstResponse?.data?.results, {
     label: 'bank_account_name',
     value: 'chart_of_account',
@@ -55,6 +57,7 @@ function AddExpense() {
     }
     return newData;
   }, [initialValues]);
+
   return (
     <Card>
       <CardContent>

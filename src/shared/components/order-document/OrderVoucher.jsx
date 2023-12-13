@@ -2,6 +2,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
+import formatAmount from 'utilities/formatAmount';
 import PurchaseVoucherFooterDocument from './PurchaseVoucherFooterDocument';
 import ReceiptVoucherFooterDocument from './ReceiptVoucherFooterDocument';
 
@@ -55,7 +56,7 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
           <Box className="col-sm-9 invoice-details">
             <p>
               {orderDetail.currency_symbol}
-              {orderDetail.total}
+              {formatAmount(orderDetail.total)}
             </p>
             <hr />
           </Box>
@@ -67,7 +68,7 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
           <p>Amount Paid</p>
           <p style={{ fontSize: 25 }}>
             {orderDetail.currency_symbol}
-            {orderDetail.total}
+            {formatAmount(orderDetail.total)}
           </p>
         </Box>
       </Box>
@@ -77,7 +78,7 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
           <h5>Overpayment</h5>
           <h4>
             {orderDetail.currency_symbol}
-            {orderDetail.over_paid || orderDetail.over_payment}
+            {formatAmount(orderDetail.over_paid || orderDetail.over_payment)}
           </h4>
         </Box>
       )}
@@ -86,7 +87,7 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
           <h5>Refunded</h5>
           <h4>
             {orderDetail.currency_symbol}
-            {orderDetail.refund_payment}
+            {formatAmount(orderDetail.refund_payment)}
           </h4>
         </Box>
       )}

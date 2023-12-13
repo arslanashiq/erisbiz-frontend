@@ -30,7 +30,7 @@ import {
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
   handleGetItemWithRemainingStock,
-  handleChangeCostPrice,
+  // handleChangeCostPrice,
   handleChangeUnitPrice,
 } from 'shared/components/purchase-item/utilities/helpers';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
@@ -106,12 +106,12 @@ function AddQuotation() {
         type: 'number',
         onChange: handleChangeQuantity,
       },
-      {
-        name: 'cost_price',
-        placeholder: 'Cost Price',
-        type: 'number',
-        onChange: handleChangeCostPrice,
-      },
+      // {
+      //   name: 'cost_price',
+      //   placeholder: 'Cost Price',
+      //   type: 'number',
+      //   onChange: handleChangeCostPrice,
+      // },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',
@@ -211,6 +211,12 @@ function AddQuotation() {
               }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
+              }
+              if (quotationId) {
+                navigate(`/pages/accounting/sales/quotations/${response.data.uuid}/detail`, {
+                  replace: true,
+                });
                 return;
               }
               navigate(-1);

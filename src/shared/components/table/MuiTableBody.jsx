@@ -39,7 +39,7 @@ function MuiTableBody({
   const getValue = (row, cell) => {
     let value = '';
     if (cell.mergeCell) {
-      value = `${currencySymbol} `;
+      value = `${currencySymbol}`;
     }
     value += cell.date ? moment(row[cell.id]).format(DATE_FORMAT) : row[cell.id];
 
@@ -58,7 +58,7 @@ function MuiTableBody({
     }
     // for custom actions based on values values
     if (cell.cellValueAction) {
-      return cell.cellValueAction(row[cell.id]);
+      return cell.cellValueAction(row[cell.id], currencySymbol);
     }
 
     // to show active status
@@ -95,7 +95,11 @@ function MuiTableBody({
               textAlign: 'center',
               fontSize: 16,
             }}
-            colSpan={actionButtonKey ? headCells.length + 1 : headCells.length}
+            colSpan={
+              actionButtonKey
+                ? (headCells?.length || 0) + (customRows?.length || 0) + 2
+                : (headCells?.length || 0) + (customRows?.length || 0) + 1
+            }
           >
             No Data Found
           </TableCell>

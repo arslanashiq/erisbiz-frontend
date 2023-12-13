@@ -39,6 +39,7 @@ function ItemsListing() {
         message: 'This item is used in transactions, please delete them first',
         actionButton: false,
       });
+      return;
     }
     const chageStatusResp = await ChangeItemStatus(id);
     if (chageStatusResp.data) {
@@ -56,12 +57,20 @@ function ItemsListing() {
         message: 'This item is used in transactions, please delete them first',
         actionButton: false,
       });
+    } else if (filterResult[0].is_active) {
+      setOpenInfoPopup({
+        ...openInfoPopup,
+        status: true,
+        message: 'This item is active , please deactivate it first',
+        actionButton: false,
+      });
     } else {
       navigate(`edit/${selected[0]}`);
     }
   }, []);
   const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these items because some of the selected items is used in transactions';
+    let message =
+      'You cannot delete these items because some of the selected items is used in transactions or active';
     let actionButton = false;
     const isActive = checkSelectedDataUsed(data, selected, 'is_active');
     const isUsed = checkSelectedDataUsed(data, selected, 'is_item_used');

@@ -1,3 +1,4 @@
+import formatAmount from 'utilities/formatAmount';
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
 export const quotationsHeadCell = [
@@ -53,7 +54,7 @@ export const quotationsHeadCell = [
     disablePadding: false,
     label: 'Gross Total',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
   {
     id: 'without_change_vat_total',
@@ -61,7 +62,7 @@ export const quotationsHeadCell = [
     disablePadding: false,
     label: 'VAT',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
   {
     id: 'without_change_grand_total',
@@ -69,7 +70,7 @@ export const quotationsHeadCell = [
     disablePadding: false,
     label: 'Total',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
 ];
 

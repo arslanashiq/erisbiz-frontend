@@ -1,3 +1,5 @@
+import formatAmount from 'utilities/formatAmount';
+
 export const supplierHeadCells = [
   {
     id: 'supplier_name',
@@ -43,7 +45,7 @@ export const supplierHeadCells = [
     disablePadding: false,
     label: 'Payables',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
 ];
 

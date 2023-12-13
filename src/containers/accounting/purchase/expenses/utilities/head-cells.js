@@ -1,3 +1,4 @@
+import formatAmount from 'utilities/formatAmount';
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
 export const expensesHeadCells = [
@@ -55,6 +56,7 @@ export const expensesHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
 ];
 export const test = '';

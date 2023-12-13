@@ -1,3 +1,5 @@
+import formatAmount from 'utilities/formatAmount';
+
 export const PaymentVoucherHeadCells = [
   {
     id: 'payment_date',
@@ -33,14 +35,14 @@ export const PaymentVoucherHeadCells = [
     disablePadding: true,
     align: 'left',
     label: 'Amount',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
   {
     id: 'over_payment',
     disablePadding: true,
     align: 'left',
     label: 'Unused Amount',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
 ];
 

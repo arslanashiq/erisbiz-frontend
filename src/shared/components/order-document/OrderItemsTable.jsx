@@ -5,6 +5,7 @@ import formatAmount from 'utilities/formatAmount';
 import { Box } from '@mui/material';
 
 function OrderItemsTable({ orderDetail, keyValue }) {
+  const formatStyle = { maximumFractionDigits: 2, minimumFractionDigits: 0 };
   const getTotalAmount = () => {
     let amount = orderDetail.without_change_grand_total;
     if (orderDetail?.refunded_amount) amount -= orderDetail.refunded_amount;
@@ -36,12 +37,12 @@ function OrderItemsTable({ orderDetail, keyValue }) {
               <tr key={uuid()}>
                 <td style={{ textAlign: 'left', padding: '3px 20px' }}>{item.service_type}</td>
                 <td>{item.currency_symbol}</td>
-                <td>{item.num_nights}</td>
-                <td>{item.unit_price_ex_vat}</td>
-                <td>{item.gross_amount}</td>
-                <td>{item.discount}</td>
-                <td>{item.vat_amount}</td>
-                <td> {item.net_amount}</td>
+                <td>{formatAmount(item.num_nights, formatStyle)}</td>
+                <td>{formatAmount(item.unit_price_ex_vat)}</td>
+                <td>{formatAmount(item.gross_amount)}</td>
+                <td>{formatAmount(item.discount)}</td>
+                <td>{formatAmount(item.vat_amount)}</td>
+                <td> {formatAmount(item.net_amount)}</td>
               </tr>
             ))}
           <tr>
@@ -56,10 +57,10 @@ function OrderItemsTable({ orderDetail, keyValue }) {
             >
               Grand Total ({orderDetail.currency_symbol})
             </td>
-            <td>{orderDetail.without_change_amount_total}</td>
-            <td>{orderDetail.without_change_discount_total}</td>
-            <td>{orderDetail.without_change_vat_total}</td>
-            <td>{orderDetail.without_change_grand_total}</td>
+            <td>{formatAmount(orderDetail.without_change_amount_total)}</td>
+            <td>{formatAmount(orderDetail.without_change_discount_total)}</td>
+            <td>{formatAmount(orderDetail.without_change_vat_total)}</td>
+            <td>{formatAmount(orderDetail.without_change_grand_total)}</td>
           </tr>
           {/* {orderDetail.currency !== 'AED' && (
             <tr style={{ backgroundColor: 'rgb(226 226 228 / 26%)' }}>
@@ -102,7 +103,7 @@ function OrderItemsTable({ orderDetail, keyValue }) {
             </Box>
             <Box className="amounts">
               <p>
-                {orderDetail.without_change_vat_total} {orderDetail.currency_symbol}
+                {formatAmount(orderDetail.without_change_vat_total)} {orderDetail.currency_symbol}
               </p>
             </Box>
           </Box>

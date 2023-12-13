@@ -3,12 +3,9 @@
  * @param {number} amount
  * @returns {string} formatted amount in the form of 0,000.00
  */
-function formatAmount(amount = 0) {
+function formatAmount(amount = 0, options = { maximumFractionDigits: 2, minimumFractionDigits: 2 }) {
   try {
-    const formattedAmount = amount.toLocaleString('en-US', {
-      maximumFractionDigits: 2,
-      minimumFractionDigits: 2,
-    });
+    const formattedAmount = amount.toLocaleString('en-US', options);
     if (formattedAmount) return formattedAmount;
     return amount;
   } catch (error) {

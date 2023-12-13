@@ -1,3 +1,4 @@
+import formatAmount from 'utilities/formatAmount';
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
 export const invoiceHeadCell = [
@@ -47,7 +48,7 @@ export const invoiceHeadCell = [
     disablePadding: false,
     label: 'Gross Total',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
   {
     id: 'without_change_vat_total',
@@ -55,7 +56,7 @@ export const invoiceHeadCell = [
     disablePadding: false,
     label: 'VAT',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
   {
     id: 'without_change_grand_total',
@@ -63,7 +64,7 @@ export const invoiceHeadCell = [
     disablePadding: false,
     label: 'Total',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
   },
 ];
 export const test = '';
