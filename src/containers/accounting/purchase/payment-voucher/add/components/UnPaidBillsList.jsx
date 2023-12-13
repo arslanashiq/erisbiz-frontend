@@ -12,6 +12,7 @@ import {
   unPaidBillsTotalAmountInfoBoxStyle,
   unPaidBillsTotalAmountWrapperStyle,
 } from 'styles/mui/container/accounting/purchase/payment-voucher/add/components/unpaid-bills-list';
+import formatAmount from 'utilities/formatAmount';
 
 function UnPaidBillsList({ name, form, headCells }) {
   const { values, setFieldValue } = form;
@@ -76,11 +77,11 @@ function UnPaidBillsList({ name, form, headCells }) {
         <Box className="col-md-6 col-xl-5 d-flex row me-3 mt-2 p-2" sx={unPaidBillsTotalAmountWrapperStyle}>
           <Box className={tableBottomTextClasses}>
             <Typography sx={tableBottomTextStyle}>Total Amount</Typography>
-            <Typography sx={tableBottomTextStyle}>{values.total}</Typography>
+            <Typography sx={tableBottomTextStyle}>{formatAmount(values.total)}</Typography>
           </Box>
           <Box className={tableBottomTextClasses}>
             <Typography sx={tableBottomTextStyle}>Amount used for payments:</Typography>
-            <Typography sx={tableBottomTextStyle}>{values.used_amount}</Typography>
+            <Typography sx={tableBottomTextStyle}>{formatAmount(values.used_amount)}</Typography>
           </Box>
           <Stack
             direction="row"
@@ -93,7 +94,7 @@ function UnPaidBillsList({ name, form, headCells }) {
           </Stack>
           <Box className={tableBottomTextClasses}>
             <Typography sx={tableBottomTextStyle}>Amount in excess:</Typography>
-            <Typography sx={tableBottomTextStyle}>{values.unused_amount}</Typography>
+            <Typography sx={tableBottomTextStyle}>{formatAmount(values.unused_amount)}</Typography>
           </Box>
         </Box>
       </Box>

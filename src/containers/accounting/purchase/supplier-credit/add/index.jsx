@@ -22,7 +22,7 @@ import {
 // shared
 import {
   handleCalculateTotalAmount,
-  handleChangeCostPrice,
+  // handleChangeCostPrice,
   handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
@@ -107,12 +107,12 @@ function AddSupplierCredit() {
         type: 'number',
         onChange: handleChangeQuantity,
       },
-      {
-        name: 'cost_price',
-        placeholder: 'Cost Price',
-        type: 'number',
-        onChange: handleChangeCostPrice,
-      },
+      // {
+      //   name: 'cost_price',
+      //   placeholder: 'Cost Price',
+      //   type: 'number',
+      //   onChange: handleChangeCostPrice,
+      // },
       {
         name: 'unit_price_ex_vat',
         placeholder: 'Unit Price',

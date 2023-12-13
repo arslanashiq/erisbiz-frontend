@@ -275,14 +275,16 @@ function SupplierAddPage() {
                       isRequired
                       className="col-12"
                     />
-                    <FormikField
-                      name="vat_number"
-                      disabled={!values.is_reverse_charge}
-                      type="number"
-                      placeholder="VAT Reverse Charges"
-                      label="VAT Reverse Charges"
-                      className="col-12"
-                    />
+                    {values.is_reverse_charge && (
+                      <FormikField
+                        name="vat_number"
+                        disabled={!values.is_reverse_charge}
+                        type="number"
+                        placeholder="VAT Reverse Charges"
+                        label="VAT Reverse Charges"
+                        className="col-12"
+                      />
+                    )}
                   </Box>
                   <Box className="col-6">
                     <FormikSelect
