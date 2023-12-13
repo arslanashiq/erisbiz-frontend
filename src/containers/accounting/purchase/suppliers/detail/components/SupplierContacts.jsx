@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton, Tooltip } from '@mui/material';
@@ -11,9 +11,10 @@ import { supplierContactHeadCells } from '../../utilities/head-cells';
 function SupplierContacts({ supplierContacts }) {
   const { id } = useParams();
   const navigate = useNavigate();
-  const handleClickEdit = contactId => {
+
+  const handleClickEdit = useCallback(contactId => {
     navigate(`/pages/accounting/purchase/suppliers/${id}/contact/edit/${contactId}`);
-  };
+  }, []);
 
   return (
     <MuiTable

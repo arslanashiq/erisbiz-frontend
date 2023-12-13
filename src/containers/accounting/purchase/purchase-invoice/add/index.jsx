@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
@@ -52,18 +52,18 @@ import 'styles/form/form.scss';
 import { purchaseInvoiceFormValidationSchema } from '../utilities/validation-schema';
 
 function AddPurchaseInvoice() {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
   const { purchaseId } = getSearchParamsList();
 
   const [purchaseOrdersListOptions, setPurchaseOrdersListOptions] = useState([]);
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const suppliersListResponse = useGetSuppliersListQuery();
-
   const chartOfAccountsListResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_payable' });
   const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery(id ? '' : '?status=Issued');
   const latestInvoiceNumber = useGetLatestPurchaseInvoiceNumberQuery({}, { skip: id });
+  const { data: purchaseOrderResponse } = useGetSinglePurchaseOrderQuery(purchaseId, { skip: !purchaseId });
 
   const [addPurchaseInvoice] = useAddPurchaseInvoceMutation();
   const [editPurchaseInvoice] = useEditPurchaseInvoceMutation();
@@ -73,7 +73,6 @@ function AddPurchaseInvoice() {
     useGetSinglePurchaseInvoiceQuery,
     null
   );
-  const { data: purchaseOrderResponse } = useGetSinglePurchaseOrderQuery(purchaseId, { skip: !purchaseId });
 
   const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
     value: supplier.id,
@@ -93,6 +92,7 @@ function AddPurchaseInvoice() {
     label: 'account_name',
     value: 'id',
   });
+
   const purchaseItemsInputList = useMemo(
     () => [
       {
@@ -146,37 +146,84 @@ function AddPurchaseInvoice() {
     [itemsListOptions]
   );
 
-  const handleGetPurchaseOrderAgainstSupplier = (value, setFieldValue = () => {}) => {
-    if (!value) return;
-    const purchaseOrderAgainstSupplier = purchaseOrdersListResponse?.data?.results?.filter(
-      purchaseOrder => Number(value) === purchaseOrder.supplier_id
-    );
-
-    setFieldValue('bill_items', [{}]);
-    if (purchaseOrderAgainstSupplier) {
-      setPurchaseOrdersListOptions(
-        purchaseOrderAgainstSupplier?.map(purchaseOrder => ({
-          label: purchaseOrder.pur_order_formatted_number,
-          value: purchaseOrder.id,
-          pur_order_items: purchaseOrder.pur_order_items,
-        }))
+  const handleGetPurchaseOrderAgainstSupplier = useCallback(
+    (value, setFieldValue = () => {}) => {
+      if (!value) return;
+      const purchaseOrderAgainstSupplier = purchaseOrdersListResponse?.data?.results?.filter(
+        purchaseOrder => Number(value) === purchaseOrder.supplier_id
       );
+
+      setFieldValue('bill_items', [{}]);
+      if (purchaseOrderAgainstSupplier) {
+        setPurchaseOrdersListOptions(
+          purchaseOrderAgainstSupplier?.map(purchaseOrder => ({
+            label: purchaseOrder.pur_order_formatted_number,
+            value: purchaseOrder.id,
+            pur_order_items: purchaseOrder.pur_order_items,
+          }))
+        );
+      }
+    },
+    [purchaseOrdersListResponse]
+  );
+  const handleChangePurchaseOrderItem = useCallback(
+    (value, values, setFieldValue = null) => {
+      let selecteditem = purchaseOrdersListResponse.data.results.filter(
+        purchaseOrder => purchaseOrder.id === value
+      )[0];
+      if (selecteditem.length === 0) return [];
+      selecteditem = selecteditem.pur_order_items.map(item => ({
+        ...item,
+        chart_of_account: values.credit_account,
+        amount_ex_vat: item?.amount_ex_vat || item.gross_amount - item.discount,
+      }));
+      const selectedOrderItems = [...selecteditem];
+      if (setFieldValue) setFieldValue('bill_items', selectedOrderItems);
+      return selectedOrderItems;
+    },
+    [purchaseOrdersListResponse]
+  );
+
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+    let response = null;
+    const payload = {
+      ...values,
+      due_date: values.invoice_date,
+      bill_docs: values.filesList || [],
+      status: values.status || 'draft',
+      ...handleCalculateTotalAmount(values.bill_items),
+    };
+
+    const formData = new FormData();
+    Object.keys(payload).forEach(key => {
+      if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
+        payload[key].forEach((item, index) => {
+          Object.keys(item).forEach(itemKey => {
+            if (item[itemKey]) {
+              formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+            }
+          });
+        });
+      } else {
+        formData.append(key, payload[key]);
+      }
+    });
+    if (id) {
+      response = await editPurchaseInvoice({ id, payload: formData });
+    } else {
+      formData.append('bill_num', values.invoice_num);
+      response = await addPurchaseInvoice(formData);
     }
-  };
-  const handleChangePurchaseOrderItem = (value, values, setFieldValue = null) => {
-    let selecteditem = purchaseOrdersListResponse.data.results.filter(
-      purchaseOrder => purchaseOrder.id === value
-    )[0];
-    if (selecteditem.length === 0) return [];
-    selecteditem = selecteditem.pur_order_items.map(item => ({
-      ...item,
-      chart_of_account: values.credit_account,
-      amount_ex_vat: item?.amount_ex_vat || item.gross_amount - item.discount,
-    }));
-    const selectedOrderItems = [...selecteditem];
-    if (setFieldValue) setFieldValue('bill_items', selectedOrderItems);
-    return selectedOrderItems;
-  };
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    if (purchaseId) {
+      navigate('/pages/accounting/purchase/purchase-invoice', { replace: true });
+      return;
+    }
+    navigate(-1);
+  }, []);
 
   useEffect(() => {
     let values = {};
@@ -228,46 +275,7 @@ function AddPurchaseInvoice() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={purchaseInvoiceFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
-              let response = null;
-              const payload = {
-                ...values,
-                due_date: values.invoice_date,
-                bill_docs: values.filesList || [],
-                status: values.status || 'draft',
-                ...handleCalculateTotalAmount(values.bill_items),
-              };
-
-              const formData = new FormData();
-              Object.keys(payload).forEach(key => {
-                if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
-                  payload[key].forEach((item, index) => {
-                    Object.keys(item).forEach(itemKey => {
-                      if (item[itemKey]) {
-                        formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
-                      }
-                    });
-                  });
-                } else {
-                  formData.append(key, payload[key]);
-                }
-              });
-              if (id) {
-                response = await editPurchaseInvoice({ id, payload: formData });
-              } else {
-                formData.append('bill_num', values.invoice_num);
-                response = await addPurchaseInvoice(formData);
-              }
-              if (response.error) {
-                setErrors(response.error.data);
-                return;
-              }
-              if (purchaseId) {
-                navigate('/pages/accounting/purchase/purchase-invoice', { replace: true });
-                return;
-              }
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
             {({ setFieldValue, values }) => (
               <Form className="form form--horizontal mt-3 row">

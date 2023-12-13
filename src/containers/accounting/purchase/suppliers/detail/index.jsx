@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, useParams } from 'react-router';
 import { Button, Card, Stack, Typography } from '@mui/material';
@@ -30,6 +30,7 @@ import 'styles/suppliers/supplier-detail.scss';
 function SupplierDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState(0);
   const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
   const [popup, setPopup] = useState({
@@ -37,6 +38,7 @@ function SupplierDetail() {
     message: '',
     actionButton: false,
   });
+
   const supplierDetailResponse = useGetSingleSupplierQuery(id);
   const supplierStatementResponse = useGetSupplierStatementQuery(id);
   const supplierCommentResponse = useGetSupplierCommentsQuery(id);
@@ -99,12 +101,12 @@ function SupplierDetail() {
     [supplierDetailResponse]
   );
 
-  const handleChangeActivityDuration = value => {
+  const handleChangeActivityDuration = useCallback(value => {
     setActivityLogDuration(value?.toLowerCase());
-  };
-  const handleClosePopup = () => {
+  }, []);
+  const handleClosePopup = useCallback(() => {
     setPopup({ ...popup, open: false });
-  };
+  }, []);
   return (
     <SectionLoader options={[supplierActivityLogsResponse.isLoading]}>
       <Helmet>

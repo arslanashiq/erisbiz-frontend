@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { FieldArray, Form, Formik } from 'formik';
+import { FieldArray } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -15,11 +15,11 @@ import {
   useGetSinglePurchaseOrderQuery,
 } from 'services/private/purchase-orders';
 // shared
-import FormikDatePicker from 'shared/components/form/FormikDatePicker';
-import FormikSelect from 'shared/components/form/FormikSelect';
-import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import FormikField from 'shared/components/form/FormikField';
+import FormikSelect from 'shared/components/form/FormikSelect';
 import FormHeader from 'shared/components/form-header/FormHeader';
+import FormikDatePicker from 'shared/components/form/FormikDatePicker';
+import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import {
   handleCalculateTotalAmount,
   // handleChangeCostPrice,
@@ -29,18 +29,18 @@ import {
   handleChangeUnitPrice,
   hanldeVATChange,
 } from 'shared/components/purchase-item/utilities/helpers';
-import FormikFileField from 'shared/components/form/FormikFileField';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import FormikFileField from 'shared/components/form/FormikFileField';
 // containers
-import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+import FormikWrapper from 'containers/common/form/FormikWrapper';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { purchaseOrderInitialValues } from '../utilities/initialValues';
 // styles
-import 'styles/form/form.scss';
 import { purchaseOrderFormValidationSchema } from '../utilities/validation-schema';
 
 function AddPurchaseOrder() {
@@ -60,6 +60,7 @@ function AddPurchaseOrder() {
     null,
     true
   );
+
   const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
     value: 'id',
     label: 'supplier_name',
@@ -124,6 +125,38 @@ function AddPurchaseOrder() {
     [itemsListOptions]
   );
 
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+    let response = null;
+    const payload = {
+      ...values,
+      pur_order_docs: values.filesList,
+      ...handleCalculateTotalAmount(values.pur_order_items),
+    };
+    const formData = new FormData();
+    Object.keys(payload).forEach(key => {
+      if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
+        payload[key].forEach((item, index) => {
+          Object.keys(item).forEach(itemKey => {
+            formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+          });
+        });
+      } else {
+        formData.append(key, payload[key]);
+      }
+    });
+
+    if (id) {
+      response = await editPurchaseOrder({ id, payload: formData });
+    } else {
+      response = await addPurchaseOrder(formData);
+    }
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    navigate(-1);
+  }, []);
+
   useEffect(() => {
     if (!id) {
       setInitialValues({
@@ -138,98 +171,65 @@ function AddPurchaseOrder() {
       <Card>
         <CardContent>
           <FormHeader title="Purchase Order" />
-          <Formik
-            enableReinitialize
+          <FormikWrapper
             initialValues={initialValues}
             validationSchema={purchaseOrderFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
-              let response = null;
-              const payload = {
-                ...values,
-                pur_order_docs: values.filesList,
-                ...handleCalculateTotalAmount(values.pur_order_items),
-              };
-              const formData = new FormData();
-              Object.keys(payload).forEach(key => {
-                if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
-                  payload[key].forEach((item, index) => {
-                    Object.keys(item).forEach(itemKey => {
-                      formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
-                    });
-                  });
-                } else {
-                  formData.append(key, payload[key]);
-                }
-              });
-
-              if (id) {
-                response = await editPurchaseOrder({ id, payload: formData });
-              } else {
-                response = await addPurchaseOrder(formData);
-              }
-              if (response.error) {
-                setErrors(response.error.data);
-                return;
-              }
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
-            <Form className="form form--horizontal mt-3 row">
-              <FormikField
-                name="pur_order_num"
-                placeholder="Purchase Order Number"
-                disabled
-                label="PO Number"
-                startIcon={<TagIcon />}
+            <FormikField
+              name="pur_order_num"
+              placeholder="Purchase Order Number"
+              disabled
+              label="PO Number"
+              startIcon={<TagIcon />}
+            />
+
+            <FormikDatePicker
+              name="date"
+              type="text"
+              placeholder="Date"
+              displayFormat="yyyy-MM-dd"
+              label="Date"
+              startIcon={<CalendarMonthIcon />}
+            />
+
+            <FormikSelect
+              options={suppliersOptions}
+              name="supplier_id"
+              placeholder="Supplier"
+              label="Supplier"
+              isRequired
+            />
+
+            <FormikField name="reference_num" type="text" placeholder="Reference Number" label="Ref No" />
+
+            <FormikFileField
+              name="pur_order_docs"
+              type="file"
+              placeholder="Attachment"
+              startIcon={<AttachFileIcon />}
+              label="Attachment"
+            />
+            <FormikField name="location" type="text" placeholder="Location" label="Location" />
+
+            <div className="form__form-group w-100">
+              <FieldArray
+                name="pur_order_items"
+                render={props => (
+                  <PurchaseItem
+                    hideCostPriceOnGoods
+                    inputList={purchaseItemsInputList}
+                    newList={NEW_PURCHASE_ITEM_OBJECT}
+                    {...props}
+                  />
+                )}
               />
+            </div>
 
-              <FormikDatePicker
-                name="date"
-                type="text"
-                placeholder="Date"
-                displayFormat="yyyy-MM-dd"
-                label="Date"
-                startIcon={<CalendarMonthIcon />}
-              />
+            <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
 
-              <FormikSelect
-                options={suppliersOptions}
-                name="supplier_id"
-                placeholder="Supplier"
-                label="Supplier"
-                isRequired
-              />
-
-              <FormikField name="reference_num" type="text" placeholder="Reference Number" label="Ref No" />
-
-              <FormikFileField
-                name="pur_order_docs"
-                type="file"
-                placeholder="Attachment"
-                startIcon={<AttachFileIcon />}
-                label="Attachment"
-              />
-              <FormikField name="location" type="text" placeholder="Location" label="Location" />
-
-              <div className="form__form-group w-100">
-                <FieldArray
-                  name="pur_order_items"
-                  render={props => (
-                    <PurchaseItem
-                      hideCostPriceOnGoods
-                      inputList={purchaseItemsInputList}
-                      newList={NEW_PURCHASE_ITEM_OBJECT}
-                      {...props}
-                    />
-                  )}
-                />
-              </div>
-
-              <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
-
-              <FormSubmitButton />
-            </Form>
-          </Formik>
+            <FormSubmitButton />
+          </FormikWrapper>
         </CardContent>
       </Card>
     </SectionLoader>

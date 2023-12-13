@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
@@ -26,10 +26,16 @@ import ChangeStatusToVoid from './components/ChangeStatusToVoidModal';
 
 const keyValue = 'bill_items';
 function PurchaseInvoiceDetail() {
-  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const paymentMadeAgainstInvoiceResponse = useGetPaymentsAgainstPaymentInvoiceQuery(id);
+  const purchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(id);
+  const purchaseInvoiceJournals = useGetJournalsAgainstPaymentInvoiceQuery(id, {
+    skip: purchaseInvoiceResponse?.data?.status === 'draft',
+  });
+
   const [changeInvoiceStatusToOpen] = useChagePurchaseInvoiceStatusToOpenMutation();
   const [changeInvoiceStatusToVoid] = useChangeInvoiceStatusToVoidMutation();
 
@@ -40,12 +46,7 @@ function PurchaseInvoiceDetail() {
   const [openVoidModal, setOpenVoidModal] = useState(false);
   const [defaultExpanded, setDefaultExpanded] = useState(false);
 
-  const purchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(id);
-  const purchaseInvoiceJournals = useGetJournalsAgainstPaymentInvoiceQuery(id, {
-    skip: purchaseInvoiceResponse?.data?.status === 'draft',
-  });
-
-  const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
+  const handleChangeStatus = useCallback(async (changeInvoiceStatus, payload, successMessage) => {
     const response = await changeInvoiceStatus(payload);
     if (response.error) {
       enqueueSnackbar('Somthing went wrong', {
@@ -57,8 +58,8 @@ function PurchaseInvoiceDetail() {
       variant: 'success',
     });
     return true;
-  };
-  const handleChangeStatusToVoid = async values => {
+  }, []);
+  const handleChangeStatusToVoid = useCallback(async values => {
     const { reason } = values;
     const response = await handleChangeStatus(
       changeInvoiceStatusToVoid,
@@ -66,7 +67,7 @@ function PurchaseInvoiceDetail() {
       'Invoice status change to Void'
     );
     if (response) setOpenVoidModal(false);
-  };
+  }, []);
 
   const orderInfo = useMemo(
     () => ({

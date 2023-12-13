@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
@@ -17,13 +17,16 @@ import { purchaseOrderHeadCells } from '../utilities/head-cells';
 import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utilities/constants';
 
 function PurchaseOrderListing() {
-  const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const purchaseOrdersResponse = useGetPurchaseOrdersListQuery(location.search);
+
   const [deletePurchaseOrder] = useDeletePurchaseOrderMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
-    let message = 'You cannot delete these Purchase Orders because some of the selected items status is not draft';
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
+    let message =
+      'You cannot delete these Purchase Orders because some of the selected items status is not draft';
     let actionButton = false;
     const selectedData = [];
     data.forEach(item => {
@@ -44,12 +47,12 @@ function PurchaseOrderListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deletePurchaseOrder, id, enqueueSnackbar, 'Purchase Order Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <>
       <Helmet>

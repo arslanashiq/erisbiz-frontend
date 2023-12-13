@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
@@ -27,9 +27,9 @@ import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 
 const keyValue = 'bill_payments';
 function PaymentVoucherDetail() {
-  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
@@ -40,6 +40,7 @@ function PaymentVoucherDetail() {
   const PaymentVoucherDetailResponse = useGetSinglePaymentVoucherQuery(id);
   const paymenyVoucherJournalResponse = useGetPaymentVoucherJournalsQuery(id);
   const paymentVoucherDocumentsResponse = useGetPaymentVouchersDocumentsQuery(id);
+
   const [refundPaymentVoucher] = useRefundPaymentVoucherMutation();
 
   const orderInfo = useMemo(
@@ -111,7 +112,8 @@ function PaymentVoucherDetail() {
     }
     return actionsList;
   }, [PaymentVoucherDetailResponse]);
-  const handleRefundPaymentVoucher = async (values, { setErrors }) => {
+
+  const handleRefundPaymentVoucher = useCallback(async (values, { setErrors }) => {
     const payload = {
       ...values,
       payment_made: id,
@@ -123,7 +125,7 @@ function PaymentVoucherDetail() {
     }
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
     setOpenRefundModal(false);
-  };
+  }, []);
   return (
     <SectionLoader
       options={[PaymentVoucherDetailResponse.isLoading, paymenyVoucherJournalResponse.isLoading]}

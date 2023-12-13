@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -17,13 +17,15 @@ import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { PaymentVoucherHeadCells } from '../utilities/head-cells';
 
 function paymentVoucherListing() {
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const paymentVouchersListResponse = useGetPaymentVouchersListQuery(location.search);
+
   const [deletePaymentVoucher] = useDeletePaymentVoucherMutation();
 
-  const checkStatus = (data, selected) => {
+  const checkStatus = useCallback((data, selected) => {
     let message =
       'You cannot delete these items because some of the selected items have refund or debit note or payment applied';
     let actionButton = false;
@@ -51,8 +53,8 @@ function paymentVoucherListing() {
       actionButton,
       message,
     };
-  };
-  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleEdit = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     const { actionButton, message } = checkStatus(data, selected, openInfoPopup, setOpenInfoPopup);
     if (actionButton) {
       navigate(`edit/${selected[0]}`);
@@ -64,8 +66,8 @@ function paymentVoucherListing() {
       message,
       actionButton,
     });
-  };
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     const { actionButton, message } = checkStatus(data, selected, openInfoPopup, setOpenInfoPopup);
 
     setOpenInfoPopup({
@@ -74,12 +76,13 @@ function paymentVoucherListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deletePaymentVoucher, id, enqueueSnackbar, 'Payment Voucher Deleted Successfully');
     });
-  };
+  }, []);
+
   return (
     <SectionLoader options={[paymentVouchersListResponse.isLoading]}>
       <Helmet>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 import { useParams } from 'react-router';
@@ -11,11 +11,16 @@ import FormikField from 'shared/components/form/FormikField';
 import 'styles/form/form.scss';
 
 function CommentsForm() {
-  const initialValues = {
-    comments: '',
-  };
   const { id } = useParams();
+
   const [addComment] = useAddSupplierCommentMutation();
+
+  const initialValues = useMemo(
+    () => ({
+      comments: '',
+    }),
+    []
+  );
   return (
     <Box className="grey-bg p-4 border" style={{ maxWidth: 500, marginBottom: 20 }}>
       <Formik

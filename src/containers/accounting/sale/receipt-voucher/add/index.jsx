@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TagIcon from '@mui/icons-material/Tag';
 // srvices
 import {
@@ -166,14 +165,7 @@ function AddReceiptVoucher() {
                   label="Last Payment"
                   startIcon={<TagIcon />}
                 />
-                <FormikField
-                  name="total"
-                  type="number"
-                  placeholder="Amount"
-                  label="Amount"
-                  startIcon={<AttachMoneyIcon />}
-                  isRequired
-                />
+                <FormikField name="total" type="number" placeholder="Amount" label="Amount" isRequired />
 
                 <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
                 <FormikSelect

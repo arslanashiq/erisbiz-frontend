@@ -18,16 +18,17 @@ import DetailPageHeader from 'shared/components/detail-page-heaher-component/Det
 
 const keyValue = 'pur_order_items';
 function PurchaseOrderDetail() {
-  const [chagePurchaseOrderStatus] = useChangePurchaseOrderStatusToIssuedMutation();
-
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
+
   const purchaseOrderResponse = useGetSinglePurchaseOrderQuery(id);
+
+  const [chagePurchaseOrderStatus] = useChangePurchaseOrderStatusToIssuedMutation();
 
   const purchaseOrderActionList = useMemo(() => {
     const actionsList = [

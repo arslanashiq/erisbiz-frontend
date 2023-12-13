@@ -1,7 +1,6 @@
 import React from 'react';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
-import { Form, Formik } from 'formik';
 import { Card, CardContent, Box } from '@mui/material';
 // shared
 import FormikField from 'shared/components/form/FormikField';
@@ -9,7 +8,7 @@ import FormikField from 'shared/components/form/FormikField';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // components
 import StyledDialog from 'styles/mui/component/StyledDialog';
-import 'styles/form/form.scss';
+import FormikWrapper from 'containers/common/form/FormikWrapper';
 
 function ChangeStatusToVoid({ open, setOpen, handleChangeStatus }) {
   const handleClose = () => {
@@ -25,7 +24,7 @@ function ChangeStatusToVoid({ open, setOpen, handleChangeStatus }) {
       <Card>
         <CardContent>
           <Box>
-            <Formik
+            <FormikWrapper
               initialValues={{
                 reason: '',
               }}
@@ -34,19 +33,17 @@ function ChangeStatusToVoid({ open, setOpen, handleChangeStatus }) {
               })}
               onSubmit={handleChangeStatus}
             >
-              <Form className="form form--horizontal row pt-3 justify-content-center">
-                <FormikField
-                  textArea
-                  isRequired
-                  name="reason"
-                  label="Reason"
-                  placeholder="Reason"
-                  className="col-12 mb-3"
-                />
+              <FormikField
+                textArea
+                isRequired
+                name="reason"
+                label="Reason"
+                placeholder="Reason"
+                className="col-12 mb-3"
+              />
 
-                <FormSubmitButton />
-              </Form>
-            </Formik>
+              <FormSubmitButton />
+            </FormikWrapper>
           </Box>
         </CardContent>
       </Card>

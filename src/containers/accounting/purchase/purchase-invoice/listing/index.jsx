@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
@@ -16,14 +16,16 @@ import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
-  const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const purchaseInvoiceResponse = useGetPurchaseInvoiceListQuery(
     getsearchQueryOffsetAndLimitParams(location)
   );
+
   const [deleteInvoice] = useDeletePurchaseInvoceMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'Are you sure you want to delete?';
     let actionButton = true;
     const selectedData = [];
@@ -44,12 +46,12 @@ function SupplierCreditListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteInvoice, id, enqueueSnackbar, 'purchase Invoice Deleted Successfully');
     });
-  };
+  }, []);
 
   return (
     <>

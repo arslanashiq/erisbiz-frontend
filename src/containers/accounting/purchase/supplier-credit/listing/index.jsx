@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -17,13 +17,15 @@ import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { supplierCreditHeadCells } from '../utilities/head-cells';
 
 function SupplierCreditListing() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const location = useLocation();
+
   const supplierCreditResponse = useGetSupplierCreditsListQuery(getsearchQueryOffsetAndLimitParams(location));
+
   const [deleteSupplierCredit] = useDeleteSupplierCreditsMutation();
 
-  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleEdit = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     const filterResult = data.filter(row => row.id === selected[0]);
     if (filterResult[0].is_applied) {
       setOpenInfoPopup({
@@ -35,8 +37,8 @@ function SupplierCreditListing() {
       return;
     }
     navigate(`edit/${selected[0]}`);
-  };
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
       'Can not delete Debit Notes because some of the selected debit notes are applied to bill or refunded';
     let actionButton = false;
@@ -53,12 +55,12 @@ function SupplierCreditListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteSupplierCredit, id, enqueueSnackbar, 'Debit Note Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <>
       <Helmet>

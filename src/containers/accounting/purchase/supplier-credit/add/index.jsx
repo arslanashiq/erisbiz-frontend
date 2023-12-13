@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
@@ -49,14 +49,16 @@ import { supplierCreditFormValidationSchema } from '../utilities/validation-sche
 
 function AddSupplierCredit() {
   const { id } = useParams();
-  const { purchaseId } = getSearchParamsList();
   const navigate = useNavigate();
+  const { purchaseId } = getSearchParamsList();
+
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const suppliersListResponse = useGetSuppliersListQuery();
   const bankAccountsListsponse = useGetBankAccountsListQuery();
   const purchaseInvoiceListResponse = useGetPurchaseInvoiceListQuery();
   const singlePurchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(purchaseId, { skip: !purchaseId });
   const latestDebitNoteNumberResponse = useGetLatestSupplierCreditNumberQuery({}, { skip: id });
+
   const [getPurchaseInvoice] = useGetPurchaseInvoceMutation();
   const [addSupplierCredit] = useAddSupplierCreditsMutation();
   const [editSupplierCredit] = useEditSupplierCreditsMutation();
@@ -153,7 +155,7 @@ function AddSupplierCredit() {
 
   const { initialValues } = useInitialValues(supplierCreditsInitialValues, useGetSingleSupplierCreditsQuery);
 
-  const handleChangePurchaseInvoice = async (value, setFieldValue) => {
+  const handleChangePurchaseInvoice = useCallback(async (value, setFieldValue) => {
     if (!value) return;
     const purchaseInvoice = await getPurchaseInvoice(value);
     if (setFieldValue) {
@@ -166,7 +168,36 @@ function AddSupplierCredit() {
         setFieldValue('supplier_credit_items', selectedInvoiceItemsList);
       }
     }
-  };
+  }, []);
+
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+    const supplierCreditTtems = values.supplier_credit_items.map(item => ({
+      ...item,
+      chart_of_account_id: values.debit_account_number,
+    }));
+    let response = null;
+    const payload = {
+      ...values,
+      supplier_credit_items: supplierCreditTtems,
+      status: values.status || 'open',
+      paid_date: values.supplier_credit_date,
+      ...handleCalculateTotalAmount(values.supplier_credit_items),
+    };
+    if (id) {
+      response = await editSupplierCredit({ id, payload });
+    } else {
+      response = await addSupplierCredit(payload);
+    }
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    if (purchaseId) {
+      navigate('/pages/accounting/purchase/debit-notes', { replace: true });
+      return;
+    }
+    navigate(-1);
+  }, []);
 
   const UpdatedSupplierCreditValues = useMemo(() => {
     let newData = { ...initialValues };
@@ -210,6 +241,7 @@ function AddSupplierCredit() {
     }
     return newData;
   }, [initialValues, latestDebitNoteNumberResponse, singlePurchaseInvoiceResponse, paymentInvoiceOptions]);
+
   return (
     <SectionLoader options={[itemsListResponse.isLoading]}>
       <Card>
@@ -219,34 +251,7 @@ function AddSupplierCredit() {
             enableReinitialize
             initialValues={UpdatedSupplierCreditValues}
             validationSchema={supplierCreditFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
-              const supplierCreditTtems = values.supplier_credit_items.map(item => ({
-                ...item,
-                chart_of_account_id: values.debit_account_number,
-              }));
-              let response = null;
-              const payload = {
-                ...values,
-                supplier_credit_items: supplierCreditTtems,
-                status: values.status || 'open',
-                paid_date: values.supplier_credit_date,
-                ...handleCalculateTotalAmount(values.supplier_credit_items),
-              };
-              if (id) {
-                response = await editSupplierCredit({ id, payload });
-              } else {
-                response = await addSupplierCredit(payload);
-              }
-              if (response.error) {
-                setErrors(response.error.data);
-                return;
-              }
-              if (purchaseId) {
-                navigate('/pages/accounting/purchase/debit-notes', { replace: true });
-                return;
-              }
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">

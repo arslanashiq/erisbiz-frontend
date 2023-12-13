@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from '@mui/material';
@@ -17,7 +17,7 @@ import formatAmount from 'utilities/formatAmount';
 function UnPaidBillsList({ name, form, headCells }) {
   const { values, setFieldValue } = form;
 
-  const getUsedAmount = (value, index) => {
+  const getUsedAmount = useCallback((value, index) => {
     let usedAmout = 0;
     values[name].forEach((item, idx) => {
       if (idx === index) {
@@ -27,13 +27,16 @@ function UnPaidBillsList({ name, form, headCells }) {
       }
     });
     return usedAmout || 0;
-  };
-  const handleChangeUsedAmount = (value, index) => {
-    const usedAmount = getUsedAmount(value, index);
-    setFieldValue('used_amount', Number(usedAmount));
-    const unUsedAmount = Number(values.total) - Number(usedAmount);
-    if (unUsedAmount >= 0) setFieldValue('unused_amount', Number(values.total - usedAmount));
-  };
+  }, [values]);
+  const handleChangeUsedAmount = useCallback(
+    (value, index) => {
+      const usedAmount = getUsedAmount(value, index);
+      setFieldValue('used_amount', Number(usedAmount));
+      const unUsedAmount = Number(values.total) - Number(usedAmount);
+      if (unUsedAmount >= 0) setFieldValue('unused_amount', Number(values.total - usedAmount));
+    },
+    [values]
+  );
   useEffect(() => {
     setFieldValue('used_amount', getUsedAmount(-1, -1));
   }, [values[name]?.length]);

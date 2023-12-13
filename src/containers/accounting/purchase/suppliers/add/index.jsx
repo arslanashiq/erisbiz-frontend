@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -71,7 +71,7 @@ function SupplierAddPage() {
   //   setFieldValue('account_number', selectedBank.account_number);
   //   setFieldValue('IBAN', selectedBank.IBAN);
   // };
-  const handleSubmitForm = async (values, { setSubmitting, setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setSubmitting, setErrors }) => {
     let response = null;
     if (id) {
       response = await editSupplier({ id, payload: values });
@@ -91,7 +91,7 @@ function SupplierAddPage() {
       setErrors(response.error.data);
     }
     setSubmitting(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (supplierFormInitialValues.set_credit_limit && supplierFormInitialValues.credit_limit === false) {

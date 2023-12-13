@@ -18,8 +18,9 @@ import 'styles/form/form.scss';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 
 function AddSupplierContact() {
-  const { id, supplierId } = useParams();
   const navigate = useNavigate();
+  const { id, supplierId } = useParams();
+
   const [initialValues, setInitialValues] = useState({
     first_name: '',
     designation: '',
@@ -28,10 +29,12 @@ function AddSupplierContact() {
     notes: '',
     supplier_id: supplierId,
   });
+
+  const singleSupplierContactResponse = useGetSupplierSingleContactQuery(id, { skip: !id });
+
   const [addSupplierContact] = useAddSupplierContactMutation();
   const [editSupplierContact] = useEditSupplierContactMutation();
 
-  const singleSupplierContactResponse = useGetSupplierSingleContactQuery(id, { skip: !id });
   useEffect(() => {
     if (id && singleSupplierContactResponse.isSuccess) {
       setInitialValues({ ...singleSupplierContactResponse?.data });

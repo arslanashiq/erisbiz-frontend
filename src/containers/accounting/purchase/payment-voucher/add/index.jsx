@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
@@ -37,16 +37,18 @@ import { paymentVoucherFormValidationSchema } from '../utilities/validation-sche
 
 function addPaymentVoucher() {
   const { id } = useParams();
-  const { supplierId, debitAmount } = getSearchParamsList();
   const navigate = useNavigate();
+  const { supplierId, debitAmount } = getSearchParamsList();
 
   const [selectedSupplier, setSelectedSupplier] = useState(supplierId || null);
 
   const supplierListResponse = useGetSuppliersListQuery();
   const bankAccountListResponse = useGetBankAccountsListQuery();
+
   const [addPaymentVouchser] = useAddPaymentVouchserMutation();
   const [editPaymentVouchser] = useEditPaymentVouchserMutation();
   const [getUnpaidBills] = useGetSuppliersUpaidBillsListMutation();
+
   const { initialValues, setInitialValues, queryResponse } = useInitialValues(
     PurchaseVoucherInitialValues,
     useGetSinglePaymentVoucherQuery
@@ -61,44 +63,47 @@ function addPaymentVoucher() {
     label: 'bank_account_name',
   });
 
-  const handleChangeSupplier = async (selectedSupplierId, initial, setValues) => {
-    if (!selectedSupplierId) return;
-    const response = await getUnpaidBills(selectedSupplierId);
-    const billPayment = [];
-    response.data.forEach((bill, index) => {
-      if (bill.bill_num === 'Supplier Opening Balance') {
-        billPayment.push({
-          bill_date: bill.bill_date,
-          supplier: selectedSupplierId,
-          grand_total: bill.grand_total,
-          amount_due: bill.amount_due,
-          amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
-          bill_num: bill.bill_num,
-          pur_order: bill.pur_order,
-        });
-      } else {
-        billPayment.push({
-          bill_id: bill.id,
-          bill_date: bill.bill_date,
-          grand_total: bill.grand_total,
-          amount_due: bill.amount_due,
-          bill_num: bill.bill_num,
-          pur_order: bill.pur_order,
-          amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
+  const handleChangeSupplier = useCallback(
+    async (selectedSupplierId, initial, setValues) => {
+      if (!selectedSupplierId) return;
+      const response = await getUnpaidBills(selectedSupplierId);
+      const billPayment = [];
+      response.data.forEach((bill, index) => {
+        if (bill.bill_num === 'Supplier Opening Balance') {
+          billPayment.push({
+            bill_date: bill.bill_date,
+            supplier: selectedSupplierId,
+            grand_total: bill.grand_total,
+            amount_due: bill.amount_due,
+            amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
+            bill_num: bill.bill_num,
+            pur_order: bill.pur_order,
+          });
+        } else {
+          billPayment.push({
+            bill_id: bill.id,
+            bill_date: bill.bill_date,
+            grand_total: bill.grand_total,
+            amount_due: bill.amount_due,
+            bill_num: bill.bill_num,
+            pur_order: bill.pur_order,
+            amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
+          });
+        }
+      });
+      if (setValues) setValues('bill_payments', billPayment);
+      else {
+        setInitialValues({
+          ...initialValues,
+          used_amount: initialValues.total - initialValues.unused_amount,
+          bill_payments: billPayment,
+          supplier_id: Number(selectedSupplierId),
+          total: debitAmount ? Number(debitAmount) : 0,
         });
       }
-    });
-    if (setValues) setValues('bill_payments', billPayment);
-    else {
-      setInitialValues({
-        ...initialValues,
-        used_amount: initialValues.total - initialValues.unused_amount,
-        bill_payments: billPayment,
-        supplier_id: Number(selectedSupplierId),
-        total: debitAmount ? Number(debitAmount) : 0,
-      });
-    }
-  };
+    },
+    [initialValues, debitAmount]
+  );
 
   useEffect(() => {
     if (queryResponse?.supplier_id) {

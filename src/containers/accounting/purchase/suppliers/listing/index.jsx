@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -16,15 +16,18 @@ import { supplierHeadCells } from '../utilities/head-cells';
 import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utilities/constants';
 
 function SupplierListing() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const location = useLocation();
+
   const suppliersListingResponse = useGetSuppliersListQuery(location.search || DEFAULT_PARAMS);
+
   const [deleteSupplier] = useDeleteSupplierMutation();
-  const handleEdit = (data, selected) => {
+
+  const handleEdit = useCallback((data, selected) => {
     navigate(`edit/${selected[0]}`);
-  };
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
       'You cannot delete these suppliers because some of the selected suppliers have transactions';
     let actionButton = false;
@@ -58,13 +61,13 @@ function SupplierListing() {
       message,
       actionButton,
     });
-  };
+  }, []);
 
-  const handleConfirmDelete = list => {
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteSupplier, id, enqueueSnackbar, 'Supplier Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <>
       <Helmet>

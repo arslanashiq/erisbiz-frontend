@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Stack, Typography } from '@mui/material';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
@@ -6,14 +6,20 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Toolti
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 
 function SupplierOverviewCharts({ supplierDetail, supplierIncome, activityLogDuration, handleClickMenu }) {
-  const currencySymbol = supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED';
-  const graphData = supplierIncome
-    ? supplierIncome.map(item => ({
-      name: `${item.month} ${item.year}`,
-      [currencySymbol]: item.income,
-      amt: item.income,
-    }))
-    : [];
+  const currencySymbol = useMemo(
+    () => (supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED'),
+    []
+  );
+  const graphData = useMemo(
+    () => (supplierIncome
+      ? supplierIncome.map(item => ({
+        name: `${item.month} ${item.year}`,
+        [currencySymbol]: item.income,
+        amt: item.income,
+      }))
+      : []),
+    [supplierIncome]
+  );
   return (
     <Grid sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 4, paddingBottom: 3 }}>
       <Stack direction="row" justifyContent="space-between">

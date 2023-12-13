@@ -29,14 +29,14 @@ function ExpensesListing() {
       actionButton: true,
     });
   }, []);
-  const handleConfirmDelete = list => {
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteExpense, id, enqueueSnackbar, 'Expense Deleted Successfully');
     });
-  };
-  const handleEdit = (_, selected) => {
+  }, []);
+  const handleEdit = useCallback((_, selected) => {
     navigate(`edit/${selected[0]}`);
-  };
+  }, []);
   return (
     <SectionLoader options={[expensesResponse.isLoading]}>
       <Helmet>

@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable consistent-return */
 
 import React, { useMemo } from 'react';
@@ -29,10 +30,20 @@ import {
 const inValidKeys = [
   'uid',
   'id',
-  // 'created_by',
+  'created_by',
   'created_at',
   'created_by_employee_name',
   'currency',
+  'updated_at',
+  'updated_by',
+  'brand_num',
+  'cost_account',
+  'inventory_coa',
+  'sale_account',
+  'cost_account_label',
+  'sale_account_label',
+  'inventory_coa_label',
+  'item_sale_amount_prefix',
 ];
 const tableCellStyle = {
   border: '1px solid silver',
@@ -41,8 +52,27 @@ function ActivityLogsDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { data: activityDetail, isLoading } = useGetActivityLogsDetailQuery(id);
-
+  const { data: activityData, isLoading } = useGetActivityLogsDetailQuery(id);
+  const activityDetail = useMemo(() => {
+    if (!activityData?.results) return {};
+    // POST METHOD
+    if (activityData?.results?.data?.request_method === 'POST') {
+      return { ...activityData?.results?.data, payload: JSON.stringify(activityData?.results?.payload) };
+    }
+    if (activityData?.results?.data?.request_method === 'DELETE') {
+      return { ...activityData?.results?.data, payload: JSON.stringify(activityData?.results?.payload) };
+    }
+    if (
+      activityData?.results?.data?.request_method === 'PATCH' ||
+      activityData?.results?.request_method === 'PUT'
+    ) {
+      return {
+        ...activityData?.results?.data,
+        payload: JSON.stringify(activityData?.results?.new_payload),
+        old_payload: JSON.stringify(activityData?.results?.old_payload),
+      };
+    }
+  }, [activityData]);
   // const getDomain = endpointValue => {
   //   let domain = '';
   //   try {
@@ -126,7 +156,6 @@ function ActivityLogsDetail() {
       <TableCell sx={tableCellStyle}>{newPayload || '-'}</TableCell>
     </TableRow>
   );
-
   const isValidValue = payloadInfo => {
     if (payloadInfo) {
       if (typeof payloadInfo === 'object' && payloadInfo?.length > 0) {
@@ -140,56 +169,61 @@ function ActivityLogsDetail() {
   };
 
   const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  const renderObject = payloadInfo => Object.keys(payloadInfo).map(key => {
-    if (!checkDataAllowdedToPrint(key)) return;
-    const valueType = isValidValue(payloadInfo[key]);
+  const renderObject = payloadInfo =>
+    Object.keys(payloadInfo).map(key => {
+      if (!checkDataAllowdedToPrint(key)) return;
+      const valueType = isValidValue(payloadInfo[key]);
 
-    if (valueType === 'list') {
-      return payloadInfo[key]?.map(pay => renderObject(pay));
-    }
-    if (valueType === 'object') {
-      return (
-        <TableCell key={uuid()} sx={tableCellStyle}>
-          <ul key={uuid()}>{renderObject(payloadInfo[key], null)}</ul>
-        </TableCell>
-      );
-    }
-    if (
-      payloadInfo[key] !== '' &&
+      if (valueType === 'list') {
+        return <Stack direction="row">{payloadInfo[key]?.map(pay => renderObject(pay))}</Stack>;
+      }
+      if (valueType === 'object') {
+        return (
+          <TableCell key={uuid()} sx={tableCellStyle}>
+            <ul key={uuid()}>{renderObject(payloadInfo[key], null)}</ul>
+          </TableCell>
+        );
+      }
+      if (
+        payloadInfo[key] !== '' &&
         payloadInfo[key] !== null &&
         payloadInfo[key] !== 'null' &&
         payloadInfo[key] !== undefined
-    ) {
-      return (
-        <TableCell key={uuid()} sx={tableCellStyle}>
-          {payloadInfo[key] || '-'}
-        </TableCell>
-      );
-    }
-    return <div key={uuid()} />;
-  });
+      ) {
+        return (
+          <TableCell key={uuid()} sx={tableCellStyle}>
+            {payloadInfo[key] || '-'}
+          </TableCell>
+        );
+      }
+      return <div key={uuid()} />;
+    });
 
-  const renderRow = (previousPayload, newPayload) => Object.keys(newPayload).map(key => {
-    if (!checkDataAllowdedToPrint(key)) return;
-    const valueType = isValidValue(newPayload[key]);
+  const renderRow = (previousPayload, newPayload) =>
+    Object.keys(newPayload).map(key => {
+      if (!checkDataAllowdedToPrint(key)) return;
+      const valueType = isValidValue(newPayload[key]);
 
-    if (valueType === 'list') {
-      return newPayload[key]?.map((_, index) => renderRow(previousPayload[index], newPayload[index]));
-    }
-    if (valueType === 'object') {
-      return renderRow(previousPayload[key], newPayload[key], null);
-    }
-    if (
-      newPayload[key] !== '' &&
+      if (valueType === 'list') {
+        return 'This is List';
+        // return newPayload[key]?.map((_, index) => renderRow(previousPayload[index], newPayload[index]));
+      }
+      if (valueType === 'object') {
+        return 'This is Object';
+        // return renderRow(previousPayload[key], newPayload[key], null);
+      }
+      if (
+        newPayload[key] !== '' &&
         newPayload[key] !== null &&
         newPayload[key] !== 'null' &&
         newPayload[key] !== undefined &&
         newPayload[key] !== previousPayload[key]
-    ) {
-      return renderValue(previousPayload[key], newPayload[key], { tableCellStyle });
-    }
-    return '';
-  });
+      ) {
+        return renderValue(previousPayload[key], newPayload[key], { tableCellStyle });
+      }
+      return '';
+    });
+  console.log(oldPayload, 'activityData');
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>

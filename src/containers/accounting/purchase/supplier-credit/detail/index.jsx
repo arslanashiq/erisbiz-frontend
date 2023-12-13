@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
@@ -26,9 +26,9 @@ import { UnPaidBillsHeadCells } from '../../payment-voucher/utilities/head-cells
 
 const keyValue = 'supplier_credit_items';
 function SupplierCreditDetail() {
-  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
@@ -117,7 +117,7 @@ function SupplierCreditDetail() {
     return actionList;
   }, [supplierCreditResponse]);
 
-  const handleRefundSupplierCredit = async (values, { setErrors }) => {
+  const handleRefundSupplierCredit = useCallback(async (values, { setErrors }) => {
     const payload = {
       bill_credit_notes: [{ ...values }],
       supplier_credit_id: id,
@@ -129,8 +129,8 @@ function SupplierCreditDetail() {
     }
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
     setOpenRefundModal(false);
-  };
-  const handleApplyToBill = async (values, { setErrors }) => {
+  }, []);
+  const handleApplyToBill = useCallback(async (values, { setErrors }) => {
     const billCreditNotes = values.bill_credit_notes
       .filter(cn => cn.amount_applied > 0)
       .map(cn => ({
@@ -150,7 +150,8 @@ function SupplierCreditDetail() {
     }
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
     setOpenApplyToBillModal(false);
-  };
+  }, []);
+
   useEffect(() => {
     (async () => {
       if (openApplyToBillModal) {
