@@ -40,7 +40,7 @@ function SupplierAddPage() {
 
   const countriesListResponse = useGetAllCountriesListQuery();
   const bankAccountResponse = useGetBankAccountsListQuery();
-  const latestTransactionNumber = useGetLatestTransactionNumberQuery();
+  const latestTransactionNumber = useGetLatestTransactionNumberQuery({}, { refetchOnMountOrArgChange: true });
 
   const [addSupplier] = useAddSupplierMutation();
   const [editSupplier] = useEditSupplierMutation();
