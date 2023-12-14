@@ -34,7 +34,9 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
     return false;
   };
   useEffect(() => {
-    setOpen(isLargeScreen);
+    if (!isLargeScreen) {
+      setOpen(isLargeScreen);
+    }
   }, [isLargeScreen]);
 
   return (
@@ -74,7 +76,7 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
         }}
         className="main-wrapper"
       >
-        <DrawerHeader />
+        <DrawerHeader className="no-print" />
         <Outlet />
       </Box>
     </Box>

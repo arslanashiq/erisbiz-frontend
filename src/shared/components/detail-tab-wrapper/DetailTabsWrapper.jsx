@@ -9,7 +9,7 @@ function DetailTabsWrapper({ activeTab, setActiveTab, className, tabsList, tabSt
   };
   return (
     <Box sx={{ minWidth: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', overflow: 'auto' }}>
+      <Box className="no-print" sx={{ borderBottom: 1, borderColor: 'divider', overflow: 'auto' }}>
         <Tabs
           scrollButtons="auto"
           variant="scrollable"

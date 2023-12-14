@@ -28,7 +28,7 @@ function ActionMenu({
   return (
     <>
       <Tooltip title={actionsList.length === 0 ? 'You can`t perform any action' : ''} placement="top" arrow>
-        <Stack>
+        <Stack className="no-print">
           <Button
             id="basic-button"
             disabled={actionsList.length === 0}

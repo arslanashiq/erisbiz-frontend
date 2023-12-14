@@ -5,11 +5,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Toolti
 // components
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 
-function SupplierOverviewCharts({ supplierDetail, supplierIncome, activityLogDuration, handleClickMenu }) {
-  const currencySymbol = useMemo(
-    () => (supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED'),
-    []
-  );
+function SupplierOverviewCharts({ supplierIncome, activityLogDuration, handleClickMenu, currencySymbol }) {
   const graphData = useMemo(
     () => (supplierIncome
       ? supplierIncome.map(item => ({
@@ -56,13 +52,13 @@ function SupplierOverviewCharts({ supplierDetail, supplierIncome, activityLogDur
   );
 }
 SupplierOverviewCharts.propTypes = {
-  supplierDetail: PropTypes.object,
+  currencySymbol: PropTypes.string,
   activityLogDuration: PropTypes.string.isRequired,
   supplierIncome: PropTypes.array.isRequired,
   handleClickMenu: PropTypes.func.isRequired,
 };
 SupplierOverviewCharts.defaultProps = {
-  supplierDetail: {},
+  currencySymbol: 'AED',
 };
 
 export default SupplierOverviewCharts;

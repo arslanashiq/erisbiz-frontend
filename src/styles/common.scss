@@ -153,6 +153,12 @@
   }
 }
 
+.item-overview-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: $color-additional;
+}
+
 // scrollbar
 
 /* width */
@@ -178,4 +184,14 @@
   min-height: 0px;
   max-height: 0px;
   overflow: hidden;
+}
+
+// print
+@media print {
+  .no-print {
+    visibility: hidden !important;
+  }
+  .do-print {
+    visibility: visible !important;
+  }
 }

@@ -76,7 +76,7 @@ function DetailPageHeader({
     await deleteDocument(file.id, removeDocument, enqueueSnackbar);
   };
   return (
-    <Box className="d-print-none">
+    <Box className="no-print">
       <InfoPopup
         open={openPopup.open}
         showActionButton={openPopup.showActionButton}

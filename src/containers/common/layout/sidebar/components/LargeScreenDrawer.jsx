@@ -28,7 +28,7 @@ function LargeScreenDrawer({
 }) {
   const theme = useTheme();
   return (
-    <StyledDrawer className="d-none d-md-block" variant="permanent" open={open}>
+    <StyledDrawer className="no-print d-none d-md-block" variant="permanent" open={open}>
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}

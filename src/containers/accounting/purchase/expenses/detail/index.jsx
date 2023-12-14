@@ -67,7 +67,7 @@ function ExpenseDetail() {
       <Stack sx={{ backgroundColor: 'white', padding: '20px 30px' }}>
         <ExpenseDetailInfo expense={expenseDetail?.data} />
         {expenseJournals?.data?.expense_journal_items && (
-          <Stack sx={{ marginTop: 5 }} className="d-print-none">
+          <Stack sx={{ marginTop: 5 }} className="no-print">
             <JournalTable journalItems={expenseJournals?.data?.expense_journal_items} />
           </Stack>
         )}

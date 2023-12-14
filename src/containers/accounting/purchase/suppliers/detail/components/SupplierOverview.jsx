@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 // components
 import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
+import SupplierOverviewPayables from './SupplierOverviewPayables';
 
 function SupplierOverview({
   supplierIncome,
@@ -13,23 +14,28 @@ function SupplierOverview({
   supplierActivity,
   handleClickMenu,
 }) {
+  const currencySymbol = useMemo(
+    () => (supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED'),
+    []
+  );
   return (
     <Box className="container-fluid w-100">
-      <Box className="row">
-        <Box className="col-12 col-lg-5 col-xl-4">
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={5} xl={4}>
           <SupplierOverviewCard supplierDetail={supplierDetail} />
-        </Box>
-        <Box className="col-12 col-lg-7 col-xl-8 mt-5">
-          {/* <SupplierOverviewPayables /> */}
+        </Grid>
+        <Grid item xs={12} lg={7} xl={8}>
+          <SupplierOverviewPayables currencySymbol={currencySymbol} supplierDetail={supplierDetail} />
           <SupplierOverviewCharts
+            currencySymbol={currencySymbol}
             supplierDetail={supplierDetail}
             activityLogDuration={activityLogDuration}
             supplierIncome={supplierIncome}
             handleClickMenu={handleClickMenu}
           />
           <SupplierOverviewTimeline supplierActivity={supplierActivity} />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 }

@@ -119,7 +119,12 @@ function SupplierDetail() {
         showActionButton={popup.actionButton}
         // handleYes={handleConfirmDeleteItem}
       />
-      <Stack direction="row" justifyContent="space-between" sx={{ margin: '10px auto' }}>
+      <Stack
+        className="no-print"
+        direction="row"
+        justifyContent="space-between"
+        sx={{ margin: '10px auto' }}
+      >
         <Typography className="item-name-wrapper">{supplierDetailResponse?.data?.supplier_name}</Typography>
         <Stack direction="row" spacing={2}>
           <ActionMenu actionsList={actionsList} />
@@ -133,7 +138,7 @@ function SupplierDetail() {
           </Button>
         </Stack>
       </Stack>
-      <Card sx={{ minHeight: '76vh', padding: 2, fontSize: 14 }}>
+      <Card className="no-print" sx={{ minHeight: '76vh', padding: 2, fontSize: 14 }}>
         <DetailTabsWrapper
           activeTab={activeTab}
           setActiveTab={setActiveTab}
