@@ -14,8 +14,8 @@ function ActivityLogs() {
       options={{
         showFilter: true,
         showCompanyInfoHeader: true,
-        replaceTableBody: false,
-        showPrint: false,
+        replaceTableBody: true,
+        showPrint: true,
       }}
       parentWrapperClassName="custom-receipt-activity-log"
       queryOptions={{ refetchOnMountOrArgChange: true }}

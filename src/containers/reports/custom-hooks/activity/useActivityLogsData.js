@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useMemo } from 'react';
 import moment from 'moment';
+import { activityLogsHeadCells } from 'containers/reports/utilities/head-cells';
 
 function useActivityLogsData(activityLogsResponse) {
   // const getLink = item => {
@@ -59,10 +60,27 @@ function useActivityLogsData(activityLogsResponse) {
   //   }
   //   return 'Action Performed';
   // };
+  const getActionType = (method, module) => {
+    if (module === 'Login') {
+      return '';
+    }
+    if (method === 'POST') {
+      return 'Added';
+    }
 
-  const { tableBody } = useMemo(() => {
+    if (method === 'PUT' || method === 'PATCH') {
+      return 'Updated';
+    }
+
+    if (method === 'DELETE') {
+      return 'Deleted';
+    }
+
+    return 'Try';
+  };
+  const { tableBody, modifiedTableBody } = useMemo(() => {
     const body = [];
-    const modifiedBody = [];
+    const modifiedBodyForPrint = [];
     activityLogsResponse?.data?.results.forEach(item => {
       body.push([
         {
@@ -87,7 +105,44 @@ function useActivityLogsData(activityLogsResponse) {
         },
 
         {
-          value: item?.description,
+          value: (
+            <span>
+              {item.module_name} {getActionType(item.request_method, item.module_name)} By User
+              <strong> {item.user_details.profile.employee_name}</strong>
+            </span>
+          ),
+          style: {
+            textAlign: 'start',
+          },
+        },
+        {
+          value: item?.user_details?.profile?.employee_name,
+          style: {
+            textAlign: 'start',
+          },
+        },
+      ]);
+      modifiedBodyForPrint.push([
+        {
+          value: `${moment(item.datetime).format('DD-MMM-YY')} \n${moment(item.datetime).format('hh:mm A')}`,
+          style: {
+            textAlign: 'start',
+          },
+        },
+        {
+          value: item.module_name || 'Module',
+          link: `${window.location.pathname}/${item.id}`,
+
+          style: {
+            textAlign: 'start',
+          },
+        },
+
+        {
+          value: `${item.module_name} ${getActionType(item.request_method, item.module_name)} By User ${
+            item.user_details.profile.employee_name
+          }`,
+
           style: {
             textAlign: 'start',
           },
@@ -102,13 +157,15 @@ function useActivityLogsData(activityLogsResponse) {
     });
     return {
       tableBody: body,
-      modifiedTableBody: modifiedBody,
+      modifiedTableBody: modifiedBodyForPrint,
     };
   }, [activityLogsResponse]);
 
   return {
     tableBody,
     tableFooter: [],
+    modifiedTableBody,
+    modifiedTableHead: activityLogsHeadCells,
   };
 }
 

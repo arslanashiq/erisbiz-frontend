@@ -91,7 +91,7 @@ function SupplierAddPage() {
       setErrors(response.error.data);
     }
     setSubmitting(false);
-  }, []);
+  }, [latestTransactionNumber]);
 
   useEffect(() => {
     if (supplierFormInitialValues.set_credit_limit && supplierFormInitialValues.credit_limit === false) {

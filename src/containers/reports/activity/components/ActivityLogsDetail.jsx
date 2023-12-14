@@ -44,7 +44,29 @@ const inValidKeys = [
   'sale_account_label',
   'inventory_coa_label',
   'item_sale_amount_prefix',
+  'item_cost_amount_prefix',
+  'is_active',
+  'is_digital_service',
+  'is_item_used',
+  'is_tracking_inventory',
+  'opening_stock_per_unit',
+  'current_value',
+  'dynamic_opening_stock',
+  'dynamic_opening_stock_per_unit',
+  'limit',
+  'opening_balance',
+  'is_credit',
+  'transaction_num',
+  'exchange_rate',
+  'credit_limit',
+  'credit_terms',
 ];
+const validKeyName = {
+  set_credit_limit: 'Credit Limit',
+  set_credit_terms: 'Credit Terms',
+  is_import_agent: 'Important Agent',
+  is_reverse_charge: 'Reverse Charge',
+};
 const tableCellStyle = {
   border: '1px solid silver',
 };
@@ -150,10 +172,29 @@ function ActivityLogsDetail() {
     };
   }, [activityDetail]);
 
-  const renderValue = (previousPayload = '-', newPayload = '-') => (
+  const renderkeyValue = value => {
+    if (typeof value === 'boolean') {
+      if (value) {
+        return 'Yes';
+      }
+      return 'No';
+    }
+    return value;
+  };
+  const getValidName = key => {
+    const keyName = key;
+    if (!keyName) return 'Invalid Key';
+    if (validKeyName[keyName]) return validKeyName[keyName];
+
+    return keyName?.replaceAll('_', ' ');
+  };
+  const renderValue = (previousPayload = '-', newPayload = '-', key = '') => (
     <TableRow key={uuid()}>
-      <TableCell sx={tableCellStyle}>{previousPayload || '-'}</TableCell>
-      <TableCell sx={tableCellStyle}>{newPayload || '-'}</TableCell>
+      <TableCell key={uuid()} sx={tableCellStyle}>
+        <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+      </TableCell>
+      <TableCell sx={tableCellStyle}>{renderkeyValue(previousPayload)}</TableCell>
+      <TableCell sx={tableCellStyle}>{renderkeyValue(newPayload)}</TableCell>
     </TableRow>
   );
   const isValidValue = payloadInfo => {
@@ -175,14 +216,34 @@ function ActivityLogsDetail() {
       const valueType = isValidValue(payloadInfo[key]);
 
       if (valueType === 'list') {
-        return <Stack direction="row">{payloadInfo[key]?.map(pay => renderObject(pay))}</Stack>;
+        return (
+          <TableRow>
+            <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
+              <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+            </TableCell>
+            <TableCell key={uuid()} sx={tableCellStyle}>
+              This is List
+            </TableCell>
+          </TableRow>
+        );
+        // return <Stack direction="row">{payloadInfo[key]?.map(pay => renderObject(pay, renderKey))}</Stack>;
       }
       if (valueType === 'object') {
         return (
-          <TableCell key={uuid()} sx={tableCellStyle}>
-            <ul key={uuid()}>{renderObject(payloadInfo[key], null)}</ul>
-          </TableCell>
+          <TableRow>
+            <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
+              <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+            </TableCell>
+            <TableCell key={uuid()} sx={tableCellStyle}>
+              This is Object
+            </TableCell>
+          </TableRow>
         );
+        // return (
+        //   <TableCell key={uuid()} sx={tableCellStyle}>
+        //     <ul key={uuid()}>{renderObject(payloadInfo[key], renderKey)}</ul>
+        //   </TableCell>
+        // );
       }
       if (
         payloadInfo[key] !== '' &&
@@ -191,9 +252,14 @@ function ActivityLogsDetail() {
         payloadInfo[key] !== undefined
       ) {
         return (
-          <TableCell key={uuid()} sx={tableCellStyle}>
-            {payloadInfo[key] || '-'}
-          </TableCell>
+          <TableRow>
+            <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
+              <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+            </TableCell>
+            <TableCell key={uuid()} sx={tableCellStyle}>
+              {renderkeyValue(payloadInfo[key])}
+            </TableCell>
+          </TableRow>
         );
       }
       return <div key={uuid()} />;
@@ -205,11 +271,12 @@ function ActivityLogsDetail() {
       const valueType = isValidValue(newPayload[key]);
 
       if (valueType === 'list') {
-        return 'This is List';
+        return renderValue('This is List', 'This is List', key);
+
         // return newPayload[key]?.map((_, index) => renderRow(previousPayload[index], newPayload[index]));
       }
       if (valueType === 'object') {
-        return 'This is Object';
+        return renderValue('This is Object', 'This is Object', key);
         // return renderRow(previousPayload[key], newPayload[key], null);
       }
       if (
@@ -219,11 +286,10 @@ function ActivityLogsDetail() {
         newPayload[key] !== undefined &&
         newPayload[key] !== previousPayload[key]
       ) {
-        return renderValue(previousPayload[key], newPayload[key], { tableCellStyle });
+        return renderValue(previousPayload[key], newPayload[key], key);
       }
       return '';
     });
-  console.log(oldPayload, 'activityData');
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>
@@ -245,11 +311,17 @@ function ActivityLogsDetail() {
                 </Box>
               ))}
             </Box>
+            <Box key={uuid()} className="row">
+              <Box className="col-8 col-md-3">
+                <h5 style={{ fontWeight: 600, fontSize: '14px' }}>Data</h5>
+              </Box>
+            </Box>
             <Table>
               <TableBody>
                 {showData && isDataUpdated && (
                   <>
                     <TableRow>
+                      <TableCell sx={bankDetailPopupInfoTitleStyle}>Name</TableCell>
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>Existing Data</TableCell>
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>Updated Data</TableCell>
                     </TableRow>
@@ -259,17 +331,14 @@ function ActivityLogsDetail() {
                 {showData && !isDataUpdated && (
                   <TableRow>
                     <TableCell style={bankDetailPopupInfoTitleStyle} colSpan={2}>
-                      Data
+                      Name
+                    </TableCell>
+                    <TableCell style={bankDetailPopupInfoTitleStyle} colSpan={2}>
+                      Value
                     </TableCell>
                   </TableRow>
                 )}
-                {showData && !isDataUpdated && (
-                  <TableRow>
-                    <TableCell key={uuid()} sx={{ padding: 0, margin: 0 }}>
-                      <Stack key={uuid()}>{renderObject(payload || oldPayload)}</Stack>
-                    </TableCell>
-                  </TableRow>
-                )}
+                {showData && !isDataUpdated && renderObject(payload || oldPayload)}
               </TableBody>
             </Table>
           </DialogContent>
