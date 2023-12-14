@@ -107,7 +107,7 @@ function useActivityLogsData(activityLogsResponse) {
         {
           value: (
             <span>
-              {item.module_name} {getActionType(item.request_method, item.module_name)} By User
+              {item.module_name} {getActionType(item.request_method, item.module_name)} By
               <strong> {item.user_details.profile.employee_name}</strong>
             </span>
           ),
@@ -115,12 +115,12 @@ function useActivityLogsData(activityLogsResponse) {
             textAlign: 'start',
           },
         },
-        {
-          value: item?.user_details?.profile?.employee_name,
-          style: {
-            textAlign: 'start',
-          },
-        },
+        // {
+        //   value: item?.user_details?.profile?.employee_name,
+        //   style: {
+        //     textAlign: 'start',
+        //   },
+        // },
       ]);
       modifiedBodyForPrint.push([
         {

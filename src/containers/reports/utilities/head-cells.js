@@ -422,10 +422,10 @@ export const activityLogsHeadCells = [
     title: 'Description',
     style: { textAlign: 'left' },
   },
-  {
-    title: 'User Name',
-    style: { textAlign: 'left' },
-  },
+  // {
+  //   title: 'User Name',
+  //   style: { textAlign: 'left' },
+  // },
 ];
 export const activityLogsExcelHeadCells = [
   {

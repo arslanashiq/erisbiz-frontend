@@ -144,6 +144,8 @@ function ActivityLogsDetail() {
 
     data.push({ label: 'Location', value: `${activityDetail?.city},${activityDetail?.country}` });
     data.push({ label: 'IP Address', value: activityDetail?.ip_address });
+    data.push({ label: 'Module Name', value: activityDetail?.module_name });
+    data.push({ label: 'Status', value: activityDetail?.response_code });
 
     return data;
   }, [activityDetail]);
@@ -312,7 +314,7 @@ function ActivityLogsDetail() {
               ))}
             </Box>
             <Box key={uuid()} className="row">
-              <Box className="col-8 col-md-3">
+              <Box className="col-8 col-md-3 mt-2">
                 <h5 style={{ fontWeight: 600, fontSize: '14px' }}>Data</h5>
               </Box>
             </Box>
