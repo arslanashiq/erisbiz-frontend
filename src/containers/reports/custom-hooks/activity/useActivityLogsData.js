@@ -105,12 +105,13 @@ function useActivityLogsData(activityLogsResponse) {
         },
 
         {
-          value: (
-            <span>
-              {item.module_name} {getActionType(item.request_method, item.module_name)} By
-              <strong> {item.user_details.profile.employee_name}</strong>
-            </span>
-          ),
+          // value: (
+          //   <span>
+          //     {item.module_name} {getActionType(item.request_method, item.module_name)} By
+          //     <strong> {item.user_details.profile.employee_name}</strong>
+          //   </span>
+          // ),
+          value: item.description,
           style: {
             textAlign: 'start',
           },

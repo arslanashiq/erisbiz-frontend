@@ -34,9 +34,7 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
     return false;
   };
   useEffect(() => {
-    if (!isLargeScreen) {
-      setOpen(isLargeScreen);
-    }
+    setOpen(isLargeScreen);
   }, [isLargeScreen]);
 
   return (

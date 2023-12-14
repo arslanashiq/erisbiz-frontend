@@ -1,7 +1,6 @@
-/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable consistent-return */
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { useNavigate, useParams } from 'react-router';
@@ -26,7 +25,7 @@ import {
   bankDetailPopupInfoTitleStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 
-// contant
+// constant Values
 const inValidKeys = [
   'uid',
   'id',
@@ -60,21 +59,43 @@ const inValidKeys = [
   'exchange_rate',
   'credit_limit',
   'credit_terms',
+  'chart_of_account',
+  'company',
+  'category_num',
+  'category_num',
+  'category_order_formatted_number',
+  'brand_order_formatted_number',
+  'is_type_editable',
+  'weighted_cost_price',
+  'remaining_stock',
+  'committed_stock',
+  'forecast_stock',
+  'Opening Balance Date',
+  'Payment Terms',
 ];
 const validKeyName = {
   set_credit_limit: 'Credit Limit',
   set_credit_terms: 'Credit Terms',
   is_import_agent: 'Important Agent',
   is_reverse_charge: 'Reverse Charge',
+  account_no: 'GL Number',
+  item_image: 'Image',
+  mobile_num: 'Mobile Number',
+  reference_num: 'Reference Number',
+};
+const imageKeyName = {
+  item_image: true,
 };
 const tableCellStyle = {
   border: '1px solid silver',
 };
+
 function ActivityLogsDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const { data: activityData, isLoading } = useGetActivityLogsDetailQuery(id);
+
   const activityDetail = useMemo(() => {
     if (!activityData?.results) return {};
     // POST METHOD
@@ -95,43 +116,25 @@ function ActivityLogsDetail() {
       };
     }
   }, [activityData]);
-  // const getDomain = endpointValue => {
-  //   let domain = '';
-  //   try {
-  //     if (endpointValue?.includes('/api')) {
-  //       [domain] = endpointValue.split('/api');
-  //     }
-  //   } catch (error) {
-  //     domain = '';
-  //   }
-  //   return domain;
-  // };
-  // const getEndpoint = endpointValue => {
-  //   let endpoint = endpointValue;
-  //   try {
-  //     if (endpoint?.includes('/api')) {
-  //       [, endpoint] = endpoint.split('/api');
-  //     }
-  //     if (endpoint?.includes('?')) {
-  //       [endpoint] = endpoint.split('?');
-  //     }
-  //     return `api${endpoint}`;
-  //   } catch (error) {
-  //     return '';
-  //   }
-  // };
 
-  // const getqueryParams = endpointValue => {
-  //   let queryParams = '';
-  //   try {
-  //     if (endpointValue?.includes('?')) {
-  //       [, queryParams] = endpointValue.split('?');
-  //     }
-  //   } catch (error) {
-  //     queryParams = '';
-  //   }
-  //   return queryParams;
-  // };
+  const getResponseStatus = useCallback((code, method, module) => {
+    if (module === 'Login') {
+      if (code === '200') return 'Successfully Logged In';
+      return 'Unsuccessful Logged In';
+    }
+    if (method === 'POST') {
+      if (code === '201') return 'Added Successfully';
+      return 'Not Added Successfully';
+    }
+    if (method === 'PATCH' || method === 'PUT') {
+      if (code === '200') return 'Updated Successfully';
+      return 'Not Updated Successfully';
+    }
+    if (method === 'DELETE') {
+      if (code === '204') return 'Deleted Successfully';
+      return 'Not Deleted Successfully';
+    }
+  }, []);
 
   const activityDetailInfo = useMemo(() => {
     const data = [];
@@ -145,7 +148,14 @@ function ActivityLogsDetail() {
     data.push({ label: 'Location', value: `${activityDetail?.city},${activityDetail?.country}` });
     data.push({ label: 'IP Address', value: activityDetail?.ip_address });
     data.push({ label: 'Module Name', value: activityDetail?.module_name });
-    data.push({ label: 'Status', value: activityDetail?.response_code });
+    data.push({
+      label: 'Status',
+      value: getResponseStatus(
+        activityDetail?.response_code,
+        activityDetail?.request_method,
+        activityDetail?.module_name
+      ),
+    });
 
     return data;
   }, [activityDetail]);
@@ -174,32 +184,51 @@ function ActivityLogsDetail() {
     };
   }, [activityDetail]);
 
-  const renderkeyValue = value => {
+  const renderkeyValue = useCallback((value, key) => {
     if (typeof value === 'boolean') {
       if (value) {
         return 'Yes';
       }
       return 'No';
     }
+    if (imageKeyName[key]) return <img style={{ height: 100, objectFit: 'contain' }} src={value} alt="key" />;
+
     return value;
-  };
-  const getValidName = key => {
+  }, []);
+  const getValidName = useCallback(key => {
     const keyName = key;
     if (!keyName) return 'Invalid Key';
     if (validKeyName[keyName]) return validKeyName[keyName];
 
     return keyName?.replaceAll('_', ' ');
-  };
-  const renderValue = (previousPayload = '-', newPayload = '-', key = '') => (
-    <TableRow key={uuid()}>
-      <TableCell key={uuid()} sx={tableCellStyle}>
-        <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
-      </TableCell>
-      <TableCell sx={tableCellStyle}>{renderkeyValue(previousPayload)}</TableCell>
-      <TableCell sx={tableCellStyle}>{renderkeyValue(newPayload)}</TableCell>
-    </TableRow>
+  }, []);
+  const renderThreeColumn = useCallback(
+    (previousValue = '-', newValue = '-', key = '-') => (
+      <TableRow key={uuid()}>
+        <TableCell key={uuid()} sx={tableCellStyle}>
+          <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+        </TableCell>
+        <TableCell sx={tableCellStyle}>{renderkeyValue(previousValue, key)}</TableCell>
+        <TableCell sx={tableCellStyle}>{renderkeyValue(newValue, key)}</TableCell>
+      </TableRow>
+    ),
+    []
   );
-  const isValidValue = payloadInfo => {
+  const renderTwoColumn = useCallback(
+    (value = '-', key = '-') => (
+      <TableRow key={uuid()}>
+        <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
+          <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+        </TableCell>
+        <TableCell key={uuid()} sx={tableCellStyle}>
+          {renderkeyValue(value, key)}
+        </TableCell>
+      </TableRow>
+    ),
+    []
+  );
+
+  const checkValueType = useCallback(payloadInfo => {
     if (payloadInfo) {
       if (typeof payloadInfo === 'object' && payloadInfo?.length > 0) {
         return 'list';
@@ -209,89 +238,50 @@ function ActivityLogsDetail() {
       }
     }
     return 'value';
-  };
+  }, []);
 
-  const checkDataAllowdedToPrint = key => !inValidKeys.includes(key);
-  const renderObject = payloadInfo =>
-    Object.keys(payloadInfo).map(key => {
-      if (!checkDataAllowdedToPrint(key)) return;
-      const valueType = isValidValue(payloadInfo[key]);
+  const checkDataNotAllowdedToPrint = useCallback(
+    key => inValidKeys.some(
+      item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
+    ),
+    []
+  );
 
-      if (valueType === 'list') {
-        return (
-          <TableRow>
-            <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
-              <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
-            </TableCell>
-            <TableCell key={uuid()} sx={tableCellStyle}>
-              This is List
-            </TableCell>
-          </TableRow>
-        );
-        // return <Stack direction="row">{payloadInfo[key]?.map(pay => renderObject(pay, renderKey))}</Stack>;
-      }
-      if (valueType === 'object') {
-        return (
-          <TableRow>
-            <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
-              <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
-            </TableCell>
-            <TableCell key={uuid()} sx={tableCellStyle}>
-              This is Object
-            </TableCell>
-          </TableRow>
-        );
-        // return (
-        //   <TableCell key={uuid()} sx={tableCellStyle}>
-        //     <ul key={uuid()}>{renderObject(payloadInfo[key], renderKey)}</ul>
-        //   </TableCell>
-        // );
-      }
-      if (
-        payloadInfo[key] !== '' &&
-        payloadInfo[key] !== null &&
-        payloadInfo[key] !== 'null' &&
-        payloadInfo[key] !== undefined
-      ) {
-        return (
-          <TableRow>
-            <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
-              <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
-            </TableCell>
-            <TableCell key={uuid()} sx={tableCellStyle}>
-              {renderkeyValue(payloadInfo[key])}
-            </TableCell>
-          </TableRow>
-        );
-      }
-      return <div key={uuid()} />;
-    });
-
-  const renderRow = (previousPayload, newPayload) =>
-    Object.keys(newPayload).map(key => {
-      if (!checkDataAllowdedToPrint(key)) return;
-      const valueType = isValidValue(newPayload[key]);
+  const handleRenderRowColumns = useCallback(
+    (payloadOld, payloadNew) => Object.keys(payloadNew).map(key => {
+      if (checkDataNotAllowdedToPrint(key)) return;
+      const valueType = checkValueType(payloadNew[key]);
 
       if (valueType === 'list') {
-        return renderValue('This is List', 'This is List', key);
-
-        // return newPayload[key]?.map((_, index) => renderRow(previousPayload[index], newPayload[index]));
+        if (payloadOld) return renderThreeColumn('This is List', 'This is List', key);
+        return renderTwoColumn('This is List', key);
       }
       if (valueType === 'object') {
-        return renderValue('This is Object', 'This is Object', key);
-        // return renderRow(previousPayload[key], newPayload[key], null);
+        if (payloadOld) return renderTwoColumn('This is Object', 'This is Object', key);
+        return renderTwoColumn('This is Object', key);
       }
       if (
-        newPayload[key] !== '' &&
-        newPayload[key] !== null &&
-        newPayload[key] !== 'null' &&
-        newPayload[key] !== undefined &&
-        newPayload[key] !== previousPayload[key]
+        payloadNew[key] !== '' &&
+          payloadNew[key] !== null &&
+          payloadNew[key] !== 'null' &&
+          payloadNew[key] !== undefined
       ) {
-        return renderValue(previousPayload[key], newPayload[key], key);
+        if (payloadOld) {
+          if (
+            payloadNew[key] !== payloadOld[key] &&
+              payloadNew[key]?.toString() !== payloadOld[key]?.toString()
+          ) {
+            return renderThreeColumn(payloadOld[key], payloadNew[key], key);
+          }
+          return '';
+        }
+        return renderTwoColumn(payloadNew[key], key);
       }
       return '';
-    });
+    }),
+    []
+  );
+
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>
@@ -327,7 +317,7 @@ function ActivityLogsDetail() {
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>Existing Data</TableCell>
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>Updated Data</TableCell>
                     </TableRow>
-                    {renderRow(oldPayload, payload)}
+                    {handleRenderRowColumns(oldPayload, payload)}
                   </>
                 )}
                 {showData && !isDataUpdated && (
@@ -340,7 +330,7 @@ function ActivityLogsDetail() {
                     </TableCell>
                   </TableRow>
                 )}
-                {showData && !isDataUpdated && renderObject(payload || oldPayload)}
+                {showData && !isDataUpdated && handleRenderRowColumns(null, payload || oldPayload)}
               </TableBody>
             </Table>
           </DialogContent>
