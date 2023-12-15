@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
@@ -36,8 +36,8 @@ import { receiptVoucherFormValidationSchema } from '../utilities/validation-sche
 
 function AddReceiptVoucher() {
   const { id } = useParams();
-  const { customerId } = getSearchParamsList();
   const navigate = useNavigate();
+  const { customerId } = getSearchParamsList();
 
   const customerListResponse = useGetCustomersListQuery();
   const bankAccountListResponse = useGetBankAccountsListQuery();
@@ -63,7 +63,7 @@ function AddReceiptVoucher() {
     true
   );
 
-  const handleChangeCustomer = async (value, setFieldValue) => {
+  const handleChangeCustomer = useCallback(async (value, setFieldValue) => {
     try {
       const response = await getUnPaidSaleInvoices(value);
 
@@ -73,7 +73,25 @@ function AddReceiptVoucher() {
       if (setFieldValue) setFieldValue('invoice_payments', []);
       return [];
     }
-  };
+  }, []);
+
+  const handleSubmitForm = useCallback(async (values, { setError }) => {
+    let response = null;
+    if (id) {
+      response = await editReceiptVoucher({ id, payload: values });
+    } else {
+      response = await addReceiptVoucher(values);
+    }
+    if (response.error) {
+      setError(response.error.data);
+      return;
+    }
+    if (customerId) {
+      navigate('/pages/accounting/sales/receipt-voucher', { replace: true });
+      return;
+    }
+    navigate(-1);
+  }, []);
 
   useEffect(() => {
     let paymentNumber = 0;
@@ -89,6 +107,7 @@ function AddReceiptVoucher() {
       payment_num: paymentNumber + 1,
     }));
   }, [latestreceiptVoucherNumber]);
+
   useEffect(() => {
     (async () => {
       if (customerId) {
@@ -97,6 +116,7 @@ function AddReceiptVoucher() {
       }
     })();
   }, [customerId]);
+
   return (
     <SectionLoader
       options={[
@@ -112,23 +132,7 @@ function AddReceiptVoucher() {
             enableReinitialize
             initialValues={initialValues}
             validationSchema={receiptVoucherFormValidationSchema}
-            onSubmit={async (values, { setError }) => {
-              let response = null;
-              if (id) {
-                response = await editReceiptVoucher({ id, payload: values });
-              } else {
-                response = await addReceiptVoucher(values);
-              }
-              if (response.error) {
-                setError(response.error.data);
-                return;
-              }
-              if (customerId) {
-                navigate('/pages/accounting/sales/receipt-voucher', { replace: true });
-                return;
-              }
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">

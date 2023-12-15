@@ -127,6 +127,7 @@ function SearchBar() {
         className="topbar__search-field"
         name="search"
         autoComplete="off"
+        autoSave="off"
         placeholder={`Search in ${selectedPage.label}`}
         ref={inputRef}
         value={searchText}

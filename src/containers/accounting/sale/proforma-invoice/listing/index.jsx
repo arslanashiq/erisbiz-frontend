@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
@@ -16,13 +16,14 @@ import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { proformaInvoiceHeadCell } from '../utilities/head-cells';
 
 function ProfomaInvoiceListing() {
-  const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const proformaInvoicesListResponse = useGetProformaInvoicesListQuery(getItemSearchQueryParams(location));
 
   const [deleteProfomaInvoice] = useDeleteProformaInvoiceMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'Are you sure you want to delete?';
     let actionButton = true;
     const selectedData = [];
@@ -45,9 +46,9 @@ function ProfomaInvoiceListing() {
       message,
       actionButton,
     });
-  };
+  }, []);
 
-  const handleConfirmDelete = list => {
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(
         deleteProfomaInvoice,
@@ -56,7 +57,7 @@ function ProfomaInvoiceListing() {
         'Proforma Invoice Deleted Successfully'
       );
     });
-  };
+  }, []);
   return (
     <>
       <Helmet>

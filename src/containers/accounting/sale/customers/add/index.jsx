@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { FieldArray, Form, Formik } from 'formik';
 import { Box, Card, CardContent } from '@mui/material';
@@ -31,8 +31,8 @@ import useListOptions from 'custom-hooks/useListOptions';
 import { customerFormTabsList } from '../utilities/constant';
 import { customerFormInitialValues } from '../utilities/initialValues';
 // styles
-import 'styles/form/form.scss';
 import { customerFormValidationSchema } from '../utilities/validation-schema';
+import 'styles/form/form.scss';
 
 function AddCustomer() {
   const { id } = useParams();
@@ -45,14 +45,19 @@ function AddCustomer() {
   const [addCustomer] = useAddCustomerMutation();
   const [editCustomer] = useEditCustomerMutation();
 
-  const { initialValues } = useInitialValues(customerFormInitialValues, useGetSingleCustomerQuery);
+  const { initialValues } = useInitialValues(
+    customerFormInitialValues,
+    useGetSingleCustomerQuery,
+    null,
+    true
+  );
 
   const { optionsList: countriesOption } = useListOptions(countriesResponse?.data?.data, {
     label: 'country',
     value: 'iso2',
   });
 
-  const handleCopyValue = (values, setFieldValue) => {
+  const handleCopyValue = useCallback((values, setFieldValue) => {
     setFieldValue('delivery_address_line1', values.invoice_address_line1);
     setFieldValue('delivery_address_line2', values.invoice_address_line2);
     setFieldValue('delivery_po_box', values.invoice_po_box);
@@ -60,9 +65,24 @@ function AddCustomer() {
     setFieldValue('delivery_city', values.invoice_city);
     setFieldValue('delivery_latitude', values.invoice_latitude);
     setFieldValue('delivery_longitude', values.invoice_longitude);
-  };
+  }, []);
 
-  // setinitial values memeo
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
+    let response = null;
+    if (id) {
+      response = await editCustomer({ payload: values, id });
+    } else {
+      response = await addCustomer(values);
+    }
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    resetForm();
+    navigate(-1);
+  }, []);
+
+  // set initial values memeo
   const customerFormUpdatedInitialValues = useMemo(() => {
     const newData = { ...initialValues, credit_limit: false, credit_terms: false };
     if (initialValues.set_credit_limit) {
@@ -82,20 +102,7 @@ function AddCustomer() {
           enableReinitialize
           initialValues={customerFormUpdatedInitialValues}
           validationSchema={customerFormValidationSchema}
-          onSubmit={async (values, { setErrors, resetForm }) => {
-            let response = null;
-            if (id) {
-              response = await editCustomer({ payload: values, id });
-            } else {
-              response = await addCustomer(values);
-            }
-            if (response.error) {
-              setErrors(response.error.data);
-              return;
-            }
-            resetForm();
-            navigate(-1);
-          }}
+          onSubmit={handleSubmitForm}
         >
           {({ values, setFieldValue }) => (
             <Form className="form form--horizontal row pt-3">

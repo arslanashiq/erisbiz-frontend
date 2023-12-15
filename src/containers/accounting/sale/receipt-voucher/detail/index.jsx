@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
@@ -18,9 +18,10 @@ import { UnPaidSaleInvoiceHeadCells } from '../utilities/head-cells';
 
 const keyValue = 'invoice_payments';
 function ReceiptVoucherDetail() {
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
@@ -29,7 +30,9 @@ function ReceiptVoucherDetail() {
 
   const receiptVoucherResponse = useGetSingleReceiptVoucherQuery(id);
   const receiptVoucherDocumentsList = useGetReceiptVoucherDocumentsQuery(id);
+
   const [refundReceiptVoucher] = useRefundReceiptVoucherMutation();
+
   const orderInfo = useMemo(
     () => ({
       type: 'PAYMENT RECEIPT',
@@ -115,7 +118,8 @@ function ReceiptVoucherDetail() {
     }
     return actionsList;
   }, [receiptVoucherResponse]);
-  const handleRefundPaymentVoucher = async (values, { setErrors }) => {
+
+  const handleRefundPaymentVoucher = useCallback(async (values, { setErrors }) => {
     const payload = {
       ...values,
       payment_received: id,
@@ -127,7 +131,7 @@ function ReceiptVoucherDetail() {
     }
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
     setOpenRefundModal(false);
-  };
+  }, []);
   return (
     <SectionLoader options={[receiptVoucherResponse.isLoading, receiptVoucherDocumentsList.isLoading]}>
       <RefundDialog

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -8,8 +8,8 @@ import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
 import InfoPopup from 'shared/modals/InfoPopup';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-import { ROWS_PER_PAGE } from 'utilities/constants';
-import { getComparator, stableSort } from 'utilities/sort';
+import { ROWS_PER_PAGE, ROWS_PER_PAGE_OPTIONS } from 'utilities/constants';
+import { getStableSort } from 'utilities/sort';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import MuiTableHead from './MuiTableHead';
 import MuiTableBody from './MuiTableBody';
@@ -139,11 +139,16 @@ export default function MuiTable({
     }
   };
 
+  const handleTableBodyButtonAction = useCallback(
+    (id, detailInfo) => {
+      if (id) {
+        handleTableBodyActionButton(id, detailInfo, openInfoPopup, setOpenInfoPopup);
+      }
+    },
+    [openInfoPopup]
+  );
   const visibleRows = useMemo(
-    () => stableSort(data || [], getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
-    ),
+    () => getStableSort(data, order, orderBy, page, rowsPerPage),
     [data, otherOptions, order, orderBy, page, rowsPerPage]
   );
   const borderRadius = '10px';
@@ -193,7 +198,7 @@ export default function MuiTable({
                 selected={selected}
                 handleClick={handleClick}
                 actionButtonKey={actionButtonKey}
-                handleTableBodyButtonAction={(id, detailInfo) => handleTableBodyActionButton(id, detailInfo, openInfoPopup, setOpenInfoPopup)}
+                handleTableBodyButtonAction={handleTableBodyButtonAction}
                 customRows={customRows}
                 customActionButton={customActionButton}
                 hoverEffect={hoverEffect}
@@ -202,7 +207,7 @@ export default function MuiTable({
           </TableContainer>
 
           <TablePagination
-            rowsPerPageOptions={[20, 50, 100]}
+            rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
             component="div"
             count={totalDataCount}
             rowsPerPage={handleGetPaginationData().limit || ROWS_PER_PAGE}

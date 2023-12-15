@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import * as Yup from 'yup';
 import { Box, Button } from '@mui/material';
 import { Formik, Form, ErrorMessage } from 'formik';
@@ -12,9 +12,9 @@ function ForgetPassword() {
     open: false,
   });
 
-  const toggleModal = () => {
+  const toggleModal = useCallback(() => {
     setState(prevState => ({ ...prevState, open: !prevState.open }));
-  };
+  }, []);
   return (
     <>
       <InfoPopup

@@ -2,7 +2,7 @@ import { Card, CardContent, Grid } from '@mui/material';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 // services
 import {
@@ -31,23 +31,25 @@ const handleCheck = status => {
   return false;
 };
 function SaleInvoiceDetailPage() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { id } = useParams();
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'Cannot delete  this Sale Invoice because its status is not draft',
   });
   const [openVoidModal, setOpenVoidModal] = useState(false);
+
   const saleInvoiceDetailResponse = useGetSingleSaleInvoiceQuery(id);
   const saleInvoiceJournalsResponse = useGetSaleInvoiceJournalsQuery(id, {
     skip: handleCheck(saleInvoiceDetailResponse?.data?.status),
   });
+
   const [changeStatusToSent] = useChangeSaleInvoiceStatusToSentMutation();
   const [changeStatusToVoid] = useChangeSaleInvoiceStatusToVoidMutation();
 
-  const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
+  const handleChangeStatus = useCallback(async (changeInvoiceStatus, payload, successMessage) => {
     const response = await changeInvoiceStatus(payload);
     if (response.error) {
       enqueueSnackbar('Somthing went wrong', {
@@ -59,12 +61,13 @@ function SaleInvoiceDetailPage() {
       variant: 'success',
     });
     return true;
-  };
-  const handleChangeStatusToVoid = async values => {
+  }, []);
+  const handleChangeStatusToVoid = useCallback(async values => {
     const { reason } = values;
     await handleChangeStatus(changeStatusToVoid, { id, reason }, 'Invoice status change to Void');
     setOpenVoidModal(false);
-  };
+  }, []);
+
   const orderInfo = useMemo(
     () => ({
       type: 'Sales Invoice',
@@ -187,6 +190,7 @@ function SaleInvoiceDetailPage() {
     }
     return actionsList;
   }, [saleInvoiceDetailResponse, saleInvoiceJournalsResponse]);
+
   return (
     <SectionLoader options={[saleInvoiceDetailResponse.isLoading]}>
       <ChangeStatusToVoid

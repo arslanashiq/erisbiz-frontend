@@ -17,12 +17,15 @@ import CustomerContactPage from './components/CustomerContactPage';
 function CustomerDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState(0);
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
+
   const customerDetailResponse = useGetSingleCustomerQuery(id);
+
   const customerActionList = useMemo(
     () => [
       {
@@ -59,6 +62,7 @@ function CustomerDetail() {
     ],
     [customerDetailResponse]
   );
+
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
       <DetailPageHeader

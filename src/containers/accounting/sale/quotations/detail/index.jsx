@@ -2,7 +2,7 @@ import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
   useChangeQuotationStatusMutation,
@@ -18,15 +18,19 @@ import QuotationStatusChange from './components/QuotationStatusChange';
 
 const keyValue = 'quotation_items';
 function QuotationDetailPage() {
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
+
   const quotationsDetailResponse = useGetSingleQuotationQuery(id);
+
   const [changeQuotationStatus] = useChangeQuotationStatusMutation();
+
   const orderInfo = useMemo(
     () => ({
       type: 'QUOTATION',
@@ -76,7 +80,7 @@ function QuotationDetailPage() {
     [quotationsDetailResponse]
   );
 
-  const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
+  const handleChangeStatus = useCallback(async (changeInvoiceStatus, payload, successMessage) => {
     const response = await changeInvoiceStatus(payload);
     if (response.error) {
       enqueueSnackbar('Somthing went wrong', {
@@ -88,12 +92,16 @@ function QuotationDetailPage() {
       variant: 'success',
     });
     return true;
-  };
-  const handleStatus = (status = 'approved') => {
-    handleChangeStatus(changeQuotationStatus, { id, status }, 'Quotation status changed');
-  };
+  }, []);
+  const handleStatus = useCallback(
+    (status = 'approved') => {
+      handleChangeStatus(changeQuotationStatus, { id, status }, 'Quotation status changed');
+    },
+    [id]
+  );
 
-  const quotationStatus = quotationsDetailResponse?.data?.status;
+  const quotationStatus = useMemo(() => quotationsDetailResponse?.data?.status, [quotationsDetailResponse]);
+
   const quotationsActionList = useMemo(() => {
     if (quotationStatus === 'declined') return [];
     const actionList = [
@@ -110,8 +118,7 @@ function QuotationDetailPage() {
           let showActionButton = true;
           const canDelete = quotationStatus === 'draft';
           if (!canDelete) {
-            infoDescription =
-              'Cannot delete this Quotation because its status is no draft';
+            infoDescription = 'Cannot delete this Quotation because its status is no draft';
             showActionButton = false;
           }
 
@@ -147,6 +154,7 @@ function QuotationDetailPage() {
     }
     return actionList;
   }, [quotationsDetailResponse]);
+
   return (
     <SectionLoader options={[quotationsDetailResponse.isLoading]}>
       <DetailPageHeader

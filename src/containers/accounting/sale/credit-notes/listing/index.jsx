@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
@@ -12,25 +12,27 @@ import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { creditNoteHeadCells } from '../utilities/head-cells';
 
 function CreditNotesListing() {
-  const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const creditNotesListResponse = useGetCreditNotesListQuery(location.search);
+
   const [deleteCreditNote] = useDeleteCreditNoteMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     setOpenInfoPopup({
       ...openInfoPopup,
       status: true,
       message: 'Are you sure you want to delete?',
       actionButton: true,
     });
-  };
+  }, []);
 
-  const handleConfirmDelete = list => {
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteCreditNote, id, enqueueSnackbar, 'Credit Note Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <>
       <Helmet>

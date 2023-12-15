@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Form, Formik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
@@ -27,11 +27,27 @@ function SignUpForm() {
   const { enqueueSnackbar } = useSnackbar();
   const [singUpAdmin] = useAdminSignUpMutation();
 
-  // useHandleApiResponse(error, isSuccess, "");
-
   function onChangeCaptcha(value, setFieldValue) {
     setFieldValue('g_recaptcha_response', value);
   }
+
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
+    try {
+      const response = await singUpAdmin(values);
+
+      if (response.error) {
+        enqueueSnackbar(response.error.data.email[0], { variant: 'error' });
+        setErrors(response.error.data);
+        return;
+      }
+
+      enqueueSnackbar(response.data.message, { variant: 'success' });
+      navigate('/auth/login');
+      resetForm();
+    } catch (error) {
+      enqueueSnackbar('Somthing went worng!', { variant: 'error' });
+    }
+  }, []);
 
   return (
     <Stack sx={loginFormParentWrapperStyle}>
@@ -43,23 +59,7 @@ function SignUpForm() {
 
         <Formik
           initialValues={{ email: '', agreed_to_terms: false, is_admin: true, g_recaptcha_response: '' }}
-          onSubmit={async (values, { setErrors, resetForm }) => {
-            try {
-              const response = await singUpAdmin(values);
-
-              if (response.error) {
-                enqueueSnackbar(response.error.data.email[0], { variant: 'error' });
-                setErrors(response.error.data);
-                return;
-              }
-
-              enqueueSnackbar(response.data.message, { variant: 'success' });
-              navigate('/auth/login');
-              resetForm();
-            } catch (error) {
-              enqueueSnackbar('Somthing went worng!', { variant: 'error' });
-            }
-          }}
+          onSubmit={handleSubmitForm}
         >
           {({ isSubmitting, setFieldValue }) => (
             <Form>

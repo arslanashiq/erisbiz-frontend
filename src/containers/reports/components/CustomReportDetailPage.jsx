@@ -30,6 +30,7 @@ function CustomReportDetailPage({
   options,
   parentWrapperClassName,
   queryOptions,
+  usePagination,
 }) {
   const { name: companyName } = useSelector(state => state?.user?.company);
 
@@ -90,6 +91,7 @@ function CustomReportDetailPage({
                   tableBody={item}
                   tableFooter={tableFooter[index]}
                   parentWrapperClassName={parentWrapperClassName}
+                  usePagination={usePagination}
                 />
               ))
             ) : (
@@ -98,6 +100,7 @@ function CustomReportDetailPage({
                 tableBody={tableBody}
                 tableFooter={tableFooter}
                 parentWrapperClassName={parentWrapperClassName}
+                usePagination={usePagination}
               />
             )}
           </div>
@@ -119,6 +122,7 @@ CustomReportDetailPage.propTypes = {
   }),
   parentWrapperClassName: PropTypes.string,
   queryOptions: PropTypes.object,
+  usePagination: PropTypes.bool,
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
@@ -131,5 +135,6 @@ CustomReportDetailPage.defaultProps = {
   CustomComponent: null,
   parentWrapperClassName: 'custom-receipt-main-container',
   queryOptions: {},
+  usePagination: false,
 };
 export default CustomReportDetailPage;

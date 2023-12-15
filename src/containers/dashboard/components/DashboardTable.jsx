@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
 import {
@@ -17,7 +17,7 @@ import moment from 'moment';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 
 function DashboardTable({ className, title, data, headCells }) {
-  const renderData = (row, cell) => {
+  const renderData = useCallback((row, cell) => {
     if (cell.handleData) {
       return cell.handleData(row, cell);
     }
@@ -26,7 +26,7 @@ function DashboardTable({ className, title, data, headCells }) {
       return moment(row[cell.id]).format(DATE_FORMAT_PRINT);
     }
     return row[cell.id];
-  };
+  }, []);
   return (
     <Grid item xs={12} xl={6} className={`${className} `}>
       <Stack

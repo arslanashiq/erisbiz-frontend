@@ -28,6 +28,7 @@ import {
 // constant Values
 const inValidKeys = [
   'uid',
+  'uuid',
   'id',
   'created_by',
   'created_at',
@@ -70,8 +71,94 @@ const inValidKeys = [
   'remaining_stock',
   'committed_stock',
   'forecast_stock',
+  'supplier_id',
   'Opening Balance Date',
   'Payment Terms',
+  'Supplier Contacts',
+  'Currency Id',
+  'Currency Symbol',
+  'Have Pur Orders',
+  'Have Bills',
+  'Have Debit Notes',
+  'Have Expenses',
+  'Supplier Type',
+  'Payables',
+  'Is Balance Used',
+  'Pur Order Id',
+  'Requestor Signature Show',
+  'Show Stamp',
+  'Convert To Aed',
+  'Discount',
+  'Amount Total',
+  'Amount Total Aed',
+  'Vat Total',
+  'Pur Order Suffix',
+  'Vat Total Aed',
+  'Grand Total',
+  'Grand Total Aed',
+  'Sub Total',
+  'Chart Of Account Id',
+  'Tax Rate Id',
+  'Tax Rate Perc',
+  'Bcy Total',
+  'Bcy Tax Rate Perc',
+  'Bcy Total Without Tax',
+  'Is Billable',
+  'Is Personal',
+  'Have Quotations',
+  'Have Pro Invoices',
+  'Have Invoices',
+  'Have Credit Notes',
+  'Quotation Prefix',
+  'Quotation Num',
+  'Aed Conversion Rate',
+  'Operation Status',
+  'Exchange Rate Of Quotation Currency',
+  'Exchange Rate Of Proinvoice Currency',
+  'Bcy Amount Total',
+  'Bcy Vat Total',
+  'Bcy Grand Total',
+  'Credit Applied',
+  'Credit Applied Invoice Currency',
+  'Payment Amount Invoice Currency',
+  'Bcy Amount Total Invoice Currency',
+  'Bcy Vat Total Invoice Currency',
+  'Bcy Grand Total Invoice Currency',
+  'Invoice Prefix',
+  'Exchange Rate Of Invoice Currency',
+  'Aed Amount',
+  'Other Amount',
+  'Last Payment Number',
+  'Bcy Bank Charges',
+  'Bcy Unused Amount',
+  'Chart Of Account Name',
+  'Over Payment',
+  'Refund Payment',
+  'Have Credit Note',
+  'Is Payment Applied',
+  'Over Paid',
+  'Account Id',
+  'Credit Note Records',
+  'Invoice Num With Suffix',
+  'Credits Remaining Creditnote Currency',
+  'Refunded Amount Creditnote Currency',
+  'Credits Used Creditnote Currency',
+  'Bcy Amount Total Credit Currency',
+  'Bcy Vat Total Credit Currency',
+  'Bcy Grand Total Credit Currency',
+  'Credit Note Prefix',
+  'Exchange Rate Of Creditnote Currency',
+  'Is Currency',
+  'Is Issue',
+  'Is Tax Inclusive',
+  'Is Applied',
+  'Is System Account',
+  'Is User Created',
+  'Is Watchlisted',
+  'Last Journal Num',
+  'Journal Notes',
+  'Journal Formatted Number',
+  'Is Deleted',
 ];
 const validKeyName = {
   set_credit_limit: 'Credit Limit',
@@ -80,8 +167,29 @@ const validKeyName = {
   is_reverse_charge: 'Reverse Charge',
   account_no: 'GL Number',
   item_image: 'Image',
-  mobile_num: 'Mobile Number',
-  reference_num: 'Reference Number',
+  mobile_num: 'Mobile #',
+  reference_num: 'Reference #',
+  supplier_invoice_num: 'Supplier Invoice #',
+  invoice_num: 'Invoice #',
+  without_change_amount_total: 'Amount',
+  without_change_discount_total: 'Discount',
+  without_change_vat_total: 'VAT Amount',
+  without_change_grand_total: 'Total',
+  bill_num: 'Bill #',
+  total_without_tax: 'Amount',
+  expense_account_id: 'Expense Account',
+  paid_through_account_id: 'Paid Through',
+  vat_reg_no: 'VAT Registration #',
+  quotation_formatted_number: 'Quotation Number',
+  pro_invoice_formatted_number: 'Proforma Invoice Formatted #',
+  pro_invoice_date: 'Proforma Invoice Date',
+  pro_invoice: 'Proforma Invoice',
+  account: 'Customer',
+  payment_num: 'Payment #',
+  account_num: 'Debit Account #',
+  credit_account_num: 'Credit Account #',
+  is_parent: 'Contain Parent Account',
+  parent_account: 'Parent Account',
 };
 const imageKeyName = {
   item_image: true,
@@ -200,7 +308,7 @@ function ActivityLogsDetail() {
     if (!keyName) return 'Invalid Key';
     if (validKeyName[keyName]) return validKeyName[keyName];
 
-    return keyName?.replaceAll('_', ' ');
+    return <span className="text-capitalize">{keyName?.replaceAll('_', ' ')}</span>;
   }, []);
   const renderThreeColumn = useCallback(
     (previousValue = '-', newValue = '-', key = '-') => (
@@ -218,7 +326,7 @@ function ActivityLogsDetail() {
     (value = '-', key = '-') => (
       <TableRow key={uuid()}>
         <TableCell colSpan={2} key={uuid()} sx={tableCellStyle}>
-          <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+          <span className=" font-weight-bold">{getValidName(key)}</span>
         </TableCell>
         <TableCell key={uuid()} sx={tableCellStyle}>
           {renderkeyValue(value, key)}
@@ -230,7 +338,7 @@ function ActivityLogsDetail() {
 
   const checkValueType = useCallback(payloadInfo => {
     if (payloadInfo) {
-      if (typeof payloadInfo === 'object' && payloadInfo?.length > 0) {
+      if (typeof payloadInfo === 'object' && payloadInfo?.length >= 0) {
         return 'list';
       }
       if (typeof payloadInfo === 'object') {
@@ -257,7 +365,7 @@ function ActivityLogsDetail() {
         return renderTwoColumn('This is List', key);
       }
       if (valueType === 'object') {
-        if (payloadOld) return renderTwoColumn('This is Object', 'This is Object', key);
+        if (payloadOld) return renderThreeColumn('This is Object', 'This is Object', key);
         return renderTwoColumn('This is Object', key);
       }
       if (

@@ -2,18 +2,22 @@ import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+
+// services
 import {
   useDeleteCreditNoteMutation,
   useGetSingleCreditNoteQuery,
   useRefundCreditNoteMutation,
 } from 'services/private/credit-notes';
 import { useGetUnpaidInvoicesAgainstCustomerMutation } from 'services/private/receipt-voucher';
+
+// shared components and utilities
+import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
+import OrderDocument from 'shared/components/order-document/OrderDocument';
 import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
-import OrderDocument from 'shared/components/order-document/OrderDocument';
-import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
 
@@ -31,9 +35,11 @@ function CreditNoteDetail() {
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
 
+  const creditNoteDetailResponse = useGetSingleCreditNoteQuery(id);
+
   const [refundCreditNote] = useRefundCreditNoteMutation();
   const [getUnpaidInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
-  const creditNoteDetailResponse = useGetSingleCreditNoteQuery(id);
+
   const orderInfo = useMemo(
     () => ({
       type: 'Credit Note',
@@ -118,7 +124,8 @@ function CreditNoteDetail() {
     }
     return actionList;
   }, [creditNoteDetailResponse]);
-  const handleCreditNote = async (values, { setErrors }) => {
+
+  const handleCreditNote = useCallback(async (values, { setErrors }) => {
     const payload = {
       invoice_credit_notes: [{ ...values }],
       credit_note_id: id,
@@ -130,8 +137,9 @@ function CreditNoteDetail() {
     }
     enqueueSnackbar('Credit Note Updated', { variant: 'success' });
     setOpenRefundModal(false);
-  };
-  const handleApplyToInvoice = async (values, { setErrors }) => {
+  }, []);
+
+  const handleApplyToInvoice = useCallback(async (values, { setErrors }) => {
     const billCreditNotes = values.bill_credit_notes
       .filter(cn => cn.amount_applied > 0)
       .map(cn => ({
@@ -150,7 +158,8 @@ function CreditNoteDetail() {
     }
     enqueueSnackbar('Credit Note Updated', { variant: 'success' });
     setOpenApplyToInvoiceModal(false);
-  };
+  }, []);
+
   useEffect(() => {
     (async () => {
       if (openApplyToInvoiceModal) {
@@ -178,14 +187,11 @@ function CreditNoteDetail() {
       />
       <DetailPageHeader
         title={`Credit Note: #${creditNoteDetailResponse?.data?.credit_note_formatted_number}`}
-        // filesList={creditNoteDetailResponse?.data?.quotation_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}
         orderDetail={creditNoteDetailResponse?.data}
         actionsList={quotationsActionList}
         useDeleteItemMutation={useDeleteCreditNoteMutation}
-        // useUploadDocumentFileMutation={useUploadQuotationDocumentsMutation}
-        // useDeleteDocumentFileMutation={useDeleteQuotationDocumentsMutation}
         openPopup={openInfoPopup}
         setOpenPopup={setOpenInfoPopup}
         pdfOptions={{

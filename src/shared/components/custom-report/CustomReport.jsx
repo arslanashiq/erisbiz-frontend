@@ -1,11 +1,55 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import 'styles/reports/custom-report.scss';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Stack, TablePagination } from '@mui/material';
+import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
+import { ROWS_PER_PAGE, ROWS_PER_PAGE_OPTIONS } from 'utilities/constants';
+import { getStableSort } from 'utilities/sort';
 import CustomeReportTableHead from './CustomeReportTableHead';
+import 'styles/reports/custom-report.scss';
 
-function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassName }) {
+function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassName, usePagination }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const order = 'asc';
+  const orderBy = '';
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(ROWS_PER_PAGE);
+  const handleGetPaginationData = () => {
+    const filters = getsearchQueryOffsetAndLimitParams(location);
+    return filters;
+  };
+
+  const handleChangePage = (event, newPage) => {
+    const search = new URLSearchParams(location.search);
+    search.set('offset', newPage * rowsPerPage);
+    navigate({
+      pathname: location.pathname,
+      search: search.toString(),
+    });
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+
+    const search = new URLSearchParams(location.search);
+    search.set('offset', '0');
+    search.set('limit', parseInt(event.target.value, 10));
+    navigate({
+      pathname: location.pathname,
+      search: search.toString(),
+    });
+  };
+
+  const visibleRows = useMemo(() => {
+    if (usePagination) {
+      return getStableSort(tableBody, order, orderBy, page, rowsPerPage);
+    }
+    return tableBody;
+  }, [tableBody, order, orderBy, page, rowsPerPage]);
   return (
     <div className={parentWrapperClassName} style={{ minWidth: 900 }}>
       <div style={{ padding: '0px 20px' }}>
@@ -13,7 +57,7 @@ function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassN
           <CustomeReportTableHead tableHeader={tableHeader} />
           {/* Detail */}
           <tbody>
-            {tableBody.length === 0 && (
+            {visibleRows.length === 0 && (
               <tr>
                 <td
                   colSpan={tableHeader.length}
@@ -23,8 +67,8 @@ function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassN
                 </td>
               </tr>
             )}
-            {tableBody.length > 0 &&
-              tableBody.map(tableRow => (
+            {visibleRows.length > 0 &&
+              visibleRows.map(tableRow => (
                 <tr key={uuid()}>
                   {tableRow.map(cell => (
                     <td
@@ -42,7 +86,7 @@ function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassN
                 </tr>
               ))}
 
-            {tableBody.length > 0 &&
+            {visibleRows.length > 0 &&
               tableFooter.length > 0 &&
               tableFooter.map(tableRow => (
                 <tr key={uuid()}>
@@ -55,6 +99,19 @@ function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassN
               ))}
           </tbody>
         </table>
+        {usePagination && (
+          <Stack direction="row" width="100%" justifyContent="end">
+            <TablePagination
+              rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+              component="div"
+              count={100}
+              rowsPerPage={handleGetPaginationData().limit || ROWS_PER_PAGE}
+              page={handleGetPaginationData().offset / rowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Stack>
+        )}
       </div>
     </div>
   );
@@ -65,11 +122,13 @@ CustomReport.propTypes = {
   tableBody: PropTypes.array,
   tableFooter: PropTypes.array,
   parentWrapperClassName: PropTypes.string,
+  usePagination: PropTypes.bool,
 };
 CustomReport.defaultProps = {
   tableHeader: [],
   tableBody: [],
   tableFooter: [[]],
   parentWrapperClassName: 'custom-receipt-main-container',
+  usePagination: false,
 };
 export default CustomReport;

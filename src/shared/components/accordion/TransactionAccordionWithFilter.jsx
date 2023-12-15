@@ -18,7 +18,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-import { getComparator, stableSort } from 'utilities/sort';
+import { getStableSort } from 'utilities/sort';
 import MuiTableHead from '../table/MuiTableHead';
 import MuiTableBody from '../table/MuiTableBody';
 
@@ -69,10 +69,7 @@ export default function TransactionAccordionWithFilter({
   };
   const data = keyName ? response?.data?.[keyName] : response?.data?.results;
   const visibleRows = useMemo(
-    () => stableSort(data || [], getComparator(order, orderBy)).slice(
-      page * rowsPerPage,
-      page * rowsPerPage + rowsPerPage
-    ),
+    () => getStableSort(data, order, orderBy, page, rowsPerPage),
     [data, order, orderBy, page, rowsPerPage]
   );
 

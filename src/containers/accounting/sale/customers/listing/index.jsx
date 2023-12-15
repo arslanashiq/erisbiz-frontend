@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -15,15 +15,17 @@ import { customersHeadCell } from '../utilities/head-cells';
 
 function CustomerListing() {
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const customersListResponse = useGetCustomersListQuery(getItemSearchQueryParams(location));
+
   const [deleteCustomer] = useDeleteCutomerMutation();
 
-  const handleEdit = (data, selected) => {
+  const handleEdit = useCallback((data, selected) => {
     navigate(`edit/${selected[0]}`);
-  };
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
       'You cannot delete these customers because some of the selected customers have transactions';
     let actionButton = false;
@@ -59,13 +61,13 @@ function CustomerListing() {
       message,
       actionButton,
     });
-  };
+  }, []);
 
-  const handleConfirmDelete = list => {
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteCustomer, id, enqueueSnackbar, 'Customer Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <>
       <Helmet>

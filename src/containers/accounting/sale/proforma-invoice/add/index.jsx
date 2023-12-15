@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -52,6 +52,7 @@ import 'styles/form/form.scss';
 function AddProfomaInvoice() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const { proformaInvoice, quotationId } = getSearchParamsList();
 
   const [selectedCustomer, setSelectedCustomer] = useState('');
@@ -63,6 +64,10 @@ function AddProfomaInvoice() {
     { customer: selectedCustomer, status: id ? '' : 'approved' },
     { skip: !selectedCustomer }
   );
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
+  const customerListResponse = useGetCustomersListQuery();
+  const salePersonListResponse = useGetActiveSalePersonListQuery();
+
   const { initialValues, setInitialValues, queryResponse } = useInitialValues(
     proformaInvoicesInitialValues,
     useGetSingleProformaInvoiceQuery,
@@ -71,10 +76,6 @@ function AddProfomaInvoice() {
     false,
     proformaInvoice || null
   );
-
-  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
-  const customerListResponse = useGetCustomersListQuery();
-  const salePersonListResponse = useGetActiveSalePersonListQuery();
 
   const [addProfomaInvoice] = useAddProformaInvoiceMutation();
   const [editProfomaInvoice] = useEditProformaInvoiceMutation();
@@ -165,20 +166,63 @@ function AddProfomaInvoice() {
     [itemsListOptions]
   );
 
-  const handleChangeQuotationNumber = (value, setFieldValue) => {
-    const selectedQuotation = quotationsListResponse.data.results.filter(quotation => quotation.id === value);
-    if (selectedQuotation.length > 0) {
-      const quotationItems = handleGetItemWithRemainingStock(
-        selectedQuotation[0].quotation_items,
-        itemsListOptions
+  const handleChangeQuotationNumber = useCallback(
+    (value, setFieldValue) => {
+      const selectedQuotation = quotationsListResponse.data.results.filter(
+        quotation => quotation.id === value
       );
+      if (selectedQuotation.length > 0) {
+        const quotationItems = handleGetItemWithRemainingStock(
+          selectedQuotation[0].quotation_items,
+          itemsListOptions
+        );
 
-      setFieldValue('pro_invoice_items', quotationItems);
-    }
-  };
-  const handleChangeCustomer = value => {
+        setFieldValue('pro_invoice_items', quotationItems);
+      }
+    },
+    [quotationsListResponse]
+  );
+  const handleChangeCustomer = useCallback(value => {
     setSelectedCustomer(value);
-  };
+  }, []);
+
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+    const payload = {
+      ...values,
+      pro_invoice_docs: values.filesList || values.pro_invoice_docs,
+      pro_invoice_items: handleGetFormatedItemsData(values.pro_invoice_items),
+      ...handleCalculateTotalAmount(values.pro_invoice_items),
+    };
+
+    const formData = new FormData();
+    Object.keys(payload).forEach(key => {
+      if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
+        payload[key].forEach((item, index) => {
+          Object.keys(item).forEach(itemKey => {
+            formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+          });
+        });
+      } else {
+        formData.append(key, payload[key]);
+      }
+    });
+    let response = null;
+    if (id) {
+      response = await editProfomaInvoice({ id, payload: formData });
+    } else {
+      response = await addProfomaInvoice(formData);
+    }
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    if (quotationId) {
+      navigate('/pages/accounting/sales/proforma-invoice', { replace: true });
+      return;
+    }
+    navigate(-1);
+  }, []);
+
   // auto fill initialvalues if quotation id is given and also generate the random Pid
   useEffect(() => {
     let newData = {};
@@ -218,6 +262,7 @@ function AddProfomaInvoice() {
       handleChangeCustomer(queryResponse?.customer);
     }
   }, [id, queryResponse]);
+
   return (
     <SectionLoader
       options={[
@@ -240,42 +285,7 @@ function AddProfomaInvoice() {
               ),
             }}
             validationSchema={proformaInvoiceValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
-              const payload = {
-                ...values,
-                pro_invoice_docs: values.filesList || values.pro_invoice_docs,
-                pro_invoice_items: handleGetFormatedItemsData(values.pro_invoice_items),
-                ...handleCalculateTotalAmount(values.pro_invoice_items),
-              };
-
-              const formData = new FormData();
-              Object.keys(payload).forEach(key => {
-                if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
-                  payload[key].forEach((item, index) => {
-                    Object.keys(item).forEach(itemKey => {
-                      formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
-                    });
-                  });
-                } else {
-                  formData.append(key, payload[key]);
-                }
-              });
-              let response = null;
-              if (id) {
-                response = await editProfomaInvoice({ id, payload: formData });
-              } else {
-                response = await addProfomaInvoice(formData);
-              }
-              if (response.error) {
-                setErrors(response.error.data);
-                return;
-              }
-              if (quotationId) {
-                navigate('/pages/accounting/sales/proforma-invoice', { replace: true });
-                return;
-              }
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">

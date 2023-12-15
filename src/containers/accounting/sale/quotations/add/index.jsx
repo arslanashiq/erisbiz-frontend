@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { FieldArray, Form, Formik } from 'formik';
+import { FieldArray } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import TagIcon from '@mui/icons-material/Tag';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
@@ -33,6 +33,7 @@ import {
   // handleChangeCostPrice,
   handleChangeUnitPrice,
 } from 'shared/components/purchase-item/utilities/helpers';
+import FormikWrapper from 'containers/common/form/FormikWrapper';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
@@ -41,19 +42,21 @@ import FormikFileField from 'shared/components/form/FormikFileField';
 import useListOptions from 'custom-hooks/useListOptions';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import { quotationsInitialValues } from '../utilities/initialValues';
-import 'styles/form/form.scss';
 import { quotationFormValidationSchema } from '../utilities/validation-schema';
+import 'styles/form/form.scss';
 
 function AddQuotation() {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
+  const { quotationId } = getSearchParamsList();
+
   const customerListResponse = useGetCustomersListQuery();
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
+  const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', { skip: id });
 
   const [addQuotation] = useAddQuotationMutation();
   const [editQuotation] = useEditQuotationMutation();
-  const { id } = useParams();
-  const { quotationId } = getSearchParamsList();
 
   const { initialValues, setInitialValues, queryResponse } = useInitialValues(
     quotationsInitialValues,
@@ -63,7 +66,6 @@ function AddQuotation() {
     false,
     quotationId
   );
-  const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', { skip: id });
 
   const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
     value: 'id',
@@ -148,6 +150,48 @@ function AddQuotation() {
     ],
     [itemsListOptions]
   );
+
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+    const payload = {
+      ...values,
+      quotation_docs: values.filesList,
+      quotation_items: handleGetFormatedItemsData(values.quotation_items),
+      status: id ? values.status : 'draft',
+      ...handleCalculateTotalAmount(values.quotation_items),
+    };
+    delete payload.quotation_num;
+    const formData = new FormData();
+    Object.keys(payload).forEach(key => {
+      if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
+        payload[key].forEach((item, index) => {
+          Object.keys(item).forEach(itemKey => {
+            formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+          });
+        });
+      } else {
+        formData.append(key, payload[key]);
+      }
+    });
+    let response = null;
+
+    if (id) {
+      response = await editQuotation({ id, payload: formData });
+    } else {
+      response = await addQuotation(formData);
+    }
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    if (quotationId) {
+      navigate(`/pages/accounting/sales/quotations/${response.data.uuid}/detail`, {
+        replace: true,
+      });
+      return;
+    }
+    navigate(-1);
+  }, []);
+
   useEffect(() => {
     if (!id) {
       const latestnum = latastQuotationNumberResponse?.data?.latest_num;
@@ -171,8 +215,7 @@ function AddQuotation() {
       <Card>
         <CardContent>
           <FormHeader title="Sale Quotation" />
-          <Formik
-            enableReinitialize
+          <FormikWrapper
             initialValues={{
               ...initialValues,
               quotation_items: handleGetItemWithRemainingStock(
@@ -181,121 +224,72 @@ function AddQuotation() {
               ),
             }}
             validationSchema={quotationFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
-              const payload = {
-                ...values,
-                quotation_docs: values.filesList,
-                quotation_items: handleGetFormatedItemsData(values.quotation_items),
-                status: id ? values.status : 'draft',
-                ...handleCalculateTotalAmount(values.quotation_items),
-              };
-              delete payload.quotation_num;
-              const formData = new FormData();
-              Object.keys(payload).forEach(key => {
-                if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
-                  payload[key].forEach((item, index) => {
-                    Object.keys(item).forEach(itemKey => {
-                      formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
-                    });
-                  });
-                } else {
-                  formData.append(key, payload[key]);
-                }
-              });
-              let response = null;
-
-              if (id) {
-                response = await editQuotation({ id, payload: formData });
-              } else {
-                response = await addQuotation(formData);
-              }
-              if (response.error) {
-                setErrors(response.error.data);
-                return;
-              }
-              if (quotationId) {
-                navigate(`/pages/accounting/sales/quotations/${response.data.uuid}/detail`, {
-                  replace: true,
-                });
-                return;
-              }
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
-            <Form className="form form--horizontal mt-3 row">
-              {/* Purchase */}
+            <FormikField
+              name="quotation_formatted_number"
+              type="text"
+              disabled
+              placeholder="Quotation Number"
+              startIcon={<TagIcon />}
+              label="Quotation Number"
+            />
 
-              <FormikField
-                name="quotation_formatted_number"
-                type="text"
-                disabled
-                placeholder="Quotation Number"
-                startIcon={<TagIcon />}
-                label="Quotation Number"
-              />
-              {/* date */}
+            <FormikDatePicker
+              name="date"
+              type="text"
+              placeholder="Date"
+              label="Date"
+              startIcon={<CalendarMonthIcon />}
+            />
 
-              <FormikDatePicker
-                name="date"
-                type="text"
-                placeholder="Date"
-                label="Date"
-                startIcon={<CalendarMonthIcon />}
-              />
+            <FormikSelect
+              options={customersOptions}
+              name="customers"
+              placeholder="Customer"
+              label="Customer"
+              isRequired
+            />
+            <FormikFileField
+              placeholder="Attachment"
+              label="Attachment"
+              name="quotation_docs"
+              startIcon={<AttachFileIcon />}
+            />
+            <FormikSelect
+              name="sales_person"
+              options={salePersonListOptions}
+              type="text"
+              placeholder="Sales Person"
+              label="Sales Person"
+              isRequired
+            />
 
-              {/* Customer */}
-              <FormikSelect
-                options={customersOptions}
-                name="customers"
-                placeholder="Customer"
-                label="Customer"
-                isRequired
-              />
-              {/* Attackment */}
-              <FormikFileField
-                placeholder="Attachment"
-                label="Attachment"
-                name="quotation_docs"
-                startIcon={<AttachFileIcon />}
-              />
-              <FormikSelect
-                name="sales_person"
-                options={salePersonListOptions}
-                type="text"
-                placeholder="Sales Person"
-                label="Sales Person"
-                isRequired
-              />
+            <FormikField
+              name="location"
+              type="text"
+              placeholder="Location"
+              className="col"
+              label="Location"
+            />
 
-              {/* Location */}
-              <FormikField
-                name="location"
-                type="text"
-                placeholder="Location"
-                className="col"
-                label="Location"
+            <div className="form__form-group w-100">
+              <FieldArray
+                name="quotation_items"
+                render={props => (
+                  <PurchaseItem
+                    name="quotation_items"
+                    inputList={quotationItemsList}
+                    newList={NEW_PURCHASE_ITEM_OBJECT}
+                    {...props}
+                  />
+                )}
               />
+            </div>
 
-              {/* Item detail */}
-              <div className="form__form-group w-100">
-                <FieldArray
-                  name="quotation_items"
-                  render={props => (
-                    <PurchaseItem
-                      name="quotation_items"
-                      inputList={quotationItemsList}
-                      newList={NEW_PURCHASE_ITEM_OBJECT}
-                      {...props}
-                    />
-                  )}
-                />
-              </div>
-
-              {/* Remarks */}
-              <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
-              <FormSubmitButton />
-            </Form>
-          </Formik>
+            <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
+            <FormSubmitButton />
+          </FormikWrapper>
         </CardContent>
       </Card>
     </SectionLoader>

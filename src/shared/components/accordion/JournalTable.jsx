@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
@@ -7,13 +7,16 @@ import { addButtonIconStyle } from 'styles/common/common-styles';
 import formatAmount from 'utilities/formatAmount';
 
 function JournalTable({ journalItems, defaultValue }) {
-  const total = journalItems.reduce(
-    (acc, val) => {
-      acc.bcy_debit += val.bcy_debit;
-      acc.bcy_credit += val.bcy_credit;
-      return acc;
-    },
-    { bcy_debit: 0, bcy_credit: 0 }
+  const total = useMemo(
+    () => journalItems.reduce(
+      (acc, val) => {
+        acc.bcy_debit += val.bcy_debit;
+        acc.bcy_credit += val.bcy_credit;
+        return acc;
+      },
+      { bcy_debit: 0, bcy_credit: 0 }
+    ),
+    [journalItems]
   );
 
   if (total.bcy_debit < total.bcy_credit) {

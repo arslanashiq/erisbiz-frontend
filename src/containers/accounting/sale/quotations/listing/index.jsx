@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router';
 import { useSnackbar } from 'notistack';
@@ -15,12 +15,14 @@ import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { quotationsHeadCell } from '../utilities/head-cells';
 
 function QuotationListing() {
-  const { enqueueSnackbar } = useSnackbar();
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
   const quotationDetailResponse = useGetQuotationsListQuery(getItemSearchQueryParams(location));
+
   const [deleteQuotation] = useDeleteQuotationMutation();
 
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message = 'Are you sure you want to delete?';
     let actionButton = true;
     const selectedData = [];
@@ -43,12 +45,13 @@ function QuotationListing() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteQuotation, id, enqueueSnackbar, 'Quotation Deleted Successfully');
     });
-  };
+  }, []);
+
   return (
     <SectionLoader options={[quotationDetailResponse.isLoading]}>
       <Helmet>

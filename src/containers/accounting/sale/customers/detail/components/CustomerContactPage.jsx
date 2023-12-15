@@ -12,22 +12,9 @@ function CustomerContactPage({ customerContact }) {
     <MuiTable
       data={customerContact}
       totalDataCount={customerContact.length}
-      TableHeading="Supplier"
+      TableHeading="Customer"
       showCheckbox
       headCells={customerContactHeadCells}
-      //   customActionButton={[
-      //     {
-      //       title: 'Actions',
-      //       //   handleClick: handleClickEdit,
-      //       element: (
-      //         <Tooltip title="Edit Contact" arrow placement="top">
-      //           <IconButton>
-      //             <EditIcon />
-      //           </IconButton>
-      //         </Tooltip>
-      //       ),
-      //     },
-      //   ]}
       hoverEffect={false}
     />
   );

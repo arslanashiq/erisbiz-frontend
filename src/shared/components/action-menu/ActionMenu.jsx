@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
@@ -24,7 +24,7 @@ function ActionMenu({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const open = Boolean(anchorEl);
+  const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
   return (
     <>
       <Tooltip title={actionsList.length === 0 ? 'You can`t perform any action' : ''} placement="top" arrow>

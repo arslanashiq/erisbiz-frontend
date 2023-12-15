@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import { useLocation, useNavigate } from 'react-router';
@@ -19,10 +19,12 @@ function ReceiptVoucher() {
   const navigate = useNavigate();
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
+
   const receiptVouchersResponse = useGetReceiptVoucherListQuery(location.search);
+
   const [deleteReceiptVoucher] = useDeleteReceiptVoucherMutation();
 
-  const handleEdit = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  const handleEdit = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
       'You cannot Edit these vouchers because some of the selected items have refund or applied to bill';
     const selectedData = [];
@@ -43,8 +45,8 @@ function ReceiptVoucher() {
       return;
     }
     navigate(`edit/${selected[0]}`);
-  };
-  const handleDelete = (data, selected, openInfoPopup, setOpenInfoPopup) => {
+  }, []);
+  const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {
     let message =
       'You cannot delete these vouchers because some of the selected items have refund or applied to bill';
     let actionButton = false;
@@ -71,12 +73,12 @@ function ReceiptVoucher() {
       message,
       actionButton,
     });
-  };
-  const handleConfirmDelete = list => {
+  }, []);
+  const handleConfirmDelete = useCallback(list => {
     list.forEach(id => {
       handleDeleteResponse(deleteReceiptVoucher, id, enqueueSnackbar, 'Receipt Voucher Deleted Successfully');
     });
-  };
+  }, []);
   return (
     <SectionLoader options={[receiptVouchersResponse.isLoading]}>
       <Helmet>

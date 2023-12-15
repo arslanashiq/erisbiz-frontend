@@ -24,3 +24,8 @@ export function stableSort(array, comparator) {
   });
   return stabilizedThis.map(el => el[0]);
 }
+
+export const getStableSort = (data, order, orderBy, page, rowsPerPage) => stableSort(data || [], getComparator(order, orderBy)).slice(
+  page * rowsPerPage,
+  page * rowsPerPage + rowsPerPage
+);

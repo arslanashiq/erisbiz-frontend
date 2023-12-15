@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 import { FieldArray, Form, Formik } from 'formik';
@@ -52,27 +52,27 @@ import 'styles/form/form.scss';
 import { saleInvoiceValidationSchema } from '../utilities/validation-schema';
 
 function AddInvoice() {
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
   const { proformaInvoice } = getSearchParamsList();
 
   const [selectedCustomer, setSelectedCustomer] = useState(proformaInvoice);
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
-
   const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
   const customerListResponse = useGetCustomersListQuery();
+
+  const [addSaleInvoice] = useAddSaleInvoicesMutation();
+  const [editSaleInvoice] = useEditSaleInvoicesMutation();
+
   const proformaInvoiceListResponse = useGetProformaInvoicesListQuery(
-    { customer: selectedCustomer, status: id ? '' : 'draft' },
+    { customer: selectedCustomer },
     { skip: !selectedCustomer }
   );
   const proformaInvoiceResponse = useGetSingleProformaInvoiceQuery(proformaInvoice, {
     skip: !proformaInvoice,
   });
-
-  const [addSaleInvoice] = useAddSaleInvoicesMutation();
-  const [editSaleInvoice] = useEditSaleInvoicesMutation();
 
   const { initialValues, setInitialValues, queryResponse, isLoading } = useInitialValues(
     saleInvoiceInitialValues,
@@ -169,7 +169,7 @@ function AddInvoice() {
     ],
     [itemsListOptions]
   );
-  const handleGetStatus = () => {
+  const handleGetStatus = useCallback(() => {
     if (proformaInvoice) {
       return false;
     }
@@ -178,23 +178,64 @@ function AddInvoice() {
     }
 
     return false;
-  };
-  const handleChangeProfomaInvoice = (value, setFieldValue) => {
-    const selectedProfomaInvoice = proformaInvoiceOptions.filter(perInv => perInv.value === value);
-    setFieldValue(
-      'invoice_items',
-      handleGetItemWithRemainingStock(
-        selectedProfomaInvoice[0].pro_invoice_items,
-        itemsListOptions,
-        handleGetStatus()
-      )
-    );
-    setFieldValue('customer', selectedProfomaInvoice[0].customer);
-    setFieldValue('quotation', selectedProfomaInvoice[0].quotation);
-  };
-  const handleChangeCustomer = value => {
+  }, [proformaInvoice, id]);
+
+  const handleChangeProfomaInvoice = useCallback(
+    (value, setFieldValue) => {
+      const selectedProfomaInvoice = proformaInvoiceOptions.filter(perInv => perInv.value === value);
+      setFieldValue(
+        'invoice_items',
+        handleGetItemWithRemainingStock(
+          selectedProfomaInvoice[0].pro_invoice_items,
+          itemsListOptions,
+          handleGetStatus()
+        )
+      );
+      setFieldValue('customer', selectedProfomaInvoice[0].customer);
+      setFieldValue('quotation', selectedProfomaInvoice[0].quotation);
+    },
+    [proformaInvoiceOptions]
+  );
+  const handleChangeCustomer = useCallback(value => {
     setSelectedCustomer(value);
-  };
+  }, []);
+
+  const handleSubmitForm = useCallback(async (values, { setError }) => {
+    const payload = {
+      ...values,
+      invoice_docs: values.filesList,
+      invoice_items: handleGetFormatedItemsData(values.invoice_items),
+      ...handleCalculateTotalAmount(values.invoice_items),
+    };
+    const formData = new FormData();
+    Object.keys(payload).forEach(key => {
+      if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
+        payload[key].forEach((item, index) => {
+          Object.keys(item).forEach(itemKey => {
+            formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
+          });
+        });
+      } else {
+        formData.append(key, payload[key]);
+      }
+    });
+    let response = null;
+    if (id) {
+      response = await editSaleInvoice({ id, payload: formData });
+    } else {
+      response = await addSaleInvoice(formData);
+    }
+    if (response.error) {
+      setError(response.error.data);
+      return;
+    }
+    if (proformaInvoice) {
+      navigate('/pages/accounting/sales/sale-invoice', { replace: true });
+      return;
+    }
+
+    navigate(-1);
+  }, []);
   useEffect(() => {
     let newData = {};
     if (proformaInvoiceResponse?.data) {
@@ -247,42 +288,7 @@ function AddInvoice() {
               ),
             }}
             validationSchema={saleInvoiceValidationSchema}
-            onSubmit={async (values, { setError }) => {
-              const payload = {
-                ...values,
-                invoice_docs: values.filesList,
-                invoice_items: handleGetFormatedItemsData(values.invoice_items),
-                ...handleCalculateTotalAmount(values.invoice_items),
-              };
-              const formData = new FormData();
-              Object.keys(payload).forEach(key => {
-                if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
-                  payload[key].forEach((item, index) => {
-                    Object.keys(item).forEach(itemKey => {
-                      formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
-                    });
-                  });
-                } else {
-                  formData.append(key, payload[key]);
-                }
-              });
-              let response = null;
-              if (id) {
-                response = await editSaleInvoice({ id, payload: formData });
-              } else {
-                response = await addSaleInvoice(formData);
-              }
-              if (response.error) {
-                setError(response.error.data);
-                return;
-              }
-              if (proformaInvoice) {
-                navigate('/pages/accounting/sales/sale-invoice', { replace: true });
-                return;
-              }
-
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">

@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import * as Yup from 'yup';
+import React, { useCallback, useMemo } from 'react';
 import { FieldArray, Formik, Form } from 'formik';
 import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
@@ -38,6 +37,7 @@ import useListOptions from 'custom-hooks/useListOptions';
 import { VAT_CHARGES } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import { creditNoteInitialValues } from '../utilities/initialValues';
+import { creditNoteValidationSchema } from '../utilities/validation-schema';
 import 'styles/form/form.scss';
 
 function index() {
@@ -134,18 +134,43 @@ function index() {
     [itemsListOptions]
   );
 
-  const handleChangeSaleInvoice = (value, setFieldValue) => {
-    const selectedSaleInvoice = saleInvoiceListResponse.data.results.filter(
-      saleInvoice => saleInvoice.id === value
-    );
+  const handleChangeSaleInvoice = useCallback(
+    (value, setFieldValue) => {
+      const selectedSaleInvoice = saleInvoiceListResponse.data.results.filter(
+        saleInvoice => saleInvoice.id === value
+      );
 
-    const selectedInvoiceItemsList = selectedSaleInvoice[0]?.invoice_items?.map(invoiceItems => ({
-      ...invoiceItems,
-      invoice_num_nights: invoiceItems.num_nights,
-    }));
-    if (setFieldValue) setFieldValue('credit_note_items', selectedInvoiceItemsList);
-    return selectedInvoiceItemsList;
-  };
+      const selectedInvoiceItemsList = selectedSaleInvoice[0]?.invoice_items?.map(invoiceItems => ({
+        ...invoiceItems,
+        invoice_num_nights: invoiceItems.num_nights,
+      }));
+      if (setFieldValue) setFieldValue('credit_note_items', selectedInvoiceItemsList);
+      return selectedInvoiceItemsList;
+    },
+    [saleInvoiceListResponse]
+  );
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+    const payload = {
+      ...values,
+      credit_note_items: handleGetFormatedItemsData(values.credit_note_items),
+      ...handleCalculateTotalAmount(values.credit_note_items),
+    };
+    let response = null;
+    if (id) {
+      response = await editCreditNote({ id, payload });
+    } else {
+      response = await addCreditNote(payload);
+    }
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    if (saleId) {
+      navigate('/pages/accounting/sales/credit-notes', { replace: true });
+      return;
+    }
+    navigate(-1);
+  }, []);
 
   const updatedInitialValues = useMemo(() => {
     let newData = {
@@ -167,6 +192,7 @@ function index() {
     }
     return newData;
   }, [initialValues, saleId, saleInvoiceListResponse]);
+
   return (
     <SectionLoader
       options={[
@@ -182,43 +208,9 @@ function index() {
           <FormHeader title="Credit Note" />
           <Formik
             enableReinitialize
-            validationSchema={Yup.object({
-              invoice: Yup.string().required('Invoice# is required'),
-
-              credit_note_items: Yup.array().of(
-                Yup.object().shape({
-                  num_nights: Yup.number()
-                    .required('Required')
-                    .integer('Value must be an integer (without decimal)')
-                    .max(Yup.ref('invoice_num_nights'), 'Must be less than Invoice item quantity')
-                    .min(1, 'Must be more than 0')
-                    .test('max-digits', 'Maximum 10 digits are allowed', value => `${value}`.length <= 10),
-                })
-              ),
-            })}
+            validationSchema={creditNoteValidationSchema}
             initialValues={updatedInitialValues}
-            onSubmit={async (values, { setErrors }) => {
-              const payload = {
-                ...values,
-                credit_note_items: handleGetFormatedItemsData(values.credit_note_items),
-                ...handleCalculateTotalAmount(values.credit_note_items),
-              };
-              let response = null;
-              if (id) {
-                response = await editCreditNote({ id, payload });
-              } else {
-                response = await addCreditNote(payload);
-              }
-              if (response.error) {
-                setErrors(response.error.data);
-                return;
-              }
-              if (saleId) {
-                navigate('/pages/accounting/sales/credit-notes', { replace: true });
-                return;
-              }
-              navigate(-1);
-            }}
+            onSubmit={handleSubmitForm}
           >
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">

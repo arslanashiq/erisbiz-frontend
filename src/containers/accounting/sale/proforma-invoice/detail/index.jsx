@@ -2,7 +2,7 @@ import { Card, CardContent } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import moment from 'moment';
 import { useSnackbar } from 'notistack';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import {
   useChangeProformaInvoiceStatusMutation,
@@ -18,8 +18,9 @@ import { DATE_FORMAT_PRINT } from 'utilities/constants';
 const keyValue = 'pro_invoice_items';
 function ProfomaInvoiceDetail() {
   const { id } = useParams();
-  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
@@ -27,7 +28,7 @@ function ProfomaInvoiceDetail() {
   const proformaInvoiceDetailResponse = useGetSingleProformaInvoiceQuery(id);
   const [changeProfomaInvoiceStatus] = useChangeProformaInvoiceStatusMutation();
 
-  const handleChangeStatus = async (changeInvoiceStatus, payload, successMessage) => {
+  const handleChangeStatus = useCallback(async (changeInvoiceStatus, payload, successMessage) => {
     const response = await changeInvoiceStatus(payload);
     if (response.error) {
       enqueueSnackbar('Somthing went wrong', {
@@ -39,7 +40,7 @@ function ProfomaInvoiceDetail() {
       variant: 'success',
     });
     return true;
-  };
+  }, []);
   const purchaseOrderActionList = useMemo(() => {
     const status = proformaInvoiceDetailResponse?.data?.status;
     if (status === 'cancelled') return [];

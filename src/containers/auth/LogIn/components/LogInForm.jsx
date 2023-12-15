@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
@@ -29,10 +29,53 @@ function LogInForm() {
     showPassword: false,
   });
   const [adminLogin] = useAdminLoginMutation();
-  const showPassword = e => {
+  const showPassword = useCallback(e => {
     e.preventDefault();
     setState(prevState => ({ ...prevState, showPassword: !prevState.showPassword }));
-  };
+  }, []);
+
+  const handleSubmitForm = useCallback(async (values, { setSubmitting, setErrors }) => {
+    const payload = {
+      email: values.email,
+      password: values.password,
+    };
+    try {
+      const response = await adminLogin(payload);
+      setSubmitting(false);
+
+      if (response.data) {
+        localStorage.setItem('token', response.data.token);
+        const companyStatus = response.data?.user?.is_regestered_company;
+        dispatch(
+          setUser({
+            user: response.data.user,
+            isAuthenticated: true,
+            is_regestered_company: companyStatus,
+            // is_regestered_company: true,
+          })
+        );
+
+        setTimeout(() => {
+          if (sessionStorage.getItem('lastUrl')) {
+            navigate(sessionStorage.getItem('lastUrl'));
+          } else {
+            navigate('/', { replace: true });
+          }
+        }, 10);
+      }
+
+      if (response.error) {
+        if (response.error.data.non_field_errors) {
+          enqueueSnackbar(response.error.data.non_field_errors[0], { variant: 'error' });
+        } else {
+          setSubmitting(false);
+          setErrors(response.error.data);
+        }
+      }
+    } catch (error) {
+      enqueueSnackbar('Somthing went worng!', { variant: 'error' });
+    }
+  }, []);
 
   return (
     <Stack {...loginFormParentWrapperStyle}>
@@ -41,51 +84,7 @@ function LogInForm() {
           <Typography sx={loginFormMainHeadingStyle}>{'Let\'s Get Started!'}</Typography>
           <Typography>Enter Your credentials to access your account</Typography>
         </Grid>
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          onSubmit={async (values, { setSubmitting, setErrors }) => {
-            const payload = {
-              email: values.email,
-              password: values.password,
-            };
-            try {
-              const response = await adminLogin(payload);
-              setSubmitting(false);
-
-              if (response.data) {
-                localStorage.setItem('token', response.data.token);
-                const companyStatus = response.data?.user?.is_regestered_company;
-                dispatch(
-                  setUser({
-                    user: response.data.user,
-                    isAuthenticated: true,
-                    is_regestered_company: companyStatus,
-                    // is_regestered_company: true,
-                  })
-                );
-
-                setTimeout(() => {
-                  if (sessionStorage.getItem('lastUrl')) {
-                    navigate(sessionStorage.getItem('lastUrl'));
-                  } else {
-                    navigate('/', { replace: true });
-                  }
-                }, 10);
-              }
-
-              if (response.error) {
-                if (response.error.data.non_field_errors) {
-                  enqueueSnackbar(response.error.data.non_field_errors[0], { variant: 'error' });
-                } else {
-                  setSubmitting(false);
-                  setErrors(response.error.data);
-                }
-              }
-            } catch (error) {
-              enqueueSnackbar('Somthing went worng!', { variant: 'error' });
-            }
-          }}
-        >
+        <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmitForm}>
           {({ isSubmitting }) => (
             <Form>
               <Grid container>
@@ -123,11 +122,7 @@ function LogInForm() {
                   </Link>
                 </Grid>
                 <Grid item xs={12} className="mt-3">
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    sx={loginFormLoginButtonStyle}
-                  >
+                  <Button disabled={isSubmitting} type="submit" sx={loginFormLoginButtonStyle}>
                     Sign In
                   </Button>
                 </Grid>
