@@ -76,11 +76,15 @@ function ActionMenu({
                 initialValues={cutomInitialValues}
                 onSubmit={(...props) => handleSubmitCustomFilter(...props, handleClose)}
               >
-                <Form className="form ">
-                  {customFilterInputs.map(input => (
-                    <FormikDatePicker key={input.name} {...input} />
-                  ))}
-                  <FormSubmitButton />
+                <Form className="form" style={{ height: '100%' }}>
+                  <Stack height="100%" spacing={2}>
+                    <Stack direction="row" spacing={2}>
+                      {customFilterInputs.map(input => (
+                        <FormikDatePicker key={input.name} {...input} />
+                      ))}
+                    </Stack>
+                    <FormSubmitButton />
+                  </Stack>
                 </Form>
               </Formik>
             </Stack>

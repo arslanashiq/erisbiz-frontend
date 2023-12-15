@@ -82,7 +82,7 @@ function ChartOfAccountListing() {
   }, []);
   const handleEditSelection = useCallback(() => {
     navigate(`edit/${selected[0]}`);
-  }, []);
+  }, [selected]);
   const handleCloseInfoPopup = useCallback(() => {
     setOpenInfoPopup({ ...openInfoPopup, status: false });
   }, []);
@@ -116,6 +116,7 @@ function ChartOfAccountListing() {
     () => transformDataInNestedStructure(chartOfAccountListResponse?.data?.results),
     [chartOfAccountListResponse]
   );
+
   return (
     <SectionLoader options={[chartOfAccountListResponse.isLoading]}>
       <Helmet>

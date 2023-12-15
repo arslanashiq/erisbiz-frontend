@@ -1,4 +1,5 @@
 export const payableReportsFilterInputList = [
-  { label: 'Select Date', name: 'end_date', labelClass: '', className: 'w-100' },
+  { label: 'Start Date', name: 'start_date', labelClass: '', className: 'w-100' },
+  // { label: 'End Date', name: 'end_date', labelClass: '', className: 'w-100' },
 ];
 export const test = '';

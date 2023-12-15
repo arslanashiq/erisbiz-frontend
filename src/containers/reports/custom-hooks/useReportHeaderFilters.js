@@ -9,13 +9,17 @@ function useReportHeaderFilters() {
     searchQuery.split('&').forEach(singleQuery => {
       if (singleQuery.includes(queryKey)) {
         foundQueryKey = true;
-        newSearchQuery += `${queryKey}=${newQuery}&`;
+        if (newQuery) {
+          newSearchQuery += `${queryKey}=${newQuery}&`;
+        }
       } else {
         newSearchQuery += `${singleQuery}&`;
       }
     });
-    if (!foundQueryKey && newQuery) {
-      newSearchQuery += `${queryKey}=${newQuery}&`;
+    if (newQuery) {
+      if (!foundQueryKey && newQuery) {
+        newSearchQuery += `${queryKey}=${newQuery}&`;
+      }
     }
     return newSearchQuery.slice(0, -1);
   };
@@ -26,6 +30,7 @@ function useReportHeaderFilters() {
       values.start_date
     );
     newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'custom_end_date', values.end_date);
+    newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'duration', null);
     navigate({
       pathname: `${window.location.pathname}`,
       search: newSearchQuery,
@@ -37,11 +42,13 @@ function useReportHeaderFilters() {
 
   const handleChangeFilter = selectedFilterOption => {
     if (selectedFilterOption.value) {
-      const newSearchQuery = findKeyInQueryParamsAndReplace(
+      let newSearchQuery = findKeyInQueryParamsAndReplace(
         window.location.search,
         'duration',
         selectedFilterOption.value
       );
+      newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'custom_start_date', null);
+      newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'custom_end_date', null);
       navigate({
         pathname: `${window.location.pathname}`,
         search: newSearchQuery,
