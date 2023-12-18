@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import { NavLink } from 'react-router-dom';
+import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import SideBarListItemButton from './SideBarListItemButton';
 
 function SideBarChildLinks({
@@ -13,8 +13,14 @@ function SideBarChildLinks({
   setShowSideBarChildLink,
   index,
 }) {
+  const transitionClass = useMemo(() => {
+    if (!open) {
+      return 'hide-transition';
+    }
+    return showSideBarChildLink[index] === true ? 'show-transition' : 'hide-transition';
+  }, [open, showSideBarChildLink, index]);
   return (
-    <div className={showSideBarChildLink[index] === true ? 'show-transition' : 'hide-transition'}>
+    <div className={transitionClass}>
       {childList.map(child => (
         <SideBarListItem
           selected={checkActive(child.link)}

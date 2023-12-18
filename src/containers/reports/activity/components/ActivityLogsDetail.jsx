@@ -166,6 +166,7 @@ const validKeyName = {
   is_import_agent: 'Important Agent',
   is_reverse_charge: 'Reverse Charge',
   account_no: 'GL Number',
+  gl_number: 'GL Number',
   item_image: 'Image',
   mobile_num: 'Mobile #',
   reference_num: 'Reference #',
@@ -314,7 +315,7 @@ function ActivityLogsDetail() {
     (previousValue = '-', newValue = '-', key = '-') => (
       <TableRow key={uuid()}>
         <TableCell key={uuid()} sx={tableCellStyle}>
-          <span className="text-capitalize font-weight-bold">{getValidName(key)}</span>
+          <span className="font-weight-bold">{getValidName(key)}</span>
         </TableCell>
         <TableCell sx={tableCellStyle}>{renderkeyValue(previousValue, key)}</TableCell>
         <TableCell sx={tableCellStyle}>{renderkeyValue(newValue, key)}</TableCell>
