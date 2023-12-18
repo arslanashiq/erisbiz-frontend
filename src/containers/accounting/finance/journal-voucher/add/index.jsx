@@ -180,6 +180,7 @@ function AddJournalVoucher() {
                     credit: 0,
                     description: '',
                   }}
+                  minRequiredItems={2}
                   showItemsAmount={false}
                   {...props}
                 />

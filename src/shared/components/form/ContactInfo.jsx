@@ -1,16 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Box,
-  Button,
-  IconButton,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  Tooltip,
-} from '@mui/material';
+import { Box, Button, IconButton, Table, TableBody, TableCell, TableRow, Tooltip } from '@mui/material';
 import FormikField from 'shared/components/form/FormikField';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
@@ -40,6 +31,7 @@ function ContactInfo({ name, form, push, remove }) {
               <TableCell>
                 <FormikField
                   className="w-100"
+                  type="number"
                   name={`${name}.${index}.mobile_num`}
                   placeholder="Mobile Number"
                 />

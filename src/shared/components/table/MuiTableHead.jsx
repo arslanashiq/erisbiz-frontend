@@ -35,7 +35,7 @@ function MuiTableHead(props) {
             <Checkbox
               color="primary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
+              checked={rowCount > 0 && numSelected >= rowCount}
               onChange={onSelectAllClick}
               inputProps={{
                 'aria-label': 'select all table',

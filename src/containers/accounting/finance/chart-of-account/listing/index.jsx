@@ -38,7 +38,7 @@ function ChartOfAccountListing() {
 
   const [deleteChartOfAccount] = useDeleteChartOfAccountMutation();
 
-  const getAllUnlockedAcocunt = useMemo(
+  const getAllUnlockedAcocunt = useCallback(
     accountList => {
       let newSelected = [];
       if (!accountList) return [];
@@ -55,31 +55,37 @@ function ChartOfAccountListing() {
   );
   const handleClearSelection = useCallback(() => {
     setSelected([]);
-  }, []);
-  const handleSelectAll = useCallback(event => {
-    if (event.target.checked) {
-      const newSelected = getAllUnlockedAcocunt(chartOfAccountListResponse.data.results);
+  }, [selected]);
+  const handleSelectAll = useCallback(
+    event => {
+      if (event.target.checked) {
+        const newSelected = getAllUnlockedAcocunt(chartOfAccountListResponse?.data?.results);
+        setSelected(newSelected);
+        return;
+      }
+      handleClearSelection();
+    },
+    [chartOfAccountListResponse]
+  );
+  const handleClickSingleRow = useCallback(
+    (event, name) => {
+      const selectedIndex = selected.indexOf(name);
+      let newSelected = [];
+
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, name);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      }
+
       setSelected(newSelected);
-      return;
-    }
-    handleClearSelection();
-  }, []);
-  const handleClickSingleRow = useCallback((event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-
-    setSelected(newSelected);
-  }, []);
+    },
+    [selected]
+  );
   const handleEditSelection = useCallback(() => {
     navigate(`edit/${selected[0]}`);
   }, [selected]);

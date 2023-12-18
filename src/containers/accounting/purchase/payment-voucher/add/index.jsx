@@ -102,7 +102,7 @@ function addPaymentVoucher() {
         });
       }
     },
-    [initialValues, debitAmount]
+    [initialValues, debitAmount, selectedSupplier]
   );
 
   useEffect(() => {

@@ -7,7 +7,10 @@ export const paymentVoucherFormValidationSchema = Yup.object({
   payment_mode: Yup.string().required('Amount is required'),
   bill_payments: Yup.array().of(
     Yup.object().shape({
-      amount_applied: Yup.number().min(0, 'Payment Must be greater than 0').required('Payment is require'),
+      amount_applied: Yup.number()
+        .min(0, 'Payment Must be greater than 0')
+        .max(Yup.ref('amount_due'), 'Must be less than Amount Due')
+        .required('Payment is require'),
     })
   ),
 });

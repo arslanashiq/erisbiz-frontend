@@ -26,7 +26,7 @@ import FormikSelect from '../form/FormikSelect';
 // styles
 import 'styles/purchase-item/purchase-item.scss';
 
-function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount }) {
+function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, minRequiredItems }) {
   const companyDetail = useSelector(state => state?.user?.company);
   const {
     currency: { currency_symbol: currencySymbol },
@@ -70,7 +70,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
                   {input.placeholder}
                 </TableCell>
               ))}
-              {form?.values[name].length > 1 && (
+              {form?.values[name].length > minRequiredItems && (
                 <TableCell key={uuid()} className="purchase-item-table-cell">
                   Actions
                 </TableCell>
@@ -136,7 +136,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount })
                     )}
                   </TableCell>
                 ))}
-                {form?.values[name].length > 1 && (
+                {form?.values[name].length > minRequiredItems && (
                   <TableCell
                     key="remove button"
                     className="purchase-item-table-cell"
@@ -216,10 +216,12 @@ PurchaseItem.propTypes = {
   newList: PropTypes.object,
   push: PropTypes.func.isRequired,
   showItemsAmount: PropTypes.bool,
+  minRequiredItems: PropTypes.number,
 };
 PurchaseItem.defaultProps = {
   inputList: [],
   newList: null,
   showItemsAmount: true,
+  minRequiredItems: 1,
 };
 export default PurchaseItem;
