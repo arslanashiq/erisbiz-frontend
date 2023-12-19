@@ -1,17 +1,22 @@
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 
 export const handleChangeValues = (name, index, values, setFieldValue) => {
+  // grossTotal
   const grossTotal = values.unit_price_ex_vat * values.num_nights;
-  const selectedVat = VAT_CHARGES.filter(vat => values.vat_rate === vat.value)[0] || VAT_CHARGES[0];
 
-  const vatAmount = (grossTotal / 100) * selectedVat.percent;
-  const vatRate = selectedVat.value;
-  let netAmount = grossTotal + vatAmount;
-  netAmount -= values.discount;
+  // discount
+  const { discount } = values;
+
+  // VAT
+  const { value: selectedVatValue, percent: selectedVatPercent } =
+    VAT_CHARGES.filter(vat => values.vat_rate === vat.value)[0] || VAT_CHARGES[0];
+  const vatAmount = ((grossTotal - discount) / 100) * selectedVatPercent;
+
+  const netAmount = grossTotal - discount + vatAmount;
 
   setFieldValue(`${name}.${index}.chart_of_account`, values.credit_account);
-  if (vatRate) {
-    setFieldValue(`${name}.${index}.vat_rate`, vatRate);
+  if (selectedVatValue) {
+    setFieldValue(`${name}.${index}.vat_rate`, selectedVatValue);
   }
   if (vatAmount) {
     setFieldValue(`${name}.${index}.vat_amount`, Number(vatAmount.toFixed(2)));
