@@ -71,7 +71,7 @@ function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
               })}
               onSubmit={handleRefund}
             >
-              <Form className="form form--horizontal row pt-3 justify-content-center">
+              <Form className="form form--horizontal row justify-content-center">
                 <div className="row col-9 justify-content-center">
                   <FormikDatePicker
                     name="refunded_on"

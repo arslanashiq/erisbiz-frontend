@@ -8,6 +8,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import {
   Box,
   Button,
+  Grid,
   IconButton,
   Stack,
   Table,
@@ -66,7 +67,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
           <TableHead className="purchase-item-head">
             <TableRow>
               {inputList?.map(input => (
-                <TableCell key={uuid()} className="purchase-item-table-cell">
+                <TableCell key={uuid()} className={`purchase-item-table-cell ${input.commonClassName}`}>
                   {input.placeholder}
                 </TableCell>
               ))}
@@ -131,7 +132,8 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                             );
                           }
                         }}
-                        className="w-100 d-flex"
+                        className="w-100 d-flex "
+                        inputClassName={input.inputClassName}
                       />
                     )}
                   </TableCell>
@@ -162,19 +164,21 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
         </Table>
       </TableContainer>
       {showItemsAmount ? (
-        <Box className="row justify-content-between align-items-center pe-1">
-          <Box className="col-md-6">
-            <Button disabled={Boolean(!newList)} onClick={() => push(newList)}>
-              Add New Item
-            </Button>
+        <Grid container>
+          <Box className="row w-100  p-0  m-0 justify-content-between align-items-center">
+            <Box className="col-md-6 p-0">
+              <Button disabled={Boolean(!newList)} onClick={() => push(newList)}>
+                Add New Item
+              </Button>
+            </Box>
+            <Box className="col-md-6 col-lg-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
+              <Typography className="purchase-item-total-amount">Total Amount</Typography>
+              <Typography className="purchase-item-total-amount">
+                {currencySymbol} {formatAmount(Number(getTotalAmount()) || getTotalAmount())}
+              </Typography>
+            </Box>
           </Box>
-          <Box className="col-md-5 d-flex justify-content-between align-items-center pe-5 px-2 mt-md-0 purchase-item-total-amount-wrapper">
-            <Typography className="purchase-item-total-amount">Total Amount</Typography>
-            <Typography className="purchase-item-total-amount">
-              {currencySymbol} {formatAmount(Number(getTotalAmount()) || getTotalAmount())}
-            </Typography>
-          </Box>
-        </Box>
+        </Grid>
       ) : (
         <Box className="row justify-content-between align-items-center pe-1">
           <Box className="col-md-5">

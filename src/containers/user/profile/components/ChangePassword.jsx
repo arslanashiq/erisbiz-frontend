@@ -48,7 +48,7 @@ function ChangePassword({ userData }) {
         window.location.reload();
       }}
     >
-      <Form className="form form--horizontal row pt-3">
+      <Form className="form form--horizontal row">
         <FormikField
           name="email"
           label="Email"

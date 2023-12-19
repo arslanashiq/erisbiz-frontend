@@ -71,7 +71,7 @@ function ChangeTaxReturnStatus({ status, open, setOpen, handleSubmit }) {
               }}
               onSubmit={handleSubmit}
             >
-              <Form className="form form--horizontal row pt-3">
+              <Form className="form form--horizontal row">
                 <FormikDatePicker name="filed_on" label="Start Date" className="col-12" />
                 <FormSubmitButton submitButtonTitle="Continue" />
               </Form>

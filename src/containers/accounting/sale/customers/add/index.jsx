@@ -105,7 +105,7 @@ function AddCustomer() {
           onSubmit={handleSubmitForm}
         >
           {({ values, setFieldValue }) => (
-            <Form className="form form--horizontal row pt-3">
+            <Form className="form form--horizontal row">
               <FormikField
                 name="customer_name"
                 type="text"
@@ -156,7 +156,7 @@ function AddCustomer() {
               />
 
               <FormTabs
-                className="mt-2 mb-2"
+                className="mt-3 mb-4"
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 tabsList={customerFormTabsList}
@@ -165,7 +165,7 @@ function AddCustomer() {
               {activeTab === customerFormTabsList[0] && (
                 <Box className="row form form--horizontal">
                   <Box className="col-md-6">
-                    <Box className="form-label">
+                    <Box className="form-label mb-3">
                       <span>Invoice Address</span>
                     </Box>
                     <FormikField
@@ -216,7 +216,7 @@ function AddCustomer() {
                     </Box>
                   </Box>
                   <Box className="col-md-6">
-                    <Box className="form-label">
+                    <Box className="form-label mb-3">
                       <span>Delivery Address</span>
                       <Box
                         style={{ fontSize: 10, cursor: 'pointer' }}

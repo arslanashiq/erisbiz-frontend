@@ -55,7 +55,7 @@ function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues, hea
               })}
               onSubmit={handleApply}
             >
-              <Form className="form form--horizontal row pt-3 justify-content-center">
+              <Form className="form form--horizontal row justify-content-center">
                 <FieldArray
                   name="bill_credit_notes"
                   render={props => <UnPaidBillsList headCells={headCells} {...props} />}

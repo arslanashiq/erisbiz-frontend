@@ -144,6 +144,17 @@ const theme = createTheme({
       },
     },
 
+    // cardContent
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          '&:last-child': {
+            paddingBottom: '16px',
+          },
+        },
+      },
+    },
+
     // Button
     MuiButton: {
       defaultProps: {

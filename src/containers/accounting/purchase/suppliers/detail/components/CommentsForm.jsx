@@ -46,7 +46,7 @@ function CommentsForm() {
         }}
       >
         {({ isSubmitting }) => (
-          <Form className="form form--horizontal row pt-3">
+          <Form className="form form--horizontal row">
             <Box className="form__form-group">
               <Box className="form__form-group-field">
                 <FormikField

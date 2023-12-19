@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { DATE_FORMATE_ADD } from 'utilities/constants';
+import { DATE_FORMATE_ADD, NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
 
 export const purchaseInvoiceInitialValue = {
   invoice_date: moment().format(DATE_FORMATE_ADD),
@@ -9,19 +9,7 @@ export const purchaseInvoiceInitialValue = {
   supplier_id: '',
   refrence_number: '',
   bill_docs: [],
-  bill_items: [
-    {
-      item: '',
-      quantity: 0,
-      price: 0,
-      total: 0,
-      discount: 0,
-      vat: 0,
-      net_amount: 0,
-      chart_of_account: '',
-      amount_ex_vat: 0,
-    },
-  ],
+  bill_items: [NEW_PURCHASE_ITEM_OBJECT],
   requestor_signature_show: true,
   show_stamp: true,
   credit_account: '',

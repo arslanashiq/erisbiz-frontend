@@ -118,7 +118,7 @@ function AddItemPage() {
             onSubmit={handleSumbitForm}
           >
             {({ values, setFieldValue }) => (
-              <Form className="form form--horizontal row pt-3">
+              <Form className="form form--horizontal row">
                 <FormikField
                   type="text"
                   name="item_name"

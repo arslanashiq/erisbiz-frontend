@@ -71,27 +71,30 @@ function SupplierAddPage() {
   //   setFieldValue('account_number', selectedBank.account_number);
   //   setFieldValue('IBAN', selectedBank.IBAN);
   // };
-  const handleSubmitForm = useCallback(async (values, { setSubmitting, setErrors }) => {
-    let response = null;
-    if (id) {
-      response = await editSupplier({ id, payload: values });
-    } else {
-      const payload = {
-        ...values,
-        transaction_num: latestTransactionNumber.data?.latest_num
-          ? latestTransactionNumber.data.latest_num + 1
-          : 1,
-      };
+  const handleSubmitForm = useCallback(
+    async (values, { setSubmitting, setErrors }) => {
+      let response = null;
+      if (id) {
+        response = await editSupplier({ id, payload: values });
+      } else {
+        const payload = {
+          ...values,
+          transaction_num: latestTransactionNumber.data?.latest_num
+            ? latestTransactionNumber.data.latest_num + 1
+            : 1,
+        };
 
-      response = await addSupplier(payload);
-    }
-    if (response.data) {
-      navigate(-1);
-    } else {
-      setErrors(response.error.data);
-    }
-    setSubmitting(false);
-  }, [latestTransactionNumber]);
+        response = await addSupplier(payload);
+      }
+      if (response.data) {
+        navigate(-1);
+      } else {
+        setErrors(response.error.data);
+      }
+      setSubmitting(false);
+    },
+    [latestTransactionNumber]
+  );
 
   useEffect(() => {
     if (supplierFormInitialValues.set_credit_limit && supplierFormInitialValues.credit_limit === false) {
@@ -113,7 +116,7 @@ function SupplierAddPage() {
           onSubmit={handleSubmitForm}
         >
           {({ values, setFieldValue }) => (
-            <Form className="form form--horizontal row pt-3">
+            <Form className="form form--horizontal row">
               <FormikField
                 name="supplier_name"
                 type="text"
@@ -155,7 +158,7 @@ function SupplierAddPage() {
               <FormikField name="reference_num" type="text" placeholder="VAT Reg No" label="VAT Reg No" />
 
               <FormTabs
-                className="mt-2 mb-2"
+                className="mt-3 mb-4"
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
                 tabsList={supplierFormTabsList}
@@ -189,7 +192,7 @@ function SupplierAddPage() {
                     />
 
                     <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
-                    <Box className="form__form-group col-12">
+                    <Box className="form__form-group col-12 mb-0">
                       <span className="form__form-group-label col-lg-2 required">Map</span>
                       <Box className="form__form-group-field">
                         <FormikField name="longitude" placeholder="Longitude" className="col pe-2" />

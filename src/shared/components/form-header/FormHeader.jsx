@@ -6,7 +6,12 @@ import { useNavigate } from 'react-router';
 function FormHeader({ title, direction, className }) {
   const navigate = useNavigate();
   return (
-    <Stack className={className} direction={direction} justifyContent="space-between" alignItems="center">
+    <Stack
+      className={`pb-2 ${className}`}
+      direction={direction}
+      justifyContent="space-between"
+      alignItems="center"
+    >
       <Typography variant="h6">{title}</Typography>
       <Button
         className="text-capitalize"

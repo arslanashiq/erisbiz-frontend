@@ -26,6 +26,6 @@ export const bankFormValidationSchema = Yup.object({
 
   gl_number: Yup.string().matches(INTEGER_REGEX, 'Enter numbers only').required('GL Number is required'),
 
-  notes: Yup.string().max(255, 'Cannot exceed 255 chracters'),
+  notes: Yup.string().max(255, 'Cannot exceed 255 characters'),
 });
 export const test = '';

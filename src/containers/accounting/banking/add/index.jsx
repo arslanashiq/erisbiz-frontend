@@ -79,7 +79,6 @@ function AddBankAccountPage() {
           <FormikField
             name="bank_name"
             type="text"
-            placeholder="Bank Name"
             label="Bank Name"
             isRequired
             startIcon={<AccountBalanceIcon />}
@@ -87,34 +86,20 @@ function AddBankAccountPage() {
           <FormikField
             name="account_number"
             type="text"
-            placeholder="Bank Account Number"
             startIcon={<PersonIcon />}
             label="Account Number"
             isRequired
           />
-          <FormikField
-            name="branch_name"
-            type="text"
-            label="Branch Name"
-            placeholder="Branch Name"
-            isRequired
-          />
-          <FormikField
-            name="IBAN"
-            type="text"
-            placeholder="International Bank Account Number"
-            label="IBAN"
-            isRequired
-          />
+          <FormikField name="branch_name" type="text" label="Branch Name" isRequired />
+          <FormikField name="IBAN" type="text" label="IBAN" isRequired />
 
-          <FormikField name="swift_code" isRequired type="text" placeholder="Swift Code" label="Swift Code" />
+          <FormikField name="swift_code" isRequired type="text" label="Swift Code" />
 
           <FormikSelect
             options={accountsWithTypeAssets}
             name="gl_number"
             type="text"
             isRequired
-            placeholder="GL Account"
             label="GL Account"
             isGrouped
           />

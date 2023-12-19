@@ -45,6 +45,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import getSearchParamsList from 'utilities/getSearchParamsList';
+import { PurchaseItemInputList } from 'utilities/purchase-item-input-list';
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 import { purchaseInvoiceInitialValue } from '../utilities/constant';
 // styles
@@ -93,55 +94,15 @@ function AddPurchaseInvoice() {
     value: 'id',
   });
 
-  const purchaseItemsInputList = useMemo(
+  const purchaseInvoiceInputList = useMemo(
     () => [
-      {
-        name: 'service_type',
-        placeholder: 'Item',
-        isSelect: true,
-        options: itemsListOptions || [],
-        width: '15%',
-        onChange: handleChangeItem,
-      },
-      {
-        name: 'num_nights',
-        placeholder: 'Quantity',
-        type: 'number',
-        onChange: handleChangeQuantity,
-      },
-      {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
-        type: 'number',
-        onChange: handleChangeUnitPrice,
-      },
-
-      {
-        name: 'gross_amount',
-        placeholder: 'Gross Total',
-        type: 'number',
-        disabled: true,
-      },
-      {
-        name: 'discount',
-        placeholder: 'Discount',
-        type: 'number',
-        onChange: handleChangeDiscount,
-      },
-      {
-        name: 'vat_rate',
-        placeholder: 'VAT',
-        isSelect: true,
-        options: VAT_CHARGES,
-        width: '15%',
-        onChange: hanldeVATChange,
-      },
-      {
-        name: 'net_amount',
-        placeholder: 'Net Amount',
-        type: 'number',
-        disabled: true,
-      },
+      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
+      { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
+      { ...PurchaseItemInputList.unit_price_ex_vat, onChange: handleChangeUnitPrice },
+      { ...PurchaseItemInputList.gross_amount },
+      { ...PurchaseItemInputList.discount, onChange: handleChangeDiscount },
+      { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], onChange: hanldeVATChange },
+      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], onChange: handleChangeItem },
     ],
     [itemsListOptions]
   );
@@ -352,7 +313,7 @@ function AddPurchaseInvoice() {
                     name="bill_items"
                     render={props => (
                       <PurchaseItem
-                        inputList={purchaseItemsInputList}
+                        inputList={purchaseInvoiceInputList}
                         newList={NEW_PURCHASE_ITEM_OBJECT}
                         {...props}
                       />

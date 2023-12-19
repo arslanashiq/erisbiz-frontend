@@ -19,10 +19,8 @@ import FormikField from 'shared/components/form/FormikField';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import {
-  handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
-  hanldeVATChange,
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
 } from 'shared/components/purchase-item/utilities/helpers';
@@ -36,6 +34,7 @@ import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { VAT_CHARGES } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
+import { PurchaseItemInputList } from 'utilities/purchase-item-input-list';
 import { creditNoteInitialValues } from '../utilities/initialValues';
 import { creditNoteValidationSchema } from '../utilities/validation-schema';
 import 'styles/form/form.scss';
@@ -79,57 +78,15 @@ function index() {
     null
   );
 
-  const purchaseItemsInputList = useMemo(
+  const saleItemsInputList = useMemo(
     () => [
-      {
-        name: 'service_type',
-        placeholder: 'Item',
-        isSelect: true,
-        disabled: true,
-        options: itemsListOptions || [],
-        width: '15%',
-        onChange: handleChangeItem,
-      },
-      {
-        name: 'num_nights',
-        placeholder: 'Quantity',
-        type: 'number',
-        onChange: handleChangeQuantity,
-      },
-      {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
-        type: 'number',
-        disabled: true,
-      },
-      {
-        name: 'gross_amount',
-        placeholder: 'Gross Total',
-        type: 'number',
-        disabled: true,
-      },
-      {
-        name: 'discount',
-        placeholder: 'Discount',
-        type: 'number',
-        disabled: true,
-        onChange: handleChangeDiscount,
-      },
-      {
-        name: 'vat_rate',
-        placeholder: 'VAT',
-        isSelect: true,
-        options: VAT_CHARGES,
-        width: '15%',
-        disabled: true,
-        onChange: hanldeVATChange,
-      },
-      {
-        name: 'net_amount',
-        placeholder: 'Net Amount',
-        type: 'number',
-        disabled: true,
-      },
+      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
+      { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
+      { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true, },
+      { ...PurchaseItemInputList.gross_amount },
+      { ...PurchaseItemInputList.discount, disabled: true },
+      { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], disabled: true },
+      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], onChange: handleChangeItem },
     ],
     [itemsListOptions]
   );
@@ -251,7 +208,7 @@ function index() {
                       {...props}
                       disableAdd
                       name="credit_note_items"
-                      inputList={purchaseItemsInputList}
+                      inputList={saleItemsInputList}
                       // newList={NEW_PURCHASE_ITEM_OBJECT}
                     />
                   )}

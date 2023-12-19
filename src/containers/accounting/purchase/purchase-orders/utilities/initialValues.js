@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { DATE_FORMATE_ADD } from 'utilities/constants';
+import { DATE_FORMATE_ADD, NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
 
 export const purchaseOrderInitialValues = {
   pur_order_num: '',
@@ -10,18 +10,7 @@ export const purchaseOrderInitialValues = {
   exchange_rate: 1,
   attachment: '',
   remarks: '',
-  pur_order_items: [
-    {
-      service_type: '',
-      num_units: 0,
-      num_nights: 0,
-      unit_price_ex_vat: 0,
-      gross_amount: 0,
-      discount: 0,
-      vat_amount: 0,
-      net_amount: 0,
-    },
-  ],
+  pur_order_items: [NEW_PURCHASE_ITEM_OBJECT],
 
   pur_order_suffix: 'LPO',
   pur_order_docs: [],

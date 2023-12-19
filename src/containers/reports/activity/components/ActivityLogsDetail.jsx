@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -249,6 +247,7 @@ function ActivityLogsDetail() {
         old_payload: JSON.stringify(activityData?.results?.old_payload),
       };
     }
+    return {};
   }, [activityData]);
 
   const getResponseStatus = useCallback((code, method, module) => {
@@ -268,6 +267,7 @@ function ActivityLogsDetail() {
       if (code === '204') return 'Deleted Successfully';
       return 'Not Deleted Successfully';
     }
+    return 'Unhandled Code';
   }, []);
 
   const activityDetailInfo = useMemo(() => {
@@ -330,7 +330,7 @@ function ActivityLogsDetail() {
     return value;
   }, []);
   const getValidName = useCallback(key => {
-    let keyName = key;
+    const keyName = key;
     if (!keyName) return 'Invalid Key';
 
     if (validKeyName[keyName]) return validKeyName[keyName];
@@ -376,64 +376,64 @@ function ActivityLogsDetail() {
   }, []);
 
   const checkDataNotAllowdedToPrint = useCallback(
-    key =>
-      inValidKeys.some(
-        item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
-      ),
+    key => inValidKeys.some(
+      item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
+    ),
     []
   );
 
   const renderNestedData = (payloadOld, payloadNew, showOldData) => {
     if (!payloadNew) return '';
 
-    return Object.keys(payloadNew)?.sort()?.map(key => {
-      // if (checkDataNotAllowdedToPrint(key)) return;
-      const valueType = checkValueType(payloadNew[key]);
-      if (valueType === 'list') {
+    return Object.keys(payloadNew)
+      ?.sort()
+      ?.map(key => {
+        // if (checkDataNotAllowdedToPrint(key)) return;
+        const valueType = checkValueType(payloadNew[key]);
+        if (valueType === 'list') {
+          return '';
+        }
+        if (valueType === 'object') {
+          return '';
+        }
+        if (
+          payloadNew[key] !== '' &&
+          payloadNew[key] !== null &&
+          payloadNew[key] !== 'null' &&
+          payloadNew[key] !== undefined
+        ) {
+          return renderTwoColumn(showOldData ? payloadOld[key] : payloadNew[key], key);
+        }
         return '';
-      }
-      if (valueType === 'object') {
-        return '';
-      }
-      if (
-        payloadNew[key] !== '' &&
-        payloadNew[key] !== null &&
-        payloadNew[key] !== 'null' &&
-        payloadNew[key] !== undefined
-      ) {
-        return renderTwoColumn(showOldData ? payloadOld[key] : payloadNew[key], key);
-      }
-      return '';
-    });
+      });
   };
   const renderList = (payloadOld, payloadNew, key, showOldData) => {
     if (!payloadNew) return '';
-    return payloadNew.map((_, index) => {
-      return (
-        <TableRow key={uuid()}>
-          <TableCell colSpan={showOldData ? 1 : 2} key={uuid()} sx={tableCellStyle}>
-            <span className=" font-weight-bold">
-              {getValidName(key)}
-              {`[${index}]`}
-            </span>
-          </TableCell>
-          {showOldData && (
-            <TableCell key={uuid()} sx={tableCellStyle}>
-              {renderNestedData(payloadOld[index], payloadNew[index], false)}
-            </TableCell>
-          )}
-          <TableCell key={uuid()} sx={tableCellStyle}>
-            {renderNestedData(payloadOld[index], payloadNew[index], true)}
-          </TableCell>
-        </TableRow>
-      );
-    });
+    return payloadNew.map((_, index) => (
+      <TableRow key={uuid()}>
+        <TableCell colSpan={showOldData ? 1 : 2} key={uuid()} sx={tableCellStyle}>
+          <span className=" font-weight-bold">
+            {getValidName(key)}
+            {`[${index}]`}
+          </span>
+        </TableCell>
+        {showOldData && (
+        <TableCell key={uuid()} sx={tableCellStyle}>
+          {renderNestedData(payloadOld[index], payloadNew[index], false)}
+        </TableCell>
+        )}
+        <TableCell key={uuid()} sx={tableCellStyle}>
+          {renderNestedData(payloadOld[index], payloadNew[index], true)}
+        </TableCell>
+      </TableRow>
+    ));
   };
 
   const handleRenderRowColumns = useCallback(
-    (payloadOld, payloadNew) =>
-      Object.keys(payloadNew)?.sort()?.map(key => {
-        if (checkDataNotAllowdedToPrint(key)) return;
+    (payloadOld, payloadNew) => Object.keys(payloadNew)
+      ?.sort()
+      ?.map(key => {
+        if (checkDataNotAllowdedToPrint(key)) return <> </>;
         const valueType = checkValueType(payloadNew[key]);
 
         if (valueType === 'list') {
@@ -446,14 +446,14 @@ function ActivityLogsDetail() {
         }
         if (
           payloadNew[key] !== '' &&
-          payloadNew[key] !== null &&
-          payloadNew[key] !== 'null' &&
-          payloadNew[key] !== undefined
+            payloadNew[key] !== null &&
+            payloadNew[key] !== 'null' &&
+            payloadNew[key] !== undefined
         ) {
           if (payloadOld) {
             if (
               payloadNew[key] !== payloadOld[key] &&
-              payloadNew[key]?.toString() !== payloadOld[key]?.toString()
+                payloadNew[key]?.toString() !== payloadOld[key]?.toString()
             ) {
               return renderThreeColumn(payloadOld[key], payloadNew[key], key);
             }

@@ -86,13 +86,24 @@ export const DRAWER_WIDTH = 240;
 
 export const DEFAULT_IMG = 'https://stagingcrm.beyonderissolutions.com/img/avatar.png';
 
+// export const NEW_PURCHASE_ITEM_OBJECT = {
+//   item: '',
+//   quantity: 0,
+//   price: 0,
+//   total: 0,
+//   discount: 0,
+//   vat: 0,
+//   net_amount: 0,
+// };
+
 export const NEW_PURCHASE_ITEM_OBJECT = {
-  item: '',
-  quantity: 0,
-  price: 0,
-  total: 0,
+  service_type: '',
+  num_units: 0,
+  num_nights: 0,
+  unit_price_ex_vat: 0,
+  gross_amount: 0,
   discount: 0,
-  vat: 0,
+  vat_amount: 0,
   net_amount: 0,
 };
 

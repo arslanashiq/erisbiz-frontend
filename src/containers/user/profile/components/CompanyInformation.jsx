@@ -87,7 +87,7 @@ function CompanyInformation({ companyData }) {
       }}
     >
       <Box>
-        <Form className={`${isDisabled ? 'user-profile' : 'form'} form form--horizontal row pt-3`}>
+        <Form className={`${isDisabled ? 'user-profile' : 'form'} form form--horizontal row`}>
           <FormikField name="name" label="Company Name" className="col-12" isRequired disabled />
           <FormikField name="vat_number" label="VAT Number" className="col-lg-6" disabled={isDisabled} />
           <FormikField

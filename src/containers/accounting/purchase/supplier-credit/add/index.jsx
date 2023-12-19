@@ -22,12 +22,8 @@ import {
 // shared
 import {
   handleCalculateTotalAmount,
-  // handleChangeCostPrice,
-  handleChangeDiscount,
   handleChangeItem,
   handleChangeQuantity,
-  handleChangeUnitPrice,
-  hanldeVATChange,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
@@ -41,11 +37,12 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import getSearchParamsList from 'utilities/getSearchParamsList';
 import { VAT_CHARGES } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
+import { PurchaseItemInputList } from 'utilities/purchase-item-input-list';
 import { supplierCreditsInitialValues } from '../utilities/initialValues';
-import 'styles/form/form.scss';
 import { supplierCreditFormValidationSchema } from '../utilities/validation-schema';
+import 'styles/form/form.scss';
 
 function AddSupplierCredit() {
   const { id } = useParams();
@@ -92,63 +89,15 @@ function AddSupplierCredit() {
     data: invoice,
   }));
 
-  const purchaseItemsInputList = useMemo(
+  const supplierCreditInputList = useMemo(
     () => [
-      {
-        name: 'service_type',
-        placeholder: 'Item',
-        isSelect: true,
-        options: itemsListOptions || [],
-        width: '15%',
-        disabled: true,
-        onChange: handleChangeItem,
-      },
-      {
-        name: 'num_nights',
-        placeholder: 'Quantity',
-        type: 'number',
-        onChange: handleChangeQuantity,
-      },
-      // {
-      //   name: 'cost_price',
-      //   placeholder: 'Cost Price',
-      //   type: 'number',
-      //   onChange: handleChangeCostPrice,
-      // },
-      {
-        name: 'unit_price_ex_vat',
-        placeholder: 'Unit Price',
-        type: 'number',
-        onChange: handleChangeUnitPrice,
-      },
-      {
-        name: 'gross_amount',
-        placeholder: 'Gross Total',
-        type: 'number',
-        disabled: true,
-      },
-      {
-        name: 'discount',
-        placeholder: 'Discount',
-        type: 'number',
-        disabled: true,
-        onChange: handleChangeDiscount,
-      },
-      {
-        name: 'vat_rate',
-        placeholder: 'VAT',
-        isSelect: true,
-        options: VAT_CHARGES,
-        width: '15%',
-        disabled: true,
-        onChange: hanldeVATChange,
-      },
-      {
-        name: 'net_amount',
-        placeholder: 'Net Amount',
-        type: 'number',
-        disabled: true,
-      },
+      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
+      { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
+      { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },
+      { ...PurchaseItemInputList.gross_amount },
+      { ...PurchaseItemInputList.discount, disabled: true },
+      { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], disabled: true },
+      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], disabled: true },
     ],
     [itemsListOptions]
   );
@@ -303,7 +252,7 @@ function AddSupplierCredit() {
                       <PurchaseItem
                         {...props}
                         name="supplier_credit_items"
-                        inputList={purchaseItemsInputList}
+                        inputList={supplierCreditInputList}
                       />
                     )}
                   />
