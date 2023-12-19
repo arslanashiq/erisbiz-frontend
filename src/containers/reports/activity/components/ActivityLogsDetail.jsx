@@ -1,4 +1,4 @@
-/* eslint-disable consistent-return */
+/* eslint-disable */
 
 import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
@@ -74,7 +74,6 @@ const inValidKeys = [
   'supplier_id',
   'Opening Balance Date',
   'Payment Terms',
-  'Supplier Contacts',
   'Currency Id',
   'Currency Symbol',
   'Have Pur Orders',
@@ -177,6 +176,7 @@ const inValidKeys = [
   'Bcy Grand Total Debit Currency',
   'Currency Code',
   'Exchange Rate Of Suppliercredit Currency',
+  // skip data testing
 ];
 const validKeyName = {
   set_credit_limit: 'Credit Limit',
@@ -330,8 +330,9 @@ function ActivityLogsDetail() {
     return value;
   }, []);
   const getValidName = useCallback(key => {
-    const keyName = key;
+    let keyName = key;
     if (!keyName) return 'Invalid Key';
+
     if (validKeyName[keyName]) return validKeyName[keyName];
 
     return <span className="text-capitalize">{keyName?.replaceAll('_', ' ')}</span>;
@@ -375,44 +376,93 @@ function ActivityLogsDetail() {
   }, []);
 
   const checkDataNotAllowdedToPrint = useCallback(
-    key => inValidKeys.some(
-      item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
-    ),
+    key =>
+      inValidKeys.some(
+        item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
+      ),
     []
   );
 
-  const handleRenderRowColumns = useCallback(
-    (payloadOld, payloadNew) => Object.keys(payloadNew).map(key => {
-      if (checkDataNotAllowdedToPrint(key)) return;
-      const valueType = checkValueType(payloadNew[key]);
+  const renderNestedData = (payloadOld, payloadNew, showOldData) => {
+    if (!payloadNew) return '';
 
+    return Object.keys(payloadNew)?.sort()?.map(key => {
+      // if (checkDataNotAllowdedToPrint(key)) return;
+      const valueType = checkValueType(payloadNew[key]);
       if (valueType === 'list') {
-        if (payloadOld) return renderThreeColumn('This is List', 'This is List', key);
-        return renderTwoColumn('This is List', key);
+        return '';
       }
       if (valueType === 'object') {
-        if (payloadOld) return renderThreeColumn('This is Object', 'This is Object', key);
-        return renderTwoColumn('This is Object', key);
+        return '';
       }
       if (
         payloadNew[key] !== '' &&
+        payloadNew[key] !== null &&
+        payloadNew[key] !== 'null' &&
+        payloadNew[key] !== undefined
+      ) {
+        return renderTwoColumn(showOldData ? payloadOld[key] : payloadNew[key], key);
+      }
+      return '';
+    });
+  };
+  const renderList = (payloadOld, payloadNew, key, showOldData) => {
+    if (!payloadNew) return '';
+    return payloadNew.map((_, index) => {
+      return (
+        <TableRow key={uuid()}>
+          <TableCell colSpan={showOldData ? 1 : 2} key={uuid()} sx={tableCellStyle}>
+            <span className=" font-weight-bold">
+              {getValidName(key)}
+              {`[${index}]`}
+            </span>
+          </TableCell>
+          {showOldData && (
+            <TableCell key={uuid()} sx={tableCellStyle}>
+              {renderNestedData(payloadOld[index], payloadNew[index], false)}
+            </TableCell>
+          )}
+          <TableCell key={uuid()} sx={tableCellStyle}>
+            {renderNestedData(payloadOld[index], payloadNew[index], true)}
+          </TableCell>
+        </TableRow>
+      );
+    });
+  };
+
+  const handleRenderRowColumns = useCallback(
+    (payloadOld, payloadNew) =>
+      Object.keys(payloadNew)?.sort()?.map(key => {
+        if (checkDataNotAllowdedToPrint(key)) return;
+        const valueType = checkValueType(payloadNew[key]);
+
+        if (valueType === 'list') {
+          if (payloadOld) return renderList(payloadOld[key], payloadNew[key], key, true);
+          return renderList(payloadNew[key], payloadNew[key], key, false);
+        }
+        if (valueType === 'object') {
+          if (payloadOld) return renderThreeColumn('This is Object', 'This is Object', key);
+          return renderTwoColumn('This is Object', key);
+        }
+        if (
+          payloadNew[key] !== '' &&
           payloadNew[key] !== null &&
           payloadNew[key] !== 'null' &&
           payloadNew[key] !== undefined
-      ) {
-        if (payloadOld) {
-          if (
-            payloadNew[key] !== payloadOld[key] &&
+        ) {
+          if (payloadOld) {
+            if (
+              payloadNew[key] !== payloadOld[key] &&
               payloadNew[key]?.toString() !== payloadOld[key]?.toString()
-          ) {
-            return renderThreeColumn(payloadOld[key], payloadNew[key], key);
+            ) {
+              return renderThreeColumn(payloadOld[key], payloadNew[key], key);
+            }
+            return '';
           }
-          return '';
+          return renderTwoColumn(payloadNew[key], key);
         }
-        return renderTwoColumn(payloadNew[key], key);
-      }
-      return '';
-    }),
+        return '';
+      }),
     []
   );
 
