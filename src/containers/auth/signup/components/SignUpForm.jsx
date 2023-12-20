@@ -80,9 +80,6 @@ function SignUpForm() {
 
                 <Grid item xs={12} className="mt-3">
                   <CheckBoxField name="agreed_to_terms" label="Agree Terms and Conditions" />
-                  <span>
-                    <a href="https://beyonderissolutions.com/products/terms-and-conditions/">Hello</a>
-                  </span>
                 </Grid>
 
                 <Grid item xs={12} className="mt-3">
