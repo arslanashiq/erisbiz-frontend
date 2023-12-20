@@ -32,8 +32,9 @@ function SignUpForm() {
   }
 
   const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
+    let response = null;
     try {
-      const response = await singUpAdmin(values);
+      response = await singUpAdmin(values);
 
       if (response.error) {
         enqueueSnackbar(response.error.data.email[0], { variant: 'error' });
@@ -45,10 +46,13 @@ function SignUpForm() {
       navigate('/auth/login');
       resetForm();
     } catch (error) {
+      if (response?.error?.data?.message) {
+        enqueueSnackbar(response.error.data.message, { variant: 'error' });
+        return;
+      }
       enqueueSnackbar('Somthing went worng!', { variant: 'error' });
     }
   }, []);
-  console.log(RECAPTCHA_PUBLIC_KEY, 'Public Key');
   return (
     <Stack sx={loginFormParentWrapperStyle}>
       <Stack sx={loginFormChildWrapperStyle}>
@@ -76,6 +80,9 @@ function SignUpForm() {
 
                 <Grid item xs={12} className="mt-3">
                   <CheckBoxField name="agreed_to_terms" label="Agree Terms and Conditions" />
+                  <span>
+                    <a href="https://beyonderissolutions.com/products/terms-and-conditions/">Hello</a>
+                  </span>
                 </Grid>
 
                 <Grid item xs={12} className="mt-3">
