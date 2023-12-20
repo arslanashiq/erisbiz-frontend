@@ -1,5 +1,5 @@
 // API URL for the backend
-export const RECAPTCHA_PRIVATE_KEY = process.env.REACT_APP_PRIVATE_RECAPTCHA_KEY;
+export const RECAPTCHA_PUBLIC_KEY = process.env.REACT_APP_PUBLIC_RECAPTCHA_KEY;
 export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
@@ -130,9 +130,9 @@ export const COMPANY_NAME = 'Erisbiz';
 export const COMPANY_OFFICE_ADDRESS = 'Office # 1206, JBC 4, Cluster N,';
 export const COMPANY_ADDRESS = 'Jumeirah Lake Towers, Dubai,';
 export const COMPANY_COUNTRY = 'United Arab Emirates';
-export const COMPANY_PHONE = 'Phone: +971 5 075 26499';
+export const COMPANY_PHONE = '+971 5 075 26499';
 export const COMPANY_EMAIL = 'info@beyonderissolutions.com';
-export const COMPANY_TRN = 'TRN: 100204615700003';
+export const COMPANY_TRN = '100204615700003';
 
 export const testDataForReports = {
   beginning_cash_balance: {
