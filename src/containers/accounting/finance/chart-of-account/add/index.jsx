@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Form, Formik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { Box, Card, CardContent } from '@mui/material';
@@ -7,10 +7,11 @@ import { useNavigate, useParams } from 'react-router';
 import {
   useAddChartOfAccountMutation,
   useEditaddChartOfAccountMutation,
+  useGetChartOfAccountListQuery,
   useGetChartOfAccountTypesQuery,
   useGetSingleChartOfAccountQuery,
 } from 'services/private/chart-of-account';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
+// import { useGetBankAccountsListQuery } from 'services/private/banking';
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
@@ -34,7 +35,7 @@ function AddChartOfAccount() {
   const { id } = useParams();
 
   const accountTypesResponse = useGetChartOfAccountTypesQuery();
-  const bankAccountResponse = useGetBankAccountsListQuery();
+  const chartOfAccountResponse = useGetChartOfAccountListQuery();
 
   const [addChartOfAccount] = useAddChartOfAccountMutation();
   const [editChartOfAccount] = useEditaddChartOfAccountMutation();
@@ -56,14 +57,20 @@ function AddChartOfAccount() {
     true,
     true
   );
-  const { optionsList: bankAccountOptions } = useListOptions(
-    bankAccountResponse?.data?.results,
-    {
-      value: 'chart_of_account',
-      label: 'bank_account_name',
-    },
-    ['swift_code', 'bank_name', 'account_number', 'IBAN']
-  );
+  const { optionsList: chartOfAccountOptions } = useListOptions(chartOfAccountResponse?.data?.results, {
+    value: 'id',
+    label: 'account_name',
+  });
+
+  const updatedInitialValues = useMemo(() => {
+    if (id && accountTypeListOption) {
+      const selectedAccountType = accountTypeListOption?.filter(
+        accountType => accountType.label === initialValues.account_type
+      );
+      return { ...initialValues, account_type: selectedAccountType[0]?.value || '' };
+    }
+    return initialValues;
+  }, [initialValues, accountTypeListOption, id]);
   return (
     <SectionLoader options={[]}>
       <Helmet>
@@ -75,7 +82,7 @@ function AddChartOfAccount() {
           <FormHeader title="Chart Of Account" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={updatedInitialValues}
             validationSchema={chartOfAccountFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               let response = null;
@@ -115,7 +122,7 @@ function AddChartOfAccount() {
                   <CheckBoxField name="is_parent" label="Make this a sub-account" startLabel="  " />
                   {values.is_parent && (
                     <FormikSelect
-                      options={bankAccountOptions}
+                      options={chartOfAccountOptions}
                       name="parent_account"
                       type="text"
                       placeholder="Parent Account"
