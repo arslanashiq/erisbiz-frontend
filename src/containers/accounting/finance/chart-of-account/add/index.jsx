@@ -65,7 +65,7 @@ function AddChartOfAccount() {
   const updatedInitialValues = useMemo(() => {
     if (id && accountTypeListOption) {
       const selectedAccountType = accountTypeListOption?.filter(
-        accountType => accountType.label === initialValues.account_type
+        accountType => accountType.label === initialValues?.account_type_coa
       );
       return { ...initialValues, account_type: selectedAccountType[0]?.value || '' };
     }
