@@ -48,7 +48,7 @@ function RegisterCompanyForm() {
     value: country.iso2,
     label: country.country,
   }));
-  const currenciesOption = currenciesResponse?.data?.results?.map(currency => ({
+  const currenciesOption = currenciesResponse?.data?.map(currency => ({
     value: currency.id,
     label: currency.currency_name,
   }));
@@ -57,6 +57,7 @@ function RegisterCompanyForm() {
       setFieldValue('logo', e.target.files[0]);
     }
   };
+
   if (user.isRegesteredCompany) {
     return <Navigate to="/" replace />;
   }
