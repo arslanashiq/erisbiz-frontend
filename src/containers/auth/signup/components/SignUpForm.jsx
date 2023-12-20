@@ -9,7 +9,7 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import MuiFormikField from 'shared/components/form/MuiFormikField';
 import { CheckBoxField } from 'shared/components/form/CheckBox';
 // utilities
-import { RECAPTCHA_PRIVATE_KEY } from 'utilities/constants';
+import { RECAPTCHA_PUBLIC_KEY } from 'utilities/constants';
 // styles
 import { useAdminSignUpMutation } from 'services/public/auth';
 // utilities and styles
@@ -48,7 +48,7 @@ function SignUpForm() {
       enqueueSnackbar('Somthing went worng!', { variant: 'error' });
     }
   }, []);
-
+  console.log(RECAPTCHA_PUBLIC_KEY, 'Public Key');
   return (
     <Stack sx={loginFormParentWrapperStyle}>
       <Stack sx={loginFormChildWrapperStyle}>
@@ -81,7 +81,7 @@ function SignUpForm() {
                 <Grid item xs={12} className="mt-3">
                   <ReCAPTCHA
                     style={{ width: '100%' }}
-                    sitekey={RECAPTCHA_PRIVATE_KEY}
+                    sitekey={RECAPTCHA_PUBLIC_KEY}
                     onChange={value => onChangeCaptcha(value, setFieldValue)}
                   />
                 </Grid>
