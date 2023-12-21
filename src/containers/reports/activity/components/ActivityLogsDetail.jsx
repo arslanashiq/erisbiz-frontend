@@ -442,8 +442,10 @@ function ActivityLogsDetail() {
           const valueType = checkValueType(payloadNew[key]);
 
           if (valueType === 'list') {
-            if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
-            if (payloadOld) return renderList(payloadOld[key], payloadNew[key], key, true);
+            if (payloadOld) {
+              if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
+              return renderList(payloadOld[key], payloadNew[key], key, true);
+            }
             return renderList(payloadNew[key], payloadNew[key], key, false);
           }
           if (valueType === 'object') {
