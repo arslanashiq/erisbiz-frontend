@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -52,7 +53,7 @@ const inValidKeys = [
   'dynamic_opening_stock',
   'dynamic_opening_stock_per_unit',
   'limit',
-  'opening_balance',
+  // 'opening_balance',
   'is_credit',
   'transaction_num',
   'exchange_rate',
@@ -163,6 +164,7 @@ const inValidKeys = [
   'Credit Applied Bill Currency',
   'Bcy Amount Total Bill Currency',
   'Bcy Vat Total Bill Currency',
+  'optional_data',
   'Bcy Grand Total Bill Currency',
   'Customer Type Suffix',
   'bill_id',
@@ -174,6 +176,7 @@ const inValidKeys = [
   'Bcy Grand Total Debit Currency',
   'Currency Code',
   'Exchange Rate Of Suppliercredit Currency',
+  'G Recaptcha Response',
   // skip data testing
 ];
 const validKeyName = {
@@ -376,9 +379,10 @@ function ActivityLogsDetail() {
   }, []);
 
   const checkDataNotAllowdedToPrint = useCallback(
-    key => inValidKeys.some(
-      item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
-    ),
+    key =>
+      inValidKeys.some(
+        item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
+      ),
     []
   );
 
@@ -418,9 +422,9 @@ function ActivityLogsDetail() {
           </span>
         </TableCell>
         {showOldData && (
-        <TableCell key={uuid()} sx={tableCellStyle}>
-          {renderNestedData(payloadOld[index], payloadNew[index], false)}
-        </TableCell>
+          <TableCell key={uuid()} sx={tableCellStyle}>
+            {renderNestedData(payloadOld[index], payloadNew[index], false)}
+          </TableCell>
         )}
         <TableCell key={uuid()} sx={tableCellStyle}>
           {renderNestedData(payloadOld[index], payloadNew[index], true)}
@@ -430,39 +434,41 @@ function ActivityLogsDetail() {
   };
 
   const handleRenderRowColumns = useCallback(
-    (payloadOld, payloadNew) => Object.keys(payloadNew)
-      ?.sort()
-      ?.map(key => {
-        if (checkDataNotAllowdedToPrint(key)) return <> </>;
-        const valueType = checkValueType(payloadNew[key]);
+    (payloadOld, payloadNew) =>
+      Object.keys(payloadNew)
+        ?.sort()
+        ?.map(key => {
+          if (checkDataNotAllowdedToPrint(key)) return <> </>;
+          const valueType = checkValueType(payloadNew[key]);
 
-        if (valueType === 'list') {
-          if (payloadOld) return renderList(payloadOld[key], payloadNew[key], key, true);
-          return renderList(payloadNew[key], payloadNew[key], key, false);
-        }
-        if (valueType === 'object') {
-          if (payloadOld) return renderThreeColumn('This is Object', 'This is Object', key);
-          return renderTwoColumn('This is Object', key);
-        }
-        if (
-          payloadNew[key] !== '' &&
+          if (valueType === 'list') {
+            if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
+            if (payloadOld) return renderList(payloadOld[key], payloadNew[key], key, true);
+            return renderList(payloadNew[key], payloadNew[key], key, false);
+          }
+          if (valueType === 'object') {
+            if (payloadOld) return renderThreeColumn('This is Object', 'This is Object', key);
+            return renderTwoColumn('This is Object', key);
+          }
+          if (
+            payloadNew[key] !== '' &&
             payloadNew[key] !== null &&
             payloadNew[key] !== 'null' &&
             payloadNew[key] !== undefined
-        ) {
-          if (payloadOld) {
-            if (
-              payloadNew[key] !== payloadOld[key] &&
+          ) {
+            if (payloadOld) {
+              if (
+                payloadNew[key] !== payloadOld[key] &&
                 payloadNew[key]?.toString() !== payloadOld[key]?.toString()
-            ) {
-              return renderThreeColumn(payloadOld[key], payloadNew[key], key);
+              ) {
+                return renderThreeColumn(payloadOld[key], payloadNew[key], key);
+              }
+              return '';
             }
-            return '';
+            return renderTwoColumn(payloadNew[key], key);
           }
-          return renderTwoColumn(payloadNew[key], key);
-        }
-        return '';
-      }),
+          return '';
+        }),
     []
   );
 
