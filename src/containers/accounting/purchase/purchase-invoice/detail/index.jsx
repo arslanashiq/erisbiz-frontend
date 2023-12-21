@@ -25,6 +25,12 @@ import PaymentTable from './components/PaymentTable';
 import ChangeStatusToVoid from './components/ChangeStatusToVoidModal';
 
 const keyValue = 'bill_items';
+const handleCheck = status => {
+  if (!status) return true;
+  if (status === 'draft') return true;
+  return false;
+};
+
 function PurchaseInvoiceDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -33,7 +39,7 @@ function PurchaseInvoiceDetail() {
   const paymentMadeAgainstInvoiceResponse = useGetPaymentsAgainstPaymentInvoiceQuery(id);
   const purchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(id);
   const purchaseInvoiceJournals = useGetJournalsAgainstPaymentInvoiceQuery(id, {
-    skip: purchaseInvoiceResponse?.data?.status === 'draft',
+    skip: handleCheck(purchaseInvoiceResponse?.data?.status),
   });
 
   const [changeInvoiceStatusToOpen] = useChagePurchaseInvoiceStatusToOpenMutation();
@@ -73,10 +79,20 @@ function PurchaseInvoiceDetail() {
     () => ({
       type: 'Bill Invoice',
       order_number: purchaseInvoiceResponse?.data?.bill_num || '',
-      formated_order_number: purchaseInvoiceResponse?.data?.bill_formated_number || '',
+      formated_order_number: purchaseInvoiceResponse?.data?.bill_num || '',
+      sale_person: '',
+      currency_symbol: purchaseInvoiceResponse?.data?.currency_symbol,
       date: purchaseInvoiceResponse?.data?.invoice_date || '',
       supplier: purchaseInvoiceResponse?.data?.supplier || {},
+      invoiceToDetail: {
+        attention_to: purchaseInvoiceResponse?.data?.supplier?.contact_person || '',
+        supplier_name: purchaseInvoiceResponse?.data?.supplier?.supplier_name || '',
+        address: purchaseInvoiceResponse?.data?.supplier?.address_line1 || '',
+        city: purchaseInvoiceResponse?.data?.supplier?.city || '',
+        country: purchaseInvoiceResponse?.data?.supplier?.country || '',
+      },
       location: purchaseInvoiceResponse?.data?.location || '',
+      bankDetail: '',
     }),
     [purchaseInvoiceResponse]
   );
@@ -237,17 +253,19 @@ function PurchaseInvoiceDetail() {
             orderDetail={purchaseInvoiceResponse.data}
             // handleChangeStatus={changeInvoiceStatus}
           />
-          <Grid container>
-            <Grid item xs={12} style={{ maxWidth: 900, margin: '20px auto', paddingBottom: 50 }}>
-              <Grid marginTop={4} id="Journal">
-                <JournalTable
-                  key={uuid()}
-                  defaultValue={defaultExpanded}
-                  journalItems={purchaseInvoiceJournals?.data?.bill_journal_items}
-                />
+          {purchaseInvoiceJournals?.data?.bill_journal_items && (
+            <Grid container>
+              <Grid item xs={12} style={{ maxWidth: 900, margin: '20px auto', paddingBottom: 50 }}>
+                <Grid marginTop={4} id="Journal">
+                  <JournalTable
+                    key={uuid()}
+                    defaultValue={defaultExpanded}
+                    journalItems={purchaseInvoiceJournals?.data?.bill_journal_items}
+                  />
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
+          )}
         </CardContent>
       </Card>
     </SectionLoader>
