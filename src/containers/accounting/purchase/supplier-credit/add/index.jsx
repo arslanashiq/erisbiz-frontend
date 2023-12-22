@@ -90,8 +90,11 @@ function AddSupplierCredit() {
     value: invoice.id,
     label: invoice.bill_formated_number,
     data: invoice,
+    status: invoice.status,
   }));
-
+  const filteredPymentInvoiceOptions = paymentInvoiceOptions?.filter(
+    inv => inv.status !== 'draft' && inv.status !== 'void'
+  );
   const supplierCreditInputList = useMemo(
     () => [
       { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
@@ -216,7 +219,7 @@ function AddSupplierCredit() {
                 />
                 <FormikSelect
                   name="bill_id"
-                  options={paymentInvoiceOptions || []}
+                  options={filteredPymentInvoiceOptions || []}
                   disabled={Boolean(purchaseId)}
                   placeholder="Purchase Invoice Number"
                   label="Purchase Inv No"

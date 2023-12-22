@@ -29,7 +29,7 @@ function PdfDoc({
             amountTotal={orderDetail.without_change_grand_total - orderDetail.without_change_vat_total}
             vatTotal={orderDetail.without_change_vat_total}
             grandTotal={orderDetail.without_change_grand_total}
-            dicsountTotal={orderDetail.without_change_discount_total}
+            discountTotal={orderDetail.without_change_discount_total}
             currencySymbol={orderDetail.currency_symbol}
             subTotalName="Sub Total"
           />

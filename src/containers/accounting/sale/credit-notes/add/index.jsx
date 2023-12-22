@@ -52,10 +52,15 @@ function index() {
   const [addCreditNote] = useAddCreditNoteMutation();
   const [editCreditNote] = useEditCreditNoteMutation();
 
-  const { optionsList: saleInvoiceListOptions } = useListOptions(saleInvoiceListResponse?.data?.results, {
-    value: 'id',
-    label: 'invoice_formatted_number',
-  });
+  const { optionsList: saleInvoiceListOptions } = useListOptions(
+    saleInvoiceListResponse?.data?.results,
+    {
+      value: 'id',
+      label: 'invoice_formatted_number',
+    },
+    ['status']
+  );
+  const filteredSaleInvoiceOptionList = saleInvoiceListOptions?.filter(invoice => invoice.status !== 'draft');
   const { optionsList: itemsListOptions } = useListOptions(
     itemsListResponse?.data?.results,
     {
@@ -82,7 +87,7 @@ function index() {
     () => [
       { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
-      { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true, },
+      { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, disabled: true },
       { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], disabled: true },
@@ -172,7 +177,7 @@ function index() {
             {({ setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
                 <FormikSelect
-                  options={saleInvoiceListOptions}
+                  options={filteredSaleInvoiceOptionList}
                   name="invoice"
                   placeholder="Invoice Number"
                   label="Invoice Number"

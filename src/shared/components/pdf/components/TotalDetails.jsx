@@ -11,7 +11,7 @@ export const boldFont = {
 export const primaryColor = {
   color: palette.primary.main,
 };
-function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, dicsountTotal, orderInfo }) {
+function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, discountTotal, orderInfo }) {
   const renderAmount = (title, value, titleStyle) => (
     <View
       style={{
@@ -82,8 +82,8 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, dicso
         </View>
 
         <View style={{ minWidth: 230, maxWidth: 230 }}>
-          {renderAmount('Sub Total', amountTotal)}
-          {renderAmount('Discount Total', dicsountTotal)}
+          {renderAmount('Sub Total', amountTotal + discountTotal)}
+          {renderAmount('Discount', discountTotal)}
           {renderAmount('VAT Amount', vatTotal)}
           <View style={{ backgroundColor: palette.primary.main, padding: '3 0' }}>
             {renderAmount('Net Total', grandTotal, { color: 'white' })}
@@ -124,11 +124,11 @@ TotalDetails.propTypes = {
   amountTotal: PropTypes.number.isRequired,
   vatTotal: PropTypes.number.isRequired,
   currencySymbol: PropTypes.string.isRequired,
-  dicsountTotal: PropTypes.number,
+  discountTotal: PropTypes.number,
 };
 
 TotalDetails.defaultProps = {
-  dicsountTotal: 0,
+  discountTotal: 0,
 };
 
 export default TotalDetails;

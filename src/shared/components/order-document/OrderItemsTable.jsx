@@ -85,7 +85,9 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
               <Box className="amounts">
                 <p>
                   {formatAmount(
-                    orderDetail.without_change_grand_total - orderDetail.without_change_vat_total
+                    orderDetail.without_change_grand_total -
+                      orderDetail.without_change_vat_total +
+                      orderDetail.without_change_discount_total
                   )}
                 </p>
               </Box>
@@ -97,7 +99,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
                 <p>Discount:</p>
               </Box>
               <Box className="amounts">
-                <p>{formatAmount(orderDetail.without_change_DISCOUNT_total)}</p>
+                <p>{formatAmount(orderDetail.without_change_discount_total)}</p>
               </Box>
             </Box>
           </Box>
