@@ -394,7 +394,7 @@ function ActivityLogsDetail() {
     return Object.keys(payloadNew)
       ?.sort()
       ?.map(key => {
-        if (checkDataNotAllowdedToPrint(key)) return '';
+        // if (checkDataNotAllowdedToPrint(key)) return '';
         const valueType = checkValueType(payloadNew[key]);
         if (valueType === 'list') {
           return '';
