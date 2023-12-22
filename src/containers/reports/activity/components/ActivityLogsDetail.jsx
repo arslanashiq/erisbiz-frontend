@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable implicit-arrow-linebreak */
 import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
@@ -181,7 +182,30 @@ const inValidKeys = [
   'Pur Order',
   // skip data testing
 ];
-const invalidNestedKeys = ['num_units', 'Cost Price'];
+const invalidNestedKeys = [
+  'num_units',
+  'Cost Price',
+  'Created At',
+  'Created By',
+  'Id',
+  'Primary Contact',
+  'Supplier Id',
+  'Updated At',
+  'Vat Rate Perc',
+  'Debit Note Item Remove',
+  'Chart Of Account',
+  'currency',
+  'Currency Code',
+  'Currency Symbol',
+  'Service Type Name',
+  'VAT Rate',
+  'Vat Amount',
+  'Cost Amount Ex Vat',
+  'Cost Vat Amount',
+  'Profit',
+  'Total Cost',
+  'filesList',
+];
 const validKeyName = {
   set_credit_limit: 'Credit Limit',
   set_credit_terms: 'Credit Terms',
@@ -215,7 +239,6 @@ const validKeyName = {
   parent_account: 'Parent Account',
   account_number: 'Account #',
   pur_order_num: 'Purchase Order #',
-  pur_order_items: 'Purchase Order Items',
   pur_order_docs: 'Purchase Order Documents',
   pur_order_formatted_number: 'Purchase Order #',
   debit_account_number: 'Debit Account #',
@@ -224,8 +247,20 @@ const validKeyName = {
   unit_price_ex_vat: 'Unit Price Without VAT',
   num_nights: 'Quantity',
   service_type: 'Item Name',
-  vat_rate: 'VAT Rate',
+  vat_rate_name: 'VAT Rate',
+  invoice_items: 'Sale Invoice Items',
+  pro_invoice_items: 'Proforma Invoice Items',
+  pur_order_items: 'Purchase Order Items',
+  bill_items: 'Purchase Invoice Items',
 };
+const formDataReplaceableKeys = [
+  'pur_order_items',
+  'bill_items',
+  'quotation_items',
+  'pro_invoice_items',
+  'invoice_items',
+];
+
 const imageKeyName = {
   item_image: true,
 };
@@ -430,11 +465,11 @@ function ActivityLogsDetail() {
         </TableCell>
         {showOldData && (
           <TableCell key={uuid()} sx={tableCellStyle}>
-            {renderNestedData(payloadOld[index], payloadNew[index], false)}
+            {renderNestedData(payloadNew[index], payloadOld[index], false)}
           </TableCell>
         )}
         <TableCell key={uuid()} sx={tableCellStyle}>
-          {renderNestedData(payloadOld[index], payloadNew[index], true)}
+          {renderNestedData(payloadNew[index], showOldData ? payloadNew[index] : payloadOld[index], true)}
         </TableCell>
       </TableRow>
     ));
@@ -480,7 +515,26 @@ function ActivityLogsDetail() {
         }),
     []
   );
+  const tempPayload = useMemo(() => {
+    const purchaseOrderItems = [{}];
+    Object.keys(payload).forEach(key => {
+      formDataReplaceableKeys.forEach(formDataOption => {
+        if (key.includes(`${formDataOption}[`)) {
+          let slices = key;
+          slices = slices.split('[')[1].split(']');
 
+          if (slices.length > 0) {
+            if (!purchaseOrderItems[slices[0]]) {
+              purchaseOrderItems.splice(slices[0], 0, {});
+            }
+            purchaseOrderItems[slices[0]][slices[1]] = payload[key];
+            delete payload[key];
+          }
+          payload[formDataOption] = purchaseOrderItems;
+        }
+      });
+    });
+  }, [payload]);
   return (
     <SectionLoader options={[isLoading, activityDetail]}>
       <Stack direction="row" justifyContent="space-between" alignItems="center" width="100%" mb={1}>
