@@ -41,7 +41,10 @@ function AddReceiptVoucher() {
 
   const customerListResponse = useGetCustomersListQuery();
   const bankAccountListResponse = useGetBankAccountsListQuery();
-  const latestreceiptVoucherNumber = useGetLatestReceiptVoucherQuery({}, { skip: id });
+  const latestreceiptVoucherNumber = useGetLatestReceiptVoucherQuery(
+    {},
+    { skip: id, refetchOnMountOrArgChange: true }
+  );
 
   const [addReceiptVoucher] = useAddReceiptVoucherMutation();
   const [editReceiptVoucher] = useEditReceiptVoucherMutation();

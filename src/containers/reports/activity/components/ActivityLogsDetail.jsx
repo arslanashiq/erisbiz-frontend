@@ -181,7 +181,7 @@ const inValidKeys = [
   'Pur Order',
   // skip data testing
 ];
-const invalidNestedKeys = ['num_units'];
+const invalidNestedKeys = ['num_units', 'Cost Price'];
 const validKeyName = {
   set_credit_limit: 'Credit Limit',
   set_credit_terms: 'Credit Terms',

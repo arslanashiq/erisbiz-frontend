@@ -54,7 +54,10 @@ function AddSupplierCredit() {
   const bankAccountsListsponse = useGetBankAccountsListQuery();
   const purchaseInvoiceListResponse = useGetPurchaseInvoiceListQuery();
   const singlePurchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(purchaseId, { skip: !purchaseId });
-  const latestDebitNoteNumberResponse = useGetLatestSupplierCreditNumberQuery({}, { skip: id });
+  const latestDebitNoteNumberResponse = useGetLatestSupplierCreditNumberQuery(
+    {},
+    { skip: id, refetchOnMountOrArgChange: true }
+  );
 
   const [getPurchaseInvoice] = useGetPurchaseInvoceMutation();
   const [addSupplierCredit] = useAddSupplierCreditsMutation();

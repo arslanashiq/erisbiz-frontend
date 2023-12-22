@@ -50,7 +50,10 @@ function AddPurchaseOrder() {
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const supplierListResponse = useGetSuppliersListQuery();
-  const latestPurchaseOrder = useGetLatestPurchaseOrderNumberQuery({}, { skip: id });
+  const latestPurchaseOrder = useGetLatestPurchaseOrderNumberQuery(
+    {},
+    { skip: id, refetchOnMountOrArgChange: true }
+  );
 
   const [addPurchaseOrder] = useAddPurchaseOrderMutation();
   const [editPurchaseOrder] = useEditPurchaseOrderMutation();

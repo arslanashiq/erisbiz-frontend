@@ -153,6 +153,7 @@ function ItemDetail() {
               itemDetail={itemDetailInfo}
               itemStock={itemStockInformation}
               itemImage={itemDetail?.item_image}
+              itemDescription={itemDetailResponse?.data?.description}
             />
           )}
           {activeTab === 1 && <ItemTransactionsTab />}

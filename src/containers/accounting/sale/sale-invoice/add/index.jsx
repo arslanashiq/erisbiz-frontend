@@ -61,7 +61,10 @@ function AddInvoice() {
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
-  const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery({}, { skip: id });
+  const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery(
+    {},
+    { skip: id, refetchOnMountOrArgChange: true }
+  );
   const customerListResponse = useGetCustomersListQuery();
 
   const [addSaleInvoice] = useAddSaleInvoicesMutation();

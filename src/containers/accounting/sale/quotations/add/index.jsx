@@ -54,7 +54,10 @@ function AddQuotation() {
   const customerListResponse = useGetCustomersListQuery();
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
-  const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', { skip: id });
+  const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', {
+    skip: id,
+    refetchOnMountOrArgChange: true,
+  });
 
   const [addQuotation] = useAddQuotationMutation();
   const [editQuotation] = useEditQuotationMutation();

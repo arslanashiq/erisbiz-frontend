@@ -87,18 +87,23 @@ function addPaymentVoucher() {
             amount_due: bill.amount_due,
             bill_num: bill.bill_num,
             pur_order: bill.pur_order,
+            pur_order_num: bill.pur_order_num,
             amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
           });
         }
       });
       if (setValues) setValues('bill_payments', billPayment);
       else {
+        let amountTotal = initialValues.total;
+        if (debitAmount) {
+          amountTotal = Number(debitAmount);
+        }
         setInitialValues({
           ...initialValues,
           used_amount: initialValues.total - initialValues.unused_amount,
           bill_payments: billPayment,
           supplier_id: Number(selectedSupplierId),
-          total: debitAmount ? Number(debitAmount) : 0,
+          total: amountTotal || 0,
         });
       }
     },

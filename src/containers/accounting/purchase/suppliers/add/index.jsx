@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -45,7 +45,7 @@ function SupplierAddPage() {
   const [addSupplier] = useAddSupplierMutation();
   const [editSupplier] = useEditSupplierMutation();
 
-  const { initialValues: supplierFormInitialValues, setInitialValues } = useInitialValues(
+  const { initialValues: supplierFormInitialValues } = useInitialValues(
     supplierInitialValues,
     useGetSingleSupplierQuery,
     null,
@@ -96,15 +96,17 @@ function SupplierAddPage() {
     [latestTransactionNumber]
   );
 
-  useEffect(() => {
-    if (supplierFormInitialValues.set_credit_limit && supplierFormInitialValues.credit_limit === false) {
-      setInitialValues({ ...supplierFormInitialValues, credit_limit: true });
+  const updatedSupplierInitialValues = useMemo(() => {
+    let updatedValues = supplierFormInitialValues;
+    if (supplierFormInitialValues?.set_credit_limit > 0) {
+      updatedValues = { ...updatedValues, credit_limit: true };
     }
-    if (supplierFormInitialValues.set_credit_terms && supplierFormInitialValues.credit_terms === false) {
-      setInitialValues({ ...supplierFormInitialValues, credit_terms: true });
+    if (supplierFormInitialValues?.set_credit_terms) {
+      updatedValues = { ...updatedValues, credit_terms: true };
     }
-  }, [supplierFormInitialValues]);
 
+    return updatedValues;
+  }, [id, supplierFormInitialValues]);
   return (
     <Card>
       <CardContent>
@@ -112,7 +114,7 @@ function SupplierAddPage() {
         <Formik
           enableReinitialize
           validationSchema={supplierFormValidationSchema}
-          initialValues={supplierFormInitialValues}
+          initialValues={updatedSupplierInitialValues}
           onSubmit={handleSubmitForm}
         >
           {({ values, setFieldValue }) => (

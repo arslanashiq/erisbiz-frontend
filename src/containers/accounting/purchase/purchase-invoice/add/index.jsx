@@ -63,7 +63,10 @@ function AddPurchaseInvoice() {
   const suppliersListResponse = useGetSuppliersListQuery();
   const chartOfAccountsListResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_payable' });
   const purchaseOrdersListResponse = useGetPurchaseOrdersListQuery(id ? '' : '?status=Issued');
-  const latestInvoiceNumber = useGetLatestPurchaseInvoiceNumberQuery({}, { skip: id });
+  const latestInvoiceNumber = useGetLatestPurchaseInvoiceNumberQuery(
+    {},
+    { skip: id, refetchOnMountOrArgChange: true }
+  );
   const { data: purchaseOrderResponse } = useGetSinglePurchaseOrderQuery(purchaseId, { skip: !purchaseId });
 
   const [addPurchaseInvoice] = useAddPurchaseInvoceMutation();

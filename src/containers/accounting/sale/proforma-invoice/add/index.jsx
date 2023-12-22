@@ -58,7 +58,10 @@ function AddProfomaInvoice() {
 
   const [selectedCustomer, setSelectedCustomer] = useState('');
 
-  const latestProfomaInvoice = useGetLatestProformaInvoiceQuery({}, { skip: id });
+  const latestProfomaInvoice = useGetLatestProformaInvoiceQuery(
+    {},
+    { skip: id, refetchOnMountOrArgChange: true }
+  );
 
   const quotationResponse = useGetSingleQuotationQuery(quotationId, { skip: !quotationId });
   const quotationsListResponse = useGetQuotationsListQuery(
