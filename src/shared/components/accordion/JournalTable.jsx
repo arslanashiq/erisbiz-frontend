@@ -19,12 +19,11 @@ function JournalTable({ journalItems, defaultValue }) {
     [journalItems]
   );
 
-  console.log(total, 'total');
-  if (total.bcy_debit < total.bcy_credit) {
-    total.bcy_debit += total.bcy_credit - total.bcy_debit;
-  } else if (total.bcy_credit < total.bcy_debit) {
-    total.bcy_credit += total.bcy_debit - total.bcy_credit;
-  }
+  // if (total.bcy_debit < total.bcy_credit) {
+  //   total.bcy_debit += total.bcy_credit - total.bcy_debit;
+  // } else if (total.bcy_credit < total.bcy_debit) {
+  //   total.bcy_credit += total.bcy_debit - total.bcy_credit;
+  // }
 
   return (
     <Accordion defaultExpanded={defaultValue} sx={{ boxShadow: '1px 0px 3px black' }}>
