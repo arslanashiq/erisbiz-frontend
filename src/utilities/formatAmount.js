@@ -1,3 +1,5 @@
+import { ToWords } from 'to-words';
+
 /**
  *
  * @param {number} amount
@@ -30,3 +32,64 @@ export const abbreviateAmount = amount => {
   }
   return formatAmountInShortForm(amount);
 };
+
+export const numberToWords = number => {
+  const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+  const teens = [
+    '',
+    'Eleven',
+    'Twelve',
+    'Thirteen',
+    'Fourteen',
+    'Fifteen',
+    'Sixteen',
+    'Seventeen',
+    'Eighteen',
+    'Nineteen',
+  ];
+  const tens = ['', 'Ten', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+  function convertHundreds(n) {
+    function convertTens(num) {
+      if (num < 10) {
+        return units[num];
+      }
+      if (num >= 11 && num <= 19) {
+        return teens[num - 10];
+      }
+      return `${tens[Math.floor(num / 10)]} ${units[num % 10]}`;
+    }
+    if (n > 99) {
+      return `${units[Math.floor(n / 100)]} Hundred ${convertTens(n % 100)}`;
+    }
+    return convertTens(n);
+  }
+
+  function convertThousands(n) {
+    if (n >= 1000 && n <= 999999) {
+      return `${convertHundreds(Math.floor(n / 1000))} Thousand ${convertHundreds(n % 1000)}`;
+    }
+    return convertHundreds(n);
+  }
+
+  function convertMillions(n) {
+    if (n >= 1000000 && n <= 999999999) {
+      return `${convertHundreds(Math.floor(n / 1000000))} Million ${convertThousands(n % 1000000)}`;
+    }
+    return convertThousands(n);
+  }
+
+  if (number === 0) {
+    return 'zero';
+  }
+  return convertMillions(number);
+};
+
+export const toWords = new ToWords({
+  localeCode: 'en-US',
+  converterOptions: {
+    currency: true,
+    ignoreDecimal: false,
+    ignoreZeroCurrency: false,
+  },
+});

@@ -23,6 +23,7 @@ import {
   // bankDetailPopupInfoBodyStyle,
   bankDetailPopupInfoTitleStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
+import { getModuleName } from '../utilities/constants';
 
 // constant Values
 const inValidKeys = [
@@ -177,6 +178,7 @@ const inValidKeys = [
   'Currency Code',
   'Exchange Rate Of Suppliercredit Currency',
   'G Recaptcha Response',
+  'Pur Order',
   // skip data testing
 ];
 const validKeyName = {
@@ -284,7 +286,7 @@ function ActivityLogsDetail() {
 
     data.push({ label: 'Location', value: `${activityDetail?.city},${activityDetail?.country}` });
     data.push({ label: 'IP Address', value: activityDetail?.ip_address });
-    data.push({ label: 'Module Name', value: activityDetail?.module_name });
+    data.push({ label: 'Module Name', value: getModuleName(activityDetail?.module_name) });
     data.push({
       label: 'Status',
       value: getResponseStatus(
@@ -392,7 +394,7 @@ function ActivityLogsDetail() {
     return Object.keys(payloadNew)
       ?.sort()
       ?.map(key => {
-        // if (checkDataNotAllowdedToPrint(key)) return;
+        if (checkDataNotAllowdedToPrint(key)) return '';
         const valueType = checkValueType(payloadNew[key]);
         if (valueType === 'list') {
           return '';
@@ -413,6 +415,7 @@ function ActivityLogsDetail() {
   };
   const renderList = (payloadOld, payloadNew, key, showOldData) => {
     if (!payloadNew) return '';
+
     return payloadNew.map((_, index) => (
       <TableRow key={uuid()}>
         <TableCell colSpan={showOldData ? 1 : 2} key={uuid()} sx={tableCellStyle}>

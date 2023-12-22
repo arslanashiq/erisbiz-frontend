@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react';
 import moment from 'moment';
 import { activityLogsHeadCells } from 'containers/reports/utilities/head-cells';
+import { getModuleName } from 'containers/reports/activity/utilities/constants';
 
 function useActivityLogsData(activityLogsResponse) {
   // const getActionType = (method, module) => {
@@ -40,7 +41,7 @@ function useActivityLogsData(activityLogsResponse) {
           },
         },
         {
-          value: item.module_name || 'Module',
+          value: getModuleName(item.module_name) || 'Module',
           link: `${window.location.pathname}/${item.id}`,
 
           style: {

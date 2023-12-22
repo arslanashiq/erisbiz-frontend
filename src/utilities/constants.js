@@ -3,7 +3,7 @@ export const RECAPTCHA_PUBLIC_KEY = process.env.REACT_APP_PUBLIC_RECAPTCHA_KEY;
 export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
-// export const API_URL = 'http://192.168.1.166:8000/';
+// export const API_URL = 'http://192.168.0.216:8000/';
 
 export const ROWS_PER_PAGE = 20;
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100];
@@ -77,10 +77,10 @@ export const VAT_RERVERSE_CHARGES = [
 ];
 
 export const VAT_CHARGES = [
-  { label: 'Zero Rate (0%)', value: 3, percent: 0 },
-  { label: 'Standard Rate (5%)', value: 13, percent: 5 },
-  // { label: 'Tax Exempt (0%)', value: 16, percent: 0 },
-  // { label: 'Out of Scope (0%)', value: 17, percent: 0 },
+  { label: 'Zero Rate (0%)', value: 2, percent: 0 },
+  { label: 'Standard Rate (5%)', value: 1, percent: 5 },
+  // { label: 'Tax Exempt (0%)', value: 3, percent: 0 },
+  // { label: 'Out of Scope (0%)', value: 4, percent: 0 },
 ];
 export const DRAWER_WIDTH = 240;
 
