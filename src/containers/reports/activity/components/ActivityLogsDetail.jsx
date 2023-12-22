@@ -181,6 +181,7 @@ const inValidKeys = [
   'Pur Order',
   // skip data testing
 ];
+const invalidNestedKeys = ['num_units'];
 const validKeyName = {
   set_credit_limit: 'Credit Limit',
   set_credit_terms: 'Credit Terms',
@@ -219,6 +220,11 @@ const validKeyName = {
   pur_order_formatted_number: 'Purchase Order #',
   debit_account_number: 'Debit Account #',
   supplier_credit_num: 'Supplier Credit #',
+  amount_ex_vat: 'Amount Without VAT',
+  unit_price_ex_vat: 'Unit Price Without VAT',
+  num_nights: 'Quantity',
+  service_type: 'Item Name',
+  vat_rate: 'VAT Rate',
 };
 const imageKeyName = {
   item_image: true,
@@ -381,10 +387,8 @@ function ActivityLogsDetail() {
   }, []);
 
   const checkDataNotAllowdedToPrint = useCallback(
-    key =>
-      inValidKeys.some(
-        item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()
-      ),
+    (key, data) =>
+      data.some(item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()),
     []
   );
 
@@ -394,7 +398,7 @@ function ActivityLogsDetail() {
     return Object.keys(payloadNew)
       ?.sort()
       ?.map(key => {
-        // if (checkDataNotAllowdedToPrint(key)) return '';
+        if (checkDataNotAllowdedToPrint(key, invalidNestedKeys)) return '';
         const valueType = checkValueType(payloadNew[key]);
         if (valueType === 'list') {
           return '';
@@ -441,7 +445,7 @@ function ActivityLogsDetail() {
       Object.keys(payloadNew)
         ?.sort()
         ?.map(key => {
-          if (checkDataNotAllowdedToPrint(key)) return <> </>;
+          if (checkDataNotAllowdedToPrint(key, inValidKeys)) return '';
           const valueType = checkValueType(payloadNew[key]);
 
           if (valueType === 'list') {

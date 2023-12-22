@@ -35,10 +35,22 @@ function QuotationDetailPage() {
     () => ({
       type: 'QUOTATION',
       order_number: `#${quotationsDetailResponse?.data?.quotation_num}`,
-      formated_order_number: quotationsDetailResponse?.data?.quotation_num,
+      formated_order_number: quotationsDetailResponse?.data?.quotation_formatted_number,
+      sale_person: quotationsDetailResponse?.data?.sale_person,
+      currency_symbol: quotationsDetailResponse?.data?.currency_symbol,
+      bankDetail: '',
+
       date: quotationsDetailResponse?.data?.date,
       supplier: null,
+      invoiceToDetail: {
+        customer_name: quotationsDetailResponse?.data?.customer_info?.customer_name || '',
+        attention_to: quotationsDetailResponse?.data?.customer_info?.contact_person || '',
+        address: quotationsDetailResponse?.data?.customer_info?.invoice_address_line1 || '',
+        city: quotationsDetailResponse?.data?.customer_info?.invoice_city || '',
+        country: quotationsDetailResponse?.data?.customer_info?.invoice_country || '',
+      },
       location: quotationsDetailResponse?.data?.location,
+
       box1: [
         {
           label: 'Quotation No',

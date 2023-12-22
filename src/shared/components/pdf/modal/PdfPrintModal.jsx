@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Stack, Typography } from '@mui/material';
-import { PDFViewer } from '@react-pdf/renderer';
+import { PDFViewer, Font } from '@react-pdf/renderer';
 import StyledDialog from 'styles/mui/component/StyledDialog';
 import usePdfView from '../custom-hooks/usePdfView';
 
+Font.register({
+  family: 'Lato Bold',
+  src: 'https://fonts.gstatic.com/s/lato/v16/S6u9w4BMUTPHh6UVSwiPHA.ttf',
+});
 function PdfPrintModal({
   isPrintModalOpen,
   setIsPrintModalOpen,

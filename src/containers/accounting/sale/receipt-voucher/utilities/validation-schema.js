@@ -10,7 +10,7 @@ export const receiptVoucherFormValidationSchema = Yup.object({
       amount_applied: Yup.number()
         .min(0, 'Payment Must be greater than 0')
         .max(Yup.ref('amount_due'), 'Must be less than Amount Due')
-        .required('Payment is require'),
+        .required('Payment is required'),
     })
   ),
 });

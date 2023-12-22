@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import formatAmount from 'utilities/formatAmount';
 import groupItems from 'utilities/groupArrayOfItems';
+// import palette from 'styles/mui/theme/palette';
 
-const BORDER_COLOR = '#08517e';
-const BORDER_STYLE = '1px solid #08517e';
+const BORDER_COLOR = 'lightgray';
+const BORDER_STYLE = '1px solid lightgray';
 const COL1_WIDTH = 25;
-const COLN_WIDTH = (100 - COL1_WIDTH) / 7;
+const COLN_WIDTH = (100 - COL1_WIDTH - 6) / 6;
+const boldFont = {
+  fontFamily: 'Lato Bold',
+};
 
 const styles = StyleSheet.create({
   table: {
@@ -16,7 +20,7 @@ const styles = StyleSheet.create({
     // borderStyle: BORDER_STYLE, removed style as  applying conditionaly
     borderRightWidth: 0,
     borderBottomWidth: 0,
-    marginTop: 5,
+    marginTop: 20,
     border: '1px solid #c7b671',
     fontWeight: 600,
     fontSize: 10,
@@ -87,6 +91,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 3,
   },
+
   tableColNoBorder: {
     width: `${COLN_WIDTH}'%`,
     borderTopWidth: 0,
@@ -110,28 +115,29 @@ function addStr(str, index, stringToAdd) {
 }
 const wrapValue = value => (!/\s/g.test(value) ? addStr(value, 10, ' ') : value);
 
-const renderItems = item => (
+const renderItems = (item, itemNumber) => (
   <View key={item.id} style={styles.tableRow}>
+    <View style={{ ...styles.tableCol, width: '6%', borderRight: BORDER_STYLE }}>
+      <Text style={styles.tableCell}>{itemNumber}</Text>
+    </View>
     <View style={styles.tableCol1Header}>
       <Text style={styles.tableCell}>{wrapValue(item.service_type)}</Text>
     </View>
-    <View style={styles.tableCol}>
-      <Text style={styles.tableCell}>{item.currency_symbol}</Text>
-    </View>
+
     <View style={styles.tableCol}>
       <Text style={styles.tableCell}>{item.num_nights}</Text>
     </View>
     <View style={styles.tableCol}>
-      <Text style={styles.tableCell}>{item.unit_price_ex_vat}</Text>
+      <Text style={styles.tableCell}>{formatAmount(item.unit_price_ex_vat)}</Text>
     </View>
     <View style={styles.tableCol}>
       <Text style={styles.tableCell}>{formatAmount(item.gross_amount)}</Text>
     </View>
     <View style={[styles.tableCol, { width: `${COLN_WIDTH}'%` }]}>
-      <Text style={styles.tableCell}>{item.discount}</Text>
+      <Text style={styles.tableCell}>{formatAmount(item.discount)}</Text>
     </View>
     <View style={[styles.tableCol, { width: `${COLN_WIDTH}'%` }]}>
-      <Text style={styles.tableCell}>{item.vat_amount}</Text>
+      <Text style={styles.tableCell}>{formatAmount(item.vat_amount)}</Text>
     </View>
     <View style={styles.tableCol}>
       <Text style={styles.tableCell}>{formatAmount(item.net_amount)}</Text>
@@ -139,7 +145,7 @@ const renderItems = item => (
   </View>
 );
 
-function Items({ orderDetail, subTotalName, keyName }) {
+function Items({ orderDetail, keyName }) {
   const headingsBgColor = '#08517e';
   // const subTotalBgColor = '#f7e18b';
   // const subTotalTxtColor = '#FFFFFF';
@@ -147,74 +153,45 @@ function Items({ orderDetail, subTotalName, keyName }) {
   return (
     <View style={[styles.table, { border: BORDER_STYLE }]}>
       <View style={[styles.tableRow, { backgroundColor: headingsBgColor, color: '#fff' }]}>
+        <View style={{ ...styles.tableColHeader, width: '6%' }}>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>Sr.#</Text>
+        </View>
         <View style={styles.tableCol1Header}>
-          <Text style={styles.tableCell}>Item</Text>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>Item</Text>
         </View>
 
         <View style={styles.tableColHeader}>
-          <Text style={styles.tableCell}>Currency</Text>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>Quantity</Text>
         </View>
         <View style={styles.tableColHeader}>
-          <Text style={styles.tableCell}>Quantity</Text>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>Unit Price</Text>
         </View>
         <View style={styles.tableColHeader}>
-          <Text style={styles.tableCell}>Units</Text>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>Amount</Text>
         </View>
         <View style={styles.tableColHeader}>
-          <Text style={styles.tableCell}>Amount</Text>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>Discount</Text>
         </View>
         <View style={styles.tableColHeader}>
-          <Text style={styles.tableCell}>Discount</Text>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>VAT</Text>
         </View>
         <View style={styles.tableColHeader}>
-          <Text style={styles.tableCell}>VAT</Text>
-        </View>
-        <View style={styles.tableColHeader}>
-          <Text style={styles.tableCell}>Gross Amount</Text>
+          <Text style={{ ...styles.tableCell, ...boldFont }}>Net Amount</Text>
         </View>
       </View>
       {/* Added to group listed services. */}
       {quotationItems &&
         quotationItems.map(service => (
-          <View key={service.service_type}>{service.items.map(item => renderItems(item))}</View>
+          <View key={service.service_type} style={{ backgroundColor: '#f7f4f4b6' }}>
+            {service.items.map((item, index) => renderItems(item, index + 1))}
+          </View>
         ))}
-
-      <View style={styles.tableRow}>
-        <View style={styles.tableCol1Header}>
-          <Text style={styles.tableCell}>{`${subTotalName} (${orderDetail.currency_symbol})`}</Text>
-        </View>
-        <View style={styles.tableColHeaderNoBorder}>
-          <Text style={styles.tableColNoBorder} />
-        </View>
-        <View style={styles.tableColHeaderNoBorder}>
-          <Text style={styles.tableColNoBorder} />
-        </View>
-        <View style={styles.tableColHeaderNoBorder}>
-          <Text style={styles.tableColNoBorder} />
-        </View>
-        <View style={[styles.tableCol, { width: `${COLN_WIDTH}'%` }]}>
-          <Text style={styles.tableCell}>{orderDetail.without_change_amount_total}</Text>
-        </View>
-        <View style={[styles.tableCol, { width: `${COLN_WIDTH}'%` }]}>
-          <Text style={styles.tableCell}>{orderDetail.without_change_discount_total}</Text>
-        </View>
-        <View style={[styles.tableCol, { width: `${COLN_WIDTH}'%` }]}>
-          <Text style={styles.tableCell}>{orderDetail.without_change_vat_total}</Text>
-        </View>
-        <View style={styles.tableCol}>
-          <Text style={styles.tableCell}>{orderDetail.without_change_grand_total}</Text>
-        </View>
-      </View>
     </View>
   );
 }
 Items.propTypes = {
   orderDetail: PropTypes.object.isRequired,
-  subTotalName: PropTypes.string.isRequired,
   keyName: PropTypes.string.isRequired,
 };
-// Items.defaultProps = {
-
-// };
 
 export default Items;

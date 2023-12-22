@@ -1,10 +1,10 @@
 @import '../variables.scss';
 .invoice-receipt-main-container {
   max-width: 900px;
-  min-width: 560px;
+  min-width: 700px;
   // overflow: auto;
   margin: 10px auto;
-  padding-bottom: 70px;
+  // padding-bottom: 70px;
   box-shadow:
     -10px -10px 10px $background-color,
     10px 10px 10px $background-color;
@@ -29,6 +29,7 @@
     align-items: center;
     color: white;
     text-transform: capitalize;
+    z-index: 100;
   }
 
   .paidArrow:before {
@@ -67,7 +68,7 @@
     display: flex;
     font-size: x-small;
     padding: 12px;
-    margin: 0 auto;
+    margin: 25px auto;
     position: relative;
   }
 
@@ -137,11 +138,12 @@
   }
 
   table.table1 {
-    font-weight: bold;
+    // font-weight: bold;
     border-collapse: collapse;
     font-size: 13px;
     margin: 10px 0;
-    border: 0.2px solid $primary-color;
+    border: 0.2px solid lightgray;
+    background-color: #f7f4f4b6;
 
     thead {
       text-align: center;
@@ -149,16 +151,17 @@
 
     th {
       color: $text-color;
-      border: 0.2px solid $primary-color;
-      font-weight: bolder;
+      border: 0.2px solid rgb(176, 175, 175);
+      font-weight: bold;
       background-color: $primary-color;
       text-align: center;
+
     }
 
     td {
-      border: 0.2px solid $primary-color;
+      border: 0.2px solid lightgray;
       text-align: center;
-      padding: 12px 15px;
+      padding: 8px 15px;
     }
   }
   table.table-emp {
@@ -177,6 +180,7 @@
       background-color: #48b2e8;
       text-align: center;
       // color: #fffafa;
+      
     }
 
     td {
@@ -216,7 +220,7 @@
   }
 
   .entries-child {
-    width: 260px;
+    width: 300px;
     display: flex;
     justify-content: space-between;
     margin-right: 35px;
@@ -224,7 +228,7 @@
   }
 
   .credit-entries-child {
-    width: 260px;
+    width: 300px;
     display: flex;
     margin-right: 35px;
     text-align: right;
@@ -235,6 +239,7 @@
     flex: 1;
     p {
       font-weight: bold;
+      text-align: start;
     }
     justify-content: flex-end;
   }
@@ -265,7 +270,7 @@
     background-color: $primary-color;
     color: white;
     float: right;
-    min-width: 230px !important;
+    width: 320px !important;
     height: 30px;
     position: relative;
     padding: 0px 10px;
@@ -277,17 +282,17 @@
       margin-bottom: 0px;
     }
 
-    &:before {
-      content: '';
-      position: absolute;
-      right: -20px;
-      bottom: 0;
-      width: 0;
-      height: 0;
-      border-left: 20.5px solid $primary-color;
-      border-top: 15px solid transparent;
-      border-bottom: 15px solid transparent;
-    }
+    // &:before {
+    //   content: '';
+    //   position: absolute;
+    //   right: -20px;
+    //   bottom: 0;
+    //   width: 0;
+    //   height: 0;
+    //   border-left: 20.5px solid $primary-color;
+    //   border-top: 15px solid transparent;
+    //   border-bottom: 15px solid transparent;
+    // }
   }
   .pointer-emp {
     background-color: #48b2e8;
@@ -337,6 +342,7 @@
     padding: 7px;
     background-color: #f7e18b;
     text-align: left;
+    
   }
   table.table2-emp {
     width: 100%;

@@ -78,9 +78,19 @@ function PurchaseOrderDetail() {
       type: 'Purchase Order',
       order_number: `#${purchaseOrderResponse?.data?.pur_order_num}`,
       formated_order_number: purchaseOrderResponse?.data?.pur_order_formatted_number,
+      sale_person: '',
+      currency_symbol: purchaseOrderResponse?.data?.currency_symbol,
       date: purchaseOrderResponse?.data?.date,
-      supplier: purchaseOrderResponse?.data?.supplier,
       location: purchaseOrderResponse?.data?.location,
+      bankDetail: '',
+      supplier: purchaseOrderResponse?.data?.supplier,
+      invoiceToDetail: {
+        attention_to: purchaseOrderResponse?.data?.supplier?.contact_person || '',
+        supplier_name: purchaseOrderResponse?.data?.supplier?.supplier_name || '',
+        address: purchaseOrderResponse?.data?.supplier?.address_line1 || '',
+        city: purchaseOrderResponse?.data?.supplier?.city || '',
+        country: purchaseOrderResponse?.data?.supplier?.country || '',
+      },
     }),
     [purchaseOrderResponse]
   );

@@ -43,11 +43,23 @@ function CreditNoteDetail() {
   const orderInfo = useMemo(
     () => ({
       type: 'Credit Note',
-      order_number: `#${creditNoteDetailResponse?.data?.credit_note_formatted_number}`,
-      formated_order_number: creditNoteDetailResponse?.data?.quotation_num,
-      date: creditNoteDetailResponse?.data?.date,
+      order_number: `#${creditNoteDetailResponse?.data?.credit_note_num}`,
+      formated_order_number: creditNoteDetailResponse?.data?.credit_note_formatted_number,
+      sale_person: creditNoteDetailResponse?.data?.sales_person_name,
+      currency_symbol: creditNoteDetailResponse?.data?.currency_symbol,
+      bankDetail: '',
+
+      date: creditNoteDetailResponse?.data?.credit_note_date,
       supplier: null,
+      invoiceToDetail: {
+        customer_name: creditNoteDetailResponse?.data?.invoice?.customer_info?.customer_name || '',
+        attention_to: creditNoteDetailResponse?.data?.invoice?.customer_info?.contact_person || '',
+        address: creditNoteDetailResponse?.data?.invoice?.customer_info?.invoice_address_line1 || '',
+        city: creditNoteDetailResponse?.data?.invoice?.customer_info?.invoice_city || '',
+        country: creditNoteDetailResponse?.data?.invoice?.customer_info?.invoice_country || '',
+      },
       location: creditNoteDetailResponse?.data?.location,
+
       box1: [
         {
           label: 'Credit No',

@@ -1,7 +1,9 @@
-import { Typography } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router';
+import { Button, Stack, Typography } from '@mui/material';
 
 function PageNotFound() {
+  const navigate = useNavigate();
   return (
     <div
       style={{
@@ -12,7 +14,12 @@ function PageNotFound() {
         alignItems: 'center',
       }}
     >
-      <Typography variant="h1">Page Not Found</Typography>
+      <Stack>
+        <Typography variant="h1">Page Not Found</Typography>
+        <Stack direction="row" width="100%" justifyContent="center">
+          <Button onClick={() => navigate('/')}>Go To Dashboard</Button>
+        </Stack>
+      </Stack>
     </div>
   );
 }

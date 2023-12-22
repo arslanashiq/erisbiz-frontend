@@ -19,6 +19,7 @@ function JournalTable({ journalItems, defaultValue }) {
     [journalItems]
   );
 
+  console.log(total, 'total');
   if (total.bcy_debit < total.bcy_credit) {
     total.bcy_debit += total.bcy_credit - total.bcy_debit;
   } else if (total.bcy_credit < total.bcy_debit) {

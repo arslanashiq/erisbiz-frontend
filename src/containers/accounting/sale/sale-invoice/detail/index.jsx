@@ -71,11 +71,22 @@ function SaleInvoiceDetailPage() {
   const orderInfo = useMemo(
     () => ({
       type: 'Sales Invoice',
-      order_number: `#${saleInvoiceDetailResponse?.data?.invoice_formatted_number}`,
-      formated_order_number: saleInvoiceDetailResponse?.data?.invoice_num,
+      order_number: `#${saleInvoiceDetailResponse?.data?.invoice_num}`,
+      formated_order_number: saleInvoiceDetailResponse?.data?.invoice_formatted_number,
+      sale_person: saleInvoiceDetailResponse?.data?.sale_person,
+      currency_symbol: saleInvoiceDetailResponse?.data?.currency_symbol,
+      bankDetail: '',
       date: saleInvoiceDetailResponse?.data?.date,
       supplier: null,
+      invoiceToDetail: {
+        customer_name: saleInvoiceDetailResponse?.data?.customer_info?.customer_name || '',
+        attention_to: saleInvoiceDetailResponse?.data?.customer_info?.contact_person || '',
+        address: saleInvoiceDetailResponse?.data?.customer_info?.invoice_address_line1 || '',
+        city: saleInvoiceDetailResponse?.data?.customer_info?.invoice_city || '',
+        country: saleInvoiceDetailResponse?.data?.customer_info?.invoice_country || '',
+      },
       location: saleInvoiceDetailResponse?.data?.location,
+
       box1: [
         {
           label: 'Invoice No',

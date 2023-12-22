@@ -110,8 +110,19 @@ function ProfomaInvoiceDetail() {
       type: 'Proforma Invoice',
       order_number: `#${proformaInvoiceDetailResponse?.data?.pro_invoice_num}`,
       formated_order_number: proformaInvoiceDetailResponse?.data?.pro_invoice_formatted_number,
+      sale_person: proformaInvoiceDetailResponse?.data?.sale_person,
+      currency_symbol: proformaInvoiceDetailResponse?.data?.currency_symbol,
+      bankDetail: '',
+
       date: proformaInvoiceDetailResponse?.data?.pro_invoice_date,
       supplier: null,
+      invoiceToDetail: {
+        customer_name: proformaInvoiceDetailResponse?.data?.customer_info?.customer_name || '',
+        attention_to: proformaInvoiceDetailResponse?.data?.customer_info?.contact_person || '',
+        address: proformaInvoiceDetailResponse?.data?.customer_info?.invoice_address_line1 || '',
+        city: proformaInvoiceDetailResponse?.data?.customer_info?.invoice_city || '',
+        country: proformaInvoiceDetailResponse?.data?.customer_info?.invoice_country || '',
+      },
       location: proformaInvoiceDetailResponse?.data?.location,
       box1: [
         {

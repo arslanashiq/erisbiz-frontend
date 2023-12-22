@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, Image } from '@react-pdf/renderer';
@@ -10,38 +11,116 @@ import {
   COMPANY_PHONE,
   COMPANY_TRN,
 } from 'utilities/constants';
+import palette from 'styles/mui/theme/palette';
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'column',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '100%',
   },
+
   logo: {
-    width: '30%',
-    height: 'auto',
-    marginTop: 15,
-    marginBottom: 10,
+    maxWidth: 160,
+    maxHeight: 80,
   },
+
   subtitle: {
     fontSize: 10,
     alignSelf: 'flex-start',
-    marginTop: 7,
-    width: '70%',
-    lineHeight: 0.5,
+  },
+
+  companyInfoContainer: {
+    paddingLeft: 60,
   },
 });
 
+const boldFont = {
+  fontFamily: 'Lato Bold',
+};
+
+const primaryColor = {
+  color: palette.primary.main,
+};
 function LogoAndCompanyInfo({ companyName, companyLogo }) {
+  const renderCompanyInfoData = (title, value, containerStyle = {}, titleStyle = {}, valueStyles = {}) => (
+    <View style={{ flexDirection: 'row', ...containerStyle }}>
+      <Text
+        style={{
+          ...styles.subtitle,
+          ...boldFont,
+          ...primaryColor,
+          ...titleStyle,
+        }}
+      >
+        {title} :{' '}
+      </Text>
+      <Text style={{ ...styles.subtitle, overflow: 'hidden', ...valueStyles }}>{value}</Text>
+    </View>
+  );
   return (
     <View style={styles.header}>
-      <Image style={styles.logo} src={companyLogo || '/logo.png'} alt="Image" />
-      <Text style={styles.subtitle}>{companyName || COMPANY_NAME}</Text>
-      <Text style={styles.subtitle}>{COMPANY_OFFICE_ADDRESS}</Text>
-      <Text style={styles.subtitle}>{COMPANY_ADDRESS}</Text>
-      <Text style={styles.subtitle}>{COMPANY_COUNTRY}</Text>
-      <Text style={styles.subtitle}>{COMPANY_PHONE}</Text>
-      <Text style={styles.subtitle}>{COMPANY_TRN}</Text>
-      <Text style={styles.subtitle}>{COMPANY_EMAIL}</Text>
+      <Image
+        style={styles.logo}
+        src="/logo.png"
+        //  src={companyLogo || '/logo.png'}
+        alt="Image"
+      />
+      <View style={styles.companyInfoContainer}>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: palette.primary.main,
+          }}
+        >
+          <Text
+            style={{
+              ...styles.subtitle,
+              fontSize: 16,
+              ...boldFont,
+              ...primaryColor,
+            }}
+          >
+            {companyName || COMPANY_NAME}
+          </Text>
+        </View>
+        <View
+          style={{
+            ...styles.content,
+          }}
+        >
+          <View
+            style={{
+              marginTop: 5,
+              flexDirection: 'row',
+              width: 350,
+            }}
+          >
+            {renderCompanyInfoData(
+              'TRN',
+              COMPANY_TRN,
+              {
+                width: 145,
+              },
+              {},
+              { maxWidth: 90 }
+            )}
+            {renderCompanyInfoData('Email', COMPANY_EMAIL, {}, {}, { maxWidth: 170 })}
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            {renderCompanyInfoData(
+              'Phone',
+              COMPANY_PHONE,
+              {
+                width: 145,
+              },
+              {},
+              { maxWidth: 90 }
+            )}
+            {renderCompanyInfoData('Address', COMPANY_ADDRESS, {}, {}, { maxWidth: 170 })}
+          </View>
+        </View>
+      </View>
     </View>
   );
 }

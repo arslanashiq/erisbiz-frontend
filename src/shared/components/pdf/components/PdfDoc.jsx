@@ -23,13 +23,15 @@ function PdfDoc({
       <PDFHeader orderInfo={orderInfo} companyName={companyName} companyLogo={companyLogo} />
       {showItemsTable && (
         <>
-          <Items orderDetail={orderDetail} subTotalName="Grand Total" keyName={keyName} />
+          <Items orderDetail={orderDetail} subTotalName="Sub Total" keyName={keyName} />
           <TotalDetails
+            orderInfo={orderInfo}
             amountTotal={orderDetail.without_change_grand_total - orderDetail.without_change_vat_total}
             vatTotal={orderDetail.without_change_vat_total}
             grandTotal={orderDetail.without_change_grand_total}
+            dicsountTotal={orderDetail.without_change_discount_total}
             currencySymbol={orderDetail.currency_symbol}
-            subTotalName="Grand Total"
+            subTotalName="Sub Total"
           />
         </>
       )}

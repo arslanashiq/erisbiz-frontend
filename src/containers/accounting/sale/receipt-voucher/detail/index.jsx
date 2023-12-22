@@ -38,7 +38,21 @@ function ReceiptVoucherDetail() {
       type: 'PAYMENT RECEIPT',
       order_number: `#${receiptVoucherResponse?.data?.payment_num}`,
       formated_order_number: receiptVoucherResponse?.data?.payment_num,
+      sale_person: receiptVoucherResponse?.data?.sale_person || '',
+      currency_symbol: receiptVoucherResponse?.data?.currency_symbol,
+      bankDetail: '',
+
       date: receiptVoucherResponse?.data?.payment_date,
+      supplier: null,
+      invoiceToDetail: {
+        customer_name: receiptVoucherResponse?.data?.customer_info?.customer_name || '',
+        attention_to: receiptVoucherResponse?.data?.customer_info?.contact_person || '',
+        address: receiptVoucherResponse?.data?.customer_info?.invoice_address_line1 || '',
+        city: receiptVoucherResponse?.data?.customer_info?.invoice_city || '',
+        country: receiptVoucherResponse?.data?.customer_info?.invoice_country_name || receiptVoucherResponse?.data?.customer_info?.invoice_country,
+      },
+      location: receiptVoucherResponse?.data?.location || '',
+
       box2: [
         {
           label: 'Paid By',
