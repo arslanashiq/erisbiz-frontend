@@ -14,11 +14,16 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
 
   const netAmount = grossTotal - discount + vatAmount;
 
-  setFieldValue(`${name}.${index}.chart_of_account`, values.credit_account);
+  if (values.credit_account) {
+    setFieldValue(`${name}.${index}.chart_of_account`, values.credit_account);
+  }
+  if (values.chart_of_account) {
+    setFieldValue(`${name}.${index}.chart_of_account`, values.chart_of_account);
+  }
   if (selectedVatValue) {
     setFieldValue(`${name}.${index}.vat_rate`, selectedVatValue);
   }
-  if (vatAmount) {
+  if (vatAmount >= 0) {
     setFieldValue(`${name}.${index}.vat_amount`, Number(vatAmount.toFixed(2)));
   }
   if (grossTotal) {

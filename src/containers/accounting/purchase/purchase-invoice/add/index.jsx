@@ -138,7 +138,7 @@ function AddPurchaseInvoice() {
       if (selecteditem.length === 0) return [];
       selecteditem = selecteditem.pur_order_items.map(item => ({
         ...item,
-        chart_of_account: values.credit_account,
+        chart_of_account: values.credit_account || item.chart_of_account,
         amount_ex_vat: item?.amount_ex_vat || item.gross_amount - item.discount,
       }));
       const selectedOrderItems = [...selecteditem];

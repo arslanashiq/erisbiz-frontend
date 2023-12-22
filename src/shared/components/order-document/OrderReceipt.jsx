@@ -66,7 +66,6 @@ function OrderReceipt({
     [orderDetail]
   );
 
-  console.log(orderInfo, 'adssa');
   return (
     <Box className="invoice-receipt-main-container">
       {showStatus && (
