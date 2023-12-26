@@ -62,8 +62,8 @@ function LogoAndCompanyInfo({ companyName, companyLogo }) {
     <View style={styles.header}>
       <Image
         style={styles.logo}
-        src="/logo.png"
-        //  src={companyLogo || '/logo.png'}
+        // src="/logo.png"
+        src={companyLogo || '/logo.png'}
         alt="Image"
       />
       <View style={styles.companyInfoContainer}>

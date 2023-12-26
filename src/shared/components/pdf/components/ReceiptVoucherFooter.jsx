@@ -15,7 +15,9 @@ function ReceiptVoucherFooter({ orderDetail, keyName, styles }) {
           </Text>
         </View>
         <View style={styles.tableCol}>
-          <Text style={[styles.tableCell, { textAlign: 'center' }]}>{item?.invoice?.invoice_id}</Text>
+          <Text style={[styles.tableCell, { textAlign: 'center' }]}>
+            {item?.invoice?.invoice_formatted_number}
+          </Text>
         </View>
         <View style={styles.tableCol}>
           {item?.invoice?.grand_total && (
@@ -25,9 +27,9 @@ function ReceiptVoucherFooter({ orderDetail, keyName, styles }) {
           )}
         </View>
         <View style={styles.tableCol}>
-          {item?.invoice?.amount_due && (
+          {item?.invoice?.amount_due >= 0 && (
             <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-              {formatAmount(item.invoice.amount_due)}
+              {formatAmount(item.invoice.amount_due) || 0.0}
             </Text>
           )}
         </View>

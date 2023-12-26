@@ -82,8 +82,8 @@ function OrderReceipt({
         >
           <Grid item xs={4} lg={4}>
             <img
-              src="/logo.png"
-              // src={companyLogo}
+              // src="/logo.png"
+              src={companyLogo}
               alt=""
               style={{ maxWidth: 250 }}
             />
