@@ -32,7 +32,8 @@ function PaymentVoucherHistory({ PaymentVoucher }) {
               ) : (
                 <Typography>
                   Payment of amount {PaymentVoucher?.currency_symbol}
-                  {PaymentVoucher?.total} paid by {PaymentVoucher?.supplier_name}
+                  {PaymentVoucher?.total} paid by{' '}
+                  {PaymentVoucher?.supplier_name || PaymentVoucher?.customer_info?.customer_name}
                 </Typography>
               )}
             </Grid>

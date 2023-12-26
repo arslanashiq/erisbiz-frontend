@@ -154,7 +154,6 @@ function ReceiptVoucherDetail() {
     setOpenRefundModal(false);
   }, []);
 
-  console.log(receiptVoucherJournalsResponse, 'receiptVoucherJournalsResponse');
   return (
     <SectionLoader options={[receiptVoucherResponse.isLoading, receiptVoucherDocumentsList.isLoading]}>
       <RefundDialog
