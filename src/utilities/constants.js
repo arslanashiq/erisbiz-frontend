@@ -74,8 +74,8 @@ export const ITEM_UNIT_LIST = [
 export const CURRENCY_ID = 2;
 
 export const VAT_RERVERSE_CHARGES = [
-  { value: '0', label: 'The Supplier is an important Agent' },
-  { value: '1', label: 'VAT Reverse Charges' },
+  { value: 0, label: 'The Supplier is an important Agent' },
+  { value: 1, label: 'VAT Reverse Charges' },
 ];
 
 export const VAT_CHARGES = [

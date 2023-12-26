@@ -64,7 +64,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             ))}
         </tbody>
       </table>
-      <Grid container pl={3}>
+      <Grid container pl={3} pt={3}>
         <Grid container item xs={6} lg={6}>
           <Grid item xs={12}>
             <Typography color="primary" sx={{ fontWeight: 'bold', fontSize: 16, paddingBottom: 1 }}>
