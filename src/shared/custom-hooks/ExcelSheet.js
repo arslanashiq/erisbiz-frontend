@@ -6,7 +6,7 @@ import {
   tableCellFooter,
   tableCellHeader,
 } from 'styles/components/custom-hooks/use-excel-sheet';
-import { COMPANY_NAME } from 'utilities/constants';
+import { COMPANY_NAME, DECIMAL_REGEX } from 'utilities/constants';
 
 const Excel = require('exceljs');
 
@@ -50,6 +50,9 @@ const addNewRowInExcelSheet = (targetSheet, cellsList, key, style) => {
   }
   sheet.addRow(row);
   for (let j = 0; j < cellsList.length; j += 1) {
+    if (DECIMAL_REGEX.test(cellsList[j][key])) {
+      sheet.getRow(selectedRow).getCell(j + 1).value = Number(cellsList[j][key]);
+    }
     sheet.getRow(selectedRow).getCell(j + 1).style = cellsList[j].excelSheetStyle || style;
   }
   selectedRow += 1;

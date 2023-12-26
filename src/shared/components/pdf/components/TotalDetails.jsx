@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, Text, View } from '@react-pdf/renderer';
 import palette from 'styles/mui/theme/palette';
-import formatAmount from 'utilities/formatAmount';
+import formatAmount, { toWords } from 'utilities/formatAmount';
 
 export const boldFont = {
   fontFamily: 'Lato Bold',
@@ -77,7 +77,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, disco
         <View style={{ minWidth: 230, maxWidth: 230 }}>
           <Text style={{ ...primaryColor, ...boldFont, fontSize: 13 }}>Total Amount in Words</Text>
           <Text style={{ ...primaryColor, fontSize: 11, marginTop: 20 }}>
-            {currencySymbol} - One hundred and fourty seven only
+            {currencySymbol} - {toWords.convert(grandTotal)}
           </Text>
         </View>
 
