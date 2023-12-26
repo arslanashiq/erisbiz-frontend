@@ -33,7 +33,7 @@ function UnPaidBillsList({ name, form, headCells }) {
       const usedAmount = getUsedAmount(value, index);
       setFieldValue('used_amount', Number(usedAmount));
       const unUsedAmount = Number(values.total) - Number(usedAmount);
-      if (unUsedAmount >= 0) setFieldValue('unused_amount', Number(values.total - usedAmount));
+      if (unUsedAmount >= 0) setFieldValue('unused_amount', (Number(values.total - usedAmount)).toFixed(2));
     },
     [values]
   );

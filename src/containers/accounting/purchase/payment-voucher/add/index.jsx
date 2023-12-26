@@ -100,7 +100,7 @@ function addPaymentVoucher() {
         }
         setInitialValues({
           ...initialValues,
-          used_amount: initialValues.total - initialValues.unused_amount,
+          used_amount: (initialValues.total - initialValues.unused_amount).toFixed(2),
           bill_payments: billPayment,
           supplier_id: Number(selectedSupplierId),
           total: amountTotal || 0,
