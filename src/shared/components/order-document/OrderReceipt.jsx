@@ -122,7 +122,7 @@ function OrderReceipt({
                 {/* trn */}
                 {renderOrderInfo(customerInfo, 'trn', 'TRN #')}
                 {/* attention to */}
-                {renderOrderInfo(orderDetail, 'attention_to', 'Attention To')}
+                {renderOrderInfo(customerInfo, 'attention_to', 'Attention To')}
                 {/* person name */}
                 {renderOrderInfo(customerInfo, 'supplier_name', 'Supplier')}
                 {renderOrderInfo(customerInfo, 'customer_name', 'Customer')}

@@ -43,7 +43,7 @@ function ChangePassword({ userData }) {
           setErrors(response.error.data);
           return;
         }
-        enqueueSnackbar('Password Change Successfully', { varient: 'Success' });
+        enqueueSnackbar('Password Change Successfully', { varient: 'success' });
         localStorage.clear();
         window.location.reload();
       }}

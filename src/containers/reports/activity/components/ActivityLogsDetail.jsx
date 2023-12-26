@@ -180,6 +180,7 @@ const inValidKeys = [
   'Exchange Rate Of Suppliercredit Currency',
   'G Recaptcha Response',
   'Pur Order',
+  'invoice_docs',
   // skip data testing
 ];
 const invalidNestedKeys = [
@@ -193,7 +194,6 @@ const invalidNestedKeys = [
   'Updated At',
   'Vat Rate Perc',
   'Debit Note Item Remove',
-  'Chart Of Account',
   'currency',
   'Currency Code',
   'Currency Symbol',
@@ -205,6 +205,9 @@ const invalidNestedKeys = [
   'Profit',
   'Total Cost',
   'filesList',
+  'amount_ex_vat',
+  'chart_of_account',
+  'transaction_num',
 ];
 const validKeyName = {
   set_credit_limit: 'Credit Limit',
@@ -244,7 +247,7 @@ const validKeyName = {
   debit_account_number: 'Debit Account #',
   supplier_credit_num: 'Supplier Credit #',
   amount_ex_vat: 'Amount Without VAT',
-  unit_price_ex_vat: 'Unit Price Without VAT',
+  unit_price_ex_vat: 'Unit Price',
   num_nights: 'Quantity',
   service_type: 'Item Name',
   vat_rate_name: 'VAT Rate',
@@ -252,6 +255,8 @@ const validKeyName = {
   pro_invoice_items: 'Proforma Invoice Items',
   pur_order_items: 'Purchase Order Items',
   bill_items: 'Purchase Invoice Items',
+  first_name: 'Name',
+  account_type_coa: 'Chart of Acocunt Type',
 };
 const formDataReplaceableKeys = [
   'pur_order_items',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
-import formatAmount, { numberToWords } from 'utilities/formatAmount';
+import formatAmount, { toWords } from 'utilities/formatAmount';
 import { Box, Grid, Typography } from '@mui/material';
 
 function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
@@ -72,7 +72,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             </Typography>
 
             <Typography color="primary" sx={{ fontSize: 15, fontWeight: 500 }}>
-              {orderDetail.currency_symbol} - {numberToWords(getTotalAmount())} Only
+              {orderDetail.currency_symbol} - {toWords.convert(getTotalAmount())}
             </Typography>
           </Grid>
         </Grid>

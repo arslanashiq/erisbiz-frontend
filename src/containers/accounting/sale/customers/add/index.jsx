@@ -5,7 +5,6 @@ import { Box, Card, CardContent } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import SettingsPhoneIcon from '@mui/icons-material/SettingsPhone';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 // services
 import {
@@ -127,7 +126,7 @@ function AddCustomer() {
                 name="contact_person"
                 type="text"
                 placeholder="Contact Person"
-                startIcon={<SettingsPhoneIcon />}
+                startIcon={<PersonOutlineIcon />}
                 label="Contact Person"
               />
 

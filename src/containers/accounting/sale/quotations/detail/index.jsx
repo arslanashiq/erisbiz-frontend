@@ -33,7 +33,7 @@ function QuotationDetailPage() {
 
   const orderInfo = useMemo(
     () => ({
-      type: 'QUOTATION',
+      type: 'Quotation',
       order_number: `#${quotationsDetailResponse?.data?.quotation_num}`,
       formated_order_number: quotationsDetailResponse?.data?.quotation_formatted_number,
       sale_person: quotationsDetailResponse?.data?.sale_person,

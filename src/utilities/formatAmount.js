@@ -88,7 +88,7 @@ export const numberToWords = number => {
 export const toWords = new ToWords({
   localeCode: 'en-US',
   converterOptions: {
-    currency: true,
+    currency: false,
     ignoreDecimal: false,
     ignoreZeroCurrency: false,
   },

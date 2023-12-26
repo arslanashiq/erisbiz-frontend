@@ -135,8 +135,8 @@ function SupplierAddPage() {
                 name="contact_person"
                 type="text"
                 placeholder="Contact Person"
-                startIcon={<SettingsPhoneIcon />}
                 label="Contact Person"
+                startIcon={<PersonOutlineIcon />}
               />
 
               <FormikField
@@ -155,7 +155,13 @@ function SupplierAddPage() {
                 label="Email"
                 isRequired
               />
-              <FormikField name="mobile_num" type="text" placeholder="Contact" label="Contact" />
+              <FormikField
+                name="mobile_num"
+                type="text"
+                startIcon={<SettingsPhoneIcon />}
+                placeholder="Contact"
+                label="Contact"
+              />
 
               <FormikField name="reference_num" type="text" placeholder="VAT Reg No" label="VAT Reg No" />
 
