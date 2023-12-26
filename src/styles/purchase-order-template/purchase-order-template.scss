@@ -155,7 +155,6 @@
       font-weight: bold;
       background-color: $primary-color;
       text-align: center;
-
     }
 
     td {
@@ -180,7 +179,6 @@
       background-color: #48b2e8;
       text-align: center;
       // color: #fffafa;
-      
     }
 
     td {
@@ -342,7 +340,6 @@
     padding: 7px;
     background-color: #f7e18b;
     text-align: left;
-    
   }
   table.table2-emp {
     width: 100%;
@@ -482,6 +479,6 @@ pre {
 }
 .payment-details a {
   font-size: 12px;
-  font-weight: bold;
   width: 100%;
+  margin: 0 !important;
 }
