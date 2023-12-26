@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { useNavigate } from 'react-router';
@@ -45,11 +45,20 @@ function TopbarProfile() {
       }, 400);
     }
   };
+
+  const getCompanyName = useCallback(companyName => {
+    try {
+      if (companyName.length <= 5) return companyName;
+      return companyName.slice(0, 5);
+    } catch (error) {
+      return companyName;
+    }
+  });
   return (
     <>
       <Stack direction="row" sx={topbarProfile} onClick={handleClick}>
         {companyDetail?.logo && <Avatar alt="Remy Sharp" src={companyDetail?.logo} />}
-        <Typography sx={topbarProfileName}>{companyDetail?.name || 'Admin User'}</Typography>
+        <Typography sx={topbarProfileName}>{getCompanyName(companyDetail?.name || 'Admin User')}</Typography>
         <ArrowDropDownIcon sx={topbarIcon} className=" clr-add" />
       </Stack>
 
