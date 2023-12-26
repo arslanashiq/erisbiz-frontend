@@ -1,3 +1,6 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
@@ -17,23 +20,26 @@ import formatAmount from 'utilities/formatAmount';
 function UnPaidBillsList({ name, form, headCells }) {
   const { values, setFieldValue } = form;
 
-  const getUsedAmount = useCallback((value, index) => {
-    let usedAmout = 0;
-    values[name].forEach((item, idx) => {
-      if (idx === index) {
-        usedAmout += Number(value || 0);
-      } else {
-        usedAmout += Number(item.amount_applied || 0);
-      }
-    });
-    return usedAmout || 0;
-  }, [values]);
+  const getUsedAmount = useCallback(
+    (value, index) => {
+      let usedAmout = 0;
+      values[name].forEach((item, idx) => {
+        if (idx === index) {
+          usedAmout += Number(value || 0);
+        } else {
+          usedAmout += Number(item.amount_applied || 0);
+        }
+      });
+      return usedAmout || 0;
+    },
+    [values]
+  );
   const handleChangeUsedAmount = useCallback(
     (value, index) => {
       const usedAmount = getUsedAmount(value, index);
       setFieldValue('used_amount', Number(usedAmount));
       const unUsedAmount = Number(values.total) - Number(usedAmount);
-      if (unUsedAmount >= 0) setFieldValue('unused_amount', (Number(values.total - usedAmount)).toFixed(2));
+      if (unUsedAmount >= 0) setFieldValue('unused_amount', Number((unUsedAmount).toFixed(2) || 0));
     },
     [values]
   );
@@ -58,18 +64,20 @@ function UnPaidBillsList({ name, form, headCells }) {
             {values[name]?.length > 0 &&
               values[name]?.map((bill, index) => (
                 <TableRow key={`${name}.${bill.id}.${index}`}>
-                  {headCells.map(cell => (cell.isInput ? (
-                    <TableCell key={`${name}.${cell.id}.${index}`}>
-                      <FormikField
-                        name={`${name}[${index}].amount_applied`}
-                        type="number"
-                        className="col-12"
-                        onChange={value => handleChangeUsedAmount(value, index)}
-                      />
-                    </TableCell>
-                  ) : (
-                    <TableCell key={uuid()}>{bill[cell.id] ? bill[cell.id] : cell.defaultValue}</TableCell>
-                  )))}
+                  {headCells.map(cell =>
+                    cell.isInput ? (
+                      <TableCell key={`${name}.${cell.id}.${index}`}>
+                        <FormikField
+                          name={`${name}[${index}].amount_applied`}
+                          type="number"
+                          className="col-12"
+                          onChange={value => handleChangeUsedAmount(value, index)}
+                        />
+                      </TableCell>
+                    ) : (
+                      <TableCell key={uuid()}>{bill[cell.id] ? bill[cell.id] : cell.defaultValue}</TableCell>
+                    )
+                  )}
                 </TableRow>
               ))}
           </TableBody>

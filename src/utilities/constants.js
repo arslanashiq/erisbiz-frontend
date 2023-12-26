@@ -19,7 +19,9 @@ export const NAME_REGEX = /^[a-zA-Z ]*$/;
 export const INTEGER_REGEX = /^[0-9]*$/;
 export const DECIMAL_REGEX = /^[0-9.]*$/;
 export const IBAN_REGIX = /^[A-Z]{2}[a-zA-Z\d]+$/;
+export const AMOUNT_REGEX = /^\d+(\.\d{0,2})?$/;
 
+export const maxDecimalPoints = value => (value ? AMOUNT_REGEX.test(value.toString()) : true);
 // /^[^<>()[\]\\,;:\%#^\s@\"$&!@\*\+]+@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 // HR ROLES
