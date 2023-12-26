@@ -29,6 +29,7 @@ export const getModuleName = name => {
 export const inValidKeys = [
   'uid',
   'uuid',
+  'invoice',
   'id',
   'created_by',
   'created_at',
@@ -184,6 +185,10 @@ export const inValidKeys = [
 ];
 export const invalidNestedKeys = [
   'num_units',
+  'Invoice Num Night',
+  'Invoice Num Unit',
+  'Invoice Unit Price Ex Vat',
+  'Is Item Inventory',
   'Cost Price',
   'Created At',
   'Created By',

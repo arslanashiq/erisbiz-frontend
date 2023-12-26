@@ -279,6 +279,9 @@ function ActivityLogsDetail() {
             return renderList(payloadNew[key], payloadNew[key], key, false);
           }
           if (valueType === 'object') {
+            if (key === 'supplier') {
+              return '';
+            }
             if (payloadOld) return renderThreeColumn('This is Object', 'This is Object', key);
             return renderTwoColumn('This is Object', key);
           }
