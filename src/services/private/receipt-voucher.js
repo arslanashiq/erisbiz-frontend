@@ -96,6 +96,15 @@ const receiptVoucherApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['refundUnUsedAmount'],
     }),
+
+    receiptVoucherJournals: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/paymentsReceived/${id}/journals`,
+        method: 'GET',
+      }),
+      providesTags: ['receiptVoucherJournals'],
+      invalidatesTags: ['editReceiptVoucher'],
+    }),
   }),
 });
 
@@ -111,4 +120,5 @@ export const {
   useAddReceiptVoucherDocumentsMutation,
   useDeleteReceiptVoucherDocumentsMutation,
   useRefundReceiptVoucherMutation,
+  useReceiptVoucherJournalsQuery,
 } = receiptVoucherApi;

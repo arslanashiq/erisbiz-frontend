@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
-import { Card, CardContent } from '@mui/material';
+import { Card, CardContent, Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import {
@@ -10,8 +11,11 @@ import {
   useGetReceiptVoucherDocumentsQuery,
   useDeleteReceiptVoucherMutation,
   useRefundReceiptVoucherMutation,
+  useReceiptVoucherJournalsQuery,
 } from 'services/private/receipt-voucher';
+import JournalTable from 'shared/components/accordion/JournalTable';
 import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
+import PaymentVoucherHistory from 'containers/accounting/purchase/payment-voucher/detail/components/PaymentVoucherHistory';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import { UnPaidSaleInvoiceHeadCells } from '../utilities/head-cells';
@@ -28,6 +32,7 @@ function ReceiptVoucherDetail() {
   });
   const [openRefundModal, setOpenRefundModal] = useState(false);
 
+  const receiptVoucherJournalsResponse = useReceiptVoucherJournalsQuery(id);
   const receiptVoucherResponse = useGetSingleReceiptVoucherQuery(id);
   const receiptVoucherDocumentsList = useGetReceiptVoucherDocumentsQuery(id);
 
@@ -49,7 +54,9 @@ function ReceiptVoucherDetail() {
         attention_to: receiptVoucherResponse?.data?.customer_info?.contact_person || '',
         address: receiptVoucherResponse?.data?.customer_info?.invoice_address_line1 || '',
         city: receiptVoucherResponse?.data?.customer_info?.invoice_city || '',
-        country: receiptVoucherResponse?.data?.customer_info?.invoice_country_name || receiptVoucherResponse?.data?.customer_info?.invoice_country,
+        country:
+          receiptVoucherResponse?.data?.customer_info?.invoice_country_name ||
+          receiptVoucherResponse?.data?.customer_info?.invoice_country,
       },
       location: receiptVoucherResponse?.data?.location || '',
 
@@ -146,6 +153,8 @@ function ReceiptVoucherDetail() {
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
     setOpenRefundModal(false);
   }, []);
+
+  console.log(receiptVoucherJournalsResponse, 'receiptVoucherJournalsResponse');
   return (
     <SectionLoader options={[receiptVoucherResponse.isLoading, receiptVoucherDocumentsList.isLoading]}>
       <RefundDialog
@@ -182,6 +191,17 @@ function ReceiptVoucherDetail() {
             showItemsTable={false}
             showOrderVoucher
           />
+
+          <Grid container>
+            <Grid item xs={12} style={{ maxWidth: 900, margin: '20px auto' }}>
+              <PaymentVoucherHistory PaymentVoucher={receiptVoucherResponse?.data} />
+              <Grid marginTop={4} id="Journal">
+                {receiptVoucherJournalsResponse?.data?.map(journalItems => (
+                  <JournalTable key={uuid()} journalItems={journalItems?.payment_received_journal_items} />
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
     </SectionLoader>

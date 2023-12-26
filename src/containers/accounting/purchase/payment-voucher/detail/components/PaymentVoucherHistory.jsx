@@ -26,13 +26,13 @@ function PaymentVoucherHistory({ PaymentVoucher }) {
               {PaymentVoucher?.bill_numbers ? (
                 <Typography>
                   Payment of amount {PaymentVoucher?.currency_symbol}
-                  {PaymentVoucher?.amount_received} paid and applied for {PaymentVoucher?.bill_numbers} by{' '}
-                  {PaymentVoucher?.created_by_employee_name}
+                  {PaymentVoucher?.total} paid and applied for {PaymentVoucher?.bill_numbers} by{' '}
+                  {PaymentVoucher?.supplier_name}
                 </Typography>
               ) : (
                 <Typography>
                   Payment of amount {PaymentVoucher?.currency_symbol}
-                  {PaymentVoucher?.amount_received} paid by {PaymentVoucher?.created_by_employee_name}
+                  {PaymentVoucher?.total} paid by {PaymentVoucher?.supplier_name}
                 </Typography>
               )}
             </Grid>
