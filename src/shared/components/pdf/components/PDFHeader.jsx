@@ -36,7 +36,7 @@ function PDFHeader({ orderInfo, companyName, companyLogo }) {
       <View style={styles.container}>
         <LogoAndCompanyInfo companyName={companyName} companyLogo={companyLogo} />
       </View>
-      <InvoiceInfoDetail orderInfo={orderInfo} />
+      {orderInfo && <InvoiceInfoDetail orderInfo={orderInfo} />}
     </View>
   );
 }

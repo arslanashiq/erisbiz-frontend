@@ -38,7 +38,13 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['editReceiptVoucher'],
-      invalidatesTags: ['getReceiptVoucherList', 'getSingleReceiptVoucher', 'getLatestReceiptVoucher'],
+      invalidatesTags: [
+        'getReceiptVoucherList',
+        'getSingleReceiptVoucher',
+        'getSingleSaleInvoice',
+        'getSaleInvoicesList',
+        'getLatestReceiptVoucher',
+      ],
     }),
     deleteReceiptVoucher: builder.mutation({
       query: id => ({

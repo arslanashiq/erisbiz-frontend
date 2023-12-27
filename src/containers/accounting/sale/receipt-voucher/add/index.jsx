@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
@@ -71,6 +71,7 @@ function AddReceiptVoucher() {
       const response = await getUnPaidSaleInvoices(value);
       const updatedData = response?.data?.map(payment => ({
         ...payment,
+
         amount_applied: 0,
       }));
       if (setFieldValue) setFieldValue('invoice_payments', updatedData);
@@ -123,6 +124,18 @@ function AddReceiptVoucher() {
     })();
   }, [customerId]);
 
+  const updateInitialValues = useMemo(() => {
+    const updatedData = { ...initialValues };
+    if (id && updatedData?.invoice_payments.length > 0) {
+      updatedData.invoice_payments = updatedData?.invoice_payments.map(payment => ({
+        ...payment,
+        invoice_formatted_number: payment?.invoice?.invoice_formatted_number,
+        amount_due: payment.amount_due + payment.amount_applied,
+      }));
+    }
+
+    return updatedData;
+  }, [initialValues]);
   return (
     <SectionLoader
       options={[
@@ -136,7 +149,7 @@ function AddReceiptVoucher() {
           <FormHeader title="Receipt Voucher" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={updateInitialValues}
             validationSchema={receiptVoucherFormValidationSchema}
             onSubmit={handleSubmitForm}
           >

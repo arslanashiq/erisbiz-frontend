@@ -83,7 +83,7 @@ export const UnPaidSaleInvoiceHeadCells = [
     date: true,
   },
   {
-    id: 'invoice_id',
+    id: 'invoice_formatted_number',
     disablePadding: true,
     label: 'Invoice No',
     align: 'left',

@@ -49,6 +49,9 @@ function ErrorFocus({ formik }) {
     } else {
       setFormikErrors('');
     }
+    if (Object.keys(errors).length === 0) {
+      setFormikErrors('');
+    }
   }, [isSubmitting]);
 
   if (formikErrors) {

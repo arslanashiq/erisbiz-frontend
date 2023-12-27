@@ -9,7 +9,14 @@ import { getStableSort } from 'utilities/sort';
 import CustomeReportTableHead from './CustomeReportTableHead';
 import 'styles/reports/custom-report.scss';
 
-function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassName, usePagination }) {
+function CustomReport({
+  tableHeader,
+  tableBody,
+  tableFooter,
+  parentWrapperClassName,
+  usePagination,
+  rowCount,
+}) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -104,7 +111,7 @@ function CustomReport({ tableHeader, tableBody, tableFooter, parentWrapperClassN
             <TablePagination
               rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
               component="div"
-              count={100}
+              count={rowCount}
               rowsPerPage={handleGetPaginationData().limit || ROWS_PER_PAGE}
               page={handleGetPaginationData().offset / rowsPerPage}
               onPageChange={handleChangePage}
@@ -123,6 +130,7 @@ CustomReport.propTypes = {
   tableFooter: PropTypes.array,
   parentWrapperClassName: PropTypes.string,
   usePagination: PropTypes.bool,
+  rowCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 CustomReport.defaultProps = {
   tableHeader: [],
@@ -130,5 +138,6 @@ CustomReport.defaultProps = {
   tableFooter: [[]],
   parentWrapperClassName: 'custom-receipt-main-container',
   usePagination: false,
+  rowCount: 100,
 };
 export default CustomReport;

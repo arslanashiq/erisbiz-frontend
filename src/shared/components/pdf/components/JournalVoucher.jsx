@@ -82,12 +82,12 @@ function JournalVoucher({ orderInfo, orderDetail, keyName }) {
 
               <View style={styles.tableCol}>
                 <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {orderDetail.currency_symbol} {formatAmount(item.debit || 0)}
+                  {formatAmount(item.debit || 0)}
                 </Text>
               </View>
               <View style={styles.tableCol}>
                 <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-                  {orderDetail.currency_symbol} {formatAmount(item.credit || 0)}
+                  {formatAmount(item.credit || 0)}
                 </Text>
               </View>
             </View>

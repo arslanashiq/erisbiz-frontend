@@ -36,6 +36,7 @@ export const validObjectKeysNames = {
 export const inValidKeys = [
   'uid',
   'uuid',
+  'supplier_name',
   'customer_info',
   'invoice',
   'id',
@@ -193,6 +194,7 @@ export const inValidKeys = [
   'paid_through_account_id',
   'Amount Due Invoice Currency',
   'account_code',
+  'Amount Due Bill Currency',
   // skip data testing
 ];
 export const invalidNestedKeys = [
@@ -227,6 +229,7 @@ export const invalidNestedKeys = [
   'Bill Num Unit',
   'Invoice Num Nights',
   'Chart Of Account Id',
+  'Bcy Grand Total',
 ];
 export const validKeyName = {
   set_credit_limit: 'Credit Limit',

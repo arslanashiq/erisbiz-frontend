@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Button, Stack, Typography } from '@mui/material';
 import StyledDialog from 'styles/mui/component/StyledDialog';
-import { PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Font, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { useSelector } from 'react-redux';
 import MainComponent from '../components/MainComponent';
 import PDFHeader from '../components/PDFHeader';
@@ -13,6 +12,10 @@ const BORDER_COLOR = '#08517e';
 const BORDER_STYLE = '1px solid #08517e';
 const COLN_WIDTH = 100 / 7;
 
+Font.register({
+  family: 'Lato Bold',
+  src: 'https://fonts.gstatic.com/s/lato/v16/S6u9w4BMUTPHh6UVSwiPHA.ttf',
+});
 const styles = StyleSheet.create({
   table: {
     display: 'table',
@@ -154,9 +157,9 @@ function ReportsPdfPrintModal({
             <MainComponent subject={reportTitle} title={reportTitle}>
               {/* header */}
               <PDFHeader companyName={companyName} companyLogo={companyLogo} />
-              {/* {isMultiReport
+              {isMultiReport
                 ? tableBody.map((body, index) => renderReport(modifiedTableHead[index], body, tableFooter[index]))
-                : renderReport(tableHeader, tableBody, tableFooter)} */}
+                : renderReport(tableHeader, tableBody, tableFooter)}
             </MainComponent>
           </PDFViewer>
         </Stack>

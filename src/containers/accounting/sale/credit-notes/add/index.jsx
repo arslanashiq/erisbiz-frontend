@@ -142,8 +142,9 @@ function index() {
       newData = {
         ...newData,
         invoice: initialValues?.invoice?.id,
-        credit_note_items: initialValues?.invoice?.invoice_items?.map(invoiceItems => ({
+        credit_note_items: initialValues?.invoice?.invoice_items?.map((invoiceItems, idx) => ({
           ...invoiceItems,
+          num_nights: initialValues?.credit_note_items[idx]?.num_nights,
           invoice_num_nights: invoiceItems.num_nights,
         })),
       };

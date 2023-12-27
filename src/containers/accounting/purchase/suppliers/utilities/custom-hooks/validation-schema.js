@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 export const supplierFormValidationSchema = Yup.object({
   supplier_name: Yup.string().max(100, 'Cannot exceed 100 characters').required('Supplier Name is required'),
   email: Yup.string().matches(EMAIL_REGEX, 'Must be a valid Email').required('Email is required'),
-  account_default: Yup.string().required('Account Default is required'),
+  account_default: Yup.string().min(1).required('Account Default is required'),
   latitude: Yup.number('Must be a number').required('Latitude is required'),
   longitude: Yup.number('Must be a number').required('Longitude is required'),
   set_credit_limit: Yup.number().when('credit_limit', {

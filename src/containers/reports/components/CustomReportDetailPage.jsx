@@ -93,6 +93,7 @@ function CustomReportDetailPage({
                   tableFooter={tableFooter[index]}
                   parentWrapperClassName={parentWrapperClassName}
                   usePagination={usePagination}
+                  rowCount={reportResponse?.data?.count || 100}
                 />
               ))
             ) : (
@@ -102,6 +103,7 @@ function CustomReportDetailPage({
                 tableFooter={tableFooter}
                 parentWrapperClassName={parentWrapperClassName}
                 usePagination={usePagination}
+                rowCount={reportResponse?.data?.count || 100}
               />
             )}
           </div>
