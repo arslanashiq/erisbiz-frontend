@@ -32,6 +32,7 @@ import {
   invalidNestedKeys,
   tableCellStyle,
   validKeyName,
+  validObjectKeysNames,
 } from '../utilities/constants';
 
 function ActivityLogsDetail() {
@@ -162,24 +163,28 @@ function ActivityLogsDetail() {
     }
 
     if (payloadData) {
-      const purchaseOrderItems = [{}];
-      Object.keys(payloadData).forEach(key => {
-        formDataReplaceableKeys.forEach(formDataOption => {
-          if (key.includes(`${formDataOption}[`)) {
-            let slices = key;
-            slices = slices.split('[')[1].split(']');
+      try {
+        const purchaseOrderItems = [{}];
+        Object.keys(payloadData).forEach(key => {
+          formDataReplaceableKeys.forEach(formDataOption => {
+            if (key.includes(`${formDataOption}[`) && typeof payloadData[key] === 'string') {
+              let slices = key;
+              slices = slices.split('[')[1].split(']');
 
-            if (slices.length > 0) {
-              if (!purchaseOrderItems[slices[0]]) {
-                purchaseOrderItems.splice(slices[0], 0, {});
+              if (slices.length > 0) {
+                if (!purchaseOrderItems[slices[0]]) {
+                  purchaseOrderItems.splice(slices[0], 0, {});
+                }
+                purchaseOrderItems[slices[0]][slices[1]] = payloadData[key];
+                delete payloadData[key];
               }
-              purchaseOrderItems[slices[0]][slices[1]] = payloadData[key];
-              delete payloadData[key];
+              payloadData[formDataOption] = purchaseOrderItems;
             }
-            payloadData[formDataOption] = purchaseOrderItems;
-          }
+          });
         });
-      });
+      } catch (error) {
+        //
+      }
     }
     return {
       payload: payloadData,
@@ -262,6 +267,22 @@ function ActivityLogsDetail() {
       </TableRow>
     ));
   };
+  const handleObjectData = (payloadOld, payloadNew, key) => {
+    try {
+      if (validObjectKeysNames[key]) {
+        if (payloadOld) {
+          return renderThreeColumn(
+            payloadOld[key][validObjectKeysNames[key]] || 'Error',
+            payloadNew[key][validObjectKeysNames[key]] || 'Error',
+            key
+          );
+        }
+      }
+      return renderTwoColumn(payloadNew[key][validObjectKeysNames[key]] || 'Error', key);
+    } catch (error) {
+      return '';
+    }
+  };
 
   const handleRenderRowColumns = useCallback(
     (payloadOld, payloadNew) =>
@@ -279,11 +300,12 @@ function ActivityLogsDetail() {
             return renderList(payloadNew[key], payloadNew[key], key, false);
           }
           if (valueType === 'object') {
-            if (key === 'supplier') {
-              return '';
+            if (payloadOld) {
+              if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
             }
-            if (payloadOld) return renderThreeColumn('This is Object', 'This is Object', key);
-            return renderTwoColumn('This is Object', key);
+            const objectResult = handleObjectData(payloadOld, payloadNew, key);
+            if (objectResult) return objectResult;
+            return '';
           }
           if (
             payloadNew[key] !== '' &&

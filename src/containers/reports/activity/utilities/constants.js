@@ -26,9 +26,17 @@ export const getModuleName = name => {
   return name;
 };
 
+export const validObjectKeysNames = {
+  expense_account: 'account_name',
+  paid_through_account: 'account_name',
+  supplier: 'supplier_name',
+  // customer_info: 'customer_name',
+};
+
 export const inValidKeys = [
   'uid',
   'uuid',
+  'customer_info',
   'invoice',
   'id',
   'created_by',
@@ -181,6 +189,10 @@ export const inValidKeys = [
   'G Recaptcha Response',
   'Pur Order',
   'invoice_docs',
+  'expense_account_id',
+  'paid_through_account_id',
+  'Amount Due Invoice Currency',
+  'account_code',
   // skip data testing
 ];
 export const invalidNestedKeys = [
@@ -212,6 +224,8 @@ export const invalidNestedKeys = [
   'amount_ex_vat',
   'chart_of_account',
   'transaction_num',
+  'Bill Num Unit',
+  'Invoice Num Nights',
 ];
 export const validKeyName = {
   set_credit_limit: 'Credit Limit',
@@ -231,8 +245,8 @@ export const validKeyName = {
   without_change_grand_total: 'Total',
   bill_num: 'Bill #',
   total_without_tax: 'Net Amount',
-  expense_account_id: 'Expense Account',
-  paid_through_account_id: 'Paid Through',
+  // expense_account_id: 'Expense Account',
+  // paid_through_account_id: 'Paid Through',
   vat_reg_no: 'VAT Registration #',
   quotation_formatted_number: 'Quotation Number',
   pro_invoice_formatted_number: 'Proforma Invoice Formatted #',

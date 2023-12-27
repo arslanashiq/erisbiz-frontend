@@ -18,7 +18,7 @@ function ActivityLogs() {
         showPrint: true,
       }}
       parentWrapperClassName="custom-receipt-activity-log"
-      // queryOptions={{ refetchOnMountOrArgChange: true }}
+      queryOptions={{ refetchOnMountOrArgChange: true }}
       // usePagination
     />
   );
