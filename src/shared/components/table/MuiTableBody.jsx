@@ -52,15 +52,14 @@ function MuiTableBody({
     return `${window.location.pathname}/${row.uuid || row.id}/detail`;
   };
   const renderCellValue = (row, cell) => {
-    // for null or undefined values
-    if (row[cell.id] === null || row[cell.id] === undefined) {
-      return '-';
-    }
     // for custom actions based on values values
     if (cell.cellValueAction) {
       return cell.cellValueAction(row[cell.id], currencySymbol);
     }
-
+    // for null or undefined values
+    if (row[cell.id] === null || row[cell.id] === undefined) {
+      return '-';
+    }
     // to show active status
     if (typeof row[cell.id] === 'boolean') {
       return row[cell.id] ? 'Active' : 'Inactive';

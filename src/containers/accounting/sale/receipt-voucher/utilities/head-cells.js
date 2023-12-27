@@ -71,8 +71,9 @@ export const receiptVoucherHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Unused Amount',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value) || 0.0}`,
     align: 'left',
+    defaultValue: '0.00',
   },
 ];
 export const UnPaidSaleInvoiceHeadCells = [
