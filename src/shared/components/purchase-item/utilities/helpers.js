@@ -8,8 +8,11 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
   const { discount } = values;
 
   // VAT
-  const { value: selectedVatValue, percent: selectedVatPercent } =
-    VAT_CHARGES.filter(vat => values.vat_rate === vat.value)[0] || VAT_CHARGES[0];
+  const {
+    value: selectedVatValue,
+    percent: selectedVatPercent,
+    label: selectedVatLabel,
+  } = VAT_CHARGES.filter(vat => values.vat_rate === vat.value)[0] || VAT_CHARGES[0];
   const vatAmount = ((grossTotal - discount) / 100) * selectedVatPercent;
 
   const netAmount = grossTotal - discount + vatAmount;
@@ -22,6 +25,7 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
   }
   if (selectedVatValue) {
     setFieldValue(`${name}.${index}.vat_rate`, selectedVatValue);
+    setFieldValue(`${name}.${index}.vat_rate_name`, selectedVatLabel);
   }
   if (vatAmount >= 0) {
     setFieldValue(`${name}.${index}.vat_amount`, Number(vatAmount.toFixed(2)));
@@ -137,6 +141,7 @@ export const handleGetFormatedItemsData = itemsList => {
       vat_amount: item.vat_amount,
       net_amount: item.net_amount,
       vat_rate: item.vat_rate,
+      vat_rate_name: item.vat_rate_name || VAT_CHARGES[0].label,
       cost_price: item.cost_price,
       amount_ex_vat: item.amount_ex_vat,
     }));

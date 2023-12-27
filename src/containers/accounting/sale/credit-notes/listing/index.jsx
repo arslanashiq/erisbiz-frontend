@@ -7,6 +7,7 @@ import { useDeleteCreditNoteMutation, useGetCreditNotesListQuery } from 'service
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { creditNoteHeadCells } from '../utilities/head-cells';
@@ -15,7 +16,7 @@ function CreditNotesListing() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const creditNotesListResponse = useGetCreditNotesListQuery(location.search);
+  const creditNotesListResponse = useGetCreditNotesListQuery(location.search || DEFAULT_PARAMS);
 
   const [deleteCreditNote] = useDeleteCreditNoteMutation();
 

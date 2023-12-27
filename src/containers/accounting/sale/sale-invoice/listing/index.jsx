@@ -7,6 +7,7 @@ import { useDeleteSaleInvoiceMutation, useGetSaleInvoicesListQuery } from 'servi
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities and styles
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { invoiceHeadCell } from '../utilities/head-cells';
@@ -15,7 +16,7 @@ function ProfomaInvoiceListing() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const invoicesListResponse = useGetSaleInvoicesListQuery(location.search);
+  const invoicesListResponse = useGetSaleInvoicesListQuery(location.search || DEFAULT_PARAMS);
 
   const [deleteinvoice] = useDeleteSaleInvoiceMutation();
 

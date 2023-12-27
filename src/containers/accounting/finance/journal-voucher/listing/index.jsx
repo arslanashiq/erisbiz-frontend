@@ -9,6 +9,7 @@ import {
 } from 'services/private/journal-voucher';
 
 // shared components and styles
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import MuiTable from 'shared/components/table/MuiTable';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import ListingOtherOptions from 'utilities/other-options-listing';
@@ -19,7 +20,7 @@ function JournalVoucherListing() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const journalVoucherDetailResponse = useGetJournalVouchersListQuery(location.search);
+  const journalVoucherDetailResponse = useGetJournalVouchersListQuery(location.search || DEFAULT_PARAMS);
 
   const [deleteJournalVoucher] = useDeleteJournalVoucherMutation();
 

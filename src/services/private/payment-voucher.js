@@ -3,13 +3,10 @@ import { privateApi } from './index';
 const PaymentVoucherApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getPaymentVouchersList: builder.query({
-      query: (params = {}) => ({
+      query: params => ({
         url: '/api/accounting/purchases/paymentsMade/',
         method: 'GET',
-        params: {
-          offset: params.offset,
-          limit: params.limit,
-        },
+        params,
       }),
       providesTags: ['getPaymentVouchersList'],
     }),

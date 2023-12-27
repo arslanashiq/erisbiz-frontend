@@ -89,14 +89,25 @@ function RenderChartOfAccount({ chartOfAccounts, selected, handleClick }) {
     },
     [chartOfAccounts, selected]
   );
-  return chartOfAccounts.map((item, index) => renderRow(item, 1, index));
+  if (chartOfAccounts?.length > 0) {
+    return chartOfAccounts.map((item, index) => renderRow(item, 1, index));
+  }
+  return (
+    <TableRow key={uuid()} sx={{ ...chartOfAccountRowStyle, padding: '10px 0px' }}>
+      <TableCell colSpan={4}> No Data Found</TableCell>
+    </TableRow>
+  );
 }
 RenderChartOfAccount.propTypes = {
   chartOfAccounts: PropTypes.array,
+  selected: PropTypes.array,
+  handleClick: PropTypes.func,
 };
 
 RenderChartOfAccount.defaultProps = {
   chartOfAccounts: [],
+  selected: [],
+  handleClick: null,
 };
 
 export default RenderChartOfAccount;

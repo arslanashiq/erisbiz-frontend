@@ -17,6 +17,7 @@ import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWr
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import { taxReturnsHeadCell, taxReturnsPaymentsHeadCell } from '../utilities/head-cells';
 import AddTaxPaymentsModal from './components/AddTaxPaymentsModal';
 
@@ -34,8 +35,8 @@ function TaxReturnListing() {
   });
   const [addTaxPaymentModal, setAddTaxPaymentModal] = useState(false);
 
-  const TaxReturnsResponse = useGetTaxReturnListQuery(location.search);
-  const TaxReturnsPaymentsResponse = useGetTaxReturnPaymentsListQuery(location.search);
+  const TaxReturnsResponse = useGetTaxReturnListQuery(location.search || DEFAULT_PARAMS);
+  const TaxReturnsPaymentsResponse = useGetTaxReturnPaymentsListQuery(location.search || DEFAULT_PARAMS);
 
   const [deletePayment] = useDeleteTaxReturnPaymentMutation();
 

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 function MainComponent({ pageSize, subject, title, children }) {
   return (
-    <Document author="Luxury Explorers" keywords="receipt" subject={subject} title={title}>
+    <Document author="ErisBiz" keywords="receipt" subject={subject} title={title}>
       <Page style={styles.page} size={pageSize}>
         {children}
       </Page>

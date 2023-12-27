@@ -11,6 +11,7 @@ import {
 import MuiTable from 'shared/components/table/MuiTable';
 // utilities  and styles
 import SectionLoader from 'containers/common/loaders/SectionLoader';
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { receiptVoucherHeadCells } from '../utilities/head-cells';
@@ -20,7 +21,7 @@ function ReceiptVoucher() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const receiptVouchersResponse = useGetReceiptVoucherListQuery(location.search);
+  const receiptVouchersResponse = useGetReceiptVoucherListQuery(location.search || DEFAULT_PARAMS);
 
   const [deleteReceiptVoucher] = useDeleteReceiptVoucherMutation();
 

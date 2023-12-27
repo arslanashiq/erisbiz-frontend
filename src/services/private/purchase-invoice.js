@@ -3,9 +3,10 @@ import { privateApi } from './index';
 const purchaseInvoiceApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getPurchaseInvoiceList: builder.query({
-      query: () => ({
+      query: params => ({
         url: '/api/accounting/purchases/list/bills',
         method: 'GET',
+        params,
       }),
       providesTags: ['getPurchaseInvoiceList'],
     }),

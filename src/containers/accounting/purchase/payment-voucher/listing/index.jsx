@@ -12,6 +12,7 @@ import MuiTable from 'shared/components/table/MuiTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities  and styles
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { PaymentVoucherHeadCells } from '../utilities/head-cells';
@@ -21,7 +22,7 @@ function paymentVoucherListing() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const paymentVouchersListResponse = useGetPaymentVouchersListQuery(location.search);
+  const paymentVouchersListResponse = useGetPaymentVouchersListQuery(location.search || DEFAULT_PARAMS);
 
   const [deletePaymentVoucher] = useDeletePaymentVoucherMutation();
 

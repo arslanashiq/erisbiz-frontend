@@ -11,6 +11,7 @@ import {
 import MuiTable from 'shared/components/table/MuiTable';
 import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 // utilities and styles
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { purchaseOrderHeadCells } from '../utilities/head-cells';
@@ -20,7 +21,7 @@ function PurchaseOrderListing() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const purchaseOrdersResponse = useGetPurchaseOrdersListQuery(location.search);
+  const purchaseOrdersResponse = useGetPurchaseOrdersListQuery(location.search || DEFAULT_PARAMS);
 
   const [deletePurchaseOrder] = useDeletePurchaseOrderMutation();
 

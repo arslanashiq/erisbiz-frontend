@@ -10,6 +10,7 @@ import {
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 // utilitues and styles
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
@@ -20,7 +21,7 @@ function SupplierCreditListing() {
   const { enqueueSnackbar } = useSnackbar();
 
   const purchaseInvoiceResponse = useGetPurchaseInvoiceListQuery(
-    getsearchQueryOffsetAndLimitParams(location)
+    getsearchQueryOffsetAndLimitParams(location) || DEFAULT_PARAMS
   );
 
   const [deleteInvoice] = useDeletePurchaseInvoceMutation();

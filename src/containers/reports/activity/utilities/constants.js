@@ -226,6 +226,7 @@ export const invalidNestedKeys = [
   'transaction_num',
   'Bill Num Unit',
   'Invoice Num Nights',
+  'Chart Of Account Id',
 ];
 export const validKeyName = {
   set_credit_limit: 'Credit Limit',

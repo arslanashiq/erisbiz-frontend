@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
@@ -153,9 +154,9 @@ function ReportsPdfPrintModal({
             <MainComponent subject={reportTitle} title={reportTitle}>
               {/* header */}
               <PDFHeader companyName={companyName} companyLogo={companyLogo} />
-              {isMultiReport
+              {/* {isMultiReport
                 ? tableBody.map((body, index) => renderReport(modifiedTableHead[index], body, tableFooter[index]))
-                : renderReport(tableHeader, tableBody, tableFooter)}
+                : renderReport(tableHeader, tableBody, tableFooter)} */}
             </MainComponent>
           </PDFViewer>
         </Stack>
