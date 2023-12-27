@@ -9,3 +9,7 @@ pipelines:
       - step:  
           script:
             - ssh ubuntu@15.184.102.16 /home/ubuntu/Erisbiz/staging/eris-biz-frontend/devCdScript.sh 
+    erisbiz-prod:
+      - step:
+          script:
+            - ssh ubuntu@15.184.181.15 /home/ubuntu/Erisbiz/production/eris-biz-frontend/devCdScript.sh
