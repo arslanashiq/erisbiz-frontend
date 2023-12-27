@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
 import { Card, CardContent } from '@mui/material';
 // shared
@@ -15,7 +14,8 @@ import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHea
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
 // utilities
-import { DATE_FILTER_REPORT } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
+import { DATE_FILTER_REPORT, DEFAULT_PARAMS } from 'utilities/constants';
 // components
 import ReportsHeader from './ReportsHeader';
 import CustomReportsDetailHeader from './CustomReportsDetailHeader';
@@ -35,9 +35,10 @@ function CustomReportDetailPage({
   const { name: companyName } = useSelector(state => state?.user?.company);
 
   const { replaceTableBody } = options;
-  const location = useLocation();
 
-  const reportResponse = useGetReportQuery(location.search, queryOptions);
+  const searchQueryParamsData = getSearchParamsList();
+  const defaultParams = usePagination ? { ...DEFAULT_PARAMS } : {};
+  const reportResponse = useGetReportQuery({ ...defaultParams, ...searchQueryParamsData }, queryOptions);
   const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } = useGetReportData(
     reportResponse,
     companyName

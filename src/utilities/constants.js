@@ -5,8 +5,8 @@ export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
 // export const API_URL = 'http://192.168.1.170:8000/';
 
-export const ROWS_PER_PAGE = 20;
-export const ROWS_PER_PAGE_OPTIONS = [20, 50, 100];
+export const ROWS_PER_PAGE = 5;
+export const ROWS_PER_PAGE_OPTIONS = [ROWS_PER_PAGE, 50, 100];
 export const DEFAULT_PARAMS = {
   limit: ROWS_PER_PAGE,
   offset: 0,

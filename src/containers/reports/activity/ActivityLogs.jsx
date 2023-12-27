@@ -19,7 +19,7 @@ function ActivityLogs() {
       }}
       parentWrapperClassName="custom-receipt-activity-log"
       queryOptions={{ refetchOnMountOrArgChange: true }}
-      // usePagination
+      usePagination
     />
   );
 }
