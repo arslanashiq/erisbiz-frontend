@@ -203,6 +203,7 @@ export const validObjectKeysNames = {
 //   // skip data testing
 // ];
 export const inValidKeys = [
+  'Discount',
   'Created At',
   'Created By',
   'Currency',
@@ -440,7 +441,7 @@ export const invalidKeysModuleWise = {
   ],
   Journal: ['Last Journal Num', 'Journal Formatted Number', 'Is Deleted'],
 };
-export const invalidNestedKeys = [
+export const invalidNestedKeys1 = [
   'num_units',
   'Invoice Num Night',
   'Invoice Num Unit',
@@ -483,7 +484,141 @@ export const invalidNestedKeys = [
   'bill_id',
   'pur_order',
 ];
-export const invalidNestedKeysModuleWise = [];
+
+export const invalidNestedKeys = [
+  'Cost Price',
+  'Created At',
+  'Created By',
+  'Updated At',
+  'Currency',
+  'Currency Code',
+  'Currency Symbol',
+  'Id',
+  'uuid',
+  'uid',
+  'Vat Rate Perc',
+  'Num Units',
+  'Doc File',
+  'Doc Size Bytes',
+];
+export const invalidNestedKeysModuleWise = {
+  // purchase
+  PurOrder: {
+    pur_order_items: [
+      'Is Item Inventory',
+      'Invoice Unit Price Ex Vat',
+      'Vat Rate',
+      'Total Cost',
+      'Profit',
+      'Amount Without VAT',
+      'Cost Amount Ex Vat',
+      'Cost Vat Amount',
+      'Invoice Num Night',
+      'Invoice Num Unit',
+      'Vat Amount',
+      'Chart Of Account',
+      'Chart Of Account Id',
+      'Service Type Name',
+      'Vat Total',
+      'Debit Note Item Remove',
+    ],
+  },
+  Bill: {
+    bill_items: [
+      'Is Item Inventory',
+      'Invoice Unit Price Ex Vat',
+      'Vat Rate',
+      'Total Cost',
+      'Profit',
+      'Amount Without VAT',
+      'Cost Amount Ex Vat',
+      'Cost Vat Amount',
+      'Invoice Num Night',
+      'Invoice Num Unit',
+      'Vat Amount',
+      'Chart Of Account',
+      'Chart Of Account Id',
+      'Service Type Name',
+      'Vat Total',
+      'Debit Note Item Remove',
+    ],
+  },
+  SupplierCredit: {
+    supplier_credit_items: [
+      'Is Item Inventory',
+      'Invoice Unit Price Ex Vat',
+      'Vat Rate',
+      'Total Cost',
+      'Profit',
+      'Amount Without VAT',
+      'Cost Amount Ex Vat',
+      'Cost Vat Amount',
+      'Invoice Num Night',
+      'Invoice Num Unit',
+      'Vat Amount',
+      'Chart Of Account',
+      'Chart Of Account Id',
+      'Service Type Name',
+      'Vat Total',
+    ],
+  },
+
+  // sale
+  Quotation: {
+    quotation_items: [
+      'Is Item Inventory',
+      'Invoice Unit Price Ex Vat',
+      'Vat Rate',
+      'Total Cost',
+      'Profit',
+      'Amount Without VAT',
+      'Cost Amount Ex Vat',
+      'Cost Vat Amount',
+      'Invoice Num Night',
+      'Invoice Num Unit',
+      'Vat Amount',
+    ],
+  },
+  ProInvoice: {
+    pro_invoice_items: [
+      'Is Item Inventory',
+      'Invoice Unit Price Ex Vat',
+      'Vat Rate',
+      'Total Cost',
+      'Profit',
+      'Amount Without VAT',
+      'Cost Amount Ex Vat',
+      'Cost Vat Amount',
+      'Invoice Num Night',
+      'Invoice Num Unit',
+      'Vat Amount',
+    ],
+  },
+  PaymentReceived: {
+    invoice_payments: ['Invoice Id', 'Is Payment Voucher'],
+  },
+  CreditNote: {
+    credit_note_items: [
+      'Is Item Inventory',
+      'Invoice Unit Price Ex Vat',
+      'Vat Rate',
+      'Total Cost',
+      'Profit',
+      'Amount Without VAT',
+      'Cost Amount Ex Vat',
+      'Cost Vat Amount',
+      'Invoice Num Night',
+      'Invoice Num Unit',
+      'Vat Amount',
+    ],
+  },
+
+  // finance
+
+  Journal: {
+    journal_items: ['Chart Of Account', 'transaction Num'],
+  },
+};
 export const validKeyName = {
   vat_number: 'VAT Number',
   transaction_num: 'Transaction Number',

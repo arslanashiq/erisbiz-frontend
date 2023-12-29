@@ -243,15 +243,21 @@ function ActivityLogsDetail() {
       return '';
     }
   };
-  const renderNestedData = (payloadOld = {}, payloadNew = {}, showOldData = true) => {
+  const renderNestedData = (payloadOld = {}, payloadNew = {}, showOldData = true, listKeyName = '') => {
     if (!payloadNew) return '';
 
     return Object.keys(payloadNew)
       ?.sort()
       ?.map(key => {
         if (checkDataNotAllowdedToPrint(key, invalidNestedKeys)) return '';
-        if (invalidNestedKeysModuleWise[moduleName]) {
-          if (checkDataNotAllowdedToPrint(key, invalidNestedKeysModuleWise[moduleName])) return '';
+        if (
+          invalidNestedKeysModuleWise &&
+          invalidNestedKeysModuleWise[moduleName] &&
+          invalidNestedKeysModuleWise[moduleName][listKeyName]
+        ) {
+          if (checkDataNotAllowdedToPrint(key, invalidNestedKeysModuleWise[moduleName][listKeyName])) {
+            return '';
+          }
         }
 
         const valueType = checkValueType(payloadNew[key]);
@@ -285,11 +291,16 @@ function ActivityLogsDetail() {
         </TableCell>
         {showOldData && (
           <TableCell key={uuid()} sx={tableCellStyle}>
-            {renderNestedData(payloadNew[index] || {}, payloadOld[index] || {}, false)}
+            {renderNestedData(payloadNew[index] || {}, payloadOld[index] || {}, false, key)}
           </TableCell>
         )}
         <TableCell key={uuid()} sx={tableCellStyle}>
-          {renderNestedData(payloadNew[index], showOldData ? payloadNew[index] : payloadOld[index], true)}
+          {renderNestedData(
+            payloadNew[index],
+            showOldData ? payloadNew[index] : payloadOld[index],
+            true,
+            key
+          )}
         </TableCell>
       </TableRow>
     ));
