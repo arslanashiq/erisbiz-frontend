@@ -59,7 +59,7 @@ function AddInvoice() {
 
   const [selectedCustomer, setSelectedCustomer] = useState(proformaInvoice);
 
-  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' }, { refetchOnMountOrArgChange: true });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
   const latestSaleInvoiceResponse = useGetLatestSaleInvoiceQuery(
     {},

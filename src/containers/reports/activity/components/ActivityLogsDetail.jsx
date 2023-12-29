@@ -24,12 +24,15 @@ import {
   // bankDetailPopupInfoBodyStyle,
   bankDetailPopupInfoTitleStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
+import formatAmount from 'utilities/formatAmount';
 import {
   formDataReplaceableKeys,
   getModuleName,
   imageKeyName,
   inValidKeys,
+  invalidKeysModuleWise,
   invalidNestedKeys,
+  invalidNestedKeysModuleWise,
   tableCellStyle,
   validKeyName,
   validObjectKeysNames,
@@ -90,6 +93,9 @@ function ActivityLogsDetail() {
       }
       return 'No';
     }
+    if (typeof value === 'number') {
+      return formatAmount(value);
+    }
     if (imageKeyName[key]) return <img style={{ height: 100, objectFit: 'contain' }} src={value} alt="key" />;
 
     return value;
@@ -114,15 +120,9 @@ function ActivityLogsDetail() {
     }
     return 'value';
   }, []);
-
-  const checkDataNotAllowdedToPrint = useCallback(
-    (key, data) =>
-      data.some(item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()),
-    []
-  );
-
-  const activityDetailInfo = useMemo(() => {
+  const { data: activityDetailInfo, module: moduleName } = useMemo(() => {
     const data = [];
+    const module = activityDetail?.module_name;
     data.push({ label: 'User Name', value: activityDetail?.user });
     data.push({
       label: 'Action Date',
@@ -142,8 +142,14 @@ function ActivityLogsDetail() {
       ),
     });
 
-    return data;
+    return { data, module };
   }, [activityDetail]);
+
+  const checkDataNotAllowdedToPrint = useCallback(
+    (key, data) =>
+      data.some(item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()),
+    [moduleName]
+  );
 
   const { payload, oldPayload, showData, isDataUpdated } = useMemo(() => {
     let payloadData = '';
@@ -164,9 +170,10 @@ function ActivityLogsDetail() {
 
     if (payloadData) {
       try {
-        const purchaseOrderItems = [{}];
-        Object.keys(payloadData).forEach(key => {
-          formDataReplaceableKeys.forEach(formDataOption => {
+        formDataReplaceableKeys.forEach(formDataOption => {
+          const purchaseOrderItems = [{}];
+
+          Object.keys(payloadData).forEach(key => {
             if (key.includes(`${formDataOption}[`) && typeof payloadData[key] === 'string') {
               let slices = key;
               slices = slices.split('[')[1].split(']');
@@ -220,19 +227,39 @@ function ActivityLogsDetail() {
     []
   );
 
-  const renderNestedData = (payloadOld, payloadNew, showOldData) => {
+  const handleObjectData = (payloadOld, payloadNew, key) => {
+    try {
+      if (validObjectKeysNames[key]) {
+        if (payloadOld) {
+          return renderThreeColumn(
+            payloadOld[key][validObjectKeysNames[key]] || 'Error',
+            payloadNew[key][validObjectKeysNames[key]] || 'Error',
+            key
+          );
+        }
+      }
+      return renderTwoColumn(payloadNew[key][validObjectKeysNames[key]] || 'Error', key);
+    } catch (error) {
+      return '';
+    }
+  };
+  const renderNestedData = (payloadOld = {}, payloadNew = {}, showOldData = true) => {
     if (!payloadNew) return '';
 
     return Object.keys(payloadNew)
       ?.sort()
       ?.map(key => {
         if (checkDataNotAllowdedToPrint(key, invalidNestedKeys)) return '';
+        if (invalidNestedKeysModuleWise[moduleName]) {
+          if (checkDataNotAllowdedToPrint(key, invalidNestedKeysModuleWise[moduleName])) return '';
+        }
+
         const valueType = checkValueType(payloadNew[key]);
         if (valueType === 'list') {
           return '';
         }
         if (valueType === 'object') {
-          return '';
+          return handleObjectData(null, payloadNew, key);
         }
         if (
           payloadNew[key] !== '' &&
@@ -258,7 +285,7 @@ function ActivityLogsDetail() {
         </TableCell>
         {showOldData && (
           <TableCell key={uuid()} sx={tableCellStyle}>
-            {renderNestedData(payloadNew[index], payloadOld[index], false)}
+            {renderNestedData(payloadNew[index] || {}, payloadOld[index] || {}, false)}
           </TableCell>
         )}
         <TableCell key={uuid()} sx={tableCellStyle}>
@@ -267,22 +294,6 @@ function ActivityLogsDetail() {
       </TableRow>
     ));
   };
-  const handleObjectData = (payloadOld, payloadNew, key) => {
-    try {
-      if (validObjectKeysNames[key]) {
-        if (payloadOld) {
-          return renderThreeColumn(
-            payloadOld[key][validObjectKeysNames[key]] || 'Error',
-            payloadNew[key][validObjectKeysNames[key]] || 'Error',
-            key
-          );
-        }
-      }
-      return renderTwoColumn(payloadNew[key][validObjectKeysNames[key]] || 'Error', key);
-    } catch (error) {
-      return '';
-    }
-  };
 
   const handleRenderRowColumns = useCallback(
     (payloadOld, payloadNew) =>
@@ -290,6 +301,9 @@ function ActivityLogsDetail() {
         ?.sort()
         ?.map(key => {
           if (checkDataNotAllowdedToPrint(key, inValidKeys)) return '';
+          if (invalidKeysModuleWise[moduleName]) {
+            if (checkDataNotAllowdedToPrint(key, invalidKeysModuleWise[moduleName])) return '';
+          }
           const valueType = checkValueType(payloadNew[key]);
 
           if (valueType === 'list') {
@@ -303,9 +317,7 @@ function ActivityLogsDetail() {
             if (payloadOld) {
               if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
             }
-            const objectResult = handleObjectData(payloadOld, payloadNew, key);
-            if (objectResult) return objectResult;
-            return '';
+            return handleObjectData(payloadOld, payloadNew, key);
           }
           if (
             payloadNew[key] !== '' &&
@@ -326,7 +338,7 @@ function ActivityLogsDetail() {
           }
           return '';
         }),
-    []
+    [moduleName]
   );
   return (
     <SectionLoader options={[isLoading, activityDetail]}>

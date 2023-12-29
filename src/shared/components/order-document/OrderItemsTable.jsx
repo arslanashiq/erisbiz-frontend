@@ -72,7 +72,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             </Typography>
 
             <Typography color="primary" sx={{ fontSize: 15, fontWeight: 500 }}>
-              {orderDetail.currency_symbol} - {toWords.convert(getTotalAmount())}
+              {orderDetail.currency_symbol} - {toWords.convert(getTotalAmount())?.replace('point', 'and')}
             </Typography>
           </Grid>
         </Grid>

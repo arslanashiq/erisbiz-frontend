@@ -52,7 +52,7 @@ function AddQuotation() {
   const { quotationId } = getSearchParamsList();
 
   const customerListResponse = useGetCustomersListQuery();
-  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' }, { refetchOnMountOrArgChange: true });
   const salePersonListResponse = useGetActiveSalePersonListQuery();
   const latastQuotationNumberResponse = useGetLatestQuatitonNumberQuery('', {
     skip: id,

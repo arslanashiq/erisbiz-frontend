@@ -150,7 +150,7 @@ function SupplierCreditDetail() {
     }
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
     setOpenApplyToBillModal(false);
-  }, []);
+  }, [supplierCreditResponse]);
 
   useEffect(() => {
     (async () => {

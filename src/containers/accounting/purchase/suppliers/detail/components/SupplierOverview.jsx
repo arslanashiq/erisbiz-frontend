@@ -8,6 +8,7 @@ import SupplierOverviewCard from './SupplierOverviewCard';
 import SupplierOverviewPayables from './SupplierOverviewPayables';
 
 function SupplierOverview({
+  basicInfo,
   supplierIncome,
   activityLogDuration,
   supplierDetail,
@@ -25,7 +26,11 @@ function SupplierOverview({
           <SupplierOverviewCard supplierDetail={supplierDetail} />
         </Grid>
         <Grid item xs={12} lg={7} xl={8}>
-          <SupplierOverviewPayables currencySymbol={currencySymbol} supplierDetail={supplierDetail} />
+          <SupplierOverviewPayables
+            currencySymbol={currencySymbol}
+            supplierDetail={supplierDetail}
+            basicInfo={basicInfo}
+          />
           <SupplierOverviewCharts
             currencySymbol={currencySymbol}
             supplierDetail={supplierDetail}
@@ -45,6 +50,7 @@ SupplierOverview.propTypes = {
   supplierDetail: PropTypes.object,
   supplierActivity: PropTypes.array,
   handleClickMenu: PropTypes.func,
+  basicInfo: PropTypes.object,
 };
 SupplierOverview.defaultProps = {
   supplierDetail: null,
@@ -52,5 +58,6 @@ SupplierOverview.defaultProps = {
   supplierActivity: [],
   handleClickMenu: () => {},
   supplierIncome: [],
+  basicInfo: {},
 };
 export default SupplierOverview;

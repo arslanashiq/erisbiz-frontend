@@ -97,6 +97,9 @@ function AddPurchaseOrder() {
       pur_order_docs: values.filesList,
       ...handleCalculateTotalAmount(values.pur_order_items),
     };
+    if (payload.filesList) {
+      delete payload.filesList;
+    }
     const formData = new FormData();
     Object.keys(payload).forEach(key => {
       if (typeof payload[key] === 'object' && payload[key]?.length > 0) {

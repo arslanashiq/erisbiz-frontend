@@ -55,13 +55,10 @@ const suppliersApi = privateApi.injectEndpoints({
       }),
     }),
     getSupplierStatement: builder.query({
-      query: id => ({
+      query: ({ id, params }) => ({
         url: `api/accounting/purchase/supplier/${id}/statement`,
         method: 'GET',
-        params: {
-          duration: 'today',
-          filter_type: 'all',
-        },
+        params,
       }),
     }),
     getSupplierComments: builder.query({

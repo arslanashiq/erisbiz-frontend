@@ -178,8 +178,8 @@ function SupplierAddPage() {
                     <FormikField
                       name="address_line1"
                       type="text"
-                      placeholder="Address Line 1"
-                      label="Address Line 1"
+                      placeholder="Address 1"
+                      label="Address 1"
                       className="col-12"
                     />
 
@@ -187,8 +187,8 @@ function SupplierAddPage() {
                       className="col-12"
                       name="address_line2"
                       type="text"
-                      placeholder="Address Line 2"
-                      label="Address Line 2"
+                      placeholder="Address 2"
+                      label="Address 2"
                     />
 
                     <FormikSelect

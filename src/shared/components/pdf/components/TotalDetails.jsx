@@ -77,7 +77,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, disco
         <View style={{ minWidth: 230, maxWidth: 230 }}>
           <Text style={{ ...primaryColor, ...boldFont, fontSize: 13 }}>Total Amount in Words</Text>
           <Text style={{ ...primaryColor, fontSize: 11, marginTop: 20 }}>
-            {currencySymbol} - {toWords.convert(grandTotal)}
+            {currencySymbol} - {toWords.convert(grandTotal)?.replace('point', 'and')}
           </Text>
         </View>
 

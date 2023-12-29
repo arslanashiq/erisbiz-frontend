@@ -73,7 +73,7 @@ function LogInForm() {
         }
       }
     } catch (error) {
-      enqueueSnackbar('Somthing went worng!', { variant: 'error' });
+      enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
     }
   }, []);
 

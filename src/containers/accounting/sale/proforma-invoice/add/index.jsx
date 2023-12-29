@@ -68,7 +68,7 @@ function AddProfomaInvoice() {
     { customer: selectedCustomer, status: id ? '' : 'approved' },
     { skip: !selectedCustomer }
   );
-  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
+  const itemsListResponse = useGetItemsListQuery({ is_active: 'True' }, { refetchOnMountOrArgChange: true });
   const customerListResponse = useGetCustomersListQuery();
   const salePersonListResponse = useGetActiveSalePersonListQuery();
 

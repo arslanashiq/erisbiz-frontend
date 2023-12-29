@@ -15,7 +15,10 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
       <Stack className="w-100" direction="row" spacing={3}>
         <Stack className="w-100">
           <h6 style={supplierOutstandingBalanceTitleStlye}>Outstanding Payables</h6>
-          <h4 style={{ color: '#b81d1d', fontWeight: 'bold' }}>{currencySymbol}0.00</h4>
+          <h4 style={{ color: '#b81d1d', fontWeight: 'bold' }}>
+            {currencySymbol}
+            {supplierDetail.is_credit <= 0 ? formatAmount(0) : formatAmount(supplierDetail.payables)}
+          </h4>
         </Stack>
         <Divider
           orientation="vertical"
@@ -26,7 +29,10 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
         <Stack className="w-100">
           <Stack direction="row" spacing={10} justifyContent="space-between">
             <Typography className="item-overview-title">Unused Credits</Typography>
-            <Typography sx={supplierOverviewOutstandingBalanceValueStyle}>{currencySymbol}40.50</Typography>
+            <Typography sx={supplierOverviewOutstandingBalanceValueStyle}>
+              {currencySymbol}
+              {formatAmount(0)}
+            </Typography>
           </Stack>
           <Stack direction="row" spacing={6} justifyContent="space-between">
             <Typography className="item-overview-title">Payment Due Period</Typography>

@@ -37,7 +37,7 @@ function SignUpForm() {
       response = await singUpAdmin(values);
 
       if (response.error) {
-        // enqueueSnackbar(response.error.data.email[0], { variant: 'error' });
+        enqueueSnackbar(response.error.data.email[0], { variant: 'error' });
         setErrors(response.error.data);
         return;
       }
@@ -50,7 +50,7 @@ function SignUpForm() {
         enqueueSnackbar(response.error.data.message, { variant: 'error' });
         return;
       }
-      enqueueSnackbar('Somthing went worng!', { variant: 'error' });
+      enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
     }
   }, []);
   return (

@@ -17,6 +17,7 @@ import InfoPopup from 'shared/modals/InfoPopup';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utillities
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import useSupplierStatement from '../utilities/custom-hooks/useSupplierStatement';
 // components
 import SupplierOverview from './components/SupplierOverview';
@@ -30,7 +31,7 @@ import 'styles/suppliers/supplier-detail.scss';
 function SupplierDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { duration } = getSearchParamsList();
   const [activeTab, setActiveTab] = useState(0);
   const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
   const [popup, setPopup] = useState({
@@ -40,7 +41,13 @@ function SupplierDetail() {
   });
 
   const supplierDetailResponse = useGetSingleSupplierQuery(id);
-  const supplierStatementResponse = useGetSupplierStatementQuery(id);
+  const supplierStatementResponse = useGetSupplierStatementQuery({
+    id,
+    params: {
+      duration: duration || 'this+month',
+      filter_type: 'all',
+    },
+  });
   const supplierCommentResponse = useGetSupplierCommentsQuery(id);
   const { basicInfo, transactions } = useSupplierStatement(
     supplierDetailResponse?.data || {},
@@ -119,12 +126,7 @@ function SupplierDetail() {
         showActionButton={popup.actionButton}
         // handleYes={handleConfirmDeleteItem}
       />
-      <Stack
-        className="no-print"
-        direction="row"
-        justifyContent="space-between"
-        sx={{ margin: '10px auto' }}
-      >
+      <Stack className="no-print" direction="row" justifyContent="space-between" sx={{ margin: '10px auto' }}>
         <Typography className="item-name-wrapper">{supplierDetailResponse?.data?.supplier_name}</Typography>
         <Stack direction="row" spacing={2}>
           <ActionMenu actionsList={actionsList} />
@@ -151,6 +153,7 @@ function SupplierDetail() {
               supplierDetail={supplierDetailResponse?.data}
               supplierActivity={supplierActivityLogsResponse?.data}
               handleClickMenu={handleChangeActivityDuration}
+              basicInfo={basicInfo}
             />
           )}
           {activeTab === 1 && <SupplierTransactions />}

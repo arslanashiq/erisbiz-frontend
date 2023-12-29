@@ -150,12 +150,6 @@ function SaleInvoiceDetailPage() {
           });
         },
       },
-      {
-        label: 'Void',
-        handleClick: () => {
-          setOpenVoidModal(true);
-        },
-      },
 
       {
         label: 'View Journal',
@@ -170,6 +164,12 @@ function SaleInvoiceDetailPage() {
         label: 'Edit',
         handleClick: () => {
           navigate(`/pages/accounting/sales/sale-invoice/edit/${id}`);
+        },
+      });
+      actionsList.splice(2, 0, {
+        label: 'Void',
+        handleClick: () => {
+          setOpenVoidModal(true);
         },
       });
     }

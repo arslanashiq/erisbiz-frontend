@@ -157,13 +157,16 @@ function AddPurchaseInvoice() {
       status: values.status || 'draft',
       ...handleCalculateTotalAmount(values.bill_items),
     };
+    if (payload.filesList) {
+      delete payload.filesList;
+    }
 
     const formData = new FormData();
     Object.keys(payload).forEach(key => {
       if (typeof payload[key] === 'object' && payload[key]?.length > 0) {
         payload[key].forEach((item, index) => {
           Object.keys(item).forEach(itemKey => {
-            if (item[itemKey]) {
+            if (typeof item[itemKey] !== 'undefined') {
               formData.append(`${key}[${index}]${itemKey}`, item[itemKey]);
             }
           });
@@ -249,7 +252,6 @@ function AddPurchaseInvoice() {
                   label="Purchase Invoice"
                   disabled
                 />
-
                 <FormikDatePicker
                   name="invoice_date"
                   type="text"
