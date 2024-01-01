@@ -1,3 +1,6 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable react/jsx-filename-extension */
+import { Link } from 'react-router-dom';
 import formatAmount from 'utilities/formatAmount';
 
 export const PaymentVoucherHeadCells = [
@@ -18,6 +21,11 @@ export const PaymentVoucherHeadCells = [
     disablePadding: true,
     label: 'Payment #',
     align: 'left',
+    cellValueAction: (_, __, row) => (
+      <Link to={`${window.location.pathname}/${row.uuid || row.id}/detail`}>
+        {row.payment_formatted_number || row.payment_num}
+      </Link>
+    ),
     isLink: true,
   },
   {

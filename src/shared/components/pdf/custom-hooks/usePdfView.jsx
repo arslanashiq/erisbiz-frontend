@@ -6,8 +6,8 @@ import { pdf } from '@react-pdf/renderer';
 import PdfDoc from '../components/PdfDoc';
 
 function usePdfView(orderInfo, orderDetail, keyValue, options) {
-  const { name: companyName, logo: companyLogo } = useSelector(state => state.user.company);
-
+  const company = useSelector(state => state.user.company);
+  const { name: companyName, logo: companyLogo } = company;
   const [data, setData] = useState({});
   const [actionLoading, setActionLoading] = useState(false);
   const [component, setComponent] = useState(null);
@@ -44,6 +44,7 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
             showItemsTable={options.showItemsTable}
             showVoucherTable={options.showVoucherTable}
             showJournalVoucher={options.showJournalVoucher}
+            companyDetail={company}
             companyName={companyName}
             companyLogo={companyLogo}
           />

@@ -1,4 +1,4 @@
-import { ROWS_PER_PAGE } from './constants';
+import { DEFAULT_PARAMS, ROWS_PER_PAGE } from './constants';
 
 // General
 export const getRowsPerPage = search => {
@@ -53,7 +53,11 @@ export const getItemSearchQueryParams = location => {
   if (!search) return query;
   const limit = getsearchQueryOffsetAndLimitParams(location);
   const filters = getItemStatusAndType(search);
-  query = { ...filters, ...limit };
+  if (limit) {
+    query = { ...filters, ...limit };
+  } else {
+    query = { ...filters, ...DEFAULT_PARAMS };
+  }
   return query;
 };
 

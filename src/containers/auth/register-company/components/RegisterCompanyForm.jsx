@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FieldArray, Form, Formik } from 'formik';
-import { Navigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import ImageIcon from '@mui/icons-material/Image';
 import { Button, Grid, Stack, Typography } from '@mui/material';
@@ -36,6 +36,7 @@ import SecurityQuestions from './SecurityQuestions';
 import { CompanyFormValidationSchema } from '../utilities/validation-schema';
 
 function RegisterCompanyForm() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const { enqueueSnackbar } = useSnackbar();
@@ -63,6 +64,23 @@ function RegisterCompanyForm() {
   }
   return (
     <Stack className="main__wrapper" sx={registerCompanyParentWrapperStyle}>
+      <Stack direction="row-reverse" width="100%">
+        <Button
+          variant="text"
+          onClick={() => {
+            localStorage.clear();
+            navigate('/auth/login');
+            dispatch(
+              isUserAuthenticated({
+                isAuthenticated: false,
+                is_regestered_company: false,
+              })
+            );
+          }}
+        >
+          Logout
+        </Button>
+      </Stack>
       <Stack sx={registerCompanyChildWrapperStyle}>
         <Stack alignItems="center">
           <img src="/logo.png" alt="company-logo" style={registerCompanyFormLogoStyle} />
@@ -110,6 +128,7 @@ function RegisterCompanyForm() {
                         <FormikSelect
                           name="country"
                           placeholder="Country Name"
+                          isRequired
                           label="Country Name"
                           className="col-12 mt-2"
                           options={CountriesOptions}
@@ -118,6 +137,7 @@ function RegisterCompanyForm() {
                           name="currency"
                           placeholder="Currency"
                           label="Currency"
+                          isRequired
                           className="col-12 mt-2"
                           options={currenciesOption}
                         />
@@ -165,11 +185,23 @@ function RegisterCompanyForm() {
                     </Grid>
                     {/* Address */}
                     <Grid item xs={12} md={6} className="pe-2">
-                      <MuiFormikField name="location" placeholder="Address" size="small" label="Address" />
+                      <MuiFormikField
+                        isRequired
+                        name="location"
+                        placeholder="Address"
+                        size="small"
+                        label="Address"
+                      />
                     </Grid>
                     <Grid item xs={12} md={6} className="ps-2">
                       {/* website */}
-                      <MuiFormikField name="website" placeholder="Website" size="small" label="Website" />
+                      <MuiFormikField
+                        isRequired
+                        name="website"
+                        placeholder="Website"
+                        size="small"
+                        label="Website"
+                      />
                     </Grid>
                     {/* vat number */}
                     <MuiFormikField

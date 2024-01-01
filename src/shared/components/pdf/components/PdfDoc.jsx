@@ -17,10 +17,16 @@ function PdfDoc({
   showJournalVoucher,
   companyName,
   companyLogo,
+  companyDetail,
 }) {
   return (
     <MainComponent subject={orderInfo.type} title={orderInfo.type}>
-      <PDFHeader orderInfo={orderInfo} companyName={companyName} companyLogo={companyLogo} />
+      <PDFHeader
+        orderInfo={orderInfo}
+        companyName={companyName}
+        companyLogo={companyLogo}
+        companyDetail={companyDetail}
+      />
       {showItemsTable && (
         <>
           <Items orderDetail={orderDetail} subTotalName="Sub Total" keyName={keyName} />
@@ -57,6 +63,7 @@ PdfDoc.propTypes = {
   showJournalVoucher: PropTypes.bool,
   companyName: PropTypes.string,
   companyLogo: PropTypes.string,
+  companyDetail: PropTypes.object,
 };
 PdfDoc.defaultProps = {
   orderDetail: {},
@@ -65,6 +72,7 @@ PdfDoc.defaultProps = {
   showJournalVoucher: false,
   companyLogo: '',
   companyName: '',
+  companyDetail: {},
 };
 
 export default PdfDoc;

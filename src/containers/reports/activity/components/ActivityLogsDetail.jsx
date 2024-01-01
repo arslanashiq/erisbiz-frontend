@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable implicit-arrow-linebreak */
 import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
@@ -27,6 +26,7 @@ import {
 import formatAmount from 'utilities/formatAmount';
 import {
   formDataReplaceableKeys,
+  formattedNumber,
   getModuleName,
   imageKeyName,
   inValidKeys,
@@ -72,8 +72,7 @@ function ActivityLogsDetail() {
       return 'Unsuccessful Logged In';
     }
     if (method === 'POST') {
-      if (code === '201') return 'Added Successfully';
-      return 'Not Added Successfully';
+      if (code === '201' || code === '200') return 'Added Successfully';
     }
     if (method === 'PATCH' || method === 'PUT') {
       if (code === '200') return 'Updated Successfully';
@@ -97,6 +96,15 @@ function ActivityLogsDetail() {
       return formatAmount(value);
     }
     if (imageKeyName[key]) return <img style={{ height: 100, objectFit: 'contain' }} src={value} alt="key" />;
+    if (key === 'password') {
+      const last2Digits = value.slice(-2);
+      return (
+        <>
+          {last2Digits.padStart(value.length, '*')}
+          <bold className="font-weight-bold ps-2">Passowrd is hidden for security Reasons</bold>
+        </>
+      );
+    }
 
     return value;
   }, []);
@@ -386,6 +394,15 @@ function ActivityLogsDetail() {
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>Existing Data</TableCell>
                       <TableCell sx={bankDetailPopupInfoTitleStyle}>Updated Data</TableCell>
                     </TableRow>
+                    {formattedNumber[moduleName] && (
+                      <TableRow>
+                        <TableCell style={bankDetailPopupInfoTitleStyle}>Formated Number</TableCell>
+                        <TableCell style={tableCellStyle}>
+                          {oldPayload[formattedNumber[moduleName]]}
+                        </TableCell>
+                        <TableCell style={tableCellStyle}>{payload[formattedNumber[moduleName]]}</TableCell>
+                      </TableRow>
+                    )}
                     {handleRenderRowColumns(oldPayload, payload)}
                   </>
                 )}
@@ -399,6 +416,17 @@ function ActivityLogsDetail() {
                     </TableCell>
                   </TableRow>
                 )}
+                {showData && !isDataUpdated && formattedNumber[moduleName] && (
+                  <TableRow>
+                    <TableCell style={bankDetailPopupInfoTitleStyle} colSpan={2}>
+                      Formated Number
+                    </TableCell>
+                    <TableCell style={tableCellStyle}>
+                      {payload[formattedNumber[moduleName]] || oldPayload[formattedNumber[moduleName]]}
+                    </TableCell>
+                  </TableRow>
+                )}
+
                 {showData && !isDataUpdated && handleRenderRowColumns(null, payload || oldPayload)}
               </TableBody>
             </Table>

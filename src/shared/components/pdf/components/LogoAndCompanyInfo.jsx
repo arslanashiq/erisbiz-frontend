@@ -42,7 +42,7 @@ const boldFont = {
 const primaryColor = {
   color: palette.primary.main,
 };
-function LogoAndCompanyInfo({ companyName, companyLogo }) {
+function LogoAndCompanyInfo({ companyName, companyLogo, companyDetail }) {
   const renderCompanyInfoData = (title, value, containerStyle = {}, titleStyle = {}, valueStyles = {}) => (
     <View style={{ flexDirection: 'row', ...containerStyle }}>
       <Text
@@ -110,14 +110,20 @@ function LogoAndCompanyInfo({ companyName, companyLogo }) {
           <View style={{ flexDirection: 'row' }}>
             {renderCompanyInfoData(
               'Phone',
-              COMPANY_PHONE,
+              companyDetail.phone || COMPANY_PHONE,
               {
                 width: 145,
               },
               {},
               { maxWidth: 90 }
             )}
-            {renderCompanyInfoData('Address', COMPANY_ADDRESS, {}, {}, { maxWidth: 170 })}
+            {renderCompanyInfoData(
+              'Address',
+              companyDetail.location || COMPANY_ADDRESS,
+              {},
+              {},
+              { maxWidth: 170 }
+            )}
           </View>
         </View>
       </View>
@@ -127,9 +133,11 @@ function LogoAndCompanyInfo({ companyName, companyLogo }) {
 LogoAndCompanyInfo.propTypes = {
   companyName: PropTypes.string,
   companyLogo: PropTypes.string,
+  companyDetail: PropTypes.object,
 };
 LogoAndCompanyInfo.defaultProps = {
   companyName: '',
   companyLogo: '',
+  companyDetail: {},
 };
 export default LogoAndCompanyInfo;

@@ -54,7 +54,7 @@ function MuiTableBody({
   const renderCellValue = (row, cell) => {
     // for custom actions based on values values
     if (cell.cellValueAction) {
-      return cell.cellValueAction(row[cell.id], currencySymbol);
+      return cell.cellValueAction(row[cell.id], currencySymbol, row);
     }
     // for null or undefined values
     if (row[cell.id] === null || row[cell.id] === undefined) {

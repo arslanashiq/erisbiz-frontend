@@ -10,6 +10,7 @@ export const CompanyFormValidationSchema = Yup.object({
   country: Yup.string().required('Country is required'),
   currency: Yup.string().required('Currency is required'),
   location: Yup.string().required('Location is required'),
+  website: Yup.string().required('Website Link is required'),
   remarks: Yup.string(),
   logo: Yup.mixed()
     .required('Logo is required')

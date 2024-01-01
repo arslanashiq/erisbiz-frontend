@@ -24,7 +24,7 @@ function SupplierListing() {
 
   const [deleteSupplier] = useDeleteSupplierMutation();
 
-  const handleEdit = useCallback((data, selected) => {
+  const handleEdit = useCallback((_, selected) => {
     navigate(`edit/${selected[0]}`);
   }, []);
   const handleDelete = useCallback((data, selected, openInfoPopup, setOpenInfoPopup) => {

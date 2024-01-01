@@ -1,10 +1,9 @@
-import { DEFAULT_PARAMS } from 'utilities/constants';
 import { privateApi } from './index';
 
 const suppliersApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getSuppliersList: builder.query({
-      query: (params = DEFAULT_PARAMS) => ({
+      query: params => ({
         url: 'api/accounting/purchases/suppliers/',
         method: 'GET',
         params,

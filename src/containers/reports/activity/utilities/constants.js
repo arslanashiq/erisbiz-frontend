@@ -20,6 +20,20 @@ export const activityLogsModuleName = {
   PurchasePaymentRefund: 'Purchase Payment Refund',
 };
 
+export const formattedNumber = {
+  // PurOrder:
+  PurOrder: 'pur_order_num',
+  Bill: 'bill_num',
+  PaymentMade: 'payment_formatted_number',
+  SupplierCredit: 'supplier_credit_formatted_number',
+  // sale
+  Quotation: 'quotation_formatted_number',
+  ProInvoice: 'pro_invoice_formatted_number',
+  Invoice: 'invoice_formatted_number',
+  PaymentReceived: 'payment_num',
+  CreditNote: 'credit_note_formatted_number',
+};
+
 export const getModuleName = name => {
   if (activityLogsModuleName[name]) {
     return activityLogsModuleName[name];
@@ -115,8 +129,10 @@ export const invalidKeysModuleWise = {
     'Exchange Rate Of Purorder Currency',
     'Grand Total',
     'Supplier Name',
+    'pur_order_num',
   ],
   Bill: [
+    'invoice_num',
     'Amount Total Aed',
     'Convert To Aed',
     'discount',
@@ -146,8 +162,9 @@ export const invalidKeysModuleWise = {
     'Supplier Type',
   ],
   PaymentMade: [
+    'payment_formatted_number',
     'Chart Of Account Id',
-
+    'Used Amount',
     'Bcy Total',
     'Bcy Unused Amount',
     'Bills',
@@ -162,6 +179,7 @@ export const invalidKeysModuleWise = {
   ],
   SupplierCredit: [
     // 'Bcy Amount Total',
+    'supplier_credit_formatted_number',
     'Bcy Amount Total Debit Currency',
 
     'Bcy Grand Total Debit Currency',
@@ -192,8 +210,9 @@ export const invalidKeysModuleWise = {
     'Have Invoices',
     'Have Pro Invoices',
   ],
-  Quotation: ['Aed Conversion Rate', 'Amount Total Aed', 'Customer Info'],
+  Quotation: ['quotation_formatted_number', 'Aed Conversion Rate', 'Amount Total Aed', 'Customer Info'],
   ProInvoice: [
+    'pro_invoice_formatted_number',
     'Customer Info',
     'Exchange Rate Of Proinvoice Currency',
     'Grand Total',
@@ -206,6 +225,7 @@ export const invalidKeysModuleWise = {
     'Vat Total',
   ],
   Invoice: [
+    'invoice_formatted_number',
     'Amount Due',
     'Bcy Vat Total Invoice Currency',
     'Bcy Grand Total Invoice Currency',
@@ -223,6 +243,7 @@ export const invalidKeysModuleWise = {
     'Vat Total',
   ],
   PaymentReceived: [
+    'PaymentReceived',
     'Chart Of Account',
     'Last Payment Number',
     'Account Id',
@@ -240,6 +261,7 @@ export const invalidKeysModuleWise = {
     'Refund Payment',
   ],
   CreditNote: [
+    'CreditNote',
     'Invoice',
     'Bcy Amount Total Credit Currency',
     'Bcy Grand Total Credit Currency',
@@ -296,6 +318,9 @@ export const invalidNestedKeys = [
 ];
 export const invalidNestedKeysModuleWise = {
   // purchase
+  Supplier: {
+    supplier_contacts: ['Supplier Id', 'Primary Contact'],
+  },
   PurOrder: {
     pur_order_items: [
       'Is Item Inventory',
@@ -353,6 +378,21 @@ export const invalidNestedKeysModuleWise = {
       'Chart Of Account Id',
       'Service Type Name',
       'Vat Total',
+    ],
+  },
+  PaymentMade: {
+    bill_payments: [
+      'Bcy Grand Total',
+      'bill_num',
+      'Exchange Rate',
+      'Is Payment Voucher',
+      'Purchase Order',
+      'Bill Date',
+      'Due Date',
+      'Status',
+      'Pur Order Suffix',
+      'Pur Order',
+      'Grand Total',
     ],
   },
 

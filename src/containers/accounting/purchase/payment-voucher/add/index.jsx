@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
@@ -11,6 +12,7 @@ import { useGetBankAccountsListQuery } from 'services/private/banking';
 import {
   useAddPaymentVouchserMutation,
   useEditPaymentVouchserMutation,
+  useGetLatestPaymentVouchersNumtQuery,
   useGetSinglePaymentVoucherQuery,
 } from 'services/private/payment-voucher';
 // shared
@@ -44,6 +46,10 @@ function addPaymentVoucher() {
 
   const supplierListResponse = useGetSuppliersListQuery();
   const bankAccountListResponse = useGetBankAccountsListQuery();
+  const latestPaymentVoucherNum = useGetLatestPaymentVouchersNumtQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [addPaymentVouchser] = useAddPaymentVouchserMutation();
   const [editPaymentVouchser] = useEditPaymentVouchserMutation();
@@ -62,36 +68,40 @@ function addPaymentVoucher() {
     value: 'chart_of_account',
     label: 'bank_account_name',
   });
-
+  const handleGetUnpaidBills = async (initial, selectedSupplierId) => {
+    const response = await getUnpaidBills(selectedSupplierId);
+    const billPayment = [];
+    response.data.forEach((bill, index) => {
+      if (bill.bill_num === 'Supplier Opening Balance') {
+        billPayment.push({
+          bill_date: bill.bill_date,
+          supplier: selectedSupplierId,
+          grand_total: bill.grand_total,
+          amount_due: bill.amount_due,
+          amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
+          bill_num: bill.bill_num,
+          pur_order: bill.pur_order,
+        });
+      } else {
+        billPayment.push({
+          bill_id: bill.id,
+          bill_date: bill.bill_date,
+          grand_total: bill.grand_total,
+          amount_due: bill.amount_due,
+          bill_num: bill.bill_num,
+          pur_order: bill.pur_order,
+          pur_order_num: bill.pur_order_num,
+          amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
+        });
+      }
+    });
+    return billPayment;
+  };
   const handleChangeSupplier = useCallback(
     async (selectedSupplierId, initial, setValues) => {
       if (!selectedSupplierId) return;
-      const response = await getUnpaidBills(selectedSupplierId);
-      const billPayment = [];
-      response.data.forEach((bill, index) => {
-        if (bill.bill_num === 'Supplier Opening Balance') {
-          billPayment.push({
-            bill_date: bill.bill_date,
-            supplier: selectedSupplierId,
-            grand_total: bill.grand_total,
-            amount_due: bill.amount_due,
-            amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
-            bill_num: bill.bill_num,
-            pur_order: bill.pur_order,
-          });
-        } else {
-          billPayment.push({
-            bill_id: bill.id,
-            bill_date: bill.bill_date,
-            grand_total: bill.grand_total,
-            amount_due: bill.amount_due,
-            bill_num: bill.bill_num,
-            pur_order: bill.pur_order,
-            pur_order_num: bill.pur_order_num,
-            amount_applied: initial?.bill_payments[index]?.amount_applied || 0,
-          });
-        }
-      });
+
+      const billPayment = await handleGetUnpaidBills(initial, selectedSupplierId);
       if (setValues) setValues('bill_payments', billPayment);
       else {
         let amountTotal = initialValues.total;
@@ -115,11 +125,57 @@ function addPaymentVoucher() {
       setSelectedSupplier(queryResponse?.supplier_id);
     }
   }, [queryResponse]);
+
   useEffect(() => {
-    if (selectedSupplier) {
-      handleChangeSupplier(selectedSupplier, initialValues);
-    }
+    (async () => {
+      if (selectedSupplier) {
+        const billPayment = await handleGetUnpaidBills(queryResponse, selectedSupplier);
+        setInitialValues({
+          ...initialValues,
+          bill_payments: [...initialValues.bill_payments, ...billPayment],
+        });
+      }
+    })();
   }, [selectedSupplier]);
+
+  const updatedInitialValues = useMemo(() => {
+    let newData = {
+      ...initialValues,
+    };
+    const newBills = [];
+    const billsPayment = [];
+    newData.bill_payments.forEach((bill, index) => {
+      if (!newBills.includes(bill.bill_num || bill.bill.bill_num)) {
+        if (bill.bill) {
+          billsPayment.push({
+            ...bill,
+            ...bill.bill,
+            amount_due: (bill.bill.amount_due || 0) + (bill.amount_applied || 0),
+          });
+        } else {
+          billsPayment.push({ ...bill, amount_applied: 0 });
+        }
+      }
+      newBills.push(bill.bill_num || bill.bill.bill_num);
+    });
+    if (id) {
+      newData = {
+        ...newData,
+        bill_payments: billsPayment,
+      };
+    }
+    if (!id) {
+      newData = { ...newData, payment_formatted_number: latestPaymentVoucherNum?.data?.latest_num };
+    }
+    if (supplierId) {
+      newData = {
+        ...newData,
+        supplier_id: Number(supplierId),
+        payment_formatted_number: latestPaymentVoucherNum?.data?.latest_num,
+      };
+    }
+    return newData;
+  }, [id, initialValues, latestPaymentVoucherNum, supplierId]);
 
   return (
     <SectionLoader options={[supplierListResponse.isLoading, bankAccountListResponse.isLoading]}>
@@ -128,15 +184,20 @@ function addPaymentVoucher() {
           <FormHeader title="Payment Voucher" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={updatedInitialValues}
             validationSchema={paymentVoucherFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
+            onSubmit={async (values, { setErrors, errors }) => {
               let response = null;
 
+              const billPayments = values.bill_payments.filter(bill => bill.amount_applied > 0);
+              const payload = {
+                ...values,
+                bill_payments: billPayments,
+              };
               if (id) {
-                response = await editPaymentVouchser({ id, payload: values });
+                response = await editPaymentVouchser({ id, payload });
               } else {
-                response = await addPaymentVouchser(values);
+                response = await addPaymentVouchser(payload);
               }
               if (response.error) {
                 setErrors(response.error.data);

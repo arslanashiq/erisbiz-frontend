@@ -46,8 +46,13 @@ function PaymentVoucherDetail() {
   const orderInfo = useMemo(
     () => ({
       type: 'Payment Made',
-      order_number: `#${PaymentVoucherDetailResponse?.data?.payment_num}`,
-      formated_order_number: PaymentVoucherDetailResponse?.data?.payment_num,
+      order_number: `#${
+        PaymentVoucherDetailResponse?.data?.payment_formatted_number ||
+        PaymentVoucherDetailResponse?.data?.payment_num
+      }`,
+      formated_order_number:
+        PaymentVoucherDetailResponse?.data?.payment_formatted_number ||
+        PaymentVoucherDetailResponse?.data?.payment_num,
       date: PaymentVoucherDetailResponse?.data?.payment_date,
       supplier: PaymentVoucherDetailResponse?.data?.supplier,
       label: 'Paid To',
@@ -137,7 +142,10 @@ function PaymentVoucherDetail() {
         maxAmount={PaymentVoucherDetailResponse?.data?.over_payment}
       />
       <DetailPageHeader
-        title={`Payment Made: #${PaymentVoucherDetailResponse?.data?.payment_num}`}
+        title={`Payment Made: #${
+          PaymentVoucherDetailResponse?.data?.payment_formatted_number ||
+          PaymentVoucherDetailResponse?.data?.payment_num
+        }`}
         filesList={paymentVoucherDocumentsResponse?.data}
         keyValue={keyValue}
         orderInfo={orderInfo}

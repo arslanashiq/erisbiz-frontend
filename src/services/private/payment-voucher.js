@@ -10,6 +10,15 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getPaymentVouchersList'],
     }),
+    getLatestPaymentVouchersNumt: builder.query({
+      query: params => ({
+        url: '/api/accounting/purchases/paymentsMade/latest',
+        method: 'GET',
+        params,
+      }),
+      providesTags: ['getLatestPaymentVouchersNumt'],
+    }),
+
     getSinglePaymentVoucher: builder.query({
       query: id => ({
         url: `api/accounting/purchases/paymentsMade/${id}/`,
@@ -86,6 +95,7 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
 
 export const {
   useGetPaymentVouchersListQuery,
+  useGetLatestPaymentVouchersNumtQuery,
   useGetSinglePaymentVoucherQuery,
   useEditPaymentVouchserMutation,
   useAddPaymentVouchserMutation,

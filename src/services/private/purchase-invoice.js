@@ -31,6 +31,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
       }),
       providesTags: ['addPurchaseInvoce'],
       invalidatesTags: [
+        'getJournalsAgainstPaymentInvoice',
         'getPurchaseInvoiceList',
         'getPurchaseOrdersList',
         'getSinglePurchaseOrder',
@@ -59,7 +60,12 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['chagePurchaseInvoiceStatusToOpen'],
-      invalidatesTags: ['getPurchaseInvoiceList', 'getSinglePurchaseInvoice', 'getItemsList'],
+      invalidatesTags: [
+        'getPurchaseInvoiceList',
+        'getSinglePurchaseInvoice',
+        'getItemsList',
+        'getJournalsAgainstPaymentInvoice',
+      ],
     }),
 
     editPurchaseInvoce: builder.mutation({
@@ -69,6 +75,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         body: payload,
       }),
       invalidatesTags: [
+        'getJournalsAgainstPaymentInvoice',
         'addPurchaseInvoce',
         'getPurchaseInvoiceList',
         'getItemsList',
@@ -103,6 +110,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         url: `api/accounting/sales/bill/${id}/journals`,
         method: 'GET',
       }),
+      providesTags: ['getJournalsAgainstPaymentInvoice'],
     }),
     changeInvoiceStatusToVoid: builder.mutation({
       query: ({ id, reason }) => ({
@@ -110,7 +118,11 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['changeInvoiceStatusToVoid'],
-      invalidatesTags: ['getPurchaseInvoiceList', 'getSinglePurchaseInvoice'],
+      invalidatesTags: [
+        'getPurchaseInvoiceList',
+        'getSinglePurchaseInvoice',
+        'getJournalsAgainstPaymentInvoice',
+      ],
     }),
     getLatestPurchaseInvoiceNumber: builder.query({
       query: () => ({
