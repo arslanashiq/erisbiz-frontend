@@ -92,7 +92,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, disco
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ minWidth: 230, maxWidth: 230 }}>
-          {orderInfo.bankDetail && (
+          {orderInfo?.bankDetail?.bank_name && (
             <>
               <Text
                 style={{
@@ -104,10 +104,10 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, disco
               >
                 Bank Detail
               </Text>
-              {renderBankDetail('Bank Name', 'Meezan Bank')}
-              {renderBankDetail('Account Holder Name', 'Muhammad Usman')}
-              {renderBankDetail('Account Number / IBAN', 'PK08 MBL 02340109756334')}
-              {renderBankDetail('Swift Code', '0124')}
+              {renderBankDetail('Bank Name', orderInfo?.bankDetail?.bank_name)}
+              {renderBankDetail('Account Holder Name', orderInfo?.bankDetail?.account_holder_name)}
+              {renderBankDetail('Account Number / IBAN', orderInfo?.bankDetail?.IBAN)}
+              {renderBankDetail('Swift Code', orderInfo?.bankDetail?.swift_code)}
             </>
           )}
         </View>
