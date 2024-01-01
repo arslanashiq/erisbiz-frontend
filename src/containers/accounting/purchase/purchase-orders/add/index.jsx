@@ -146,7 +146,7 @@ function AddPurchaseOrder() {
           >
             <FormikField
               name="pur_order_num"
-              placeholder="Purchase Order Number"
+              //  placeholder="Purchase Order Number"
               disabled
               label="PO Number"
               startIcon={<TagIcon />}
@@ -155,7 +155,7 @@ function AddPurchaseOrder() {
             <FormikDatePicker
               name="date"
               type="text"
-              placeholder="Date"
+              //  placeholder="Date"
               displayFormat="yyyy-MM-dd"
               label="Date"
               startIcon={<CalendarMonthIcon />}
@@ -164,21 +164,31 @@ function AddPurchaseOrder() {
             <FormikSelect
               options={suppliersOptions}
               name="supplier_id"
-              placeholder="Supplier"
+              //  placeholder="Supplier"
               label="Supplier"
               isRequired
             />
 
-            <FormikField name="reference_num" type="text" placeholder="Reference Number" label="Ref No" />
+            <FormikField
+              name="reference_num"
+              type="text"
+              // placeholder="Reference Number"
+              label="Ref No"
+            />
 
             <FormikFileField
               name="pur_order_docs"
               type="file"
-              placeholder="Attachment"
+              //  placeholder="Attachment"
               startIcon={<AttachFileIcon />}
               label="Attachment"
             />
-            <FormikField name="location" type="text" placeholder="Location" label="Location" />
+            <FormikField
+              name="location"
+              type="text"
+              // placeholder="Location"
+              label="Location"
+            />
 
             <div className="form__form-group w-100">
               <FieldArray
@@ -194,7 +204,13 @@ function AddPurchaseOrder() {
               />
             </div>
 
-            <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
+            <FormikField
+              name="remarks"
+              textArea
+              // placeholder="Remarks"
+              label="Remarks"
+              className="col-12"
+            />
 
             <FormSubmitButton />
           </FormikWrapper>

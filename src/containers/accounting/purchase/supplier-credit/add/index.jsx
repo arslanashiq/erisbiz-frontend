@@ -212,7 +212,7 @@ function AddSupplierCredit() {
               <Form className="form form--horizontal mt-3 row">
                 <FormikField
                   name="supplier_credit_formatted_number"
-                  placeholder="Debit Note"
+                //  placeholder="Debit Note"
                   label="Debit Note"
                   startIcon={<TagIcon />}
                   disabled
@@ -221,7 +221,7 @@ function AddSupplierCredit() {
                   name="bill_id"
                   options={filteredPymentInvoiceOptions || []}
                   disabled={Boolean(purchaseId)}
-                  placeholder="Purchase Invoice Number"
+                //  placeholder="Purchase Invoice Number"
                   label="Purchase Inv No"
                   isRequired
                   onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}
@@ -230,14 +230,14 @@ function AddSupplierCredit() {
                 <FormikDatePicker
                   name="supplier_credit_date"
                   type="text"
-                  placeholder="Date"
+                //  placeholder="Date"
                   startIcon={<CalendarMonthIcon />}
                   label="Date"
                 />
                 <FormikSelect
                   options={suppliersListOptions}
                   name="supplier_id"
-                  placeholder="Supplier"
+                //  placeholder="Supplier"
                   label="Supplier"
                   disabled
                   isRequired
@@ -246,7 +246,7 @@ function AddSupplierCredit() {
                 <FormikSelect
                   name="debit_account_number"
                   options={bankAccountOptions}
-                  placeholder="Debit Account"
+                //  placeholder="Debit Account"
                   label="Debit Account"
                   isRequired
                   className="col-12"
@@ -267,7 +267,7 @@ function AddSupplierCredit() {
                 <FormikField
                   name="remarks"
                   textArea
-                  placeholder="Remarks"
+                //  placeholder="Remarks"
                   label="Remarks"
                   className="col-12"
                 />

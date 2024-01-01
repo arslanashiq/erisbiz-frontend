@@ -93,3 +93,12 @@ export const toWords = new ToWords({
     ignoreZeroCurrency: false,
   },
 });
+
+export const handleGetAmountInWords = amount => {
+  const amountToWords = toWords.convert(amount)?.toLowerCase();
+  const capitalLetter = amountToWords.charAt(0).toUpperCase();
+  if (amountToWords?.includes('point')) {
+    return `${capitalLetter}${amountToWords?.replace('point', 'and')?.slice(1, amountToWords.length)} fills`;
+  }
+  return `${capitalLetter}${amountToWords?.slice(1, amountToWords.length)}`;
+};

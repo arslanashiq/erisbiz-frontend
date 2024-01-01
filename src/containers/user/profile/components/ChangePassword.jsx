@@ -52,7 +52,7 @@ function ChangePassword({ userData }) {
         <FormikField
           name="email"
           label="Email"
-          placeholder="Email"
+       //  placeholder="Email"
           className="col-md-6"
           type="email"
           isRequired
@@ -61,7 +61,7 @@ function ChangePassword({ userData }) {
         <FormikField
           name="old_password"
           label="Old Password"
-          placeholder="Old Password"
+       //  placeholder="Old Password"
           className="col-md-6"
           type={showOldPasword ? 'text' : 'password'}
           endIcon={showOldPasword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
@@ -71,7 +71,7 @@ function ChangePassword({ userData }) {
         <FormikField
           name="new_password"
           label="New Password"
-          placeholder="New Password"
+       //  placeholder="New Password"
           className="col-12"
           type={showNewPasword ? 'text' : 'password'}
           endIcon={showNewPasword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
@@ -81,7 +81,7 @@ function ChangePassword({ userData }) {
         <FormikField
           name="confirm_password"
           label="Confirm Password"
-          placeholder="Confirm Password"
+       //  placeholder="Confirm Password"
           className="col-12"
           type={showConfirmPassword ? 'text' : 'password'}
           endIcon={showConfirmPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}

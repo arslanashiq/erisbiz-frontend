@@ -248,14 +248,14 @@ function AddPurchaseInvoice() {
               <Form className="form form--horizontal mt-3 row">
                 <FormikField
                   name="invoice_num"
-                  placeholder="Purchase Invoice"
+                  //  placeholder="Purchase Invoice"
                   label="Purchase Invoice"
                   disabled
                 />
                 <FormikDatePicker
                   name="invoice_date"
                   type="text"
-                  placeholder="Date"
+                  //  placeholder="Date"
                   label="Date"
                   startIcon={<CalendarMonthIcon />}
                 />
@@ -263,7 +263,7 @@ function AddPurchaseInvoice() {
                   options={suppliersListOptions}
                   name="supplier_id"
                   disabled={Boolean(purchaseId)}
-                  placeholder="Supplier"
+                  //  placeholder="Supplier"
                   onChange={value => handleGetPurchaseOrderAgainstSupplier(value, setFieldValue)}
                   label="Supplier"
                   isRequired
@@ -271,7 +271,7 @@ function AddPurchaseInvoice() {
 
                 <FormikSelect
                   name="pur_order_id"
-                  placeholder="Purchase Order Number"
+                  //  placeholder="Purchase Order Number"
                   options={purchaseOrdersListOptions}
                   disabled={Boolean(purchaseId)}
                   onChange={value => handleChangePurchaseOrderItem(value, values, setFieldValue)}
@@ -283,7 +283,7 @@ function AddPurchaseInvoice() {
                 <FormikSelect
                   name="credit_account"
                   options={chartOfAccountOptions}
-                  placeholder="Credit Account"
+                  //  placeholder="Credit Account"
                   label="Credit Account"
                   onChange={value => handleChangeChartOfAccount(value, values, 'bill_items', setFieldValue)}
                   isRequired
@@ -292,15 +292,14 @@ function AddPurchaseInvoice() {
                 <FormikField
                   name="location"
                   type="text"
-                  placeholder="Location"
+                  //  placeholder="Location"
                   label="Location"
                   startIcon={<FmdGoodIcon />}
                 />
 
                 <FormikField
                   name="supplier_invoice_num"
-                  type="number"
-                  placeholder="Supplier Invoice Number"
+                  //  placeholder="Supplier Invoice Number"
                   label="Supplier Inv No"
                   isRequired
                 />
@@ -308,7 +307,7 @@ function AddPurchaseInvoice() {
                 <FormikFileField
                   name="bill_docs"
                   type="file"
-                  placeholder="Attachment"
+                  //  placeholder="Attachment"
                   label="Attachment"
                   startIcon={<AttachFileIcon />}
                 />
@@ -326,7 +325,13 @@ function AddPurchaseInvoice() {
                   />
                 </div>
 
-                <FormikField name="notes" textArea placeholder="Remarks" label="Remarks" className="col-12" />
+                <FormikField
+                  name="notes"
+                  textArea
+                  // placeholder="Remarks"
+                  label="Remarks"
+                  className="col-12"
+                />
 
                 <FormSubmitButton />
               </Form>

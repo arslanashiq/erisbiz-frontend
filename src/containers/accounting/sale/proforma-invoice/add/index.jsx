@@ -245,7 +245,7 @@ function AddProfomaInvoice() {
                 <FormikField
                   name="pro_invoice_formatted_number"
                   type="text"
-                  placeholder="Proforma Invoice Number"
+               //  placeholder="Proforma Invoice Number"
                   label="Proforma Invoice"
                   startIcon={<TagIcon />}
                   disabled
@@ -253,7 +253,7 @@ function AddProfomaInvoice() {
                 <FormikDatePicker
                   name="pro_invoice_date"
                   type="text"
-                  placeholder="Date"
+               //  placeholder="Date"
                   label="Date"
                   startIcon={<CalendarMonthIcon />}
                 />
@@ -262,7 +262,7 @@ function AddProfomaInvoice() {
                   options={customersOptions}
                   name="customer"
                   disabled={Boolean(quotationId)}
-                  placeholder="Customer"
+               //  placeholder="Customer"
                   label="Customer"
                   isRequired
                   onChange={handleChangeCustomer}
@@ -274,7 +274,7 @@ function AddProfomaInvoice() {
                   type="text"
                   disabled={Boolean(quotationId)}
                   label="Quotation #"
-                  placeholder="Quotation Number"
+               //  placeholder="Quotation Number"
                   startIcon={<TagIcon />}
                   isRequired
                   onChange={value => handleChangeQuotationNumber(value, setFieldValue)}
@@ -283,7 +283,7 @@ function AddProfomaInvoice() {
                   options={salePersonListOptions}
                   name="sales_person"
                   type="text"
-                  placeholder="Sales Person"
+               //  placeholder="Sales Person"
                   label="Sales Person"
                   isRequired
                 />
@@ -291,7 +291,7 @@ function AddProfomaInvoice() {
                 <FormikFileField
                   name="pro_invoice_docs"
                   type="file"
-                  placeholder="Attachment"
+               //  placeholder="Attachment"
                   label="Attachment"
                   startIcon={<AttachFileIcon />}
                 />
@@ -299,7 +299,7 @@ function AddProfomaInvoice() {
                 <FormikField
                   name="location"
                   type="text"
-                  placeholder="Location"
+               //  placeholder="Location"
                   label="Location"
                   startIcon={<LocationOnIcon />}
                 />
@@ -320,7 +320,7 @@ function AddProfomaInvoice() {
                 <FormikField
                   name="remarks"
                   textArea
-                  placeholder="Remarks"
+               //  placeholder="Remarks"
                   label="Remarks"
                   className="col-12"
                 />

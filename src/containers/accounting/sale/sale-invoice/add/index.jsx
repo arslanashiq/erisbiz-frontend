@@ -249,7 +249,7 @@ function AddInvoice() {
                 <FormikField
                   name="invoice_formatted_number"
                   type="text"
-                  placeholder="Sales Invoice Number"
+               //  placeholder="Sales Invoice Number"
                   label="Sales Invoice"
                   startIcon={<TagIcon />}
                   disabled
@@ -258,14 +258,14 @@ function AddInvoice() {
                 <FormikDatePicker
                   name="date"
                   type="text"
-                  placeholder="Date"
+               //  placeholder="Date"
                   label="Date"
                   startIcon={<CalendarMonthIcon />}
                 />
                 <FormikSelect
                   options={customersOptions}
                   name="customer"
-                  placeholder="Customer"
+               //  placeholder="Customer"
                   disabled={Boolean(proformaInvoice)}
                   label="Customer"
                   isRequired
@@ -277,7 +277,7 @@ function AddInvoice() {
                   name="pro_invoice"
                   type="text"
                   disabled={Boolean(proformaInvoice)}
-                  placeholder="Proforma Invoice"
+               //  placeholder="Proforma Invoice"
                   label="Proforma Invoice"
                   startIcon={<TagIcon />}
                   isRequired
@@ -287,14 +287,14 @@ function AddInvoice() {
                   options={salePersonListOptions}
                   name="sales_person"
                   type="text"
-                  placeholder="Sales Person"
+               //  placeholder="Sales Person"
                   label="Sales Person"
                   isRequired
                 />
                 <FormikFileField
                   name="invoice_docs"
                   type="file"
-                  placeholder="Attachment"
+               //  placeholder="Attachment"
                   label="Attachment"
                   startIcon={<AttachFileIcon />}
                 />
@@ -302,7 +302,7 @@ function AddInvoice() {
                 <FormikField
                   name="location"
                   type="text"
-                  placeholder="Location"
+               //  placeholder="Location"
                   label="Location"
                   startIcon={<LocationOnIcon />}
                 />
@@ -323,7 +323,7 @@ function AddInvoice() {
                 <FormikField
                   name="remarks"
                   textArea
-                  placeholder="Remarks"
+               //  placeholder="Remarks"
                   label="Remarks"
                   className="col-12"
                 />

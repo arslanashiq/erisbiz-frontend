@@ -42,7 +42,7 @@ function SignUpForm() {
         return;
       }
 
-      enqueueSnackbar(response.data.message, { variant: 'success' });
+      enqueueSnackbar('Credentials have been forwarded to your email', { variant: 'success' });
       navigate('/auth/login');
       resetForm();
     } catch (error) {

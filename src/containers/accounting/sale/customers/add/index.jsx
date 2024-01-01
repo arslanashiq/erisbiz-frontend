@@ -108,7 +108,7 @@ function AddCustomer() {
               <FormikField
                 name="customer_name"
                 type="text"
-                placeholder="Customer Name"
+                //  placeholder="Customer Name"
                 startIcon={<PersonOutlineIcon />}
                 label="Customer Name"
                 isRequired
@@ -116,7 +116,7 @@ function AddCustomer() {
               <FormikField
                 name="email"
                 type="text"
-                placeholder="Email"
+                //  placeholder="Email"
                 startIcon={<AlternateEmailIcon />}
                 label="Email"
                 isRequired
@@ -125,7 +125,7 @@ function AddCustomer() {
               <FormikField
                 name="contact_person"
                 type="text"
-                placeholder="Contact Person"
+                //  placeholder="Contact Person"
                 startIcon={<PersonOutlineIcon />}
                 label="Contact Person"
               />
@@ -133,7 +133,7 @@ function AddCustomer() {
               <FormikField
                 name="contact"
                 type="text"
-                placeholder="Contact"
+                //  placeholder="Contact"
                 startIcon={<LocalPhoneIcon />}
                 label="Contact"
               />
@@ -141,7 +141,7 @@ function AddCustomer() {
               <FormikField
                 name="vat_reg_no"
                 type="text"
-                placeholder="VAT Registration Number"
+                //  placeholder="VAT Registration Number"
                 label="VAT Reg No"
                 isRequired
               />
@@ -150,7 +150,7 @@ function AddCustomer() {
                 isRequired
                 name="reference_num"
                 type="text"
-                placeholder="Reference"
+                //  placeholder="Reference"
                 label="Reference"
               />
 
@@ -170,7 +170,7 @@ function AddCustomer() {
                     <FormikField
                       name="invoice_address_line1"
                       type="text"
-                      placeholder="Address Line 1"
+                      //  placeholder="Address Line 1"
                       label="Address Line 1"
                       className="col-12"
                     />
@@ -178,14 +178,14 @@ function AddCustomer() {
                     <FormikField
                       name="invoice_address_line2"
                       type="text"
-                      placeholder="Address Line 2"
+                      //  placeholder="Address Line 2"
                       label="Address Line 2"
                       className="col-12"
                     />
                     <FormikField
                       name="invoice_po_box"
                       type="text"
-                      placeholder="PO Box"
+                      //  placeholder="PO Box"
                       label="PO Box"
                       className="col-12"
                     />
@@ -193,7 +193,7 @@ function AddCustomer() {
                     <FormikSelect
                       options={countriesOption}
                       name="invoice_country"
-                      placeholder="Country"
+                      //  placeholder="Country"
                       label="Country"
                       className="col-12"
                       isRequired
@@ -202,7 +202,7 @@ function AddCustomer() {
                     <FormikField
                       name="invoice_city"
                       type="text"
-                      placeholder="City"
+                      //  placeholder="City"
                       label="City"
                       className="col-12"
                     />
@@ -210,8 +210,16 @@ function AddCustomer() {
                     <Box className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
-                      <FormikField name="invoice_longitude" placeholder="Longitude" className="col" />
-                      <FormikField name="invoice_latitude" placeholder="Latitude" className="col" />
+                      <FormikField
+                        name="invoice_longitude"
+                        //  placeholder="Longitude"
+                        className="col"
+                      />
+                      <FormikField
+                        name="invoice_latitude"
+                        //  placeholder="Latitude"
+                        className="col"
+                      />
                     </Box>
                   </Box>
                   <Box className="col-md-6">
@@ -228,7 +236,7 @@ function AddCustomer() {
                     <FormikField
                       name="delivery_address_line1"
                       type="text"
-                      placeholder="Address Line 1"
+                      //  placeholder="Address Line 1"
                       label="Address Line 1"
                       className="col-12"
                     />
@@ -236,14 +244,14 @@ function AddCustomer() {
                     <FormikField
                       name="delivery_address_line2"
                       type="text"
-                      placeholder="Address Line 2"
+                      //  placeholder="Address Line 2"
                       label="Address Line 2"
                       className="col-12"
                     />
                     <FormikField
                       name="delivery_po_box"
                       type="text"
-                      placeholder="PO Box"
+                      //  placeholder="PO Box"
                       label="PO Box"
                       className="col-12"
                     />
@@ -251,7 +259,7 @@ function AddCustomer() {
                     <FormikSelect
                       options={countriesOption}
                       name="delivery_country"
-                      placeholder="Country"
+                      //  placeholder="Country"
                       label="Country"
                       className="col-12"
                       isRequired
@@ -260,7 +268,7 @@ function AddCustomer() {
                     <FormikField
                       name="delivery_city"
                       type="text"
-                      placeholder="City"
+                      //  placeholder="City"
                       label="City"
                       className="col-12"
                     />
@@ -268,8 +276,16 @@ function AddCustomer() {
                     <Box className="form__form-group row">
                       <span className="form__form-group-label col-lg-2">Map</span>
 
-                      <FormikField name="delivery_longitude" placeholder="Longitude" className="col" />
-                      <FormikField name="delivery_latitude" placeholder="Latitude" className="col" />
+                      <FormikField
+                        name="delivery_longitude"
+                        //  placeholder="Longitude"
+                        className="col"
+                      />
+                      <FormikField
+                        name="delivery_latitude"
+                        //  placeholder="Latitude"
+                        className="col"
+                      />
                     </Box>
                   </Box>
                 </Box>
@@ -280,7 +296,7 @@ function AddCustomer() {
                     <FormikField
                       name="opening_balance"
                       type="number"
-                      placeholder="Opening Balance Payee"
+                      //  placeholder="Opening Balance Payee"
                       label="OB Amount"
                       className="col-12"
                     />
@@ -288,7 +304,7 @@ function AddCustomer() {
                       name="delivery_terms"
                       type="text"
                       textArea
-                      placeholder="Delivery Terms"
+                      //  placeholder="Delivery Terms"
                       label="Delivery Terms"
                       className="col-12"
                     />
@@ -299,7 +315,7 @@ function AddCustomer() {
                       <Box className="form__form-group-field">
                         <CheckBoxField
                           name="credit_limit"
-                          label="Set Credit Limit($)"
+                          label="Set Credit Limit"
                           onChange={() => {
                             setFieldValue('set_credit_limit', 0);
                           }}
@@ -309,7 +325,7 @@ function AddCustomer() {
                         disabled={!values.credit_limit}
                         name="set_credit_limit"
                         type="number"
-                        placeholder="0.0"
+                        //  placeholder="0.0"
                       />
                     </Box>
                     <Box className="form__form-group">
@@ -354,7 +370,7 @@ function AddCustomer() {
                     name="comments_on_transactions"
                     type="text"
                     textArea
-                    placeholder="comment"
+                    //  placeholder="comment"
                     label="Comment on Transaction"
                     className="col-12"
                   />
@@ -363,7 +379,7 @@ function AddCustomer() {
                     name="notes"
                     type="text"
                     textArea
-                    placeholder="Notes"
+                    //  placeholder="Notes"
                     label="Notes"
                     className="col-12"
                   />

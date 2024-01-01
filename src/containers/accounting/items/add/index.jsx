@@ -122,14 +122,14 @@ function AddItemPage() {
                 <FormikField
                   type="text"
                   name="item_name"
-                  placeholder="Item Name"
+                  //  placeholder="Item Name"
                   label="Item Name"
                   isRequired
                   startIcon={<ShoppingBasketIcon />}
                 />
                 <FormikField
                   name="sku_hs_code"
-                  placeholder="SKU/HS Code"
+                  //  placeholder="SKU/HS Code"
                   type="text"
                   startIcon={<ContactPhoneIcon />}
                   label="SKU/HS Code"
@@ -159,31 +159,40 @@ function AddItemPage() {
                   type="number"
                   isRequired
                   name="cost_price"
-                  placeholder="Cost Price"
+                  //  placeholder="Cost Price"
                   label="Cost Price"
                 />
                 <FormikField
                   type="number"
                   isRequired
                   name="sale_price"
-                  placeholder="Sale Price"
+                  //  placeholder="Sale Price"
                   label="Sale Price"
                 />
 
                 <FormikSelect
                   name="account_no"
                   options={sortedChartOfAccount}
-                  placeholder="GL Account"
+                  //  placeholder="GL Account"
                   label="GL Account"
                   isRequired
                   isGrouped
                 />
 
-                <FormikField name="bar_code" placeholder="Bar Code" label="Bar Code" />
+                <FormikField
+                  name="bar_code"
+                  // placeholder="Bar Code"
+                  label="Bar Code"
+                />
 
                 <FormikSelect options={ITEM_UNIT_LIST} name="unit" label="Unit" />
 
-                <FormikField name="recorder" type="text" placeholder="Recorder" label="Recorder" />
+                <FormikField
+                  name="recorder"
+                  type="text"
+                  // placeholder="Recorder"
+                  label="Recorder"
+                />
 
                 <FormikField name="description" textArea label="Description" className="col-12" />
 
@@ -198,7 +207,7 @@ function AddItemPage() {
                   <FormikField
                     name="opening_stock"
                     type="number"
-                    placeholder="Opening Stock"
+                    //  placeholder="Opening Stock"
                     label="Opening Stock"
                     className="col-12"
                     disabled={values.item_type !== 'Goods'}
@@ -209,7 +218,7 @@ function AddItemPage() {
                   <FormikField
                     name="part_number"
                     type="text"
-                    placeholder="Part Number"
+                    //  placeholder="Part Number"
                     label="Part Number"
                     className="col-12"
                   />
@@ -217,14 +226,14 @@ function AddItemPage() {
                   <FormikSelect
                     name="supplier"
                     options={suppliersOptions}
-                    placeholder="Select Supplier"
+                    //  placeholder="Select Supplier"
                     className="col-12"
                     label="Supplier"
                     isRequired
                   />
 
                   <FormikSelect
-                    placeholder="Select Brand"
+                    //  placeholder="Select Brand"
                     name="brand"
                     options={brandsOptions}
                     label="Brand"
@@ -232,7 +241,7 @@ function AddItemPage() {
                     isRequired
                   />
                   <FormikSelect
-                    placeholder="Select Category"
+                    //  placeholder="Select Category"
                     name="category"
                     options={categoryOptions}
                     label="Category"

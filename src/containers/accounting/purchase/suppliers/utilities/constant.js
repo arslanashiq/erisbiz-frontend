@@ -8,7 +8,7 @@ export const supplierInitialValues = {
   contact_person: '',
   email: '',
   reference_num: '',
-  account_number: '',
+  account_number: null,
   IBAN: '',
   swift_code: '',
   mobile_num: '',

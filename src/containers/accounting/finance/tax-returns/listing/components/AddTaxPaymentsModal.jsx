@@ -77,7 +77,7 @@ function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
           >
             <Form className="form form--horizontal row mt-3">
               <FormikSelect
-                placeholder="Paid Through"
+              //  placeholder="Paid Through"
                 name="paid_through_account"
                 options={bankAccountOptions}
                 label="Paid Through"
@@ -98,27 +98,27 @@ function AddTaxPaymentsModal({ open, handleClose, selectedTax }) {
               <FormikField
                 name="amount_applied"
                 type="number"
-                placeholder="Amount Paid"
+              //  placeholder="Amount Paid"
                 label="Amount Paid"
                 className="col-12"
               />
               <FormikDatePicker
                 name="payment_date"
                 label="Payment Date"
-                placeholder="Payment Date"
+              //  placeholder="Payment Date"
                 className="col-12"
               />
               <FormikField
                 name="reference_num"
                 label="Reference Number"
-                placeholder="Reerence Number"
+              //  placeholder="Reerence Number"
                 className="col-12"
               />
               <FormikField
                 name="notes"
                 textArea
                 label="Payment Note"
-                placeholder="Payment Note"
+              //  placeholder="Payment Note"
                 className="col-12"
               />
 

@@ -17,7 +17,7 @@ function ContactInfo({ name, form, push, remove }) {
                   className="w-100"
                   name={`${name}.${index}.first_name`}
                   type="text"
-                  placeholder="Name"
+               //  placeholder="Name"
                 />
               </TableCell>
               <TableCell>
@@ -25,7 +25,7 @@ function ContactInfo({ name, form, push, remove }) {
                   className="w-100"
                   name={`${name}.${index}.designation`}
                   type="text"
-                  placeholder="Designation"
+               //  placeholder="Designation"
                 />
               </TableCell>
               <TableCell>
@@ -33,7 +33,7 @@ function ContactInfo({ name, form, push, remove }) {
                   className="w-100"
                   type="number"
                   name={`${name}.${index}.mobile_num`}
-                  placeholder="Mobile Number"
+               //  placeholder="Mobile Number"
                 />
               </TableCell>
               <TableCell>
@@ -41,7 +41,7 @@ function ContactInfo({ name, form, push, remove }) {
                   className="w-100"
                   name={`${name}.${index}.email`}
                   type="email"
-                  placeholder="Email"
+               //  placeholder="Email"
                 />
               </TableCell>
               <TableCell sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -49,7 +49,7 @@ function ContactInfo({ name, form, push, remove }) {
                   className="w-100"
                   name={`${name}.${index}.notes`}
                   type="text"
-                  placeholder="Notes"
+               //  placeholder="Notes"
                 />
                 <Tooltip title="Remove" arrow placement="top">
                   <IconButton color="error" onClick={() => remove(index)} className="mb-2 ms-2">

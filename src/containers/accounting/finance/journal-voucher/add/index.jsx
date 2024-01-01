@@ -138,7 +138,7 @@ function AddJournalVoucher() {
             <FormikField
               name="reference_num"
               type="text"
-              placeholder="Reference Number"
+              //  placeholder="Reference Number"
               startIcon={<TagIcon />}
               label="Reference NO "
               isRequired
@@ -147,7 +147,7 @@ function AddJournalVoucher() {
             <FormikDatePicker
               name="journal_date"
               type="text"
-              placeholder="Date"
+              //  placeholder="Date"
               label="Date"
               startIcon={<CalendarMonthIcon />}
             />
@@ -156,18 +156,23 @@ function AddJournalVoucher() {
               disabled
               name="journal_num"
               type="text"
-              placeholder="Journal Number"
+              //  placeholder="Journal Number"
               label="Journal No"
             />
             <FormikField
               disabled
               name="last_journal_num"
               type="text"
-              placeholder="Last Journal Number"
+              //  placeholder="Last Journal Number"
               label="Last Journal No"
             />
 
-            <FormikField name="notes" placeholder="Note" label="Note" className="col-12" />
+            <FormikField
+              name="notes"
+              //  placeholder="Note"
+              label="Note"
+              className="col-12"
+            />
 
             <FieldArray
               name="journal_items"
@@ -190,7 +195,7 @@ function AddJournalVoucher() {
             <FormikField
               name="remarks"
               textArea
-              placeholder="Remarks"
+              //  placeholder="Remarks"
               label="Remarks"
               className="col-12 mt-4"
             />

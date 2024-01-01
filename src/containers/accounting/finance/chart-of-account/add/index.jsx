@@ -103,7 +103,7 @@ function AddChartOfAccount() {
                 <FormikField
                   name="account_name"
                   type="text"
-                  placeholder="Account Name"
+                  // placeholder="Account Name"
                   label="Account Name"
                   isRequired
                 />
@@ -111,7 +111,7 @@ function AddChartOfAccount() {
                   options={sortedAccountType}
                   name="account_type"
                   type="text"
-                  placeholder="Account Type"
+                  // placeholder="Account Type"
                   label="Account Type"
                   isGrouped
                   isRequired
@@ -125,7 +125,7 @@ function AddChartOfAccount() {
                       options={chartOfAccountOptions}
                       name="parent_account"
                       type="text"
-                      placeholder="Parent Account"
+                      // placeholder="Parent Account"
                       className="w-100"
                     />
                   )}

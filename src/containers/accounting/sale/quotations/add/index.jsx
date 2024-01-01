@@ -183,7 +183,7 @@ function AddQuotation() {
               name="quotation_formatted_number"
               type="text"
               disabled
-              placeholder="Quotation Number"
+              //  placeholder="Quotation Number"
               startIcon={<TagIcon />}
               label="Quotation Number"
             />
@@ -191,7 +191,7 @@ function AddQuotation() {
             <FormikDatePicker
               name="date"
               type="text"
-              placeholder="Date"
+              //  placeholder="Date"
               label="Date"
               startIcon={<CalendarMonthIcon />}
             />
@@ -199,12 +199,12 @@ function AddQuotation() {
             <FormikSelect
               options={customersOptions}
               name="customers"
-              placeholder="Customer"
+              //  placeholder="Customer"
               label="Customer"
               isRequired
             />
             <FormikFileField
-              placeholder="Attachment"
+              //  placeholder="Attachment"
               label="Attachment"
               name="quotation_docs"
               startIcon={<AttachFileIcon />}
@@ -213,7 +213,7 @@ function AddQuotation() {
               name="sales_person"
               options={salePersonListOptions}
               type="text"
-              placeholder="Sales Person"
+              //  placeholder="Sales Person"
               label="Sales Person"
               isRequired
             />
@@ -221,7 +221,7 @@ function AddQuotation() {
             <FormikField
               name="location"
               type="text"
-              placeholder="Location"
+              //  placeholder="Location"
               className="col"
               label="Location"
             />
@@ -240,7 +240,13 @@ function AddQuotation() {
               />
             </div>
 
-            <FormikField name="remarks" textArea placeholder="Remarks" label="Remarks" className="col-12" />
+            <FormikField
+              name="remarks"
+              textArea
+              // placeholder="Remarks"
+              label="Remarks"
+              className="col-12"
+            />
             <FormSubmitButton />
           </FormikWrapper>
         </CardContent>

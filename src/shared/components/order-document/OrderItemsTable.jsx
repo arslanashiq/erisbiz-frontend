@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
-import formatAmount, { toWords } from 'utilities/formatAmount';
+import formatAmount, { handleGetAmountInWords } from 'utilities/formatAmount';
 import { Box, Grid, Typography } from '@mui/material';
 
 function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
@@ -72,7 +72,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             </Typography>
 
             <Typography color="primary" sx={{ fontSize: 15, fontWeight: 500 }}>
-              {orderDetail.currency_symbol} - {toWords.convert(getTotalAmount())?.replace('point', 'and')}
+              {orderDetail.currency_symbol} - {handleGetAmountInWords(getTotalAmount())}
             </Typography>
           </Grid>
         </Grid>
@@ -167,19 +167,18 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             <p>{formatAmount(getTotalAmount())}</p>
           </Box>
         </Grid>
-
         <Grid container item xs={7} lg={7} mt={5}>
-          {orderInfo.bankDetail && (
+          {orderInfo?.bankDetail?.bank_name && (
             <>
               <Grid item xs={12}>
                 <Typography color="primary" sx={{ fontWeight: 700, fontSize: 18, paddingBottom: 1 }}>
                   Bank Detail
                 </Typography>
               </Grid>
-              {renderBankDetails('Bank Name', 'Meezan Bank')}
-              {renderBankDetails('Account Holder Name', 'Muhammad Usman')}
-              {renderBankDetails('Account Number / IBAN', 'PK08 MBL 02340109756334')}
-              {renderBankDetails('Swift Code', '0124')}
+              {renderBankDetails('Bank Name', orderInfo?.bankDetail?.bank_name)}
+              {renderBankDetails('Account Holder Name', orderInfo?.bankDetail?.account_holder_name)}
+              {renderBankDetails('Account Number / IBAN', orderInfo?.bankDetail?.IBAN)}
+              {renderBankDetails('Swift Code', orderInfo?.bankDetail?.swift_code)}
             </>
           )}
         </Grid>

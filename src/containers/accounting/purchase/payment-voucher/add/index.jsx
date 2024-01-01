@@ -214,7 +214,7 @@ function addPaymentVoucher() {
               <Form className="form form--horizontal mt-3 row">
                 <FormikSelect
                   name="supplier_id"
-                  placeholder="Supplier"
+                  //  placeholder="Supplier"
                   label="Supplier"
                   disabled={Boolean(supplierId)}
                   startIcon={<TagIcon />}
@@ -226,7 +226,7 @@ function addPaymentVoucher() {
                 <FormikDatePicker
                   name="payment_date"
                   type="text"
-                  placeholder="Payment Date"
+                  //  placeholder="Payment Date"
                   displayFormat="yyyy-MM-dd"
                   label="Payment Date"
                   startIcon={<CalendarMonthIcon />}
@@ -237,34 +237,45 @@ function addPaymentVoucher() {
                   name="total"
                   type="number"
                   // startIcon={<AttachMoneyIcon />}
-                  placeholder="Amount"
+                  //  placeholder="Amount"
                   disabled={Boolean(debitAmount)}
                   label="Amount"
                 />
 
                 <FormikSelect
                   name="payment_mode"
-                  placeholder="Payment Mode"
+                  //  placeholder="Payment Mode"
                   label="Payment Mode"
                   options={PAYMENT_MODE}
                   isRequired
                 />
                 <FormikSelect
                   name="chart_of_account_id"
-                  placeholder="Paid Through"
+                  //  placeholder="Paid Through"
                   label="Paid Through"
                   isRequired
                   options={bankAccountOptions}
                 />
 
-                <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
+                <FormikField
+                  name="reference_num"
+                  type="text"
+                  //  placeholder="Reference"
+                  label="Reference"
+                />
 
                 <FieldArray
                   name="bill_payments"
                   render={props => <UnPaidBillsList headCells={UnPaidBillsHeadCells} {...props} />}
                 />
 
-                <FormikField name="notes" textArea placeholder="Remarks" label="Remarks" className="col-12" />
+                <FormikField
+                  name="notes"
+                  textArea
+                  // placeholder="Remarks"
+                  label="Remarks"
+                  className="col-12"
+                />
 
                 <FormSubmitButton />
               </Form>

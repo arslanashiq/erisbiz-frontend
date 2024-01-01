@@ -12,6 +12,7 @@ import { useGetCurrenciesListQuery } from 'services/public/currency';
 // store
 import { isUserAuthenticated } from 'store/slices/userSlice';
 // shared
+import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import MuiFormikField from 'shared/components/form/MuiFormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 // containers
@@ -95,7 +96,10 @@ function RegisterCompanyForm() {
               try {
                 const response = await registerCompany(values);
                 if (response.error) {
-                  enqueueSnackbar(response.error.data.error, { variant: 'error' });
+                  if (response?.error?.data?.error) {
+                    enqueueSnackbar(response.error.data.error, { variant: 'error' });
+                  }
+
                   setSubmitting(false);
                   setErrors(response.error.data);
                   return;
@@ -118,7 +122,7 @@ function RegisterCompanyForm() {
                   <Grid container>
                     <MuiFormikField
                       name="name"
-                      placeholder="Company Name"
+                   //  placeholder="Company Name"
                       isRequired
                       size="small"
                       label="Company Name"
@@ -127,7 +131,7 @@ function RegisterCompanyForm() {
                       <Grid item xs={12} md={6}>
                         <FormikSelect
                           name="country"
-                          placeholder="Country Name"
+                       //  placeholder="Country Name"
                           isRequired
                           label="Country Name"
                           className="col-12 mt-2"
@@ -135,7 +139,7 @@ function RegisterCompanyForm() {
                         />
                         <FormikSelect
                           name="currency"
-                          placeholder="Currency"
+                       //  placeholder="Currency"
                           label="Currency"
                           isRequired
                           className="col-12 mt-2"
@@ -143,7 +147,7 @@ function RegisterCompanyForm() {
                         />
                         <MuiFormikField
                           name="phone"
-                          placeholder="Phone"
+                       //  placeholder="Phone"
                           size="small"
                           label="Phone"
                           className="mt-2"
@@ -188,7 +192,7 @@ function RegisterCompanyForm() {
                       <MuiFormikField
                         isRequired
                         name="location"
-                        placeholder="Address"
+                     //  placeholder="Address"
                         size="small"
                         label="Address"
                       />
@@ -198,7 +202,7 @@ function RegisterCompanyForm() {
                       <MuiFormikField
                         isRequired
                         name="website"
-                        placeholder="Website"
+                     //  placeholder="Website"
                         size="small"
                         label="Website"
                       />
@@ -206,14 +210,14 @@ function RegisterCompanyForm() {
                     {/* vat number */}
                     <MuiFormikField
                       name="vat_number"
-                      placeholder="Vat Registration"
+                   //  placeholder="Vat Registration"
                       size="small"
                       label="VAT Registration No"
                     />
                     {/* license Number */}
                     <MuiFormikField
                       name="trade_license_number"
-                      placeholder="License Number"
+                   //  placeholder="License Number"
                       size="small"
                       label="License Number"
                     />
@@ -221,6 +225,7 @@ function RegisterCompanyForm() {
                     <Grid item xs={12}>
                       <FieldArray name="security_question" component={SecurityQuestions} />
                     </Grid>
+                    <ErrorFocus />
                     <Grid item xs={12}>
                       <Button disabled={isSubmitting} type="submit" sx={registerCompanySubmitButton}>
                         Register

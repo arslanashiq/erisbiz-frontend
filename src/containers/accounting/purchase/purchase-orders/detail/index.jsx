@@ -82,7 +82,12 @@ function PurchaseOrderDetail() {
       currency_symbol: purchaseOrderResponse?.data?.currency_symbol,
       date: purchaseOrderResponse?.data?.date,
       location: purchaseOrderResponse?.data?.location,
-      bankDetail: '',
+      bankDetail: {
+        bank_name: purchaseOrderResponse?.data?.supplier?.bank_name,
+        account_holder_name: purchaseOrderResponse?.data?.supplier?.account_payee,
+        IBAN: purchaseOrderResponse?.data?.supplier?.IBAN,
+        swift_code: purchaseOrderResponse?.data?.supplier?.swift_code,
+      },
       supplier: purchaseOrderResponse?.data?.supplier,
       invoiceToDetail: {
         attention_to: purchaseOrderResponse?.data?.supplier?.contact_person || '',
@@ -94,6 +99,7 @@ function PurchaseOrderDetail() {
     }),
     [purchaseOrderResponse]
   );
+
   return (
     <SectionLoader options={[purchaseOrderResponse.isLoading]}>
       <DetailPageHeader

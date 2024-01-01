@@ -80,12 +80,12 @@ function OrderReceipt({
           alignItems="cener"
           className="invoice-receipt-container"
         >
-          <Grid item xs={4} lg={4}>
+          <Grid item xs={4} lg={4} sx={{ position: 'relative' }}>
             <img
               // src="/logo.png"
               src={companyLogo}
               alt=""
-              style={{ maxWidth: 250 }}
+              style={{ maxHeight: 170, maxWidth: 250, top: -20, position: 'absolute' }}
             />
           </Grid>
           <Grid item xs={7} justifyContent="space-around" mb={7}>

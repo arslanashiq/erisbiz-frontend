@@ -6,10 +6,7 @@ export const purchaseInvoiceFormValidationSchema = Yup.object({
   pur_order_id: Yup.string().required('Purchase Order is required'),
   credit_account: Yup.string().required('Credit Account is required'),
 
-  supplier_invoice_num: Yup.number('Supplier Invoice Number must be a number')
-    .min(0, 'Must be greate than 0')
-    .max(99999, 'Must be less the 5 number')
-    .required('Supplier Invoice Number is required'),
+  supplier_invoice_num: Yup.string().required('Supplier Invoice Number is required'),
 
   bill_items: purchaseOrderItemsValidationschema,
   notes: Yup.string(''),

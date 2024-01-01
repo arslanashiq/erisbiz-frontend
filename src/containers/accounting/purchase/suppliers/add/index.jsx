@@ -14,7 +14,7 @@ import {
   useGetLatestTransactionNumberQuery,
   useGetSingleSupplierQuery,
 } from 'services/private/suppliers';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
+// import { useGetBankAccountsListQuery } from 'services/private/banking';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
@@ -39,7 +39,7 @@ function SupplierAddPage() {
   const [activeTab, setActiveTab] = useState(supplierFormTabsList[0]);
 
   const countriesListResponse = useGetAllCountriesListQuery();
-  const bankAccountResponse = useGetBankAccountsListQuery();
+  // const bankAccountResponse = useGetBankAccountsListQuery();
   const latestTransactionNumber = useGetLatestTransactionNumberQuery({}, { refetchOnMountOrArgChange: true });
 
   const [addSupplier] = useAddSupplierMutation();
@@ -55,14 +55,14 @@ function SupplierAddPage() {
     value: 'iso2',
     label: 'country',
   });
-  const { optionsList: bankAccountOptions } = useListOptions(
-    bankAccountResponse?.data?.results,
-    {
-      value: 'chart_of_account',
-      label: 'bank_account_name',
-    },
-    ['swift_code', 'bank_name', 'account_number', 'IBAN']
-  );
+  // const { optionsList: bankAccountOptions } = useListOptions(
+  //   bankAccountResponse?.data?.results,
+  //   {
+  //     value: 'chart_of_account',
+  //     label: 'bank_account_name',
+  //   },
+  //   ['swift_code', 'bank_name', 'account_number', 'IBAN']
+  // );
 
   // const handleChangeBank = (setFieldValue, value) => {
   //   const selectedBank = bankAccountOptions.filter(account => value === account.value)[0];
@@ -123,10 +123,7 @@ function SupplierAddPage() {
                 name="supplier_name"
                 type="text"
                 isRequired
-                placeholder="Supplier Name"
-                onChange={value => {
-                  setFieldValue('account_payee', value);
-                }}
+                //  placeholder="Supplier Name"
                 label="Supplier Name"
                 startIcon={<PersonOutlineIcon />}
               />
@@ -134,7 +131,7 @@ function SupplierAddPage() {
               <FormikField
                 name="contact_person"
                 type="text"
-                placeholder="Contact Person"
+                //  placeholder="Contact Person"
                 label="Contact Person"
                 startIcon={<PersonOutlineIcon />}
               />
@@ -142,7 +139,7 @@ function SupplierAddPage() {
               <FormikField
                 name="website"
                 type="text"
-                placeholder="Website"
+                //  placeholder="Website"
                 startIcon={<LanguageIcon />}
                 label="Website"
               />
@@ -150,7 +147,7 @@ function SupplierAddPage() {
               <FormikField
                 name="email"
                 type="text"
-                placeholder="Email"
+                //  placeholder="Email"
                 startIcon={<AlternateEmailIcon />}
                 label="Email"
                 isRequired
@@ -159,11 +156,16 @@ function SupplierAddPage() {
                 name="mobile_num"
                 type="text"
                 startIcon={<SettingsPhoneIcon />}
-                placeholder="Contact"
+                //  placeholder="Contact"
                 label="Contact"
               />
 
-              <FormikField name="reference_num" type="text" placeholder="VAT Reg No" label="VAT Reg No" />
+              <FormikField
+                name="reference_num"
+                type="text"
+                //  placeholder="VAT Reg No"
+                label="VAT Reg No"
+              />
 
               <FormTabs
                 className="mt-3 mb-4"
@@ -178,7 +180,7 @@ function SupplierAddPage() {
                     <FormikField
                       name="address_line1"
                       type="text"
-                      placeholder="Address 1"
+                      //  placeholder="Address 1"
                       label="Address 1"
                       className="col-12"
                     />
@@ -187,7 +189,7 @@ function SupplierAddPage() {
                       className="col-12"
                       name="address_line2"
                       type="text"
-                      placeholder="Address 2"
+                      //  placeholder="Address 2"
                       label="Address 2"
                     />
 
@@ -195,17 +197,32 @@ function SupplierAddPage() {
                       className="col-12"
                       options={countryOptions}
                       name="country"
-                      placeholder="Country"
+                      //  placeholder="Country"
                       label="Country"
                     />
 
-                    <FormikField name="city" type="text" placeholder="City" label="City" className="col-12" />
+                    <FormikField
+                      name="city"
+                      type="text"
+                      //  placeholder="City"
+                      label="City"
+                      className="col-12"
+                    />
                     <Box className="form__form-group col-12 mb-0">
-                      <span className="form__form-group-label col-lg-2 required">Map</span>
+                      <span className="form__form-group-label col-lg-2">Map</span>
                       <Box className="form__form-group-field">
-                        <FormikField name="longitude" placeholder="Longitude" className="col pe-2" />
+                        <FormikField
+                          name="longitude"
+                          //  placeholder="Longitude"
+                          className="col pe-2"
+                        />
 
-                        <FormikField name="latitude" type="text" placeholder="Latitude" className="col" />
+                        <FormikField
+                          name="latitude"
+                          type="text"
+                          // placeholder="Latitude"
+                          className="col"
+                        />
                       </Box>
                     </Box>
                   </Box>
@@ -220,7 +237,7 @@ function SupplierAddPage() {
                               setFieldValue('set_credit_limit', 0);
                               setFieldValue(e?.target?.name, e?.target?.checked);
                             }}
-                            label="Set Credit Limit ($)"
+                            label="Set Credit Limit"
                           />
 
                           <FormikField
@@ -228,7 +245,7 @@ function SupplierAddPage() {
                             className="col-4"
                             name="set_credit_limit"
                             type="number"
-                            placeholder="0.00"
+                            //  placeholder="0.00"
                           />
                         </Box>
                         <CheckBoxField
@@ -270,57 +287,69 @@ function SupplierAddPage() {
                 <Box className="row form form--horizontal">
                   <Box className="col-6">
                     <FormikField
-                      name="account_payee"
-                      disabled
-                      type="text"
-                      placeholder="Account Payee"
-                      label="Account Payee"
                       className="col-12"
+                      name="bank_name"
+                      //  placeholder="Bank Name"
+                      label="Bank Name"
                     />
-                    <FormikField name="IBAN" placeholder="IBAN" label="IBAN" className="col-12" />
                     <FormikField
-                      name="account_number"
-                      type="number"
-                      placeholder="Account Number"
-                      label="Account Number"
-                      isRequired
+                      name="branch_name"
+                      type="text"
+                      //  placeholder="Account Number"
+                      label="Branch Name"
                       className="col-12"
                     />
+
+                    <FormikField
+                      name="swift_code"
+                      type="number"
+                      //  placeholder="Swift Code"
+                      label="Swift Code"
+                      className="col-12"
+                    />
+
                     {values.is_reverse_charge && (
                       <FormikField
                         name="vat_number"
                         disabled={!values.is_reverse_charge}
                         type="number"
-                        placeholder="VAT Reverse Charges"
+                        //  placeholder="VAT Reverse Charges"
                         label="VAT Reverse Charges"
                         className="col-12"
                       />
                     )}
                   </Box>
                   <Box className="col-6">
-                    <FormikSelect
+                    <FormikField
+                      name="account_number"
+                      type="number"
+                      //  placeholder="Account Number"
+                      label="Account Number"
+                      className="col-12"
+                    />
+                    <FormikField
+                      name="IBAN"
+                      //  placeholder="IBAN"
+                      label="IBAN"
+                      className="col-12"
+                    />
+                    <FormikField
+                      name="account_payee"
+                      type="text"
+                      //  placeholder="Account Payee"
+                      label="Account Payee"
+                      className="col-12"
+                    />
+                    {/* <FormikSelect
                       options={bankAccountOptions}
                       name="account_default"
                       isRequired
-                      placeholder="Account Default"
+                      //  placeholder="Account Default"
                       label="Account Default"
                       // onChange={value => handleChangeBank(setFieldValue, value)}
                       className="col-12"
-                    />
+                    /> */}
 
-                    <FormikField
-                      className="col-12"
-                      name="bank_name"
-                      placeholder="Bank Name"
-                      label="Bank Name"
-                    />
-                    <FormikField
-                      name="swift_code"
-                      type="number"
-                      placeholder="Swift Code"
-                      label="Swift Code"
-                      className="col-12"
-                    />
                     <Box className="form__form-group align-items-center">
                       <span className="form__form-group-label col-lg-3 " />
 
@@ -353,7 +382,7 @@ function SupplierAddPage() {
                     name="comments_on_transactions"
                     type="text"
                     textArea
-                    placeholder="Comment"
+                    //  placeholder="Comment"
                     label="Comment on Transaction"
                     className="col-12"
                   />
@@ -361,7 +390,7 @@ function SupplierAddPage() {
                     name="notes"
                     type="text"
                     textArea
-                    placeholder="Notes"
+                    //  placeholder="Notes"
                     label="Notes"
                     className="col-12"
                   />

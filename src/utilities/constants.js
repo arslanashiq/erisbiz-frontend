@@ -1,7 +1,7 @@
 // API URL for the backend
 export const RECAPTCHA_PUBLIC_KEY = process.env.REACT_APP_PUBLIC_RECAPTCHA_KEY;
 export const API_URL = process.env.REACT_APP_API_URL;
-// export const API_URL = 'https://stagingcrm.beyonderissolutions.com';
+// export const API_URL = 'https://staging-erisbiz.beyonderissolutions.com';
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
 // export const API_URL = 'http://192.168.1.170:8000/';
 

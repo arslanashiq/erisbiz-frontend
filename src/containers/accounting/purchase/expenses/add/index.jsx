@@ -102,7 +102,7 @@ function AddExpense() {
           <FormikSelect
             name="expense_account_id"
             type="text"
-            placeholder="Expense Account"
+            //  placeholder="Expense Account"
             startIcon={<TagIcon />}
             label="Expense Account"
             options={bankOptions}
@@ -114,7 +114,7 @@ function AddExpense() {
           <FormikDatePicker
             name="expense_date"
             type="text"
-            placeholder="Date"
+            //  placeholder="Date"
             label="Date"
             startIcon={<CalendarMonthIcon />}
           />
@@ -123,7 +123,7 @@ function AddExpense() {
           <FormikField
             name="total_without_tax"
             type="number"
-            placeholder="Amount"
+            //  placeholder="Amount"
             label="Amount"
             startIcon={<PersonIcon />}
             isRequired
@@ -133,7 +133,7 @@ function AddExpense() {
           <FormikSelect
             name="paid_through_account_id"
             type="text"
-            placeholder="Paid Through"
+            //  placeholder="Paid Through"
             label="Paid Through"
             options={bankOptions}
             isRequired
@@ -143,18 +143,29 @@ function AddExpense() {
           <FormikSelect
             options={suppliersOptions}
             name="supplier_id"
-            placeholder="Supplier"
+            //  placeholder="Supplier"
             label="Supplier"
             isRequired
           />
 
           {/* Tax */}
 
-          <FormikSelect isRequired options={VAT_CHARGES} name="tax_rate_id" placeholder="Tax" label="Tax" />
+          <FormikSelect
+            isRequired
+            options={VAT_CHARGES}
+            name="tax_rate_id"
+            // placeholder="Tax"
+            label="Tax"
+          />
 
           {/* Reference */}
 
-          <FormikField name="reference_num" placeholder="Reference" label="Reference" className="col-12" />
+          <FormikField
+            name="reference_num"
+            //  placeholder="Reference"
+            label="Reference"
+            className="col-12"
+          />
 
           {/* remarks */}
           <FormikField name="notes" type="text" textArea label="Remarks" className="col-12" />

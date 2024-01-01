@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
+import { Form, Formik } from 'formik';
 import { Helmet } from 'react-helmet';
-import { Card, CardContent } from '@mui/material';
+import { Button, Card, CardContent, Stack } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 // services
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
@@ -10,16 +11,16 @@ import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 // containers
-import FormikWrapper from 'containers/common/form/FormikWrapper';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
 import { brandInitialValue } from '../utilities/constants';
 // styles
 import { brandsFormValidationSchema } from '../utilities/validation-schema';
+import 'styles/form/form.scss';
 
 function AddBrand() {
   const { id } = useParams();
@@ -37,7 +38,7 @@ function AddBrand() {
     value: 'iso2',
   });
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     try {
       let response = null;
       if (id) {
@@ -46,11 +47,16 @@ function AddBrand() {
         response = await addBrand(values);
       }
 
-      if (response.data) {
-        navigate(-1);
-      }
       if (response.error) {
         setErrors(response.error.data);
+        return;
+      }
+      if (values.save_and_continue) {
+        resetForm();
+        return;
+      }
+      if (response.data) {
+        navigate(-1);
       }
     } catch (err) {
       if (err?.response?.status === 400) {
@@ -68,29 +74,62 @@ function AddBrand() {
       <Card>
         <CardContent>
           <FormHeader title="Brands" />
-          <FormikWrapper
+
+          <Formik
+            enableReinitialize
             initialValues={initialValues}
             validationSchema={brandsFormValidationSchema}
             onSubmit={handleSubmitForm}
           >
-            <FormikField
-              name="brand_name"
-              type="text"
-              placeholder="Brand Name"
-              label="Brand Name"
-              isRequired
-            />
+            {({ isSubmitting, resetForm, setFieldValue }) => (
+              <Form className="form form--horizontal row mt-3">
+                <FormikField
+                  name="brand_name"
+                  type="text"
+                  // placeholder="Brand Name"
+                  label="Brand Name"
+                  isRequired
+                />
 
-            <FormikSelect
-              placeholder="Brand Region/Country"
-              name="brand_region"
-              options={brandsRegionOptions}
-              label="Brand Region"
-              isRequired
-            />
+                <FormikSelect
+                  // placeholder="Brand Region/Country"
+                  name="brand_region"
+                  options={brandsRegionOptions}
+                  label="Brand Region"
+                  isRequired
+                />
 
-            <FormSubmitButton />
-          </FormikWrapper>
+                <ErrorFocus />
+
+                <Stack spacing={2} direction="row">
+                  <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
+                    {isSubmitting ? 'Saving...' : 'Save'}
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    onClick={() => {
+                      setFieldValue('save_and_continue', true);
+                    }}
+                    color="secondary"
+                  >
+                    Save and Continue
+                  </Button>
+                  <Button
+                    color="secondary"
+                    onClick={() => {
+                      resetForm();
+                    }}
+                    disabled={isSubmitting}
+                    className="text-capitalize"
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Form>
+            )}
+          </Formik>
         </CardContent>
       </Card>
     </SectionLoader>

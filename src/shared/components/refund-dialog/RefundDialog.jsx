@@ -76,7 +76,7 @@ function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
                   <FormikDatePicker
                     name="refunded_on"
                     label="Refunded On"
-                    placeholder="Refunded On"
+                 //  placeholder="Refunded On"
                     isRequired
                     className="col-12 mb-3"
                   />
@@ -84,20 +84,20 @@ function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
                     name="payment_mode"
                     options={PAYMENT_MODE}
                     label="Payment Mode"
-                    placeholder="Payment Mode"
+                 //  placeholder="Payment Mode"
                     className="col-12 mb-3"
                     isRequired
                   />
                   <FormikField
                     name="reference_num"
                     label="Reference Number"
-                    placeholder="Reference Number"
+                 //  placeholder="Reference Number"
                     className="col-12 mb-3"
                   />
                   <FormikField
                     name="amount_applied"
                     label="Amount"
-                    placeholder="Amount"
+                 //  placeholder="Amount"
                     isRequired
                     type="number"
                     className="col-12 mb-3"
@@ -114,14 +114,14 @@ function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
                     name="from_account_id"
                     options={bankAccountListOptions}
                     label="Deposit To"
-                    placeholder="Deposit To"
+                 //  placeholder="Deposit To"
                     isRequired
                     className="col-12 mb-3"
                   />
                   <FormikField
                     name="description"
                     label="Description"
-                    placeholder="Description"
+                 //  placeholder="Description"
                     textArea
                     className="col-12 mb-3"
                   />

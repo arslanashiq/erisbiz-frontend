@@ -159,14 +159,14 @@ function AddReceiptVoucher() {
                   name="payment_num"
                   type="number"
                   disabled
-                  placeholder="Payment Number"
+                  //  placeholder="Payment Number"
                   startIcon={<TagIcon />}
                   label="Payment Number"
                 />
                 <FormikDatePicker
                   name="payment_date"
                   type="text"
-                  placeholder="Date"
+                  //  placeholder="Date"
                   label="Date"
                   startIcon={<CalendarMonthIcon />}
                 />
@@ -174,7 +174,7 @@ function AddReceiptVoucher() {
                   options={customersOptions}
                   disabled={Boolean(customerId)}
                   name="account"
-                  placeholder="Customer"
+                  //  placeholder="Customer"
                   label="Customer"
                   onChange={value => handleChangeCustomer(value, setFieldValue)}
                   isRequired
@@ -184,16 +184,27 @@ function AddReceiptVoucher() {
                   name="last_payment_number"
                   type="number"
                   disabled
-                  placeholder="Last Payment Number"
+                  //  placeholder="Last Payment Number"
                   label="Last Payment"
                   startIcon={<TagIcon />}
                 />
-                <FormikField name="total" type="number" placeholder="Amount" label="Amount" isRequired />
+                <FormikField
+                  name="total"
+                  type="number"
+                  //  placeholder="Amount"
+                  label="Amount"
+                  isRequired
+                />
 
-                <FormikField name="reference_num" type="text" placeholder="Reference" label="Reference" />
+                <FormikField
+                  name="reference_num"
+                  type="text"
+                  // placeholder="Reference"
+                  label="Reference"
+                />
                 <FormikSelect
                   name="payment_mode"
-                  placeholder="Payment Mode"
+                  //  placeholder="Payment Mode"
                   label="Payment Mode"
                   options={PAYMENT_MODE}
                   isRequired
@@ -201,7 +212,7 @@ function AddReceiptVoucher() {
 
                 <FormikSelect
                   name="chart_of_account"
-                  placeholder="Deposit To"
+                  //  placeholder="Deposit To"
                   label="Deposit To"
                   options={bankAccountOptions}
                   isRequired
@@ -215,7 +226,7 @@ function AddReceiptVoucher() {
                 <FormikField
                   name="remarks"
                   textArea
-                  placeholder="Remarks"
+                  //  placeholder="Remarks"
                   label="Remarks"
                   className="col-12"
                 />

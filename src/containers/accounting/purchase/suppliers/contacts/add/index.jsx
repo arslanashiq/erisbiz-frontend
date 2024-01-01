@@ -80,22 +80,48 @@ function AddSupplierContact() {
             <Form className="form form--horizontal row mt-3">
               {/* Name */}
 
-              <FormikField name="first_name" type="text" placeholder="Name" label="Name" />
+              <FormikField
+                name="first_name"
+                type="text"
+                // placeholder="Name"
+                label="Name"
+              />
 
               {/* Designation */}
-              <FormikField name="designation" type="text" placeholder="Designation" label="Designation" />
+              <FormikField
+                name="designation"
+                type="text"
+                // placeholder="Designation"
+                label="Designation"
+              />
 
               {/* Email */}
 
-              <FormikField name="email" type="email" placeholder="Email" label="Email" />
+              <FormikField
+                name="email"
+                type="email"
+                // placeholder="Email"
+                label="Email"
+              />
 
               {/* Mobile Number */}
 
-              <FormikField name="mobile_num" type="text" placeholder="Mobile Number" label="Mobile Number" />
+              <FormikField
+                name="mobile_num"
+                type="text"
+                // placeholder="Mobile Number"
+                label="Mobile Number"
+              />
 
               {/* Notes */}
 
-              <FormikField name="notes" textArea placeholder="Notes" label="Notes" className="col-12" />
+              <FormikField
+                name="notes"
+                textArea
+                // placeholder="Notes"
+                label="Notes"
+                className="col-12"
+              />
 
               <ErrorFocus />
               <FormSubmitButton />
