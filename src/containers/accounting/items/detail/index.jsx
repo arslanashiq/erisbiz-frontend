@@ -150,6 +150,7 @@ function ItemDetail() {
         >
           {activeTab === 0 && (
             <ItemOverViewTab
+              item={itemDetail}
               itemDetail={itemDetailInfo}
               itemStock={itemStockInformation}
               itemImage={itemDetail?.item_image}

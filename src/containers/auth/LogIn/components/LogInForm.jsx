@@ -49,6 +49,7 @@ function LogInForm() {
         dispatch(
           setUser({
             user: response.data.user,
+            company: response.data?.user?.company,
             isAuthenticated: true,
             is_regestered_company: companyStatus,
             // is_regestered_company: true,

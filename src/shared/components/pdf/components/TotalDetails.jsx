@@ -11,8 +11,16 @@ export const boldFont = {
 export const primaryColor = {
   color: palette.primary.main,
 };
-function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, discountTotal, orderInfo }) {
-  const renderAmount = (title, value, titleStyle) => (
+function TotalDetails({
+  grandTotal,
+  amountTotal,
+  vatTotal,
+  currencySymbol,
+  discountTotal,
+  orderInfo,
+  orderDetail,
+}) {
+  const renderAmount = (title, value, titleStyle, valueStyle) => (
     <View
       style={{
         flexDirection: 'row',
@@ -33,7 +41,7 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, disco
       >
         {title}
       </Text>
-      <Text style={{ fontSize: 10, ...titleStyle }}>{formatAmount(value)}</Text>
+      <Text style={{ fontSize: 10, ...titleStyle, ...valueStyle }}>{formatAmount(value)}</Text>
     </View>
   );
   const renderBankDetail = (title, value, titleStyle) => (
@@ -83,8 +91,21 @@ function TotalDetails({ grandTotal, amountTotal, vatTotal, currencySymbol, disco
 
         <View style={{ minWidth: 230, maxWidth: 230 }}>
           {renderAmount('Sub Total', amountTotal + discountTotal)}
-          {renderAmount('Discount', discountTotal)}
+          {renderAmount('Total Discount', discountTotal)}
           {renderAmount('VAT Amount', vatTotal)}
+          {/* refunded */}
+          {orderDetail?.refunded_amount > 0 &&
+            renderAmount('Refunded', `(-)${orderDetail.refunded_amount}`, {}, { color: 'red' })}
+          {/* credit used */}
+          {orderDetail?.credits_used > 0 &&
+            renderAmount('Credits Used', `(-)${orderDetail.credits_used}`, {}, { color: 'red' })}
+          {/* credit applied */}
+          {orderDetail?.credit_applied > 0 &&
+            renderAmount('Credit Applied', `(-)${orderDetail.credit_applied}`, {}, { color: 'red' })}
+          {/* payment made */}
+          {orderDetail?.payment_amount > 0 &&
+            renderAmount('Payment Made', `(-)${orderDetail.payment_amount}`, {}, { color: 'red' })}
+
           <View style={{ backgroundColor: palette.primary.main, padding: '3 0' }}>
             {renderAmount('Net Total', grandTotal, { color: 'white' })}
           </View>
@@ -125,10 +146,12 @@ TotalDetails.propTypes = {
   vatTotal: PropTypes.number.isRequired,
   currencySymbol: PropTypes.string.isRequired,
   discountTotal: PropTypes.number,
+  orderDetail: PropTypes.object,
 };
 
 TotalDetails.defaultProps = {
   discountTotal: 0,
+  orderDetail: {},
 };
 
 export default TotalDetails;

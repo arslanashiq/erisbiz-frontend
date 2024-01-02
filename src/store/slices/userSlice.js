@@ -37,9 +37,9 @@ const userSlice = createSlice({
     },
     isUserAuthenticated: (
       state,
-      { payload: { isAuthenticated, is_regestered_company: isRegesteredCompany, profile, company } }
+      { payload: { isAuthenticated, is_regestered_company: isRegesteredCompany, profile, company, email } }
     ) => {
-      const newData = { ...state, isAuthenticated, isRegesteredCompany, profile, company };
+      const newData = { ...state, isAuthenticated, isRegesteredCompany, profile, company, email };
       return newData;
     },
   },

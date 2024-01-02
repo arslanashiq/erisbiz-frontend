@@ -219,7 +219,7 @@ export const invalidKeysModuleWise = {
     'Supplier Credit Prefix',
     'Grand Total',
   ],
-  Expense: ['Expense Account Id', 'Tax Rate Id', 'Tax Rate Perc', 'Type'],
+  Expense: ['Expense Account Id', 'Tax Rate Id', 'Tax Rate Perc', 'Type', 'paid_through_account_id'],
   SalesCompany: [
     'Have Credit Notes',
     'Have Quotations',
@@ -481,6 +481,7 @@ export const validKeyName = {
   chart_of_account_name: 'Paid Through',
   pur_order: 'Purchase Order',
   is_reverse_charge: 'Reverse Charge',
+  paid_through_account_id: 'Paid Through Account',
   sales_company: 'Customer Name',
   account_no: 'GL Number',
   gl_number: 'GL Number',

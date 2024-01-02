@@ -5,7 +5,7 @@ import { Grid, useMediaQuery } from '@mui/material';
 import theme from 'styles/mui/theme';
 // import { v4 as uuid } from 'uuid';
 
-function ItemOverViewTab({ itemDetail, itemStock, itemImage, itemDescription }) {
+function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescription }) {
   const largeGridSpacing = useMemo(() => (itemImage ? 4 : 6), [itemImage]);
   const mediumGridSpacing = useMemo(() => (itemImage ? 6 : 6), [itemImage]);
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
@@ -90,7 +90,7 @@ function ItemOverViewTab({ itemDetail, itemStock, itemImage, itemDescription }) 
             <h5 className="item-overview-title">Purchase Account</h5>
           </Grid>
           <Grid item xs={8} lg={8}>
-            <p className="item-overview-value">Account of Sale</p>
+            <p className="item-overview-value">{item.account_name}</p>
           </Grid>
         </Grid>
       </Grid>
@@ -102,7 +102,7 @@ function ItemOverViewTab({ itemDetail, itemStock, itemImage, itemDescription }) 
             <h5 className="item-overview-title">Sale Account</h5>
           </Grid>
           <Grid item xs={8} lg={8}>
-            <p className="item-overview-value">Sale</p>
+            <p className="item-overview-value">{item.account_name}</p>
           </Grid>
         </Grid>
       </Grid>
@@ -111,6 +111,7 @@ function ItemOverViewTab({ itemDetail, itemStock, itemImage, itemDescription }) 
 }
 
 ItemOverViewTab.propTypes = {
+  item: PropTypes.object,
   itemDetail: PropTypes.array,
   itemStock: PropTypes.array,
   itemImage: PropTypes.string,
@@ -121,5 +122,6 @@ ItemOverViewTab.defaultProps = {
   itemStock: [],
   itemImage: null,
   itemDescription: '',
+  item: {},
 };
 export default ItemOverViewTab;

@@ -105,12 +105,8 @@ function RegisterCompanyForm() {
                   return;
                 }
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
-                await dispatch(
-                  isUserAuthenticated({
-                    isAuthenticated: true,
-                    is_regestered_company: true,
-                  })
-                );
+                window.location.reload();
+                navigate('/');
               } catch (error) {
                 enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
               }
@@ -122,7 +118,7 @@ function RegisterCompanyForm() {
                   <Grid container>
                     <MuiFormikField
                       name="name"
-                   //  placeholder="Company Name"
+                      //  placeholder="Company Name"
                       isRequired
                       size="small"
                       label="Company Name"
@@ -131,7 +127,7 @@ function RegisterCompanyForm() {
                       <Grid item xs={12} md={6}>
                         <FormikSelect
                           name="country"
-                       //  placeholder="Country Name"
+                          //  placeholder="Country Name"
                           isRequired
                           label="Country"
                           className="col-12 mt-2"
@@ -139,7 +135,7 @@ function RegisterCompanyForm() {
                         />
                         <FormikSelect
                           name="currency"
-                       //  placeholder="Currency"
+                          //  placeholder="Currency"
                           label="Currency"
                           isRequired
                           className="col-12 mt-2"
@@ -147,7 +143,7 @@ function RegisterCompanyForm() {
                         />
                         <MuiFormikField
                           name="phone"
-                       //  placeholder="Phone"
+                          //  placeholder="Phone"
                           size="small"
                           label="Phone"
                           className="mt-2"
@@ -192,7 +188,7 @@ function RegisterCompanyForm() {
                       <MuiFormikField
                         isRequired
                         name="location"
-                     //  placeholder="Address"
+                        //  placeholder="Address"
                         size="small"
                         label="Address"
                       />
@@ -200,9 +196,8 @@ function RegisterCompanyForm() {
                     <Grid item xs={12} md={6} className="ps-2">
                       {/* website */}
                       <MuiFormikField
-                        isRequired
                         name="website"
-                     //  placeholder="Website"
+                        //  placeholder="Website"
                         size="small"
                         label="Website"
                       />
@@ -210,14 +205,14 @@ function RegisterCompanyForm() {
                     {/* vat number */}
                     <MuiFormikField
                       name="vat_number"
-                   //  placeholder="Vat Registration"
+                      //  placeholder="Vat Registration"
                       size="small"
                       label="VAT Registration No"
                     />
                     {/* license Number */}
                     <MuiFormikField
                       name="trade_license_number"
-                   //  placeholder="License Number"
+                      //  placeholder="License Number"
                       size="small"
                       label="License Number"
                     />

@@ -63,14 +63,20 @@ function AddChartOfAccount() {
   });
 
   const updatedInitialValues = useMemo(() => {
+    let newData = { ...initialValues };
     if (id && accountTypeListOption) {
       const selectedAccountType = accountTypeListOption?.filter(
         accountType => accountType.label === initialValues?.account_type_coa
       );
-      return { ...initialValues, account_type: selectedAccountType[0]?.value || '' };
+      newData = { ...initialValues, account_type: selectedAccountType[0]?.value || '' };
     }
-    return initialValues;
+    if (newData.bank) {
+      newData = { ...newData, ...newData.bank, is_bank: true };
+    }
+    return newData;
   }, [initialValues, accountTypeListOption, id]);
+
+  console.log(updatedInitialValues);
   return (
     <SectionLoader options={[]}>
       <Helmet>
@@ -95,7 +101,7 @@ function AddChartOfAccount() {
                     swift_code: values.swift_code,
                     IBAN: values.IBAN,
                     bank_name: values.bank_name,
-                    bank_branch_address: values.bank_branch_address,
+                    branch_name: values.branch_name,
                   },
                 };
               }
@@ -160,7 +166,7 @@ function AddChartOfAccount() {
                       isRequired
                     />
                     <FormikField
-                      name="bank_branch_address"
+                      name="branch_name"
                       type="text"
                       // placeholder="Account Name"
                       label="Branch name"

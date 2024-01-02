@@ -29,7 +29,7 @@ function OrderReceipt({
   showOrderVoucher,
   showJournalVoucher,
 }) {
-  const company = useSelector(state => state.user.company);
+  const { company, email } = useSelector(state => state.user);
   const { name: companyName, logo: companyLogo } = company;
   const renderCompanyHeaderRow = headerRowData => (
     <Grid container spacing={5}>
@@ -95,7 +95,7 @@ function OrderReceipt({
             <Divider sx={{ height: '2px', backgroundColor: palette.primary.main, marginBottom: 1 }} />
             {renderCompanyHeaderRow([
               { title: 'TRN', value: COMPANY_TRN, noWrap: true, columns: 5 },
-              { title: 'Email', value: COMPANY_EMAIL, noWrap: true, columns: 7 },
+              { title: 'Email', value: email || COMPANY_EMAIL, noWrap: true, columns: 7 },
             ])}
             {renderCompanyHeaderRow([
               { title: 'Phone', value: company.phone || COMPANY_PHONE, noWrap: true, columns: 5 },

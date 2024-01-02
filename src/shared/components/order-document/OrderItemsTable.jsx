@@ -96,7 +96,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
           <Box className="entries">
             <Box className="entries-child">
               <Box className="names">
-                <p>Discount:</p>
+                <p>Total Discount:</p>
               </Box>
               <Box className="amounts">
                 <p>{formatAmount(orderDetail.without_change_discount_total)}</p>

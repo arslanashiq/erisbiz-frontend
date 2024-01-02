@@ -5,6 +5,8 @@ export const chartOfAccountInitialValues = {
   is_parent: false,
   parent_account: null,
   account_type_coa: '',
+  bank: null,
+  account_number: '',
 };
 
 export const test = '';
