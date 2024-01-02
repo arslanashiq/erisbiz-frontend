@@ -49,7 +49,7 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
         if (journalObject[item.account_name]) {
           journalObject[item.account_name].bcy_credit += item.bcy_credit;
           journalObject[item.account_name].bcy_debit += item.bcy_debit;
-        } else {
+        } else if (item.bcy_credit > 0 || item.bcy_debit > 0) {
           journalObject[item.account_name] = { ...item };
         }
       } catch (error) {
