@@ -45,7 +45,12 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
   useEffect(() => {
     const journalObject = {};
     journalItems.forEach(item => {
-      journalObject[item.account_name] = item;
+      if (journalObject[item.account_name]) {
+        journalObject[item.account_name].bcy_credit = item.bcy_credit;
+        journalObject[item.account_name].bcy_debit = item.bcy_debit;
+      } else {
+        journalObject[item.account_name] = item;
+      }
     });
     let sortedList = sortedJournalsArrayForSale;
     if (isPurchaseJournal) {
