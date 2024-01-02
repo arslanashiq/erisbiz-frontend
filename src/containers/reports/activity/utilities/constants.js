@@ -101,7 +101,7 @@ export const inValidKeys = [
   'Supplier Id',
 ];
 export const invalidKeysModuleWise = {
-  BankAccount: ['Chart Of Account'],
+  BankAccount: ['Chart Of Account', 'Bank Branch Address', 'Description'],
   Category: ['Category Num'],
   Brand: ['Brand Num'],
   Item: [
