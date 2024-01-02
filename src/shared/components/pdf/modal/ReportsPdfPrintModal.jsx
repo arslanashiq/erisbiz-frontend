@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, Stack, Typography } from '@mui/material';
 import StyledDialog from 'styles/mui/component/StyledDialog';
 import { Font, PDFViewer, StyleSheet, Text, View } from '@react-pdf/renderer';
+import palette from 'styles/mui/theme/palette';
 import { useSelector } from 'react-redux';
 import MainComponent from '../components/MainComponent';
 import PDFHeader from '../components/PDFHeader';
@@ -167,6 +168,13 @@ function ReportsPdfPrintModal({
               {isMultiReport
                 ? tableBody.map((body, index) => renderReport(modifiedTableHead[index], body, tableFooter[index]))
                 : renderReport(tableHeader, tableBody, tableFooter)}
+
+              <View style={{ width: '100%', justifyContent: 'end', alignItems: 'center', marginTop: 50 }}>
+                <Text style={{ color: palette.primary.main, fontSize: 10 }}>
+                  This document has been generated electronically and does not necessitate a physical stamp or
+                  signature
+                </Text>
+              </View>
             </MainComponent>
           </PDFViewer>
         </Stack>

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Items from 'shared/components/pdf/components/Items';
 import TotalDetails from 'shared/components/pdf/components/TotalDetails';
+import { Text, View } from '@react-pdf/renderer';
+import palette from 'styles/mui/theme/palette';
 import PDFHeader from './PDFHeader';
 import MainComponent from './MainComponent';
 import VoucherContent from './VoucherContent';
@@ -56,6 +58,12 @@ function PdfDoc({
       {showJournalVoucher && (
         <JournalVoucher orderInfo={orderInfo} orderDetail={orderDetail} keyName={keyName} />
       )}
+      <View style={{ width: '100%', justifyContent: 'end', alignItems: 'center', marginTop: 50 }}>
+        <Text style={{ color: palette.primary.main, fontSize: 10 }}>
+          This document has been generated electronically and does not necessitate a physical stamp or
+          signature
+        </Text>
+      </View>
     </MainComponent>
   );
 }

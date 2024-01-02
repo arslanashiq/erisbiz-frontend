@@ -77,7 +77,7 @@ function PurchaseInvoiceDetail() {
 
   const orderInfo = useMemo(
     () => ({
-      type: 'Bill Invoice',
+      type: 'Purchase Invoice',
       order_number: purchaseInvoiceResponse?.data?.bill_num || '',
       formated_order_number: purchaseInvoiceResponse?.data?.bill_num || '',
       sale_person: '',

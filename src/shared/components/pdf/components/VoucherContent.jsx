@@ -154,7 +154,7 @@ function VoucherContent({ orderDetail }) {
             </Text>
           </View>
         </View>
-        {orderDetail.over_payment !== '0.00' && (
+        {orderDetail.over_payment > 0 && (
           <View style={styles.overPaymentContainer}>
             <Text style={styles.overPaymentText}>Overpayment</Text>
             <Text>

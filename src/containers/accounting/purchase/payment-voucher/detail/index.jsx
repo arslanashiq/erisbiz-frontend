@@ -45,7 +45,7 @@ function PaymentVoucherDetail() {
 
   const orderInfo = useMemo(
     () => ({
-      type: 'Payment Made',
+      type: 'Payment Voucher',
       order_number: `#${
         PaymentVoucherDetailResponse?.data?.payment_formatted_number ||
         PaymentVoucherDetailResponse?.data?.payment_num
@@ -142,7 +142,7 @@ function PaymentVoucherDetail() {
         maxAmount={PaymentVoucherDetailResponse?.data?.over_payment}
       />
       <DetailPageHeader
-        title={`Payment Made: #${
+        title={`Payment Voucher: #${
           PaymentVoucherDetailResponse?.data?.payment_formatted_number ||
           PaymentVoucherDetailResponse?.data?.payment_num
         }`}

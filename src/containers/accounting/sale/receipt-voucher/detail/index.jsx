@@ -40,7 +40,7 @@ function ReceiptVoucherDetail() {
 
   const orderInfo = useMemo(
     () => ({
-      type: 'PAYMENT RECEIPT',
+      type: 'Receipt Voucher',
       order_number: `#${receiptVoucherResponse?.data?.payment_num}`,
       formated_order_number: receiptVoucherResponse?.data?.payment_num,
       sale_person: receiptVoucherResponse?.data?.sale_person || '',

@@ -48,7 +48,7 @@ function SupplierCreditDetail() {
 
   const orderInfo = useMemo(
     () => ({
-      type: 'Supplier Credit',
+      type: 'Purchase Debit Note',
       formated_order_number: supplierCreditResponse?.data?.supplier_credit_formatted_number || '',
       date: supplierCreditResponse?.data?.invoice_date || '',
       supplier: supplierCreditResponse?.data?.supplier || {},
@@ -127,30 +127,33 @@ function SupplierCreditDetail() {
       setErrors(response.error.data);
       return;
     }
-    enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
+    enqueueSnackbar('Purchase Debit Note Updated', { variant: 'success' });
     setOpenRefundModal(false);
   }, []);
-  const handleApplyToBill = useCallback(async (values, { setErrors }) => {
-    const billCreditNotes = values.bill_credit_notes
-      .filter(cn => cn.amount_applied > 0)
-      .map(cn => ({
-        amount_applied: cn.amount_applied,
-        bill_id: cn.id,
-      }));
+  const handleApplyToBill = useCallback(
+    async (values, { setErrors }) => {
+      const billCreditNotes = values.bill_credit_notes
+        .filter(cn => cn.amount_applied > 0)
+        .map(cn => ({
+          amount_applied: cn.amount_applied,
+          bill_id: cn.id,
+        }));
 
-    const payload = {
-      credit_note_id: supplierCreditResponse?.data.id,
-      supplier_credit_id: supplierCreditResponse?.data.id,
-      bill_credit_notes: billCreditNotes,
-    };
-    const response = await refundSupplierCredit(payload);
-    if (response.error) {
-      setErrors(response.error.data);
-      return;
-    }
-    enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
-    setOpenApplyToBillModal(false);
-  }, [supplierCreditResponse]);
+      const payload = {
+        credit_note_id: supplierCreditResponse?.data.id,
+        supplier_credit_id: supplierCreditResponse?.data.id,
+        bill_credit_notes: billCreditNotes,
+      };
+      const response = await refundSupplierCredit(payload);
+      if (response.error) {
+        setErrors(response.error.data);
+        return;
+      }
+      enqueueSnackbar('Purchase Debit Note Updated', { variant: 'success' });
+      setOpenApplyToBillModal(false);
+    },
+    [supplierCreditResponse]
+  );
 
   useEffect(() => {
     (async () => {

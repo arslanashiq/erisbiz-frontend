@@ -165,6 +165,21 @@ function OrderReceipt({
         {showJournalVoucher && (
           <JournalVoucher orderDetail={orderDetail} keyValue={keyValue} orderInfo={orderInfo} />
         )}
+
+        <Box
+          sx={{
+            with: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 5,
+          }}
+        >
+          <Typography sx={{ color: palette.primary.main, fontSize: 12 }}>
+            This document has been generated electronically and does not necessitate a physical stamp or
+            signature
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
