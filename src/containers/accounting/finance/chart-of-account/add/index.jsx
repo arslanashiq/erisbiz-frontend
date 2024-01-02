@@ -76,7 +76,6 @@ function AddChartOfAccount() {
     return newData;
   }, [initialValues, accountTypeListOption, id]);
 
-  console.log(updatedInitialValues);
   return (
     <SectionLoader options={[]}>
       <Helmet>
