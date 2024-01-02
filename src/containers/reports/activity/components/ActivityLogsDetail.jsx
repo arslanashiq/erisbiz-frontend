@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable implicit-arrow-linebreak */
 import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';

@@ -330,7 +330,7 @@ export const invalidNestedKeys = [
   'uid',
   'Vat Rate Perc',
   'Num Units',
-  'Doc File',
+  // 'Doc File',
   'Doc Size Bytes',
 ];
 export const invalidNestedKeysModuleWise = {
@@ -403,6 +403,7 @@ export const invalidNestedKeysModuleWise = {
       'bill_num',
       'Exchange Rate',
       'Is Payment Voucher',
+      'Bill Id',
       'Purchase Order',
       'Bill Date',
       'Due Date',
@@ -549,6 +550,7 @@ export const formDataReplaceableKeys = [
 // images
 export const imageKeyName = {
   item_image: true,
+  doc_file: true,
 };
 
 // styles
