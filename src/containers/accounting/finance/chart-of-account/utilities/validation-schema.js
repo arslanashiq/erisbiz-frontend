@@ -1,4 +1,4 @@
-import { IBAN_REGIX, NAME_AND_NUMBER_REGEX, NAME_REGEX } from 'utilities/constants';
+import { IBAN_REGIX, INTEGER_REGEX, NAME_AND_NUMBER_REGEX, NAME_REGEX } from 'utilities/constants';
 import * as Yup from 'yup';
 
 export const chartOfAccountFormValidationSchema = Yup.object({
@@ -7,13 +7,16 @@ export const chartOfAccountFormValidationSchema = Yup.object({
 
   account_number: Yup.string().when('is_bank', {
     is: true,
-    then: () => Yup.string().required('Account Number is required'),
+    then: () => Yup.string()
+      .matches(INTEGER_REGEX, 'Enter numbers only')
+      .max(20, 'Cannot exceed 20 characters')
+      .required('Account Number is required'),
   }),
   IBAN: Yup.string().when('is_bank', {
     is: true,
     then: () => Yup.string()
       .matches(IBAN_REGIX, 'Invalid IBAN')
-      .max(50, 'Cannot exceed 50 characters')
+      .max(23, 'Cannot exceed 23 characters')
       .required('IBAN is required'),
   }),
   bank_name: Yup.string().when('is_bank', {

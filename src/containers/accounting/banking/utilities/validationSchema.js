@@ -9,14 +9,14 @@ export const bankFormValidationSchema = Yup.object({
 
   account_number: Yup.string()
     .matches(INTEGER_REGEX, 'Enter numbers only')
-    .max(50, 'Cannot exceed 50 characters')
+    .max(20, 'Cannot exceed 20 characters')
     .required('Account Number is required'),
 
   branch_name: Yup.string().matches(NAME_REGEX, 'Use alphabets only').required('Branch Name is required'),
 
   IBAN: Yup.string()
     .matches(IBAN_REGIX, 'Invalid IBAN')
-    .max(50, 'Cannot exceed 50 characters')
+    .max(23, 'Cannot exceed 23 characters')
     .required('IBAN is required'),
 
   swift_code: Yup.string()
