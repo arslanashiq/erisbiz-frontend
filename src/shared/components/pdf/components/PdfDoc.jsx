@@ -19,6 +19,7 @@ function PdfDoc({
   companyLogo,
   companyDetail,
   companyEmail,
+  companyTRN,
 }) {
   return (
     <MainComponent subject={orderInfo.type} title={orderInfo.type}>
@@ -28,6 +29,7 @@ function PdfDoc({
         companyLogo={companyLogo}
         companyDetail={companyDetail}
         companyEmail={companyEmail}
+        companyTRN={companyTRN}
       />
       {showItemsTable && (
         <>
@@ -68,6 +70,7 @@ PdfDoc.propTypes = {
   companyLogo: PropTypes.string,
   companyDetail: PropTypes.object,
   companyEmail: PropTypes.string,
+  companyTRN: PropTypes.string,
 };
 PdfDoc.defaultProps = {
   orderDetail: {},
@@ -78,6 +81,7 @@ PdfDoc.defaultProps = {
   companyName: '',
   companyDetail: {},
   companyEmail: '',
+  companyTRN: '',
 };
 
 export default PdfDoc;

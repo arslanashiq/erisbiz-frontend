@@ -65,7 +65,7 @@ function ReportsPdfPrintModal({
   modifiedTableHead,
 }) {
   const { company, email } = useSelector(state => state.user);
-  const { name: companyName, logo: companyLogo } = company;
+  const { name: companyName, logo: companyLogo, trn } = company;
 
   const handleClose = () => {
     setIsPrintModalOpen(false);
@@ -157,7 +157,13 @@ function ReportsPdfPrintModal({
           <PDFViewer style={{ height: '75vh', width: '100%' }}>
             <MainComponent subject={reportTitle} title={reportTitle}>
               {/* header */}
-              <PDFHeader companyName={companyName} companyLogo={companyLogo} companyDetail={company} companyEmail={email} />
+              <PDFHeader
+                companyName={companyName}
+                companyLogo={companyLogo}
+                companyDetail={company}
+                companyEmail={email}
+                companyTRN={trn}
+              />
               {isMultiReport
                 ? tableBody.map((body, index) => renderReport(modifiedTableHead[index], body, tableFooter[index]))
                 : renderReport(tableHeader, tableBody, tableFooter)}

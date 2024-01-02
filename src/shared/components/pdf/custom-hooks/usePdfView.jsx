@@ -7,7 +7,7 @@ import PdfDoc from '../components/PdfDoc';
 
 function usePdfView(orderInfo, orderDetail, keyValue, options) {
   const { company, email } = useSelector(state => state.user);
-  const { name: companyName, logo: companyLogo } = company;
+  const { name: companyName, logo: companyLogo, trn } = company;
   const [data, setData] = useState({});
   const [actionLoading, setActionLoading] = useState(false);
   const [component, setComponent] = useState(null);
@@ -48,6 +48,7 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
             companyEmail={email}
             companyName={companyName}
             companyLogo={companyLogo}
+            companyTRN={trn}
           />
         );
       }

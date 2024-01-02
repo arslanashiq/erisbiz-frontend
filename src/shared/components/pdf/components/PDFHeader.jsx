@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function PDFHeader({ orderInfo, companyName, companyLogo, companyDetail, companyEmail }) {
+function PDFHeader({ orderInfo, companyName, companyLogo, companyDetail, companyEmail, companyTRN }) {
   return (
     <View>
       <View style={styles.container}>
@@ -39,6 +39,7 @@ function PDFHeader({ orderInfo, companyName, companyLogo, companyDetail, company
           companyLogo={companyLogo}
           companyDetail={companyDetail}
           companyEmail={companyEmail}
+          companyTRN={companyTRN}
         />
       </View>
       {orderInfo && <InvoiceInfoDetail orderInfo={orderInfo} />}
@@ -52,6 +53,7 @@ PDFHeader.propTypes = {
   companyLogo: PropTypes.string,
   companyDetail: PropTypes.object,
   companyEmail: PropTypes.string,
+  companyTRN: PropTypes.string,
   // orderDetail: PropTypes.object.isRequired,
 };
 PDFHeader.defaultProps = {
@@ -60,6 +62,7 @@ PDFHeader.defaultProps = {
   companyName: '',
   companyDetail: {},
   companyEmail: '',
+  companyTRN: '',
   // orderDetail: PropTypes.object.isRequired,
 };
 
