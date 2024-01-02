@@ -34,6 +34,23 @@ export const formattedNumber = {
   CreditNote: 'credit_note_formatted_number',
 };
 
+export const converToDecimal = {
+  // items mater
+  cost_price: true,
+  sale_price: true,
+  // order items
+  amount_ex_vat: true,
+  discount: true,
+  gross_amount: true,
+  net_amount: true,
+  unit_price_ex_vat: true,
+  // complete sale and purchase module
+  without_change_amount_total: true,
+  without_change_vat_total: true,
+  without_change_discount_total: true,
+  without_change_grand_total: true,
+};
+
 export const getModuleName = name => {
   if (activityLogsModuleName[name]) {
     return activityLogsModuleName[name];

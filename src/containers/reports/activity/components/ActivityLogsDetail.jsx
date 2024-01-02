@@ -27,6 +27,7 @@ import formatAmount from 'utilities/formatAmount';
 import {
   formDataReplaceableKeys,
   formattedNumber,
+  converToDecimal,
   getModuleName,
   imageKeyName,
   inValidKeys,
@@ -84,6 +85,30 @@ function ActivityLogsDetail() {
     }
     return 'Unhandled Code';
   }, []);
+  const { data: activityDetailInfo, module: moduleName } = useMemo(() => {
+    const data = [];
+    const module = activityDetail?.module_name;
+    data.push({ label: 'User Name', value: activityDetail?.user });
+    data.push({
+      label: 'Action Date',
+      value: moment(activityDetail?.datetime).format('DD-MMMM-YYYY'),
+    });
+    data.push({ label: 'Action Time', value: moment(activityDetail?.datetime).format('hh:mm:ss A') });
+
+    data.push({ label: 'Location', value: `${activityDetail?.city},${activityDetail?.country}` });
+    data.push({ label: 'IP Address', value: activityDetail?.ip_address });
+    data.push({ label: 'Module Name', value: getModuleName(activityDetail?.module_name) });
+    data.push({
+      label: 'Status',
+      value: getResponseStatus(
+        activityDetail?.response_code,
+        activityDetail?.request_method,
+        activityDetail?.module_name
+      ),
+    });
+
+    return { data, module };
+  }, [activityDetail]);
 
   const renderkeyValue = useCallback((value, key) => {
     if (typeof value === 'boolean') {
@@ -92,8 +117,11 @@ function ActivityLogsDetail() {
       }
       return 'No';
     }
-    if (typeof value === 'number') {
-      return formatAmount(value);
+    if (converToDecimal[moduleName] && converToDecimal[moduleName][key]) {
+      return formatAmount(Number(value) || value);
+    }
+    if (converToDecimal[key]) {
+      return formatAmount(Number(value) || value);
     }
     if (imageKeyName[key]) return <img style={{ height: 100, objectFit: 'contain' }} src={value} alt="key" />;
     if (key === 'password') {
@@ -128,30 +156,6 @@ function ActivityLogsDetail() {
     }
     return 'value';
   }, []);
-  const { data: activityDetailInfo, module: moduleName } = useMemo(() => {
-    const data = [];
-    const module = activityDetail?.module_name;
-    data.push({ label: 'User Name', value: activityDetail?.user });
-    data.push({
-      label: 'Action Date',
-      value: moment(activityDetail?.datetime).format('DD-MMMM-YYYY'),
-    });
-    data.push({ label: 'Action Time', value: moment(activityDetail?.datetime).format('hh:mm:ss A') });
-
-    data.push({ label: 'Location', value: `${activityDetail?.city},${activityDetail?.country}` });
-    data.push({ label: 'IP Address', value: activityDetail?.ip_address });
-    data.push({ label: 'Module Name', value: getModuleName(activityDetail?.module_name) });
-    data.push({
-      label: 'Status',
-      value: getResponseStatus(
-        activityDetail?.response_code,
-        activityDetail?.request_method,
-        activityDetail?.module_name
-      ),
-    });
-
-    return { data, module };
-  }, [activityDetail]);
 
   const checkDataNotAllowdedToPrint = useCallback(
     (key, data) =>
