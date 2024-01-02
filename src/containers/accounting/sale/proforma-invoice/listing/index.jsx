@@ -70,7 +70,7 @@ function ProfomaInvoiceListing() {
         totalDataCount={proformaInvoicesListResponse?.data?.count}
         headCells={proformaInvoiceHeadCell}
         showCheckbox
-        editableStatusList={['draft', 'approved']}
+        editableStatusList={['draft']}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Proforma Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

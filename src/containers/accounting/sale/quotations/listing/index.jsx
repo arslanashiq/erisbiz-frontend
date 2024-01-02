@@ -64,7 +64,7 @@ function QuotationListing() {
         TableHeading="Quotations"
         headCells={quotationsHeadCell}
         showCheckbox
-        editableStatusList={['draft', 'approved']}
+        editableStatusList={['draft']}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Quotation' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

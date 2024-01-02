@@ -17,12 +17,6 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
 
   const netAmount = grossTotal - discount + vatAmount;
 
-  if (values.credit_account) {
-    setFieldValue(`${name}.${index}.chart_of_account`, values.credit_account);
-  }
-  if (values.chart_of_account) {
-    setFieldValue(`${name}.${index}.chart_of_account`, values.chart_of_account);
-  }
   if (selectedVatValue) {
     setFieldValue(`${name}.${index}.vat_rate`, selectedVatValue);
     setFieldValue(`${name}.${index}.vat_rate_name`, selectedVatLabel);
@@ -49,6 +43,12 @@ export const handleChangeItem = (
   allValues
 ) => {
   const selectedItem = itemsListOptions.filter(item => item.label === value);
+
+  if (selectedItem[0].account_no) {
+    setFieldValue(`${name}.${index}.chart_of_account`, selectedItem[0].account_no);
+    setFieldValue(`${name}.${index}.expense_account`, selectedItem[0].account_no);
+  }
+
   setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, selectedItem[0].item_type);
@@ -102,13 +102,7 @@ export const handleChangeDiscount = (name, index, key, value, values, setFieldVa
   const newValues = { ...values, discount: value, credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeChartOfAccount = (value, allValues, key, setFieldValue) => {
-  const newValues = [];
-  allValues[key].forEach(item => {
-    newValues.push({ ...item, chart_of_account: value });
-  });
-  setFieldValue(key, newValues);
-};
+
 export const handleCalculateTotalAmount = purchaseOrderItems => {
   let amountTotal = 0;
   let vatTotal = 0;
@@ -144,6 +138,7 @@ export const handleGetFormatedItemsData = itemsList => {
       vat_rate_name: item.vat_rate_name || VAT_CHARGES[0].label,
       cost_price: item.cost_price,
       amount_ex_vat: item.amount_ex_vat,
+      chart_of_account: item.chart_of_account,
     }));
   }
   return [];

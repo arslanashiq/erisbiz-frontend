@@ -124,7 +124,7 @@ function ActivityLogsDetail() {
     if (converToDecimal[key]) {
       return formatAmount(Number(value) || value);
     }
-    if (imageKeyName[key]) return <img style={{ height: 100, objectFit: 'contain' }} src={value} alt="key" />;
+    if (imageKeyName[key]) return <img style={{ height: 100, objectFit: 'contain' }} src={value} alt={key} />;
     if (key === 'password') {
       const last2Digits = value.slice(-2);
       return (
@@ -147,14 +147,13 @@ function ActivityLogsDetail() {
   }, []);
 
   const checkValueType = useCallback(payloadInfo => {
-    if (payloadInfo) {
-      if (typeof payloadInfo === 'object' && payloadInfo?.length >= 0) {
-        return 'list';
-      }
-      if (typeof payloadInfo === 'object') {
-        return 'object';
-      }
+    if (typeof payloadInfo === 'object' && payloadInfo?.length >= 0) {
+      return 'list';
     }
+    if (typeof payloadInfo === 'object') {
+      return 'object';
+    }
+
     return 'value';
   }, []);
 
@@ -274,6 +273,7 @@ function ActivityLogsDetail() {
         }
 
         const valueType = checkValueType(payloadNew[key]);
+
         if (valueType === 'list') {
           return '';
         }
@@ -291,10 +291,9 @@ function ActivityLogsDetail() {
         return '';
       });
   };
-  const renderList = (payloadOld, payloadNew, key, showOldData) => {
-    if (!payloadNew) return '';
-
-    return payloadNew.map((_, index) => (
+  const renderList = (payloadOld, payloadNew, key, showOldData, mappedObject) => {
+    if (!mappedObject) return '';
+    return mappedObject.map((_, index) => (
       <TableRow key={uuid()}>
         <TableCell colSpan={showOldData ? 1 : 2} key={uuid()} sx={tableCellStyle}>
           <span className=" font-weight-bold">
@@ -324,43 +323,52 @@ function ActivityLogsDetail() {
       Object.keys(payloadNew)
         ?.sort()
         ?.map(key => {
-          if (checkDataNotAllowdedToPrint(key, inValidKeys)) return '';
-          if (invalidKeysModuleWise[moduleName]) {
-            if (checkDataNotAllowdedToPrint(key, invalidKeysModuleWise[moduleName])) return '';
-          }
-          const valueType = checkValueType(payloadNew[key]);
+          try {
+            if (checkDataNotAllowdedToPrint(key, inValidKeys)) return '';
+            if (invalidKeysModuleWise[moduleName]) {
+              if (checkDataNotAllowdedToPrint(key, invalidKeysModuleWise[moduleName])) return '';
+            }
 
-          if (valueType === 'list') {
-            if (payloadOld) {
-              if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
-              return renderList(payloadOld[key], payloadNew[key], key, true);
-            }
-            return renderList(payloadNew[key], payloadNew[key], key, false);
-          }
-          if (valueType === 'object') {
-            if (payloadOld) {
-              if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
-            }
-            return handleObjectData(payloadOld, payloadNew, key);
-          }
-          if (
-            payloadNew[key] !== '' &&
-            payloadNew[key] !== null &&
-            payloadNew[key] !== 'null' &&
-            payloadNew[key] !== undefined
-          ) {
-            if (payloadOld) {
-              if (
-                payloadNew[key] !== payloadOld[key] &&
-                payloadNew[key]?.toString() !== payloadOld[key]?.toString()
-              ) {
-                return renderThreeColumn(payloadOld[key], payloadNew[key], key);
+            const valueType = checkValueType(payloadNew[key] || payloadOld[key]);
+            if (valueType === 'list') {
+              if (payloadOld) {
+                if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
+
+                if (payloadNew[key]?.length > payloadOld[key]?.length) {
+                  return renderList(payloadOld[key], payloadNew[key], key, true, payloadNew[key]);
+                }
+
+                return renderList(payloadOld[key], payloadNew[key], key, true, payloadOld[key]);
               }
-              return '';
+              return renderList(payloadNew[key], payloadNew[key], key, false, payloadNew[key]);
             }
-            return renderTwoColumn(payloadNew[key], key);
+            if (valueType === 'object') {
+              if (payloadOld) {
+                if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
+              }
+              return handleObjectData(payloadOld, payloadNew, key);
+            }
+            if (
+              payloadNew[key] !== '' &&
+              payloadNew[key] !== null &&
+              payloadNew[key] !== 'null' &&
+              payloadNew[key] !== undefined
+            ) {
+              if (payloadOld) {
+                if (
+                  payloadNew[key] !== payloadOld[key] &&
+                  payloadNew[key]?.toString() !== payloadOld[key]?.toString()
+                ) {
+                  return renderThreeColumn(payloadOld[key], payloadNew[key], key);
+                }
+                return '';
+              }
+              return renderTwoColumn(payloadNew[key], key);
+            }
+            return '';
+          } catch (error) {
+            return '';
           }
-          return '';
         }),
     [moduleName]
   );

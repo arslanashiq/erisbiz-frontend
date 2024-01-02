@@ -1,4 +1,7 @@
-import React, { useMemo } from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable dot-notation */
+/* eslint-disable implicit-arrow-linebreak */
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
@@ -6,18 +9,51 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
 import { addButtonIconStyle } from 'styles/common/common-styles';
 import formatAmount from 'utilities/formatAmount';
 
-function JournalTable({ journalItems, defaultValue }) {
+function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
+  const sortedJournalsArrayForPurchase = ['Accounts Payable', 'Cost of Sales', 'Input VAT', 'Discount'];
+  const sortedJournalsArrayForSale = ['Accounts Receivable', 'Sales', 'Output VAT', 'Discount'];
+  const [updatedJournalItems, setUpdatedJournalItems] = useState([]);
   const total = useMemo(
-    () => journalItems.reduce(
-      (acc, val) => {
-        acc.bcy_debit += val.bcy_debit;
-        acc.bcy_credit += val.bcy_credit;
-        return acc;
-      },
-      { bcy_debit: 0, bcy_credit: 0 }
-    ),
+    () =>
+      journalItems.reduce(
+        (acc, val) => {
+          acc.bcy_debit += val.bcy_debit;
+          acc.bcy_credit += val.bcy_credit;
+          return acc;
+        },
+        { bcy_debit: 0, bcy_credit: 0 }
+      ),
     [journalItems]
   );
+
+  const handleGetSortedData = (journalObject, sortedList) => {
+    const sortedJournals = [];
+    const newAccounts = [];
+    Object.keys(journalObject).forEach(key => {
+      if (sortedList.includes(key)) {
+        const index = sortedList.indexOf(key);
+        sortedJournals.splice(index, 0, journalObject[key]);
+      } else {
+        newAccounts.push(journalObject[key]);
+      }
+    });
+    if (newAccounts.length > 0) {
+      sortedJournals.splice(1, 0, ...newAccounts);
+    }
+    return sortedJournals;
+  };
+  useEffect(() => {
+    const journalObject = {};
+    journalItems.forEach(item => {
+      journalObject[item.account_name] = item;
+    });
+    let sortedList = sortedJournalsArrayForSale;
+    if (isPurchaseJournal) {
+      sortedList = sortedJournalsArrayForPurchase;
+    }
+    const sortedJournals = handleGetSortedData(journalObject, sortedList);
+    setUpdatedJournalItems([...sortedJournals]);
+  }, [journalItems]);
 
   // if (total.bcy_debit < total.bcy_credit) {
   //   total.bcy_debit += total.bcy_credit - total.bcy_debit;
@@ -47,11 +83,11 @@ function JournalTable({ journalItems, defaultValue }) {
               </tr>
             </thead>
             <tbody className="line-item-body">
-              {journalItems.map(item => (
+              {updatedJournalItems.map(item => (
                 <tr key={item.id} className="line-item-column line-item-row no-border">
-                  <td className="line-item-table-data">{item.account_name}</td>
-                  <td className="line-item-table-data text-right">{formatAmount(item.bcy_debit)}</td>
-                  <td className="line-item-table-data text-right">{formatAmount(item.bcy_credit)}</td>
+                  <td className="line-item-table-data">{item?.account_name}</td>
+                  <td className="line-item-table-data text-right">{formatAmount(item?.bcy_debit)}</td>
+                  <td className="line-item-table-data text-right">{formatAmount(item?.bcy_credit)}</td>
                 </tr>
               ))}
               <tr className="line-item-column line-item-row border-top-bottom">
@@ -74,10 +110,12 @@ function JournalTable({ journalItems, defaultValue }) {
 JournalTable.propTypes = {
   journalItems: PropTypes.arrayOf(PropTypes.object),
   defaultValue: PropTypes.bool,
+  isPurchaseJournal: PropTypes.bool,
 };
 JournalTable.defaultProps = {
   journalItems: [],
   defaultValue: false,
+  isPurchaseJournal: false,
 };
 
 export default JournalTable;

@@ -133,7 +133,7 @@ function RegisterCompanyForm() {
                           name="country"
                        //  placeholder="Country Name"
                           isRequired
-                          label="Country Name"
+                          label="Country"
                           className="col-12 mt-2"
                           options={CountriesOptions}
                         />

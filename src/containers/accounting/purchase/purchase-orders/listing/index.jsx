@@ -67,7 +67,7 @@ function PurchaseOrderListing() {
         showCheckbox
         headCells={purchaseOrderHeadCells}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Purchase Order' })}
-        editableStatusList={['draft', 'issued']}
+        editableStatusList={['draft']}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
         filterButton={(

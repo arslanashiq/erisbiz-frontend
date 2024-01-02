@@ -1,3 +1,8 @@
+/* eslint-disable react/react-in-jsx-scope */
+
+import { Typography } from '@mui/material';
+
+/* eslint-disable react/jsx-filename-extension */
 export const itemsHeadCell = [
   {
     id: 'item_name',
@@ -23,6 +28,14 @@ export const itemsHeadCell = [
     style: () => ({
       maxWidth: '200px',
     }),
+    cellValueAction: description => {
+      if (!description) return '';
+      return (
+        <Typography noWrap sx={{ fontSize: 14 }}>
+          {description}
+        </Typography>
+      );
+    },
   },
   {
     id: 'is_active',

@@ -62,7 +62,7 @@ function ProfomaInvoiceListing() {
         TableHeading="Sales Invoice"
         headCells={invoiceHeadCell}
         showCheckbox
-        editableStatusList={['draft', 'due']}
+        editableStatusList={['draft']}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Sales Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}

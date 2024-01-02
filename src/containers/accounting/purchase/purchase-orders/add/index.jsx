@@ -75,7 +75,7 @@ function AddPurchaseOrder() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price', 'account_no']
   );
   const purchaseOrderInputList = useMemo(
     () => [

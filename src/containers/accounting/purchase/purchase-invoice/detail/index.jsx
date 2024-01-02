@@ -105,10 +105,9 @@ function PurchaseInvoiceDetail() {
       {
         label: 'Edit',
         handleClick: () => {
-          const cantDelete =
-            invoiceStatus === 'void' || invoiceStatus === 'partially paid' || invoiceStatus === 'paid';
+          const canDelete = invoiceStatus === 'draft';
 
-          if (cantDelete) {
+          if (!canDelete) {
             setOpenInfoPopup({
               ...openInfoPopup,
               open: true,
@@ -258,6 +257,7 @@ function PurchaseInvoiceDetail() {
               <Grid item xs={12} style={{ maxWidth: 900, margin: '20px auto', paddingBottom: 50 }}>
                 <Grid marginTop={4} id="Journal">
                   <JournalTable
+                    isPurchaseJournal
                     key={uuid()}
                     defaultValue={defaultExpanded}
                     journalItems={purchaseInvoiceJournals?.data?.bill_journal_items}

@@ -86,10 +86,23 @@ function AddChartOfAccount() {
             validationSchema={chartOfAccountFormValidationSchema}
             onSubmit={async (values, { setErrors }) => {
               let response = null;
+
+              let payload = { ...values };
+              if (values.is_bank) {
+                payload = {
+                  ...values,
+                  bank: {
+                    swift_code: values.swift_code,
+                    IBAN: values.IBAN,
+                    bank_name: values.bank_name,
+                    bank_branch_address: values.bank_branch_address,
+                  },
+                };
+              }
               if (id) {
-                response = await editChartOfAccount({ id, payload: values });
+                response = await editChartOfAccount({ id, payload });
               } else {
-                response = await addChartOfAccount(values);
+                response = await addChartOfAccount(payload);
               }
               if (response.error) {
                 setErrors(response.error.data);
@@ -98,7 +111,7 @@ function AddChartOfAccount() {
               navigate(-1);
             }}
           >
-            {({ values }) => (
+            {({ values, setFieldValue }) => (
               <Form className="form form--horizontal row mt-3">
                 <FormikField
                   name="account_name"
@@ -112,24 +125,74 @@ function AddChartOfAccount() {
                   name="account_type"
                   type="text"
                   // placeholder="Account Type"
+                  onChange={accountTypeValue => {
+                    if (accountTypeValue === 4) {
+                      setFieldValue('is_bank', true);
+                      return;
+                    }
+                    setFieldValue('is_bank', false);
+                  }}
                   label="Account Type"
                   isGrouped
                   isRequired
                 />
+                {values?.is_bank && (
+                  <>
+                    <FormikField
+                      name="account_number"
+                      type="text"
+                      // placeholder="Account Name"
+                      label="Account Number"
+                      isRequired
+                    />
+                    <FormikField
+                      name="IBAN"
+                      type="text"
+                      // placeholder="Account Name"
+                      label="IBAN"
+                      isRequired
+                    />
+                    <FormikField
+                      name="bank_name"
+                      type="text"
+                      // placeholder="Account Name"
+                      label="Bank Name"
+                      isRequired
+                    />
+                    <FormikField
+                      name="bank_branch_address"
+                      type="text"
+                      // placeholder="Account Name"
+                      label="Branch name"
+                      isRequired
+                    />
+                    <FormikField
+                      name="swift_code"
+                      type="text"
+                      // placeholder="Account Name"
+                      label="Swift Code"
+                      isRequired
+                    />
+                  </>
+                )}
 
                 <FormikField name="description" type="text" textArea label="Description" className="col-12" />
-                <Box className={`d-flex col-md-6 align-items-center ${values.is_parent ? '' : 'mt-3 mb-3'}`}>
-                  <CheckBoxField name="is_parent" label="Make this a sub-account" startLabel="  " />
-                  {values.is_parent && (
-                    <FormikSelect
-                      options={chartOfAccountOptions}
-                      name="parent_account"
-                      type="text"
-                      // placeholder="Parent Account"
-                      className="w-100"
-                    />
-                  )}
-                </Box>
+                {!values?.is_bank && (
+                  <Box
+                    className={`d-flex col-md-6 align-items-center ${values.is_parent ? '' : 'mt-3 mb-3'}`}
+                  >
+                    <CheckBoxField name="is_parent" label="Make this a sub-account" startLabel="  " />
+                    {values.is_parent && (
+                      <FormikSelect
+                        options={chartOfAccountOptions}
+                        name="parent_account"
+                        type="text"
+                        // placeholder="Parent Account"
+                        className="w-100"
+                      />
+                    )}
+                  </Box>
+                )}
 
                 <FormSubmitButton />
               </Form>

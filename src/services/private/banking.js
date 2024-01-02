@@ -46,7 +46,7 @@ const bankingApi = privateApi.injectEndpoints({
 
     getBankTransactions: builder.query({
       query: ({ id, params }) => ({
-        url: `api/accountant/chart/of/account/report/${id}/detail`,
+        url: `api/accountant/chart/of/account/${id}/detail`,
         method: 'GET',
         params: {
           duration: params.duration,

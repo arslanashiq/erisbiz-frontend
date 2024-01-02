@@ -87,7 +87,7 @@ function AddQuotation() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price', 'remaining_stock', 'weighted_cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'remaining_stock', 'weighted_cost_price', 'account_no']
   );
 
   const quotationItemsList = useMemo(

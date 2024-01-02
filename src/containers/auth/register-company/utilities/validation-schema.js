@@ -1,3 +1,4 @@
+import { WEBSITE_REGEX } from 'utilities/constants';
 import * as Yup from 'yup';
 
 const validFileExtensions = { image: ['jpg', 'gif', 'png', 'jpeg', 'svg', 'webp'] };
@@ -10,7 +11,7 @@ export const CompanyFormValidationSchema = Yup.object({
   country: Yup.string().required('Country is required'),
   currency: Yup.string().required('Currency is required'),
   location: Yup.string().required('Location is required'),
-  website: Yup.string().required('Website Link is required'),
+  website: Yup.string().matches(WEBSITE_REGEX, 'Enter correct url!').required('Website Link is required'),
   remarks: Yup.string(),
   logo: Yup.mixed()
     .required('Logo is required')

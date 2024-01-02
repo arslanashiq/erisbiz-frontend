@@ -65,7 +65,7 @@ function SupplierCreditListing() {
         totalDataCount={purchaseInvoiceResponse?.data?.count}
         TableHeading="Purchase Invoices"
         showCheckbox
-        editableStatusList={['draft', 'due']}
+        editableStatusList={['draft']}
         headCells={purchaseInvoiceHeadCells}
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Purchase Invoice' })}
         handleDelete={handleDelete}

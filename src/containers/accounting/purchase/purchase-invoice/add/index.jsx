@@ -28,7 +28,6 @@ import FormikSelect from 'shared/components/form/FormikSelect';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import {
   handleCalculateTotalAmount,
-  handleChangeChartOfAccount,
   // handleChangeCostPrice,
   handleChangeDiscount,
   handleChangeItem,
@@ -90,7 +89,7 @@ function AddPurchaseInvoice() {
       value: 'item_name',
       label: 'item_name',
     },
-    ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price']
+    ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price', 'account_no']
   );
   const { optionsList: chartOfAccountOptions } = useListOptions(chartOfAccountsListResponse?.data?.results, {
     label: 'account_name',
@@ -195,12 +194,16 @@ function AddPurchaseInvoice() {
   useEffect(() => {
     let values = {};
     if (purchaseId && purchaseOrderResponse) {
+      const billItems = purchaseOrderResponse?.pur_order_items?.map(item => ({
+        ...item,
+        chart_of_account: item?.expense_account,
+      }));
       values = {
         ...values,
         supplier_id: purchaseOrderResponse?.supplier_id,
         pur_order_id: purchaseOrderResponse?.id,
         bill_docs: purchaseOrderResponse?.pur_order_docs || [],
-        bill_items: purchaseOrderResponse?.pur_order_items || [],
+        bill_items: billItems || [],
         location: purchaseOrderResponse?.location,
       };
       handleGetPurchaseOrderAgainstSupplier(purchaseOrderResponse?.supplier_id);
@@ -285,7 +288,6 @@ function AddPurchaseInvoice() {
                   options={chartOfAccountOptions}
                   //  placeholder="Credit Account"
                   label="Credit Account"
-                  onChange={value => handleChangeChartOfAccount(value, values, 'bill_items', setFieldValue)}
                   isRequired
                 />
 
