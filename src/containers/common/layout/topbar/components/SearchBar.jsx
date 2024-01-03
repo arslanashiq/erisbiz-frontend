@@ -9,7 +9,7 @@ import 'styles/topbar/topbar-search-menu.scss';
 
 const searchOptions = [
   { link: 'brands', label: 'Brand' },
-  { link: 'banking  ', label: 'Bank Master' },
+  { link: 'banking', label: 'Bank Master' },
   { link: 'category', label: 'Category' },
   { link: 'items', label: 'Item Master' },
   { link: '/purchase/suppliers', label: 'Supplier Master' },
