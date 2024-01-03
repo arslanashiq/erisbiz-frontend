@@ -8,20 +8,25 @@ import useClickOutside from '../custom-hooks/useClickOutside';
 import 'styles/topbar/topbar-search-menu.scss';
 
 const searchOptions = [
-  { link: 'items', label: 'Items' },
-  { link: '/purchase/suppliers', label: 'Suppliers' },
-  { link: '/purchase/purchase-order', label: 'Purchase Orders' },
-  { link: '/purchase/purchase-invoice', label: 'Bills' },
-  { link: '/purchase/payment-voucehr', label: 'Payments Made' },
-  { link: '/purchase/debit-note', label: 'Debit Notes' },
+  { link: 'brands', label: 'Brand' },
+  { link: 'banking  ', label: 'Bank Master' },
+  { link: 'category', label: 'Category' },
+  { link: 'items', label: 'Item Master' },
+  { link: '/purchase/suppliers', label: 'Supplier Master' },
+  { link: '/purchase/purchase-order', label: 'Purchase Order' },
+  { link: '/purchase/purchase-invoice', label: 'Purchase Invoice' },
+  { link: '/purchase/payment-voucher', label: 'Payments Voucher' },
+  { link: '/purchase/debit-note', label: 'Debit Note' },
   { link: '/purchase/expenses', label: 'Expenses' },
-  { link: 'sales/customers', label: 'Customers' },
-  { link: 'sales/quotations', label: 'Quotations' },
-  { link: 'sales/proforma-invoice', label: 'Proforma Invoices' },
-  { link: 'sales/sale-invoice', label: 'Invoices' },
-  { link: 'sales/payment-received', label: 'Payments Voucher' },
-  { link: 'sales/credit-note', label: 'Credit Notes' },
-  { link: 'accountant/manual-journal', label: 'Manual Journals' },
+  { link: 'sales/customers', label: 'Customer Master' },
+  { link: 'sales/quotations', label: 'Quotation' },
+  { link: 'sales/proforma-invoice', label: 'Proforma Invoice' },
+  { link: 'sales/sale-invoice', label: 'Sales Invoice' },
+  { link: 'sales/receipt-voucher', label: 'Receipt Voucher' },
+  { link: 'sales/credit-note', label: 'Credit Note' },
+  { link: 'finance/chart-of-account', label: 'Chart of Account' },
+  { link: 'finance/journal-voucher', label: 'Journal Voucher' },
+  { link: 'finance/tax-payments', label: 'Tax Payments' },
 ];
 
 function SearchBar() {
@@ -33,7 +38,7 @@ function SearchBar() {
 
   const searchQuery = query.get('query');
 
-  const [selectedPage, setSelectedPage] = useState(searchOptions[1]);
+  const [selectedPage, setSelectedPage] = useState(searchOptions[0]);
   const [showMenu, setMenu] = useState(false);
   const [searchText, setSearchText] = useState(searchQuery || '');
   const [showResetBtn, setResetBtn] = useState(!!searchQuery);
