@@ -38,6 +38,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         body: payload,
       }),
       invalidatesTags: [
+        'getSaleInvoiceJournals',
         'getSingleSaleInvoice',
         'getSaleInvoicesList',
         'getProformaInvoicesList',

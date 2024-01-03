@@ -97,12 +97,12 @@ function OrderReceipt({
             </Typography>
             <Divider sx={{ height: '2px', backgroundColor: palette.primary.main, marginBottom: 1 }} />
             {renderCompanyHeaderRow([
-              { title: 'TRN', value: companyTRN, noWrap: true, columns: 5 },
-              { title: 'Email', value: email || COMPANY_EMAIL, noWrap: true, columns: companyTRN ? 7 : 12 },
+              { title: 'TRN', value: companyTRN, noWrap: true, columns: email ? 5 : 12 },
+              { title: 'Email', value: email, noWrap: true, columns: companyTRN ? 7 : 12 },
             ])}
             {renderCompanyHeaderRow([
-              { title: 'Phone', value: company.phone || COMPANY_PHONE, noWrap: true, columns: 5 },
-              { title: 'Address', value: company.location || COMPANY_ADDRESS, columns: 7 },
+              { title: 'Phone', value: company.phone, noWrap: true, columns: company.location ? 5 : 12 },
+              { title: 'Address', value: company.location, columns: company.phone ? 7 : 12 },
             ])}
           </Grid>
 

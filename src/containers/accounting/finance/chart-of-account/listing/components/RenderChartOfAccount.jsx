@@ -50,7 +50,7 @@ function RenderChartOfAccount({ chartOfAccounts, selected, handleClick }) {
 
             {account.is_locked ? (
               <Tooltip title="You cannot edit or elete this item " placement="right" arrow>
-                <HttpsIcon size="small" />
+                <HttpsIcon sx={{ color: 'grey' }} size="small" />
               </Tooltip>
             ) : (
               <Checkbox
