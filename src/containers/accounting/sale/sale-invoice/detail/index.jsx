@@ -27,7 +27,7 @@ import { DATE_FORMAT_PRINT } from 'utilities/constants';
 const keyValue = 'invoice_items';
 const handleCheck = status => {
   if (!status) return true;
-  if (status === 'draft') return true;
+  if (status === 'draft' || status === 'void') return true;
   return false;
 };
 function SaleInvoiceDetailPage() {
