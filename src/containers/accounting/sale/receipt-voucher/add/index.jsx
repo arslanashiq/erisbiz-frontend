@@ -72,7 +72,7 @@ function AddReceiptVoucher() {
       const updatedData = [];
       response?.data?.forEach(payment => {
         if (payment.status !== 'void') {
-          updatedData({
+          updatedData.push({
             ...payment,
 
             amount_applied: 0,
