@@ -106,7 +106,6 @@ function RegisterCompanyForm() {
                 }
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
                 window.location.reload();
-                navigate('/');
               } catch (error) {
                 enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
               }

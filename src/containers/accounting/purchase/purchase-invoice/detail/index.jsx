@@ -166,9 +166,14 @@ function PurchaseInvoiceDetail() {
       actionsList.push({
         label: 'View Journal',
         handleClick: () => {
-          const Journal = document.getElementById('Journal');
-          Journal.scrollIntoView({ behavior: 'smooth' });
-          setDefaultExpanded(true);
+          try {
+            const Journal = document.getElementById('Journal');
+
+            Journal.scrollIntoView({ behavior: 'smooth' });
+            setDefaultExpanded(true);
+          } catch (error) {
+            // console.log(error)
+          }
         },
       });
     }

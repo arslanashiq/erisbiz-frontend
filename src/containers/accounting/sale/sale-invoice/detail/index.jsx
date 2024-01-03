@@ -150,15 +150,16 @@ function SaleInvoiceDetailPage() {
           });
         },
       },
-
-      {
+    ];
+    if (status !== 'void' || status !== 'draft') {
+      actionsList.splice(actionsList.length, 0, {
         label: 'View Journal',
         handleClick: () => {
           const Journal = document.getElementById('Journal');
           if (Journal) Journal.scrollIntoView({ behavior: 'smooth' });
         },
-      },
-    ];
+      });
+    }
     if (status !== 'paid' && status !== 'partially paid') {
       actionsList.splice(0, 0, {
         label: 'Edit',
