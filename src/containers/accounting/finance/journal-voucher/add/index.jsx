@@ -6,13 +6,13 @@ import { Card, CardContent } from '@mui/material';
 // import AttachFileIcon from '@mui/icons-material/AttachFile';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // services
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 import {
   useAddJournalVoucherMutation,
   useEditJournalVoucherMutation,
   useGetLatestJournalVoucherQuery,
   useGetSingleJournalVoucherQuery,
 } from 'services/private/journal-voucher';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormHeader from 'shared/components/form-header/FormHeader';
@@ -32,20 +32,16 @@ function AddJournalVoucher() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const bankAccountResponse = useGetBankAccountsListQuery();
+  const bankAccountResponse = useGetChartOfAccountListQuery();
   const latestJournalVoucher = useGetLatestJournalVoucherQuery();
 
   const [addJournalVoucher] = useAddJournalVoucherMutation();
   const [editJournalVoucher] = useEditJournalVoucherMutation();
 
-  const { optionsList: bankAccountOptions } = useListOptions(
-    bankAccountResponse?.data?.results,
-    {
-      value: 'chart_of_account',
-      label: 'bank_account_name',
-    },
-    ['swift_code', 'bank_name', 'account_number', 'IBAN']
-  );
+  const { optionsList: bankAccountOptions } = useListOptions(bankAccountResponse?.data?.results, {
+    value: 'id',
+    label: 'account_name',
+  });
 
   const { initialValues } = useInitialValues(
     journalVoucherInitialValues,

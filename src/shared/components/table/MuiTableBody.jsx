@@ -167,7 +167,13 @@ function MuiTableBody({
                     align="center"
                     style={tableBodyDefaultStyle}
                   >
-                    <Box onClick={() => btn.handleClick(row.id || row)}>{btn.element}</Box>
+                    {btn.handleHide ? (
+                      btn.handleHide(row) && (
+                        <Box onClick={() => btn.handleClick(row.id || row)}>{btn.element}</Box>
+                      )
+                    ) : (
+                      <Box onClick={() => btn.handleClick(row.id || row)}>{btn.element}</Box>
+                    )}
                   </TableCell>
                 ))}
               {/* Action Button */}

@@ -97,6 +97,12 @@ function TaxReturnListing() {
                       setSelectedTax(selectedTaxDetail[0]);
                       setAddTaxPaymentModal(true);
                     },
+                    handleHide: row => {
+                      if (row.status === 'unfiled') {
+                        return false;
+                      }
+                      return true;
+                    },
                     element: <Button>Record Payment</Button>,
                   },
                 ]}
