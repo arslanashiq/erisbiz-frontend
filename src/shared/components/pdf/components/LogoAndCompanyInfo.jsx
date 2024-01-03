@@ -62,8 +62,12 @@ function LogoAndCompanyInfo({ companyName, companyLogo, companyDetail, companyEm
     <View style={styles.header}>
       <Image
         style={styles.logo}
-        // src="/logo.png"
-        src={companyLogo || '/logo.png'}
+        src={{
+          uri: companyLogo || '/logo.png',
+          method: 'GET',
+          headers: { 'Cache-Control': 'no-cache' },
+          body: '',
+        }}
         alt="Image"
       />
       <View style={styles.companyInfoContainer}>
