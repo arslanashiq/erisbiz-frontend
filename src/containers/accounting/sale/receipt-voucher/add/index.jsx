@@ -69,11 +69,16 @@ function AddReceiptVoucher() {
   const handleChangeCustomer = useCallback(async (value, setFieldValue) => {
     try {
       const response = await getUnPaidSaleInvoices(value);
-      const updatedData = response?.data?.map(payment => ({
-        ...payment,
+      const updatedData = [];
+      response?.data?.forEach(payment => {
+        if (payment.status !== 'void') {
+          updatedData({
+            ...payment,
 
-        amount_applied: 0,
-      }));
+            amount_applied: 0,
+          });
+        }
+      });
       if (setFieldValue) setFieldValue('invoice_payments', updatedData);
       return updatedData;
     } catch (error) {

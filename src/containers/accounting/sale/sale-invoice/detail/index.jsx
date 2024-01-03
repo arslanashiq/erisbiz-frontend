@@ -167,18 +167,20 @@ function SaleInvoiceDetailPage() {
           navigate(`/pages/accounting/sales/sale-invoice/edit/${id}`);
         },
       });
-      actionsList.splice(2, 0, {
-        label: 'Void',
-        handleClick: () => {
-          setOpenVoidModal(true);
-        },
-      });
     }
     if (status === 'draft') {
       actionsList.splice(actionsList.length - 1, 0, {
         label: 'Mark as sent',
         handleClick: () => {
           handleChangeStatus(changeStatusToSent, id, 'Invoice status changed');
+        },
+      });
+    }
+    if (status !== 'draft') {
+      actionsList.splice(2, 0, {
+        label: 'Void',
+        handleClick: () => {
+          setOpenVoidModal(true);
         },
       });
     }

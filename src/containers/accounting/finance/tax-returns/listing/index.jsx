@@ -54,7 +54,7 @@ function TaxReturnListing() {
     }
     enqueueSnackbar('Payment Deleted successfully', { variant: 'success' });
     handleCloseDeletePopup();
-  }, []);
+  }, [paymentId]);
 
   return (
     <SectionLoader options={[TaxReturnsResponse.isLoading, TaxReturnsPaymentsResponse.isLoading]}>

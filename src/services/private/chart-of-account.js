@@ -78,6 +78,14 @@ const chartOfAccountApi = privateApi.injectEndpoints({
     //   }),
     //   invalidatesTags: ['getJournalVoucherDocuments'],
     // }),
+    getSingleChartOfAccountDetail: builder.query({
+      query: id => ({
+        url: `api/accountant/chart/of/account/${id}/detail`,
+        method: 'GET',
+      }),
+      providesTags: ['getSingleChartOfAccountDetail'],
+    }),
+
     getChartOfAccountTypes: builder.query({
       query: () => ({ url: '/api/accounting/accountant/accountTypes/', method: 'GET' }),
       providesTags: ['getChartOfAccountTypes'],
@@ -99,5 +107,6 @@ export const {
   useGetChartOfAccountTypesQuery,
   useGetSingleChartOfAccountDetailReportQuery,
   useGetSaleChartOfAccountQuery,
+  useGetSingleChartOfAccountDetailQuery,
 } = chartOfAccountApi;
 export const test = '';

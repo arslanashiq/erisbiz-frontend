@@ -65,7 +65,7 @@ function FormikImageInput(props) {
                   <label htmlFor={name} className="text-primary cursor-pointer">
                     Change Image
                   </label>
-                  <DeleteIcon size={20} className="cursor-pointer" onClick={() => setValue(null)} />
+                  <DeleteIcon size={20} className="cursor-pointer" onClick={() => setValue('')} />
                 </Box>
               </Box>
             )}

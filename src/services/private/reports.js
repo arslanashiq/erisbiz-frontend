@@ -372,7 +372,7 @@ const reportsApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['addTaxReturn'],
-      invalidatesTags: ['getTaxReturn'],
+      invalidatesTags: ['getTaxReturn', 'getTaxReturnList'],
     }),
     changeTaxReturnStatus: builder.mutation({
       query: ({ id, payload }) => ({
@@ -381,7 +381,7 @@ const reportsApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['fileTaxReturn'],
-      invalidatesTags: ['getTaxReturnDetail', 'getTaxReturn'],
+      invalidatesTags: ['getTaxReturnDetail', 'getTaxReturn', 'getTaxReturnList'],
     }),
     getTaxReturnDetailInformation: builder.query({
       query: params => ({
@@ -397,7 +397,7 @@ const reportsApi = privateApi.injectEndpoints({
         method: 'DELETE',
       }),
       providesTags: ['removeTaxReturn'],
-      invalidatesTags: ['getTaxReturn'],
+      invalidatesTags: ['getTaxReturn', 'getTaxReturnList'],
     }),
 
     getVATAudit: builder.query({

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
 // services
-import { useGetSingleChartOfAccountQuery } from 'services/private/chart-of-account';
+import { useGetSingleChartOfAccountDetailQuery } from 'services/private/chart-of-account';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
 import FormHeader from 'shared/components/form-header/FormHeader';
@@ -15,7 +15,7 @@ function ChartOfAccountDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const charOfAccountDetailResponse = useGetSingleChartOfAccountQuery(id);
+  const charOfAccountDetailResponse = useGetSingleChartOfAccountDetailQuery(id);
 
   return (
     <SectionLoader options={[charOfAccountDetailResponse.isLoading]}>

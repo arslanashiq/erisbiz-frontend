@@ -8,8 +8,8 @@ function useSupplierDetail(supplierDetail) {
   useEffect(() => {
     if (supplierDetail) {
       const supplierAddress = [
-        { label: 'Address Line 1', value: supplierDetail.address_line1 || '' },
-        { label: 'Address Line 2', value: supplierDetail.address_line2 || '' },
+        { label: 'Address 1', value: supplierDetail.address_line1 || '' },
+        { label: 'Address 2', value: supplierDetail.address_line2 || '' },
         { label: 'Country', value: supplierDetail.country || '' },
         { label: 'City', value: supplierDetail.city || '' },
       ];
