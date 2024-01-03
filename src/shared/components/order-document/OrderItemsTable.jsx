@@ -189,15 +189,6 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             alt="qr code"
           />
         </Grid>
-        <Grid container item xs={12} lg={12} mt={10} justifyContent="center">
-          <Typography
-            color="primary"
-            sx={{ textAlign: 'center', fontWeight: 'regular', fontSize: 13, paddingBottom: 1 }}
-          >
-            This document has been generated electronically and does not necessitate a physical stamp or
-            signature
-          </Typography>
-        </Grid>
       </Grid>
     </>
   );
