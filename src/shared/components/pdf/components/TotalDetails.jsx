@@ -20,6 +20,15 @@ function TotalDetails({
   orderInfo,
   orderDetail,
 }) {
+  const getTotalAmount = () => {
+    let amount = orderDetail.without_change_grand_total;
+    if (orderDetail?.refunded_amount) amount -= orderDetail.refunded_amount;
+    if (orderDetail?.payment_amount) amount -= orderDetail.payment_amount;
+    if (orderDetail?.credits_used) amount -= orderDetail.credits_used;
+    if (orderDetail?.credit_applied) amount -= orderDetail.credit_applied;
+
+    return amount;
+  };
   const renderAmount = (title, value, titleStyle, valueStyle) => (
     <View
       style={{
@@ -107,7 +116,7 @@ function TotalDetails({
             renderAmount('Payment Made', `(-)${orderDetail.payment_amount}`, {}, { color: 'red' })}
 
           <View style={{ backgroundColor: palette.primary.main, padding: '3 0' }}>
-            {renderAmount('Net Total', grandTotal, { color: 'white' })}
+            {renderAmount('Net Total', getTotalAmount(), { color: 'white' })}
           </View>
         </View>
       </View>

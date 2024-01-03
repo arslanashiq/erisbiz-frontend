@@ -72,7 +72,8 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             </Typography>
 
             <Typography color="primary" sx={{ fontSize: 15, fontWeight: 500 }}>
-              {orderDetail.currency_symbol} - {handleGetAmountInWords(getTotalAmount())}
+              {orderDetail.currency_symbol} -{' '}
+              {handleGetAmountInWords(orderDetail?.without_change_grand_total)}
             </Typography>
           </Grid>
         </Grid>
