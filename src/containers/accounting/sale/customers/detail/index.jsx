@@ -1,23 +1,41 @@
-import React, { useMemo, useState } from 'react';
-import { useParams } from 'react-router';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useLocation, useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom/dist';
 // services
-import { useDeleteCutomerMutation, useGetSingleCustomerQuery } from 'services/private/customers';
+import {
+  useAddCustomerCommentMutation,
+  useDeleteCutomerMutation,
+  useGetCustomerCommentsQuery,
+  useGetCustomerStatementQuery,
+  useGetSingleCustomerQuery,
+} from 'services/private/customers';
 // shared
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { Card } from '@mui/material';
 import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
+// containers
+import SupplierComment from 'containers/accounting/purchase/suppliers/detail/components/SupplierComment';
+import SupplierStatement from 'containers/accounting/purchase/suppliers/detail/components/SupplierStatement';
 
-// styles
-import 'styles/sales/customer/customer.scss';
-import CustomerDetailOverview from './components/CustomerDetailOverview';
 import CustomerContactPage from './components/CustomerContactPage';
+import CustomerOverview from './components/CustomerOverview';
+import CustomerTransactions from './components/CustomerTransactions';
+// styles
+import 'styles/suppliers/supplier-detail.scss';
 
 function CustomerDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const [addComment] = useAddCustomerCommentMutation();
+  const [deleteComment] = useDeleteCutomerMutation();
+
+  const customersCommentResponse = useGetCustomerCommentsQuery();
+  const customerStatementResponse = useGetCustomerStatementQuery({ id, params: location.search });
+
+  const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
   const [activeTab, setActiveTab] = useState(0);
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
@@ -63,6 +81,11 @@ function CustomerDetail() {
     [customerDetailResponse]
   );
 
+  const handleChangeActivityDuration = useCallback(value => {
+    setActivityLogDuration(value?.toLowerCase());
+  }, []);
+  const handleAddComment = payload => addComment({ comments: payload.comments, sales_account_id: id });
+  console.log(customerStatementResponse, 'customerStatementResponse');
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
       <DetailPageHeader
@@ -78,10 +101,27 @@ function CustomerDetail() {
         <DetailTabsWrapper
           activeTab={activeTab}
           setActiveTab={setActiveTab}
-          tabsList={['Overview', 'CONTACT']}
+          tabsList={['Overview', 'Transactions', 'Statement', 'Comments', 'Contacts']}
         >
-          {activeTab === 0 && <CustomerDetailOverview customer={customerDetailResponse?.data} />}
-          {activeTab === 1 && (
+          {activeTab === 0 && (
+            <CustomerOverview
+              customerDetail={customerDetailResponse?.data}
+              activityLogDuration={activityLogDuration}
+              handleClickMenu={handleChangeActivityDuration}
+            />
+          )}
+          {activeTab === 1 && <CustomerTransactions />}
+          {activeTab === 2 && <SupplierStatement basicInfo={{}} transactions={[]} />}
+
+          {activeTab === 3 && (
+            <SupplierComment
+              comments={customersCommentResponse.data}
+              addComment={handleAddComment}
+              deleteComment={deleteComment}
+            />
+          )}
+
+          {activeTab === 4 && (
             <CustomerContactPage customerContact={customerDetailResponse?.data?.sales_company_contact} />
           )}
         </DetailTabsWrapper>

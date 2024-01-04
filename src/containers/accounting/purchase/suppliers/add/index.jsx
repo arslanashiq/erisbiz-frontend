@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import LanguageIcon from '@mui/icons-material/Language';
 import { Box, Card, CardContent } from '@mui/material';
@@ -36,6 +36,7 @@ import 'styles/form/form.scss';
 function SupplierAddPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState(supplierFormTabsList[0]);
 
@@ -87,11 +88,17 @@ function SupplierAddPage() {
 
         response = await addSupplier(payload);
       }
-      if (response.data) {
-        navigate(-1);
-      } else {
+      if (response.erorr) {
         setErrors(response.error.data);
+        return;
       }
+      if (location?.state?.backUrl) {
+        navigate(location.state.backUrl, { state: { initialValues: { supplier: response.data.id } } });
+        return;
+      }
+
+      navigate(-1);
+
       setSubmitting(false);
     },
     [latestTransactionNumber]
@@ -283,19 +290,17 @@ function SupplierAddPage() {
                         </Box>
                       </Box>
                     </Box>
-                    <Box className="form__form-group p-0 w-100 row">
-                      <Box className="row col p-0">
-                        <FormikField name="opening_balance" className="col-6" label="Opening Balance" />
-                        <FormikSelect
-                          name="is_credit"
-                          options={[
-                            { label: 'Credit', value: true },
-                            { label: 'Debit', value: false },
-                          ]}
-                          className="col-3"
-                        />
-                        <FormikDatePicker name="opening_balance_date" className="col-3" />
-                      </Box>
+                    <Box className="form__form-group w-100 row">
+                      <FormikField name="opening_balance" className="col-6" label="Opening Balance" />
+                      <FormikSelect
+                        name="is_credit"
+                        options={[
+                          { label: 'Credit', value: true },
+                          { label: 'Debit', value: false },
+                        ]}
+                        className="col-3"
+                      />
+                      <FormikDatePicker name="opening_balance_date" className="col-3" />
                     </Box>
                   </Box>
                 </Box>

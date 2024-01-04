@@ -11,15 +11,12 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import DeleteIcon from '@mui/icons-material/Delete';
 // services
-import { useDeleteSupplierCommentMutation } from 'services/private/suppliers';
 // components
 import CommentsForm from './CommentsForm';
 // styles
 import 'styles/comments/comments.scss';
 
-export default function SupplierComment({ comments }) {
-  const [deleteComment] = useDeleteSupplierCommentMutation();
-
+export default function SupplierComment({ comments, addComment, deleteComment }) {
   return (
     <Box style={{ maxWidth: 900 }}>
       <Timeline>
@@ -30,7 +27,7 @@ export default function SupplierComment({ comments }) {
             <TimelineConnector />
           </TimelineSeparator>
           <TimelineContent>
-            <CommentsForm />
+            <CommentsForm addComment={addComment} />
           </TimelineContent>
         </TimelineItem>
         {comments &&
@@ -67,7 +64,11 @@ export default function SupplierComment({ comments }) {
 }
 SupplierComment.propTypes = {
   comments: PropTypes.array,
+  addComment: PropTypes.func,
+  deleteComment: PropTypes.func,
 };
 SupplierComment.defaultProps = {
   comments: [],
+  addComment: () => {},
+  deleteComment: () => {},
 };

@@ -6,6 +6,7 @@ import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
 import SupplierOverviewPayables from './SupplierOverviewPayables';
+import useSupplierDetail from '../../utilities/custom-hooks/useSupplierDetail';
 
 function SupplierOverview({
   basicInfo,
@@ -23,7 +24,7 @@ function SupplierOverview({
     <Box className="container-fluid w-100">
       <Grid container spacing={2}>
         <Grid item xs={12} lg={5} xl={4}>
-          <SupplierOverviewCard supplierDetail={supplierDetail} />
+          <SupplierOverviewCard supplierDetail={supplierDetail} useDetailHook={useSupplierDetail} />
         </Grid>
         <Grid item xs={12} lg={7} xl={8}>
           <SupplierOverviewPayables

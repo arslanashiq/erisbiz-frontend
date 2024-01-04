@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Form, Formik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { Button, Card, CardContent, Stack } from '@mui/material';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 // services
 import {
   useAddCategoryMutation,
@@ -24,6 +24,7 @@ import 'styles/form/form.scss';
 function AddCategory() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [addCategory] = useAddCategoryMutation();
   const [editCategory] = useEditCategoryMutation();
@@ -45,6 +46,10 @@ function AddCategory() {
       }
       if (values.save_and_continue) {
         resetForm();
+        return;
+      }
+      if (location?.state?.backUrl) {
+        navigate(location.state.backUrl, { state: { initialValues: { category: response.data.uid } } });
         return;
       }
       navigate(-1);

@@ -42,7 +42,11 @@ function DatePickerField({
   const selected = value ? moment(value, 'YYYY/MM/DD').toDate() : null;
   return (
     <Box className={`form__form-group ${className}`}>
-      <span className={`form__form-group-label ${labelClass} ${isRequired ? 'required' : ''}`}>{label}</span>
+      {label && (
+        <span className={`form__form-group-label ${labelClass} ${isRequired ? 'required' : ''}`}>
+          {label}
+        </span>
+      )}
       <Box className="form__form-group-field ">
         {startIcon && <Box className="form__form-group-icon cursor-pointer">{startIcon}</Box>}
 

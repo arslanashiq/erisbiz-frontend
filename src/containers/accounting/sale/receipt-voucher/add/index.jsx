@@ -158,7 +158,7 @@ function AddReceiptVoucher() {
             validationSchema={receiptVoucherFormValidationSchema}
             onSubmit={handleSubmitForm}
           >
-            {({ setFieldValue }) => (
+            {({ values, setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
                 <FormikField
                   name="payment_num"
@@ -197,6 +197,9 @@ function AddReceiptVoucher() {
                   name="total"
                   type="number"
                   //  placeholder="Amount"
+                  onChange={value => {
+                    setFieldValue('unused_amount', value - values.used_amount);
+                  }}
                   label="Amount"
                   isRequired
                 />

@@ -22,7 +22,7 @@ export const supplierInitialValues = {
   country: 'AE',
   currency_id: '',
   opening_balance: 0,
-  is_credit: 'true',
+  is_credit: true,
   opening_balance_date: moment().format('YYYY-MM-DD'),
   exchange_rate: 1,
   payment_terms: 'Net 0',

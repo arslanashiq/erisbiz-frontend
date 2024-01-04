@@ -210,7 +210,7 @@ function addPaymentVoucher() {
               navigate(-1);
             }}
           >
-            {({ setFieldValue }) => (
+            {({ values, setFieldValue }) => (
               <Form className="form form--horizontal mt-3 row">
                 <FormikSelect
                   name="supplier_id"
@@ -238,6 +238,9 @@ function addPaymentVoucher() {
                   type="number"
                   // startIcon={<AttachMoneyIcon />}
                   //  placeholder="Amount"
+                  onChange={value => {
+                    setFieldValue('unused_amount', value - values.used_amount);
+                  }}
                   disabled={Boolean(debitAmount)}
                   label="Amount"
                 />

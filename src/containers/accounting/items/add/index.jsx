@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Form, Formik } from 'formik';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import CategoryIcon from '@mui/icons-material/Category';
 import { Box, Card, CardContent } from '@mui/material';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
@@ -33,6 +33,7 @@ import 'styles/form/form.scss';
 function AddItemPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
 
@@ -100,6 +101,13 @@ function AddItemPage() {
     }
   }, []);
 
+  const updatedInitialValues = useMemo(() => {
+    let newData = { ...initialValues };
+    if (location?.state?.initialValues) {
+      newData = { ...newData, ...location.state.initialValues };
+    }
+    return newData;
+  }, [location, initialValues]);
   return (
     <SectionLoader
       options={[
@@ -113,7 +121,7 @@ function AddItemPage() {
           <FormHeader title="Item Master" />
           <Formik
             enableReinitialize
-            initialValues={initialValues}
+            initialValues={updatedInitialValues}
             validationSchema={itemFormValidationSchema}
             onSubmit={handleSumbitForm}
           >
@@ -239,6 +247,12 @@ function AddItemPage() {
                     label="Brand"
                     className="col-12"
                     isRequired
+                    addNewButtonAction={() => {
+                      navigate('/pages/accounting/brands/add', {
+                        state: { backUrl: window.location.pathname },
+                      });
+                    }}
+                    addNewButtonLabel="Category"
                   />
                   <FormikSelect
                     //  placeholder="Select Category"
@@ -247,6 +261,12 @@ function AddItemPage() {
                     label="Category"
                     className="col-12"
                     isRequired
+                    addNewButtonAction={() => {
+                      navigate('/pages/accounting/category/add', {
+                        state: { backUrl: window.location.pathname },
+                      });
+                    }}
+                    addNewButtonLabel="Category"
                   />
                 </Box>
 

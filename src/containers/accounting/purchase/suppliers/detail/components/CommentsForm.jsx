@@ -1,19 +1,17 @@
 import React, { useMemo } from 'react';
 import * as Yup from 'yup';
+import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import { useParams } from 'react-router';
 import { Box, Button, Stack } from '@mui/material';
 // services
-import { useAddSupplierCommentMutation } from 'services/private/suppliers';
 // shares
 import FormikField from 'shared/components/form/FormikField';
 // styles
 import 'styles/form/form.scss';
 
-function CommentsForm() {
+function CommentsForm({ addComment }) {
   const { id } = useParams();
-
-  const [addComment] = useAddSupplierCommentMutation();
 
   const initialValues = useMemo(
     () => ({
@@ -71,5 +69,12 @@ function CommentsForm() {
     </Box>
   );
 }
+
+CommentsForm.propTypes = {
+  addComment: PropTypes.func,
+};
+CommentsForm.defaultProps = {
+  addComment: () => {},
+};
 
 export default CommentsForm;

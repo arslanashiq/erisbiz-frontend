@@ -15,7 +15,7 @@ function ContactInfo({ name, form, push, remove }) {
               <TableCell>
                 <FormikField
                   className="w-100"
-                  name={`${name}.${index}.first_name`}
+                  name={`${name}.${index}.name`}
                   type="text"
                   placeholder="Name"
                 />

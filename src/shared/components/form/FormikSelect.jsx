@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { useField, useFormikContext } from 'formik';
 import 'styles/form/react-select.scss';
-import { Box } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
-const CUSTOM_BUTTON_VALUE = 'custom-menu-button';
+export const CUSTOM_BUTTON_VALUE = 'custom-menu-button';
 
 const commonStyles = {
   menu: baseStyles => ({
@@ -51,6 +52,8 @@ function FormikSelect({
   label,
   className,
   isRequired,
+  addNewButtonAction,
+  addNewButtonLabel,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
@@ -77,6 +80,22 @@ function FormikSelect({
   const selectedOption = allOptions.find(option => option.value === value);
 
   const modifiedOptions = useMemo(() => [...options]);
+
+  useEffect(() => {
+    if (addNewButtonAction && modifiedOptions) {
+      modifiedOptions.splice(modifiedOptions.length, 0, {
+        value: CUSTOM_BUTTON_VALUE,
+        label: (
+          <Stack width="100%" padding="1px 10px" justifyContent="center">
+            <Button size="small" sx={{ width: '100%', fontSize: 12 }} onClick={addNewButtonAction}>
+              <AddIcon fontSize="10px" />
+              {addNewButtonLabel}
+            </Button>
+          </Stack>
+        ),
+      });
+    }
+  }, [addNewButtonAction, selectedOption]);
 
   return (
     <Box className={`form__form-group ${className}`}>
@@ -128,6 +147,8 @@ FormikSelect.propTypes = {
   label: PropTypes.string,
   className: PropTypes.string,
   isRequired: PropTypes.bool,
+  addNewButtonAction: PropTypes.func,
+  addNewButtonLabel: PropTypes.string,
 };
 
 FormikSelect.defaultProps = {
@@ -150,6 +171,8 @@ FormikSelect.defaultProps = {
   menuCustomButtonLabel: 'Add New',
   startIcon: null,
   label: '',
+  addNewButtonAction: null,
+  addNewButtonLabel: '',
 };
 
 export default FormikSelect;

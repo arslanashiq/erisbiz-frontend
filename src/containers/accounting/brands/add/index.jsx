@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Form, Formik } from 'formik';
 import { Helmet } from 'react-helmet';
 import { Button, Card, CardContent, Stack } from '@mui/material';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 // services
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
 import { useAddBrandMutation, useEditBrandMutation, useGetSingleBrandQuery } from 'services/private/brands';
@@ -25,6 +25,7 @@ import 'styles/form/form.scss';
 function AddBrand() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const countriesResponse = useGetAllCountriesListQuery();
 
@@ -53,6 +54,10 @@ function AddBrand() {
       }
       if (values.save_and_continue) {
         resetForm();
+        return;
+      }
+      if (location?.state?.backUrl) {
+        navigate(location.state.backUrl, { state: { initialValues: { brand: response.data.uid } } });
         return;
       }
       if (response.data) {

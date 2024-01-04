@@ -9,7 +9,10 @@ import {
   useGetSupplierCommentsQuery,
   useGetSupplierIncomeQuery,
   useGetSupplierStatementQuery,
+  useDeleteSupplierCommentMutation,
+  useAddSupplierCommentMutation,
 } from 'services/private/suppliers';
+
 // shared
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
@@ -39,6 +42,9 @@ function SupplierDetail() {
     message: '',
     actionButton: false,
   });
+
+  const [deleteComment] = useDeleteSupplierCommentMutation();
+  const [addComment] = useAddSupplierCommentMutation();
 
   const supplierDetailResponse = useGetSingleSupplierQuery(id);
   const supplierStatementResponse = useGetSupplierStatementQuery({
@@ -114,6 +120,7 @@ function SupplierDetail() {
   const handleClosePopup = useCallback(() => {
     setPopup({ ...popup, open: false });
   }, []);
+
   return (
     <SectionLoader options={[supplierActivityLogsResponse.isLoading]}>
       <Helmet>
@@ -158,7 +165,13 @@ function SupplierDetail() {
           )}
           {activeTab === 1 && <SupplierTransactions />}
           {activeTab === 2 && <SupplierStatement basicInfo={basicInfo} transactions={transactions} />}
-          {activeTab === 3 && <SupplierComment comments={supplierCommentResponse.data} />}
+          {activeTab === 3 && (
+            <SupplierComment
+              comments={supplierCommentResponse.data}
+              addComment={addComment}
+              deleteComment={deleteComment}
+            />
+          )}
           {activeTab === 4 && (
             <SupplierContacts supplierContacts={supplierDetailResponse.data.supplier_contacts} />
           )}

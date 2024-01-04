@@ -8,14 +8,13 @@ import {
   supplierCardStyle,
 } from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-overview-card';
 import { DEFAULT_IMG } from 'utilities/constants';
-import useSupplierDetail from '../../utilities/custom-hooks/useSupplierDetail';
 
 import SupplierAddress from './SupplierAddress';
 import SupplierOtherInfo from './SupplierOtherInfo';
 import SupplierContactPerson from './SupplierContactPerson';
 
-function SupplierOverviewCard({ supplierDetail }) {
-  const { address, otherInfo, contactPerson } = useSupplierDetail(supplierDetail);
+function SupplierOverviewCard({ supplierDetail, useDetailHook }) {
+  const { address, otherInfo, contactPerson } = useDetailHook(supplierDetail);
   return (
     <Card sx={supplierCardStyle}>
       <CardContent>
@@ -35,8 +34,10 @@ function SupplierOverviewCard({ supplierDetail }) {
 }
 SupplierOverviewCard.propTypes = {
   supplierDetail: PropTypes.object,
+  useDetailHook: PropTypes.func,
 };
 SupplierOverviewCard.defaultProps = {
   supplierDetail: {},
+  useDetailHook: () => ({ address: {}, otherInfo: {}, contactPerson: {} }),
 };
 export default SupplierOverviewCard;
