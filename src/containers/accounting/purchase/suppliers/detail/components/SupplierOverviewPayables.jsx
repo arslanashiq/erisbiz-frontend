@@ -31,7 +31,7 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
             <Typography className="item-overview-title">Unused Credits</Typography>
             <Typography sx={supplierOverviewOutstandingBalanceValueStyle}>
               {currencySymbol}
-              {formatAmount(supplierDetail.unused_credits)}
+              {formatAmount(supplierDetail?.unused_credits)}
             </Typography>
           </Stack>
           <Stack direction="row" spacing={6} justifyContent="space-between">
