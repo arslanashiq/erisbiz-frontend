@@ -23,6 +23,7 @@ import { CheckBoxField } from 'shared/components/form/CheckBox';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import ContactInfo from 'shared/components/form/ContactInfo';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 // utils ,components and hooks
 import useListOptions from 'custom-hooks/useListOptions';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
@@ -227,57 +228,73 @@ function SupplierAddPage() {
                     </Box>
                   </Box>
                   <Box className="col-md-6">
-                    <Box className="form__form-group col-12">
-                      <span className="form__form-group-label  col-lg-2" />
-                      <Box className="row w-100 p-0">
-                        <Box className="form__form-group-field col-12">
-                          <CheckBoxField
-                            name="credit_limit"
-                            onChange={e => {
-                              setFieldValue('set_credit_limit', 0);
-                              setFieldValue(e?.target?.name, e?.target?.checked);
-                            }}
-                            label="Set Credit Limit"
-                          />
+                    <Box sx={{ minHeight: '212px' }}>
+                      <Box className="form__form-group col-12">
+                        <span className="form__form-group-label  col-lg-2" />
+                        <Box className="row w-100 p-0">
+                          <Box className="form__form-group-field col-12">
+                            <CheckBoxField
+                              name="credit_limit"
+                              onChange={e => {
+                                setFieldValue('set_credit_limit', 0);
+                                setFieldValue(e?.target?.name, e?.target?.checked);
+                              }}
+                              label="Set Credit Limit"
+                            />
 
-                          <FormikField
-                            disabled={!values?.credit_limit}
-                            className="col-4"
-                            name="set_credit_limit"
-                            type="number"
-                            //  placeholder="0.00"
+                            <FormikField
+                              disabled={!values?.credit_limit}
+                              className="col-4"
+                              name="set_credit_limit"
+                              type="number"
+                              //  placeholder="0.00"
+                            />
+                          </Box>
+                          <CheckBoxField
+                            name="credit_terms"
+                            value={values.credit_terms}
+                            onChange={e => {
+                              setFieldValue(e?.target?.name, e?.target?.checked);
+                              setFieldValue('set_credit_terms', '');
+                              setFieldValue('days_after_invoice', 0);
+                            }}
+                            label="Set Credit Terms"
                           />
                         </Box>
-                        <CheckBoxField
-                          name="credit_terms"
-                          value={values.credit_terms}
-                          onChange={e => {
-                            setFieldValue(e?.target?.name, e?.target?.checked);
-                            setFieldValue('set_credit_terms', '');
-                            setFieldValue('days_after_invoice', 0);
+                      </Box>
+                      <Box className="form__form-group p-0 w-100">
+                        <span className="form__form-group-label col-lg-2" />
+                        <Box
+                          disabled={!values?.credit_terms}
+                          style={{
+                            pointerEvents: values?.credit_terms ? 'auto' : 'none',
+                            opacity: values?.credit_terms ? 1 : 0.2,
                           }}
-                          label="Set Credit Terms"
-                        />
+                          className="form__form-group-field w-100"
+                        >
+                          <CreditTermsRadioButtons
+                            name="set_credit_terms"
+                            onChange={value => {
+                              setFieldValue('days_after_invoice', 0);
+                              setFieldValue('set_credit_terms', value);
+                            }}
+                            values={values}
+                          />
+                        </Box>
                       </Box>
                     </Box>
-                    <Box className="form__form-group p-0 w-100">
-                      <span className="form__form-group-label col-lg-2" />
-                      <Box
-                        disabled={!values?.credit_terms}
-                        style={{
-                          pointerEvents: values?.credit_terms ? 'auto' : 'none',
-                          opacity: values?.credit_terms ? 1 : 0.2,
-                        }}
-                        className="form__form-group-field w-100"
-                      >
-                        <CreditTermsRadioButtons
-                          name="set_credit_terms"
-                          onChange={value => {
-                            setFieldValue('days_after_invoice', 0);
-                            setFieldValue('set_credit_terms', value);
-                          }}
-                          values={values}
+                    <Box className="form__form-group p-0 w-100 row">
+                      <Box className="row col p-0">
+                        <FormikField name="opening_balance" className="col-6" label="Opening Balance" />
+                        <FormikSelect
+                          name="is_credit"
+                          options={[
+                            { label: 'Credit', value: true },
+                            { label: 'Debit', value: false },
+                          ]}
+                          className="col-3"
                         />
+                        <FormikDatePicker name="opening_balance_date" className="col-3" />
                       </Box>
                     </Box>
                   </Box>
