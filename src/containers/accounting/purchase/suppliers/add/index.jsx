@@ -234,7 +234,18 @@ function SupplierAddPage() {
                       </Box>
                     </Box>
                   </Box>
-                  <Box className="col-md-6">
+                  <Box className="col-md-6 row ">
+                    <FormikField name="opening_balance" className="col-6" label="Opening Balance" />
+                    <FormikSelect
+                      name="is_credit"
+                      options={[
+                        { label: 'Credit', value: true },
+                        { label: 'Debit', value: false },
+                      ]}
+                      className="col-3"
+                    />
+                    <FormikDatePicker name="opening_balance_date" className="col-3" />
+
                     <Box sx={{ minHeight: '212px' }}>
                       <Box className="form__form-group col-12">
                         <span className="form__form-group-label  col-lg-2" />
@@ -289,18 +300,6 @@ function SupplierAddPage() {
                           />
                         </Box>
                       </Box>
-                    </Box>
-                    <Box className="form__form-group w-100 row">
-                      <FormikField name="opening_balance" className="col-6" label="Opening Balance" />
-                      <FormikSelect
-                        name="is_credit"
-                        options={[
-                          { label: 'Credit', value: true },
-                          { label: 'Debit', value: false },
-                        ]}
-                        className="col-3"
-                      />
-                      <FormikDatePicker name="opening_balance_date" className="col-3" />
                     </Box>
                   </Box>
                 </Box>

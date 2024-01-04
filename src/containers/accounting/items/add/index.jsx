@@ -237,6 +237,12 @@ function AddItemPage() {
                     //  placeholder="Select Supplier"
                     className="col-12"
                     label="Supplier"
+                    addNewButtonAction={() => {
+                      navigate('/pages/accounting/purchase/suppliers/add', {
+                        state: { backUrl: window.location.pathname },
+                      });
+                    }}
+                    addNewButtonLabel="Supplier"
                     isRequired
                   />
 
@@ -252,7 +258,7 @@ function AddItemPage() {
                         state: { backUrl: window.location.pathname },
                       });
                     }}
-                    addNewButtonLabel="Category"
+                    addNewButtonLabel="Brands"
                   />
                   <FormikSelect
                     //  placeholder="Select Category"
