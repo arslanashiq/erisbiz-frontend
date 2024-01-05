@@ -48,12 +48,6 @@ function LargeScreenDrawer({
           return (
             <div key={sideBar.name}>
               <SideBarListItem
-                // onMouseEnter={() => {
-                //   setOpen(true);
-                // }}
-                // onMouseLeave={() => {
-                //   setOpen(false);
-                // }}
                 key={sideBar.name}
                 disablePadding
                 selected={checkActive(sideBar.link)}

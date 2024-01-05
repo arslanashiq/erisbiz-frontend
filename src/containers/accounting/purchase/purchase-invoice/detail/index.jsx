@@ -2,7 +2,8 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
-import { Card, CardContent, Grid } from '@mui/material';
+import { Card, CardContent, Grid, IconButton, Tooltip } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 // services
 import {
   useChagePurchaseInvoiceStatusToOpenMutation,
@@ -23,6 +24,10 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
 import PaymentTable from './components/PaymentTable';
 import ChangeStatusToVoid from './components/ChangeStatusToVoidModal';
+import {
+  paymentsAgainstPurchaseInvoiceHeadCells,
+  purchaseDebitNoteAgainstPurchaseInvoiceHeadCells,
+} from '../utilities/head-cells';
 
 const keyValue = 'bill_items';
 const handleCheck = status => {
@@ -243,12 +248,33 @@ function PurchaseInvoiceDetail() {
         <CardContent>
           {paymentMadeAgainstInvoiceResponse?.data?.payment?.length > 0 && (
             <Grid item style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
-              <PaymentTable payments={paymentMadeAgainstInvoiceResponse.data?.payment} />
+              <PaymentTable
+                heading="Payment Voucher"
+                headCells={paymentsAgainstPurchaseInvoiceHeadCells}
+                payments={paymentMadeAgainstInvoiceResponse.data?.payment}
+              />
             </Grid>
           )}
           {paymentMadeAgainstInvoiceResponse?.data?.credits_applied?.length > 0 && (
             <Grid item style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
-              <PaymentTable payments={paymentMadeAgainstInvoiceResponse.data?.credits_applied} />
+              <PaymentTable
+                heading="Debit Applied"
+                headCells={purchaseDebitNoteAgainstPurchaseInvoiceHeadCells}
+                payments={paymentMadeAgainstInvoiceResponse.data?.credits_applied}
+                customActionButton={[
+                  {
+                    title: 'Actions',
+                    handleClick: () => {},
+                    element: (
+                      <Tooltip title="Delete Debit" arrow placement="top">
+                        <IconButton>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    ),
+                  },
+                ]}
+              />
             </Grid>
           )}
           <OrderDocument

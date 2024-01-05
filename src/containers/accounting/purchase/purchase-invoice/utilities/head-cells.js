@@ -103,3 +103,29 @@ export const paymentsAgainstPurchaseInvoiceHeadCells = [
     mergeCell: true,
   },
 ];
+export const purchaseDebitNoteAgainstPurchaseInvoiceHeadCells = [
+  {
+    id: 'credit_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    date: true,
+  },
+  {
+    id: 'credit_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Purchase Debit Note #',
+    isLink: true,
+    align: 'left',
+    handleLink: data => `/pages/accounting/purchase/debit-notes/${data.supplier_credit_id}/detail`,
+  },
+  {
+    id: 'amount',
+    numeric: true,
+    disablePadding: false,
+    label: 'Debit Applied',
+    align: 'left',
+  },
+];

@@ -37,6 +37,23 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
     setOpen(isLargeScreen);
   }, [isLargeScreen]);
 
+  useEffect(() => {
+    try {
+      SideBarLinksList.forEach(sideBarItem => {
+        if (sideBarItem?.children?.length > 0) {
+          sideBarItem?.children.forEach(childItem => {
+            if (checkActive(childItem.link)) {
+              showSideBarChildLink[sideBarItem.index] = true;
+              setShowSideBarChildLink([...showSideBarChildLink]);
+            }
+          });
+        }
+      });
+    } catch (error) {
+      //
+    }
+  }, []);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />

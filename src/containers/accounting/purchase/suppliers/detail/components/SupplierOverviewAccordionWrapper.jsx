@@ -21,7 +21,6 @@ function SupplierOverviewAccordionWrapper({ title, showIcon, children }) {
         boxShadow: 'none',
         backgroundColor: 'transparent',
         borderRadius: '0px !important',
-        borderBottom: 1,
       }}
     >
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">

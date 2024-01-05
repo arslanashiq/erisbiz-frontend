@@ -19,6 +19,7 @@ import JournalVoucher from './JournalVoucher';
 import palette from 'styles/mui/theme/palette';
 import 'styles/purchase-order-template/purchase-order-template.scss';
 import moment from 'moment';
+import OrderHeader from './OrderHeader';
 
 function OrderReceipt({
   orderDetail,
@@ -31,21 +32,7 @@ function OrderReceipt({
 }) {
   const { company, email } = useSelector(state => state.user);
   const { name: companyName, logo: companyLogo, trn: companyTRN } = company;
-  const renderCompanyHeaderRow = headerRowData => (
-    <Grid container spacing={5}>
-      {headerRowData.map(
-        column =>
-          column.value && (
-            <Grid key={`${column.title} ${column.value}`} item xs={column.columns}>
-              <Typography noWrap={column.noWrap} sx={{ fontSize: 14, color: 'black' }}>
-                <strong style={{ color: palette.primary.main }}>{column.title}: </strong>
-                {column.value}
-              </Typography>
-            </Grid>
-          )
-      )}
-    </Grid>
-  );
+
   const renderOrderInfo = (data, key, title, isDate) => {
     if (!data[key]) return;
     return (
@@ -83,29 +70,13 @@ function OrderReceipt({
           alignItems="cener"
           className="invoice-receipt-container"
         >
-          <Grid item xs={4} lg={4} sx={{ position: 'relative' }}>
-            <img
-              // src="/logo.png"
-              src={companyLogo}
-              alt=""
-              style={{ maxHeight: 170, maxWidth: 250, top: -20, position: 'absolute' }}
-            />
-          </Grid>
-          <Grid item xs={7} justifyContent="space-around" mb={7}>
-            <Typography color="primary" sx={{ fontWeight: 'bold', fontSize: 18 }}>
-              {companyName}
-            </Typography>
-            <Divider sx={{ height: '2px', backgroundColor: palette.primary.main, marginBottom: 1 }} />
-            {renderCompanyHeaderRow([
-              { title: 'TRN', value: companyTRN, noWrap: true, columns: email ? 5 : 12 },
-              { title: 'Email', value: email, noWrap: true, columns: companyTRN ? 7 : 12 },
-            ])}
-            {renderCompanyHeaderRow([
-              { title: 'Phone', value: company.phone, noWrap: true, columns: company.location ? 5 : 12 },
-              { title: 'Address', value: company.location, columns: company.phone ? 7 : 12 },
-            ])}
-          </Grid>
-
+          <OrderHeader
+            companyLogo={companyLogo}
+            companyName={companyName}
+            companyTRN={companyTRN}
+            email={email}
+            company={company}
+          />
           <Grid container>
             <Grid item xs={12}>
               <Typography color="primary" sx={{ fontWeight: 800, fontSize: 35 }}>

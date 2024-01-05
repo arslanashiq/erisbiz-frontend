@@ -89,7 +89,7 @@ export default function TransactionAccordionWithFilter({
         <AccordionSummary>
           <Stack direction="row" sx={{ padding: 2, cursor: 'pointer' }} onClick={handleChange}>
             <ExpandMoreIcon className={`accordion-icon accordion-${expanded ? 'expand' : 'close'}-icon`} />
-            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="body2" sx={{ fontWeight: 'bold', fontSize: 13, paddingTop: 0.3 }}>
               {title}
             </Typography>
           </Stack>
@@ -111,12 +111,16 @@ export default function TransactionAccordionWithFilter({
                 </FormControl>
               </Stack>
             )}
-            <Stack sx={{ margin: '0px 3px' }}> | </Stack>
-            <Stack direction="row" justifyContent="center" alignItems="center">
-              <Link to={addNewRoute} style={{ textDecoration: 'none', fontSize: 10, marginRight: 1 }}>
-                Add New
-              </Link>
-            </Stack>
+            {addNewRoute && (
+              <>
+                <Stack sx={{ margin: '0px 3px' }}> | </Stack>
+                <Stack direction="row" justifyContent="center" alignItems="center">
+                  <Link to={addNewRoute} style={{ textDecoration: 'none', fontSize: 10, marginRight: 1 }}>
+                    Add New
+                  </Link>
+                </Stack>
+              </>
+            )}
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
@@ -160,6 +164,6 @@ TransactionAccordionWithFilter.propTypes = {
 };
 TransactionAccordionWithFilter.defaultProps = {
   FiltersList: null,
-  addNewRoute: '#',
+  addNewRoute: '',
   keyName: null,
 };

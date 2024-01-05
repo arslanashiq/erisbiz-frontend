@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { useParams } from 'react-router';
 // services
 import { useGetSupplierTransactionsQuery } from 'services/private/suppliers';
 // shared
 import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
 // utilities
+import { quotationFilterList } from 'containers/accounting/items/utilities/filters';
 import {
   supplierBillTransactionHeadCells,
   supplierDebitNoteTransactionHeadCells,
@@ -17,7 +17,6 @@ import {
 } from '../../utilities/head-cells';
 
 function SupplierTransactions() {
-  const { id } = useParams();
   return (
     <Box sx={{ width: '100%', padding: '0px 20px' }}>
       <TransactionAccordionWithFilter
@@ -25,16 +24,14 @@ function SupplierTransactions() {
         fetchData={useGetSupplierTransactionsQuery}
         keyName="opening_balance"
         headCells={supplierOpeningBalanceTransactionHeadCells}
-        //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
       />
       <TransactionAccordionWithFilter
         title="Purchase Order"
         fetchData={useGetSupplierTransactionsQuery}
         keyName="pur_orders"
         headCells={supplierPurchaseOrderTransactionHeadCells}
-        //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        FiltersList={quotationFilterList}
+        addNewRoute="/pages/accounting/purchase/purchase-orders/add"
       />
       <TransactionAccordionWithFilter
         title="Purchase Invoice"
@@ -42,7 +39,7 @@ function SupplierTransactions() {
         keyName="bills"
         headCells={supplierBillTransactionHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/purchase/purchase-invoice/add"
       />
       <TransactionAccordionWithFilter
         title="Journals"
@@ -50,31 +47,31 @@ function SupplierTransactions() {
         keyName="journals"
         headCells={supplierJournalTransactionHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/finance/journal-voucher/add"
       />
       <TransactionAccordionWithFilter
-        title="Supplier Payments"
+        title="Payment Voucher"
         fetchData={useGetSupplierTransactionsQuery}
         keyName="payments_made"
         headCells={supplierPaymentVoucherTransactionHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/purchase/payment-voucher/add"
       />
       <TransactionAccordionWithFilter
-        title="Debit Note"
+        title="Purchase Debit Note"
         fetchData={useGetSupplierTransactionsQuery}
         keyName="supplier_credits"
         headCells={supplierDebitNoteTransactionHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/purchase/debit-notes/add"
       />
       <TransactionAccordionWithFilter
-        title="Expenses"
+        title="Expense"
         fetchData={useGetSupplierTransactionsQuery}
         keyName="sales_account_expenses"
         headCells={supplierExpenseTransactionHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/purchase/expenses/add"
       />
     </Box>
   );

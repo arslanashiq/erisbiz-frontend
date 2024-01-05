@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const customerFormInitialValues = {
   customer_name: '',
   email: '',
@@ -29,6 +31,8 @@ export const customerFormInitialValues = {
   days_after_invoice: 0,
   credit_limit: true,
   credit_terms: true,
+  is_credit: true,
+  opening_balance_date: moment().format('YYYY-MM-DD'),
 };
 
 export const test = '';

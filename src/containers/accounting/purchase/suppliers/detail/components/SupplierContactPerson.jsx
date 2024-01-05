@@ -9,7 +9,7 @@ import SupplierOverviewAccordionWrapper from './SupplierOverviewAccordionWrapper
 const IconStyle = { height: 15, width: 15, mr: 1 };
 function SupplierContactPerson({ contactPerson }) {
   return (
-    <SupplierOverviewAccordionWrapper title={`Contact Person Details (${contactPerson.length})`} showIcon>
+    <SupplierOverviewAccordionWrapper title={`Contact Person (${contactPerson.length})`} showIcon>
       <div className="row supplier-overview-wrapper">
         {contactPerson.map(contact => (
           <Stack key={contact.email} spacing={2} direction="row" alignItems="start" justifyContent="start">

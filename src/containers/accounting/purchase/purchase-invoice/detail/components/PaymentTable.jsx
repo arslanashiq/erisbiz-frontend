@@ -4,22 +4,23 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Stack, Table, Typography } from '@mui/material';
 import MuiTableHead from 'shared/components/table/MuiTableHead';
 import MuiTableBody from 'shared/components/table/MuiTableBody';
-import { paymentsAgainstPurchaseInvoiceHeadCells } from '../../utilities/head-cells';
 
-function PaymentTable({ payments }) {
+function PaymentTable({ heading, payments, headCells, customActionButton }) {
   return (
     <Stack fontSize={13} justifyContent="center" maxWidth={900}>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Typography>Payments Made</Typography>
+          <Typography>{heading}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Table className="line-item-table border-top-bottom w-100" id="lineitems-section">
-            <MuiTableHead headCells={paymentsAgainstPurchaseInvoiceHeadCells} />
+            <MuiTableHead headCells={headCells} customActionButton={customActionButton} />
             <MuiTableBody
-              headCells={paymentsAgainstPurchaseInvoiceHeadCells}
+              headCells={headCells}
               dataList={payments}
               selected={[]}
+              customActionButton={customActionButton}
+              hoverEffect={false}
             />
           </Table>
         </AccordionDetails>
@@ -29,8 +30,13 @@ function PaymentTable({ payments }) {
 }
 
 PaymentTable.propTypes = {
+  heading: PropTypes.string.isRequired,
   payments: PropTypes.array.isRequired,
-  // currency: PropTypes.string.isRequired,
+  headCells: PropTypes.string.isRequired,
+  customActionButton: PropTypes.array,
+};
+PaymentTable.defaultProps = {
+  customActionButton: [],
 };
 
 export default PaymentTable;

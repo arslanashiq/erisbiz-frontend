@@ -24,6 +24,7 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import CreditTermsRadioButtons from 'containers/accounting/purchase/suppliers/add/components/CreditTermsRadioButtons';
+import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utlilities
@@ -293,13 +294,22 @@ function AddCustomer() {
               {activeTab === customerFormTabsList[1] && (
                 <Box className="row form form--horizontal">
                   <Box className="col-md-6">
-                    <FormikField
-                      name="opening_balance"
-                      type="number"
-                      //  placeholder="Opening Balance Payee"
-                      label="OB Amount"
-                      className="col-12"
-                    />
+                    <Box className="form__form-group col-12 mb-0 align-items-center">
+                      <span className="form__form-group-label col-lg-3 pb-3">Opening Balance</span>
+                      <Box className="form__form-group-field">
+                        <FormikField name="opening_balance" className="col pe-2" />
+                        <FormikSelect
+                          name="is_credit"
+                          options={[
+                            { label: 'Credit', value: true },
+                            { label: 'Debit', value: false },
+                          ]}
+                          className="col pe-2"
+                        />
+
+                        <FormikDatePicker name="opening_balance_date" className="col" />
+                      </Box>
+                    </Box>
                     <FormikField
                       name="delivery_terms"
                       type="text"

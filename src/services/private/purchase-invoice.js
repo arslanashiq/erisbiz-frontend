@@ -104,6 +104,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         url: `api/accounting/purchases/bills/${id}/payment`,
         method: 'GET',
       }),
+      providesTags: ['getPaymentsAgainstPaymentInvoice'],
     }),
     getJournalsAgainstPaymentInvoice: builder.query({
       query: id => ({
