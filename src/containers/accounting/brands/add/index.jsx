@@ -57,7 +57,9 @@ function AddBrand() {
         return;
       }
       if (location?.state?.backUrl) {
-        navigate(location.state.backUrl, { state: { initialValues: { brand: response.data.uid } } });
+        navigate(location.state.backUrl, {
+          state: { initialValues: { ...location.state.initialValues, brand: response.data.uid } },
+        });
         return;
       }
       if (response.data) {

@@ -97,7 +97,9 @@ function SupplierAddPage() {
         return;
       }
       if (location?.state?.backUrl) {
-        navigate(location.state.backUrl, { state: { initialValues: { supplier: response.data.id } } });
+        navigate(location.state.backUrl, {
+          state: { initialValues: { ...location.state.initialValues, supplier: response.data.id } },
+        });
         return;
       }
 

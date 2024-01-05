@@ -101,6 +101,11 @@ function AddItemPage() {
     }
   }, []);
 
+  const handleAddNewData = (link, values) => {
+    navigate(link, {
+      state: { backUrl: window.location.pathname, initialValues: values },
+    });
+  };
   const updatedInitialValues = useMemo(() => {
     let newData = { ...initialValues };
     if (location?.state?.initialValues) {
@@ -238,9 +243,7 @@ function AddItemPage() {
                     className="col-12"
                     label="Supplier"
                     addNewButtonAction={() => {
-                      navigate('/pages/accounting/purchase/suppliers/add', {
-                        state: { backUrl: window.location.pathname },
-                      });
+                      handleAddNewData('/pages/accounting/purchase/suppliers/add', values);
                     }}
                     addNewButtonLabel="Supplier"
                     isRequired
@@ -254,9 +257,7 @@ function AddItemPage() {
                     className="col-12"
                     isRequired
                     addNewButtonAction={() => {
-                      navigate('/pages/accounting/brands/add', {
-                        state: { backUrl: window.location.pathname },
-                      });
+                      handleAddNewData('/pages/accounting/brands/add', values);
                     }}
                     addNewButtonLabel="Brands"
                   />
@@ -268,9 +269,7 @@ function AddItemPage() {
                     className="col-12"
                     isRequired
                     addNewButtonAction={() => {
-                      navigate('/pages/accounting/category/add', {
-                        state: { backUrl: window.location.pathname },
-                      });
+                      handleAddNewData('/pages/accounting/category/add', values);
                     }}
                     addNewButtonLabel="Category"
                   />

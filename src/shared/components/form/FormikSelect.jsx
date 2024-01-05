@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { useField, useFormikContext } from 'formik';
@@ -79,23 +79,26 @@ function FormikSelect({
   const allOptions = isGrouped ? options.map(item => item.options).flatMap(item => item) : [...options];
   const selectedOption = allOptions.find(option => option.value === value);
 
-  const modifiedOptions = useMemo(() => [...options]);
-
-  useEffect(() => {
-    if (addNewButtonAction && modifiedOptions) {
-      modifiedOptions.splice(modifiedOptions.length, 0, {
-        value: CUSTOM_BUTTON_VALUE,
-        label: (
-          <Stack width="100%" padding="1px 10px" justifyContent="center">
-            <Button size="small" sx={{ width: '100%', fontSize: 12 }} onClick={addNewButtonAction}>
-              <AddIcon fontSize="10px" />
-              {addNewButtonLabel}
-            </Button>
-          </Stack>
-        ),
-      });
+  const modifiedOptions = useMemo(() => {
+    let newValues = [...options];
+    if (addNewButtonAction) {
+      newValues = [
+        ...newValues,
+        {
+          value: CUSTOM_BUTTON_VALUE,
+          label: (
+            <Stack width="100%" padding="1px 10px" justifyContent="center">
+              <Button size="small" sx={{ width: '100%', fontSize: 12 }} onClick={addNewButtonAction}>
+                <AddIcon fontSize="10px" />
+                {addNewButtonLabel}
+              </Button>
+            </Stack>
+          ),
+        },
+      ];
     }
-  }, [addNewButtonAction, selectedOption]);
+    return newValues;
+  }, [options, addNewButtonAction]);
 
   return (
     <Box className={`form__form-group ${className}`}>

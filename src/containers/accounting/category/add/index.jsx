@@ -49,7 +49,9 @@ function AddCategory() {
         return;
       }
       if (location?.state?.backUrl) {
-        navigate(location.state.backUrl, { state: { initialValues: { category: response.data.uid } } });
+        navigate(location.state.backUrl, {
+          state: { initialValues: { ...location.state.initialValues, category: response.data.uid } },
+        });
         return;
       }
       navigate(-1);
