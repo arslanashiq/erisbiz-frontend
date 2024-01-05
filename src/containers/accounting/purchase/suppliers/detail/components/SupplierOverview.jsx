@@ -18,7 +18,7 @@ function SupplierOverview({
 }) {
   const currencySymbol = useMemo(
     () => (supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED'),
-    []
+    [supplierDetail]
   );
   return (
     <Box className="container-fluid w-100">
