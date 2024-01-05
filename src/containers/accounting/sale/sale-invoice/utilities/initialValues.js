@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
 
 export const saleInvoiceInitialValues = {
   // new
@@ -11,18 +12,7 @@ export const saleInvoiceInitialValues = {
   location: '',
   remarks: '',
   invoice_docs: [],
-  invoice_items: [
-    {
-      service_type: '',
-      num_units: 0,
-      num_nights: 0,
-      unit_price_ex_vat: 0,
-      gross_amount: 0,
-      discount: 0,
-      vat_amount: 0,
-      net_amount: 0,
-    },
-  ],
+  invoice_items: [NEW_PURCHASE_ITEM_OBJECT],
 };
 
 export const test = '';

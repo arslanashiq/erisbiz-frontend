@@ -17,11 +17,11 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
     () =>
       journalItems.reduce(
         (acc, val) => {
-          acc.bcy_debit += val.bcy_debit;
-          acc.bcy_credit += val.bcy_credit;
+          acc.debit += val.debit;
+          acc.credit += val.credit;
           return acc;
         },
-        { bcy_debit: 0, bcy_credit: 0 }
+        { debit: 0, credit: 0 }
       ),
     [journalItems]
   );
@@ -47,9 +47,9 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
     journalItems.forEach(item => {
       try {
         if (journalObject[item.account_name]) {
-          journalObject[item.account_name].bcy_credit += item.bcy_credit;
-          journalObject[item.account_name].bcy_debit += item.bcy_debit;
-        } else if (item.bcy_credit > 0 || item.bcy_debit > 0) {
+          journalObject[item.account_name].credit += item.credit;
+          journalObject[item.account_name].debit += item.debit;
+        } else if (item.credit > 0 || item.debit > 0) {
           journalObject[item.account_name] = { ...item };
         }
       } catch (error) {
@@ -64,10 +64,10 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
     setUpdatedJournalItems([...sortedJournals]);
   }, [journalItems]);
 
-  // if (total.bcy_debit < total.bcy_credit) {
-  //   total.bcy_debit += total.bcy_credit - total.bcy_debit;
-  // } else if (total.bcy_credit < total.bcy_debit) {
-  //   total.bcy_credit += total.bcy_debit - total.bcy_credit;
+  // if (total.debit < total.credit) {
+  //   total.debit += total.credit - total.debit;
+  // } else if (total.credit < total.debit) {
+  //   total.credit += total.debit - total.credit;
   // }
 
   return (
@@ -95,17 +95,17 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
               {updatedJournalItems.map(item => (
                 <tr key={item.id} className="line-item-column line-item-row no-border">
                   <td className="line-item-table-data">{item?.account_name}</td>
-                  <td className="line-item-table-data text-right">{formatAmount(item?.bcy_debit)}</td>
-                  <td className="line-item-table-data text-right">{formatAmount(item?.bcy_credit)}</td>
+                  <td className="line-item-table-data text-right">{formatAmount(item?.debit)}</td>
+                  <td className="line-item-table-data text-right">{formatAmount(item?.credit)}</td>
                 </tr>
               ))}
               <tr className="line-item-column line-item-row border-top-bottom">
                 <td className="line-item-table-data"> </td>
                 <td className="line-item-table-data text-right">
-                  <b>{formatAmount(total.bcy_debit)}</b>
+                  <b>{formatAmount(total.debit)}</b>
                 </td>
                 <td className="line-item-table-data text-right">
-                  <b>{formatAmount(total.bcy_credit)}</b>
+                  <b>{formatAmount(total.credit)}</b>
                 </td>
               </tr>
             </tbody>

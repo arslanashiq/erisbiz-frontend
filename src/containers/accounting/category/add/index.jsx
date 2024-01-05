@@ -113,7 +113,7 @@ function AddCategory() {
                     disabled={isSubmitting}
                     className="text-capitalize"
                   >
-                    Cancel
+                    Clear
                   </Button>
                 </Stack>
               </Form>

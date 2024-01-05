@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
 
 export const creditNoteInitialValues = {
   voucher_num: '',
@@ -7,7 +8,7 @@ export const creditNoteInitialValues = {
   credit_note_date: moment().format('YYYY-MM-DD'),
   customer_notes: '',
   invoice: '',
-  credit_note_items: [{}],
+  credit_note_items: [NEW_PURCHASE_ITEM_OBJECT],
   status: 'open',
 };
 export const test = '';

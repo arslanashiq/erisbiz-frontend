@@ -7,7 +7,6 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // services
 import { useGetItemsListQuery } from 'services/private/items';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 import {
   useAddSupplierCreditsMutation,
   useEditSupplierCreditsMutation,
@@ -31,6 +30,7 @@ import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
@@ -51,7 +51,7 @@ function AddSupplierCredit() {
 
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
   const suppliersListResponse = useGetSuppliersListQuery();
-  const bankAccountsListsponse = useGetBankAccountsListQuery();
+  const chartOfAccountListResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_payable' });
   const purchaseInvoiceListResponse = useGetPurchaseInvoiceListQuery();
   const singlePurchaseInvoiceResponse = useGetSinglePurchaseInvoiceQuery(purchaseId, { skip: !purchaseId });
   const latestDebitNoteNumberResponse = useGetLatestSupplierCreditNumberQuery(
@@ -71,14 +71,10 @@ function AddSupplierCredit() {
     },
     ['sale_price', 'item_type', 'cost_price', 'weighted_cost_price']
   );
-  const { optionsList: bankAccountOptions } = useListOptions(
-    bankAccountsListsponse?.data?.results,
-    {
-      label: 'bank_account_name',
-      value: 'chart_of_account',
-    },
-    ['chart_of_account']
-  );
+  const { optionsList: bankAccountOptions } = useListOptions(chartOfAccountListResponse?.data?.results, {
+    label: 'account_name',
+    value: 'id',
+  });
 
   const suppliersListOptions = suppliersListResponse?.data?.results?.map(supplier => ({
     value: supplier.id,
@@ -212,7 +208,7 @@ function AddSupplierCredit() {
               <Form className="form form--horizontal mt-3 row">
                 <FormikField
                   name="supplier_credit_formatted_number"
-                //  placeholder="Debit Note"
+                  //  placeholder="Debit Note"
                   label="Debit Note"
                   startIcon={<TagIcon />}
                   disabled
@@ -221,7 +217,7 @@ function AddSupplierCredit() {
                   name="bill_id"
                   options={filteredPymentInvoiceOptions || []}
                   disabled={Boolean(purchaseId)}
-                //  placeholder="Purchase Invoice Number"
+                  //  placeholder="Purchase Invoice Number"
                   label="Purchase Inv No"
                   isRequired
                   onChange={value => handleChangePurchaseInvoice(value, setFieldValue)}
@@ -230,14 +226,14 @@ function AddSupplierCredit() {
                 <FormikDatePicker
                   name="supplier_credit_date"
                   type="text"
-                //  placeholder="Date"
+                  //  placeholder="Date"
                   startIcon={<CalendarMonthIcon />}
                   label="Date"
                 />
                 <FormikSelect
                   options={suppliersListOptions}
                   name="supplier_id"
-                //  placeholder="Supplier"
+                  //  placeholder="Supplier"
                   label="Supplier"
                   disabled
                   isRequired
@@ -246,7 +242,7 @@ function AddSupplierCredit() {
                 <FormikSelect
                   name="debit_account_number"
                   options={bankAccountOptions}
-                //  placeholder="Debit Account"
+                  //  placeholder="Debit Account"
                   label="Debit Account"
                   isRequired
                   className="col-12"
@@ -267,7 +263,7 @@ function AddSupplierCredit() {
                 <FormikField
                   name="remarks"
                   textArea
-                //  placeholder="Remarks"
+                  //  placeholder="Remarks"
                   label="Remarks"
                   className="col-12"
                 />

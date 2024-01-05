@@ -291,7 +291,7 @@ export const supplierDebitNoteTransactionHeadCells = [
     align: 'left',
   },
   {
-    id: 'grand_total',
+    id: 'credits_remaining',
     numeric: true,
     disablePadding: false,
     label: 'Balance',
@@ -300,7 +300,7 @@ export const supplierDebitNoteTransactionHeadCells = [
   },
 
   {
-    id: 'credits_remaining',
+    id: 'grand_total',
     numeric: true,
     disablePadding: false,
     label: 'Amount',

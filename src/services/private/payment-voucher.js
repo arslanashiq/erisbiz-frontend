@@ -38,6 +38,8 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         'getPaymentVouchersList',
         'getSinglePurchaseInvoice',
         'getPaymentsAgainstPaymentInvoice',
+        'getSuppliersList',
+        'getSingleSupplier',
       ],
     }),
 
@@ -52,6 +54,8 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         'getPaymentVouchersList',
         'getSinglePurchaseInvoice',
         'getPaymentsAgainstPaymentInvoice',
+        'getSuppliersList',
+        'getSingleSupplier',
       ],
     }),
     deletePaymentVoucher: builder.mutation({
@@ -64,6 +68,8 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         'getPaymentVouchersList',
         'getSinglePurchaseInvoice',
         'getPaymentsAgainstPaymentInvoice',
+        'getSuppliersList',
+        'getSingleSupplier',
       ],
     }),
     getPaymentVoucherJournals: builder.query({

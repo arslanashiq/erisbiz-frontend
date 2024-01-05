@@ -6,7 +6,7 @@ export const expensesInitialValues = {
   total_without_tax: 0, // amount
   paid_through_account_id: '', // paid Through
   supplier_id: '',
-  tax_rate_id: 2, // tax
+  tax_rate_id: 1, // tax
   reference_num: '',
   notes: '',
   //   extra fields

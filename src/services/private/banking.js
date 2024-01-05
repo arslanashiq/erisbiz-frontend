@@ -5,10 +5,7 @@ const bankingApi = privateApi.injectEndpoints({
     getBankAccountsList: builder.query({
       query: (params = {}) => ({
         url: 'api/accounting/accountant/bankAccounts/',
-        params: {
-          offset: params.offset,
-          limit: params.limit,
-        },
+        params,
       }),
       providesTags: ['getBankAccountsList'],
     }),

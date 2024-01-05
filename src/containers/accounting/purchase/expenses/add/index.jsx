@@ -10,8 +10,8 @@ import {
   useEditExpenseMutation,
   useGetSingleExpenseQuery,
 } from 'services/private/expenses';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
@@ -32,7 +32,8 @@ function AddExpense() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const bankAccountsLIstResponse = useGetBankAccountsListQuery();
+  const chartOfAccountListResponse = useGetChartOfAccountListQuery({ account_type: 'expense' });
+
   const supplierListResponse = useGetSuppliersListQuery();
 
   const [addExpense] = useAddExpenseMutation();
@@ -40,9 +41,9 @@ function AddExpense() {
 
   const { initialValues } = useInitialValues(expensesInitialValues, useGetSingleExpenseQuery);
 
-  const { optionsList: bankOptions } = useListOptions(bankAccountsLIstResponse?.data?.results, {
-    label: 'bank_account_name',
-    value: 'chart_of_account',
+  const { optionsList: bankOptions } = useListOptions(chartOfAccountListResponse?.data?.results, {
+    label: 'account_name',
+    value: 'is',
   });
   const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
     label: 'supplier_name',

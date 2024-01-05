@@ -2,7 +2,6 @@ import {
   EMAIL_REGEX,
   IBAN_REGIX,
   INTEGER_REGEX,
-  NAME_AND_NUMBER_REGEX,
   NAME_REGEX,
 } from 'utilities/constants';
 import * as Yup from 'yup';
@@ -35,8 +34,6 @@ export const supplierFormValidationSchema = Yup.object({
 
   IBAN: Yup.string().matches(IBAN_REGIX, 'Invalid IBAN').max(50, 'Cannot exceed 50 characters'),
 
-  swift_code: Yup.string()
-    .matches(NAME_AND_NUMBER_REGEX, 'No spaces or special character allowded')
-    .max(50, 'Cannot exceed 50 chracters'),
+  swift_code: Yup.string().max(50, 'Cannot exceed 50 chracters'),
 });
 export const test = '';

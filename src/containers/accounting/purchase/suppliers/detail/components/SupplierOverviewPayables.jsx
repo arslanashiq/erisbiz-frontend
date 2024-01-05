@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Divider, Grid, Stack, Typography } from '@mui/material';
 import {
@@ -8,10 +8,19 @@ import {
   supplierOverviewPayableGridStyle,
 } from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-overview-payables';
 import formatAmount from 'utilities/formatAmount';
+import UnusedCreditsDialog from 'shared/components/unused-credits-dialog/UnusedCreditsDialog';
 
 function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
+  const [openUnusedCreditDetailModal, setOpenUnusedCreditDetailModal] = useState(false);
+
   return (
     <Grid item xs={12} lg={12} sx={supplierOverviewPayableGridStyle}>
+      <UnusedCreditsDialog
+        open={openUnusedCreditDetailModal}
+        handleClose={() => {
+          setOpenUnusedCreditDetailModal(false);
+        }}
+      />
       <Stack className="w-100" direction="row" spacing={3}>
         <Stack className="w-100">
           <h6 style={supplierOutstandingBalanceTitleStlye}>Outstanding Payables</h6>
@@ -29,10 +38,17 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
         <Stack className="w-100">
           <Stack direction="row" spacing={10} justifyContent="space-between">
             <Typography className="item-overview-title">Unused Credits</Typography>
-            <Typography sx={supplierOverviewOutstandingBalanceValueStyle}>
-              {currencySymbol}
-              {formatAmount(supplierDetail?.unused_credits)}
-            </Typography>
+            <Stack
+              sx={{ cursor: 'pointer' }}
+              onClick={() => {
+                setOpenUnusedCreditDetailModal(true);
+              }}
+            >
+              <Typography sx={supplierOverviewOutstandingBalanceValueStyle}>
+                {currencySymbol}
+                {formatAmount(supplierDetail?.unused_credits)}
+              </Typography>
+            </Stack>
           </Stack>
           <Stack direction="row" spacing={6} justifyContent="space-between">
             <Typography className="item-overview-title">Payment Due Period</Typography>

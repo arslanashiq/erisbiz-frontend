@@ -127,6 +127,14 @@ const suppliersApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
     }),
+
+    getSupplierUnusedCreditDetails: builder.query({
+      query: id => ({
+        url: `api/accounting/purchases/suppliers/${id}/paymentsVoucher`,
+        method: 'GET',
+      }),
+      providesTags: ['getSupplierUnusedCreditDetails'],
+    }),
   }),
 });
 
@@ -148,4 +156,5 @@ export const {
   useGetSupplierIncomeQuery,
   useDeleteSupplierMutation,
   useGetSuppliersUpaidBillsListMutation,
+  useGetSupplierUnusedCreditDetailsQuery,
 } = suppliersApi;

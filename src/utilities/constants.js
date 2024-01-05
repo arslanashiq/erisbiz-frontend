@@ -107,7 +107,7 @@ export const NEW_PURCHASE_ITEM_OBJECT = {
   unit_price_ex_vat: 0,
   gross_amount: 0,
   discount: 0,
-  vat_rate: 2,
+  vat_rate: 1,
   vat_amount: 0,
   net_amount: 0,
 };

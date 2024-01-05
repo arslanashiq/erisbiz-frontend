@@ -131,7 +131,7 @@ function AddBrand() {
                     disabled={isSubmitting}
                     className="text-capitalize"
                   >
-                    Cancel
+                    Clear
                   </Button>
                 </Stack>
               </Form>

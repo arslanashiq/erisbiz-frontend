@@ -336,7 +336,6 @@ function SupplierAddPage() {
 
                     <FormikField
                       name="swift_code"
-                      type="number"
                       //  placeholder="Swift Code"
                       label="Swift Code"
                       className="col-12"

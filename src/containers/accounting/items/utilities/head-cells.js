@@ -105,10 +105,12 @@ export const itemQuotationTransactionHeadCells = [
     disablePadding: false,
     label: 'Qutation #',
     align: 'left',
+    isLink: true,
+    handleLink: row => `/pages/accounting/sales/quotations/${row.uuid}/detail`,
   },
 
   {
-    id: 'without_change_grand_total',
+    id: 'gross_total_amount',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
@@ -141,10 +143,12 @@ export const itemProformaInvoiceTransactionHeadCells = [
     disablePadding: false,
     label: 'Qutation #',
     align: 'left',
+    isLink: true,
+    handleLink: row => `/pages/accounting/sales/proforma-invoice/${row.id}/detail`,
   },
 
   {
-    id: 'grand_total_aed',
+    id: 'gross_total_amount',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
@@ -177,10 +181,12 @@ export const itemInvoiceTransactionHeadCells = [
     disablePadding: false,
     label: 'Qutation #',
     align: 'left',
+    isLink: true,
+    handleLink: row => `/pages/accounting/sales/sale-invoice/${row.id}/detail`,
   },
 
   {
-    id: 'bcy_grand_total_invoice_currency',
+    id: 'gross_total_amount',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
@@ -213,9 +219,11 @@ export const itemCreditNoteTransactionHeadCells = [
     disablePadding: false,
     label: 'CREDIT NOTE #',
     align: 'left',
+    isLink: true,
+    handleLink: row => `/pages/accounting/sales/credit-notes/${row.id}/detail`,
   },
   {
-    id: 'without_change_grand_total',
+    id: 'gross_total_amount',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
@@ -248,6 +256,8 @@ export const itemPurchaseOrderTransactionHeadCells = [
     disablePadding: false,
     label: 'Purchase Order #',
     align: 'left',
+    isLink: true,
+    handleLink: row => `/pages/accounting/purchase/purchase-orders/${row.id}/detail`,
   },
   {
     id: 'supplier_name',
@@ -257,7 +267,7 @@ export const itemPurchaseOrderTransactionHeadCells = [
     align: 'center',
   },
   {
-    id: 'without_change_grand_total',
+    id: 'gross_total_amount',
     numeric: true,
     disablePadding: false,
     mergeCell: true,
@@ -290,6 +300,8 @@ export const itemBillTransactionHeadCells = [
     disablePadding: false,
     label: 'Bill #',
     align: 'left',
+    isLink: true,
+    handleLink: row => `/pages/accounting/purchase/purchase-invoice/${row.id}/detail`,
   },
   {
     id: 'supplier_name',
@@ -299,7 +311,7 @@ export const itemBillTransactionHeadCells = [
     align: 'left',
   },
   {
-    id: 'without_change_grand_total',
+    id: 'gross_total_amount',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
@@ -332,6 +344,8 @@ export const itemDebitNoteTransactionHeadCells = [
     disablePadding: false,
     label: 'Debit Note #',
     align: 'left',
+    isLink: true,
+    handleLink: row => `/pages/accounting/purchase/debit-notes/${row.id}/detail`,
   },
   {
     id: 'supplier_name',
@@ -341,7 +355,7 @@ export const itemDebitNoteTransactionHeadCells = [
     align: 'left',
   },
   {
-    id: 'without_change_grand_total',
+    id: 'gross_total_amount',
     numeric: true,
     disablePadding: false,
     label: 'Amount',
