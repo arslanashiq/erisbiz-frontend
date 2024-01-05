@@ -24,7 +24,11 @@ function SupplierOverview({
     <Box className="container-fluid w-100">
       <Grid container spacing={2}>
         <Grid item xs={12} lg={5} xl={4}>
-          <SupplierOverviewCard supplierDetail={supplierDetail} useDetailHook={useSupplierDetail} />
+          <SupplierOverviewCard
+            currencySymbol={currencySymbol}
+            supplierDetail={supplierDetail}
+            useDetailHook={useSupplierDetail}
+          />
         </Grid>
         <Grid item xs={12} lg={7} xl={8}>
           <SupplierOverviewPayables
