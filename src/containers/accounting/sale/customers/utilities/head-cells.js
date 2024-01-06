@@ -106,7 +106,7 @@ export const customerQuotationsHeadCells = [
     label: 'Quotation #',
     align: 'left',
     isLink: true,
-    handleLink: row => `/pages/accounting/sales/quotations/${row.id}/detail`,
+    handleLink: row => `/pages/accounting/sales/quotations/${row.uuid}/detail`,
   },
   {
     id: 'grand_total',
@@ -238,7 +238,7 @@ export const customerCreditNoteInvoiceHeadCells = [
     label: 'Credit Note #',
     align: 'left',
     isLink: true,
-    handleLink: row => `/pages/accounting/sales/receipt-voucher/${row.id}/detail`,
+    handleLink: row => `/pages/accounting/sales/credit-notes/${row.id}/detail`,
   },
   {
     id: 'reference_num',

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom/dist';
 // services
 import {
   useAddCustomerCommentMutation,
+  useDeleteCustomerCommentMutation,
   useDeleteCutomerMutation,
   useGetCustomerCommentsQuery,
   useGetCustomerStatementQuery,
@@ -30,7 +31,7 @@ function CustomerDetail() {
   const location = useLocation();
 
   const [addComment] = useAddCustomerCommentMutation();
-  const [deleteComment] = useDeleteCutomerMutation();
+  const [deleteComment] = useDeleteCustomerCommentMutation();
 
   const customersCommentResponse = useGetCustomerCommentsQuery(id);
   const customerStatementResponse = useGetCustomerStatementQuery({ id, params: location.search });

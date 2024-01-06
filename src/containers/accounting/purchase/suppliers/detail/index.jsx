@@ -57,7 +57,8 @@ function SupplierDetail() {
   const supplierCommentResponse = useGetSupplierCommentsQuery(id);
   const { basicInfo, transactions } = useSupplierStatement(
     supplierDetailResponse?.data || {},
-    supplierStatementResponse?.data?.transactions || []
+    supplierStatementResponse?.data?.transactions || [],
+    duration
   );
   const supplierActivityLogsResponse = useGetSupplierActivityLogsQuery(id);
   const supplierIncomeResponse = useGetSupplierIncomeQuery({ id, params: { duration: activityLogDuration } });

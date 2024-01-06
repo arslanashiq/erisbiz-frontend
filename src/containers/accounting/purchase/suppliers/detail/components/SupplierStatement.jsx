@@ -43,6 +43,7 @@ function SupplierStatement({ basicInfo, transactions }) {
     setSelectedFilter(selecteAction);
     handleChangeFilter(selecteAction);
   };
+  // console.log(transactions, 'transactions');
   return (
     <>
       <Stack direction="row">

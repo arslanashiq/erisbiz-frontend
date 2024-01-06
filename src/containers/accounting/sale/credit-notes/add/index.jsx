@@ -19,7 +19,7 @@ import FormikField from 'shared/components/form/FormikField';
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import {
-  handleChangeItem,
+  handleChangeSaleItem,
   handleChangeQuantity,
   handleCalculateTotalAmount,
   handleGetFormatedItemsData,
@@ -85,13 +85,21 @@ function index() {
 
   const saleItemsInputList = useMemo(
     () => [
-      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
+      {
+        ...PurchaseItemInputList.service_type,
+        options: itemsListOptions || [],
+        onChange: handleChangeSaleItem,
+      },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
       { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, disabled: true },
       { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], disabled: true },
-      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], onChange: handleChangeItem },
+      {
+        ...PurchaseItemInputList.net_amount,
+        options: itemsListOptions || [],
+        onChange: handleChangeSaleItem,
+      },
     ],
     [itemsListOptions]
   );
@@ -180,7 +188,7 @@ function index() {
                 <FormikSelect
                   options={filteredSaleInvoiceOptionList}
                   name="invoice"
-                 //  placeholder="Invoice Number"
+                  //  placeholder="Invoice Number"
                   label="Invoice Number"
                   startIcon={<TagIcon />}
                   disabled={Boolean(saleId)}
@@ -190,7 +198,7 @@ function index() {
                 <FormikDatePicker
                   name="credit_note_date"
                   type="text"
-                 //  placeholder="Date"
+                  //  placeholder="Date"
                   displayFormat="yyyy-MM-dd"
                   label="Date"
                 />
@@ -198,13 +206,13 @@ function index() {
                 <FormikSelect
                   options={bankAccountOptions}
                   name="account_num"
-                 //  placeholder="Account"
+                  //  placeholder="Account"
                   label="Account"
                 />
                 <FormikSelect
                   options={bankAccountOptions}
                   name="credit_account_num"
-                 //  placeholder="Credit Account Number"
+                  //  placeholder="Credit Account Number"
                   label="Credit Acc No"
                 />
 
@@ -223,7 +231,7 @@ function index() {
                 <FormikField
                   name="customer_notes"
                   textArea
-                 //  placeholder="Remarks"
+                  //  placeholder="Remarks"
                   label="Remarks"
                   className="col-12"
                 />

@@ -21,7 +21,7 @@ import {
 // shared
 import {
   handleCalculateTotalAmount,
-  handleChangeItem,
+  handleChangePurchaseItem,
   handleChangeQuantity,
 } from 'shared/components/purchase-item/utilities/helpers';
 import FormHeader from 'shared/components/form-header/FormHeader';
@@ -93,7 +93,11 @@ function AddSupplierCredit() {
   );
   const supplierCreditInputList = useMemo(
     () => [
-      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
+      {
+        ...PurchaseItemInputList.service_type,
+        options: itemsListOptions || [],
+        onChange: handleChangePurchaseItem,
+      },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
       { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },
       { ...PurchaseItemInputList.gross_amount },

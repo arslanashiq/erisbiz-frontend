@@ -4,7 +4,7 @@ import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
 // import { useLocation } from 'react-router-dom';
 
-function useSupplierStatement(supplierStatement, supplierTransactions) {
+function useSupplierStatement(supplierStatement, supplierTransactions, duration) {
   // const location = useLocation();
   // const query = new URLSearchParams(location.search);
   // const startDate = query.get('startDate') || moment.now();
@@ -57,7 +57,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
       paymentTypes.push('Supplier Opening Balance');
     }
 
-    if (supplierTransactions?.length > 0) {
+    if (supplierTransactions?.length >= 0) {
       let commulativeBalance = 0;
 
       const openingBalance = supplierTransactions.find(
@@ -109,9 +109,9 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
 
       setPaymentTotal(totalPayment);
 
-      setTransactions(transactionsData);
+      setTransactions([...transactionsData]);
     }
-  }, [supplierStatement, supplierTransactions]);
+  }, [supplierStatement, supplierTransactions, duration]);
 
   const basicInfo = {
     supplierId: supplierStatement.id,
@@ -129,6 +129,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
     startDate: moment(supplierStatement.start_date).format('DD MMM YYYY'),
     endDate: moment(supplierStatement.end_date).format('DD MMM YYYY'),
   };
+  // console.log(supplierTransactions, 'asdjlkasjlk');
 
   return {
     basicInfo,

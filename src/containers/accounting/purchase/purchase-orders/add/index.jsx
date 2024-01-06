@@ -24,7 +24,7 @@ import {
   handleCalculateTotalAmount,
   // handleChangeCostPrice,
   handleChangeDiscount,
-  handleChangeItem,
+  handleChangePurchaseItem,
   handleChangeQuantity,
   handleChangeUnitPrice,
   hanldeVATChange,
@@ -79,13 +79,21 @@ function AddPurchaseOrder() {
   );
   const purchaseOrderInputList = useMemo(
     () => [
-      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
+      {
+        ...PurchaseItemInputList.service_type,
+        options: itemsListOptions || [],
+        onChange: handleChangePurchaseItem,
+      },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
       { ...PurchaseItemInputList.unit_price_ex_vat, onChange: handleChangeUnitPrice },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, onChange: handleChangeDiscount },
       { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], onChange: hanldeVATChange },
-      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], onChange: handleChangeItem },
+      {
+        ...PurchaseItemInputList.net_amount,
+        options: itemsListOptions || [],
+        onChange: handleChangePurchaseItem,
+      },
     ],
     [itemsListOptions]
   );

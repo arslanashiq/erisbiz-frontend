@@ -1,5 +1,12 @@
 import { NEW_PURCHASE_ITEM_OBJECT, VAT_CHARGES } from 'utilities/constants';
 
+const handleSetValue = (setFieldValue, name, index, key, value) => {
+  if (value >= 0) {
+    setFieldValue(`${name}.${index}.${key}`, value);
+  } else {
+    setFieldValue(`${name}.${index}.${key}`, 0);
+  }
+};
 export const handleChangeValues = (name, index, values, setFieldValue) => {
   // grossTotal
   const grossTotal = values.unit_price_ex_vat * values.num_nights;
@@ -21,27 +28,22 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
     setFieldValue(`${name}.${index}.vat_rate`, selectedVatValue);
     setFieldValue(`${name}.${index}.vat_rate_name`, selectedVatLabel);
   }
-  if (vatAmount >= 0) {
-    setFieldValue(`${name}.${index}.vat_amount`, Number(vatAmount.toFixed(2)));
-  }
-  if (grossTotal) {
-    setFieldValue(`${name}.${index}.gross_amount`, grossTotal);
-  }
-  if (netAmount) {
-    setFieldValue(`${name}.${index}.net_amount`, netAmount.toFixed(2));
-  }
+  handleSetValue(setFieldValue, name, index, 'vat_amount', Number(vatAmount.toFixed(2)));
+  handleSetValue(setFieldValue, name, index, 'gross_amount', grossTotal);
+  handleSetValue(setFieldValue, name, index, 'net_amount', netAmount.toFixed(2));
+  // if (vatAmount >= 0) {
+  //   setFieldValue(`${name}.${index}.vat_amount`, Number(vatAmount.toFixed(2)));
+  // }
+  // if (grossTotal >= 0) {
+  //   setFieldValue(`${name}.${index}.gross_amount`, grossTotal);
+  // }
+  // if (netAmount >= 0) {
+  //   setFieldValue(`${name}.${index}.net_amount`, netAmount.toFixed(2));
+  // }
   setFieldValue(`${name}.${index}.amount_ex_vat`, (grossTotal || 0 - values.discount || 0).toFixed(2));
 };
-export const handleChangeItem = (
-  name,
-  index,
-  key,
-  value,
-  values,
-  setFieldValue,
-  itemsListOptions,
-  allValues
-) => {
+
+const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsListOptions, allValues) => {
   const selectedItem = itemsListOptions.filter(item => item.label === value);
 
   if (selectedItem[0].account_no) {
@@ -49,7 +51,6 @@ export const handleChangeItem = (
     setFieldValue(`${name}.${index}.expense_account`, selectedItem[0].account_no);
   }
 
-  setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, selectedItem[0].item_type);
   setFieldValue(
@@ -63,7 +64,52 @@ export const handleChangeItem = (
     unit_price_ex_vat: selectedItem[0].price,
     credit_account: allValues.credit_account,
   };
-
+  return { newValues, selectedItem };
+};
+export const handleChangePurchaseItem = (
+  name,
+  index,
+  key,
+  value,
+  values,
+  setFieldValue,
+  itemsListOptions,
+  allValues
+) => {
+  const { newValues, selectedItem } = handleChangeItem(
+    name,
+    index,
+    key,
+    value,
+    values,
+    setFieldValue,
+    itemsListOptions,
+    allValues
+  );
+  setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].cost_price);
+  handleChangeValues(name, index, newValues, setFieldValue);
+};
+export const handleChangeSaleItem = (
+  name,
+  index,
+  key,
+  value,
+  values,
+  setFieldValue,
+  itemsListOptions,
+  allValues
+) => {
+  const { newValues, selectedItem } = handleChangeItem(
+    name,
+    index,
+    key,
+    value,
+    values,
+    setFieldValue,
+    itemsListOptions,
+    allValues
+  );
+  setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeCostPrice = (name, index, key, value, values, setFieldValue, allValues) => {

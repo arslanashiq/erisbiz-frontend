@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { useParams } from 'react-router';
 // services
 import { useGetCustomerTransactionsQuery } from 'services/private/customers';
 
@@ -18,7 +17,6 @@ import {
 } from '../../utilities/head-cells';
 
 function CustomerTransactions() {
-  const { id } = useParams();
   return (
     <Box sx={{ width: '100%', padding: '0px 20px' }}>
       <TransactionAccordionWithFilter
@@ -27,7 +25,7 @@ function CustomerTransactions() {
         keyName="opening_balance"
         headCells={supplierOpeningBalanceTransactionHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        // addNewRoute="/pages/accounting/purchase/purchase-invoice/add"
       />
       <TransactionAccordionWithFilter
         title="Quotations"
@@ -35,7 +33,7 @@ function CustomerTransactions() {
         keyName="quotations_customers"
         headCells={customerQuotationsHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/sales/quotations/add"
       />
 
       <TransactionAccordionWithFilter
@@ -44,7 +42,7 @@ function CustomerTransactions() {
         keyName="invoice_company"
         headCells={customerSalesInvoiceHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/sales/sale-invoice/add"
       />
       <TransactionAccordionWithFilter
         title="Receipt Voucher"
@@ -52,7 +50,7 @@ function CustomerTransactions() {
         keyName="payments_received"
         headCells={customerReceiptVoucherInvoiceHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/sales/receipt-voucher/add"
       />
       <TransactionAccordionWithFilter
         title="Sales Credit Note"
@@ -60,7 +58,7 @@ function CustomerTransactions() {
         keyName="credit_note_company"
         headCells={customerCreditNoteInvoiceHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        addNewRoute="/pages/accounting/sales/credit-notes/add"
       />
       <TransactionAccordionWithFilter
         title="Journals"
@@ -68,7 +66,7 @@ function CustomerTransactions() {
         keyName="journals"
         headCells={customerJournalsHeadCells}
         //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
+        // addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
       />
     </Box>
   );

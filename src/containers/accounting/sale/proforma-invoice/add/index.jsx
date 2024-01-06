@@ -26,7 +26,7 @@ import PurchaseItem from 'shared/components/purchase-item/PurchaseItem';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import {
   handleChangeDiscount,
-  handleChangeItem,
+  handleChangeSaleItem,
   handleChangeQuantity,
   hanldeVATChange,
   handleCalculateTotalAmount,
@@ -107,14 +107,14 @@ function AddProfomaInvoice() {
 
   const porformaInvoiceItemsList = useMemo(
     () => [
-      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeItem },
+      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeSaleItem },
       { ...PurchaseItemInputList.remaining_stock, disabled: true },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
       { ...PurchaseItemInputList.unit_price_ex_vat, onChange: handleChangeUnitPrice },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, onChange: handleChangeDiscount },
       { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], onChange: hanldeVATChange },
-      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], onChange: handleChangeItem },
+      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], onChange: handleChangeSaleItem },
     ],
     [itemsListOptions]
   );
