@@ -6,25 +6,16 @@ import { useGetCustomerTransactionsQuery } from 'services/private/customers';
 
 // shared
 import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
-import {
-  supplierBillTransactionHeadCells,
-  supplierDebitNoteTransactionHeadCells,
-  supplierExpenseTransactionHeadCells,
-  supplierJournalTransactionHeadCells,
-  supplierOpeningBalanceTransactionHeadCells,
-  supplierPaymentVoucherTransactionHeadCells,
-  supplierPurchaseOrderTransactionHeadCells,
-} from 'containers/accounting/purchase/suppliers/utilities/head-cells';
+
 // utilities
-// import {
-//   supplierBillTransactionHeadCells,
-//   supplierDebitNoteTransactionHeadCells,
-//   supplierExpenseTransactionHeadCells,
-//   supplierJournalTransactionHeadCells,
-//   supplierOpeningBalanceTransactionHeadCells,
-//   supplierPaymentVoucherTransactionHeadCells,
-//   supplierPurchaseOrderTransactionHeadCells,
-// } from '../../utilities/head-cells';
+import { supplierOpeningBalanceTransactionHeadCells } from 'containers/accounting/purchase/suppliers/utilities/head-cells';
+import {
+  customerCreditNoteInvoiceHeadCells,
+  customerQuotationsHeadCells,
+  customerSalesInvoiceHeadCells,
+  customerJournalsHeadCells,
+  customerReceiptVoucherInvoiceHeadCells,
+} from '../../utilities/head-cells';
 
 function CustomerTransactions() {
   const { id } = useParams();
@@ -41,24 +32,17 @@ function CustomerTransactions() {
       <TransactionAccordionWithFilter
         title="Quotations"
         fetchData={useGetCustomerTransactionsQuery}
-        keyName="quotations"
-        headCells={supplierPurchaseOrderTransactionHeadCells}
+        keyName="quotations_customers"
+        headCells={customerQuotationsHeadCells}
         //   FiltersList={quotationFilterList}
         addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
       />
-      <TransactionAccordionWithFilter
-        title="Proforma Invoice"
-        fetchData={useGetCustomerTransactionsQuery}
-        keyName="pro_invoice"
-        headCells={supplierBillTransactionHeadCells}
-        //   FiltersList={quotationFilterList}
-        addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
-      />
+
       <TransactionAccordionWithFilter
         title="Sales Invoice"
         fetchData={useGetCustomerTransactionsQuery}
-        keyName="invoices"
-        headCells={supplierJournalTransactionHeadCells}
+        keyName="invoice_company"
+        headCells={customerSalesInvoiceHeadCells}
         //   FiltersList={quotationFilterList}
         addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
       />
@@ -66,15 +50,15 @@ function CustomerTransactions() {
         title="Receipt Voucher"
         fetchData={useGetCustomerTransactionsQuery}
         keyName="payments_received"
-        headCells={supplierPaymentVoucherTransactionHeadCells}
+        headCells={customerReceiptVoucherInvoiceHeadCells}
         //   FiltersList={quotationFilterList}
         addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
       />
       <TransactionAccordionWithFilter
         title="Sales Credit Note"
         fetchData={useGetCustomerTransactionsQuery}
-        keyName="credit_notes"
-        headCells={supplierDebitNoteTransactionHeadCells}
+        keyName="credit_note_company"
+        headCells={customerCreditNoteInvoiceHeadCells}
         //   FiltersList={quotationFilterList}
         addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
       />
@@ -82,7 +66,7 @@ function CustomerTransactions() {
         title="Journals"
         fetchData={useGetCustomerTransactionsQuery}
         keyName="journals"
-        headCells={supplierExpenseTransactionHeadCells}
+        headCells={customerJournalsHeadCells}
         //   FiltersList={quotationFilterList}
         addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
       />

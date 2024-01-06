@@ -32,7 +32,7 @@ function CustomerDetail() {
   const [addComment] = useAddCustomerCommentMutation();
   const [deleteComment] = useDeleteCutomerMutation();
 
-  const customersCommentResponse = useGetCustomerCommentsQuery();
+  const customersCommentResponse = useGetCustomerCommentsQuery(id);
   const customerStatementResponse = useGetCustomerStatementQuery({ id, params: location.search });
 
   const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
@@ -84,7 +84,7 @@ function CustomerDetail() {
   const handleChangeActivityDuration = useCallback(value => {
     setActivityLogDuration(value?.toLowerCase());
   }, []);
-  const handleAddComment = payload => addComment({ comments: payload.comments, sales_account_id: id });
+  const handleAddComment = payload => addComment({ comments: payload.comments, customer: Number(id) });
   console.log(customerStatementResponse, 'customerStatementResponse');
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
@@ -111,11 +111,11 @@ function CustomerDetail() {
             />
           )}
           {activeTab === 1 && <CustomerTransactions />}
-          {activeTab === 2 && <SupplierStatement basicInfo={{}} transactions={[]} />}
+          {activeTab === 2 && <SupplierStatement basicInfo={customerDetailResponse} transactions={[]} />}
 
           {activeTab === 3 && (
             <SupplierComment
-              comments={customersCommentResponse.data}
+              comments={customersCommentResponse?.data || []}
               addComment={handleAddComment}
               deleteComment={deleteComment}
             />

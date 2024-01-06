@@ -59,6 +59,7 @@ function AddBrand() {
       if (location?.state?.backUrl) {
         navigate(location.state.backUrl, {
           state: { initialValues: { ...location.state.initialValues, brand: response.data.uid } },
+          replace: true,
         });
         return;
       }

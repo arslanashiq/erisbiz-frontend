@@ -99,6 +99,7 @@ function SupplierAddPage() {
       if (location?.state?.backUrl) {
         navigate(location.state.backUrl, {
           state: { initialValues: { ...location.state.initialValues, supplier: response.data.id } },
+          replace: true,
         });
         return;
       }

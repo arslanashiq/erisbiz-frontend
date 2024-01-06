@@ -101,37 +101,34 @@ function LogoAndCompanyInfo({ companyName, companyLogo, companyDetail, companyEm
               width: 350,
             }}
           >
-            {companyTRN &&
-              renderCompanyInfoData(
-                'TRN',
-                companyTRN,
-                {
-                  width: 145,
-                },
-                {},
-                { maxWidth: 90 }
-              )}
-            {companyEmail && renderCompanyInfoData('Email', companyEmail, {}, {}, { maxWidth: 170 })}
+            {renderCompanyInfoData(
+              'TRN',
+              companyTRN,
+              {
+                width: 145,
+              },
+              {},
+              { maxWidth: 90 }
+            )}
+            {renderCompanyInfoData('Email', companyEmail, {}, {}, { maxWidth: 170 })}
           </View>
           <View style={{ flexDirection: 'row' }}>
-            {companyDetail.phone &&
-              renderCompanyInfoData(
-                'Phone',
-                companyDetail.phone || COMPANY_PHONE,
-                {
-                  width: 145,
-                },
-                {},
-                { maxWidth: 90 }
-              )}
-            {companyDetail.location &&
-              renderCompanyInfoData(
-                'Address',
-                companyDetail.location || COMPANY_ADDRESS,
-                {},
-                {},
-                { maxWidth: 170 }
-              )}
+            {renderCompanyInfoData(
+              'Phone',
+              companyDetail.phone,
+              {
+                width: 145,
+              },
+              {},
+              { maxWidth: 90 }
+            )}
+            {renderCompanyInfoData(
+              'Address',
+              companyDetail.location,
+              {},
+              {},
+              { maxWidth: 170 }
+            )}
           </View>
         </View>
       </View>

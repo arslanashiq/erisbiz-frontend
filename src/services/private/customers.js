@@ -50,14 +50,14 @@ const customersApi = privateApi.injectEndpoints({
 
     getCustomerStatement: builder.query({
       query: ({ id, params }) => ({
-        url: ` api/accounting/sales/salesAccount/${id}/statement?duration=today&filter_type=all`,
+        url: `api/accounting/sales/salesAccount/${id}/statement?duration=today&filter_type=all`,
         method: 'GET',
         params,
       }),
     }),
     getCustomerComments: builder.query({
       query: id => ({
-        url: ` api/accounting/sales/customer/${id}/comments`,
+        url: `api/accounting/sales/customer/${id}/comments`,
         method: 'GET',
       }),
       providesTags: ['getCustomerComments'],
@@ -70,7 +70,7 @@ const customersApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getCustomerComments'],
     }),
-    deleteSupplierComment: builder.mutation({
+    deleteCustomerComment: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/CustomerComments/${id}/`,
         method: 'DELETE',
@@ -90,5 +90,5 @@ export const {
   useGetCustomerStatementQuery,
   useGetCustomerCommentsQuery,
   useAddCustomerCommentMutation,
-  useDeleteSupplierCommentMutation,
+  useDeleteCustomerCommentMutation,
 } = customersApi;

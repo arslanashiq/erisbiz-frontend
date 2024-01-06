@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 export const purchaseOrderItemsValidationschema = Yup.array().of(
   Yup.object().shape({
     service_type: Yup.string().required('Item is required'),
-    unit_price_ex_vat: Yup.number().moreThan(0, 'Must be more than 0').required('Required'),
+    unit_price_ex_vat: Yup.number().moreThan(-1, 'Must be more than 0').required('Required'),
 
     num_nights: Yup.number()
       .required('Required')

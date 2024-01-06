@@ -48,7 +48,7 @@ export const productCategoryStockPositionHeadCells = [
   {
     id: 'item_count',
     disablePadding: false,
-    label: 'Total Stock',
+    label: 'Total Items',
     align: 'left',
   },
 ];

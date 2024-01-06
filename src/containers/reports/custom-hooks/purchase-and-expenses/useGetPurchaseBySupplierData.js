@@ -12,7 +12,11 @@ function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
       //   currency = item.currency_symbol;
 
       body.push([
-        { value: item.supplier__supplier_name, style: { textAlign: 'start' } },
+        {
+          value: item.supplier__supplier_name,
+          style: { textAlign: 'start' },
+          link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
+        },
         { value: item.expense_count },
         {
           value: item.bill_count,

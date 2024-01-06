@@ -172,7 +172,11 @@ function SupplierCreditDetail() {
     (async () => {
       if (openApplyToBillModal) {
         const response = await getUnpaidBills(supplierCreditResponse?.data?.supplier_id);
-        setApplyToBillInitialValues(response?.data);
+        const unpaidBills = response?.data?.map(bill => ({
+          ...bill,
+          amount_applied: 0,
+        }));
+        setApplyToBillInitialValues(unpaidBills);
       }
     })();
   }, [openApplyToBillModal]);

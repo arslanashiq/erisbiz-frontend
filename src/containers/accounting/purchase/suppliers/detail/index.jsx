@@ -50,7 +50,7 @@ function SupplierDetail() {
   const supplierStatementResponse = useGetSupplierStatementQuery({
     id,
     params: {
-      duration: duration || 'this+month',
+      duration: duration || 'this month',
       filter_type: 'all',
     },
   });

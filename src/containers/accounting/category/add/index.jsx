@@ -51,6 +51,7 @@ function AddCategory() {
       if (location?.state?.backUrl) {
         navigate(location.state.backUrl, {
           state: { initialValues: { ...location.state.initialValues, category: response.data.uid } },
+          replace: true,
         });
         return;
       }

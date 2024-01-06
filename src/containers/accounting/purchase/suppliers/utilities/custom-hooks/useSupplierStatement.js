@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
@@ -59,8 +60,10 @@ function useSupplierStatement(supplierStatement, supplierTransactions) {
     if (supplierTransactions?.length > 0) {
       let commulativeBalance = 0;
 
-      const openingBalance = supplierTransactions.find(item => item.transaction_type === 'Opening Balance');
-
+      const openingBalance = supplierTransactions.find(
+        item =>
+          item.transaction_type === 'Opening Balance' || item.transaction_type === 'Supplier Opening Balance'
+      );
       if (openingBalance) {
         setOpeningBalanceAmount(openingBalance.total_amount);
         if (openingBalance.is_amount) {

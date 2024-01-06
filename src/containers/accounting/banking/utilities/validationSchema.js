@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { IBAN_REGIX, INTEGER_REGEX, NAME_AND_NUMBER_REGEX, NAME_REGEX } from 'utilities/constants';
+import { IBAN_REGIX, INTEGER_REGEX, NAME_REGEX } from 'utilities/constants';
 
 export const bankFormValidationSchema = Yup.object({
   bank_name: Yup.string()
@@ -20,7 +20,6 @@ export const bankFormValidationSchema = Yup.object({
     .required('IBAN is required'),
 
   swift_code: Yup.string()
-    .matches(NAME_AND_NUMBER_REGEX, 'No spaces or special character allowded')
     .max(50, 'Cannot exceed 50 chracters')
     .required('Swift Code is required'),
 

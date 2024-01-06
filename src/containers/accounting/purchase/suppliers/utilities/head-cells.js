@@ -58,13 +58,7 @@ export const supplierOpeningBalanceTransactionHeadCells = [
     align: 'left',
     date: true,
   },
-  {
-    id: 'supplier__supplier_name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Supplier Name',
-    align: 'left',
-  },
+
   {
     id: 'grand_total',
     numeric: true,
