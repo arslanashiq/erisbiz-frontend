@@ -52,7 +52,7 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
   }
 
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
-  setFieldValue(`${name}.${index}.service_type_name`, selectedItem[0].item_type);
+  setFieldValue(`${name}.${index}.service_type_name`, `${selectedItem[0].value}${index}`);
   setFieldValue(
     `${name}.${index}.cost_price`,
     selectedItem[0].weighted_cost_price || selectedItem[0].cost_price
@@ -173,6 +173,7 @@ export const handleGetFormatedItemsData = itemsList => {
   if (itemsList?.length > 0) {
     return itemsList.map(item => ({
       service_type: item.service_type,
+      service_type_name: item.service_type_name,
       num_units: item.num_nights,
       num_nights: item.num_nights,
       unit_price_ex_vat: item.unit_price_ex_vat,
