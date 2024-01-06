@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useMemo } from 'react';
+import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
 import SupplierOverviewCard from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCard';
@@ -17,6 +18,7 @@ function CustomerOverview({
   handleClickMenu,
   customerActivity,
 }) {
+  const { id } = useParams();
   const currencySymbol = useMemo(
     () => (customerDetail?.currency_symbol ? customerDetail?.currency_symbol : 'AED'),
     []
@@ -25,7 +27,11 @@ function CustomerOverview({
     <Box className="container-fluid w-100">
       <Grid container spacing={2}>
         <Grid item xs={12} lg={5} xl={4}>
-          <SupplierOverviewCard supplierDetail={customerDetail} useDetailHook={useCustomerDetail} />
+          <SupplierOverviewCard
+            // addNewContactLink={`/pages/accounting/sales/customers/${id}/contact/add`}
+            supplierDetail={customerDetail}
+            useDetailHook={useCustomerDetail}
+          />
         </Grid>
         <Grid item xs={12} lg={7} xl={8}>
           <SupplierOverviewPayables currencySymbol={currencySymbol} supplierDetail={customerDetail} />

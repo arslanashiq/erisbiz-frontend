@@ -72,6 +72,7 @@ const ExpenseDetailPage = lazy(() => import('containers/accounting/purchase/expe
 const CustomerListingPage = lazy(() => import('containers/accounting/sale/customers/listing'));
 const AddCustomerPage = lazy(() => import('containers/accounting/sale/customers/add'));
 const CustomerDetailPage = lazy(() => import('containers/accounting/sale/customers/detail'));
+const CustomerContactAddPage = lazy(() => import('containers/accounting/purchase/suppliers/contacts/add'));
 
 // Sale  Quotations
 const QuotationListingPage = lazy(() => import('containers/accounting/sale/quotations/listing'));
@@ -286,6 +287,9 @@ function AppRoutes() {
                       <Route path="add" element={<AddCustomerPage />} />
                       <Route path="edit/:id" element={<AddCustomerPage />} />
                       <Route path=":id/detail" element={<CustomerDetailPage />} />
+                      <Route path=":customerId/contact/add" element={<CustomerContactAddPage />} />
+                      <Route path=":customerId/contact/edit/:id" element={<CustomerContactAddPage />} />
+
                     </Route>
                     <Route path="quotations" element={<Outlet />}>
                       <Route path="" index element={<QuotationListingPage />} />

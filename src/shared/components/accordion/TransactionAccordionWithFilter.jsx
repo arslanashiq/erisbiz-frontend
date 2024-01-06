@@ -18,7 +18,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-import { getStableSort } from 'utilities/sort';
+// import { getStableSort } from 'utilities/sort';
 import MuiTableHead from '../table/MuiTableHead';
 import MuiTableBody from '../table/MuiTableBody';
 
@@ -44,14 +44,17 @@ export default function TransactionAccordionWithFilter({
     setFilter(event.target.value);
   };
 
-  const response = fetchData({
-    id,
-    params: {
-      limit: rowsPerPage,
-      offset: page,
-      status: filter.trim(),
+  const response = fetchData(
+    {
+      id,
+      params: {
+        limit: rowsPerPage,
+        offset: page,
+        status: filter.trim(),
+      },
     },
-  });
+    { refetchOnMountOrArgChange: true }
+  );
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -69,10 +72,7 @@ export default function TransactionAccordionWithFilter({
     setExpanded(!expanded);
   };
   const data = keyName ? response?.data?.[keyName] : response?.data?.results;
-  const visibleRows = useMemo(
-    () => getStableSort(data, order, orderBy, page, rowsPerPage),
-    [data, order, orderBy, page, rowsPerPage]
-  );
+  const visibleRows = useMemo(() => data, [data, order, orderBy, page, rowsPerPage]);
 
   return (
     <SectionLoader options={[response.isLoading]}>

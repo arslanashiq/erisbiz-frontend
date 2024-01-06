@@ -41,6 +41,33 @@ const customersApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getCustomersList'],
     }),
+    addCustomerContact: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/sales/accounts/contacts/',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['addCustomerContact'],
+      invalidatesTags: ['getSingleCustomer', 'getCustomersList'],
+    }),
+    editCustomerContact: builder.mutation({
+      query: ({ id, payload }) => ({
+        url: `api/accounting/sales/accounts/contacts/${id}/`,
+        method: 'PATCH',
+        body: payload,
+      }),
+      providesTags: ['editCustomerContact'],
+      invalidatesTags: ['getSingleCustomer', 'getCustomersList'],
+    }),
+    deleteCustomerContact: builder.mutation({
+      query: id => ({
+        url: `api/accounting/sales/accounts/contacts/${id}/`,
+        method: 'DELETE',
+      }),
+      providesTags: ['deleteCustomerContact'],
+      invalidatesTags: ['getSingleCustomer', 'getCustomersList'],
+    }),
+
     getCustomerTransactions: builder.query({
       query: ({ id }) => ({
         url: `api/accounting/sales/customer/${id}/transaction`,
@@ -91,4 +118,7 @@ export const {
   useGetCustomerCommentsQuery,
   useAddCustomerCommentMutation,
   useDeleteCustomerCommentMutation,
+  useAddCustomerContactMutation,
+  useEditCustomerContactMutation,
+  useDeleteCustomerContactMutation,
 } = customersApi;

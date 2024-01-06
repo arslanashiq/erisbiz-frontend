@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { Helmet } from 'react-helmet';
@@ -16,30 +17,48 @@ import FormikField from 'shared/components/form/FormikField';
 // styles
 import 'styles/form/form.scss';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+import { useAddCustomerContactMutation } from 'services/private/customers';
 
 function AddSupplierContact() {
   const navigate = useNavigate();
-  const { id, supplierId } = useParams();
+  const { id, supplierId, customerId } = useParams();
 
-  const [initialValues, setInitialValues] = useState({
-    first_name: '',
-    designation: '',
-    email: '',
-    mobile_num: '',
-    notes: '',
-    supplier_id: supplierId,
-  });
+  const [initialValues, setInitialValues] = useState(
+    supplierId
+      ? {
+          first_name: '',
+          designation: '',
+          email: '',
+          mobile_num: '',
+          notes: '',
+          supplier_id: supplierId,
+        }
+      : {
+          first_name: '',
+          designation: '',
+          email: '',
+          mobile_num: '',
+          notes: '',
+          sales_account_id: customerId,
+        }
+  );
 
-  const singleSupplierContactResponse = useGetSupplierSingleContactQuery(id, { skip: !id });
-
+  // suppliers
+  const singleSupplierContactResponse = useGetSupplierSingleContactQuery(id, { skip: !id || !supplierId });
   const [addSupplierContact] = useAddSupplierContactMutation();
   const [editSupplierContact] = useEditSupplierContactMutation();
 
+  // customers
+  const [addCustomerContact] = useAddCustomerContactMutation();
+
   useEffect(() => {
-    if (id && singleSupplierContactResponse.isSuccess) {
+    if (id && supplierId && singleSupplierContactResponse.isSuccess) {
       setInitialValues({ ...singleSupplierContactResponse?.data });
     }
-  }, [id, singleSupplierContactResponse]);
+    if (id && customerId && singleSupplierContactResponse.isSuccess) {
+      setInitialValues({ ...singleSupplierContactResponse?.data });
+    }
+  }, [id, supplierId, customerId, singleSupplierContactResponse]);
   return (
     <>
       <Helmet>
@@ -57,9 +76,15 @@ function AddSupplierContact() {
               try {
                 let response = null;
                 if (id) {
-                  response = await editSupplierContact({ id, payload: values });
-                } else {
+                  if (supplierId) {
+                    response = await editSupplierContact({ id, payload: values });
+                  } else {
+                    response = await editSupplierContact({ id, payload: values });
+                  }
+                } else if (supplierId) {
                   response = await addSupplierContact(values);
+                } else {
+                  response = await addCustomerContact(values);
                 }
                 setSubmitting(false);
                 if (response.data) {
