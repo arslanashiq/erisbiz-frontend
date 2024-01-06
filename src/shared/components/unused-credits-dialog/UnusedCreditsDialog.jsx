@@ -10,7 +10,7 @@ import MuiTableBody from '../table/MuiTableBody';
 
 const creditHeadCells = [
   {
-    id: 'formatted_number',
+    id: 'type',
     numeric: false,
     disablePadding: true,
     label: 'Credit Info',
@@ -19,6 +19,9 @@ const creditHeadCells = [
     handleLink: row => {
       if (row.type === 'Debit Note') {
         return `/pages/accounting/purchase/debit-notes/${row.id}/detail`;
+      }
+      if (row.type === 'Excess Payment') {
+        return `/pages/accounting/purchase/payment-voucher/${row.id}/detail`;
       }
       return '#';
     },
@@ -42,7 +45,6 @@ const creditHeadCells = [
 function UnusedCreditsDialog({ title, open, name, handleClose }) {
   const { id } = useParams();
   const unusedCreditsResponse = useGetSupplierUnusedCreditDetailsQuery(id, { skip: !id });
-  console.log(unusedCreditsResponse);
   return (
     <StyledDialog maxWidth={false} open={open} onClose={handleClose}>
       <Card>

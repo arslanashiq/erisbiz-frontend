@@ -134,7 +134,7 @@ function VoucherContent({ orderDetail }) {
             </View>
             <View style={styles.info}>
               <View style={styles.infoHeader}>
-                <Text style={{ ...styles.headingText }}>Amount Paid (AED)</Text>
+                <Text style={{ ...styles.headingText }}>Amount Paid</Text>
               </View>
               <View style={styles.infoValue}>
                 <Text style={[styles.valueText, { width: 348 }]}>

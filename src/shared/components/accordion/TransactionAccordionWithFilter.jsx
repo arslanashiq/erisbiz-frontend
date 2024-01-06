@@ -29,6 +29,7 @@ export default function TransactionAccordionWithFilter({
   FiltersList,
   addNewRoute,
   keyName,
+  getSortedData,
 }) {
   const { id } = useParams();
 
@@ -135,7 +136,11 @@ export default function TransactionAccordionWithFilter({
                   onRequestSort={handleRequestSort}
                   rowCount={0}
                 />
-                <MuiTableBody dataList={visibleRows} headCells={headCells} selected={[]} />
+                <MuiTableBody
+                  dataList={getSortedData ? getSortedData(visibleRows) : visibleRows}
+                  headCells={headCells}
+                  selected={[]}
+                />
               </Table>
             </TableContainer>
             <TablePagination
@@ -161,9 +166,11 @@ TransactionAccordionWithFilter.propTypes = {
   FiltersList: PropTypes.array,
   addNewRoute: PropTypes.string,
   keyName: PropTypes.string,
+  getSortedData: PropTypes.func,
 };
 TransactionAccordionWithFilter.defaultProps = {
   FiltersList: null,
   addNewRoute: '',
   keyName: null,
+  getSortedData: null,
 };

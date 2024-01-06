@@ -53,6 +53,19 @@ function SupplierCreditDetail() {
       date: supplierCreditResponse?.data?.invoice_date || '',
       supplier: supplierCreditResponse?.data?.supplier || {},
       location: supplierCreditResponse?.data?.location || '',
+      invoiceToDetail: {
+        attention_to: supplierCreditResponse?.data?.supplier?.contact_person || '',
+        supplier_name: supplierCreditResponse?.data?.supplier?.supplier_name || '',
+        address: supplierCreditResponse?.data?.supplier?.address_line1 || '',
+        city: supplierCreditResponse?.data?.supplier?.city || '',
+        country: supplierCreditResponse?.data?.supplier?.country || '',
+      },
+      bankDetail: {
+        bank_name: supplierCreditResponse?.data?.supplier?.bank_name,
+        account_holder_name: supplierCreditResponse?.data?.supplier?.account_payee,
+        IBAN: supplierCreditResponse?.data?.supplier?.IBAN,
+        swift_code: supplierCreditResponse?.data?.supplier?.swift_code,
+      },
     }),
     [supplierCreditResponse]
   );

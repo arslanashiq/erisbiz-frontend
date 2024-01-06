@@ -21,8 +21,9 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    maxWidth: 160,
+    maxWidth: 200,
     maxHeight: 80,
+    objectFit: 'contain',
   },
 
   subtitle: {

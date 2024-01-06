@@ -8,6 +8,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
 // utilities and styles
 import { addButtonIconStyle } from 'styles/common/common-styles';
 import formatAmount from 'utilities/formatAmount';
+import { handleGetSortedData } from 'utilities/get-sorted-journals';
 
 function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
   const sortedJournalsArrayForPurchase = ['Accounts Payable', 'Cost of Sales', 'Input VAT', 'Discount'];
@@ -26,22 +27,6 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
     [journalItems]
   );
 
-  const handleGetSortedData = (journalObject, sortedList) => {
-    const sortedJournals = [];
-    const newAccounts = [];
-    Object.keys(journalObject).forEach(key => {
-      if (sortedList.includes(key)) {
-        const index = sortedList.indexOf(key);
-        sortedJournals.splice(index, 0, journalObject[key]);
-      } else {
-        newAccounts.push(journalObject[key]);
-      }
-    });
-    if (newAccounts.length > 0) {
-      sortedJournals.splice(1, 0, ...newAccounts);
-    }
-    return sortedJournals;
-  };
   useEffect(() => {
     const journalObject = {};
     journalItems.forEach(item => {

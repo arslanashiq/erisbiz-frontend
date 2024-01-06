@@ -21,7 +21,7 @@ export const renderCompanyHeaderRow = headerRowData => (
 );
 function OrderHeader({ companyLogo, companyName, companyTRN, email, company }) {
   return (
-    <Grid item container minHeight={250} justifyContent="space-between">
+    <Grid item container minHeight={150} justifyContent="space-between">
       <Grid item xs={4} lg={4}>
         <img
           // src="/logo.png"

@@ -96,8 +96,13 @@ function PurchaseInvoiceDetail() {
         city: purchaseInvoiceResponse?.data?.supplier?.city || '',
         country: purchaseInvoiceResponse?.data?.supplier?.country || '',
       },
+      bankDetail: {
+        bank_name: purchaseInvoiceResponse?.data?.supplier?.bank_name,
+        account_holder_name: purchaseInvoiceResponse?.data?.supplier?.account_payee,
+        IBAN: purchaseInvoiceResponse?.data?.supplier?.IBAN,
+        swift_code: purchaseInvoiceResponse?.data?.supplier?.swift_code,
+      },
       location: purchaseInvoiceResponse?.data?.location || '',
-      bankDetail: '',
     }),
     [purchaseInvoiceResponse]
   );

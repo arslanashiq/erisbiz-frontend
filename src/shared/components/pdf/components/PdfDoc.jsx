@@ -58,7 +58,15 @@ function PdfDoc({
       {showJournalVoucher && (
         <JournalVoucher orderInfo={orderInfo} orderDetail={orderDetail} keyName={keyName} />
       )}
-      <View style={{ width: '100%', justifyContent: 'end', alignItems: 'center', marginTop: 50 }}>
+      <View
+        style={{
+          width: '100%',
+          justifyContent: 'end',
+          alignItems: 'center',
+          position: 'absolute',
+          bottom: 10,
+        }}
+      >
         <Text style={{ color: palette.primary.main, fontSize: 10 }}>
           This document has been generated electronically and does not necessitate a physical stamp or
           signature
