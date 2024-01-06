@@ -8,6 +8,8 @@ const handleSetValue = (setFieldValue, name, index, key, value) => {
   }
 };
 export const handleChangeValues = (name, index, values, setFieldValue) => {
+  setFieldValue(`${name}.${index}.service_type_name`, `${values.service_type}${index}`);
+
   // grossTotal
   const grossTotal = values.unit_price_ex_vat * values.num_nights;
 
