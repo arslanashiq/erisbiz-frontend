@@ -39,9 +39,11 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
           <Stack direction="row" spacing={10} justifyContent="space-between">
             <Typography className="item-overview-title">Unused Credits</Typography>
             <Stack
-              sx={{ cursor: 'pointer' }}
+              sx={{ cursor: supplierDetail?.unused_credits > 0 ? 'pointer' : 'auto' }}
               onClick={() => {
-                setOpenUnusedCreditDetailModal(true);
+                if (supplierDetail?.unused_credits > 0) {
+                  setOpenUnusedCreditDetailModal(true);
+                }
               }}
             >
               <Typography sx={supplierOverviewOutstandingBalanceValueStyle}>
