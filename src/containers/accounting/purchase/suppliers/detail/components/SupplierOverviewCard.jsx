@@ -13,7 +13,7 @@ import SupplierAddress from './SupplierAddress';
 import SupplierOtherInfo from './SupplierOtherInfo';
 import SupplierContactPerson from './SupplierContactPerson';
 
-function SupplierOverviewCard({ supplierDetail, useDetailHook }) {
+function SupplierOverviewCard({ supplierDetail, useDetailHook, addNewContactLink }) {
   const { address, otherInfo, contactPerson } = useDetailHook(supplierDetail);
   return (
     <Card sx={supplierCardStyle}>
@@ -26,7 +26,7 @@ function SupplierOverviewCard({ supplierDetail, useDetailHook }) {
         <Box mt={2}>
           <SupplierAddress address={address} />
           <SupplierOtherInfo otherInfo={otherInfo} />
-          <SupplierContactPerson contactPerson={contactPerson} />
+          <SupplierContactPerson addNewContactLink={addNewContactLink} contactPerson={contactPerson} />
         </Box>
       </CardContent>
     </Card>
@@ -35,9 +35,11 @@ function SupplierOverviewCard({ supplierDetail, useDetailHook }) {
 SupplierOverviewCard.propTypes = {
   supplierDetail: PropTypes.object,
   useDetailHook: PropTypes.func,
+  addNewContactLink: PropTypes.string,
 };
 SupplierOverviewCard.defaultProps = {
   supplierDetail: {},
   useDetailHook: () => ({ address: {}, otherInfo: {}, contactPerson: {} }),
+  addNewContactLink: '',
 };
 export default SupplierOverviewCard;

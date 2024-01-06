@@ -7,9 +7,13 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import SupplierOverviewAccordionWrapper from './SupplierOverviewAccordionWrapper';
 
 const IconStyle = { height: 15, width: 15, mr: 1 };
-function SupplierContactPerson({ contactPerson }) {
+function SupplierContactPerson({ contactPerson, addNewContactLink }) {
   return (
-    <SupplierOverviewAccordionWrapper title={`Contact Person (${contactPerson.length})`} showIcon>
+    <SupplierOverviewAccordionWrapper
+      addNewContactLink={addNewContactLink}
+      title={`Contact Person (${contactPerson.length})`}
+      showIcon
+    >
       <div className="row supplier-overview-wrapper">
         {contactPerson.map(contact => (
           <Stack key={contact.email} spacing={2} direction="row" alignItems="start" justifyContent="start">
@@ -33,6 +37,7 @@ function SupplierContactPerson({ contactPerson }) {
   );
 }
 SupplierContactPerson.propTypes = {
+  addNewContactLink: PropTypes.string.isRequired,
   contactPerson: PropTypes.array.isRequired,
 };
 

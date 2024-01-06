@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-function SupplierOverviewAccordionWrapper({ title, showIcon, children }) {
+function SupplierOverviewAccordionWrapper({ title, addNewContactLink, children }) {
   const navigate = useNavigate(0);
   return (
     <Accordion
@@ -29,11 +29,11 @@ function SupplierOverviewAccordionWrapper({ title, showIcon, children }) {
           sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
         >
           <Typography sx={{ fontSize: 14, fontWeight: 'bold' }}>{title}</Typography>
-          {showIcon && (
+          {addNewContactLink && (
             <Tooltip title="Add Contact Person" arrow placement="top">
               <IconButton
                 onClick={() => {
-                  navigate('/pages/accounting/purchase/suppliers/7/contact/add');
+                  navigate(addNewContactLink);
                 }}
               >
                 <AddCircleOutlineIcon />
@@ -50,10 +50,10 @@ function SupplierOverviewAccordionWrapper({ title, showIcon, children }) {
 SupplierOverviewAccordionWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
-  showIcon: PropTypes.bool,
+  addNewContactLink: PropTypes.string,
 };
 SupplierOverviewAccordionWrapper.defaultProps = {
-  showIcon: false,
+  addNewContactLink: '',
 };
 
 export default SupplierOverviewAccordionWrapper;

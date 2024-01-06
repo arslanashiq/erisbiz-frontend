@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
 // components
+import { useParams } from 'react-router';
 import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
@@ -16,6 +17,7 @@ function SupplierOverview({
   supplierActivity,
   handleClickMenu,
 }) {
+  const { id } = useParams();
   const currencySymbol = useMemo(
     () => (supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED'),
     [supplierDetail]
@@ -28,6 +30,7 @@ function SupplierOverview({
             currencySymbol={currencySymbol}
             supplierDetail={supplierDetail}
             useDetailHook={useSupplierDetail}
+            addNewContactLink={`/pages/accounting/purchase/suppliers/${id}/contact/add`}
           />
         </Grid>
         <Grid item xs={12} lg={7} xl={8}>
