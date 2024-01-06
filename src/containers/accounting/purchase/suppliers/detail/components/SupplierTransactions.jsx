@@ -5,7 +5,7 @@ import { useGetSupplierTransactionsQuery } from 'services/private/suppliers';
 // shared
 import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
 // utilities
-import { handleGetSortedData } from 'utilities/get-sorted-journals';
+// import { handleGetSortedData } from 'utilities/get-sorted-journals';
 import { quotationFilterList } from 'containers/accounting/items/utilities/filters';
 import {
   supplierBillTransactionHeadCells,
@@ -18,7 +18,7 @@ import {
 } from '../../utilities/head-cells';
 
 function SupplierTransactions() {
-  const sortedJournalsArrayForPurchase = ['Accounts Payable', 'Cost of Sales', 'Input VAT', 'Discount'];
+  // const sortedJournalsArrayForPurchase = ['Accounts Payable', 'Cost of Sales', 'Input VAT', 'Discount'];
 
   return (
     <Box sx={{ width: '100%', padding: '0px 20px' }}>
@@ -51,24 +51,24 @@ function SupplierTransactions() {
         headCells={supplierJournalTransactionHeadCells}
         //   FiltersList={quotationFilterList}
         addNewRoute="/pages/accounting/finance/journal-voucher/add"
-        getSortedData={journalItems => {
-          const journalObject = {};
-          journalItems.forEach(item => {
-            try {
-              if (journalObject[item.account_name]) {
-                journalObject[item.account_name].credit += item.credit;
-                journalObject[item.account_name].debit += item.debit;
-              } else if (item.credit > 0 || item.debit > 0) {
-                journalObject[item.account_name] = { ...item };
-              }
-            } catch (error) {
-              journalObject[item.account_name] = { ...item };
-            }
-          });
+        // getSortedData={journalItems => {
+        //   const journalObject = {};
+        //   journalItems.forEach(item => {
+        //     try {
+        //       if (journalObject[item.account_name]) {
+        //         journalObject[item.account_name].credit += item.credit;
+        //         journalObject[item.account_name].debit += item.debit;
+        //       } else if (item.credit > 0 || item.debit > 0) {
+        //         journalObject[item.account_name] = { ...item };
+        //       }
+        //     } catch (error) {
+        //       journalObject[item.account_name] = { ...item };
+        //     }
+        //   });
 
-          const sortedJournals = handleGetSortedData(journalObject, sortedJournalsArrayForPurchase);
-          return sortedJournals;
-        }}
+        //   const sortedJournals = handleGetSortedData(journalObject, sortedJournalsArrayForPurchase);
+        //   return sortedJournals;
+        // }}
       />
       <TransactionAccordionWithFilter
         title="Payment Voucher"
