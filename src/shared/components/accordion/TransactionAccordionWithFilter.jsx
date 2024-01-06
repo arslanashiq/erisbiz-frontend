@@ -18,7 +18,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
-// import { getStableSort } from 'utilities/sort';
+import { getStableSort } from 'utilities/sort';
 import MuiTableHead from '../table/MuiTableHead';
 import MuiTableBody from '../table/MuiTableBody';
 
@@ -34,7 +34,7 @@ export default function TransactionAccordionWithFilter({
   const { id } = useParams();
 
   const [expanded, setExpanded] = useState(false);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('desc');
   const [orderBy, setOrderBy] = useState(headCells[0].id);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(keyName ? 10 : 5);
@@ -72,7 +72,10 @@ export default function TransactionAccordionWithFilter({
     setExpanded(!expanded);
   };
   const data = keyName ? response?.data?.[keyName] : response?.data?.results;
-  const visibleRows = useMemo(() => data, [data, order, orderBy, page, rowsPerPage]);
+  const visibleRows = useMemo(
+    () => getStableSort(data, order, orderBy, page, rowsPerPage),
+    [data, order, orderBy, page, rowsPerPage]
+  );
 
   return (
     <SectionLoader options={[response.isLoading]}>
