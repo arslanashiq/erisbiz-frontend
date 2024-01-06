@@ -57,6 +57,9 @@ function ItemDetail() {
       },
       { label: 'Cost Price', value: item?.cost_price },
       { label: 'Sale Price', value: item?.sale_price },
+      { label: 'Supplier', value: item?.supplier_name },
+      { label: 'Category', value: item?.category_name },
+      { label: 'Brand', value: item?.brand_name },
       { label: 'Description', value: item?.description },
     ];
     const stockInformation = [
