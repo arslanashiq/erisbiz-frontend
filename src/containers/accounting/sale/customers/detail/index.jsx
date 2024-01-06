@@ -84,7 +84,7 @@ function CustomerDetail() {
   const handleChangeActivityDuration = useCallback(value => {
     setActivityLogDuration(value?.toLowerCase());
   }, []);
-  const handleAddComment = payload => addComment({ comments: payload.comments, customer: Number(id) });
+  const handleAddComment = payload => addComment({ comments: payload.comments, customer_id: Number(id) });
   console.log(customerStatementResponse, 'customerStatementResponse');
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
