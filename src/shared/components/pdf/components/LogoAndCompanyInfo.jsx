@@ -1,16 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, Image } from '@react-pdf/renderer';
-import {
-  COMPANY_ADDRESS,
-  COMPANY_COUNTRY,
-  COMPANY_EMAIL,
-  COMPANY_NAME,
-  COMPANY_OFFICE_ADDRESS,
-  COMPANY_PHONE,
-  COMPANY_TRN,
-} from 'utilities/constants';
+
 import palette from 'styles/mui/theme/palette';
 
 const styles = StyleSheet.create({
@@ -86,7 +77,7 @@ function LogoAndCompanyInfo({ companyName, companyLogo, companyDetail, companyEm
               ...primaryColor,
             }}
           >
-            {companyName || COMPANY_NAME}
+            {companyName}
           </Text>
         </View>
         <View
@@ -101,34 +92,31 @@ function LogoAndCompanyInfo({ companyName, companyLogo, companyDetail, companyEm
               width: 350,
             }}
           >
-            {renderCompanyInfoData(
-              'TRN',
-              companyTRN,
-              {
-                width: 145,
-              },
-              {},
-              { maxWidth: 90 }
-            )}
-            {renderCompanyInfoData('Email', companyEmail, {}, {}, { maxWidth: 170 })}
+            {companyTRN &&
+              renderCompanyInfoData(
+                'TRN',
+                companyTRN,
+                {
+                  width: 145,
+                },
+                {},
+                { maxWidth: 90 }
+              )}
+            {companyEmail && renderCompanyInfoData('Email', companyEmail, {}, {}, { maxWidth: 170 })}
           </View>
           <View style={{ flexDirection: 'row' }}>
-            {renderCompanyInfoData(
-              'Phone',
-              companyDetail.phone,
-              {
-                width: 145,
-              },
-              {},
-              { maxWidth: 90 }
-            )}
-            {renderCompanyInfoData(
-              'Address',
-              companyDetail.location,
-              {},
-              {},
-              { maxWidth: 170 }
-            )}
+            {companyDetail.phone &&
+              renderCompanyInfoData(
+                'Phone',
+                companyDetail.phone,
+                {
+                  width: 145,
+                },
+                {},
+                { maxWidth: 90 }
+              )}
+            {companyDetail.location &&
+              renderCompanyInfoData('Address', companyDetail.location, {}, {}, { maxWidth: 170 })}
           </View>
         </View>
       </View>
