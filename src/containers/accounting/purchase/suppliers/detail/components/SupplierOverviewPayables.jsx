@@ -26,7 +26,7 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
           <h6 style={supplierOutstandingBalanceTitleStlye}>Outstanding Payables</h6>
           <h4 style={{ color: '#b81d1d', fontWeight: 'bold' }}>
             {currencySymbol}
-            {formatAmount(supplierDetail?.payables)}
+            {formatAmount(supplierDetail?.payables || supplierDetail?.outstanding_payables)}
           </h4>
         </Stack>
         <Divider
