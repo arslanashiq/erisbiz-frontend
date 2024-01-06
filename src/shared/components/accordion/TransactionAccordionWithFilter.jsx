@@ -35,7 +35,7 @@ export default function TransactionAccordionWithFilter({
 
   const [expanded, setExpanded] = useState(false);
   const [order, setOrder] = useState('desc');
-  const [orderBy, setOrderBy] = useState(headCells[0].id);
+  const [orderBy, setOrderBy] = useState(headCells[1].id);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(keyName ? 10 : 5);
   const [filter, setFilter] = useState(' ');
