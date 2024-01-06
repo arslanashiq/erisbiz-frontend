@@ -39,7 +39,7 @@ function PdfDoc({
           <TotalDetails
             orderDetail={orderDetail}
             orderInfo={orderInfo}
-            amountTotal={orderDetail.without_change_grand_total - orderDetail.without_change_vat_total}
+            amountTotal={orderDetail.without_change_amount_total}
             vatTotal={orderDetail.without_change_vat_total}
             grandTotal={orderDetail.without_change_grand_total}
             discountTotal={orderDetail.without_change_discount_total}

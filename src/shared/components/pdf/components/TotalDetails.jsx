@@ -99,7 +99,7 @@ function TotalDetails({
         </View>
 
         <View style={{ minWidth: 230, maxWidth: 230 }}>
-          {renderAmount('Sub Total', amountTotal + discountTotal)}
+          {renderAmount('Sub Total', amountTotal)}
           {renderAmount('Total Discount', discountTotal)}
           {renderAmount('VAT Amount', vatTotal)}
           {/* refunded */}
@@ -132,7 +132,7 @@ function TotalDetails({
                   marginBottom: 10,
                 }}
               >
-                Bank Detail
+                Bank Details:
               </Text>
               {renderBankDetail('Bank Name', orderInfo?.bankDetail?.bank_name)}
               {renderBankDetail('Account Holder Name', orderInfo?.bankDetail?.account_holder_name)}

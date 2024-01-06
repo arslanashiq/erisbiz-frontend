@@ -84,13 +84,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
                 <p>Sub Total:</p>
               </Box>
               <Box className="amounts">
-                <p>
-                  {formatAmount(
-                    (orderDetail.without_change_grand_total || 0) -
-                      (orderDetail.without_change_vat_tota || 0) +
-                      (orderDetail.without_change_discount_total || 0)
-                  )}
-                </p>
+                <p>{formatAmount(orderDetail.without_change_amount_total || 0)}</p>
               </Box>
             </Box>
           </Box>
@@ -173,7 +167,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
             <>
               <Grid item xs={12}>
                 <Typography color="primary" sx={{ fontWeight: 700, fontSize: 18, paddingBottom: 1 }}>
-                  Bank Detail
+                  Bank Details:
                 </Typography>
               </Grid>
               {renderBankDetails('Bank Name', orderInfo?.bankDetail?.bank_name)}
