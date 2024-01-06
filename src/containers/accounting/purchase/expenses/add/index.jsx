@@ -43,7 +43,7 @@ function AddExpense() {
 
   const { optionsList: bankOptions } = useListOptions(chartOfAccountListResponse?.data?.results, {
     label: 'account_name',
-    value: 'is',
+    value: 'id',
   });
   const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
     label: 'supplier_name',
