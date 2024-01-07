@@ -34,7 +34,12 @@ function CustomerOverview({
           />
         </Grid>
         <Grid item xs={12} lg={7} xl={8}>
-          <SupplierOverviewPayables currencySymbol={currencySymbol} supplierDetail={customerDetail} />
+          <SupplierOverviewPayables
+            currencySymbol={currencySymbol}
+            supplierDetail={customerDetail}
+            headCells={[]}
+            usegetUnUsedCreditQuery={() => {}}
+          />
           <SupplierOverviewCharts
             currencySymbol={currencySymbol}
             supplierDetail={customerDetail}

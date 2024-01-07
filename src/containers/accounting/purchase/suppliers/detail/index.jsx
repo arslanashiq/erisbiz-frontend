@@ -165,7 +165,13 @@ function SupplierDetail() {
             />
           )}
           {activeTab === 1 && <SupplierTransactions />}
-          {activeTab === 2 && <SupplierStatement basicInfo={basicInfo} transactions={transactions} />}
+          {activeTab === 2 && (
+            <SupplierStatement
+              basicInfo={basicInfo}
+              transactions={transactions}
+              personLink={`/pages/accounting/purchase/suppliers/${id}/detail`}
+            />
+          )}
           {activeTab === 3 && (
             <SupplierComment
               comments={supplierCommentResponse.data}

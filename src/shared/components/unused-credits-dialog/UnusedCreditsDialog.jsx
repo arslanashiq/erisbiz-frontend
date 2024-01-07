@@ -3,48 +3,13 @@ import PropTypes from 'prop-types';
 import { Box, Button, Card, CardContent, IconButton, Stack, Table, Typography } from '@mui/material';
 import StyledDialog from 'styles/mui/component/StyledDialog';
 import CloseIcon from '@mui/icons-material/Close';
-import { useGetSupplierUnusedCreditDetailsQuery } from 'services/private/suppliers';
 import { useParams } from 'react-router';
 import MuiTableHead from '../table/MuiTableHead';
 import MuiTableBody from '../table/MuiTableBody';
 
-const creditHeadCells = [
-  {
-    id: 'type',
-    numeric: false,
-    disablePadding: true,
-    label: 'Credit Info',
-    align: 'left',
-    isLink: true,
-    handleLink: row => {
-      if (row.type === 'Debit Note') {
-        return `/pages/accounting/purchase/debit-notes/${row.id}/detail`;
-      }
-      if (row.type === 'Excess Payment') {
-        return `/pages/accounting/purchase/payment-voucher/${row.id}/detail`;
-      }
-      return '#';
-    },
-  },
-  {
-    id: 'date',
-    numeric: false,
-    disablePadding: true,
-    label: 'Date Credited',
-    align: 'left',
-  },
-  {
-    id: 'amount_due',
-    numeric: false,
-    disablePadding: true,
-    label: 'Amount',
-    align: 'left',
-    mergeCell: true,
-  },
-];
-function UnusedCreditsDialog({ title, open, name, handleClose }) {
+function UnusedCreditsDialog({ title, open, name, handleClose, headCells, usegetUnUsedCreditQuery }) {
   const { id } = useParams();
-  const unusedCreditsResponse = useGetSupplierUnusedCreditDetailsQuery(id, { skip: !id });
+  const unusedCreditsResponse = usegetUnUsedCreditQuery(id, { skip: !id });
   return (
     <StyledDialog maxWidth={false} open={open} onClose={handleClose}>
       <Card>
@@ -62,7 +27,7 @@ function UnusedCreditsDialog({ title, open, name, handleClose }) {
           <Box>
             <Table>
               <MuiTableHead
-                headCells={creditHeadCells}
+                headCells={headCells}
                 customActionButton={[
                   {
                     title: '',
@@ -72,7 +37,7 @@ function UnusedCreditsDialog({ title, open, name, handleClose }) {
                 ]}
               />
               <MuiTableBody
-                headCells={creditHeadCells}
+                headCells={headCells}
                 dataList={unusedCreditsResponse?.data || []}
                 selected={[]}
                 customActionButton={[
@@ -99,10 +64,13 @@ UnusedCreditsDialog.propTypes = {
   handleClose: PropTypes.func,
   title: PropTypes.string,
   name: PropTypes.string,
+  headCells: PropTypes.array,
+  usegetUnUsedCreditQuery: PropTypes.func.isRequired,
 };
 UnusedCreditsDialog.defaultProps = {
   handleClose: () => {},
   title: 'Credit Details for',
   name: 'Supplier',
+  headCells: [],
 };
 export default UnusedCreditsDialog;

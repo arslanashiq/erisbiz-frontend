@@ -1,5 +1,3 @@
-import formatAmount from 'utilities/formatAmount';
-
 export const customersHeadCell = [
   {
     id: 'customer_name',
@@ -116,7 +114,7 @@ export const customerQuotationsHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'status',
@@ -150,7 +148,7 @@ export const customerSalesInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'amount_due',
@@ -158,7 +156,7 @@ export const customerSalesInvoiceHeadCells = [
     disablePadding: false,
     label: 'Balance Due',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'status',
@@ -192,7 +190,7 @@ export const customerReceiptVoucherInvoiceHeadCells = [
     disablePadding: false,
     label: 'Reference #',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'payment_mode',
@@ -207,7 +205,7 @@ export const customerReceiptVoucherInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'unused_amount',
@@ -215,7 +213,7 @@ export const customerReceiptVoucherInvoiceHeadCells = [
     disablePadding: false,
     label: 'Unused Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'status',
@@ -249,7 +247,7 @@ export const customerCreditNoteInvoiceHeadCells = [
     disablePadding: false,
     label: 'Reference #',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'credits_remaining',
@@ -257,7 +255,7 @@ export const customerCreditNoteInvoiceHeadCells = [
     disablePadding: false,
     label: 'Balance',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'grand_total',
@@ -265,7 +263,7 @@ export const customerCreditNoteInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -298,7 +296,7 @@ export const customerJournalsHeadCells = [
     disablePadding: false,
     label: 'Balance',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'credit',
@@ -306,6 +304,6 @@ export const customerJournalsHeadCells = [
     disablePadding: false,
     label: 'Reference #',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 ];

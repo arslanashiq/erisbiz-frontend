@@ -48,6 +48,14 @@ const creditNotesApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getCreditNotesList', 'getSingleCreditNote', 'getItemCreditNote'],
     }),
+
+    getCreditNoteJournals: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/credit/note/${id}/journals`,
+        method: 'GET',
+      }),
+      providesTags: ['getCreditNoteJournals'],
+    }),
   }),
 });
 
@@ -58,5 +66,6 @@ export const {
   useEditCreditNoteMutation,
   useDeleteCreditNoteMutation,
   useRefundCreditNoteMutation,
+  useGetCreditNoteJournalsQuery,
 } = creditNotesApi;
 export const test = '';

@@ -41,14 +41,14 @@ export const itemInventoryStockPosition = [
     id: 'item_name',
     numeric: false,
     disablePadding: true,
-    label: 'Category',
+    label: 'Item Name',
     align: 'left',
     isLink: true,
   },
   {
     id: 'item_stock',
     disablePadding: false,
-    label: 'Total Items',
+    label: 'Available Stock',
     align: 'left',
   },
 ];

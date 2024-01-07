@@ -24,7 +24,7 @@ import 'styles/template-style/template-styles.scss';
 import 'styles/purchase-order-template/purchase-order-template.scss';
 import AccountSummary from './AccountSummary';
 
-function SupplierStatement({ basicInfo, transactions }) {
+function SupplierStatement({ basicInfo, transactions, personLink }) {
   const { email, company: companyData } = useSelector(state => state.user);
   const {
     name: companyName,
@@ -65,7 +65,7 @@ function SupplierStatement({ basicInfo, transactions }) {
           email={email}
           company={companyData}
         />
-        <AccountSummary currencySymbol={currencySymbol} basicInfo={basicInfo} />
+        <AccountSummary personLink={personLink} currencySymbol={currencySymbol} basicInfo={basicInfo} />
         <Box>
           <table
             style={supplierStatementTable}
@@ -172,9 +172,11 @@ function SupplierStatement({ basicInfo, transactions }) {
 SupplierStatement.propTypes = {
   transactions: PropTypes.array,
   basicInfo: PropTypes.object,
+  personLink: PropTypes.string,
 };
 SupplierStatement.defaultProps = {
   transactions: [],
   basicInfo: {},
+  personLink: '',
 };
 export default SupplierStatement;

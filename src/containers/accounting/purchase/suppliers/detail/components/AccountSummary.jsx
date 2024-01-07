@@ -2,16 +2,13 @@ import React from 'react';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
-function AccountSummary({ currencySymbol, basicInfo }) {
+function AccountSummary({ currencySymbol, basicInfo, personLink }) {
   return (
     <Box className="d-flex justify-content-between">
       <Box className="d-flex align-items-center">
         <Box className="w-100">
           <p className="font-weight-bold m-0 p-0">To</p>
-          <a
-            href={`/pages/accounting/purchase/suppliers/${basicInfo.supplierId}/detail`}
-            className="font-weight-bold m-0 p-0"
-          >
+          <a href={personLink} className="font-weight-bold m-0 p-0">
             {basicInfo.supplierName}
           </a>
           <p className="m-0 p-0">{basicInfo.supplierAddress}</p>
@@ -78,9 +75,11 @@ function AccountSummary({ currencySymbol, basicInfo }) {
 AccountSummary.propTypes = {
   currencySymbol: PropTypes.string,
   basicInfo: PropTypes.object,
+  personLink: PropTypes.string,
 };
 AccountSummary.defaultProps = {
   currencySymbol: 'AED',
   basicInfo: {},
+  personLink: '',
 };
 export default AccountSummary;

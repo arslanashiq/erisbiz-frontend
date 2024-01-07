@@ -1,13 +1,15 @@
-import { Card, CardContent } from '@mui/material';
-import SectionLoader from 'containers/common/loaders/SectionLoader';
-import moment from 'moment';
-import { useSnackbar } from 'notistack';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import moment from 'moment';
+import { v4 as uuid } from 'uuid';
+import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
+import { Card, CardContent, Grid } from '@mui/material';
+import SectionLoader from 'containers/common/loaders/SectionLoader';
 
 // services
 import {
   useDeleteCreditNoteMutation,
+  useGetCreditNoteJournalsQuery,
   useGetSingleCreditNoteQuery,
   useRefundCreditNoteMutation,
 } from 'services/private/credit-notes';
@@ -18,6 +20,7 @@ import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
+import JournalTable from 'shared/components/accordion/JournalTable';
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
 
@@ -27,6 +30,7 @@ function CreditNoteDetail() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const [defaultExpanded, setDefaultExpanded] = useState(false);
   const [openRefundModal, setOpenRefundModal] = useState(false);
   const [openApplyToInvoiceModal, setOpenApplyToInvoiceModal] = useState(false);
   const [applyToInvoiceInitialValues, setApplyToInvoiceInitialValues] = useState([]);
@@ -36,6 +40,7 @@ function CreditNoteDetail() {
   });
 
   const creditNoteDetailResponse = useGetSingleCreditNoteQuery(id);
+  const creditNoteJournalsReponse = useGetCreditNoteJournalsQuery(id);
 
   const [refundCreditNote] = useRefundCreditNoteMutation();
   const [getUnpaidInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
@@ -115,6 +120,14 @@ function CreditNoteDetail() {
             infoDescription: 'Are you sure you want to delete?',
             showActionButton: true,
           });
+        },
+      },
+      {
+        label: 'View Journal',
+        handleClick: () => {
+          setDefaultExpanded(true);
+          const Journal = document.getElementById('Journal');
+          Journal.scrollIntoView({ behavior: 'smooth' });
         },
       },
     ];
@@ -221,6 +234,19 @@ function CreditNoteDetail() {
             keyValue={keyValue}
             orderDetail={creditNoteDetailResponse.data}
           />
+          {creditNoteJournalsReponse?.data?.credit_note_journal_items && (
+            <Grid container>
+              <Grid item xs={12} style={{ maxWidth: 900, margin: '20px auto' }}>
+                <Grid marginTop={4} id="Journal">
+                  <JournalTable
+                    key={uuid()}
+                    defaultValue={defaultExpanded}
+                    journalItems={creditNoteJournalsReponse?.data?.credit_note_journal_items}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+          )}
         </CardContent>
       </Card>
     </SectionLoader>

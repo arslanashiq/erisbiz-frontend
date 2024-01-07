@@ -52,7 +52,7 @@ export const journalVoucherHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
   },
   {
     id: 'updated_by',

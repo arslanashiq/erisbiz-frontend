@@ -15,7 +15,7 @@ export const taxReturnsHeadCell = [
     disablePadding: true,
     label: 'Total Tax Payable',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
     // cellValueAction: tax => formatAmount(tax),
   },
   {
@@ -24,7 +24,7 @@ export const taxReturnsHeadCell = [
     disablePadding: false,
     label: 'Balance Due',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
   },
 
   {
@@ -67,6 +67,6 @@ export const taxReturnsPaymentsHeadCell = [
     disablePadding: false,
     label: 'Amount Paid',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
   },
 ];

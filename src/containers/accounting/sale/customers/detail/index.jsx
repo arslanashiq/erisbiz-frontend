@@ -18,7 +18,9 @@ import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWr
 // containers
 import SupplierComment from 'containers/accounting/purchase/suppliers/detail/components/SupplierComment';
 import SupplierStatement from 'containers/accounting/purchase/suppliers/detail/components/SupplierStatement';
+import useSupplierStatement from 'containers/accounting/purchase/suppliers/utilities/custom-hooks/useSupplierStatement';
 
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import CustomerContactPage from './components/CustomerContactPage';
 import CustomerOverview from './components/CustomerOverview';
 import CustomerTransactions from './components/CustomerTransactions';
@@ -29,6 +31,7 @@ function CustomerDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { duration } = getSearchParamsList();
 
   const [addComment] = useAddCustomerCommentMutation();
   const [deleteComment] = useDeleteCustomerCommentMutation();
@@ -86,7 +89,12 @@ function CustomerDetail() {
     setActivityLogDuration(value?.toLowerCase());
   }, []);
   const handleAddComment = payload => addComment({ comments: payload.comments, customer_id: Number(id) });
-  console.log(customerStatementResponse, 'customerStatementResponse');
+
+  const { basicInfo, transactions } = useSupplierStatement(
+    customerStatementResponse?.data || {},
+    customerStatementResponse?.data?.transactions || [],
+    duration
+  );
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
       <DetailPageHeader
@@ -112,7 +120,7 @@ function CustomerDetail() {
             />
           )}
           {activeTab === 1 && <CustomerTransactions />}
-          {activeTab === 2 && <SupplierStatement basicInfo={customerDetailResponse} transactions={[]} />}
+          {activeTab === 2 && <SupplierStatement basicInfo={basicInfo} transactions={transactions} personLink={`/pages/accounting/sales/customers/${id}/detail`} />}
 
           {activeTab === 3 && (
             <SupplierComment

@@ -1,5 +1,3 @@
-import formatAmount from 'utilities/formatAmount';
-
 export const supplierHeadCells = [
   {
     id: 'supplier_name',
@@ -45,7 +43,7 @@ export const supplierHeadCells = [
     disablePadding: false,
     label: 'Payables',
     align: 'left',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
 ];
 
@@ -65,7 +63,7 @@ export const supplierOpeningBalanceTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'bcy_sales_amount',
@@ -73,7 +71,7 @@ export const supplierOpeningBalanceTransactionHeadCells = [
     disablePadding: false,
     label: 'Balance Due',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -109,7 +107,7 @@ export const supplierPurchaseOrderTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -151,7 +149,7 @@ export const supplierBillTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'amount_due',
@@ -159,7 +157,7 @@ export const supplierBillTransactionHeadCells = [
     disablePadding: false,
     label: 'Balance Due',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'status',
@@ -198,7 +196,7 @@ export const supplierJournalTransactionHeadCells = [
     disablePadding: false,
     label: 'Debit',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -207,7 +205,7 @@ export const supplierJournalTransactionHeadCells = [
     disablePadding: false,
     label: 'Credit',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 ];
 export const supplierPaymentVoucherTransactionHeadCells = [
@@ -248,7 +246,7 @@ export const supplierPaymentVoucherTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount Paid',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -257,7 +255,7 @@ export const supplierPaymentVoucherTransactionHeadCells = [
     disablePadding: false,
     label: 'Unused Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 ];
 export const supplierDebitNoteTransactionHeadCells = [
@@ -290,7 +288,7 @@ export const supplierDebitNoteTransactionHeadCells = [
     disablePadding: false,
     label: 'Balance',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -299,7 +297,7 @@ export const supplierDebitNoteTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'status',
@@ -338,7 +336,7 @@ export const supplierExpenseTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
   {
     id: 'status',
@@ -386,5 +384,40 @@ export const supplierContactHeadCells = [
     disablePadding: false,
     label: 'Remarks',
     align: 'left',
+  },
+];
+
+export const supplierUnusedCreditHeadCells = [
+  {
+    id: 'type',
+    numeric: false,
+    disablePadding: true,
+    label: 'Credit Info',
+    align: 'left',
+    isLink: true,
+    handleLink: row => {
+      if (row.type === 'Debit Note') {
+        return `/pages/accounting/purchase/debit-notes/${row.id}/detail`;
+      }
+      if (row.type === 'Excess Payment') {
+        return `/pages/accounting/purchase/payment-voucher/${row.id}/detail`;
+      }
+      return '#';
+    },
+  },
+  {
+    id: 'date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date Credited',
+    align: 'left',
+  },
+  {
+    id: 'amount_due',
+    numeric: false,
+    disablePadding: true,
+    label: 'Amount',
+    align: 'left',
+    formatAmount: true,
   },
 ];

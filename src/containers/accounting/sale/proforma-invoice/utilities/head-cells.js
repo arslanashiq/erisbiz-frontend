@@ -1,4 +1,3 @@
-import formatAmount from 'utilities/formatAmount';
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
 export const proformaInvoiceHeadCell = [
@@ -55,7 +54,7 @@ export const proformaInvoiceHeadCell = [
     disablePadding: false,
     label: 'Gross Total',
     align: 'left',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
   {
     id: 'without_change_vat_total',
@@ -63,7 +62,7 @@ export const proformaInvoiceHeadCell = [
     disablePadding: false,
     label: 'VAT',
     align: 'left',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
   {
     id: 'without_change_grand_total',
@@ -71,7 +70,7 @@ export const proformaInvoiceHeadCell = [
     disablePadding: false,
     label: 'Total',
     align: 'left',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
 ];
 

@@ -1,7 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable react/jsx-filename-extension */
 import { Link } from 'react-router-dom';
-import formatAmount from 'utilities/formatAmount';
 
 export const PaymentVoucherHeadCells = [
   {
@@ -43,14 +42,14 @@ export const PaymentVoucherHeadCells = [
     disablePadding: true,
     align: 'left',
     label: 'Amount',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
   {
     id: 'over_payment',
     disablePadding: true,
     align: 'left',
     label: 'Unused Amount',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
 ];
 

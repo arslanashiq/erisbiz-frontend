@@ -47,7 +47,7 @@ export const chartOfAccountDetailTableHeadCells = [
     disablePadding: false,
     label: 'Debit',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
   },
 
   {
@@ -55,7 +55,7 @@ export const chartOfAccountDetailTableHeadCells = [
     disablePadding: false,
     label: 'Credit',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
   },
 ];
 export const chartOfAccountCompleteDetailTableHeadCells = [
@@ -104,7 +104,7 @@ export const chartOfAccountCompleteDetailTableHeadCells = [
     disablePadding: false,
     label: 'DEBIT',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
     isLink: true,
     handleLink: row => `/pages/accounting/purchase/payment-voucher/${row.object_id}/detail`,
   },
@@ -113,7 +113,7 @@ export const chartOfAccountCompleteDetailTableHeadCells = [
     disablePadding: false,
     label: 'Credit',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
     isLink: true,
     handleLink: row => `/pages/accounting/purchase/payment-voucher/${row.object_id}/detail`,
   },
@@ -122,7 +122,7 @@ export const chartOfAccountCompleteDetailTableHeadCells = [
     disablePadding: false,
     label: 'AMOUNT',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
     isLink: true,
     handleLink: row => `/pages/accounting/purchase/payment-voucher/${row.object_id}/detail`,
   },

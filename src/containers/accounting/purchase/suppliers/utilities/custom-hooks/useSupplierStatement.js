@@ -43,12 +43,24 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
     return '';
   };
   useEffect(() => {
-    const amountTypes = ['Bill', 'Debit Note Refund'];
+    const amountTypes = [
+      // purchase
+      'Bill',
+      'Debit Note Refund',
+      // sales
+      'Invoice',
+      'Credit Note Refund',
+    ];
     const paymentTypes = [
+      // purchae
       'Supplier Payment',
       'Supplier Opening Balance Payment',
       'Bill Payment',
       'Debit Note',
+
+      // sale
+      'Invoice Payments',
+      'Credit Note',
     ];
 
     if (supplierStatement.is_credit) {
@@ -115,7 +127,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
 
   const basicInfo = {
     supplierId: supplierStatement.id,
-    supplierName: supplierStatement.supplier_name,
+    supplierName: supplierStatement.supplier_name || supplierStatement.customer_name,
     supplierAddress: supplierStatement.bill_addr_street_one,
     supplierCity: supplierStatement.bill_addr_city,
     supplierState: supplierStatement.bill_addr_state,

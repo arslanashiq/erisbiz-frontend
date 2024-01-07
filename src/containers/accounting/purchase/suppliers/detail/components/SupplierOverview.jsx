@@ -1,13 +1,16 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
-// components
 import { useParams } from 'react-router';
+// components
+import { useGetSupplierUnusedCreditDetailsQuery } from 'services/private/suppliers';
+
 import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
 import SupplierOverviewPayables from './SupplierOverviewPayables';
 import useSupplierDetail from '../../utilities/custom-hooks/useSupplierDetail';
+import { supplierUnusedCreditHeadCells } from '../../utilities/head-cells';
 
 function SupplierOverview({
   basicInfo,
@@ -38,6 +41,8 @@ function SupplierOverview({
             currencySymbol={currencySymbol}
             supplierDetail={supplierDetail}
             basicInfo={basicInfo}
+            headCells={supplierUnusedCreditHeadCells}
+            usegetUnUsedCreditQuery={useGetSupplierUnusedCreditDetailsQuery}
           />
           <SupplierOverviewCharts
             currencySymbol={currencySymbol}

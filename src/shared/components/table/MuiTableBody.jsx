@@ -6,6 +6,7 @@ import { Box, Button, Checkbox, TableBody, TableCell, TableRow } from '@mui/mate
 import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
 import { useSelector } from 'react-redux';
+import formatAmount from 'utilities/formatAmount';
 
 function MuiTableBody({
   dataList,
@@ -55,6 +56,9 @@ function MuiTableBody({
     // for custom actions based on values values
     if (cell.cellValueAction) {
       return cell.cellValueAction(row[cell.id], currencySymbol, row);
+    }
+    if (cell.formatAmount) {
+      return formatAmount(row[cell.id]);
     }
     // for null or undefined values
     if (row[cell.id] === null || row[cell.id] === undefined) {

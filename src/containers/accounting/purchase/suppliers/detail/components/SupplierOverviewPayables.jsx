@@ -10,16 +10,18 @@ import {
 import formatAmount from 'utilities/formatAmount';
 import UnusedCreditsDialog from 'shared/components/unused-credits-dialog/UnusedCreditsDialog';
 
-function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
+function SupplierOverviewPayables({ currencySymbol, supplierDetail, headCells, usegetUnUsedCreditQuery }) {
   const [openUnusedCreditDetailModal, setOpenUnusedCreditDetailModal] = useState(false);
 
   return (
     <Grid item xs={12} lg={12} sx={supplierOverviewPayableGridStyle}>
       <UnusedCreditsDialog
         open={openUnusedCreditDetailModal}
+        headCells={headCells}
         handleClose={() => {
           setOpenUnusedCreditDetailModal(false);
         }}
+        usegetUnUsedCreditQuery={usegetUnUsedCreditQuery}
       />
       <Stack className="w-100" direction="row" spacing={3}>
         <Stack className="w-100">
@@ -73,9 +75,12 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail }) {
 SupplierOverviewPayables.propTypes = {
   supplierDetail: PropTypes.object,
   currencySymbol: PropTypes.string,
+  headCells: PropTypes.array,
+  usegetUnUsedCreditQuery: PropTypes.func.isRequired,
 };
 SupplierOverviewPayables.defaultProps = {
   supplierDetail: [],
   currencySymbol: 'AED',
+  headCells: [],
 };
 export default SupplierOverviewPayables;

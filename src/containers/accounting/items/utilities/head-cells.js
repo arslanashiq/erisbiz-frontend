@@ -1,7 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 
 import { Typography } from '@mui/material';
-import formatAmount from 'utilities/formatAmount';
 
 /* eslint-disable react/jsx-filename-extension */
 export const itemsHeadCell = [
@@ -116,7 +115,7 @@ export const itemQuotationTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'center',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -154,7 +153,7 @@ export const itemProformaInvoiceTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'center',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -192,7 +191,7 @@ export const itemInvoiceTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'center',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -229,7 +228,7 @@ export const itemCreditNoteTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'center',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -273,7 +272,7 @@ export const itemPurchaseOrderTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -317,7 +316,7 @@ export const itemBillTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
   },
 
   {
@@ -360,7 +359,7 @@ export const itemDebitNoteTransactionHeadCells = [
     numeric: true,
     disablePadding: false,
     label: 'Amount',
-    cellValueAction: value => formatAmount(value),
+    formatAmount: true,
     align: 'left',
   },
 

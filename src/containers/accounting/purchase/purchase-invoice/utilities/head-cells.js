@@ -56,7 +56,7 @@ export const purchaseInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
   },
 ];
 
@@ -100,7 +100,7 @@ export const paymentsAgainstPurchaseInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    formatAmount: true,
   },
 ];
 export const purchaseDebitNoteAgainstPurchaseInvoiceHeadCells = [

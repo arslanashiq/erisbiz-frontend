@@ -1,4 +1,3 @@
-import formatAmount from 'utilities/formatAmount';
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
 export const supplierCreditHeadCells = [
@@ -48,7 +47,7 @@ export const supplierCreditHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
   {
     id: 'credits_remaining_debitnote_currency',
@@ -56,7 +55,7 @@ export const supplierCreditHeadCells = [
     disablePadding: false,
     label: 'Balance',
     align: 'left',
-    cellValueAction: (value, currencySymbol) => `${currencySymbol}${formatAmount(value)}`,
+    formatAmount: true,
   },
 ];
 
