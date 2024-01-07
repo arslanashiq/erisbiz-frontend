@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable prefer-const */
 import { Card, CardContent, Grid } from '@mui/material';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -139,10 +137,10 @@ function SaleInvoiceDetailPage() {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
           const canDelete = status === 'draft';
-          // if (!canDelete) {
-          //   infoDescription = 'Cannot delete  this Sale Invoice because its status is not draft';
-          //   showActionButton = false;
-          // }
+          if (!canDelete) {
+            infoDescription = 'Cannot delete  this Sale Invoice because its status is not draft';
+            showActionButton = false;
+          }
 
           setOpenInfoPopup({
             ...openInfoPopup,
