@@ -60,7 +60,12 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
     `${name}.${index}.cost_price`,
     selectedItem[0].weighted_cost_price || selectedItem[0].cost_price
   );
-  setFieldValue(`${name}.${index}.remaining_stock`, selectedItem[0].remaining_stock);
+  if (selectedItem[0].item_type === 'Goods') {
+    setFieldValue(`${name}.${index}.remaining_stock`, selectedItem[0].remaining_stock);
+  } else {
+    setFieldValue(`${name}.${index}.remaining_stock`, 0);
+  }
+
   const newValues = {
     ...values,
     service_type: selectedItem[0].value,
@@ -194,15 +199,21 @@ export const handleGetFormatedItemsData = itemsList => {
   }
   return [];
 };
+const getRemainingStock = (currentItem, singleItem, addexistingQuantity) => {
+  if (singleItem?.item_service_type === 'Goods') {
+    return addexistingQuantity
+      ? (currentItem?.remaining_stock || 0) + (singleItem?.num_nights || 0)
+      : currentItem?.remaining_stock || 0;
+  }
+  return 0;
+};
 export const handleGetItemWithRemainingStock = (itemsList, itemsListOptions, addexistingQuantity = false) => {
   if (itemsListOptions?.length > 0 && itemsList?.length > 0) {
     const updatedItemsList = itemsList.map(singleItem => {
       const currentItem = itemsListOptions.filter(item => item.label === singleItem.service_type)[0];
       return {
         ...singleItem,
-        remaining_stock: addexistingQuantity
-          ? (currentItem?.remaining_stock || 0) + (singleItem?.num_nights || 0)
-          : currentItem?.remaining_stock || 0,
+        remaining_stock: getRemainingStock(currentItem, singleItem, addexistingQuantity),
       };
     });
     return updatedItemsList;
