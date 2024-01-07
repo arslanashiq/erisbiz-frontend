@@ -1,3 +1,5 @@
+import formatAmount from 'utilities/formatAmount';
+
 export const customersHeadCell = [
   {
     id: 'customer_name',
@@ -147,7 +149,7 @@ export const customerSalesInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'amount_due',
@@ -155,7 +157,7 @@ export const customerSalesInvoiceHeadCells = [
     disablePadding: false,
     label: 'Balance Due',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'status',
@@ -189,7 +191,7 @@ export const customerReceiptVoucherInvoiceHeadCells = [
     disablePadding: false,
     label: 'Reference #',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'payment_mode',
@@ -204,7 +206,7 @@ export const customerReceiptVoucherInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'unused_amount',
@@ -212,7 +214,7 @@ export const customerReceiptVoucherInvoiceHeadCells = [
     disablePadding: false,
     label: 'Unused Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'status',
@@ -246,7 +248,7 @@ export const customerCreditNoteInvoiceHeadCells = [
     disablePadding: false,
     label: 'Reference #',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'credits_remaining',
@@ -254,7 +256,7 @@ export const customerCreditNoteInvoiceHeadCells = [
     disablePadding: false,
     label: 'Balance',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'grand_total',
@@ -262,7 +264,7 @@ export const customerCreditNoteInvoiceHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 
   {
@@ -295,7 +297,7 @@ export const customerJournalsHeadCells = [
     disablePadding: false,
     label: 'Balance',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'credit',
@@ -303,6 +305,6 @@ export const customerJournalsHeadCells = [
     disablePadding: false,
     label: 'Reference #',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 ];

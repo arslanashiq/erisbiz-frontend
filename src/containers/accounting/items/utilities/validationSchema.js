@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 export const itemFormValidationSchema = Yup.object({
   item_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Item Name is required'),
   sku_hs_code: Yup.string(),
-  category: Yup.string().required('Category is required'),
   sale_price: Yup.number('Must be a number')
     .positive('Must be Positive Number')
     .required('Sale price is required'),
@@ -17,9 +16,22 @@ export const itemFormValidationSchema = Yup.object({
   unit: Yup.string(),
   recorder: Yup.string(),
   description: Yup.string(),
-  // item_image: Yup.o(),
   part_number: Yup.string(),
-  supplier: Yup.number().positive().required('Supplier is required'),
-  brand: Yup.string().required('Brand is required'),
+
+  brand: Yup.string().when('item_type', {
+    is: 'Goods',
+    then: () => Yup.string().required('Brand is required'),
+  }),
+  category: Yup.string().when('item_type', {
+    is: 'Goods',
+    then: () => Yup.string().required('Category is required'),
+  }),
+
+  supplier: Yup.number()
+    .positive()
+    .when('item_type', {
+      is: 'Goods',
+      then: () => Yup.number().positive().required('Supplier is required'),
+    }),
 });
 export const test = '';

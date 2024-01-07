@@ -104,6 +104,7 @@ function AddItemPage() {
   const handleAddNewData = (link, values) => {
     navigate(link, {
       state: { backUrl: window.location.pathname, initialValues: values },
+      replace: true,
     });
   };
   const updatedInitialValues = useMemo(() => {
@@ -246,7 +247,7 @@ function AddItemPage() {
                       handleAddNewData('/pages/accounting/purchase/suppliers/add', values);
                     }}
                     addNewButtonLabel="Supplier"
-                    isRequired
+                    isRequired={values.item_type === 'Goods'}
                   />
 
                   <FormikSelect
@@ -255,7 +256,7 @@ function AddItemPage() {
                     options={brandsOptions}
                     label="Brand"
                     className="col-12"
-                    isRequired
+                    isRequired={values.item_type === 'Goods'}
                     addNewButtonAction={() => {
                       handleAddNewData('/pages/accounting/brands/add', values);
                     }}
@@ -267,7 +268,7 @@ function AddItemPage() {
                     options={categoryOptions}
                     label="Category"
                     className="col-12"
-                    isRequired
+                    isRequired={values.item_type === 'Goods'}
                     addNewButtonAction={() => {
                       handleAddNewData('/pages/accounting/category/add', values);
                     }}

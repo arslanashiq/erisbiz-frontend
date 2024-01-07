@@ -11,7 +11,7 @@ import {
   supplierBillTransactionHeadCells,
   supplierDebitNoteTransactionHeadCells,
   supplierExpenseTransactionHeadCells,
-  supplierJournalTransactionHeadCells,
+  // supplierJournalTransactionHeadCells,
   supplierOpeningBalanceTransactionHeadCells,
   supplierPaymentVoucherTransactionHeadCells,
   supplierPurchaseOrderTransactionHeadCells,
@@ -44,7 +44,7 @@ function SupplierTransactions() {
         //   FiltersList={quotationFilterList}
         addNewRoute="/pages/accounting/purchase/purchase-invoice/add"
       />
-      <TransactionAccordionWithFilter
+      {/* <TransactionAccordionWithFilter
         title="Journals"
         fetchData={useGetSupplierTransactionsQuery}
         keyName="journals"
@@ -70,7 +70,7 @@ function SupplierTransactions() {
         //   const sortedJournals = handleGetSortedData(journalObject, sortedJournalsArrayForPurchase);
         //   return sortedJournals;
         // }}
-      />
+      /> */}
       <TransactionAccordionWithFilter
         title="Payment Voucher"
         fetchData={useGetSupplierTransactionsQuery}

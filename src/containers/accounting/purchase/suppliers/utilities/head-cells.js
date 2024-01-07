@@ -65,7 +65,7 @@ export const supplierOpeningBalanceTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'bcy_sales_amount',
@@ -73,7 +73,7 @@ export const supplierOpeningBalanceTransactionHeadCells = [
     disablePadding: false,
     label: 'Balance Due',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 
   {
@@ -109,7 +109,7 @@ export const supplierPurchaseOrderTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 
   {
@@ -151,7 +151,7 @@ export const supplierBillTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'amount_due',
@@ -159,7 +159,7 @@ export const supplierBillTransactionHeadCells = [
     disablePadding: false,
     label: 'Balance Due',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'status',
@@ -198,7 +198,7 @@ export const supplierJournalTransactionHeadCells = [
     disablePadding: false,
     label: 'Debit',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 
   {
@@ -207,7 +207,7 @@ export const supplierJournalTransactionHeadCells = [
     disablePadding: false,
     label: 'Credit',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 ];
 export const supplierPaymentVoucherTransactionHeadCells = [
@@ -248,7 +248,7 @@ export const supplierPaymentVoucherTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount Paid',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 
   {
@@ -257,7 +257,7 @@ export const supplierPaymentVoucherTransactionHeadCells = [
     disablePadding: false,
     label: 'Unused Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 ];
 export const supplierDebitNoteTransactionHeadCells = [
@@ -290,7 +290,7 @@ export const supplierDebitNoteTransactionHeadCells = [
     disablePadding: false,
     label: 'Balance',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
 
   {
@@ -299,7 +299,7 @@ export const supplierDebitNoteTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'status',
@@ -338,7 +338,7 @@ export const supplierExpenseTransactionHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
-    mergeCell: true,
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'status',
