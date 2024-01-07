@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
+import { supplierUnusedCreditHeadCells } from 'containers/accounting/purchase/suppliers/utilities/head-cells';
 import SupplierOverviewCard from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCard';
 import SupplierOverviewPayables from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewPayables';
 import SupplierOverviewCharts from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCharts';
@@ -37,7 +38,7 @@ function CustomerOverview({
           <SupplierOverviewPayables
             currencySymbol={currencySymbol}
             supplierDetail={customerDetail}
-            headCells={[]}
+            headCells={supplierUnusedCreditHeadCells}
             usegetUnUsedCreditQuery={() => {}}
           />
           <SupplierOverviewCharts
