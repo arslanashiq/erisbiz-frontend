@@ -36,7 +36,7 @@ function OrderReceipt({
   const renderOrderInfo = (data, key, title, isDate, titleColumn = 4, valueColumn = 7) => {
     if (!data[key]) return;
     return (
-      <>
+      <Grid item container xs={12}>
         <Grid item xs={titleColumn}>
           <Typography color="primary" sx={{ fontWeight: 600, fontSize: 14 }}>
             {title}
@@ -47,7 +47,7 @@ function OrderReceipt({
             {isDate ? moment(data[key]).format('DD MMMM YYYY') : data[key]}
           </Typography>
         </Grid>
-      </>
+      </Grid>
     );
   };
 
@@ -78,7 +78,7 @@ function OrderReceipt({
             email={email}
             company={company}
           />
-          <Grid container>
+          <Grid container display="flex" alignItems="start">
             <Grid item xs={12}>
               <Typography color="primary" sx={{ fontWeight: 800, fontSize: 35 }}>
                 {orderInfo.type}
@@ -86,14 +86,14 @@ function OrderReceipt({
               <Divider sx={{ height: '2px', backgroundColor: palette.primary.main, marginBottom: 1 }} />
             </Grid>
 
-            <Grid container item xs={7}>
+            <Grid container item xs={7} display="flex" alignItems="start">
               <Grid item xs={12}>
                 <Typography color="primary" sx={{ fontWeight: 700, fontSize: 18 }}>
                   Invoice To
                 </Typography>
               </Grid>
 
-              <Grid container>
+              <Grid container item xs={12} display="flex" alignItems="start">
                 {/* trn */}
                 {renderOrderInfo(customerInfo, 'trn', 'TRN #')}
                 {/* attention to */}
@@ -111,25 +111,27 @@ function OrderReceipt({
                 {renderOrderInfo(customerInfo, 'po_box', 'PO Box #')}
               </Grid>
             </Grid>
-            <Grid container item xs={5}>
+            <Grid container item xs={5} display="flex" alignItems="start">
               <Grid item xs={12}>
                 <Typography color="primary" sx={{ fontWeight: 700, fontSize: 18 }}>
                   Information
                 </Typography>
               </Grid>
 
-              {/* invoice # */}
-              {renderOrderInfo(
-                orderInfo,
-                'formated_order_number',
-                `${orderInfo.informationTo || orderInfo.type} #`,
-                false,
-                6,
-                6
-              )}
-              {renderOrderInfo(orderInfo, 'date', 'Date', true, 6, 6)}
-              {renderOrderInfo(orderInfo, 'sale_person', 'Sale Person', false, 6, 6)}
-              {renderOrderInfo(orderInfo, 'currency_symbol', 'Currency', false, 6, 6)}
+              <Grid container item xs={12} display="flex" alignItems="start">
+                {/* invoice # */}
+                {renderOrderInfo(
+                  orderInfo,
+                  'formated_order_number',
+                  `${orderInfo.informationTo || orderInfo.type} #`,
+                  false,
+                  6,
+                  6
+                )}
+                {renderOrderInfo(orderInfo, 'date', 'Date', true, 6, 6)}
+                {renderOrderInfo(orderInfo, 'sale_person', 'Sale Person', false, 6, 6)}
+                {renderOrderInfo(orderInfo, 'currency_symbol', 'Currency', false, 6, 6)}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
