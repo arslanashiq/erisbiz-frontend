@@ -179,6 +179,7 @@ export const handleGetFormatedItemsData = itemsList => {
       service_type_name: item.service_type_name,
       num_units: item.num_nights,
       num_nights: item.num_nights,
+      item_service_type: item.item_service_type,
       unit_price_ex_vat: item.unit_price_ex_vat,
       gross_amount: item.gross_amount,
       discount: item.discount,
