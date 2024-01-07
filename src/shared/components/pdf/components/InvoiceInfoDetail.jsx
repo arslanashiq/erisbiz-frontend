@@ -18,7 +18,7 @@ function InvoiceInfoDetail({ orderInfo }) {
         <View
           style={{
             flexDirection: 'row',
-            maxWidth: 180,
+            maxWidth: 230,
             marginBottom: 2,
           }}
         >
@@ -27,7 +27,7 @@ function InvoiceInfoDetail({ orderInfo }) {
               fontSize: 11,
               ...boldFont,
               ...primaryColor,
-              minWidth: 100,
+              minWidth: 115,
             }}
           >
             {title}
@@ -105,7 +105,10 @@ function InvoiceInfoDetail({ orderInfo }) {
                 Information
               </Text>
               <View style={{ marginTop: 4 }}>
-                {renderInvoiceInfo(`${orderInfo.type} #`, orderInfo.formated_order_number)}
+                {renderInvoiceInfo(
+                  `${orderInfo.informationTo || orderInfo.type} #`,
+                  orderInfo.formated_order_number
+                )}
                 {renderInvoiceInfo('Date', orderInfo.date)}
                 {renderInvoiceInfo('Sale Person', orderInfo.sale_person)}
                 {renderInvoiceInfo('Currency', orderInfo.currency_symbol)}

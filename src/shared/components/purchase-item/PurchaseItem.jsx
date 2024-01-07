@@ -59,7 +59,6 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
     }
     return input?.disabled || false;
   };
-
   return (
     <Box width="100%">
       <TableContainer sx={{ overflow: 'auto', minHeight: 'auto' }}>

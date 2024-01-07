@@ -97,6 +97,7 @@ function AddSupplierCredit() {
         ...PurchaseItemInputList.service_type,
         options: itemsListOptions || [],
         onChange: handleChangePurchaseItem,
+        disabled: true,
       },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
       { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },

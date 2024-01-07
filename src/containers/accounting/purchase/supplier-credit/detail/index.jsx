@@ -49,8 +49,9 @@ function SupplierCreditDetail() {
   const orderInfo = useMemo(
     () => ({
       type: 'Purchase Debit Note',
+      // informationTo: 'Purchase DN',
       formated_order_number: supplierCreditResponse?.data?.supplier_credit_formatted_number || '',
-      date: supplierCreditResponse?.data?.invoice_date || '',
+      date: supplierCreditResponse?.data?.supplier_credit_date || '',
       supplier: supplierCreditResponse?.data?.supplier || {},
       location: supplierCreditResponse?.data?.location || '',
       invoiceToDetail: {

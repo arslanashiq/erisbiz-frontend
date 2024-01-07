@@ -33,16 +33,16 @@ function OrderReceipt({
   const { company, email } = useSelector(state => state.user);
   const { name: companyName, logo: companyLogo, trn: companyTRN } = company;
 
-  const renderOrderInfo = (data, key, title, isDate) => {
+  const renderOrderInfo = (data, key, title, isDate, titleColumn = 4, valueColumn = 7) => {
     if (!data[key]) return;
     return (
       <>
-        <Grid item xs={5}>
+        <Grid item xs={titleColumn}>
           <Typography color="primary" sx={{ fontWeight: 600, fontSize: 14 }}>
             {title}
           </Typography>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={valueColumn}>
           <Typography sx={{ fontSize: 14, color: 'black' }}>
             {isDate ? moment(data[key]).format('DD MMMM YYYY') : data[key]}
           </Typography>
@@ -63,7 +63,7 @@ function OrderReceipt({
           <header className="paidArrow"> {orderDetail.status} </header>
         </Box>
       )}
-      \
+
       <Box style={{ padding: '0px 20px 20px 20px' }}>
         <Grid
           container
@@ -119,10 +119,17 @@ function OrderReceipt({
               </Grid>
 
               {/* invoice # */}
-              {renderOrderInfo(orderInfo, 'formated_order_number', `${orderInfo.type} #`)}
-              {renderOrderInfo(orderInfo, 'date', 'Invoice Date', true)}
-              {renderOrderInfo(orderInfo, 'sale_person', 'Sale Person')}
-              {renderOrderInfo(orderInfo, 'currency_symbol', 'Currency')}
+              {renderOrderInfo(
+                orderInfo,
+                'formated_order_number',
+                `${orderInfo.informationTo || orderInfo.type} #`,
+                false,
+                6,
+                6
+              )}
+              {renderOrderInfo(orderInfo, 'date', 'Date', true, 6, 6)}
+              {renderOrderInfo(orderInfo, 'sale_person', 'Sale Person', false, 6, 6)}
+              {renderOrderInfo(orderInfo, 'currency_symbol', 'Currency', false, 6, 6)}
             </Grid>
           </Grid>
         </Grid>

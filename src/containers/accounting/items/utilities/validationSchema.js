@@ -2,14 +2,16 @@ import * as Yup from 'yup';
 
 export const itemFormValidationSchema = Yup.object({
   item_name: Yup.string().max(50, 'Cannot exceed 50 characters').required('Item Name is required'),
-  sku_hs_code: Yup.string(),
-  sale_price: Yup.number('Must be a number')
-    .positive('Must be Positive Number')
-    .required('Sale price is required'),
   cost_price: Yup.number('Must be a number')
+    .max(Yup.ref('sale_price'), 'Must Be Less than item Sale Price')
     .positive('Must be Positive Number')
     .required('Cost price is required'),
   item_type: Yup.string().required(),
+  sku_hs_code: Yup.string(),
+  sale_price: Yup.number('Must be a number')
+    .min(Yup.ref('cost_price'), 'Must Be Less than item Cost Price')
+    .positive('Must be Positive Number')
+    .required('Sale price is required'),
   is_active: Yup.bool().required('Required'),
   account_no: Yup.string().required('GL Number is required'),
   bar_code: Yup.string(),

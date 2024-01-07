@@ -52,6 +52,7 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
     setFieldValue(`${name}.${index}.chart_of_account`, selectedItem[0].account_no);
     setFieldValue(`${name}.${index}.expense_account`, selectedItem[0].account_no);
   }
+  setFieldValue(`${name}.${index}.item_service_type`, selectedItem[0].item_type);
 
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, `${selectedItem[0].value}${index}`);

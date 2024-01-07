@@ -43,6 +43,8 @@ function CreditNoteDetail() {
   const orderInfo = useMemo(
     () => ({
       type: 'Sale Credit Note',
+      // informationTo: 'Sales CN',
+
       order_number: `#${creditNoteDetailResponse?.data?.credit_note_num}`,
       formated_order_number: creditNoteDetailResponse?.data?.credit_note_formatted_number,
       sale_person: creditNoteDetailResponse?.data?.sales_person_name,
