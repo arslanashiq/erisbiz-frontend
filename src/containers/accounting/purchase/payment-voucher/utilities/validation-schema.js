@@ -5,7 +5,7 @@ export const paymentVoucherFormValidationSchema = Yup.object({
   supplier_id: Yup.string().required('Supplier is required'),
   chart_of_account_id: Yup.string().required('Paid Through is required'),
   total: Yup.number()
-    .min(1, 'Amount must be greater than 0')
+    .min(0, 'Amount must be greater than 0')
     .test('maxDecimalPoints', 'Amount can have up to two decimal points', maxDecimalPoints)
     .required('Payment Mode is required'),
   payment_mode: Yup.string().required('Amount is required'),

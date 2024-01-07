@@ -59,6 +59,8 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
       'Debit Note',
 
       // sale
+      'Customer Payment',
+      'Customer Opening Balance Payment',
       'Invoice Payments',
       'Credit Note',
     ];
@@ -95,7 +97,6 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
         } else {
           commulativeBalance -= item.total_amount;
         }
-        setBalanceDue(commulativeBalance);
 
         return {
           id: item.id,
@@ -108,6 +109,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
           balance: formatAmount(commulativeBalance),
         };
       });
+      setBalanceDue(commulativeBalance);
 
       const totalAmount = supplierTransactions
         .filter(item => amountTypes.includes(item.transaction_type || item.bill_num))

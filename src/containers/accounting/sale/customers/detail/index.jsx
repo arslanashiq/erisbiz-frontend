@@ -38,6 +38,11 @@ function CustomerDetail() {
 
   const customersCommentResponse = useGetCustomerCommentsQuery(id);
   const customerStatementResponse = useGetCustomerStatementQuery({ id, params: location.search });
+  const { basicInfo, transactions } = useSupplierStatement(
+    customerStatementResponse?.data || {},
+    customerStatementResponse?.data?.transactions || [],
+    duration
+  );
 
   const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
   const [activeTab, setActiveTab] = useState(0);
@@ -90,11 +95,6 @@ function CustomerDetail() {
   }, []);
   const handleAddComment = payload => addComment({ comments: payload.comments, customer_id: Number(id) });
 
-  const { basicInfo, transactions } = useSupplierStatement(
-    customerStatementResponse?.data || {},
-    customerStatementResponse?.data?.transactions || [],
-    duration
-  );
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
       <DetailPageHeader
@@ -120,7 +120,13 @@ function CustomerDetail() {
             />
           )}
           {activeTab === 1 && <CustomerTransactions />}
-          {activeTab === 2 && <SupplierStatement basicInfo={basicInfo} transactions={transactions} personLink={`/pages/accounting/sales/customers/${id}/detail`} />}
+          {activeTab === 2 && (
+            <SupplierStatement
+              basicInfo={basicInfo}
+              transactions={transactions}
+              personLink={`/pages/accounting/sales/customers/${id}/detail`}
+            />
+          )}
 
           {activeTab === 3 && (
             <SupplierComment

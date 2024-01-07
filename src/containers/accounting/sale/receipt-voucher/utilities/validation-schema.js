@@ -5,7 +5,7 @@ export const receiptVoucherFormValidationSchema = Yup.object({
   account: Yup.string().required('Customer is required'),
   chart_of_account: Yup.string().required('Deposit is required'),
   total: Yup.number()
-    .min(1, 'Amount must be greater than 0')
+    .min(0, 'Amount must be greater than 0')
     .test('maxDecimalPoints', 'Amount can have up to two decimal points', maxDecimalPoints)
     .required('Amount is required'),
   payment_mode: Yup.string().required('Payment Mode is required'),

@@ -34,7 +34,10 @@ function useCustomerDetail(customerDetail) {
         { label: 'Currency Code', value: customerDetail.currency_symbol || '' },
         {
           label: 'Source of Supply',
-          value: `${customerDetail.delivery_city},${customerDetail.delivery_country}` || '',
+          value:
+            `${customerDetail.delivery_city ? `${customerDetail.delivery_city}` : ''}${
+              customerDetail.delivery_country
+            }` || '',
         },
       ];
       setOtherInfo([...supplierOtherInfo]);

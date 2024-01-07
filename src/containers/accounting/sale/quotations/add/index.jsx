@@ -175,7 +175,7 @@ function AddQuotation() {
     >
       <Card>
         <CardContent>
-          <FormHeader title="Sale Quotation" />
+          <FormHeader title="Quotation" />
           <FormikWrapper
             initialValues={{
               ...initialValues,
