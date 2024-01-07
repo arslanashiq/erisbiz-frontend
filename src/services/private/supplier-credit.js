@@ -33,6 +33,7 @@ const debitNotesApi = privateApi.injectEndpoints({
         'getPaymentsAgainstPaymentInvoice',
         'getSuppliersList',
         'getSingleSupplier',
+        'getSupplierTransactions',
       ],
     }),
     editSupplierCredits: builder.mutation({
@@ -48,6 +49,7 @@ const debitNotesApi = privateApi.injectEndpoints({
         'getPaymentsAgainstPaymentInvoice',
         'getSuppliersList',
         'getSingleSupplier',
+        'getSupplierTransactions',
       ],
     }),
     deleteSupplierCredits: builder.mutation({
@@ -62,6 +64,7 @@ const debitNotesApi = privateApi.injectEndpoints({
         'getPaymentsAgainstPaymentInvoice',
         'getSuppliersList',
         'getSingleSupplier',
+        'getSupplierTransactions',
       ],
     }),
     getSupplierCreditsDocuments: builder.query({

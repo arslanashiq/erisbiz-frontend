@@ -44,17 +44,14 @@ export default function TransactionAccordionWithFilter({
     setFilter(event.target.value);
   };
 
-  const response = fetchData(
-    {
-      id,
-      params: {
-        limit: rowsPerPage,
-        offset: page,
-        status: filter.trim(),
-      },
+  const response = fetchData({
+    id,
+    params: {
+      limit: rowsPerPage,
+      offset: page,
+      status: filter.trim(),
     },
-    { refetchOnMountOrArgChange: true }
-  );
+  });
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

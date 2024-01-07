@@ -23,7 +23,12 @@ const creditNotesApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getCreditNotesList', 'getSingleCreditNote', 'getItemCreditNote'],
+      invalidatesTags: [
+        'getCreditNotesList',
+        'getSingleCreditNote',
+        'getItemCreditNote',
+        'getCustomerTransactions',
+      ],
     }),
     editCreditNote: builder.mutation({
       query: ({ id, payload }) => ({
@@ -31,14 +36,24 @@ const creditNotesApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getCreditNotesList', 'getSingleCreditNote', 'getItemCreditNote'],
+      invalidatesTags: [
+        'getCreditNotesList',
+        'getSingleCreditNote',
+        'getItemCreditNote',
+        'getCustomerTransactions',
+      ],
     }),
     deleteCreditNote: builder.mutation({
       query: id => ({
         url: `api/accounting/sales/creditNotes/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getCreditNotesList', 'getSingleCreditNote', 'getItemCreditNote'],
+      invalidatesTags: [
+        'getCreditNotesList',
+        'getSingleCreditNote',
+        'getItemCreditNote',
+        'getCustomerTransactions',
+      ],
     }),
     refundCreditNote: builder.mutation({
       query: payload => ({

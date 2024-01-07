@@ -38,6 +38,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         'getLatestPurchaseInvoiceNumber',
         'getItemsList',
         'getItemBill',
+        'getSupplierTransactions',
       ],
     }),
     deletePurchaseInvoce: builder.mutation({
@@ -52,6 +53,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         'getLatestPurchaseInvoiceNumber',
         'getItemsList',
         'getItemBill',
+        'getSupplierTransactions',
       ],
     }),
     chagePurchaseInvoiceStatusToOpen: builder.mutation({
@@ -65,6 +67,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         'getSinglePurchaseInvoice',
         'getItemsList',
         'getJournalsAgainstPaymentInvoice',
+        'getSupplierTransactions',
       ],
     }),
 
@@ -81,6 +84,7 @@ const purchaseInvoiceApi = privateApi.injectEndpoints({
         'getItemsList',
         'getItemBill',
         'getSinglePurchaseInvoice',
+        'getSupplierTransactions',
       ],
     }),
     uploadPurchaseInvoiceDocumentFile: builder.mutation({

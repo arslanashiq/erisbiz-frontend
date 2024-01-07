@@ -33,6 +33,12 @@ const dashboardApis = privateApi.injectEndpoints({
       }),
       providesTags: ['getDashboardTotalReceivables'],
     }),
+    getDashboardItemsDetail: builder.query({
+      query: () => ({
+        url: 'api/dashboard/product/item/',
+      }),
+      providesTags: ['getDashboardItemsDetail'],
+    }),
   }),
 });
 
@@ -42,4 +48,5 @@ export const {
   useGetDashboardCurrentMonthSaleQuery,
   useGetDashboardProductCategoryDetailQuery,
   useGetDashboardTotalReceivablesQuery,
+  useGetDashboardItemsDetailQuery,
 } = dashboardApis;

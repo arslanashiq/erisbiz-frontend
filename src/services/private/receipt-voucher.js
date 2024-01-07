@@ -29,6 +29,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         'getSingleSaleInvoice',
         'getSaleInvoicesList',
         'getLatestReceiptVoucher',
+        'getCustomerTransactions',
       ],
     }),
     editReceiptVoucher: builder.mutation({
@@ -44,6 +45,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         'getSingleSaleInvoice',
         'getSaleInvoicesList',
         'getLatestReceiptVoucher',
+        'getCustomerTransactions',
       ],
     }),
     deleteReceiptVoucher: builder.mutation({
@@ -57,6 +59,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         'getSingleSaleInvoice',
         'getSaleInvoicesList',
         'getLatestReceiptVoucher',
+        'getCustomerTransactions',
       ],
     }),
     getLatestReceiptVoucher: builder.query({

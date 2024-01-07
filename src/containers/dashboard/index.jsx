@@ -11,7 +11,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Toolti
 import {
   useGetDashboardCurrentMonthSaleQuery,
   useGetDashboardDetailQuery,
-  useGetDashboardProductCategoryDetailQuery,
+  useGetDashboardItemsDetailQuery,
   useGetDashboardSaleByMonthQuery,
   useGetDashboardTotalReceivablesQuery,
 } from 'services/private/dashboard';
@@ -33,7 +33,7 @@ function Dasbboard() {
   const currentMonthSale = useGetDashboardCurrentMonthSaleQuery();
   const saleByMonth = useGetDashboardSaleByMonthQuery();
   const dashboardDetail = useGetDashboardDetailQuery();
-  const productCategory = useGetDashboardProductCategoryDetailQuery();
+  const itemDetailResponse = useGetDashboardItemsDetailQuery();
   const totalReceivables = useGetDashboardTotalReceivablesQuery();
 
   const totalReceivablesValue = useMemo(() => {
@@ -149,7 +149,7 @@ function Dasbboard() {
         dashboardDetail.isLoading,
         currentMonthSale.isLoading,
         saleByMonth.isLoading,
-        productCategory.isLoading,
+        itemDetailResponse.isLoading,
       ]}
     >
       <Helmet>
@@ -223,7 +223,7 @@ function Dasbboard() {
           <DashboardTable
             title="Inventory Stock Position"
             headCells={itemInventoryStockPosition}
-            data={productCategory?.data || []}
+            data={itemDetailResponse?.data || []}
             className="dashboard-table-left"
           />
           <DashboardTable

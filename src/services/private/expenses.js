@@ -26,7 +26,7 @@ const expensesApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getExpensesList'],
+      invalidatesTags: ['getExpensesList', 'getSupplierTransactions'],
     }),
     editExpense: builder.mutation({
       query: ({ id, payload }) => ({
@@ -34,14 +34,14 @@ const expensesApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleExpense', 'getExpensesList'],
+      invalidatesTags: ['getSingleExpense', 'getExpensesList', 'getSupplierTransactions'],
     }),
     deleteExpense: builder.mutation({
       query: id => ({
         url: `api/accounting/purchases/expenses/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getExpensesList'],
+      invalidatesTags: ['getExpensesList', 'getSupplierTransactions'],
     }),
     getExpenseJournals: builder.query({
       query: id => ({

@@ -46,7 +46,7 @@ export const itemInventoryStockPosition = [
     isLink: true,
   },
   {
-    id: 'item_stock',
+    id: 'remaining_stock',
     disablePadding: false,
     label: 'Available Stock',
     align: 'left',

@@ -24,7 +24,7 @@ const suppliersApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getSuppliersList', 'getSupplierPayableBalance'],
+      invalidatesTags: ['getSuppliersList', 'getSupplierPayableBalance', 'getSupplierTransactions'],
     }),
     editSupplier: builder.mutation({
       query: ({ id, payload }) => ({
@@ -32,20 +32,26 @@ const suppliersApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleSupplier', 'getSuppliersList'],
+      invalidatesTags: ['getSingleSupplier', 'getSuppliersList', 'getSupplierTransactions'],
     }),
     deleteSupplier: builder.mutation({
       query: id => ({
         url: `api/accounting/purchases/suppliers/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getSingleSupplier', 'getSuppliersList', 'getSupplierPayableBalance'],
+      invalidatesTags: [
+        'getSingleSupplier',
+        'getSuppliersList',
+        'getSupplierPayableBalance',
+        'getSupplierTransactions',
+      ],
     }),
     getSupplierTransactions: builder.query({
       query: ({ id }) => ({
         url: `api/accounting/purchase/supplier/${id}/transaction`,
         method: 'GET',
       }),
+      providesTags: ['getSupplierTransactions'],
     }),
     getLatestTransactionNumber: builder.query({
       query: () => ({
