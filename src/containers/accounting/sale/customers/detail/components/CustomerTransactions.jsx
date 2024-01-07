@@ -12,7 +12,7 @@ import {
   customerCreditNoteInvoiceHeadCells,
   customerQuotationsHeadCells,
   customerSalesInvoiceHeadCells,
-  customerJournalsHeadCells,
+  // customerJournalsHeadCells,
   customerReceiptVoucherInvoiceHeadCells,
 } from '../../utilities/head-cells';
 
@@ -60,14 +60,14 @@ function CustomerTransactions() {
         //   FiltersList={quotationFilterList}
         addNewRoute="/pages/accounting/sales/credit-notes/add"
       />
-      <TransactionAccordionWithFilter
+      {/* <TransactionAccordionWithFilter
         title="Journals"
         fetchData={useGetCustomerTransactionsQuery}
         keyName="journals"
         headCells={customerJournalsHeadCells}
         //   FiltersList={quotationFilterList}
         // addNewRoute={`/pages/accounting/purchase/purchase-invoice/add?supplier_id=${id}`}
-      />
+      /> */}
     </Box>
   );
 }

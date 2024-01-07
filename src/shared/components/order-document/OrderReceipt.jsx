@@ -37,7 +37,7 @@ function OrderReceipt({
     if (!data[key]) return;
     return (
       <>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <Typography color="primary" sx={{ fontWeight: 600, fontSize: 14 }}>
             {title}
           </Typography>
@@ -63,6 +63,7 @@ function OrderReceipt({
           <header className="paidArrow"> {orderDetail.status} </header>
         </Box>
       )}
+      \
       <Box style={{ padding: '0px 20px 20px 20px' }}>
         <Grid
           container
@@ -118,7 +119,7 @@ function OrderReceipt({
               </Grid>
 
               {/* invoice # */}
-              {renderOrderInfo(orderInfo, 'formated_order_number', 'Invoice #')}
+              {renderOrderInfo(orderInfo, 'formated_order_number', `${orderInfo.type} #`)}
               {renderOrderInfo(orderInfo, 'date', 'Invoice Date', true)}
               {renderOrderInfo(orderInfo, 'sale_person', 'Sale Person')}
               {renderOrderInfo(orderInfo, 'currency_symbol', 'Currency')}

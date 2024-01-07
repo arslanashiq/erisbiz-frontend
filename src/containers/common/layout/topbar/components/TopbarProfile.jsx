@@ -57,7 +57,13 @@ function TopbarProfile() {
   return (
     <>
       <Stack direction="row" sx={topbarProfile} onClick={handleClick}>
-        {companyDetail?.logo && <Avatar alt="Remy Sharp" src={companyDetail?.logo} />}
+        {companyDetail?.logo && (
+          <Avatar
+            sx={{ objectFit: 'contain', height: 40, width: 40 }}
+            alt="Remy Sharp"
+            src={companyDetail?.logo}
+          />
+        )}
         <Typography sx={topbarProfileName}>{getCompanyName(companyDetail?.name || 'Admin User')}</Typography>
         <ArrowDropDownIcon sx={topbarIcon} className=" clr-add" />
       </Stack>

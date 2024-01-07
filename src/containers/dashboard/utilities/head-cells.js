@@ -36,9 +36,9 @@ export const currentMonthSalesHeadCells = [
     align: 'left',
   },
 ];
-export const productCategoryStockPositionHeadCells = [
+export const itemInventoryStockPosition = [
   {
-    id: 'category_name',
+    id: 'item_name',
     numeric: false,
     disablePadding: true,
     label: 'Category',
@@ -46,7 +46,7 @@ export const productCategoryStockPositionHeadCells = [
     isLink: true,
   },
   {
-    id: 'item_count',
+    id: 'item_stock',
     disablePadding: false,
     label: 'Total Items',
     align: 'left',

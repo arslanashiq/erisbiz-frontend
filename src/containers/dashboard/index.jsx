@@ -22,7 +22,7 @@ import DashboardCards from './components/DashboardCards';
 import DashboardTable from './components/DashboardTable';
 import {
   currentMonthSalesHeadCells,
-  productCategoryStockPositionHeadCells,
+  itemInventoryStockPosition,
   totalReceivablesHeadCells,
 } from './utilities/head-cells';
 import 'styles/dashboard/dashboard.scss';
@@ -221,8 +221,8 @@ function Dasbboard() {
             className="dashboard-table-right"
           />
           <DashboardTable
-            title="Product Category Stock Position"
-            headCells={productCategoryStockPositionHeadCells}
+            title="Inventory Stock Position"
+            headCells={itemInventoryStockPosition}
             data={productCategory?.data || []}
             className="dashboard-table-left"
           />

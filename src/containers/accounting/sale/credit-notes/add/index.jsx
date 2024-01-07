@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router';
 import TagIcon from '@mui/icons-material/Tag';
 // services
 import { useGetItemsListQuery } from 'services/private/items';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 import {
   useAddCreditNoteMutation,
   useEditCreditNoteMutation,
@@ -13,6 +12,7 @@ import {
 } from 'services/private/credit-notes';
 import { useGetSaleInvoicesListQuery } from 'services/private/sale-invoice';
 import { useGetReceiptVoucherListQuery } from 'services/private/receipt-voucher';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
@@ -47,7 +47,7 @@ function index() {
   const receiptVouchersListResponse = useGetReceiptVoucherListQuery();
   const saleInvoiceListResponse = useGetSaleInvoicesListQuery();
   const itemsListResponse = useGetItemsListQuery({ is_active: 'True' });
-  const bankAccountResponse = useGetBankAccountsListQuery();
+  const bankAccountResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_receivable' });
 
   const [addCreditNote] = useAddCreditNoteMutation();
   const [editCreditNote] = useEditCreditNoteMutation();
@@ -70,8 +70,8 @@ function index() {
     ['sale_price', 'item_type', 'cost_price', 'remaining_stock', 'weighted_cost_price']
   );
   const { optionsList: bankAccountOptions } = useListOptions(bankAccountResponse?.data?.results, {
-    value: 'chart_of_account',
-    label: 'bank_account_name',
+    value: 'id',
+    label: 'account_name',
   });
 
   const { initialValues, isLoading } = useInitialValues(
@@ -203,17 +203,19 @@ function index() {
                   label="Date"
                 />
 
-                <FormikSelect
+                {/* <FormikSelect
                   options={bankAccountOptions}
                   name="account_num"
                   //  placeholder="Account"
                   label="Account"
-                />
+                /> */}
                 <FormikSelect
                   options={bankAccountOptions}
                   name="credit_account_num"
                   //  placeholder="Credit Account Number"
-                  label="Credit Acc No"
+                  label="Credit Acc"
+                  isRequired
+                  className="col-12"
                 />
 
                 <FieldArray

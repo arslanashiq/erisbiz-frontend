@@ -116,6 +116,7 @@ export const customerQuotationsHeadCells = [
     disablePadding: false,
     label: 'Amount',
     align: 'left',
+    cellValueAction: value => formatAmount(value),
   },
   {
     id: 'status',

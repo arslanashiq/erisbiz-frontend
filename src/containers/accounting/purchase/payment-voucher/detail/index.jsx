@@ -57,6 +57,13 @@ function PaymentVoucherDetail() {
       supplier: PaymentVoucherDetailResponse?.data?.supplier,
       label: 'Paid To',
       headCells: UnPaidBillsHeadCells,
+      invoiceToDetail: {
+        attention_to: PaymentVoucherDetailResponse?.data?.supplier?.contact_person || '',
+        supplier_name: PaymentVoucherDetailResponse?.data?.supplier?.supplier_name || '',
+        address: PaymentVoucherDetailResponse?.data?.supplier?.address_line1 || '',
+        city: PaymentVoucherDetailResponse?.data?.supplier?.city || '',
+        country: PaymentVoucherDetailResponse?.data?.supplier?.country || '',
+      },
     }),
     [PaymentVoucherDetailResponse]
   );

@@ -105,8 +105,8 @@ function InvoiceInfoDetail({ orderInfo }) {
                 Information
               </Text>
               <View style={{ marginTop: 4 }}>
-                {renderInvoiceInfo('Invoice #', orderInfo.formated_order_number)}
-                {renderInvoiceInfo('Invoice Date', orderInfo.date)}
+                {renderInvoiceInfo(`${orderInfo.type} #`, orderInfo.formated_order_number)}
+                {renderInvoiceInfo('Date', orderInfo.date)}
                 {renderInvoiceInfo('Sale Person', orderInfo.sale_person)}
                 {renderInvoiceInfo('Currency', orderInfo.currency_symbol)}
               </View>

@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 export const creditNoteValidationSchema = Yup.object({
   invoice: Yup.string().required('Invoice# is required'),
-
+  credit_account_num: Yup.string().required('Credit Account is Required'),
   credit_note_items: Yup.array().of(
     Yup.object().shape({
       num_nights: Yup.number()
