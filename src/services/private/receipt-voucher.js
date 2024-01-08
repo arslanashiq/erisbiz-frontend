@@ -114,6 +114,14 @@ const receiptVoucherApi = privateApi.injectEndpoints({
       providesTags: ['receiptVoucherJournals'],
       invalidatesTags: ['editReceiptVoucher'],
     }),
+    applyPaymentVoucherToInvoice: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/sale/paymentVoucher/amountapply',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['applyPaymentToInvoice'],
+    }),
   }),
 });
 
@@ -130,4 +138,5 @@ export const {
   useDeleteReceiptVoucherDocumentsMutation,
   useRefundReceiptVoucherMutation,
   useReceiptVoucherJournalsQuery,
+  applyPaymentVoucherToInvoice,
 } = receiptVoucherApi;

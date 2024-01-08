@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
@@ -15,6 +16,7 @@ import {
   useGetSuppliersUpaidBillsListMutation,
 } from 'services/private/suppliers';
 import { useRefundSupplierCreditsMutation } from 'services/private/supplier-credit';
+import { useApplyPavmentVoucherToBillMutation } from 'services/private/payment-voucher';
 
 // shared
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
@@ -55,6 +57,7 @@ function SupplierDetail() {
   const [deleteComment] = useDeleteSupplierCommentMutation();
   const [getUnpaidBills] = useGetSuppliersUpaidBillsListMutation();
   const [refundSupplierCredit] = useRefundSupplierCreditsMutation();
+  const [applyPaymentVoucherToBill] = useApplyPavmentVoucherToBillMutation();
 
   const [addComment] = useAddSupplierCommentMutation();
 
@@ -134,7 +137,7 @@ function SupplierDetail() {
     setPopup({ ...popup, open: false });
   }, []);
 
-  const getPaymentType = () => {
+  const getPaymentType = async () => {
     let payload = {};
     if (selectedUnusedCreditObject?.type === 'Excess Payment') {
       payload = {
@@ -153,27 +156,33 @@ function SupplierDetail() {
   };
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
-      const paymentObjectId = getPaymentType();
-      const billCreditNotes = values.bill_credit_notes
-        .filter(cn => cn.amount_applied > 0)
-        .map(cn => ({
-          amount_applied: cn.amount_applied,
-          bill_id: cn.id,
-          ...paymentObjectId,
-        }));
-
-      let payload = {
-        bill_credit_notes: billCreditNotes,
-      };
-      if (paymentObjectId) {
-        payload = {
-          ...payload,
-
+      const payloadObject = getPaymentType(values.bill_credit_notes);
+      let response = null;
+      if (payloadObject) {
+        const payload = {
+          payment_vouchers: values
+            .filter(cn => cn.amount_applied > 0)
+            .map(cn => ({
+              amount_applied: cn.amount_applied,
+              bill_id: cn.id,
+              ...payloadObject,
+            })),
+        };
+        response = await applyPaymentVoucherToBill(payload);
+      } else {
+        const payload = {
+          bill_credit_notes: values
+            .filter(cn => cn.amount_applied > 0)
+            .map(cn => ({
+              amount_applied: cn.amount_applied,
+              bill_id: cn.id,
+            })),
           credit_note_id: selectedUnusedCreditObject.id,
           supplier_credit_id: selectedUnusedCreditObject.id,
         };
+        response = await refundSupplierCredit(payload);
       }
-      const response = await refundSupplierCredit(payload);
+
       if (response.error) {
         setErrors(response.error.data);
         return;

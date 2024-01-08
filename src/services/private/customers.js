@@ -120,14 +120,6 @@ const customersApi = privateApi.injectEndpoints({
       providesTags: ['getCustomerUnusedAmount'],
     }),
 
-    applyPaymentToInvoice: builder.mutation({
-      query: payload => ({
-        url: 'api/accounting/sale/paymentVoucher/amountapply',
-        method: 'POST',
-        body: payload,
-      }),
-      providesTags: ['applyPaymentToInvoice'],
-    }),
     getCustomerIncomeDetail: builder.query({
       query: ({ id, params }) => ({
         url: `api/accounting/sales/salesAccount/${id}/income`,
@@ -164,7 +156,6 @@ export const {
   useEditCustomerContactMutation,
   useDeleteCustomerContactMutation,
   useGetCustomerUnusedAmountQuery,
-  useApplyPaymentToInvoiceMutation,
   useGetCustomerIncomeDetailQuery,
   useGetCustomerActivityDetailQuery,
 } = customersApi;

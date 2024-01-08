@@ -114,6 +114,14 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
       providesTags: ['refundPaymentVoucher'],
       invalidatesTags: ['getSinglePaymentVoucher', 'getPaymentVouchersList'],
     }),
+    applyPavmentVoucherToBill: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/purchase/paymentVoucher/amountapply',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['applyPavmentVoucherToBill'],
+    }),
   }),
 });
 
@@ -129,4 +137,5 @@ export const {
   useUploadPaymentVoucherDocumentMutation,
   useDeletePaymentVoucherDocumentMutation,
   useRefundPaymentVoucherMutation,
+  useApplyPavmentVoucherToBillMutation,
 } = PaymentVoucherApi;

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom/dist';
 // services
 import {
   useAddCustomerCommentMutation,
-  useApplyPaymentToInvoiceMutation,
   useDeleteCustomerCommentMutation,
   useDeleteCutomerMutation,
   useGetCustomerActivityDetailQuery,
@@ -16,7 +15,10 @@ import {
   useGetSingleCustomerQuery,
 } from 'services/private/customers';
 import { useRefundCreditNoteMutation } from 'services/private/credit-notes';
-import { useGetUnpaidInvoicesAgainstCustomerMutation } from 'services/private/receipt-voucher';
+import {
+  applyPaymentVoucherToInvoice,
+  useGetUnpaidInvoicesAgainstCustomerMutation,
+} from 'services/private/receipt-voucher';
 // shared
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
@@ -56,7 +58,7 @@ function CustomerDetail() {
   const [addComment] = useAddCustomerCommentMutation();
   const [deleteComment] = useDeleteCustomerCommentMutation();
   const [getUnPaidSaleInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
-  const [applyPaymentToInvoice] = useApplyPaymentToInvoiceMutation();
+  const [applyPaymentToInvoice] = applyPaymentVoucherToInvoice();
   const [refundCreditNote] = useRefundCreditNoteMutation();
 
   const customersCommentResponse = useGetCustomerCommentsQuery(id);
