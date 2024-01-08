@@ -108,17 +108,44 @@ function CustomerDetail() {
   }, []);
   const handleAddComment = payload => addComment({ comments: payload.comments, customer_id: Number(id) });
 
+  const getPaymentType = () => {
+    let payload = {};
+    if (selectedUnusedCreditObject?.type === 'Excess Payment') {
+      payload = {
+        payment_received: selectedUnusedCreditObject.id,
+      };
+    }
+    if (selectedUnusedCreditObject?.type === 'Account Opening Balance') {
+      payload = {
+        sales_account: selectedUnusedCreditObject.id,
+      };
+    }
+    if (selectedUnusedCreditObject?.type === 'Credit Note') {
+      payload = {};
+    }
+    return payload;
+  };
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
+      const paymentObjectId = getPaymentType();
       const invoicePayments = values.bill_credit_notes
         .filter(cn => cn.amount_applied > 0)
         .map(cn => ({
           amount_applied: cn.amount_applied,
           invoice_id: cn.id,
-          payment_received: selectedUnusedCreditObject.id,
+          ...paymentObjectId,
         }));
 
-      const response = await applyPaymentToInvoice({ payment_vouchers: invoicePayments });
+      let payload = {
+        payment_vouchers: invoicePayments,
+      };
+      if (paymentObjectId) {
+        payload = {
+          ...payload,
+          credit_note_id: selectedUnusedCreditObject.id,
+        };
+      }
+      const response = await applyPaymentToInvoice(payload);
       if (response.error) {
         setErrors(response.error.data);
         return;

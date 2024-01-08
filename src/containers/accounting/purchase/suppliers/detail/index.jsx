@@ -134,20 +134,45 @@ function SupplierDetail() {
     setPopup({ ...popup, open: false });
   }, []);
 
+  const getPaymentType = () => {
+    let payload = {};
+    if (selectedUnusedCreditObject?.type === 'Excess Payment') {
+      payload = {
+        payment_made: selectedUnusedCreditObject.id,
+      };
+    }
+    if (selectedUnusedCreditObject?.type === 'Debit Note') {
+      payload = {};
+    }
+    if (selectedUnusedCreditObject?.type === 'Supplier Opening Balance') {
+      payload = {
+        supplier: id,
+      };
+    }
+    return payload;
+  };
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
+      const paymentObjectId = getPaymentType();
       const billCreditNotes = values.bill_credit_notes
         .filter(cn => cn.amount_applied > 0)
         .map(cn => ({
           amount_applied: cn.amount_applied,
           bill_id: cn.id,
+          ...paymentObjectId,
         }));
 
-      const payload = {
-        credit_note_id: selectedUnusedCreditObject.id,
-        supplier_credit_id: selectedUnusedCreditObject.id,
+      let payload = {
         bill_credit_notes: billCreditNotes,
       };
+      if (paymentObjectId) {
+        payload = {
+          ...payload,
+
+          credit_note_id: selectedUnusedCreditObject.id,
+          supplier_credit_id: selectedUnusedCreditObject.id,
+        };
+      }
       const response = await refundSupplierCredit(payload);
       if (response.error) {
         setErrors(response.error.data);
