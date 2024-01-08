@@ -137,17 +137,15 @@ function SupplierDetail() {
     setPopup({ ...popup, open: false });
   }, []);
 
-  const getPaymentType = async () => {
+  const getPaymentType = () => {
     let payload = {};
     if (selectedUnusedCreditObject?.type === 'Excess Payment') {
       payload = {
         payment_made: selectedUnusedCreditObject.id,
       };
-    }
-    if (selectedUnusedCreditObject?.type === 'Debit Note') {
-      payload = {};
-    }
-    if (selectedUnusedCreditObject?.type === 'Supplier Opening Balance') {
+    } else if (selectedUnusedCreditObject?.type === 'Debit Note') {
+      payload = null;
+    } else if (selectedUnusedCreditObject?.type === 'Supplier Opening Balance') {
       payload = {
         supplier: id,
       };
@@ -157,6 +155,7 @@ function SupplierDetail() {
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
       const payloadObject = getPaymentType();
+
       let response = null;
       if (payloadObject) {
         const payload = {
