@@ -151,7 +151,8 @@ export const handleChangeQuantity = (
   if (adjustDiscount) {
     const perUnitDiscount = allValues[name][index].discountPerItem || 0;
     if (perUnitDiscount >= 0) {
-      setFieldValue(`${name}.${index}.discount`, perUnitDiscount * value);
+      const newAppliedDiscount = Number((perUnitDiscount * value)?.toFixed(2)) || 0;
+      setFieldValue(`${name}.${index}.discount`, newAppliedDiscount || 0);
     }
   }
   const newValues = {
