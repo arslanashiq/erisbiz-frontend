@@ -156,11 +156,11 @@ function SupplierDetail() {
   };
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
-      const payloadObject = getPaymentType(values.bill_credit_notes);
+      const payloadObject = getPaymentType();
       let response = null;
       if (payloadObject) {
         const payload = {
-          payment_vouchers: values
+          payment_vouchers: values.bill_credit_notes
             .filter(cn => cn.amount_applied > 0)
             .map(cn => ({
               amount_applied: cn.amount_applied,
@@ -171,7 +171,7 @@ function SupplierDetail() {
         response = await applyPaymentVoucherToBill(payload);
       } else {
         const payload = {
-          bill_credit_notes: values
+          bill_credit_notes: values.bill_credit_notes
             .filter(cn => cn.amount_applied > 0)
             .map(cn => ({
               amount_applied: cn.amount_applied,
