@@ -9,11 +9,13 @@ import {
   useApplyPaymentToInvoiceMutation,
   useDeleteCustomerCommentMutation,
   useDeleteCutomerMutation,
+  useGetCustomerActivityDetailQuery,
   useGetCustomerCommentsQuery,
   useGetCustomerIncomeDetailQuery,
   useGetCustomerStatementQuery,
   useGetSingleCustomerQuery,
 } from 'services/private/customers';
+import { useRefundCreditNoteMutation } from 'services/private/credit-notes';
 import { useGetUnpaidInvoicesAgainstCustomerMutation } from 'services/private/receipt-voucher';
 // shared
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
@@ -55,8 +57,10 @@ function CustomerDetail() {
   const [deleteComment] = useDeleteCustomerCommentMutation();
   const [getUnPaidSaleInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
   const [applyPaymentToInvoice] = useApplyPaymentToInvoiceMutation();
+  const [refundCreditNote] = useRefundCreditNoteMutation();
 
   const customersCommentResponse = useGetCustomerCommentsQuery(id);
+  const customerActivityResponse = useGetCustomerActivityDetailQuery(id);
   const customerIncomeResponse = useGetCustomerIncomeDetailQuery({
     id,
     params: { duration: activityLogDuration },
@@ -143,13 +147,16 @@ function CustomerDetail() {
       let payload = {
         payment_vouchers: invoicePayments,
       };
+      let response = null;
       if (paymentObjectId) {
         payload = {
           ...payload,
           credit_note_id: selectedUnusedCreditObject.id,
         };
+        response = refundCreditNote(payload);
+      } else {
+        response = await applyPaymentToInvoice(payload);
       }
-      const response = await applyPaymentToInvoice(payload);
       if (response.error) {
         setErrors(response.error.data);
         return;
@@ -207,6 +214,7 @@ function CustomerDetail() {
               setOpenApplyToBillModal={setOpenApplyToBillModal}
               setSelectedUnusedCreditObject={setSelectedUnusedCreditObject}
               customerIncome={customerIncomeResponse?.data?.income || []}
+              customerActivity={customerActivityResponse?.data || []}
             />
           )}
           {activeTab === 1 && <CustomerTransactions />}

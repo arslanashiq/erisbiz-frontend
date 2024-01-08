@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
@@ -69,6 +70,12 @@ function FormikField({
             <input
               {...field}
               {...restProps}
+              // inputMode="none"
+              onFocus={event => {
+                event.target.addEventListener('wheel', e => {
+                  e.preventDefault();
+                });
+              }}
               type={type}
               className={`${textRight ? 'text-right' : ''} ${inputClassName}`}
               value={inputValue}

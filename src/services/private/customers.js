@@ -139,6 +139,13 @@ const customersApi = privateApi.injectEndpoints({
       }),
       providesTags: ['applyPaymentToInvoice'],
     }),
+    getCustomerActivityDetail: builder.query({
+      query: id => ({
+        url: ` api/accounting/sales/customer/${id}/activityLog`,
+        method: 'GET',
+      }),
+      providesTags: ['getCustomerActivityDetail'],
+    }),
   }),
 });
 
@@ -159,4 +166,5 @@ export const {
   useGetCustomerUnusedAmountQuery,
   useApplyPaymentToInvoiceMutation,
   useGetCustomerIncomeDetailQuery,
+  useGetCustomerActivityDetailQuery,
 } = customersApi;
