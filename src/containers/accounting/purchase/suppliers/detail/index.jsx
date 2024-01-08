@@ -1,5 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { useSnackbar } from 'notistack';
 import { useNavigate, useParams } from 'react-router';
 import { Button, Card, Stack, Typography } from '@mui/material';
 // services
@@ -11,12 +12,15 @@ import {
   useGetSupplierStatementQuery,
   useDeleteSupplierCommentMutation,
   useAddSupplierCommentMutation,
+  useGetSuppliersUpaidBillsListMutation,
 } from 'services/private/suppliers';
+import { useRefundSupplierCreditsMutation } from 'services/private/supplier-credit';
 
 // shared
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
 import InfoPopup from 'shared/modals/InfoPopup';
+import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utillities
@@ -30,13 +34,18 @@ import SupplierComment from './components/SupplierComment';
 import SupplierContacts from './components/SupplierContacts';
 // styles
 import 'styles/suppliers/supplier-detail.scss';
+import { UnPaidBillsHeadCells } from '../../payment-voucher/utilities/head-cells';
 
 function SupplierDetail() {
+  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
   const { duration } = getSearchParamsList();
   const [activeTab, setActiveTab] = useState(0);
   const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
+  const [openApplyToBillModal, setOpenApplyToBillModal] = useState(false);
+  const [applyToBillInitialValues, setApplyToBillInitialValues] = useState([]);
+  const [selectedUnusedCreditObject, setSelectedUnusedCreditObject] = useState({});
   const [popup, setPopup] = useState({
     open: false,
     message: '',
@@ -44,6 +53,9 @@ function SupplierDetail() {
   });
 
   const [deleteComment] = useDeleteSupplierCommentMutation();
+  const [getUnpaidBills] = useGetSuppliersUpaidBillsListMutation();
+  const [refundSupplierCredit] = useRefundSupplierCreditsMutation();
+
   const [addComment] = useAddSupplierCommentMutation();
 
   const supplierDetailResponse = useGetSingleSupplierQuery(id);
@@ -122,11 +134,57 @@ function SupplierDetail() {
     setPopup({ ...popup, open: false });
   }, []);
 
+  const handleApplyToBill = async (values, { setErrors }) => {
+    try {
+      const billCreditNotes = values.bill_credit_notes
+        .filter(cn => cn.amount_applied > 0)
+        .map(cn => ({
+          amount_applied: cn.amount_applied,
+          bill_id: cn.id,
+        }));
+
+      const payload = {
+        credit_note_id: selectedUnusedCreditObject.id,
+        supplier_credit_id: selectedUnusedCreditObject.id,
+        bill_credit_notes: billCreditNotes,
+      };
+      const response = await refundSupplierCredit(payload);
+      if (response.error) {
+        setErrors(response.error.data);
+        return;
+      }
+      enqueueSnackbar('Credit Applied Against Bill', { variant: 'success' });
+      setOpenApplyToBillModal(false);
+    } catch (error) {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      if (openApplyToBillModal) {
+        const response = await getUnpaidBills(id);
+        const unpaidBills = response?.data?.map(bill => ({
+          ...bill,
+          amount_applied: 0,
+        }));
+        setApplyToBillInitialValues(unpaidBills);
+      }
+    })();
+  }, [openApplyToBillModal]);
   return (
     <SectionLoader options={[supplierActivityLogsResponse.isLoading]}>
       <Helmet>
         <title>Supplier Detail - ErisBiz</title>
       </Helmet>
+      <ApplyToBill
+        open={openApplyToBillModal}
+        setOpen={setOpenApplyToBillModal}
+        handleApply={handleApplyToBill}
+        maxAmount={selectedUnusedCreditObject?.amount_due || 0}
+        initialValues={applyToBillInitialValues || []}
+        headCells={UnPaidBillsHeadCells}
+        title="Apply To Bill"
+      />
       <InfoPopup
         open={popup.open}
         handleClose={handleClosePopup}
@@ -162,6 +220,8 @@ function SupplierDetail() {
               supplierActivity={supplierActivityLogsResponse?.data}
               handleClickMenu={handleChangeActivityDuration}
               basicInfo={basicInfo}
+              setOpenApplyToBillModal={setOpenApplyToBillModal}
+              setSelectedUnusedCreditObject={setSelectedUnusedCreditObject}
             />
           )}
           {activeTab === 1 && <SupplierTransactions />}

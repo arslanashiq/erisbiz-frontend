@@ -1,19 +1,24 @@
-import React, { useCallback, useMemo, useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSnackbar } from 'notistack';
 import { useLocation, useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom/dist';
 // services
 import {
   useAddCustomerCommentMutation,
+  useApplyPaymentToInvoiceMutation,
   useDeleteCustomerCommentMutation,
   useDeleteCutomerMutation,
   useGetCustomerCommentsQuery,
   useGetCustomerStatementQuery,
   useGetSingleCustomerQuery,
 } from 'services/private/customers';
+import { useGetUnpaidInvoicesAgainstCustomerMutation } from 'services/private/receipt-voucher';
 // shared
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { Card } from '@mui/material';
+import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWrapper';
 // containers
 import SupplierComment from 'containers/accounting/purchase/suppliers/detail/components/SupplierComment';
@@ -26,15 +31,23 @@ import CustomerOverview from './components/CustomerOverview';
 import CustomerTransactions from './components/CustomerTransactions';
 // styles
 import 'styles/suppliers/supplier-detail.scss';
+import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
 
 function CustomerDetail() {
+  const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { duration } = getSearchParamsList();
 
+  const [openApplyToBillModal, setOpenApplyToBillModal] = useState(false);
+  const [applyToInvoiceInitialValues, setApplyToInvoiceInitialValues] = useState([]);
+  const [selectedUnusedCreditObject, setSelectedUnusedCreditObject] = useState({});
+
   const [addComment] = useAddCustomerCommentMutation();
   const [deleteComment] = useDeleteCustomerCommentMutation();
+  const [getUnPaidSaleInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
+  const [applyPaymentToInvoice] = useApplyPaymentToInvoiceMutation();
 
   const customersCommentResponse = useGetCustomerCommentsQuery(id);
   const customerStatementResponse = useGetCustomerStatementQuery({ id, params: location.search });
@@ -95,6 +108,39 @@ function CustomerDetail() {
   }, []);
   const handleAddComment = payload => addComment({ comments: payload.comments, customer_id: Number(id) });
 
+  const handleApplyToBill = async (values, { setErrors }) => {
+    try {
+      const invoicePayments = values.bill_credit_notes
+        .filter(cn => cn.amount_applied > 0)
+        .map(cn => ({
+          amount_applied: cn.amount_applied,
+          invoice_id: cn.id,
+          payment_received: selectedUnusedCreditObject.id,
+        }));
+
+      const response = await applyPaymentToInvoice({ payment_vouchers: invoicePayments });
+      if (response.error) {
+        setErrors(response.error.data);
+        return;
+      }
+      enqueueSnackbar('Amount Applied To Invoice', { variant: 'success' });
+      setOpenApplyToBillModal(false);
+    } catch (error) {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    }
+  };
+  useEffect(() => {
+    (async () => {
+      if (openApplyToBillModal) {
+        const response = await getUnPaidSaleInvoices(id);
+        const unpaidBills = response?.data?.map(bill => ({
+          ...bill,
+          amount_applied: 0,
+        }));
+        setApplyToInvoiceInitialValues(unpaidBills);
+      }
+    })();
+  }, [openApplyToBillModal]);
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
       <DetailPageHeader
@@ -104,6 +150,15 @@ function CustomerDetail() {
         useDeleteItemMutation={useDeleteCutomerMutation}
         setOpenPopup={setOpenInfoPopup}
         navigateAfterDelete="/pages/accounting/sales/customers"
+      />
+      <ApplyToBill
+        open={openApplyToBillModal}
+        setOpen={setOpenApplyToBillModal}
+        handleApply={handleApplyToBill}
+        maxAmount={selectedUnusedCreditObject?.amount_due || 0}
+        initialValues={applyToInvoiceInitialValues || []}
+        headCells={UnPaidSaleInvoiceHeadCells}
+        title="Apply To Invoice"
       />
 
       <Card sx={{ minHeight: '76vh', padding: 2, fontSize: 14 }}>
@@ -117,6 +172,8 @@ function CustomerDetail() {
               customerDetail={customerDetailResponse?.data}
               activityLogDuration={activityLogDuration}
               handleClickMenu={handleChangeActivityDuration}
+              setOpenApplyToBillModal={setOpenApplyToBillModal}
+              setSelectedUnusedCreditObject={setSelectedUnusedCreditObject}
             />
           )}
           {activeTab === 1 && <CustomerTransactions />}

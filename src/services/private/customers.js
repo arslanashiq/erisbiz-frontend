@@ -105,6 +105,23 @@ const customersApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getCustomerComments'],
     }),
+
+    getCustomerUnusedAmount: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/customer/${id}/paymentsVoucher`,
+        method: 'GET',
+      }),
+      providesTags: ['getCustomerUnusedAmount'],
+    }),
+
+    applyPaymentToInvoice: builder.mutation({
+      query: payload => ({
+        url: 'api/accounting/sale/paymentVoucher/amountapply',
+        method: 'POST',
+        body: payload,
+      }),
+      providesTags: ['applyPaymentToInvoice'],
+    }),
   }),
 });
 
@@ -122,4 +139,6 @@ export const {
   useAddCustomerContactMutation,
   useEditCustomerContactMutation,
   useDeleteCustomerContactMutation,
+  useGetCustomerUnusedAmountQuery,
+  useApplyPaymentToInvoiceMutation,
 } = customersApi;

@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
+import { useGetCustomerUnusedAmountQuery } from 'services/private/customers';
 import { supplierUnusedCreditHeadCells } from 'containers/accounting/purchase/suppliers/utilities/head-cells';
 import SupplierOverviewCard from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCard';
 import SupplierOverviewPayables from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewPayables';
@@ -18,6 +19,8 @@ function CustomerOverview({
   customerDetail,
   handleClickMenu,
   customerActivity,
+  setOpenApplyToBillModal,
+  setSelectedUnusedCreditObject,
 }) {
   const { id } = useParams();
   const currencySymbol = useMemo(
@@ -39,7 +42,10 @@ function CustomerOverview({
             currencySymbol={currencySymbol}
             supplierDetail={customerDetail}
             headCells={supplierUnusedCreditHeadCells}
-            usegetUnUsedCreditQuery={() => {}}
+            usegetUnUsedCreditQuery={useGetCustomerUnusedAmountQuery}
+            setOpenApplyToBillModal={setOpenApplyToBillModal}
+            setSelectedUnusedCreditObject={setSelectedUnusedCreditObject}
+            customButtonText="Apply To Invoice"
           />
           <SupplierOverviewCharts
             currencySymbol={currencySymbol}
@@ -61,6 +67,8 @@ CustomerOverview.propTypes = {
   basicInfo: PropTypes.object,
   handleClickMenu: PropTypes.func,
   customerActivity: PropTypes.array,
+  setOpenApplyToBillModal: PropTypes.func,
+  setSelectedUnusedCreditObject: PropTypes.func,
 };
 CustomerOverview.defaultProps = {
   customerDetail: null,
@@ -69,5 +77,7 @@ CustomerOverview.defaultProps = {
   basicInfo: {},
   handleClickMenu: () => {},
   customerActivity: [],
+  setOpenApplyToBillModal: () => {},
+  setSelectedUnusedCreditObject: () => {},
 };
 export default CustomerOverview;

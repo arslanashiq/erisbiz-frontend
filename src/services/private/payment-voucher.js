@@ -112,7 +112,7 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['refundPaymentVoucher'],
-      invalidatesTags: ['getSinglePaymentVoucher'],
+      invalidatesTags: ['getSinglePaymentVoucher', 'getPaymentVouchersList'],
     }),
   }),
 });

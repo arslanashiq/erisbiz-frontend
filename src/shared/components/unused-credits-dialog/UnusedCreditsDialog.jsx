@@ -7,7 +7,17 @@ import { useParams } from 'react-router';
 import MuiTableHead from '../table/MuiTableHead';
 import MuiTableBody from '../table/MuiTableBody';
 
-function UnusedCreditsDialog({ title, open, name, handleClose, headCells, usegetUnUsedCreditQuery }) {
+function UnusedCreditsDialog({
+  title,
+  open,
+  name,
+  handleClose,
+  headCells,
+  usegetUnUsedCreditQuery,
+  setOpenApplyToBillModal,
+  setSelectedUnusedCreditObject,
+  customButtonText,
+}) {
   const { id } = useParams();
   const unusedCreditsResponse = usegetUnUsedCreditQuery(id, { skip: !id });
   return (
@@ -31,8 +41,6 @@ function UnusedCreditsDialog({ title, open, name, handleClose, headCells, useget
                 customActionButton={[
                   {
                     title: '',
-                    handleClick: () => {},
-                    element: <Button>Apply To Bill</Button>,
                   },
                 ]}
               />
@@ -43,8 +51,11 @@ function UnusedCreditsDialog({ title, open, name, handleClose, headCells, useget
                 customActionButton={[
                   {
                     title: '',
-                    handleClick: () => {},
-                    element: <Button>Apply To Bill</Button>,
+                    handleClick: (_, rowObject) => {
+                      setSelectedUnusedCreditObject(rowObject);
+                      setOpenApplyToBillModal(true);
+                    },
+                    element: <Button>{customButtonText}</Button>,
                   },
                 ]}
               />
@@ -66,11 +77,17 @@ UnusedCreditsDialog.propTypes = {
   name: PropTypes.string,
   headCells: PropTypes.array,
   usegetUnUsedCreditQuery: PropTypes.func.isRequired,
+  setOpenApplyToBillModal: PropTypes.func,
+  setSelectedUnusedCreditObject: PropTypes.func,
+  customButtonText: PropTypes.string,
 };
 UnusedCreditsDialog.defaultProps = {
   handleClose: () => {},
   title: 'Credit Details for',
   name: 'Supplier',
   headCells: [],
+  setOpenApplyToBillModal: () => {},
+  setSelectedUnusedCreditObject: () => {},
+  customButtonText: 'Apply To Bill',
 };
 export default UnusedCreditsDialog;

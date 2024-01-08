@@ -16,6 +16,7 @@ function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues, hea
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <StyledDialog maxWidth={false} open={open} onClose={handleClose}>
       <Card>

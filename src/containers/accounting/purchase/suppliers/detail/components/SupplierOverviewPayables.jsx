@@ -10,7 +10,15 @@ import {
 import formatAmount from 'utilities/formatAmount';
 import UnusedCreditsDialog from 'shared/components/unused-credits-dialog/UnusedCreditsDialog';
 
-function SupplierOverviewPayables({ currencySymbol, supplierDetail, headCells, usegetUnUsedCreditQuery }) {
+function SupplierOverviewPayables({
+  currencySymbol,
+  supplierDetail,
+  headCells,
+  usegetUnUsedCreditQuery,
+  setOpenApplyToBillModal,
+  setSelectedUnusedCreditObject,
+  customButtonText,
+}) {
   const [openUnusedCreditDetailModal, setOpenUnusedCreditDetailModal] = useState(false);
 
   return (
@@ -22,6 +30,9 @@ function SupplierOverviewPayables({ currencySymbol, supplierDetail, headCells, u
           setOpenUnusedCreditDetailModal(false);
         }}
         usegetUnUsedCreditQuery={usegetUnUsedCreditQuery}
+        setOpenApplyToBillModal={setOpenApplyToBillModal}
+        setSelectedUnusedCreditObject={setSelectedUnusedCreditObject}
+        customButtonText={customButtonText}
       />
       <Stack className="w-100" direction="row" spacing={3}>
         <Stack className="w-100">
@@ -77,10 +88,16 @@ SupplierOverviewPayables.propTypes = {
   currencySymbol: PropTypes.string,
   headCells: PropTypes.array,
   usegetUnUsedCreditQuery: PropTypes.func.isRequired,
+  setOpenApplyToBillModal: PropTypes.func,
+  setSelectedUnusedCreditObject: PropTypes.func,
+  customButtonText: PropTypes.string,
 };
 SupplierOverviewPayables.defaultProps = {
   supplierDetail: [],
   currencySymbol: 'AED',
   headCells: [],
+  setOpenApplyToBillModal: () => {},
+  setSelectedUnusedCreditObject: () => {},
+  customButtonText: 'Apply To Bill',
 };
 export default SupplierOverviewPayables;

@@ -19,6 +19,8 @@ function SupplierOverview({
   supplierDetail,
   supplierActivity,
   handleClickMenu,
+  setOpenApplyToBillModal,
+  setSelectedUnusedCreditObject,
 }) {
   const { id } = useParams();
   const currencySymbol = useMemo(
@@ -43,6 +45,8 @@ function SupplierOverview({
             basicInfo={basicInfo}
             headCells={supplierUnusedCreditHeadCells}
             usegetUnUsedCreditQuery={useGetSupplierUnusedCreditDetailsQuery}
+            setOpenApplyToBillModal={setOpenApplyToBillModal}
+            setSelectedUnusedCreditObject={setSelectedUnusedCreditObject}
           />
           <SupplierOverviewCharts
             currencySymbol={currencySymbol}
@@ -64,6 +68,8 @@ SupplierOverview.propTypes = {
   supplierActivity: PropTypes.array,
   handleClickMenu: PropTypes.func,
   basicInfo: PropTypes.object,
+  setOpenApplyToBillModal: PropTypes.func,
+  setSelectedUnusedCreditObject: PropTypes.func,
 };
 SupplierOverview.defaultProps = {
   supplierDetail: null,
@@ -72,5 +78,7 @@ SupplierOverview.defaultProps = {
   handleClickMenu: () => {},
   supplierIncome: [],
   basicInfo: {},
+  setOpenApplyToBillModal: () => {},
+  setSelectedUnusedCreditObject: () => {},
 };
 export default SupplierOverview;

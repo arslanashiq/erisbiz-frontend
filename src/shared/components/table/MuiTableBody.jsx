@@ -176,7 +176,7 @@ function MuiTableBody({
                         <Box onClick={() => btn.handleClick(row.id || row)}>{btn.element}</Box>
                       )
                     ) : (
-                      <Box onClick={() => btn.handleClick(row.id || row)}>{btn.element}</Box>
+                      <Box onClick={() => btn.handleClick(row.id || row, row)}>{btn.element}</Box>
                     )}
                   </TableCell>
                 ))}
