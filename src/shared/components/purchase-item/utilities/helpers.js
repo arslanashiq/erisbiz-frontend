@@ -138,7 +138,22 @@ export const handleChangeUnitPrice = (name, index, key, value, values, setFieldV
   setFieldValue(`${name}.${index}.unit_price_ex_vat`, value);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeQuantity = (name, index, key, value, values, setFieldValue, allValues) => {
+export const handleChangeQuantity = (
+  name,
+  index,
+  key,
+  value,
+  values,
+  setFieldValue,
+  allValues,
+  adjustDiscount
+) => {
+  if (adjustDiscount) {
+    const perUnitDiscount = allValues[name][index].discountPerItem || 0;
+    if (perUnitDiscount >= 0) {
+      setFieldValue(`${name}.${index}.discount`, perUnitDiscount * value);
+    }
+  }
   const newValues = {
     ...values,
     num_nights: value,

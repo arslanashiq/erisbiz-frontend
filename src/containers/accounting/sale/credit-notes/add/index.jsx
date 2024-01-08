@@ -90,7 +90,7 @@ function index() {
         options: itemsListOptions || [],
         onChange: handleChangeSaleItem,
       },
-      { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
+      { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity, adjustDiscount: true },
       { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, disabled: true },
@@ -112,6 +112,7 @@ function index() {
 
       const selectedInvoiceItemsList = selectedSaleInvoice[0]?.invoice_items?.map(invoiceItems => ({
         ...invoiceItems,
+        discountPerItem: invoiceItems.discount / invoiceItems.num_nights || 0,
         invoice_num_nights: invoiceItems.num_nights,
       }));
       if (setFieldValue) setFieldValue('credit_note_items', selectedInvoiceItemsList);

@@ -99,7 +99,7 @@ function AddSupplierCredit() {
         onChange: handleChangePurchaseItem,
         disabled: true,
       },
-      { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
+      { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity, adjustDiscount: true },
       { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, disabled: true },
@@ -119,6 +119,7 @@ function AddSupplierCredit() {
         setFieldValue('supplier_id', purchaseInvoice.data.supplier_id);
         const selectedInvoiceItemsList = purchaseInvoice.data.bill_items.map(invoiceItems => ({
           ...invoiceItems,
+          discountPerItem: invoiceItems.discount / invoiceItems.num_nights || 0,
           invoice_num_nights: invoiceItems.num_nights,
         }));
         setFieldValue('supplier_credit_items', selectedInvoiceItemsList);
@@ -190,6 +191,7 @@ function AddSupplierCredit() {
         bill_id: Number(purchaseId),
         supplier_credit_items: billItems.map(invoiceItems => ({
           ...invoiceItems,
+          discountPerItem: invoiceItems.discount / invoiceItems.num_nights || 0,
           invoice_num_nights: invoiceItems.num_nights,
         })),
         supplier_id: supplierId,

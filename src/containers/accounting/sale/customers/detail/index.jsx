@@ -171,7 +171,7 @@ function CustomerDetail() {
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
       <DetailPageHeader
-        title={customerDetailResponse?.data?.company_name}
+        title={customerDetailResponse?.data?.customer_name}
         actionsList={customerActionList}
         openPopup={openInfoPopup}
         useDeleteItemMutation={useDeleteCutomerMutation}

@@ -6,6 +6,7 @@ export const supplierCreditFormValidationSchema = Yup.object({
   debit_account_number: Yup.string().required('Debit Account is required'),
   supplier_credit_items: Yup.array().of(
     Yup.object().shape({
+      discount: Yup.number().min(0, 'Must be a greater or equall to 0'),
       num_nights: Yup.number()
         .required('Required')
         .integer('Value must be an integer (without decimal)')

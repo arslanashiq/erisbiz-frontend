@@ -127,7 +127,8 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                               key,
                               item,
                               form.setFieldValue,
-                              form.values
+                              form.values,
+                              input.adjustDiscount || false
                             );
                           }
                         }}
