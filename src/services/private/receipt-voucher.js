@@ -138,5 +138,5 @@ export const {
   useDeleteReceiptVoucherDocumentsMutation,
   useRefundReceiptVoucherMutation,
   useReceiptVoucherJournalsQuery,
-  applyPaymentVoucherToInvoice,
+  useApplyPaymentVoucherToInvoiceMutation,
 } = receiptVoucherApi;

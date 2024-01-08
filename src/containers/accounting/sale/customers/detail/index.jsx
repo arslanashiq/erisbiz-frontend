@@ -16,7 +16,7 @@ import {
 } from 'services/private/customers';
 import { useRefundCreditNoteMutation } from 'services/private/credit-notes';
 import {
-  applyPaymentVoucherToInvoice,
+  useApplyPaymentVoucherToInvoiceMutation,
   useGetUnpaidInvoicesAgainstCustomerMutation,
 } from 'services/private/receipt-voucher';
 // shared
@@ -58,7 +58,7 @@ function CustomerDetail() {
   const [addComment] = useAddCustomerCommentMutation();
   const [deleteComment] = useDeleteCustomerCommentMutation();
   const [getUnPaidSaleInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
-  const [applyPaymentToInvoice] = applyPaymentVoucherToInvoice();
+  const [applyPaymentToInvoice] = useApplyPaymentVoucherToInvoiceMutation();
   const [refundCreditNote] = useRefundCreditNoteMutation();
 
   const customersCommentResponse = useGetCustomerCommentsQuery(id);
