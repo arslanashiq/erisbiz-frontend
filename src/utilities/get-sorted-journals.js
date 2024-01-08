@@ -1,17 +1,17 @@
 export const handleGetSortedData = (journalObject, sortedList) => {
+  const journalObjects = { ...journalObject };
   const sortedJournals = [];
-  const newAccounts = [];
-  Object.keys(journalObject).forEach(key => {
-    if (sortedList.includes(key)) {
-      const index = sortedList.indexOf(key);
-      sortedJournals.splice(index, 0, journalObject[key]);
-    } else {
-      newAccounts.push(journalObject[key]);
+  sortedList.forEach((COA, index) => {
+    if (journalObject[COA]) {
+      sortedJournals.splice(index, 0, { ...journalObjects[COA] });
+      delete journalObjects[COA];
     }
   });
-  if (newAccounts.length > 0) {
-    sortedJournals.splice(1, 0, ...newAccounts);
-  }
+  const otherAccountsIndex = sortedList.indexOf('otherAccounts');
+  Object.keys(journalObjects).forEach(journal => {
+    sortedJournals.splice(otherAccountsIndex, 0, journalObjects[journal]);
+  });
+
   return sortedJournals;
 };
 

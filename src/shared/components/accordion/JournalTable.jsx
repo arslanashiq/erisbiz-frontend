@@ -11,8 +11,14 @@ import formatAmount from 'utilities/formatAmount';
 import { handleGetSortedData } from 'utilities/get-sorted-journals';
 
 function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
-  const sortedJournalsArrayForPurchase = ['Accounts Payable', 'Cost of Sales', 'Input VAT', 'Discount'];
-  const sortedJournalsArrayForSale = ['Accounts Receivable', 'Sales', 'Output VAT', 'Discount'];
+  const sortedJournalsArrayForPurchase = ['Accounts Payable', 'otherAccounts', 'Cost of Sales', 'Input VAT'];
+  const sortedJournalsArrayForSale = [
+    'Accounts Receivable',
+    'Sales',
+    'Output VAT',
+    'otherAccounts',
+    'Cost of Sales',
+  ];
   const [updatedJournalItems, setUpdatedJournalItems] = useState([]);
   const total = useMemo(
     () =>
