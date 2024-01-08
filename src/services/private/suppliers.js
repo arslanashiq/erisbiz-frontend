@@ -32,7 +32,12 @@ const suppliersApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleSupplier', 'getSuppliersList', 'getSupplierTransactions'],
+      invalidatesTags: [
+        'getSingleSupplier',
+        'getSuppliersList',
+        'getSupplierTransactions',
+        'getSupplierUnusedCreditDetails',
+      ],
     }),
     deleteSupplier: builder.mutation({
       query: id => ({

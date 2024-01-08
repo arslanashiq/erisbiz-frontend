@@ -1,24 +1,13 @@
-/* eslint-disable  */
 import React, { useMemo } from 'react';
-import { v4 as uuid } from 'uuid';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Box, Divider, Grid, Stack, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import {
-  COMPANY_ADDRESS,
-  COMPANY_COUNTRY,
-  COMPANY_EMAIL,
-  COMPANY_OFFICE_ADDRESS,
-  COMPANY_PHONE,
-  COMPANY_TRN,
-} from 'utilities/constants';
 import { useSelector } from 'react-redux';
+import { Box, Divider, Grid, Typography } from '@mui/material';
+import palette from 'styles/mui/theme/palette';
 import OrderItemsTable from './OrderItemsTable';
 import OrderVoucher from './OrderVoucher';
 import JournalVoucher from './JournalVoucher';
-import palette from 'styles/mui/theme/palette';
 import 'styles/purchase-order-template/purchase-order-template.scss';
-import moment from 'moment';
 import OrderHeader from './OrderHeader';
 
 function OrderReceipt({
@@ -34,7 +23,7 @@ function OrderReceipt({
   const { name: companyName, logo: companyLogo, trn: companyTRN } = company;
 
   const renderOrderInfo = (data, key, title, isDate, titleColumn = 4, valueColumn = 7) => {
-    if (!data[key]) return;
+    if (!data[key]) return '';
     return (
       <Grid item container xs={12}>
         <Grid item xs={titleColumn}>

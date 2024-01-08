@@ -32,7 +32,12 @@ const customersApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleCustomer', 'getCustomersList', 'getCustomerTransactions'],
+      invalidatesTags: [
+        'getSingleCustomer',
+        'getCustomersList',
+        'getCustomerTransactions',
+        'getCustomerUnusedAmount',
+      ],
     }),
     deleteCutomer: builder.mutation({
       query: id => ({
@@ -82,6 +87,7 @@ const customersApi = privateApi.injectEndpoints({
         method: 'GET',
         params,
       }),
+      providesTags: ['getCustomerStatement'],
     }),
     getCustomerComments: builder.query({
       query: id => ({
@@ -122,6 +128,17 @@ const customersApi = privateApi.injectEndpoints({
       }),
       providesTags: ['applyPaymentToInvoice'],
     }),
+    getCustomerIncomeDetail: builder.query({
+      query: ({ id, params }) => ({
+        url: `api/accounting/sales/salesAccount/${id}/income`,
+        method: 'GET',
+        params: {
+          ...params,
+          type: 'accrual',
+        },
+      }),
+      providesTags: ['applyPaymentToInvoice'],
+    }),
   }),
 });
 
@@ -141,4 +158,5 @@ export const {
   useDeleteCustomerContactMutation,
   useGetCustomerUnusedAmountQuery,
   useApplyPaymentToInvoiceMutation,
+  useGetCustomerIncomeDetailQuery,
 } = customersApi;

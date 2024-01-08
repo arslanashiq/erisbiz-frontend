@@ -21,6 +21,7 @@ function CustomerOverview({
   customerActivity,
   setOpenApplyToBillModal,
   setSelectedUnusedCreditObject,
+  customerIncome,
 }) {
   const { id } = useParams();
   const currencySymbol = useMemo(
@@ -51,8 +52,8 @@ function CustomerOverview({
             currencySymbol={currencySymbol}
             supplierDetail={customerDetail}
             activityLogDuration={activityLogDuration}
-            supplierIncome={supplierIncome}
             handleClickMenu={handleClickMenu}
+            supplierIncome={customerIncome}
           />
           <SupplierOverviewTimeline supplierActivity={customerActivity} />
         </Grid>
@@ -69,6 +70,7 @@ CustomerOverview.propTypes = {
   customerActivity: PropTypes.array,
   setOpenApplyToBillModal: PropTypes.func,
   setSelectedUnusedCreditObject: PropTypes.func,
+  customerIncome: PropTypes.array,
 };
 CustomerOverview.defaultProps = {
   customerDetail: null,
@@ -79,5 +81,6 @@ CustomerOverview.defaultProps = {
   customerActivity: [],
   setOpenApplyToBillModal: () => {},
   setSelectedUnusedCreditObject: () => {},
+  customerIncome: [],
 };
 export default CustomerOverview;

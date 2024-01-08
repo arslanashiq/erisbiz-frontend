@@ -179,8 +179,11 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
         </Grid>
         <Grid container item xs={5} lg={5} mt={5} pr={2} justifyContent="end">
           <img
-            src="https://www.investopedia.com/thmb/hJrIBjjMBGfx0oa_bHAgZ9AWyn0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/qr-code-bc94057f452f4806af70fd34540f72ad.png"
-            style={{ width: 150, objectFit: 'fill' }}
+            src={
+              orderInfo?.QRCode ||
+              'https://www.investopedia.com/thmb/hJrIBjjMBGfx0oa_bHAgZ9AWyn0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/qr-code-bc94057f452f4806af70fd34540f72ad.png'
+            }
+            style={{ width: 180, objectFit: 'fill' }}
             alt="qr code"
           />
         </Grid>

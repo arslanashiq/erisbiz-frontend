@@ -10,6 +10,7 @@ import {
   useDeleteCustomerCommentMutation,
   useDeleteCutomerMutation,
   useGetCustomerCommentsQuery,
+  useGetCustomerIncomeDetailQuery,
   useGetCustomerStatementQuery,
   useGetSingleCustomerQuery,
 } from 'services/private/customers';
@@ -40,9 +41,15 @@ function CustomerDetail() {
   const location = useLocation();
   const { duration } = getSearchParamsList();
 
+  const [activeTab, setActiveTab] = useState(0);
+  const [openInfoPopup, setOpenInfoPopup] = useState({
+    open: false,
+    infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
+  });
   const [openApplyToBillModal, setOpenApplyToBillModal] = useState(false);
   const [applyToInvoiceInitialValues, setApplyToInvoiceInitialValues] = useState([]);
   const [selectedUnusedCreditObject, setSelectedUnusedCreditObject] = useState({});
+  const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
 
   const [addComment] = useAddCustomerCommentMutation();
   const [deleteComment] = useDeleteCustomerCommentMutation();
@@ -50,19 +57,16 @@ function CustomerDetail() {
   const [applyPaymentToInvoice] = useApplyPaymentToInvoiceMutation();
 
   const customersCommentResponse = useGetCustomerCommentsQuery(id);
+  const customerIncomeResponse = useGetCustomerIncomeDetailQuery({
+    id,
+    params: { duration: activityLogDuration },
+  });
   const customerStatementResponse = useGetCustomerStatementQuery({ id, params: location.search });
   const { basicInfo, transactions } = useSupplierStatement(
     customerStatementResponse?.data || {},
     customerStatementResponse?.data?.transactions || [],
     duration
   );
-
-  const [activityLogDuration, setActivityLogDuration] = useState('this fiscal year');
-  const [activeTab, setActiveTab] = useState(0);
-  const [openInfoPopup, setOpenInfoPopup] = useState({
-    open: false,
-    infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
-  });
 
   const customerDetailResponse = useGetSingleCustomerQuery(id);
 
@@ -168,6 +172,7 @@ function CustomerDetail() {
       }
     })();
   }, [openApplyToBillModal]);
+
   return (
     <SectionLoader options={[customerDetailResponse.isLoading]}>
       <DetailPageHeader
@@ -201,6 +206,7 @@ function CustomerDetail() {
               handleClickMenu={handleChangeActivityDuration}
               setOpenApplyToBillModal={setOpenApplyToBillModal}
               setSelectedUnusedCreditObject={setSelectedUnusedCreditObject}
+              customerIncome={customerIncomeResponse?.data?.income || []}
             />
           )}
           {activeTab === 1 && <CustomerTransactions />}

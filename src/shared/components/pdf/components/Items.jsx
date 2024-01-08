@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import formatAmount from 'utilities/formatAmount';
@@ -116,7 +117,7 @@ function addStr(str, index, stringToAdd) {
 const wrapValue = value => (!/\s/g.test(value) ? addStr(value, 10, ' ') : value);
 
 const renderItems = (item, itemNumber) => (
-  <View key={item.id} style={styles.tableRow}>
+  <View key={uuid()} style={styles.tableRow}>
     <View style={{ ...styles.tableCol, width: '6%', borderRight: BORDER_STYLE }}>
       <Text style={styles.tableCell}>{itemNumber}</Text>
     </View>
@@ -182,7 +183,7 @@ function Items({ orderDetail, keyName }) {
       {/* Added to group listed services. */}
       {quotationItems &&
         quotationItems.map(service => (
-          <View key={service.service_type} style={{ backgroundColor: '#f7f4f4b6' }}>
+          <View key={uuid()} style={{ backgroundColor: '#f7f4f4b6' }}>
             {service.items.map((item, index) => renderItems(item, index + 1))}
           </View>
         ))}

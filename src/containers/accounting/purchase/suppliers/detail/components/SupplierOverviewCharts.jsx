@@ -16,6 +16,8 @@ function SupplierOverviewCharts({ supplierIncome, activityLogDuration, handleCli
       : []),
     [supplierIncome]
   );
+
+  console.log({ supplierIncome, activityLogDuration, handleClickMenu, currencySymbol });
   return (
     <Grid sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 4, paddingBottom: 3 }}>
       <Stack direction="row" justifyContent="space-between">

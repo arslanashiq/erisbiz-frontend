@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import QRCode from 'qrcode';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent } from '@mui/material';
 // services
@@ -21,6 +22,7 @@ function PurchaseOrderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [qrCode, setQRCode] = useState('');
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
@@ -99,6 +101,9 @@ function PurchaseOrderDetail() {
     }),
     [purchaseOrderResponse]
   );
+  useEffect(() => {
+    QRCode.toDataURL('I am a pony!', { errorCorrectionLevel: 'H' }).then(url => setQRCode(url));
+  }, [purchaseOrderResponse]);
 
   return (
     <SectionLoader options={[purchaseOrderResponse.isLoading]}>
@@ -123,7 +128,7 @@ function PurchaseOrderDetail() {
       <Card>
         <CardContent>
           <OrderDocument
-            orderInfo={orderInfo}
+            orderInfo={{ ...orderInfo, QRCode: qrCode }}
             keyValue={keyValue}
             orderDetail={purchaseOrderResponse.data}
             handleChangeStatus={chagePurchaseOrderStatus}
