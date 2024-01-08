@@ -138,26 +138,30 @@ function CustomerDetail() {
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
       const paymentObjectId = getPaymentType();
-      const invoicePayments = values.bill_credit_notes
-        .filter(cn => cn.amount_applied > 0)
-        .map(cn => ({
-          amount_applied: cn.amount_applied,
-          invoice_id: cn.id,
-          ...paymentObjectId,
-        }));
 
-      let payload = {
-        payment_vouchers: invoicePayments,
-      };
       let response = null;
       if (paymentObjectId) {
-        payload = {
-          ...payload,
-          credit_note_id: selectedUnusedCreditObject.id,
+        const payload = {
+          payment_vouchers: values.bill_credit_notes
+            .filter(cn => cn.amount_applied > 0)
+            .map(cn => ({
+              amount_applied: cn.amount_applied,
+              invoice_id: cn.id,
+              ...paymentObjectId,
+            })),
         };
-        response = refundCreditNote(payload);
-      } else {
         response = await applyPaymentToInvoice(payload);
+      } else {
+        const payload = {
+          payment_vouchers: values.bill_credit_notes
+            .filter(cn => cn.amount_applied > 0)
+            .map(cn => ({
+              amount_applied: cn.amount_applied,
+              invoice_id: cn.id,
+              ...paymentObjectId,
+            })),
+        };
+        response = await refundCreditNote(payload);
       }
       if (response.error) {
         setErrors(response.error.data);

@@ -137,6 +137,7 @@ const suppliersApi = privateApi.injectEndpoints({
         url: `api/accounting/purchases/suppliers/${id}/unpaidBills`,
         method: 'GET',
       }),
+      invalidatesTags: ['getSingleSupplier'],
     }),
 
     getSupplierUnusedCreditDetails: builder.query({
