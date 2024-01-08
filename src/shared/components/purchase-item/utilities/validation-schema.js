@@ -5,7 +5,7 @@ export const purchaseOrderItemsValidationschema = Yup.array().of(
     service_type: Yup.string().required('Item is required'),
     unit_price_ex_vat: Yup.number().moreThan(-1, 'Must be more than 0').required('Required'),
     discount: Yup.number()
-      .positive('Must be greater than 0')
+      .min(0, 'Must be greater than 0')
       .max(Yup.ref('gross_amount'), 'Must be less than gross amount'),
     num_nights: Yup.number()
       .required('Required')
@@ -21,7 +21,7 @@ export const saleOrderItemsValidationschema = Yup.array().of(
   Yup.object().shape({
     service_type: Yup.string().required('Item is required'),
     discount: Yup.number()
-      .positive('Must be greater than 0')
+      .min(0, 'Must be greater than 0')
       .max(Yup.ref('gross_amount'), 'Must be less than gross amount'),
     num_nights: Yup.number()
       .required('Required')
