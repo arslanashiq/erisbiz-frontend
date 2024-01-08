@@ -22,9 +22,8 @@ import {
 } from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-statement';
 import 'styles/template-style/template-styles.scss';
 import 'styles/purchase-order-template/purchase-order-template.scss';
-import AccountSummary from './AccountSummary';
 
-function SupplierStatement({ basicInfo, transactions, personLink }) {
+function SupplierStatement({ basicInfo, transactions, personLink, AccountSummary }) {
   const { email, company: companyData } = useSelector(state => state.user);
   const {
     name: companyName,
@@ -65,7 +64,11 @@ function SupplierStatement({ basicInfo, transactions, personLink }) {
           email={email}
           company={companyData}
         />
-        <AccountSummary personLink={personLink} currencySymbol={currencySymbol} basicInfo={basicInfo} />
+        {AccountSummary ? (
+          <AccountSummary personLink={personLink} currencySymbol={currencySymbol} basicInfo={basicInfo} />
+        ) : (
+          <AccountSummary personLink={personLink} currencySymbol={currencySymbol} basicInfo={basicInfo} />
+        )}
         <Box>
           <table
             style={supplierStatementTable}
@@ -173,10 +176,12 @@ SupplierStatement.propTypes = {
   transactions: PropTypes.array,
   basicInfo: PropTypes.object,
   personLink: PropTypes.string,
+  AccountSummary: PropTypes.node,
 };
 SupplierStatement.defaultProps = {
   transactions: [],
   basicInfo: {},
+  AccountSummary: null,
   personLink: '',
 };
 export default SupplierStatement;

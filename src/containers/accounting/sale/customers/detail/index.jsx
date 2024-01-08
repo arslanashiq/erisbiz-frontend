@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-wrap-multilines */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useLocation, useParams } from 'react-router';
@@ -37,6 +37,7 @@ import CustomerTransactions from './components/CustomerTransactions';
 // styles
 import 'styles/suppliers/supplier-detail.scss';
 import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
+import CustomerAccountSummary from './components/CustomerAccountSummary';
 
 function CustomerDetail() {
   const { enqueueSnackbar } = useSnackbar();
@@ -131,7 +132,7 @@ function CustomerDetail() {
       };
     }
     if (selectedUnusedCreditObject?.type === 'Credit Note') {
-      payload = {};
+      payload = null;
     }
     return payload;
   };
@@ -153,14 +154,17 @@ function CustomerDetail() {
         response = await applyPaymentToInvoice(payload);
       } else {
         const payload = {
-          payment_vouchers: values.bill_credit_notes
+          invoice_credit_notes: values.bill_credit_notes
             .filter(cn => cn.amount_applied > 0)
             .map(cn => ({
               amount_applied: cn.amount_applied,
               invoice_id: cn.id,
               ...paymentObjectId,
             })),
+
+          credit_note_id: selectedUnusedCreditObject.id,
         };
+
         response = await refundCreditNote(payload);
       }
       if (response.error) {
@@ -229,6 +233,7 @@ function CustomerDetail() {
               basicInfo={basicInfo}
               transactions={transactions}
               personLink={`/pages/accounting/sales/customers/${id}/detail`}
+              AccountSummary={CustomerAccountSummary}
             />
           )}
 
