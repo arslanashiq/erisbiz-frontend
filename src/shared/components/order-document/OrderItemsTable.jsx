@@ -3,18 +3,10 @@ import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import formatAmount, { handleGetAmountInWords } from 'utilities/formatAmount';
 import { Box, Grid, Typography } from '@mui/material';
+import { getPaidAmount } from '../purchase-item/utilities/helpers';
 
 function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
   const formatStyle = { maximumFractionDigits: 2, minimumFractionDigits: 0 };
-  const getTotalAmount = () => {
-    let amount = orderDetail.without_change_grand_total;
-    if (orderDetail?.refunded_amount) amount -= orderDetail.refunded_amount;
-    if (orderDetail?.payment_amount) amount -= orderDetail.payment_amount;
-    if (orderDetail?.credits_used) amount -= orderDetail.credits_used;
-    if (orderDetail?.credit_applied) amount -= orderDetail.credit_applied;
-
-    return amount;
-  };
 
   const renderBankDetails = (title, value) => (
     <Grid key={`${value} ${title}`} container item xs={12} lg={12}>
@@ -159,7 +151,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
           )}
           <Box className="pointer">
             <p style={{ marginLeft: 5 }}>Net Total :</p>
-            <p>{formatAmount(getTotalAmount())}</p>
+            <p>{formatAmount(getPaidAmount(orderDetail))}</p>
           </Box>
         </Grid>
         <Grid container item xs={7} lg={7} mt={5}>
@@ -183,7 +175,7 @@ function OrderItemsTable({ orderInfo, orderDetail, keyValue }) {
               orderInfo?.QRCode ||
               'https://www.investopedia.com/thmb/hJrIBjjMBGfx0oa_bHAgZ9AWyn0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/qr-code-bc94057f452f4806af70fd34540f72ad.png'
             }
-            style={{ width: 180, objectFit: 'fill' }}
+            style={{ width: 140, objectFit: 'fill' }}
             alt="qr code"
           />
         </Grid>

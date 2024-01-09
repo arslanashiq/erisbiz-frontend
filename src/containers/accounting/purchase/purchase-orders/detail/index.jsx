@@ -16,6 +16,7 @@ import OrderDocument from 'shared/components/order-document/OrderDocument';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
+import { getPaidAmount } from 'shared/components/purchase-item/utilities/helpers';
 
 const keyValue = 'pur_order_items';
 function PurchaseOrderDetail() {
@@ -102,7 +103,18 @@ function PurchaseOrderDetail() {
     [purchaseOrderResponse]
   );
   useEffect(() => {
-    QRCode.toDataURL('I am a pony!', { errorCorrectionLevel: 'H' }).then(url => setQRCode(url));
+    if (purchaseOrderResponse?.data) {
+      QRCode.toDataURL(
+        `Purchase Order Number:${purchaseOrderResponse?.data?.pur_order_formatted_number}
+      ,Supplier:${purchaseOrderResponse?.data?.supplier?.supplier_name}
+      ,Total Amount:${purchaseOrderResponse?.data?.without_change_grand_total}
+      ,Supplier:${getPaidAmount(purchaseOrderResponse?.data)}
+      `,
+        {
+          errorCorrectionLevel: 'H',
+        }
+      ).then(url => setQRCode(url));
+    }
   }, [purchaseOrderResponse]);
 
   return (

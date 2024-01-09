@@ -236,3 +236,14 @@ export const handleGetItemWithRemainingStock = (itemsList, itemsListOptions, add
   }
   return itemsList || [NEW_PURCHASE_ITEM_OBJECT];
 };
+
+export const getPaidAmount = orderResponse => {
+  let amount = orderResponse.without_change_grand_total || 0;
+  if (orderResponse) {
+    if (orderResponse?.refunded_amount) amount -= orderResponse.refunded_amount;
+    if (orderResponse?.payment_amount) amount -= orderResponse.payment_amount;
+    if (orderResponse?.credits_used) amount -= orderResponse.credits_used;
+    if (orderResponse?.credit_applied) amount -= orderResponse.credit_applied;
+  }
+  return amount;
+};
