@@ -1,29 +1,10 @@
 /* eslint-disable implicit-arrow-linebreak */
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
 // import { useLocation } from 'react-router-dom';
 
 function useSupplierStatement(supplierStatement, supplierTransactions, duration) {
-  // const location = useLocation();
-  // const query = new URLSearchParams(location.search);
-  // const startDate = query.get('startDate') || moment.now();
-  // const endDate = query.get('endDate') || moment.now();
-  const [transactions, setTransactions] = useState([]);
-  const [amountTotal, setAmountTotal] = useState(0);
-  const [paymentTotal, setPaymentTotal] = useState(0);
-  const [openingBalanceAmount, setOpeningBalanceAmount] = useState(0);
-  const [balanceDue, setBalanceDue] = useState(0);
-
-  // const sortStatementData = (a, b) => {
-  //   if (a.transaction_date === b.transaction_date) {
-  //     if (a.transaction_type === 'Opening Balance') return -1;
-  //     if (b.transaction_type === 'Opening Balance') return 1;
-  //     return a.created_at < b.created_at ? -1 : 1;
-  //   }
-  //   return a.transaction_date > b.transaction_date ? 1 : -1;
-  // };
-
   const getAmount = (item, amountTypes) => {
     if (item.invoice_num) {
       return formatAmount(item.without_change_grand_total);
@@ -42,7 +23,13 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
     }
     return '';
   };
-  useEffect(() => {
+
+  const { amountTotal, balanceDue, paymentTotal, openingBalanceAmount, transactions } = useMemo(() => {
+    let totalAmount = 0;
+    let commulativeBalance = 0;
+    let totalPayment = 0;
+    let openingBalance = {};
+    let transactionsData = [];
     const amountTypes = [
       // purchase
       'Bill',
@@ -64,7 +51,6 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
       'Invoice Payments',
       'Credit Note',
     ];
-
     if (supplierStatement.is_credit) {
       amountTypes.push('Supplier Opening Balance');
     } else {
@@ -72,24 +58,19 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
     }
 
     if (supplierTransactions?.length >= 0) {
-      let commulativeBalance = 0;
-
-      const openingBalance = supplierTransactions.find(
+      openingBalance = supplierTransactions.find(
         item =>
           item.transaction_type === 'Opening Balance' || item.transaction_type === 'Supplier Opening Balance'
       );
       if (openingBalance) {
-        setOpeningBalanceAmount(openingBalance.total_amount);
         if (openingBalance.is_amount) {
           amountTypes.push('Opening Balance');
         } else {
           paymentTypes.push('Opening Balance');
         }
-      } else {
-        setOpeningBalanceAmount(0);
       }
 
-      const transactionsData = supplierTransactions.map(item => {
+      transactionsData = supplierTransactions.map(item => {
         if (item.invoice_num) {
           commulativeBalance += item.without_change_grand_total;
         } else if (amountTypes.includes(item.transaction_type)) {
@@ -104,29 +85,28 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
           transactions: item.transaction_type || 'Bill',
           details: item.formatted_transaction_number || item.invoice_num || '-',
           amount: getAmount(item, amountTypes),
-
           payment: getBalance(item, paymentTypes),
           balance: formatAmount(commulativeBalance),
         };
       });
-      setBalanceDue(commulativeBalance);
 
-      const totalAmount = supplierTransactions
+      totalAmount = supplierTransactions
         .filter(item => amountTypes.includes(item.transaction_type || item.bill_num))
         .reduce((acc, val) => acc + val.total_amount || val.without_change_grand_total, 0);
 
-      setAmountTotal(totalAmount);
-
-      const totalPayment = supplierTransactions
+      totalPayment = supplierTransactions
         .filter(item => paymentTypes.includes(item.transaction_type || item.bill_num))
         .reduce((acc, val) => acc + val.total_amount || val.without_change_grand_total, 0);
-
-      setPaymentTotal(totalPayment);
-
-      setTransactions([...transactionsData]);
     }
-  }, [supplierStatement, supplierTransactions, duration]);
 
+    return {
+      amountTotal: totalAmount,
+      balanceDue: commulativeBalance,
+      paymentTotal: totalPayment,
+      openingBalanceAmount: openingBalance?.totalAmount || 0,
+      transactions: transactionsData,
+    };
+  }, [supplierStatement, supplierTransactions, duration]);
   const basicInfo = {
     supplierId: supplierStatement.id,
     supplierName: supplierStatement.supplier_name || supplierStatement.customer_name,
