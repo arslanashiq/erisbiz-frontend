@@ -145,19 +145,31 @@ function addPaymentVoucher() {
     const newBills = [];
     const billsPayment = [];
     newData.bill_payments.forEach((bill, index) => {
-      if (!newBills.includes(bill.bill_num || bill.bill.bill_num)) {
+      if (!newBills.includes(bill?.supplier?.type || bill?.bill?.bill_num || bill?.bill_num)) {
         if (bill.bill) {
           billsPayment.push({
             ...bill,
             ...bill.bill,
             amount_due: (bill.bill.amount_due || 0) + (bill.amount_applied || 0),
           });
+          newBills.push(bill.bill.bill_num);
+        } else if (typeof bill.supplier === 'object') {
+          billsPayment.push({
+            ...bill,
+            bill_num: bill.supplier.type,
+            grand_total: bill.supplier.grand_total,
+            bill_date: bill.supplier.date,
+            bill_id: bill.supplier.id,
+            amount_due: (bill.supplier.amount_due || 0) + (bill.amount_applied || 0),
+          });
+          newBills.push(bill.supplier.type);
         } else {
           billsPayment.push({ ...bill, amount_applied: 0 });
+          newBills.push(bill.bill_num);
         }
       }
-      newBills.push(bill.bill_num || bill.bill.bill_num);
     });
+
     if (id) {
       newData = {
         ...newData,
@@ -189,11 +201,28 @@ function addPaymentVoucher() {
             onSubmit={async (values, { setErrors, errors }) => {
               let response = null;
 
-              const billPayments = values.bill_payments.filter(bill => bill.amount_applied > 0);
+              const billPayments = [];
+              values.bill_payments.forEach(bill => {
+                if (bill.amount_applied > 0) {
+                  if (bill.bill_num === 'Supplier Opening Balance') {
+                    billPayments.push({
+                      amount_applied: bill.amount_applied,
+                      supplier: bill?.supplier?.id || bill?.supplier,
+                    });
+                  } else {
+                    billPayments.push({
+                      amount_applied: bill.amount_applied,
+                      bill_id: bill?.bill?.id || bill.bill_id,
+                    });
+                  }
+                }
+              });
+
               const payload = {
                 ...values,
                 bill_payments: billPayments,
               };
+
               if (id) {
                 response = await editPaymentVouchser({ id, payload });
               } else {

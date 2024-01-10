@@ -12,11 +12,14 @@ import {
   useGetSinglePaymentVoucherQuery,
   useUploadPaymentVoucherDocumentMutation,
   useRefundPaymentVoucherMutation,
+  useApplyPavmentVoucherToBillMutation,
 } from 'services/private/payment-voucher';
+import { useGetSuppliersUpaidBillsListMutation } from 'services/private/suppliers';
 // shared
 import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import JournalTable from 'shared/components/accordion/JournalTable';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
+import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
@@ -31,6 +34,8 @@ function PaymentVoucherDetail() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const [openApplyToBillModal, setOpenApplyToBillModal] = useState(false);
+  const [applyToBillInitialValues, setApplyToBillInitialValues] = useState([]);
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
@@ -41,7 +46,9 @@ function PaymentVoucherDetail() {
   const paymenyVoucherJournalResponse = useGetPaymentVoucherJournalsQuery(id);
   const paymentVoucherDocumentsResponse = useGetPaymentVouchersDocumentsQuery(id);
 
+  const [getUnpaidBills] = useGetSuppliersUpaidBillsListMutation();
   const [refundPaymentVoucher] = useRefundPaymentVoucherMutation();
+  const [applyPaymentVoucherToBill] = useApplyPavmentVoucherToBillMutation();
 
   const orderInfo = useMemo(
     () => ({
@@ -73,7 +80,7 @@ function PaymentVoucherDetail() {
         label: 'Edit',
         handleClick: () => {
           const cantDelete =
-            PaymentVoucherDetailResponse?.data?.over_paid > 0 &&
+            PaymentVoucherDetailResponse?.data?.over_paid >= 0 &&
             PaymentVoucherDetailResponse?.data?.over_paid !==
               PaymentVoucherDetailResponse?.data?.over_payment;
           if (cantDelete) {
@@ -95,7 +102,7 @@ function PaymentVoucherDetail() {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
           const cantDelete =
-            PaymentVoucherDetailResponse?.data?.over_paid > 0 &&
+            PaymentVoucherDetailResponse?.data?.over_paid >= 0 &&
             PaymentVoucherDetailResponse?.data?.over_paid !==
               PaymentVoucherDetailResponse?.data?.over_payment;
           if (cantDelete) {
@@ -114,6 +121,19 @@ function PaymentVoucherDetail() {
       },
     ];
     if (PaymentVoucherDetailResponse?.data?.over_payment > 0) {
+      actionsList.push({
+        label: 'Apply To Bill',
+        divider: true,
+        handleClick: async () => {
+          setOpenApplyToBillModal(true);
+          const response = await getUnpaidBills(PaymentVoucherDetailResponse?.data?.supplier?.id);
+          const unpaidBills = response?.data?.map(bill => ({
+            ...bill,
+            amount_applied: 0,
+          }));
+          setApplyToBillInitialValues(unpaidBills);
+        },
+      });
       actionsList.push({
         label: 'Refund',
         divider: true,
@@ -136,12 +156,64 @@ function PaymentVoucherDetail() {
       return;
     }
     enqueueSnackbar('Supplier Credit Updated', { variant: 'success' });
+
     setOpenRefundModal(false);
   }, []);
+
+  const handleApplyToBill = async (values, { setErrors }) => {
+    try {
+      let payload = {};
+      let response = null;
+
+      const paymentVouchers = [];
+      values.bill_credit_notes
+        .filter(bill => bill.amount_applied > 0)
+        .forEach(bill => {
+          if (bill.bill_num === 'Supplier Opening Balance') {
+            paymentVouchers.push({
+              amount_applied: bill.amount_applied,
+              supplier: bill.id,
+              payment_made: id,
+            });
+          } else {
+            paymentVouchers.push({
+              amount_applied: bill.amount_applied,
+              bill_id: bill.id,
+              payment_made: id,
+            });
+          }
+        });
+
+      payload = { payment_vouchers: paymentVouchers };
+      response = await applyPaymentVoucherToBill(payload);
+
+      if (response === null) {
+        enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+      }
+      if (response.error) {
+        setErrors(response.error.data);
+        return;
+      }
+      enqueueSnackbar('Credit Applied Against Bill', { variant: 'success' });
+      setOpenApplyToBillModal(false);
+    } catch (error) {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    }
+  };
+
   return (
     <SectionLoader
       options={[PaymentVoucherDetailResponse.isLoading, paymenyVoucherJournalResponse.isLoading]}
     >
+      <ApplyToBill
+        open={openApplyToBillModal}
+        setOpen={setOpenApplyToBillModal}
+        handleApply={handleApplyToBill}
+        maxAmount={PaymentVoucherDetailResponse?.data?.over_payment || 0}
+        initialValues={applyToBillInitialValues || []}
+        headCells={UnPaidBillsHeadCells}
+        title="Apply To Bill"
+      />
       <RefundDialog
         open={openRefundModal}
         setOpen={setOpenRefundModal}
