@@ -148,10 +148,18 @@ function SupplierCreditDetail() {
     async (values, { setErrors }) => {
       const billCreditNotes = values.bill_credit_notes
         .filter(cn => cn.amount_applied > 0)
-        .map(cn => ({
-          amount_applied: cn.amount_applied,
-          bill_id: cn.id,
-        }));
+        .map(cn => {
+          if (cn.bill_num === 'Supplier Opening Balance') {
+            return {
+              amount_applied: cn.amount_applied,
+              supplier_account_id: cn.id,
+            };
+          }
+          return {
+            amount_applied: cn.amount_applied,
+            bill_id: cn.id,
+          };
+        });
 
       const payload = {
         credit_note_id: supplierCreditResponse?.data.id,
