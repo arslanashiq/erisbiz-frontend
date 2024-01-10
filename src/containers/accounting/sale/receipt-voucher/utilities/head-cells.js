@@ -88,6 +88,7 @@ export const UnPaidSaleInvoiceHeadCells = [
     label: 'Invoice No',
     align: 'left',
     defaultValue: '-',
+    cellValueAction: row => row?.invoice_formatted_number || row?.invoice_num,
   },
   {
     id: 'grand_total',

@@ -87,15 +87,36 @@ function AddReceiptVoucher() {
     }
   }, []);
 
-  const handleSubmitForm = useCallback(async (values, { setError }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
     let response = null;
+
+    const updatedPayloadInvoice = [];
+    values?.invoice_payments?.forEach(invoice => {
+      if (invoice.amount_due > 0) {
+        if (invoice?.invoice_num === 'Account Opening Balance') {
+          updatedPayloadInvoice.push({
+            ...invoice,
+            sales_company: invoice.id,
+          });
+        } else {
+          updatedPayloadInvoice.push({
+            ...invoice,
+          });
+        }
+      }
+    });
+    const payload = {
+      ...values,
+      invoice_payments: updatedPayloadInvoice,
+    };
+
     if (id) {
-      response = await editReceiptVoucher({ id, payload: values });
+      response = await editReceiptVoucher({ id, payload });
     } else {
-      response = await addReceiptVoucher(values);
+      response = await addReceiptVoucher(payload);
     }
     if (response.error) {
-      setError(response.error.data);
+      setErrors(response.error.data);
       return;
     }
     if (customerId) {

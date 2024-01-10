@@ -39,10 +39,18 @@ function UnPaidBillsList({ name, form, headCells }) {
       const usedAmount = getUsedAmount(value, index);
       setFieldValue('used_amount', Number(usedAmount));
       const unUsedAmount = Number(values.total) - Number(usedAmount);
-      if (unUsedAmount >= 0) setFieldValue('unused_amount', Number((unUsedAmount).toFixed(2) || 0));
+      if (unUsedAmount >= 0) setFieldValue('unused_amount', Number(unUsedAmount.toFixed(2) || 0));
     },
     [values]
   );
+
+  const renderCellValue = (cell, bill) => {
+    if (cell.cellValueAction) {
+      return cell.cellValueAction(bill);
+    }
+    if (bill[cell.id]) return bill[cell.id];
+    return cell.defaultValue;
+  };
   useEffect(() => {
     setFieldValue('used_amount', getUsedAmount(-1, -1));
   }, [values[name]?.length]);
@@ -75,7 +83,7 @@ function UnPaidBillsList({ name, form, headCells }) {
                         />
                       </TableCell>
                     ) : (
-                      <TableCell key={uuid()}>{bill[cell.id] ? bill[cell.id] : cell.defaultValue}</TableCell>
+                      <TableCell key={uuid()}>{renderCellValue(cell, bill)}</TableCell>
                     )
                   )}
                 </TableRow>
