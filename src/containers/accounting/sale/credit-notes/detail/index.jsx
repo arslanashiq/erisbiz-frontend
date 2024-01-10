@@ -169,10 +169,18 @@ function CreditNoteDetail() {
   const handleApplyToInvoice = useCallback(async (values, { setErrors }) => {
     const billCreditNotes = values.bill_credit_notes
       .filter(cn => cn.amount_applied > 0)
-      .map(cn => ({
-        amount_applied: cn.amount_applied,
-        invoice_id: cn.id,
-      }));
+      .map(cn => {
+        if (cn.invoice_num === 'Account Opening Balance') {
+          return {
+            amount_applied: cn.amount_applied,
+            sales_account: cn.id,
+          };
+        }
+        return {
+          amount_applied: cn.amount_applied,
+          invoice_id: cn.id,
+        };
+      });
 
     const payload = {
       invoice_credit_notes: billCreditNotes,
@@ -191,7 +199,12 @@ function CreditNoteDetail() {
     (async () => {
       if (openApplyToInvoiceModal) {
         const response = await getUnpaidInvoices(creditNoteDetailResponse?.data?.invoice?.customer);
-        setApplyToInvoiceInitialValues(response?.data);
+        const unpaidInvoices =
+          response?.data?.map(invoice => ({
+            ...invoice,
+            amount_applied: 0,
+          })) || [];
+        setApplyToInvoiceInitialValues(unpaidInvoices);
       }
     })();
   }, [openApplyToInvoiceModal]);
