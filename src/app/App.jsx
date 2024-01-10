@@ -17,9 +17,8 @@ function App() {
     if (userResponse.status === 'rejected' || token === null) {
       dispatch(
         isUserAuthenticated({
-          isAuthenticated: true,
-          is_regestered_company: true,
-          is_payment: false,
+          isAuthenticated: false,
+          is_regestered_company: false,
         })
       );
     }

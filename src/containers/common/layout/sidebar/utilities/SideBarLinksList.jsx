@@ -15,11 +15,11 @@ const SideBarLinksList = [
     icon: <DashboardOutlinedIcon />,
     link: '/',
   },
-  {
-    name: 'Payments',
-    icon: <DashboardOutlinedIcon />,
-    link: '/payment',
-  },
+  // {
+  //   name: 'Payments',
+  //   icon: <DashboardOutlinedIcon />,
+  //   link: '/payment',
+  // },
   {
     name: 'space',
     link: '/',
