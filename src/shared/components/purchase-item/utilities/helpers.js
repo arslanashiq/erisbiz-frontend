@@ -48,7 +48,6 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, `${selectedItem[0].value}${index}`);
 
-  let unitPrice = selectedItem[0].price;
   if (selectedItem[0].item_type === 'Goods') {
     setFieldValue(
       `${name}.${index}.cost_price`,
@@ -56,16 +55,14 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
     );
     setFieldValue(`${name}.${index}.remaining_stock`, selectedItem[0].remaining_stock);
   } else {
-    unitPrice = 0;
     setFieldValue(`${name}.${index}.cost_price`, 0);
     setFieldValue(`${name}.${index}.remaining_stock`, 0);
-    setFieldValue(`${name}.${index}.unit_price_ex_vat`, unitPrice);
   }
 
   const newValues = {
     ...values,
     service_type: selectedItem[0].value,
-    unit_price_ex_vat: unitPrice,
+    unit_price_ex_vat: selectedItem[0].price,
     credit_account: allValues.credit_account,
   };
   return { newValues, selectedItem };
@@ -113,8 +110,10 @@ export const handleChangeSaleItem = (
     itemsListOptions,
     allValues
   );
-  if (selectedItem[0].service_type === 'Goods') {
+  if (selectedItem[0].item_type === 'Goods') {
     setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
+  } else {
+    setFieldValue(`${name}.${index}.unit_price_ex_vat`, 0);
   }
   handleChangeValues(name, index, newValues, setFieldValue);
 };
