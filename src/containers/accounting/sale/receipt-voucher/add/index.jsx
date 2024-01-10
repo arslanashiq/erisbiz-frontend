@@ -92,7 +92,7 @@ function AddReceiptVoucher() {
 
     const updatedPayloadInvoice = [];
     values?.invoice_payments?.forEach(invoice => {
-      if (invoice.amount_due > 0) {
+      if (invoice.amount_applied > 0) {
         if (invoice?.invoice_num === 'Account Opening Balance') {
           updatedPayloadInvoice.push({
             ...invoice,
@@ -110,6 +110,9 @@ function AddReceiptVoucher() {
       invoice_payments: updatedPayloadInvoice,
     };
 
+    if (payload.payment_num) {
+      delete payload.payment_num;
+    }
     if (id) {
       response = await editReceiptVoucher({ id, payload });
     } else {
