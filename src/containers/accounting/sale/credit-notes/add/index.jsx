@@ -89,6 +89,7 @@ function index() {
         ...PurchaseItemInputList.service_type,
         options: itemsListOptions || [],
         onChange: handleChangeSaleItem,
+        disabled: true,
       },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity, adjustDiscount: true },
       { ...PurchaseItemInputList.unit_price_ex_vat, disabled: true },

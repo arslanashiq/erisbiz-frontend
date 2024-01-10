@@ -9,7 +9,7 @@ function PurchaseVoucherFooterDocument({ orderDetail, keyValue }) {
     if (item?.bill) {
       return `/pages/accounting/sales/sale-invoice/${item?.bill?.id}/detail`;
     }
-    return `/pages/accounting/sales/customers/${item?.bill_num}/detail`;
+    return `/pages/accounting/purchase/suppliers/${item?.supplier?.id}/detail`;
   };
   const getName = item => {
     if (item?.bill) {
