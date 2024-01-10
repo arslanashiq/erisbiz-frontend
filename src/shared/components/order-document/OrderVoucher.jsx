@@ -73,12 +73,21 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         </Box>
       </Box>
 
-      {orderDetail && orderDetail.over_payment > 0 && (
+      {orderDetail && orderDetail.over_paid > 0 && (
         <Box className="over-payment">
           <h5>Overpayment</h5>
           <h4>
             {orderDetail.currency_symbol}
-            {formatAmount(orderDetail.over_paid || orderDetail.over_payment)}
+            {formatAmount(orderDetail.over_paid)}
+          </h4>
+        </Box>
+      )}
+      {orderDetail && orderDetail?.over_payment !== orderDetail?.over_paid && (
+        <Box className="over-payment">
+          <h5>Applied Amount</h5>
+          <h4>
+            {orderDetail.currency_symbol}
+            {formatAmount(orderDetail.over_paid - orderDetail.over_payment)}
           </h4>
         </Box>
       )}

@@ -78,7 +78,7 @@ function UnPaidBillsList({ name, form, headCells }) {
                         <FormikField
                           name={`${name}[${index}].amount_applied`}
                           type="number"
-                          className="col-12"
+                          className="col-12 text-end"
                           onChange={value => handleChangeUsedAmount(value, index)}
                         />
                       </TableCell>

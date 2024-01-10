@@ -10,6 +10,7 @@ import { useSnackbar } from 'notistack';
 import { Avatar, Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import formatAmount from 'utilities/formatAmount';
 
 function Checkout({ plan }) {
   const [{ isPending }] = usePayPalScriptReducer();
@@ -17,7 +18,7 @@ function Checkout({ plan }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleCreateSubscription = async (_, actions) => {
-    const subscription = await actions.subscription.create({ plan_id: 'P-7BT90076842067520MWOV33Y' });
+    const subscription = await actions.subscription.create({ plan_id: plan?.plan_id });
     return subscription;
   };
 
@@ -32,53 +33,57 @@ function Checkout({ plan }) {
       }
       enqueueSnackbar(response?.data?.message || 'Payment Made', { variant: 'success' });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   const { email } = useSelector(state => state.user);
-  console.log(plan);
+  const cardHeadingFont = { fontSize: 16 };
   const planSummaryStyleBox = { justifyContent: 'space-between' };
-  const planSummaryStyle = { justifyContent: 'space-between', padding: '5px 0px' };
+  const paymentCardHeadingStyle = { fontSize: 16, fontWeight: 600 };
   return (
     <SectionLoader options={[isPending]}>
       <Card>
         <CardContent>
-          <Stack sx={{ width: 400, height: 300, justifyContent: 'space-between' }}>
-            <Box>
-              <Typography>Order Summary</Typography>
+          <Stack sx={{ width: 400, maxHeight: 500, justifyContent: 'space-between' }}>
+            <Box sx={{ marginBottom: 2 }}>
+              <Typography sx={{ fontSize: 18, fontWeight: 700 }}>Order Summary</Typography>
 
               <Stack direction="row" alignItems="center" spacing={2} sx={{ marginTop: 3 }}>
                 <Avatar src="" />
-                <Typography>{email}</Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 600 }}>{email}</Typography>
               </Stack>
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginTop: 2 }}>
-                <Typography>{plan?.title}</Typography>
-                <Typography>{plan?.price}</Typography>
+                <Typography sx={paymentCardHeadingStyle}>{plan?.title}</Typography>
+                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.price))}</Typography>
               </Stack>
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginBottom: 2 }}>
-                <Typography>Delivery Time</Typography>
-                <Typography>{plan?.duration}</Typography>
+                <Typography sx={cardHeadingFont}>Duration Time</Typography>
+                <Typography sx={paymentCardHeadingStyle}>{plan?.duration}</Typography>
               </Stack>
-              <Box sx={{ height: 1.1, backgroundColor: 'silver' }} />
+              <Box sx={{ height: '1px', backgroundColor: 'silver' }} />
 
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginTop: 3 }}>
-                <Typography>SubTotal</Typography>
-                <Typography>{plan?.price}</Typography>
+                <Typography sx={cardHeadingFont}>SubTotal</Typography>
+                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.price))}</Typography>
               </Stack>
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginBottom: 2 }}>
-                <Typography>Service Fee</Typography>
-                <Typography>0</Typography>
+                <Typography sx={cardHeadingFont}>Service Fee</Typography>
+                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(0)}</Typography>
               </Stack>
-              <Box sx={{ height: 1.1, backgroundColor: 'silver' }} />
-              <Stack direction="row" sx={{ ...planSummaryStyleBox, marginBottom: 2 }}>
-                <Typography>Total</Typography>
-                <Typography>0</Typography>
+
+              <Box sx={{ height: '1px', backgroundColor: 'silver' }} />
+
+              <Stack direction="row" sx={{ ...planSummaryStyleBox, marginTop: 2, marginBottom: 2 }}>
+                <Typography sx={paymentCardHeadingStyle}>Total</Typography>
+                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.price))}</Typography>
               </Stack>
+              <Box sx={{ height: '1px', backgroundColor: 'silver' }} />
             </Box>
             <PayPalButtons
               fundingSource="paypal"
               style={{ height: 55 }}
-              // createOrder={handleCreatePaypalOrder}
+              onCancel={() => {}}
+              onError={() => {}}
               createSubscription={handleCreateSubscription}
               onApprove={handleOnApprove}
             />

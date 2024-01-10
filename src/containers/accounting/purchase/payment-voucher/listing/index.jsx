@@ -28,7 +28,7 @@ function paymentVoucherListing() {
 
   const checkStatus = useCallback((data, selected) => {
     let message =
-      'You cannot delete these items because some of the selected items have refund or debit note or payment applied';
+      'You cannot delete these items because some of the selected items have refund or payment applied';
     let actionButton = false;
     const selectedData = [];
     data.forEach(item => {
@@ -36,14 +36,9 @@ function paymentVoucherListing() {
         selectedData.push(item);
       }
     });
-    const isRefunded = selectedData.some(item => item.over_paid > 0 && item.over_paid !== item.over_payment);
-    const paymentApplied = selectedData.some(item => item.have_debit_note || item.is_payment_applied);
+    const isRefunded = selectedData.some(item => item.over_paid >= 0 && item.over_paid !== item.over_payment);
     if (isRefunded) {
-      message = selected.length === 1 ? 'Selected Voucher have Refunds' : message;
-      actionButton = false;
-    }
-    if (paymentApplied) {
-      message = selected.length === 1 ? 'Selected Voucher have Debit Note or payment Applied' : message;
+      message = selected.length === 1 ? 'Selected Voucher have Refunds or Applied to bill' : message;
       actionButton = false;
     } else {
       message = 'Are you sure you want to delete?';

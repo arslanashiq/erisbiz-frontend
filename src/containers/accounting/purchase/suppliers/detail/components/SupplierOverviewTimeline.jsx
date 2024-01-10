@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import CommentIcon from '@mui/icons-material/Comment';
 import { Box, CardContent, Grid } from '@mui/material';
@@ -41,7 +42,7 @@ export default function SupplierOverviewTimeline({ supplierActivity }) {
       <Box className="timeline mx-auto">
         {supplierActivity &&
           supplierActivity?.map(item => (
-            <Box className="timeline__item">
+            <Box key={uuid()} className="timeline__item">
               <TimeLineIcon type="comments" />
               <CardContent className="timeline__content">
                 <h5 className="timeline__title">{getModuleName(item?.module_name)}</h5>

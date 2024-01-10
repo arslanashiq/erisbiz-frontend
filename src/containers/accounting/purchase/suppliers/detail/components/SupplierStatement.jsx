@@ -181,7 +181,7 @@ SupplierStatement.propTypes = {
   transactions: PropTypes.array,
   basicInfo: PropTypes.object,
   personLink: PropTypes.string,
-  CustomerAccountSummary: PropTypes.node,
+  CustomerAccountSummary: PropTypes.func,
 };
 SupplierStatement.defaultProps = {
   transactions: [],

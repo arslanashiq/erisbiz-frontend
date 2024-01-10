@@ -1,6 +1,6 @@
 export const plansList = [
   {
-    plan_id: '0',
+    plan_id: 'P-7BT90076842067520MWOV33Y',
     title: 'Iphone 15',
     price: '1',
     description: ['Test Point 1', 'Test Point 2', 'Test Point 3', 'Test Point 4'],
@@ -9,7 +9,7 @@ export const plansList = [
     duration: '1 Month',
   },
   {
-    plan_id: '1',
+    plan_id: 'P-7BT90076842067520MWOV33Y',
     title: 'Iphone 15 Pro',
     price: '15',
     description: ['Test Point 1', 'Test Point 2', 'Test Point 3', 'Test Point 4'],
@@ -18,7 +18,7 @@ export const plansList = [
     duration: '1 Month',
   },
   {
-    plan_id: '2',
+    plan_id: 'P-7BT90076842067520MWOV33Y',
     title: 'Iphone 15 Pro Max',
     price: '30',
     description: ['Test Point 1', 'Test Point 2', 'Test Point 3', 'Test Point 4'],
