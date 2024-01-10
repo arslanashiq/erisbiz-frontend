@@ -137,51 +137,76 @@ function SupplierDetail() {
     setPopup({ ...popup, open: false });
   }, []);
 
-  const getPaymentType = () => {
-    let payload = {};
-    if (selectedUnusedCreditObject?.type === 'Excess Payment') {
-      payload = {
-        payment_made: selectedUnusedCreditObject.id,
-      };
-    } else if (selectedUnusedCreditObject?.type === 'Debit Note') {
-      payload = null;
-    } else if (selectedUnusedCreditObject?.type === 'Supplier Opening Balance') {
-      payload = {
-        supplier: id,
-      };
-    }
-    return payload;
-  };
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
-      const payloadObject = getPaymentType();
-
+      let payload = {};
       let response = null;
-      if (payloadObject) {
-        const payload = {
-          payment_vouchers: values.bill_credit_notes
-            .filter(cn => cn.amount_applied > 0)
-            .map(cn => ({
-              amount_applied: cn.amount_applied,
-              bill_id: cn.id,
-              ...payloadObject,
-            })),
-        };
+
+      if (selectedUnusedCreditObject?.type === 'Excess Payment') {
+        const paymentVouchers = [];
+        values.bill_credit_notes
+          .filter(bill => bill.amount_applied > 0)
+          .forEach(bill => {
+            if (bill.bill_num === 'Supplier Opening Balance') {
+              paymentVouchers.push({
+                amount_applied: bill.amount_applied,
+                supplier: bill.id,
+                payment_made: selectedUnusedCreditObject.id,
+              });
+            } else {
+              paymentVouchers.push({
+                amount_applied: bill.amount_applied,
+                bill_id: bill.id,
+                payment_made: selectedUnusedCreditObject.id,
+              });
+            }
+          });
+
+        payload = { payment_vouchers: paymentVouchers };
         response = await applyPaymentVoucherToBill(payload);
-      } else {
-        const payload = {
-          bill_credit_notes: values.bill_credit_notes
-            .filter(cn => cn.amount_applied > 0)
-            .map(cn => ({
-              amount_applied: cn.amount_applied,
-              bill_id: cn.id,
-            })),
+      } else if (selectedUnusedCreditObject?.type === 'Supplier Opening Balance') {
+        const paymentVouchers = [];
+        values.bill_credit_notes
+          .filter(bill => bill.amount_applied > 0)
+          .forEach(bill => {
+            paymentVouchers.push({
+              amount_applied: bill.amount_applied,
+              supplier: selectedUnusedCreditObject.id,
+              bill_id: bill.id,
+            });
+          });
+
+        payload = { payment_vouchers: paymentVouchers };
+        response = await applyPaymentVoucherToBill(payload);
+      } else if (selectedUnusedCreditObject?.type === 'Debit Note') {
+        const billCreditNotes = [];
+        values.bill_credit_notes
+          .filter(bill => bill.amount_applied > 0)
+          .forEach(bill => {
+            if (bill.bill_num === 'Supplier Opening Balance') {
+              billCreditNotes.push({
+                amount_applied: bill.amount_applied,
+                supplier_account_id: bill.id,
+              });
+            } else {
+              billCreditNotes.push({
+                amount_applied: bill.amount_applied,
+                bill_id: bill.id,
+              });
+            }
+          });
+
+        payload = {
+          bill_credit_notes: billCreditNotes,
           credit_note_id: selectedUnusedCreditObject.id,
           supplier_credit_id: selectedUnusedCreditObject.id,
         };
         response = await refundSupplierCredit(payload);
       }
 
+      if (response === null) {
+        enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+      }
       if (response.error) {
         setErrors(response.error.data);
         return;
