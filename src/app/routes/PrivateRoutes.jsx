@@ -14,7 +14,7 @@ function PrivateRoutes() {
     if (isPayment) {
       return <Layout />;
     }
-    return <Navigate to="/payment" replace />;
+    return <Navigate to="/payment-plans" replace />;
   }
 
   return <Navigate to="/register-company" replace />;

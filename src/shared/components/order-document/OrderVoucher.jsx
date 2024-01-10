@@ -93,7 +93,7 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
       )}
 
       {/* ********* Payment For  ************* */}
-      {orderDetail[keyValue] && orderDetail[keyValue].length > 0 && (
+      {orderDetail[keyValue] && orderDetail[keyValue]?.length > 0 && (
         <Box className="row mt-5">
           <Box className="col-md-12">
             <h3 className="payment-for-heading">Payment For</h3>

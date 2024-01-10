@@ -17,7 +17,7 @@ function PublicRoutes({ children }) {
         }
         return <Navigate to="/" replace />;
       }
-      return <Navigate to="/payment" replace />;
+      return <Navigate to="/payment-plans" replace />;
     }
 
     return <Navigate to="/register-company" replace />;

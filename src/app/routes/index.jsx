@@ -184,6 +184,7 @@ const ActivityLogsDetailPage = lazy(() => import('containers/reports/activity/co
 
 // PAYPAL PAYMENTS
 const PayPalPaymentPage = lazy(() => import('containers/payments/paypal'));
+const PayPalPaymentPlansPage = lazy(() => import('containers/payments/payment-plans'));
 
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
@@ -204,6 +205,7 @@ function AppRoutes() {
             <Route path="register-company/:id/:token" element={<RegisterCompanyPage />} />
             <Route path="register-company" element={<RegisterCompanyPage />} />
             <Route path="/payment" element={<PayPalPaymentPage />} />
+            <Route path="/payment-plans" element={<PayPalPaymentPlansPage />} />
 
             <Route path="/" element={<PrivateRoutes />}>
 
