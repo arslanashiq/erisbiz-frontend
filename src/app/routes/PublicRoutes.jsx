@@ -7,15 +7,17 @@ import AuthWrapper from 'containers/auth/components/AuthWrapper';
 
 function PublicRoutes({ children }) {
   const location = useLocation();
-  const { isAuthenticated, isRegesteredCompany } = useSelector(state => state.user);
+  const { isAuthenticated, isRegesteredCompany, isPayment } = useSelector(state => state.user);
 
   if (isAuthenticated) {
     if (isRegesteredCompany) {
-      if (location?.state) {
-        return <Navigate to={location.state} replace />;
+      if (isPayment) {
+        if (location?.state) {
+          return <Navigate to={location.state} replace />;
+        }
+        return <Navigate to="/" replace />;
       }
-
-      return <Navigate to="/" replace />;
+      return <Navigate to="/payment" replace />;
     }
 
     return <Navigate to="/register-company" replace />;

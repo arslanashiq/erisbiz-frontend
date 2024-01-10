@@ -19,12 +19,14 @@ function SupplierContactPerson({ contactPerson, addNewContactLink }) {
           <Stack key={contact.email} spacing={2} direction="row" alignItems="start" justifyContent="start">
             <Avatar src={contact.image} />
             <Stack>
-              <Typography>{`${contact.name} (${contact.designation})`}</Typography>
-              <Typography>
+              <Typography sx={{ fontSize: 13, fontWeight: 'bold' }}>
+                {contact.name} ({contact.designation})
+              </Typography>
+              <Typography sx={{ fontSize: 13 }}>
                 <EmailIcon sx={IconStyle} />
                 {contact.email}
               </Typography>
-              <Typography>
+              <Typography sx={{ fontSize: 13 }}>
                 <PhoneAndroidIcon sx={IconStyle} />
                 {contact.mobile_num}
               </Typography>

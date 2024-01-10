@@ -56,5 +56,12 @@ export const PurchaseItemInputList = {
     commonClassName: 'text-end',
     inputClassName: 'text-end',
   },
+  cost_price: {
+    name: 'cost_price',
+    placeholder: 'Cost Price',
+    type: 'number',
+    commonClassName: 'text-end',
+    inputClassName: 'text-end',
+  },
 };
 export const test = '';

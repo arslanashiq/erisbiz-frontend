@@ -46,9 +46,16 @@ const customersApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getCustomersList', 'getCustomerTransactions'],
     }),
+    getCustomerContact: builder.query({
+      query: id => ({
+        url: `/api/accounting/sales/contact/company/${id}/`,
+        method: 'GET',
+      }),
+      providesTags: ['getCustomerContact'],
+    }),
     addCustomerContact: builder.mutation({
       query: payload => ({
-        url: 'api/accounting/sales/accounts/contacts/',
+        url: '/api/accounting/sales/contact/company/',
         method: 'POST',
         body: payload,
       }),
@@ -57,7 +64,7 @@ const customersApi = privateApi.injectEndpoints({
     }),
     editCustomerContact: builder.mutation({
       query: ({ id, payload }) => ({
-        url: `api/accounting/sales/accounts/contacts/${id}/`,
+        url: `/api/accounting/sales/contact/company/${id}/`,
         method: 'PATCH',
         body: payload,
       }),
@@ -66,7 +73,7 @@ const customersApi = privateApi.injectEndpoints({
     }),
     deleteCustomerContact: builder.mutation({
       query: id => ({
-        url: `api/accounting/sales/accounts/contacts/${id}/`,
+        url: `/api/accounting/sales/contact/company/${id}/`,
         method: 'DELETE',
       }),
       providesTags: ['deleteCustomerContact'],
@@ -158,4 +165,5 @@ export const {
   useGetCustomerUnusedAmountQuery,
   useGetCustomerIncomeDetailQuery,
   useGetCustomerActivityDetailQuery,
+  useGetCustomerContactQuery,
 } = customersApi;

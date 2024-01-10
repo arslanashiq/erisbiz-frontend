@@ -54,7 +54,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
 
   const getFieldDisabledStatus = (item, input) => {
     if (input?.name === 'cost_price') {
-      if (item?.service_type_name === 'Service') return false;
+      if (item?.item_service_type === 'Service') return false;
       return true;
     }
     return input?.disabled || false;

@@ -5,6 +5,7 @@ import { Box, CardContent, Grid } from '@mui/material';
 import moment from 'moment';
 // styles
 import 'styles/timeline/timeline.scss';
+import { getModuleName } from 'containers/reports/activity/utilities/constants';
 
 function TimeLineIcon({ type }) {
   let Icon;
@@ -39,16 +40,13 @@ export default function SupplierOverviewTimeline({ supplierActivity }) {
     <Grid>
       <Box className="timeline mx-auto">
         {supplierActivity &&
-          supplierActivity.map(item => (
+          supplierActivity?.map(item => (
             <Box className="timeline__item">
               <TimeLineIcon type="comments" />
-
               <CardContent className="timeline__content">
-                <h5 className="timeline__title">{item.activity_title}</h5>
+                <h5 className="timeline__title">{getModuleName(item?.module_name)}</h5>
                 <h4 className="subhead timeline__date">
-                  {`${moment(item.created_at).format('DD MMM YYYY')}, ${moment(item.created_at).format(
-                    'hh:mm A'
-                  )}`}
+                  {moment(item.datetime).format('DD MMM YYYY hh:mm A')}
                 </h4>
                 <p className="timeline__description">{item.description}</p>
               </CardContent>

@@ -182,6 +182,9 @@ const BalanceSheetStatementReportPage = lazy(() => import('containers/reports/fi
 const ActivityLogsReportPage = lazy(() => import('containers/reports/activity/ActivityLogs'));
 const ActivityLogsDetailPage = lazy(() => import('containers/reports/activity/components/ActivityLogsDetail'));
 
+// PAYPAL PAYMENTS
+const PayPalPaymentPage = lazy(() => import('containers/payments/paypal'));
+
 // Page Not Found
 const PageNotFound = lazy(() => import('containers/miscellaneous/page-not-found'));
 
@@ -200,8 +203,10 @@ function AppRoutes() {
             </Route>
             <Route path="register-company/:id/:token" element={<RegisterCompanyPage />} />
             <Route path="register-company" element={<RegisterCompanyPage />} />
+            <Route path="/payment" element={<PayPalPaymentPage />} />
 
             <Route path="/" element={<PrivateRoutes />}>
+
               <Route path="/" element={<DashboardPage />} />
               <Route path="user" element={<Outlet />}>
                 <Route path="profile" element={<UserProfilePage />} />

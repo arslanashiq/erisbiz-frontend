@@ -33,15 +33,6 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
   handleSetValue(setFieldValue, name, index, 'vat_amount', Number(vatAmount.toFixed(2)));
   handleSetValue(setFieldValue, name, index, 'gross_amount', grossTotal);
   handleSetValue(setFieldValue, name, index, 'net_amount', netAmount.toFixed(2));
-  // if (vatAmount >= 0) {
-  //   setFieldValue(`${name}.${index}.vat_amount`, Number(vatAmount.toFixed(2)));
-  // }
-  // if (grossTotal >= 0) {
-  //   setFieldValue(`${name}.${index}.gross_amount`, grossTotal);
-  // }
-  // if (netAmount >= 0) {
-  //   setFieldValue(`${name}.${index}.net_amount`, netAmount.toFixed(2));
-  // }
   setFieldValue(`${name}.${index}.amount_ex_vat`, (grossTotal || 0 - values.discount || 0).toFixed(2));
 };
 
@@ -56,20 +47,25 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
 
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, `${selectedItem[0].value}${index}`);
-  setFieldValue(
-    `${name}.${index}.cost_price`,
-    selectedItem[0].weighted_cost_price || selectedItem[0].cost_price
-  );
+
+  let unitPrice = selectedItem[0].price;
   if (selectedItem[0].item_type === 'Goods') {
+    setFieldValue(
+      `${name}.${index}.cost_price`,
+      selectedItem[0].weighted_cost_price || selectedItem[0].cost_price
+    );
     setFieldValue(`${name}.${index}.remaining_stock`, selectedItem[0].remaining_stock);
   } else {
+    unitPrice = 0;
+    setFieldValue(`${name}.${index}.cost_price`, 0);
     setFieldValue(`${name}.${index}.remaining_stock`, 0);
+    setFieldValue(`${name}.${index}.unit_price_ex_vat`, unitPrice);
   }
 
   const newValues = {
     ...values,
     service_type: selectedItem[0].value,
-    unit_price_ex_vat: selectedItem[0].price,
+    unit_price_ex_vat: unitPrice,
     credit_account: allValues.credit_account,
   };
   return { newValues, selectedItem };
@@ -117,7 +113,9 @@ export const handleChangeSaleItem = (
     itemsListOptions,
     allValues
   );
-  setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
+  if (selectedItem[0].service_type === 'Goods') {
+    setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
+  }
   handleChangeValues(name, index, newValues, setFieldValue);
 };
 export const handleChangeCostPrice = (name, index, key, value, values, setFieldValue, allValues) => {

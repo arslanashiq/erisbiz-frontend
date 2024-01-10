@@ -17,7 +17,11 @@ import FormikField from 'shared/components/form/FormikField';
 // styles
 import 'styles/form/form.scss';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
-import { useAddCustomerContactMutation } from 'services/private/customers';
+import {
+  useAddCustomerContactMutation,
+  useEditCustomerContactMutation,
+  useGetCustomerContactQuery,
+} from 'services/private/customers';
 
 function AddSupplierContact() {
   const navigate = useNavigate();
@@ -34,12 +38,12 @@ function AddSupplierContact() {
           supplier_id: supplierId,
         }
       : {
-          first_name: '',
+          name: '',
           designation: '',
           email: '',
           mobile_num: '',
           notes: '',
-          sales_account_id: customerId,
+          SalesCompany: customerId,
         }
   );
 
@@ -50,24 +54,26 @@ function AddSupplierContact() {
 
   // customers
   const [addCustomerContact] = useAddCustomerContactMutation();
+  const [editCustomerContact] = useEditCustomerContactMutation();
+  const singleCustomerContactResponse = useGetCustomerContactQuery(id, { skip: !id || !customerId });
 
   useEffect(() => {
     if (id && supplierId && singleSupplierContactResponse.isSuccess) {
       setInitialValues({ ...singleSupplierContactResponse?.data });
     }
-    if (id && customerId && singleSupplierContactResponse.isSuccess) {
-      setInitialValues({ ...singleSupplierContactResponse?.data });
+    if (id && customerId && singleCustomerContactResponse.isSuccess) {
+      setInitialValues({ ...singleCustomerContactResponse?.data });
     }
-  }, [id, supplierId, customerId, singleSupplierContactResponse]);
+  }, [id, supplierId, customerId, singleSupplierContactResponse, singleCustomerContactResponse]);
   return (
     <>
       <Helmet>
-        <title>Supplier Contact - ErisBiz</title>
+        <title>{supplierId ? 'Supplier' : 'Customer'} Contact - ErisBiz</title>
         <meta name="description" content="CRM - Luxury Explorers" />
       </Helmet>
       <Card>
         <CardContent>
-          <FormHeader title="Supplier Contact" />
+          <FormHeader title={supplierId ? 'Supplier Contact' : 'Customer Contact'} />
           <Formik
             enableReinitialize
             initialValues={initialValues}
@@ -79,7 +85,7 @@ function AddSupplierContact() {
                   if (supplierId) {
                     response = await editSupplierContact({ id, payload: values });
                   } else {
-                    response = await editSupplierContact({ id, payload: values });
+                    response = await editCustomerContact({ id, payload: values });
                   }
                 } else if (supplierId) {
                   response = await addSupplierContact(values);
@@ -106,7 +112,7 @@ function AddSupplierContact() {
               {/* Name */}
 
               <FormikField
-                name="first_name"
+                name={supplierId ? 'first_name' : 'name'}
                 type="text"
                 // placeholder="Name"
                 label="Name"

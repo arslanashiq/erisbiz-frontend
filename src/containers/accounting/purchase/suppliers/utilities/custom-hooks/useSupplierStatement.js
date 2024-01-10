@@ -41,26 +41,27 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
     const paymentTypes = [
       // purchae
       'Supplier Payment',
-      'Supplier Opening Balance Payment',
       'Bill Payment',
       'Debit Note',
 
       // sale
-      'Customer Payment',
-      'Customer Opening Balance Payment',
+      'Customer Receipt',
       'Invoice Payments',
       'Credit Note',
     ];
     if (supplierStatement.is_credit) {
       amountTypes.push('Supplier Opening Balance');
+      amountTypes.push('Customer Opening Balance');
     } else {
       paymentTypes.push('Supplier Opening Balance');
+      paymentTypes.push('Customer Opening Balance');
     }
 
     if (supplierTransactions?.length >= 0) {
       openingBalance = supplierTransactions.find(
         item =>
-          item.transaction_type === 'Opening Balance' || item.transaction_type === 'Supplier Opening Balance'
+          item.transaction_type === 'Supplier Opening Balance' ||
+          item.transaction_type === 'Customer Opening Balance'
       );
       if (openingBalance) {
         if (openingBalance.is_amount) {
@@ -69,7 +70,6 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
           paymentTypes.push('Opening Balance');
         }
       }
-
       transactionsData = supplierTransactions.map(item => {
         if (item.invoice_num) {
           commulativeBalance += item.without_change_grand_total;
@@ -103,7 +103,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
       amountTotal: totalAmount,
       balanceDue: commulativeBalance,
       paymentTotal: totalPayment,
-      openingBalanceAmount: openingBalance?.totalAmount || 0,
+      openingBalanceAmount: openingBalance?.totalAmount || openingBalance?.total_amount || 0,
       transactions: transactionsData,
     };
   }, [supplierStatement, supplierTransactions, duration]);

@@ -7,6 +7,7 @@ const initialState = {
   profile: {},
   company: {},
   isAuthenticated: null,
+  isPayment: false,
   isRegesteredCompany: false,
 };
 
@@ -20,6 +21,7 @@ const userSlice = createSlice({
         payload: {
           isAuthenticated,
           is_regestered_company: isRegesteredCompany,
+          is_payment: isPayment,
           user: { email, groups, profile, company },
         },
       }
@@ -32,14 +34,24 @@ const userSlice = createSlice({
         isRegesteredCompany,
         isAuthenticated,
         company,
+        isPayment,
       };
       return newData;
     },
     isUserAuthenticated: (
       state,
-      { payload: { isAuthenticated, is_regestered_company: isRegesteredCompany, profile, company, email } }
+      {
+        payload: {
+          isAuthenticated,
+          is_regestered_company: isRegesteredCompany,
+          is_payment: isPayment,
+          profile,
+          company,
+          email,
+        },
+      }
     ) => {
-      const newData = { ...state, isAuthenticated, isRegesteredCompany, profile, company, email };
+      const newData = { ...state, isAuthenticated, isRegesteredCompany, profile, company, email, isPayment };
       return newData;
     },
   },

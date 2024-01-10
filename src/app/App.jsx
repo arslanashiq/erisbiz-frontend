@@ -26,9 +26,9 @@ function App() {
       dispatch(
         isUserAuthenticated({
           isAuthenticated: true,
-          // is_regestered_company: false,
           email: userResponse?.data?.email,
           is_regestered_company: userResponse.data?.is_regestered_company,
+          is_payment: true,
           profile: userResponse.data?.profile,
           company: userResponse.data?.company,
         })

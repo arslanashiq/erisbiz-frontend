@@ -99,6 +99,7 @@ function AddQuotation() {
       },
       { ...PurchaseItemInputList.remaining_stock, disabled: true },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
+      { ...PurchaseItemInputList.cost_price, onChange: () => {} },
       { ...PurchaseItemInputList.unit_price_ex_vat, onChange: handleChangeUnitPrice },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, onChange: handleChangeDiscount },

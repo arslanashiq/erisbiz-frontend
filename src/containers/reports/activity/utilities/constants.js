@@ -57,6 +57,24 @@ export const getModuleName = name => {
   }
   return name;
 };
+export const getResponseStatus = (code, method, module) => {
+  if (module === 'Login') {
+    if (code === '200') return 'Successfully Logged In';
+    return 'Unsuccessful Logged In';
+  }
+  if (method === 'POST') {
+    if (code === '201' || code === '200') return 'Added Successfully';
+  }
+  if (method === 'PATCH' || method === 'PUT') {
+    if (code === '200') return 'Updated Successfully';
+    return 'Not Updated Successfully';
+  }
+  if (method === 'DELETE') {
+    if (code === '204') return 'Deleted Successfully';
+    return 'Not Deleted Successfully';
+  }
+  return 'Unhandled Code';
+};
 
 export const validObjectKeysNames = {
   expense_account: 'account_name',

@@ -38,6 +38,7 @@ import {
   tableCellStyle,
   validKeyName,
   validObjectKeysNames,
+  getResponseStatus,
 } from '../utilities/constants';
 
 function ActivityLogsDetail() {
@@ -68,24 +69,6 @@ function ActivityLogsDetail() {
     return {};
   }, [activityData]);
 
-  const getResponseStatus = useCallback((code, method, module) => {
-    if (module === 'Login') {
-      if (code === '200') return 'Successfully Logged In';
-      return 'Unsuccessful Logged In';
-    }
-    if (method === 'POST') {
-      if (code === '201' || code === '200') return 'Added Successfully';
-    }
-    if (method === 'PATCH' || method === 'PUT') {
-      if (code === '200') return 'Updated Successfully';
-      return 'Not Updated Successfully';
-    }
-    if (method === 'DELETE') {
-      if (code === '204') return 'Deleted Successfully';
-      return 'Not Deleted Successfully';
-    }
-    return 'Unhandled Code';
-  }, []);
   const { data: activityDetailInfo, module: moduleName } = useMemo(() => {
     const data = [];
     const module = activityDetail?.module_name;

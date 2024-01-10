@@ -15,7 +15,7 @@ function ContactInfo({ name, form, push, remove }) {
               <TableCell>
                 <FormikField
                   className="w-100"
-                  name={`${name}.${index}.name`}
+                  name={`${name}.${index}.${name === 'supplier_contacts' ? 'first_name' : 'name'}`}
                   type="text"
                   placeholder="Name"
                 />

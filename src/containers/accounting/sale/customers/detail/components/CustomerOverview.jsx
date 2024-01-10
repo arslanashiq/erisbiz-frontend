@@ -6,8 +6,8 @@ import { Box, Grid } from '@mui/material';
 import { useGetCustomerUnusedAmountQuery } from 'services/private/customers';
 import { supplierUnusedCreditHeadCells } from 'containers/accounting/purchase/suppliers/utilities/head-cells';
 import SupplierOverviewCard from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCard';
-import SupplierOverviewPayables from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewPayables';
 import SupplierOverviewCharts from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCharts';
+import SupplierOverviewPayables from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewPayables';
 import SupplierOverviewTimeline from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewTimeline';
 import useCustomerDetail from '../custom-hooks/useCustomerDetail';
 // components
@@ -33,7 +33,7 @@ function CustomerOverview({
       <Grid container spacing={2}>
         <Grid item xs={12} lg={5} xl={4}>
           <SupplierOverviewCard
-            // addNewContactLink={`/pages/accounting/sales/customers/${id}/contact/add`}
+            addNewContactLink={`/pages/accounting/sales/customers/${id}/contact/add`}
             supplierDetail={customerDetail}
             useDetailHook={useCustomerDetail}
           />

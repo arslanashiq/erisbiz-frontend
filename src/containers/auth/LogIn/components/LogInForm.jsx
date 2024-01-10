@@ -52,6 +52,7 @@ function LogInForm() {
             company: response.data?.user?.company,
             isAuthenticated: true,
             is_regestered_company: companyStatus,
+            is_payment: true
             // is_regestered_company: true,
           })
         );
