@@ -202,7 +202,7 @@ function PaymentVoucherDetail() {
   };
   const maxUnusedAmount = useMemo(
     () => (PaymentVoucherDetailResponse?.data?.over_payment || 0) -
-        (PaymentVoucherDetailResponse?.data?.refund_amount || 0) || 0,
+        (PaymentVoucherDetailResponse?.data?.refund_payment || 0) || 0,
 
     [PaymentVoucherDetailResponse]
   );
