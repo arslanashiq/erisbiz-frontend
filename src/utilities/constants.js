@@ -3,7 +3,7 @@ export const RECAPTCHA_PUBLIC_KEY = process.env.REACT_APP_PUBLIC_RECAPTCHA_KEY;
 export const API_URL = process.env.REACT_APP_API_URL;
 // export const API_URL = 'https://staging-erisbiz.beyonderissolutions.com';
 // export const API_URL = 'https://erisbiz.beyonderissolutions.com/';
-// export const API_URL = 'http://192.168.117.127:8000/';
+// export const API_URL = 'http://192.168.100.14:8000/';
 
 export const ROWS_PER_PAGE = 20;
 export const ROWS_PER_PAGE_OPTIONS = [ROWS_PER_PAGE, 50, 100];
@@ -261,3 +261,5 @@ export const getSpaces = value => {
   }
   return spaces;
 };
+
+export const customerOpeningBalanceName = 'Account Opening Balance';

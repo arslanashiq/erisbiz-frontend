@@ -30,6 +30,7 @@ import SupplierComment from 'containers/accounting/purchase/suppliers/detail/com
 import SupplierStatement from 'containers/accounting/purchase/suppliers/detail/components/SupplierStatement';
 import useSupplierStatement from 'containers/accounting/purchase/suppliers/utilities/custom-hooks/useSupplierStatement';
 
+import { customerOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import CustomerContactPage from './components/CustomerContactPage';
 import CustomerOverview from './components/CustomerOverview';
@@ -119,52 +120,62 @@ function CustomerDetail() {
   }, []);
   const handleAddComment = payload => addComment({ comments: payload.comments, customer_id: Number(id) });
 
-  const getPaymentType = () => {
-    let payload = {};
-    if (selectedUnusedCreditObject?.type === 'Excess Payment') {
-      payload = {
-        payment_received: selectedUnusedCreditObject.id,
-      };
-    }
-    if (selectedUnusedCreditObject?.type === 'Account Opening Balance') {
-      payload = {
-        sales_account: selectedUnusedCreditObject.id,
-      };
-    }
-    if (selectedUnusedCreditObject?.type === 'Credit Note') {
-      payload = null;
-    }
-    return payload;
-  };
   const handleApplyToBill = async (values, { setErrors }) => {
     try {
-      const paymentObjectId = getPaymentType();
-
       let response = null;
-      if (paymentObjectId) {
+      if (selectedUnusedCreditObject?.type === 'Excess Payment') {
         const payload = {
           payment_vouchers: values.bill_credit_notes
-            .filter(cn => cn.amount_applied > 0)
-            .map(cn => ({
-              amount_applied: cn.amount_applied,
-              invoice_id: cn.id,
-              ...paymentObjectId,
+            .filter(invoice => invoice.amount_applied > 0)
+            .map(invoice => {
+              if (invoice.invoice_num === customerOpeningBalanceName) {
+                return {
+                  amount_applied: invoice.amount_applied,
+                  sales_company: id,
+                  payment_received: selectedUnusedCreditObject.id,
+                };
+              }
+
+              return {
+                amount_applied: invoice.amount_applied,
+                invoice_id: invoice.id,
+                payment_received: selectedUnusedCreditObject.id,
+              };
+            }),
+        };
+
+        response = await applyPaymentToInvoice(payload);
+      } else if (selectedUnusedCreditObject?.type === customerOpeningBalanceName) {
+        const payload = {
+          payment_vouchers: values.bill_credit_notes
+            .filter(invoice => invoice.amount_applied > 0)
+            .map(invoice => ({
+              amount_applied: invoice.amount_applied,
+              invoice_id: invoice.id,
+              sales_company: id,
             })),
         };
+
         response = await applyPaymentToInvoice(payload);
-      } else {
+      } else if (selectedUnusedCreditObject?.type === 'Credit Note') {
         const payload = {
           invoice_credit_notes: values.bill_credit_notes
             .filter(cn => cn.amount_applied > 0)
-            .map(cn => ({
-              amount_applied: cn.amount_applied,
-              invoice_id: cn.id,
-              ...paymentObjectId,
-            })),
+            .map(cn => {
+              if (cn.invoice_num === customerOpeningBalanceName) {
+                return {
+                  amount_applied: cn.amount_applied,
+                  sales_company: id,
+                };
+              }
+              return {
+                amount_applied: cn.amount_applied,
+                invoice_id: cn.id,
+              };
+            }),
 
           credit_note_id: selectedUnusedCreditObject.id,
         };
-
         response = await refundCreditNote(payload);
       }
       if (response.error) {

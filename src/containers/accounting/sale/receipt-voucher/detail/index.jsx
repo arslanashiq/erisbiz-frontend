@@ -13,12 +13,17 @@ import {
   useDeleteReceiptVoucherMutation,
   useRefundReceiptVoucherMutation,
   useReceiptVoucherJournalsQuery,
+  useGetUnpaidInvoicesAgainstCustomerMutation,
+  useApplyPaymentVoucherToInvoiceMutation,
 } from 'services/private/receipt-voucher';
+
 import JournalTable from 'shared/components/accordion/JournalTable';
 import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
-import PaymentVoucherHistory from 'containers/accounting/purchase/payment-voucher/detail/components/PaymentVoucherHistory';
-import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
+import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import OrderDocument from 'shared/components/order-document/OrderDocument';
+import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
+import PaymentVoucherHistory from 'containers/accounting/purchase/payment-voucher/detail/components/PaymentVoucherHistory';
+import { customerOpeningBalanceName } from 'utilities/constants';
 import { UnPaidSaleInvoiceHeadCells } from '../utilities/head-cells';
 
 const keyValue = 'invoice_payments';
@@ -27,10 +32,13 @@ function ReceiptVoucherDetail() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const [applyToInvoiceInitialValues, setApplyToInvoiceInitialValues] = useState([]);
+
   const [openInfoPopup, setOpenInfoPopup] = useState({
     open: false,
     infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
   });
+  const [openApplyToInvoiceModal, setOpenApplyToInvoiceModal] = useState(false);
   const [openRefundModal, setOpenRefundModal] = useState(false);
 
   const receiptVoucherJournalsResponse = useReceiptVoucherJournalsQuery(id);
@@ -38,6 +46,8 @@ function ReceiptVoucherDetail() {
   const receiptVoucherDocumentsList = useGetReceiptVoucherDocumentsQuery(id);
 
   const [refundReceiptVoucher] = useRefundReceiptVoucherMutation();
+  const [getUnPaidSaleInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
+  const [applyPaymentToInvoice] = useApplyPaymentVoucherToInvoiceMutation();
 
   const orderInfo = useMemo(
     () => ({
@@ -132,9 +142,23 @@ function ReceiptVoucherDetail() {
     if (receiptVoucherResponse?.data?.over_payment > 0) {
       actionsList.push({
         label: 'Refund',
-        divider: true,
         handleClick: () => {
           setOpenRefundModal(true);
+        },
+      });
+      actionsList.push({
+        label: 'Apply To Invoice',
+        divider: true,
+        handleClick: () => {
+          setOpenApplyToInvoiceModal(true);
+          (async () => {
+            const response = await getUnPaidSaleInvoices(receiptVoucherResponse?.data?.customer);
+            const unpaidBills = response?.data?.map(bill => ({
+              ...bill,
+              amount_applied: 0,
+            }));
+            setApplyToInvoiceInitialValues(unpaidBills);
+          })();
         },
       });
     }
@@ -155,13 +179,58 @@ function ReceiptVoucherDetail() {
     setOpenRefundModal(false);
   }, []);
 
+  const handleApplyToInvoice = async (values, { setErrors }) => {
+    const payload = {
+      payment_vouchers: values.bill_credit_notes
+        .filter(invoice => invoice.amount_applied > 0)
+        .map(invoice => {
+          if (invoice.invoice_num === customerOpeningBalanceName) {
+            return {
+              amount_applied: invoice.amount_applied,
+              sales_company: id,
+              payment_received: id,
+            };
+          }
+
+          return {
+            amount_applied: invoice.amount_applied,
+            invoice_id: invoice.id,
+            payment_received: id,
+          };
+        }),
+    };
+
+    const response = await applyPaymentToInvoice(payload);
+    if (response.error) {
+      setErrors(response.error.data);
+      return;
+    }
+    enqueueSnackbar('Amount Applied To Invoice', { variant: 'success' });
+    setOpenApplyToInvoiceModal(false);
+  };
+
+  const maxUnusedAmount = useMemo(
+    () => (receiptVoucherResponse?.data?.over_payment || 0) -
+        (receiptVoucherResponse?.data?.refund_payment || 0) || 0,
+    [receiptVoucherResponse]
+  );
+
   return (
     <SectionLoader options={[receiptVoucherResponse.isLoading, receiptVoucherDocumentsList.isLoading]}>
       <RefundDialog
         open={openRefundModal}
         setOpen={setOpenRefundModal}
         handleRefund={handleRefundPaymentVoucher}
-        maxAmount={receiptVoucherResponse?.data?.over_payment}
+        maxAmount={maxUnusedAmount}
+      />
+      <ApplyToBill
+        open={openApplyToInvoiceModal}
+        setOpen={setOpenApplyToInvoiceModal}
+        handleApply={handleApplyToInvoice}
+        maxAmount={maxUnusedAmount}
+        initialValues={applyToInvoiceInitialValues || []}
+        headCells={UnPaidSaleInvoiceHeadCells}
+        title="Apply To Invoice"
       />
       <DetailPageHeader
         title={`Receipt Voucher: #${receiptVoucherResponse?.data?.payment_num}`}
