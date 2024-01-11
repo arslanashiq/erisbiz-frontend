@@ -173,7 +173,7 @@ function CreditNoteDetail() {
         if (cn.invoice_num === 'Account Opening Balance') {
           return {
             amount_applied: cn.amount_applied,
-            sales_account: cn.id,
+            sales_company: cn.id,
           };
         }
         return {
