@@ -200,7 +200,12 @@ function PaymentVoucherDetail() {
       enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
     }
   };
+  const maxUnusedAmount = useMemo(
+    () => (PaymentVoucherDetailResponse?.data?.over_payment || 0) -
+        (PaymentVoucherDetailResponse?.data?.refund_amount || 0) || 0,
 
+    [PaymentVoucherDetailResponse]
+  );
   return (
     <SectionLoader
       options={[PaymentVoucherDetailResponse.isLoading, paymenyVoucherJournalResponse.isLoading]}
@@ -209,7 +214,7 @@ function PaymentVoucherDetail() {
         open={openApplyToBillModal}
         setOpen={setOpenApplyToBillModal}
         handleApply={handleApplyToBill}
-        maxAmount={PaymentVoucherDetailResponse?.data?.over_payment || 0}
+        maxAmount={maxUnusedAmount}
         initialValues={applyToBillInitialValues || []}
         headCells={UnPaidBillsHeadCells}
         title="Apply To Bill"
@@ -218,7 +223,7 @@ function PaymentVoucherDetail() {
         open={openRefundModal}
         setOpen={setOpenRefundModal}
         handleRefund={handleRefundPaymentVoucher}
-        maxAmount={PaymentVoucherDetailResponse?.data?.over_payment}
+        maxAmount={maxUnusedAmount}
       />
       <DetailPageHeader
         title={`Payment Voucher: #${

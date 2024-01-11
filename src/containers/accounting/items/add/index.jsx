@@ -38,7 +38,6 @@ function AddItemPage() {
   const { initialValues } = useInitialValues(itemsInitialValues, useGetSingleItemQuery, 'item_image');
 
   const [itemType, setItemType] = useState(initialValues?.item_type);
-
   const [addItem] = useAddItemMutation();
   const [editItem] = useEditItemMutation();
 
@@ -114,6 +113,7 @@ function AddItemPage() {
     }
     return newData;
   }, [location, initialValues]);
+
   return (
     <SectionLoader
       options={[
