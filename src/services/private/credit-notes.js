@@ -61,7 +61,14 @@ const creditNotesApi = privateApi.injectEndpoints({
         method: 'Post',
         body: payload,
       }),
-      invalidatesTags: ['getCreditNotesList', 'getSingleCreditNote', 'getItemCreditNote'],
+      invalidatesTags: [
+        'getCreditNotesList',
+        'getSingleCreditNote',
+        'getItemCreditNote',
+        'getCustomersList',
+        'getSingleCustomer',
+        'getCustomerUnusedAmount',
+      ],
     }),
 
     getCreditNoteJournals: builder.query({

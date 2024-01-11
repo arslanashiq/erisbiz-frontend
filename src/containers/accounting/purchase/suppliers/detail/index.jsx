@@ -216,17 +216,20 @@ function SupplierDetail() {
       setOpenApplyToBillModal(false);
     } catch (error) {
       enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+      setOpenApplyToBillModal(false);
     }
   };
   useEffect(() => {
     (async () => {
       if (openApplyToBillModal) {
         const response = await getUnpaidBills(id);
-        const unpaidBills = response?.data?.map(bill => ({
-          ...bill,
-          amount_applied: 0,
-        }));
-        setApplyToBillInitialValues(unpaidBills);
+        if (response?.data?.length >= 0) {
+          const unpaidBills = response?.data?.map(bill => ({
+            ...bill,
+            amount_applied: 0,
+          }));
+          setApplyToBillInitialValues(unpaidBills);
+        }
       }
     })();
   }, [openApplyToBillModal]);

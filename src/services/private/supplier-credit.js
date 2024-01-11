@@ -97,7 +97,13 @@ const debitNotesApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['refundSupplierCredits'],
-      invalidatesTags: ['getSupplierCreditsList', 'getSingleSupplierCredits'],
+      invalidatesTags: [
+        'getSupplierCreditsList',
+        'getSingleSupplierCredits',
+        'getSupplierUnusedCreditDetails',
+        'getSingleSupplier',
+        'getSuppliersList',
+      ],
     }),
 
     getSupplierCreditJournals: builder.query({

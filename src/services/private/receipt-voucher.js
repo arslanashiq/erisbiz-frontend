@@ -121,6 +121,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['applyPaymentToInvoice'],
+      invalidatesTags: ['getCustomersList', 'getSingleCustomer', 'getCustomerUnusedAmount'],
     }),
   }),
 });

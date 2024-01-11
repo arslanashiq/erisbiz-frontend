@@ -54,6 +54,7 @@ function UnusedCreditsDialog({
                     handleClick: (_, rowObject) => {
                       setSelectedUnusedCreditObject(rowObject);
                       setOpenApplyToBillModal(true);
+                      handleClose();
                     },
                     element: <Button>{customButtonText}</Button>,
                   },

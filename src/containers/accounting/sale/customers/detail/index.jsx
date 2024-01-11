@@ -192,11 +192,13 @@ function CustomerDetail() {
     (async () => {
       if (openApplyToBillModal) {
         const response = await getUnPaidSaleInvoices(id);
-        const unpaidBills = response?.data?.map(bill => ({
-          ...bill,
-          amount_applied: 0,
-        }));
-        setApplyToInvoiceInitialValues(unpaidBills);
+        if (response?.data?.length >= 0) {
+          const unpaidBills = response?.data?.map(bill => ({
+            ...bill,
+            amount_applied: 0,
+          }));
+          setApplyToInvoiceInitialValues(unpaidBills);
+        }
       }
     })();
   }, [openApplyToBillModal]);

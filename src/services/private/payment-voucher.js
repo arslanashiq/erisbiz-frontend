@@ -121,6 +121,7 @@ const PaymentVoucherApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['applyPavmentVoucherToBill'],
+      invalidatesTags: ['getSupplierUnusedCreditDetails', 'getSingleSupplier', 'getSuppliersList'],
     }),
   }),
 });
