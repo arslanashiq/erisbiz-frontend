@@ -8,8 +8,8 @@ import { useSelector } from 'react-redux';
 import palette from 'styles/mui/theme/palette';
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
-import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
-import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
+import { userStatementCustomFilterInitialValues } from 'containers/reports/utilities/initial-values';
+import { userStatementCustomFilterInputList } from 'containers/reports/utilities/filter-input-list';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { getSelectedFilter } from 'containers/reports/utilities/get-selected-filter';
 import OrderHeader, { renderCompanyHeaderRow } from 'shared/components/order-document/OrderHeader';
@@ -34,7 +34,7 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
   } = companyData;
   const [selectedFilter, setSelectedFilter] = useState(getSelectedFilter(FilterReportsList));
 
-  const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
+  const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters(userStatementCustomFilterInputList);
 
   const handleFilter = (selecteAction, handleCloseMenu) => {
     if (selecteAction.value !== '') {
@@ -52,8 +52,8 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
           buttonTitle={selectedFilter.label}
           actionsList={FilterReportsList}
           handleAction={handleFilter}
-          cutomInitialValues={PayableReportFilterInitialValues}
-          customFilterInputs={payableReportsFilterInputList}
+          cutomInitialValues={userStatementCustomFilterInitialValues}
+          customFilterInputs={userStatementCustomFilterInputList}
           handleSubmitCustomFilter={handleSubmitCustomDateFilter}
         />
       </Stack>

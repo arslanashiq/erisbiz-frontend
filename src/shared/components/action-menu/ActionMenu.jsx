@@ -1,9 +1,11 @@
+/* eslint-disable indent */
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
 import { Form, Formik } from 'formik';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import FormikDatePicker from '../form/FormikDatePicker';
 import 'styles/form/form.scss';
 
@@ -16,6 +18,8 @@ function ActionMenu({
   handleSubmitCustomFilter,
   customFilterInputs,
 }) {
+  const searchQueryParams = getSearchParamsList();
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -25,6 +29,17 @@ function ActionMenu({
     setAnchorEl(null);
   };
   const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
+
+  const updatedInitialValues = useMemo(() => {
+    let newValues = { ...cutomInitialValues };
+    customFilterInputs?.forEach(input => {
+      if (searchQueryParams[input.name]) {
+        newValues = { ...newValues, [input.name]: searchQueryParams[input.name] };
+      }
+    });
+
+    return newValues;
+  }, [cutomInitialValues, searchQueryParams]);
   return (
     <>
       <Tooltip title={actionsList.length === 0 ? 'You can`t perform any action' : ''} placement="top" arrow>
@@ -52,9 +67,9 @@ function ActionMenu({
                 sx={
                   action.divider
                     ? {
-                      borderTop: 1,
-                      borderColor: 'divider',
-                    }
+                        borderTop: 1,
+                        borderColor: 'divider',
+                      }
                     : {}
                 }
                 key={action.label}
@@ -73,8 +88,8 @@ function ActionMenu({
           {buttonTitle === 'Custom' && (
             <Stack justifyContent="space-between" className="pe-2">
               <Formik
-                initialValues={cutomInitialValues}
-                onSubmit={(...props) => handleSubmitCustomFilter(...props, handleClose)}
+                initialValues={updatedInitialValues}
+                onSubmit={(...props) => handleSubmitCustomFilter(...props, handleClose, customFilterInputs)}
               >
                 <Form className="form" style={{ height: '100%' }}>
                   <Stack height="100%" spacing={2}>

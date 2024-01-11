@@ -23,13 +23,12 @@ function useReportHeaderFilters() {
     }
     return newSearchQuery.slice(0, -1);
   };
-  const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose) => {
-    let newSearchQuery = findKeyInQueryParamsAndReplace(
-      window.location.search,
-      'custom_start_date',
-      values.start_date
-    );
-    newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'custom_end_date', values.end_date);
+  const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose, customInputList) => {
+    let newSearchQuery = '';
+    customInputList.forEach(input => {
+      newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, input.name, values[input.name] || '');
+    });
+
     newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'duration', null);
     navigate({
       pathname: `${window.location.pathname}`,

@@ -1,7 +1,8 @@
 export const getSelectedFilter = FilterReportsList => {
   const searchQuery = window.location.search;
   let selectedFilter = '';
-  let filterDuration = 'this+month';
+  let filterDuration = searchQuery ? '' : 'this+month';
+
   if (searchQuery) {
     searchQuery.split('&').forEach(singleQuery => {
       if (singleQuery.includes('duration')) {
@@ -13,6 +14,7 @@ export const getSelectedFilter = FilterReportsList => {
       }
     });
   }
+
   if (filterDuration) {
     selectedFilter = FilterReportsList.filter(filter => filter.value === filterDuration);
     if (selectedFilter.length > 0) {
@@ -20,7 +22,10 @@ export const getSelectedFilter = FilterReportsList => {
     } else {
       [, , selectedFilter] = FilterReportsList;
     }
+  } else {
+    selectedFilter = FilterReportsList[FilterReportsList.length - 1];
   }
+
   return selectedFilter;
 };
 
