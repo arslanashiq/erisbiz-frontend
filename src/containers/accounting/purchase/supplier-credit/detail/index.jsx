@@ -21,6 +21,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import JournalTable from 'shared/components/accordion/JournalTable';
 import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
+import { supplierOpeningBalanceName } from 'utilities/constants';
 import { useGetSuppliersUpaidBillsListMutation } from 'services/private/suppliers';
 import { UnPaidBillsHeadCells } from '../../payment-voucher/utilities/head-cells';
 
@@ -149,7 +150,7 @@ function SupplierCreditDetail() {
       const billCreditNotes = values.bill_credit_notes
         .filter(cn => cn.amount_applied > 0)
         .map(cn => {
-          if (cn.bill_num === 'Supplier Opening Balance') {
+          if (cn.bill_num === supplierOpeningBalanceName) {
             return {
               amount_applied: cn.amount_applied,
               supplier_account_id: cn.id,

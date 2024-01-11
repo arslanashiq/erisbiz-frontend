@@ -25,6 +25,7 @@ import DetailPageHeader from 'shared/components/detail-page-heaher-component/Det
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 
 // components
+import { supplierOpeningBalanceName } from 'utilities/constants';
 import PaymentVoucherHistory from './components/PaymentVoucherHistory';
 import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 
@@ -169,7 +170,7 @@ function PaymentVoucherDetail() {
       values.bill_credit_notes
         .filter(bill => bill.amount_applied > 0)
         .forEach(bill => {
-          if (bill.bill_num === 'Supplier Opening Balance') {
+          if (bill.bill_num === supplierOpeningBalanceName) {
             paymentVouchers.push({
               amount_applied: bill.amount_applied,
               supplier: bill.id,

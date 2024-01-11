@@ -3,6 +3,7 @@ import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { Text, View } from '@react-pdf/renderer';
 import formatAmount from 'utilities/formatAmount';
+import { supplierOpeningBalanceName } from 'utilities/constants';
 
 function PurchaseVoucherFooter({ orderDetail, keyName, styles }) {
   return (
@@ -13,7 +14,7 @@ function PurchaseVoucherFooter({ orderDetail, keyName, styles }) {
           {item.invoice ? (
             <Text style={[styles.tableCell, { textAlign: 'center' }]}>{item.invoice.invoice_id}</Text>
           ) : (
-            <Text style={[styles.tableCell, { textAlign: 'center' }]}>Supplier Opening Balance</Text>
+            <Text style={[styles.tableCell, { textAlign: 'center' }]}>{supplierOpeningBalanceName}</Text>
           )}
         </View>
         <View style={styles.tableCol}>

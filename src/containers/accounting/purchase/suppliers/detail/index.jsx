@@ -26,6 +26,7 @@ import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utillities
+import { supplierOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import useSupplierStatement from '../utilities/custom-hooks/useSupplierStatement';
 // components
@@ -147,7 +148,7 @@ function SupplierDetail() {
         values.bill_credit_notes
           .filter(bill => bill.amount_applied > 0)
           .forEach(bill => {
-            if (bill.bill_num === 'Supplier Opening Balance') {
+            if (bill.bill_num === supplierOpeningBalanceName) {
               paymentVouchers.push({
                 amount_applied: bill.amount_applied,
                 supplier: bill.id,
@@ -164,7 +165,7 @@ function SupplierDetail() {
 
         payload = { payment_vouchers: paymentVouchers };
         response = await applyPaymentVoucherToBill(payload);
-      } else if (selectedUnusedCreditObject?.type === 'Supplier Opening Balance') {
+      } else if (selectedUnusedCreditObject?.type === supplierOpeningBalanceName) {
         const paymentVouchers = [];
         values.bill_credit_notes
           .filter(bill => bill.amount_applied > 0)
@@ -183,7 +184,7 @@ function SupplierDetail() {
         values.bill_credit_notes
           .filter(bill => bill.amount_applied > 0)
           .forEach(bill => {
-            if (bill.bill_num === 'Supplier Opening Balance') {
+            if (bill.bill_num === supplierOpeningBalanceName) {
               billCreditNotes.push({
                 amount_applied: bill.amount_applied,
                 supplier_account_id: bill.id,

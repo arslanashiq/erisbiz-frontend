@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
+import { supplierOpeningBalanceName } from 'utilities/constants';
 // import { useLocation } from 'react-router-dom';
 
 function useSupplierStatement(supplierStatement, supplierTransactions, duration) {
@@ -50,17 +51,17 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
       'Credit Note',
     ];
     if (supplierStatement.is_credit) {
-      amountTypes.push('Supplier Opening Balance');
+      amountTypes.push(supplierOpeningBalanceName);
       amountTypes.push('Customer Opening Balance');
     } else {
-      paymentTypes.push('Supplier Opening Balance');
+      paymentTypes.push(supplierOpeningBalanceName);
       paymentTypes.push('Customer Opening Balance');
     }
 
     if (supplierTransactions?.length >= 0) {
       openingBalance = supplierTransactions.find(
         item =>
-          item.transaction_type === 'Supplier Opening Balance' ||
+          item.transaction_type === supplierOpeningBalanceName ||
           item.transaction_type === 'Customer Opening Balance'
       );
       if (openingBalance) {

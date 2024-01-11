@@ -26,7 +26,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import { PAYMENT_MODE } from 'utilities/constants';
+import { PAYMENT_MODE, customerOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import { receiptVoucherInitialValues } from '../utilities/initialValues';
@@ -93,7 +93,7 @@ function AddReceiptVoucher() {
     const updatedPayloadInvoice = [];
     values?.invoice_payments?.forEach(invoice => {
       if (invoice.amount_applied > 0) {
-        if (invoice?.invoice_num === 'Account Opening Balance') {
+        if (invoice?.invoice_num === customerOpeningBalanceName) {
           updatedPayloadInvoice.push({
             ...invoice,
             sales_company: invoice.id,

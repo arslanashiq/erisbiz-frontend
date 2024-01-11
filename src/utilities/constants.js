@@ -263,3 +263,4 @@ export const getSpaces = value => {
 };
 
 export const customerOpeningBalanceName = 'Account Opening Balance';
+export const supplierOpeningBalanceName = 'Supplier Opening Balance';

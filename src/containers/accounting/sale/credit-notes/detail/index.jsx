@@ -21,7 +21,7 @@ import OrderDocument from 'shared/components/order-document/OrderDocument';
 import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import JournalTable from 'shared/components/accordion/JournalTable';
-import { DATE_FORMAT_PRINT } from 'utilities/constants';
+import { DATE_FORMAT_PRINT, customerOpeningBalanceName } from 'utilities/constants';
 import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
 
 const keyValue = 'credit_note_items';
@@ -170,7 +170,7 @@ function CreditNoteDetail() {
     const billCreditNotes = values.bill_credit_notes
       .filter(cn => cn.amount_applied > 0)
       .map(cn => {
-        if (cn.invoice_num === 'Account Opening Balance') {
+        if (cn.invoice_num === customerOpeningBalanceName) {
           return {
             amount_applied: cn.amount_applied,
             sales_company: cn.id,

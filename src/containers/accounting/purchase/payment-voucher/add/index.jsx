@@ -27,7 +27,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import { PAYMENT_MODE } from 'utilities/constants';
+import { PAYMENT_MODE, supplierOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 import { PurchaseVoucherInitialValues } from '../utilities/initialValues';
@@ -72,7 +72,7 @@ function addPaymentVoucher() {
     const response = await getUnpaidBills(selectedSupplierId);
     const billPayment = [];
     response.data.forEach((bill, index) => {
-      if (bill.bill_num === 'Supplier Opening Balance') {
+      if (bill.bill_num === supplierOpeningBalanceName) {
         billPayment.push({
           bill_date: bill.bill_date,
           supplier: selectedSupplierId,
@@ -204,7 +204,7 @@ function addPaymentVoucher() {
               const billPayments = [];
               values.bill_payments.forEach(bill => {
                 if (bill.amount_applied > 0) {
-                  if (bill.bill_num === 'Supplier Opening Balance') {
+                  if (bill.bill_num === supplierOpeningBalanceName) {
                     billPayments.push({
                       amount_applied: bill.amount_applied,
                       supplier: bill?.supplier?.id || bill?.supplier,
