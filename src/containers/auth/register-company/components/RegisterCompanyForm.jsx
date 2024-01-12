@@ -105,8 +105,8 @@ function RegisterCompanyForm() {
                   return;
                 }
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
-                navigate('/payment');
-                // window.location.reload();
+                // navigate('/payment');
+                window.location.reload();
               } catch (error) {
                 enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
               }
