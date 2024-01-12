@@ -17,16 +17,22 @@ function ReceiptVoucherFooterDocument({ orderDetail, keyValue }) {
     }
     return 'Opening Balance';
   };
+  const getAmount = (item, key) => {
+    if (item.invoice) {
+      return item?.invoice[key];
+    }
+    return item?.sales_company[key];
+  };
   return (
     orderDetail[keyValue]?.length > 0 &&
     orderDetail[keyValue].map(item => (
       <div key={uuid()} className="payment-details">
         <p>{moment(item?.invoice?.date).format('YYYY-MM-DD')}</p>
         <Link to={getLink(item)}>{getName(item)}</Link>
-        <p>{`${orderDetail.currency_symbol} ${formatAmount(item?.invoice?.grand_total)}`}</p>
+        <p>{`${orderDetail.currency_symbol} ${formatAmount(getAmount(item, 'grand_total'))}`}</p>
         <p>
           {orderDetail.currency_symbol}
-          {formatAmount(item?.invoice?.amount_due)}
+          {formatAmount(getAmount(item, 'amount_due'))}
         </p>
 
         <p>

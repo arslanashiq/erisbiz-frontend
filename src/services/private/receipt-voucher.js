@@ -103,7 +103,7 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['refundUnUsedAmount'],
+      invalidatesTags: ['getReceiptVoucherList', 'getSingleReceiptVoucher', 'refundUnUsedAmount'],
     }),
 
     receiptVoucherJournals: builder.query({
@@ -121,7 +121,13 @@ const receiptVoucherApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['applyPaymentToInvoice'],
-      invalidatesTags: ['getCustomersList', 'getSingleCustomer', 'getCustomerUnusedAmount'],
+      invalidatesTags: [
+        'getReceiptVoucherList',
+        'getSingleReceiptVoucher',
+        'getCustomersList',
+        'getSingleCustomer',
+        'getCustomerUnusedAmount',
+      ],
     }),
   }),
 });
