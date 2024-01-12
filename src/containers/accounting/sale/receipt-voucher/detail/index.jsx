@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
@@ -187,7 +186,7 @@ function ReceiptVoucherDetail() {
           if (invoice.invoice_num === customerOpeningBalanceName) {
             return {
               amount_applied: invoice.amount_applied,
-              sales_company: id,
+              sales_company: invoice.id,
               payment_received: id,
             };
           }
