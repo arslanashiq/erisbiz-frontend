@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 // components
 import { useGetSupplierUnusedCreditDetailsQuery } from 'services/private/suppliers';
 
-import SupplierOverviewTimeline from './SupplierOverviewTimeline';
+// import SupplierOverviewTimeline from './SupplierOverviewTimeline';
 import SupplierOverviewCharts from './SupplierOverviewCharts';
 import SupplierOverviewCard from './SupplierOverviewCard';
 import SupplierOverviewPayables from './SupplierOverviewPayables';
@@ -17,7 +17,7 @@ function SupplierOverview({
   supplierIncome,
   activityLogDuration,
   supplierDetail,
-  supplierActivity,
+  // supplierActivity,
   handleClickMenu,
   setOpenApplyToBillModal,
   setSelectedUnusedCreditObject,
@@ -55,7 +55,7 @@ function SupplierOverview({
             supplierIncome={supplierIncome}
             handleClickMenu={handleClickMenu}
           />
-          <SupplierOverviewTimeline supplierActivity={supplierActivity} />
+          {/* <SupplierOverviewTimeline supplierActivity={supplierActivity} /> */}
         </Grid>
       </Grid>
     </Box>
@@ -65,7 +65,7 @@ SupplierOverview.propTypes = {
   supplierIncome: PropTypes.array,
   activityLogDuration: PropTypes.string,
   supplierDetail: PropTypes.object,
-  supplierActivity: PropTypes.array,
+  // supplierActivity: PropTypes.array,
   handleClickMenu: PropTypes.func,
   basicInfo: PropTypes.object,
   setOpenApplyToBillModal: PropTypes.func,
@@ -74,7 +74,7 @@ SupplierOverview.propTypes = {
 SupplierOverview.defaultProps = {
   supplierDetail: null,
   activityLogDuration: '',
-  supplierActivity: [],
+  // supplierActivity: [],
   handleClickMenu: () => {},
   supplierIncome: [],
   basicInfo: {},

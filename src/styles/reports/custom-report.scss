@@ -137,7 +137,7 @@
     border-collapse: collapse;
     font-size: 13px;
     margin: 10px 0;
-    border: 0.2px solid $primary-color;
+    // border: 0.2px solid $primary-color;
 
     thead {
       text-align: center;
@@ -153,7 +153,7 @@
     }
 
     td {
-      border-bottom: 0.2px solid $primary-color;
+      border-bottom: 0.2px solid #ccc;
       text-align: center;
       padding: 5px 10px;
       a {

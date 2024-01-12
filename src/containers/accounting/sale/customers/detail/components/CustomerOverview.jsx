@@ -55,7 +55,7 @@ function CustomerOverview({
             handleClickMenu={handleClickMenu}
             supplierIncome={customerIncome}
           />
-          <SupplierOverviewTimeline supplierActivity={customerActivity} />
+          {/* <SupplierOverviewTimeline supplierActivity={customerActivity} /> */}
         </Grid>
       </Grid>
     </Box>
