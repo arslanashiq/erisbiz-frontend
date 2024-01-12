@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSaleByCustomerData(saleByCustomerResponse) {
   const location = useLocation();
-  const { tableBody, totalSales, totalSalesWithTax, totalInvoiceCount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalSales, totalSalesWithTax, totalInvoiceCount } = useMemo(() => {
     let sales = 0;
     let salesWithTax = 0;
     let invoices = 0;
-    const currency = 'AED';
     const body = [];
     saleByCustomerResponse?.data?.data.forEach(item => {
       sales += item.sales;
@@ -24,11 +24,11 @@ function useGetSaleByCustomerData(saleByCustomerResponse) {
           value: item.invoice_count,
         },
         {
-          value: `${currency} ${item.sales}`,
+          value: formatAmount(item.sales),
           link: `detail${location.search}&customer_id=${item.sales_account__id}`,
         },
         {
-          value: `${currency} ${item.sales_with_tax}`,
+          value: formatAmount(item.sales_with_tax),
           link: `detail${location.search}&customer_id=${item.sales_account__id}`,
         },
       ]);
@@ -38,7 +38,6 @@ function useGetSaleByCustomerData(saleByCustomerResponse) {
       totalSales: sales,
       totalSalesWithTax: salesWithTax,
       totalInvoiceCount: invoices,
-      currencySymbol: currency,
     };
   }, [saleByCustomerResponse]);
 
@@ -47,11 +46,11 @@ function useGetSaleByCustomerData(saleByCustomerResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: totalInvoiceCount },
-        { value: `${currencySymbol} ${totalSales.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalSalesWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalSales), style: { fontWeight: 700 } },
+        { value: formatAmount(totalSalesWithTax), style: { fontWeight: 700 } },
       ],
     ],
-    [totalSales, totalSalesWithTax, totalInvoiceCount, currencySymbol]
+    [totalSales, totalSalesWithTax, totalInvoiceCount]
   );
   return { tableBody, tableFooter };
 }

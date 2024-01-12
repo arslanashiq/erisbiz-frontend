@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSalesBySalePersonDetailData(saleBySalePersonDetailResponse) {
   const getLink = item => {
@@ -9,12 +10,11 @@ function useGetSalesBySalePersonDetailData(saleBySalePersonDetailResponse) {
     }
     return false;
   };
-  const { tableBody, totalWithoutTax, totalWithTax, totalBalanceDue, currencySymbol } = useMemo(() => {
+  const { tableBody, totalWithoutTax, totalWithTax, totalBalanceDue } = useMemo(() => {
     let saleWithoutTax = 0;
     let saleWithTax = 0;
     let balanceDue = 0;
 
-    const currency = 'AED';
     const body = [];
     saleBySalePersonDetailResponse?.data?.data.forEach(item => {
       saleWithoutTax += item.sales;
@@ -42,13 +42,13 @@ function useGetSalesBySalePersonDetailData(saleBySalePersonDetailResponse) {
           link: `/pages/accounting/sales/customers/${item.customer__id}`,
         },
         {
-          value: `${currency} ${item.sales}`,
+          value: formatAmount(item.sales),
         },
         {
-          value: `${currency} ${item.sales_with_tax}`,
+          value: formatAmount(item.sales_with_tax),
         },
         {
-          value: `${currency} ${item.sales_with_tax - item.amount_applied}`,
+          value: formatAmount(item.sales_with_tax - item.amount_applied),
         },
       ]);
     });
@@ -57,8 +57,6 @@ function useGetSalesBySalePersonDetailData(saleBySalePersonDetailResponse) {
       totalWithoutTax: saleWithoutTax,
       totalWithTax: saleWithTax,
       totalBalanceDue: balanceDue,
-
-      currencySymbol: currency,
     };
   }, [saleBySalePersonDetailResponse]);
 
@@ -70,12 +68,12 @@ function useGetSalesBySalePersonDetailData(saleBySalePersonDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalWithoutTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalBalanceDue.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalWithoutTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalWithTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalBalanceDue), style: { fontWeight: 700 } },
       ],
     ],
-    [totalWithoutTax, totalWithTax, totalBalanceDue, currencySymbol]
+    [totalWithoutTax, totalWithTax, totalBalanceDue]
   );
   return { tableBody, tableFooter };
 }

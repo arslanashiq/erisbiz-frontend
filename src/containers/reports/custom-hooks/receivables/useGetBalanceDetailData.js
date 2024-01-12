@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetBalanceDetailData(balanceDetailResponse) {
   const getLinkByType = item => {
@@ -10,15 +11,13 @@ function useGetBalanceDetailData(balanceDetailResponse) {
     }
     return false;
   };
-  const { tableBody, totalAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let amount = 0;
     let dueAmount = 0;
-    let currency = 'AED';
     const body = [];
     balanceDetailResponse?.data?.data.forEach(item => {
       amount += item.grand_total;
       dueAmount += item.amount_due;
-      currency = item.currency_symbol;
       body.push([
         {
           value: item.customer_name,
@@ -35,14 +34,14 @@ function useGetBalanceDetailData(balanceDetailResponse) {
         },
 
         {
-          value: `${item.currency_symbol} ${item.grand_total}`,
+          value: formatAmount(item.grand_total),
         },
         {
-          value: `${item.currency_symbol} ${item.amount_due}`,
+          value: formatAmount(item.amount_due),
         },
       ]);
     });
-    return { tableBody: body, totalAmount: amount, totalDueAmount: dueAmount, currencySymbol: currency };
+    return { tableBody: body, totalAmount: amount, totalDueAmount: dueAmount };
   }, [balanceDetailResponse]);
 
   const tableFooter = useMemo(
@@ -52,11 +51,11 @@ function useGetBalanceDetailData(balanceDetailResponse) {
 
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDueAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDueAmount), style: { fontWeight: 700 } },
       ],
     ],
-    [totalAmount, totalDueAmount, currencySymbol]
+    [totalAmount, totalDueAmount]
   );
   return { tableBody, tableFooter };
 }

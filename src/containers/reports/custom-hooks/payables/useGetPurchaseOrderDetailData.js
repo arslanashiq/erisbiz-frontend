@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetPurchaseOrderDetailData(purchaseOrderResponse) {
   const { tableBody, totalBalance } = useMemo(() => {
@@ -11,7 +12,7 @@ function useGetPurchaseOrderDetailData(purchaseOrderResponse) {
         { value: item.pur_order_date },
         { value: item.pur_order_formatted_number },
         { value: item.supplier__supplier_name },
-        { value: item.amount },
+        { value: formatAmount(item.amount) },
       ]);
     });
     return { tableBody: body, totalBalance: balance };
@@ -22,7 +23,7 @@ function useGetPurchaseOrderDetailData(purchaseOrderResponse) {
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: '' },
-        { value: `AED ${totalBalance.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalBalance), style: { fontWeight: 700 } },
       ],
     ],
     [totalBalance]

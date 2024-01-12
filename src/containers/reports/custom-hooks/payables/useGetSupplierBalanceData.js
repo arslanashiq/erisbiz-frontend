@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSupplierBalanceData(supplierPayableBalanceResponse) {
   const { tableBody, totalBalance, currencySymbol } = useMemo(() => {
     let balance = 0;
-    let currency = 'AED';
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
       balance += item.balance_bcy;
-      currency = item.currency__symbol;
       body.push([
         {
           value: item.supplier__supplier_name,
@@ -15,20 +14,20 @@ function useGetSupplierBalanceData(supplierPayableBalanceResponse) {
           link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
         },
         {
-          value: `${currency} ${item.bill_balance}`,
+          value: formatAmount(item.bill_balance || 0),
           link: `bill/detail?duration=this+month&supplier_id=${item.supplier__id}`,
         },
         {
-          value: `${currency} ${item.credit_balance}`,
+          value: formatAmount(item.credit_balance || 0),
           link: `excess-payment/detail?duration=this+month&supplier_id=${item.supplier__id}`,
         },
         {
-          value: `${currency} ${item.balance_bcy}`,
+          value: formatAmount(item.balance_bcy || 0),
           link: `detail?duration=this+month&supplier_id=${item.supplier__id}`,
         },
       ]);
     });
-    return { tableBody: body, totalBalance: balance, currencySymbol: currency };
+    return { tableBody: body, totalBalance: balance };
   }, [supplierPayableBalanceResponse]);
 
   const tableFooter = useMemo(
@@ -37,7 +36,7 @@ function useGetSupplierBalanceData(supplierPayableBalanceResponse) {
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalBalance.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalBalance), style: { fontWeight: 700 } },
       ],
     ],
     [totalBalance, currencySymbol]

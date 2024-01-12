@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 const availableDateList = [
   {
@@ -29,7 +30,6 @@ function useGetAccountTypeSummaryData(accountTypeSummaryResponse) {
     const body = [];
     let amount = 0;
     let dueAmount = 0;
-    const currencySymbol = 'AED';
     data[keyValue].forEach(item => {
       //   currencySymbol = item.currency_symbol;
       amount += item.grand_total;
@@ -37,11 +37,11 @@ function useGetAccountTypeSummaryData(accountTypeSummaryResponse) {
 
       body.push([
         { value: item.chart_of_account__account_type__account_type, style: { textAlign: 'start' } },
-        { value: `${currencySymbol} ${item.debit}` },
-        { value: `${currencySymbol} ${item.credit}` },
+        { value: formatAmount(item.debit) },
+        { value: formatAmount(item.credit) },
       ]);
     });
-    return { body, amount, dueAmount, currencySymbol };
+    return { body, amount, dueAmount };
   };
 
   const getHeader = title => [
@@ -59,17 +59,15 @@ function useGetAccountTypeSummaryData(accountTypeSummaryResponse) {
     },
   ];
 
-  const { tableBody, totalAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let amount = 0;
     let dueAmount = 0;
     let body = [];
-    let currency = 'AED';
     if (!accountTypeSummaryResponse?.data?.data) {
       return {
         tableBody: body,
         totalAmount: amount,
         totalDueAmount: dueAmount,
-        currencySymbol: currency,
       };
     }
 
@@ -78,14 +76,12 @@ function useGetAccountTypeSummaryData(accountTypeSummaryResponse) {
         body: currentBody,
         amount: currentTotalAmount,
         dueAmount: currentDueAmount,
-        currencySymbol: currentCurrencySymbol,
       } = getTableBodyValue(accountTypeSummaryResponse?.data?.data, date.keyValue);
       if (currentBody.length > 0) {
         const currentHeader = getHeader(date.title);
         body = [...body, currentHeader, ...currentBody];
         amount += currentTotalAmount;
         dueAmount += currentDueAmount;
-        currency = currentCurrencySymbol;
       }
     });
 
@@ -93,11 +89,10 @@ function useGetAccountTypeSummaryData(accountTypeSummaryResponse) {
       tableBody: body,
       totalAmount: amount,
       totalDueAmount: dueAmount,
-      currencySymbol: currency,
     };
   }, [accountTypeSummaryResponse]);
 
-  const tableFooter = useMemo(() => [[]], [totalAmount, totalDueAmount, currencySymbol]);
+  const tableFooter = useMemo(() => [[]], [totalAmount, totalDueAmount]);
   return { tableBody, tableFooter };
 }
 

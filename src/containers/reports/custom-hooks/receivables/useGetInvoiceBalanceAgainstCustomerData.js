@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetInvoiceBalanceAgainstCustomerData(invoiceBalanceResponse) {
   const getLinkByType = item => {
@@ -7,15 +8,13 @@ function useGetInvoiceBalanceAgainstCustomerData(invoiceBalanceResponse) {
     }
     return false;
   };
-  const { tableBody, totalAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let amount = 0;
     let dueAmount = 0;
-    let currency = 'AED';
     const body = [];
     invoiceBalanceResponse?.data?.data.forEach(item => {
       amount += item.amount_total;
       dueAmount += item.amount_due;
-      currency = item.currency_symbol;
       body.push([
         {
           value: item.customer_name,
@@ -32,14 +31,14 @@ function useGetInvoiceBalanceAgainstCustomerData(invoiceBalanceResponse) {
         },
 
         {
-          value: `${item.currency_symbol} ${item.amount_total}`,
+          value: formatAmount(item.amount_total),
         },
         {
-          value: `${item.currency_symbol} ${item.amount_due}`,
+          value: formatAmount(item.amount_due),
         },
       ]);
     });
-    return { tableBody: body, totalAmount: amount, totalDueAmount: dueAmount, currencySymbol: currency };
+    return { tableBody: body, totalAmount: amount, totalDueAmount: dueAmount };
   }, [invoiceBalanceResponse]);
 
   const tableFooter = useMemo(
@@ -49,11 +48,11 @@ function useGetInvoiceBalanceAgainstCustomerData(invoiceBalanceResponse) {
 
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDueAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDueAmount), style: { fontWeight: 700 } },
       ],
     ],
-    [totalAmount, totalDueAmount, currencySymbol]
+    [totalAmount, totalDueAmount]
   );
   return { tableBody, tableFooter };
 }

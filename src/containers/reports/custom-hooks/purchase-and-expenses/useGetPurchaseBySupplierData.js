@@ -1,15 +1,14 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
   const location = useLocation();
-  const { tableBody, totalBillAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalBillAmount } = useMemo(() => {
     let billAmount = 0;
-    const currency = 'AED';
     const body = [];
     PurchaseBySupplierResponse?.data?.data.forEach(item => {
       billAmount += item.amount_with_tax;
-      //   currency = item.currency_symbol;
 
       body.push([
         {
@@ -25,7 +24,7 @@ function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
           value: item.supplier_credit_count,
         },
         {
-          value: `${currency} ${item.amount_with_tax}`,
+          value: formatAmount(item.amount_with_tax),
           link: `detail${location.search}&supplier_id=${item.supplier__id}&supplier_name=${item.supplier__supplier_name}`,
         },
       ]);
@@ -33,7 +32,6 @@ function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
     return {
       tableBody: body,
       totalBillAmount: billAmount,
-      currencySymbol: currency,
     };
   }, [PurchaseBySupplierResponse]);
   const tableFooter = useMemo(
@@ -43,10 +41,10 @@ function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalBillAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
       ],
     ],
-    [tableBody, totalBillAmount, currencySymbol]
+    [tableBody, totalBillAmount]
   );
   return { tableBody, tableFooter };
 }

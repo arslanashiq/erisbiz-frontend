@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetPayableDetailData(payableDetailResponse) {
   const { tableBody, totalAmount, totalQuantity } = useMemo(() => {
@@ -32,13 +33,13 @@ function useGetPayableDetailData(payableDetailResponse) {
           value: item.service_type,
         },
         {
-          value: item.item_price,
+          value: formatAmount(item.item_price),
         },
         {
-          value: item.num_nights,
+          value: formatAmount(item.num_nights),
         },
         {
-          value: item.total_amount,
+          value: formatAmount(item.total_amount),
         },
       ]);
     });
@@ -55,8 +56,8 @@ function useGetPayableDetailData(payableDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: totalQuantity, style: { fontWeight: 700 } },
-        { value: `AED ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalQuantity), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
       ],
     ],
     [totalAmount, totalQuantity]

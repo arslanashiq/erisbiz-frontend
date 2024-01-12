@@ -1,19 +1,18 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
   const getLinkByType = item => `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
 
-  const { tableBody, totalBillAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalBillAmount, totalDueAmount } = useMemo(() => {
     let totalAmount = 0;
     let dueAmount = 0;
-    const currency = 'AED';
     const body = [];
     supplierPayableDebitNoteResponse?.data?.data.forEach(item => {
       totalAmount += item.total_supplier_credit_amount;
       dueAmount += item.balance_due_per_supplier_credit;
-      //   currency = item.currency_symbol;
       body.push([
         { value: item.status, style: { textAlign: 'start' } },
         {
@@ -25,15 +24,16 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
           link: getLinkByType(item),
         },
         {
+          style: { textAlign: 'left' },
           value: item.supplier__supplier_name,
           link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
         },
         {
-          value: ` ${item.total_supplier_credit_amount}`,
+          value: formatAmount(item.total_supplier_credit_amount),
           link: getLinkByType(item),
         },
         {
-          value: ` ${item.balance_due_per_supplier_credit}`,
+          value: formatAmount(item.balance_due_per_supplier_credit),
           link: getLinkByType(item),
         },
       ]);
@@ -42,7 +42,6 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
       tableBody: body,
       totalBillAmount: totalAmount,
       totalDueAmount: dueAmount,
-      currencySymbol: currency,
     };
   }, [supplierPayableDebitNoteResponse]);
   const tableFooter = useMemo(
@@ -52,11 +51,11 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalBillAmount?.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDueAmount?.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDueAmount), style: { fontWeight: 700 } },
       ],
     ],
-    [tableBody, totalBillAmount, totalDueAmount, currencySymbol]
+    [tableBody, totalBillAmount, totalDueAmount]
   );
   return { tableBody, tableFooter };
 }

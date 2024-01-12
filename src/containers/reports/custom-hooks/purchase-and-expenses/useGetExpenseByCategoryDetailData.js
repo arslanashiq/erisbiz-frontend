@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetExpenseByCategoryDetailData(expenseByCategoryDetailResponse) {
   const getLinkByType = item => {
@@ -15,10 +16,9 @@ function useGetExpenseByCategoryDetailData(expenseByCategoryDetailResponse) {
     }
     return false;
   };
-  const { tableBody, totalAmountWithoutTax, totalAmountWithTax, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmountWithoutTax, totalAmountWithTax } = useMemo(() => {
     let amountWithoutTax = 0;
     let amountWithTax = 0;
-    const currency = 'AED';
     const body = [];
     expenseByCategoryDetailResponse?.data?.data.forEach(item => {
       amountWithoutTax += item.amount_without_tax;
@@ -35,11 +35,11 @@ function useGetExpenseByCategoryDetailData(expenseByCategoryDetailResponse) {
           link: `/pages/accounting/purchase/suppliers/${item.supplier_id}/detail`,
         },
         {
-          value: item.amount_without_tax,
+          value: formatAmount(item.amount_without_tax),
           link: getLinkByType(item),
         },
         {
-          value: item.total_amount,
+          value: formatAmount(item.total_amount),
         },
       ]);
     });
@@ -47,7 +47,6 @@ function useGetExpenseByCategoryDetailData(expenseByCategoryDetailResponse) {
       tableBody: body,
       totalAmountWithoutTax: amountWithoutTax,
       totalAmountWithTax: amountWithTax,
-      currencySymbol: currency,
     };
   }, [expenseByCategoryDetailResponse]);
   const tableFooter = useMemo(
@@ -56,11 +55,11 @@ function useGetExpenseByCategoryDetailData(expenseByCategoryDetailResponse) {
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '', style: { fontWeight: 700 } },
         { value: '', style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountWithoutTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountWithoutTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountWithTax), style: { fontWeight: 700 } },
       ],
     ],
-    [tableBody, totalAmountWithoutTax, totalAmountWithTax, currencySymbol]
+    [tableBody, totalAmountWithoutTax, totalAmountWithTax]
   );
   return { tableBody, tableFooter };
 }

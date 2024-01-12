@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSalesBySalePersonData(saleBySalePersonResponse) {
   const location = useLocation();
@@ -19,7 +20,6 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
     totalCreditNoteSaleWithTax,
     totalAmountWithoutTax,
     totalAmountWithTax,
-    currencySymbol,
   } = useMemo(() => {
     let invoiceCount = 0;
     let invoiceSaleWithoutTax = 0;
@@ -31,7 +31,6 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
     let total = 0;
     let totalWithTax = 0;
 
-    const currency = 'AED';
     const body = [];
     saleBySalePersonResponse?.data?.data.forEach(item => {
       invoiceCount += item.invoice_count;
@@ -53,11 +52,11 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.sales}`,
+          value: formatAmount(item.sales),
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.sales_with_tax.toFixed(2)}`,
+          value: formatAmount(item.sales_with_tax),
           link: getLink(item),
         },
         {
@@ -65,19 +64,19 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.credit_sales}`,
+          value: formatAmount(item.credit_sales),
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.credit_sales_with_tax.toFixed(2)}`,
+          value: formatAmount(item.credit_sales_with_tax),
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.sales + item.credit_sales}`,
+          value: formatAmount(item.sales + item.credit_sales),
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.sales_with_tax + item.credit_sales_with_tax}}`,
+          value: formatAmount(item.sales_with_tax + item.credit_sales_with_tax),
           link: getLink(item),
         },
       ]);
@@ -92,7 +91,6 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
       totalCreditNoteSaleWithTax: creditNoteSaleWithTax,
       totalAmountWithoutTax: total,
       totalAmountWithTax: totalWithTax,
-      currencySymbol: currency,
     };
   }, [saleBySalePersonResponse]);
 
@@ -101,16 +99,16 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: totalInvoiceCount },
-        { value: `${currencySymbol} ${totalInvoiceSaleWithoutTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalInvoiceSaleWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalInvoiceSaleWithoutTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalInvoiceSaleWithTax), style: { fontWeight: 700 } },
         { value: totalCreditNoteCount },
         {
-          value: `${currencySymbol} ${totalCreditNoteSaleWithoutTax.toFixed(2)}`,
+          value: formatAmount(totalCreditNoteSaleWithoutTax),
           style: { fontWeight: 700 },
         },
-        { value: `${currencySymbol} ${totalCreditNoteSaleWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountWithoutTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalCreditNoteSaleWithTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountWithoutTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountWithTax), style: { fontWeight: 700 } },
       ],
     ],
     [
@@ -122,8 +120,6 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
       totalCreditNoteSaleWithTax,
       totalAmountWithoutTax,
       totalAmountWithTax,
-
-      currencySymbol,
     ]
   );
   return { tableBody, tableFooter };

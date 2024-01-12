@@ -1,16 +1,15 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetRefundHistoryData(refundHistoryResponse) {
-  const { tableBody, totalAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount } = useMemo(() => {
     let total = 0;
 
-    let currency = 'AED';
     const body = [];
     refundHistoryResponse?.data?.data.forEach(item => {
       total += item.amount_applied;
-      currency = item.currency_symbol;
       body.push([
         {
           value: moment(item.payment_date).format(DATE_FILTER_REPORT),
@@ -32,14 +31,13 @@ function useGetRefundHistoryData(refundHistoryResponse) {
           value: item.payment_mode,
         },
         {
-          value: `${currency} ${item.amount_applied}`,
+          value: formatAmount(item.amount_applied),
         },
       ]);
     });
     return {
       tableBody: body,
       totalAmount: total,
-      currencySymbol: currency,
     };
   }, [refundHistoryResponse]);
 
@@ -51,10 +49,10 @@ function useGetRefundHistoryData(refundHistoryResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount}`, style: { textAlign: 'end', fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { textAlign: 'end', fontWeight: 700 } },
       ],
     ],
-    [totalAmount, currencySymbol]
+    [totalAmount]
   );
   return { tableBody, tableFooter };
 }

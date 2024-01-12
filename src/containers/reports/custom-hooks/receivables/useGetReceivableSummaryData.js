@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetReceivableSummaryData(receivableSummaryResponse) {
   const getLinkByType = item => {
@@ -36,11 +37,11 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
           value: item.type,
         },
         {
-          value: `${item.currency_symbol} ${item.bcy_sales_with_tax_amount}`,
+          value: formatAmount(item.bcy_sales_with_tax_amount),
           link: getLinkByType(item),
         },
         {
-          value: `${item.currency_symbol} ${item.amount_due}`,
+          value: formatAmount(item.amount_due),
           link: getLinkByType(item),
         },
       ]);
@@ -56,8 +57,8 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `AED ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `AED ${totalRemainingAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalRemainingAmount), style: { fontWeight: 700 } },
       ],
     ],
     [totalAmount, totalRemainingAmount]

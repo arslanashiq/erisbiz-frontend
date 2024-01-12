@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSalesByItemDetailData(saleByItemDetailResponse) {
-  const { tableBody, totalQuantity, totalAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalQuantity, totalAmount } = useMemo(() => {
     let quantity = 0;
     let amount = 0;
-    const currency = 'AED';
     const body = [];
     saleByItemDetailResponse?.data?.data.forEach(item => {
       quantity += item.quantity;
@@ -20,10 +20,10 @@ function useGetSalesByItemDetailData(saleByItemDetailResponse) {
           value: item.quantity,
         },
         {
-          value: `${currency} ${item.amount}`,
+          value: formatAmount(item.amount),
         },
         {
-          value: `${currency} ${item.average?.toFixed(2)}`,
+          value: formatAmount(item.average),
         },
       ]);
     });
@@ -31,7 +31,6 @@ function useGetSalesByItemDetailData(saleByItemDetailResponse) {
       tableBody: body,
       totalQuantity: quantity,
       totalAmount: amount,
-      currencySymbol: currency,
     };
   }, [saleByItemDetailResponse]);
 
@@ -39,12 +38,12 @@ function useGetSalesByItemDetailData(saleByItemDetailResponse) {
     () => [
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
-        { value: totalQuantity, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalQuantity), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         { value: '' },
       ],
     ],
-    [totalQuantity, totalAmount, currencySymbol]
+    [totalQuantity, totalAmount]
   );
   return { tableBody, tableFooter };
 }

@@ -7,6 +7,7 @@ import { Stack } from '@mui/material';
 import { getSpaces } from 'utilities/constants';
 import { generalLedgerReportHeadCells } from 'containers/reports/utilities/head-cells';
 import { tableCellFooter } from 'styles/components/custom-hooks/use-excel-sheet';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetGeneralLedgerData(generalLedgerResponse) {
   const [formatedResponse, setFormatedResponse] = useState(null);
@@ -39,9 +40,9 @@ function useGetGeneralLedgerData(generalLedgerResponse) {
             value: `${getSpaces((nestedLevel - 1) * 8)}${item?.name}`,
             style: { textAlign: 'start', paddingLeft: 20 * nestedLevel, border: 'none' },
           },
-          { value: item?.debits, style: { border: 'none' } },
-          { value: item?.credits, style: { border: 'none' } },
-          { value: item?.balance, style: { border: 'none' } },
+          { value: formatAmount(item?.debits), style: { border: 'none' } },
+          { value: formatAmount(item?.credits), style: { border: 'none' } },
+          { value: formatAmount(item?.balance), style: { border: 'none' } },
         ]);
         body.push([
           {
@@ -58,9 +59,9 @@ function useGetGeneralLedgerData(generalLedgerResponse) {
             ),
             style: { textAlign: 'start', paddingLeft: 20 * nestedLevel, border: 'none' },
           },
-          { value: item?.debits, style: { border: 'none' } },
-          { value: item?.credits, style: { border: 'none' } },
-          { value: item?.balance, style: { border: 'none' } },
+          { value: formatAmount(item?.debits), style: { border: 'none' } },
+          { value: formatAmount(item?.credits), style: { border: 'none' } },
+          { value: formatAmount(item?.balance), style: { border: 'none' } },
         ]);
         const {
           body: currentBody,
@@ -77,34 +78,34 @@ function useGetGeneralLedgerData(generalLedgerResponse) {
             style: { textAlign: 'start', paddingLeft: 20 * nestedLevel + 1, fontWeight: 'bold' },
             excelSheetStyle: tableCellFooter,
           },
-          { value: item.debits + totalDebits, excelSheetStyle: tableCellFooter },
-          { value: item.credits + totalCredits, excelSheetStyle: tableCellFooter },
-          { value: item.balance + totalBalance, excelSheetStyle: tableCellFooter },
+          { value: formatAmount(item.debits + totalDebits), excelSheetStyle: tableCellFooter },
+          { value: formatAmount(item.credits + totalCredits), excelSheetStyle: tableCellFooter },
+          { value: formatAmount(item.balance + totalBalance), excelSheetStyle: tableCellFooter },
         ]);
         body.push([
           {
             value: `Total For ${item?.name}`,
             style: { textAlign: 'start', paddingLeft: 20 * nestedLevel + 1, fontWeight: 'bold' },
           },
-          { value: item.debits + totalDebits },
-          { value: item.credits + totalCredits },
-          { value: item.balance + totalBalance },
+          { value: formatAmount(item.debits) + totalDebits },
+          { value: formatAmount(item.credits) + totalCredits },
+          { value: formatAmount(item.balance) + totalBalance },
         ]);
       } else {
         body.push([
           { value: item?.name, style: { textAlign: 'start', paddingLeft: 20 * nestedLevel, border: 'none' } },
-          { value: item?.debits, style: { border: 'none' } },
-          { value: item?.credits, style: { border: 'none' } },
-          { value: item?.balance, style: { border: 'none' } },
+          { value: formatAmount(item?.debits), style: { border: 'none' } },
+          { value: formatAmount(item?.credits), style: { border: 'none' } },
+          { value: formatAmount(item?.balance), style: { border: 'none' } },
         ]);
         modifiedBody.push([
           {
             value: `${getSpaces((nestedLevel - 1) * 8)}${item?.name}`,
             style: { textAlign: 'start', paddingLeft: 20 * nestedLevel, border: 'none' },
           },
-          { value: item?.debits, style: { border: 'none' } },
-          { value: item?.credits, style: { border: 'none' } },
-          { value: item?.balance, style: { border: 'none' } },
+          { value: formatAmount(item?.debits), style: { border: 'none' } },
+          { value: formatAmount(item?.credits), style: { border: 'none' } },
+          { value: formatAmount(item?.balance), style: { border: 'none' } },
         ]);
       }
     });

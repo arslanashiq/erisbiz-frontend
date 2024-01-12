@@ -1,15 +1,14 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useSupplierRefundHistoryData(supplierRefundHistoryResponse) {
-  const { tableBody, totalBalance, currencySymbol } = useMemo(() => {
+  const { tableBody, totalBalance } = useMemo(() => {
     let balance = 0;
     const body = [];
-    let currency = 'AED';
     supplierRefundHistoryResponse?.data?.data.forEach(item => {
       balance += item.amount_applied;
-      currency = item.currency_symbol;
       body.push([
         {
           value: moment(item.refunded_on).format(DATE_FILTER_REPORT),
@@ -19,10 +18,10 @@ function useSupplierRefundHistoryData(supplierRefundHistoryResponse) {
         { value: item.transaction_num },
         { value: item.account_name },
         { value: item.payment_mode },
-        { value: `${currency} ${item.amount_applied}` },
+        { value: formatAmount(item.amount_applied) },
       ]);
     });
-    return { tableBody: body, totalBalance: balance, currencySymbol: currency };
+    return { tableBody: body, totalBalance: balance };
   }, [supplierRefundHistoryResponse]);
 
   const tableFooter = useMemo(
@@ -33,10 +32,10 @@ function useSupplierRefundHistoryData(supplierRefundHistoryResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalBalance.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalBalance), style: { fontWeight: 700 } },
       ],
     ],
-    [totalBalance, currencySymbol]
+    [totalBalance]
   );
   return { tableBody, totalBalance, tableFooter };
 }

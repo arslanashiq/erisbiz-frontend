@@ -1,18 +1,17 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetCreditNoteDetailData(creditNoteDetailResponse) {
-  const { tableBody, totalAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let total = 0;
     let dueAmount = 0;
 
-    let currency = 'AED';
     const body = [];
     creditNoteDetailResponse?.data?.data.forEach(item => {
       total += item.amount_total;
       dueAmount += item.amount_due;
-      currency = item.currency_symbol;
       body.push([
         {
           value: item.status,
@@ -31,10 +30,10 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
         },
 
         {
-          value: `${currency} ${item.amount_total}`,
+          value: formatAmount(item.amount_total),
         },
         {
-          value: `${currency} ${item.amount_due}`,
+          value: formatAmount(item.amount_due),
         },
       ]);
     });
@@ -42,7 +41,6 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
       tableBody: body,
       totalAmount: total,
       totalDueAmount: dueAmount,
-      currencySymbol: currency,
     };
   }, [creditNoteDetailResponse]);
 
@@ -53,11 +51,11 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount}`, style: { textAlign: 'end', fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDueAmount}`, style: { textAlign: 'end', fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { textAlign: 'end', fontWeight: 700 } },
+        { value: formatAmount(totalDueAmount), style: { textAlign: 'end', fontWeight: 700 } },
       ],
     ],
-    [totalAmount, totalDueAmount, currencySymbol]
+    [totalAmount, totalDueAmount]
   );
   return { tableBody, tableFooter };
 }

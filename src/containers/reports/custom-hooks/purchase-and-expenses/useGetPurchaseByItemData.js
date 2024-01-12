@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetPurchaseByItemData(PurchaseByItemResponse) {
   const location = useLocation();
-  const { tableBody, totalAmount, totalQuantity, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalQuantity } = useMemo(() => {
     let amount = 0;
     let quantity = 0;
-    const currency = 'AED';
     const body = [];
     PurchaseByItemResponse?.data?.data.forEach(item => {
       amount += item.amount;
@@ -17,11 +17,11 @@ function useGetPurchaseByItemData(PurchaseByItemResponse) {
         { value: item.item, style: { textAlign: 'start' } },
         { value: item.quantity },
         {
-          value: `${currency} ${item.amount}`,
+          value: formatAmount(item.amount),
           link: `detail${location.search}&item_name=${item.item}`,
         },
         {
-          value: `${currency} ${item.average}`,
+          value: formatAmount(item.average),
           link: `detail${location.search}&supplier_id=${item.item}`,
         },
       ]);
@@ -30,7 +30,6 @@ function useGetPurchaseByItemData(PurchaseByItemResponse) {
       tableBody: body,
       totalAmount: amount,
       totalQuantity: quantity,
-      currencySymbol: currency,
     };
   }, [PurchaseByItemResponse]);
   const tableFooter = useMemo(
@@ -38,11 +37,11 @@ function useGetPurchaseByItemData(PurchaseByItemResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: totalQuantity, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         { value: '' },
       ],
     ],
-    [tableBody, totalAmount, totalQuantity, currencySymbol]
+    [tableBody, totalAmount, totalQuantity]
   );
   return { tableBody, tableFooter };
 }

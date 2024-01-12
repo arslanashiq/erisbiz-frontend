@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetReceivablesDetailData(receivablesDetailResponse) {
   const getLinkByType = item => {
@@ -39,13 +40,13 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
           value: item.service_type,
         },
         {
-          value: item.item_price,
+          value: formatAmount(item.item_price),
         },
         {
-          value: item.num_units,
+          value: formatAmount(item.num_units),
         },
         {
-          value: item.total_amount,
+          value: formatAmount(item.total_amount),
         },
       ]);
     });
@@ -62,8 +63,8 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: totalQuantity, style: { fontWeight: 700 } },
-        { value: `AED ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalQuantity), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
       ],
     ],
     [totalAmount, totalQuantity]

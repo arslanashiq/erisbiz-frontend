@@ -1,16 +1,15 @@
 import moment from 'moment';
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetPaymentMadeData(paymentMadeResponse) {
-  const { tableBody, totalAmount, totalUnUsedAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalUnUsedAmount } = useMemo(() => {
     let amount = 0;
     let unUsedAmount = 0;
-    let symbol = 'AED';
     const body = [];
     paymentMadeResponse?.data?.data.forEach(item => {
       amount += item.total;
       unUsedAmount += item.unused_amount;
-      symbol = item.currency__currency_code;
       body.push([
         { value: moment(item.payment_date).format('DD MMM YYYY'), style: { textAlign: 'start' } },
         { value: item.reference_num },
@@ -25,10 +24,10 @@ function useGetPaymentMadeData(paymentMadeResponse) {
         { value: item.payment_mode__payment_mode_name },
         { value: item.chart_of_account__account_name },
         {
-          value: `${item.currency__currency_code} ${item.total}`,
+          value: formatAmount(item.total),
         },
         {
-          value: `${item.currency__currency_code} ${item.unused_amount}`,
+          value: formatAmount(item.unused_amount),
         },
       ]);
     });
@@ -36,7 +35,6 @@ function useGetPaymentMadeData(paymentMadeResponse) {
       tableBody: body,
       totalAmount: amount,
       totalUnUsedAmount: unUsedAmount,
-      currencySymbol: symbol,
     };
   }, [paymentMadeResponse]);
   const tableFooter = useMemo(
@@ -48,14 +46,14 @@ function useGetPaymentMadeData(paymentMadeResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         {
-          value: `${currencySymbol} ${totalUnUsedAmount.toFixed(2)}`,
+          value: formatAmount(totalUnUsedAmount),
           style: { fontWeight: 700 },
         },
       ],
     ],
-    [totalAmount, totalUnUsedAmount, currencySymbol]
+    [totalAmount, totalUnUsedAmount]
   );
   return {
     tableBody,

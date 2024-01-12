@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetAccountTransactionData(accountTransactionResponse) {
   const getLinkByType = item => {
@@ -21,16 +22,14 @@ function useGetAccountTransactionData(accountTransactionResponse) {
     }
     return false;
   };
-  const { tableBody, totalAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let total = 0;
     let dueAmount = 0;
 
-    let currency = 'AED';
     const body = [];
     accountTransactionResponse?.data?.data.forEach(item => {
       total += item.amount_total;
       dueAmount += item.amount_due;
-      currency = item.currency_symbol;
       body.push([
         {
           value: moment(item.transaction_date).format(DATE_FILTER_REPORT),
@@ -53,15 +52,15 @@ function useGetAccountTransactionData(accountTransactionResponse) {
         },
 
         {
-          value: `${currency} ${item.bcy_debit}`,
+          value: formatAmount(item.bcy_debit),
           link: getLinkByType(item),
         },
         {
-          value: `${currency} ${item.bcy_credit}`,
+          value: formatAmount(item.bcy_credit),
           link: getLinkByType(item),
         },
         {
-          value: `${currency} ${item.bcy_credit - item.bcy_debit}`,
+          value: formatAmount(item.bcy_credit - item.bcy_debit),
           link: getLinkByType(item),
         },
       ]);
@@ -70,11 +69,10 @@ function useGetAccountTransactionData(accountTransactionResponse) {
       tableBody: body,
       totalAmount: total,
       totalDueAmount: dueAmount,
-      currencySymbol: currency,
     };
   }, [accountTransactionResponse]);
 
-  const tableFooter = useMemo(() => [[]], [totalAmount, totalDueAmount, currencySymbol]);
+  const tableFooter = useMemo(() => [[]], [totalAmount, totalDueAmount]);
   return { tableBody, tableFooter };
 }
 

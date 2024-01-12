@@ -7,6 +7,7 @@ import { generalLedgerReportHeadCells } from 'containers/reports/utilities/head-
 import transformDataInNestedStructure from 'containers/accounting/finance/chart-of-account/utilities/transformDataInNestedStructure';
 import { sortDataByType } from 'containers/reports/utilities/sort-data-by-type';
 import { Stack } from '@mui/material';
+import formatAmount from 'utilities/formatAmount';
 
 function RenderItemCell({ item }) {
   const { chitd_account: childAccounts, collapse, chart_of_account: chartOfAccount } = item;
@@ -43,6 +44,7 @@ function useGetTrialBalanceData(trialBalanceResponse) {
         tableBody: body,
       };
     }
+
     finalSortedData?.asset?.forEach(item => {
       body.push([
         {
@@ -52,10 +54,10 @@ function useGetTrialBalanceData(trialBalanceResponse) {
           },
         },
         {
-          value: item.is_debit ? item.balance : '',
+          value: formatAmount(item.is_debit ? item.balance : 0),
         },
         {
-          value: item.is_debit ? '' : item.balance,
+          value: formatAmount(item.is_debit ? 0 : item.balance),
         },
       ]);
     });

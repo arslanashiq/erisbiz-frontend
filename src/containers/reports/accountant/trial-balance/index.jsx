@@ -6,6 +6,7 @@ import { useGetTrialBalanceQuery } from 'services/private/reports';
 // conainer
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { trialBalanceReportHeadCells } from 'containers/reports/utilities/head-cells';
+import formatAmount from 'utilities/formatAmount';
 import RenderTrialBalanceRow from './components/RenderTrialBalanceRow';
 import CustomCollapseAbleReport from '../../components/CustomCollapseAbleReport';
 import useTrialBalanceData from './custom-hooks/useTrialBalanceData';
@@ -36,8 +37,8 @@ function TrialBalance() {
                 key={uuid()}
                 data={item}
                 padding={0}
-                totalCredit={item?.is_debit ? 0 : item.balance}
-                totalDebit={item?.is_debit ? item.balance : 0}
+                totalCredit={formatAmount(item?.is_debit ? 0 : item.balance)}
+                totalDebit={formatAmount(item?.is_debit ? item.balance : 0)}
               />
             ))}
           </tbody>
@@ -45,8 +46,8 @@ function TrialBalance() {
         <tbody>
           <tr>
             <td style={headerStyle}>Total</td>
-            <td style={{ textAlign: 'end' }}>{totalValue?.debit} </td>
-            <td style={{ textAlign: 'end' }}>{totalValue?.credit} </td>
+            <td style={{ textAlign: 'end' }}>{formatAmount(totalValue?.debit)} </td>
+            <td style={{ textAlign: 'end' }}>{formatAmount(totalValue?.credit)} </td>
           </tr>
         </tbody>
       </CustomCollapseAbleReport>

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import moment from 'moment';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSaleByCustomerDetailData(saleByCustomerDetailResponse) {
   const getLinkByType = item => {
@@ -9,17 +10,15 @@ function useGetSaleByCustomerDetailData(saleByCustomerDetailResponse) {
     }
     return false;
   };
-  const { tableBody, totalSales, totalSalesWithTax, totalAmountDue, currencySymbol } = useMemo(() => {
+  const { tableBody, totalSales, totalSalesWithTax, totalAmountDue } = useMemo(() => {
     let sales = 0;
     let salesWithTax = 0;
     let amountDue = 0;
-    let currency = 'AED';
     const body = [];
     saleByCustomerDetailResponse?.data?.data.forEach(item => {
       sales += item.amount_total;
       salesWithTax += item.bcy_sales_with_tax_amount;
       amountDue += item.amount_due;
-      currency = item.currency_symbol;
       body.push([
         {
           value: moment(item.date).format(DATE_FILTER_REPORT),
@@ -37,15 +36,15 @@ function useGetSaleByCustomerDetailData(saleByCustomerDetailResponse) {
         },
 
         {
-          value: `${currency} ${item.amount_total}`,
+          value: formatAmount(item.amount_total),
           link: getLinkByType(item),
         },
         {
-          value: `${currency} ${item.bcy_sales_with_tax_amount}`,
+          value: formatAmount(item.bcy_sales_with_tax_amount),
           link: getLinkByType(item),
         },
         {
-          value: `${currency} ${item.amount_due}`,
+          value: formatAmount(item.amount_due),
           link: getLinkByType(item),
         },
       ]);
@@ -55,7 +54,6 @@ function useGetSaleByCustomerDetailData(saleByCustomerDetailResponse) {
       totalSales: sales,
       totalSalesWithTax: salesWithTax,
       totalAmountDue: amountDue,
-      currencySymbol: currency,
     };
   }, [saleByCustomerDetailResponse]);
 
@@ -66,12 +64,12 @@ function useGetSaleByCustomerDetailData(saleByCustomerDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalSales.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalSalesWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountDue.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalSales), style: { fontWeight: 700 } },
+        { value: formatAmount(totalSalesWithTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountDue), style: { fontWeight: 700 } },
       ],
     ],
-    [totalSales, totalSalesWithTax, totalAmountDue, currencySymbol]
+    [totalSales, totalSalesWithTax, totalAmountDue]
   );
   return { tableBody, tableFooter };
 }

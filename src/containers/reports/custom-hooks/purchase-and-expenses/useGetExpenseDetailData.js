@@ -1,12 +1,12 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetExpenseDetailData(expenseDetailResponse) {
-  const { tableBody, totalAmountWithoutTax, totalAmountWithTax, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmountWithoutTax, totalAmountWithTax } = useMemo(() => {
     let amountWithoutTax = 0;
     let amountWithTax = 0;
-    const currency = 'AED';
     const body = [];
     expenseDetailResponse?.data?.data.forEach(item => {
       amountWithoutTax += item.amount_without_tax;
@@ -27,11 +27,11 @@ function useGetExpenseDetailData(expenseDetailResponse) {
           value: item.chart_of_account__account_name,
         },
         {
-          value: `${currency} ${item.amount_without_tax}`,
+          value: formatAmount(item.amount_without_tax),
           link: `/pages/accounting/purchase/expenses/${item.object_id}/detail`,
         },
         {
-          value: `${currency} ${item.total_amount}`,
+          value: formatAmount(item.total_amount),
           link: `/pages/accounting/purchase/expenses/${item.object_id}/detail`,
         },
       ]);
@@ -40,7 +40,6 @@ function useGetExpenseDetailData(expenseDetailResponse) {
       tableBody: body,
       totalAmountWithoutTax: amountWithoutTax,
       totalAmountWithTax: amountWithTax,
-      currencySymbol: currency,
     };
   }, [expenseDetailResponse]);
   const tableFooter = useMemo(
@@ -51,11 +50,11 @@ function useGetExpenseDetailData(expenseDetailResponse) {
         { value: '', style: { fontWeight: 700 } },
         { value: '', style: { fontWeight: 700 } },
         { value: '', style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountWithoutTax.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountWithTax.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountWithoutTax), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountWithTax), style: { fontWeight: 700 } },
       ],
     ],
-    [tableBody, totalAmountWithoutTax, totalAmountWithTax, currencySymbol]
+    [tableBody, totalAmountWithoutTax, totalAmountWithTax]
   );
   return { tableBody, tableFooter };
 }

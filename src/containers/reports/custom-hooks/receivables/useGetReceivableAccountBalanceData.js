@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetReceivableAccountBalanceData(receivableAccountBalanceResponse) {
-  const { tableBody, currencySymbol } = useMemo(() => {
-    let currency = 'AED';
+  const { tableBody } = useMemo(() => {
     const body = [];
 
     if (receivableAccountBalanceResponse?.data?.data?.length >= 0) {
       receivableAccountBalanceResponse?.data?.data.forEach(item => {
-        currency = item?.currency__symbol || 'AED';
         body.push([
           {
             value: item?.customer_name,
@@ -16,22 +15,22 @@ function useGetReceivableAccountBalanceData(receivableAccountBalanceResponse) {
           },
 
           {
-            value: `${item.currency__symbol} ${item.invoice_balance}`,
+            value: formatAmount(item.invoice_balance),
             link: `sale-invoice/detail?duration=this+month&customer_id=${item.customer_id}`,
           },
           {
-            value: `${item.currency__symbol} ${item.credit_balance}`,
+            value: formatAmount(item.credit_balance),
             link: `credit-notes/detail?duration=this+month&customer_id=${item.customer_id}`,
           },
 
           {
-            value: `${item.currency__symbol} ${item.balance}`,
+            value: formatAmount(item.balance),
             link: `detail?duration=this+month&customer_id=${item.customer_id}`,
           },
         ]);
       });
     }
-    return { tableBody: body, currencySymbol: currency };
+    return { tableBody: body };
   }, [receivableAccountBalanceResponse]);
 
   const tableFooter = useMemo(
@@ -42,12 +41,12 @@ function useGetReceivableAccountBalanceData(receivableAccountBalanceResponse) {
         { value: '' },
         { value: '' },
         {
-          value: `${currencySymbol} ${receivableAccountBalanceResponse?.data?.total_balance?.toFixed(2)}`,
+          value: formatAmount(receivableAccountBalanceResponse?.data?.total_balance),
           style: { fontWeight: 700 },
         },
       ],
     ],
-    [receivableAccountBalanceResponse, currencySymbol]
+    [receivableAccountBalanceResponse]
   );
   return { tableBody, tableFooter };
 }

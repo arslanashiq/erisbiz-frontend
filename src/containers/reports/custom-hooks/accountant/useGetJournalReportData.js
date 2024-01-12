@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { journalReportHeadCells } from 'containers/reports/utilities/head-cells';
 import moment from 'moment';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetJournalReportData(journalReportResponse) {
   const getLinkByType = item => {
@@ -20,12 +21,11 @@ function useGetJournalReportData(journalReportResponse) {
     const body = [];
     let currentDebit = 0;
     let currentCredit = 0;
-    const currency = 'AED';
     if (data?.entries?.length === 0) {
       return {
         body,
-        currentDebit: `${currency} ${currentDebit}`,
-        currentCredit: `${currency} ${currentCredit}`,
+        currentDebit: formatAmount(currentDebit),
+        currentCredit: formatAmount(currentCredit),
       };
     }
     data?.entries?.forEach(item => {
@@ -38,18 +38,18 @@ function useGetJournalReportData(journalReportResponse) {
         },
 
         {
-          value: `${currency} ${item.bcy_debit}`,
+          value: formatAmount(item.bcy_debit),
         },
         {
-          value: `${currency} ${item.bcy_credit}`,
+          value: formatAmount(item.bcy_credit),
         },
       ]);
     });
 
     return {
       body,
-      currentDebit: `${currency} ${currentDebit}`,
-      currentCredit: `${currency} ${currentCredit}`,
+      currentDebit: formatAmount(currentDebit),
+      currentCredit: formatAmount(currentCredit),
     };
   };
   const { modifiedTableHead, tableBody, tableFooter } = useMemo(() => {

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import moment from 'moment';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetPayableSummaryData(payableSummaryResponse) {
   const { tableBody, totalAmount, totalRemainingAmount } = useMemo(() => {
@@ -29,13 +30,13 @@ function useGetPayableSummaryData(payableSummaryResponse) {
           value: item.type,
         },
         {
-          value: `${item.currency_symbol} ${item.bcy_sales_with_tax_amount}`,
+          value: formatAmount(item.bcy_sales_with_tax_amount),
           link: `/pages/accounting/purchase/${
             item.type === 'Bill' ? 'purchase-invoice' : 'payment-voucher'
           }/${item.id}/detail`,
         },
         {
-          value: `${item.currency_symbol} ${item.amount_due}`,
+          value: formatAmount(item.amount_due),
           link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${
             item.id
           }/detail`,
@@ -53,8 +54,8 @@ function useGetPayableSummaryData(payableSummaryResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `AED ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `AED ${totalRemainingAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalRemainingAmount), style: { fontWeight: 700 } },
       ],
     ],
     [totalAmount, totalRemainingAmount]

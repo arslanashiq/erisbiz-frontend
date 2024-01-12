@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import moment from 'moment';
+import formatAmount from 'utilities/formatAmount';
 
 const availableDateList = [
   {
@@ -38,9 +39,7 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
     const body = [];
     let amount = 0;
     let dueAmount = 0;
-    let currencySymbol = 'AED';
     data[keyValue].forEach(item => {
-      currencySymbol = item.currency_symbol;
       amount += item.grand_total;
       dueAmount += item.amount_due;
 
@@ -56,19 +55,19 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
           value: item.age,
         },
         {
-          value: `${currencySymbol} ${item.grand_total}`,
+          value: formatAmount(item.grand_total),
           link: getLinkByType(item),
         },
         {
-          value: `${currencySymbol} ${item.amount_due}`,
+          value: formatAmount(item.amount_due),
           link: getLinkByType(item),
         },
       ]);
     });
-    return { body, amount, dueAmount, currencySymbol };
+    return { body, amount, dueAmount };
   };
 
-  const getHeader = (currencySymbol, title, totalAmount, amountDue) => [
+  const getHeader = (title, totalAmount, amountDue) => [
     {
       value: title,
       style: { textAlign: 'start', ...headerStyle },
@@ -78,26 +77,24 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
     { value: '', style: headerStyle },
     { value: '', style: headerStyle },
     {
-      value: `${currencySymbol} ${totalAmount}`,
+      value: formatAmount(totalAmount),
       style: headerStyle,
     },
     {
-      value: `${currencySymbol} ${amountDue}`,
+      value: formatAmount(amountDue),
       style: headerStyle,
     },
   ];
 
-  const { tableBody, totalAmount, totalDueAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let amount = 0;
     let dueAmount = 0;
     let body = [];
-    let currency = 'AED';
     if (!receivableARAgingDetailResponse?.data?.data) {
       return {
         tableBody: body,
         totalAmount: amount,
         totalDueAmount: dueAmount,
-        currencySymbol: currency,
       };
     }
 
@@ -106,14 +103,12 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
         body: currentBody,
         amount: currentTotalAmount,
         dueAmount: currentDueAmount,
-        currencySymbol: currentCurrencySymbol,
       } = getTableBodyValue(receivableARAgingDetailResponse?.data?.data, date.keyValue);
       if (currentBody.length > 0) {
-        const currentHeader = getHeader(currency, date.title, currentTotalAmount, currentDueAmount);
+        const currentHeader = getHeader(date.title, currentTotalAmount, currentDueAmount);
         body = [...body, currentHeader, ...currentBody];
         amount += currentTotalAmount;
         dueAmount += currentDueAmount;
-        currency = currentCurrencySymbol;
       }
     });
 
@@ -121,7 +116,6 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
       tableBody: body,
       totalAmount: amount,
       totalDueAmount: dueAmount,
-      currencySymbol: currency,
     };
   }, [receivableARAgingDetailResponse]);
 
@@ -133,11 +127,11 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDueAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDueAmount), style: { fontWeight: 700 } },
       ],
     ],
-    [totalAmount, totalDueAmount, currencySymbol]
+    [totalAmount, totalDueAmount]
   );
   return { tableBody, tableFooter };
 }

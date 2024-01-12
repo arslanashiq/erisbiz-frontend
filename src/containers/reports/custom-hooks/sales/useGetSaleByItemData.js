@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSaleByItemData(saleByItemResponse) {
   const location = useLocation();
@@ -9,10 +10,9 @@ function useGetSaleByItemData(saleByItemResponse) {
     }
     return false;
   };
-  const { tableBody, totalQuantity, totalAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalQuantity, totalAmount } = useMemo(() => {
     let quantity = 0;
     let amount = 0;
-    const currency = 'AED';
     const body = [];
     saleByItemResponse?.data?.data.forEach(item => {
       quantity += item.quantity;
@@ -28,11 +28,11 @@ function useGetSaleByItemData(saleByItemResponse) {
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.amount}`,
+          value: formatAmount(item.amount),
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.average?.toFixed(2)}`,
+          value: formatAmount(item.average),
           link: getLink(item),
         },
       ]);
@@ -41,7 +41,6 @@ function useGetSaleByItemData(saleByItemResponse) {
       tableBody: body,
       totalQuantity: quantity,
       totalAmount: amount,
-      currencySymbol: currency,
     };
   }, [saleByItemResponse]);
 
@@ -50,11 +49,11 @@ function useGetSaleByItemData(saleByItemResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: totalQuantity, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         { value: '' },
       ],
     ],
-    [totalQuantity, totalAmount, currencySymbol]
+    [totalQuantity, totalAmount]
   );
   return { tableBody, tableFooter };
 }

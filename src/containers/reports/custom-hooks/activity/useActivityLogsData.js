@@ -40,6 +40,7 @@ function useActivityLogsData(activityLogsResponse) {
             textAlign: 'start',
           },
         },
+
         {
           value: getModuleName(item.module_name) || 'Module',
           link: `${window.location.pathname}/${item.id}`,

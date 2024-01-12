@@ -6,13 +6,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import { taxReturnReportHeadCells } from 'containers/reports/utilities/head-cells';
 import { useRemoveTaxReturnMutation } from 'services/private/reports';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetTaxReturnReportData(taxReturnResponse) {
   const [deleteTaxReturn] = useRemoveTaxReturnMutation();
   const { modifiedTableHead, tableBody, modifiedTableBody } = useMemo(() => {
     const header = [...taxReturnReportHeadCells];
     header.splice(header.length - 1, 1);
-    const currency = 'AED';
     const body = [];
     const modifiedBody = [];
     taxReturnResponse?.data?.results.forEach(item => {
@@ -30,10 +30,10 @@ function useGetTaxReturnReportData(taxReturnResponse) {
           value: item.filed_on ? moment(item.filed_on).format(DATE_FILTER_REPORT) : '',
         },
         {
-          value: `${currency} ${item.total_tax_payable}`,
+          value: formatAmount(item.total_tax_payable),
         },
         {
-          value: `${currency} ${item.due_amount}`,
+          value: formatAmount(item.due_amount),
         },
       ];
       modifiedBody.push([...temp]);

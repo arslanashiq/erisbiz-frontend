@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetTaxReturnDetailInformationDataReportData(taxReturnDetailInformationResponse) {
   const getLinkByType = item => {
@@ -13,10 +14,9 @@ function useGetTaxReturnDetailInformationDataReportData(taxReturnDetailInformati
     }
     return false;
   };
-  const { tableBody, totalTabableAmount, totalTaxAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalTabableAmount, totalTaxAmount } = useMemo(() => {
     let taxableAmount = 0;
     let taxAmount = 0;
-    const currency = 'AED';
     const body = [];
     taxReturnDetailInformationResponse?.data?.data.forEach(item => {
       taxableAmount += item.taxable_amount;
@@ -46,7 +46,6 @@ function useGetTaxReturnDetailInformationDataReportData(taxReturnDetailInformati
       tableBody: body,
       totalTabableAmount: taxableAmount,
       totalTaxAmount: taxAmount,
-      currencySymbol: currency,
     };
   }, [taxReturnDetailInformationResponse]);
 
@@ -56,11 +55,11 @@ function useGetTaxReturnDetailInformationDataReportData(taxReturnDetailInformati
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalTabableAmount.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalTaxAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalTabableAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalTaxAmount), style: { fontWeight: 700 } },
       ],
     ],
-    [totalTabableAmount, currencySymbol]
+    [totalTabableAmount]
   );
   return { tableBody, totalTabableAmount, totalTaxAmount, tableFooter };
 }

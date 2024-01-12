@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetARAgingSummaryData(receivableARAgingReportResponse) {
   const getARAgingSummaryDetailLink = (item, interval) => `/pages/reports/ar-aging-details?duration=this+month&date_type=date&customer_id=${item.customer_id}&interval=${interval}`;
@@ -11,14 +12,12 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
     totalDays16To30Balance,
     totalDays31To45Balance,
     totalAbove45Balance,
-    currencySymbol,
   } = useMemo(() => {
     let currentBalance = 0;
     let days1To15Balance = 0;
     let days16To30Balance = 0;
     let days31To45Balance = 0;
     let daysAbove45Balance = 0;
-    let currency = 'AED';
     const body = [];
     receivableARAgingReportResponse?.data?.data.forEach(item => {
       currentBalance += item.current_bcy;
@@ -26,7 +25,6 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
       days16To30Balance += item.days_16_30;
       days31To45Balance += item.days_31_45;
       daysAbove45Balance += item.days_above_45;
-      currency = item.sales_account__currency_symbol;
       body.push([
         {
           value: item.customer_name,
@@ -66,7 +64,6 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
       totalDays16To30Balance: days16To30Balance,
       totalDays31To45Balance: days31To45Balance,
       totalAbove45Balance: daysAbove45Balance,
-      currencySymbol: currency,
     };
   }, [receivableARAgingReportResponse]);
 
@@ -75,11 +72,11 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
 
-        { value: `${currencySymbol} ${totalCurrentBalance.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDays1To15Balance.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDays16To30Balance.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalDays31To45Balance.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAbove45Balance.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalCurrentBalance), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDays1To15Balance), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDays16To30Balance), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDays31To45Balance), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAbove45Balance), style: { fontWeight: 700 } },
       ],
     ],
     [
@@ -89,7 +86,6 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
       totalDays16To30Balance,
       totalDays31To45Balance,
       totalAbove45Balance,
-      currencySymbol,
     ]
   );
   return { tableBody, tableFooter };

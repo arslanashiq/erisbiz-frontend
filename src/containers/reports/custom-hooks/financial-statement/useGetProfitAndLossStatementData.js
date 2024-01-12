@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 const cellFontSize = 12;
 const headerStyle = {
@@ -19,8 +20,7 @@ const footerTotalAmountStyle = {
 };
 
 function useGetProfitAndLossStatementData(profitAndLossStatementResponse) {
-  const { tableBody, totalProfitLossAmount, currencySymbol } = useMemo(() => {
-    const currency = 'AED';
+  const { tableBody, totalProfitLossAmount } = useMemo(() => {
     const body = [];
     let profitLossAmount = 0;
     let currentTotal = 0;
@@ -188,7 +188,6 @@ function useGetProfitAndLossStatementData(profitAndLossStatementResponse) {
     return {
       tableBody: body,
       totalProfitLossAmount: profitLossAmount,
-      currencySymbol: currency,
     };
   }, [profitAndLossStatementResponse]);
   const tableFooter = useMemo(
@@ -199,12 +198,12 @@ function useGetProfitAndLossStatementData(profitAndLossStatementResponse) {
           style: { ...footerTotalAmountStyle },
         },
         {
-          value: `${currencySymbol} ${totalProfitLossAmount}`,
+          value: formatAmount(totalProfitLossAmount),
           style: { ...footerTotalAmountStyle },
         },
       ],
     ],
-    [tableBody, totalProfitLossAmount, currencySymbol]
+    [tableBody, totalProfitLossAmount]
   );
   return { tableBody, tableFooter };
 }

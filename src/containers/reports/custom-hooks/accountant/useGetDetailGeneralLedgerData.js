@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 const headerStyle = { fontWeight: 'bold', textAlign: 'start', backgroundColor: '#EDEDED' };
 
@@ -29,7 +30,7 @@ function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
     { value: '' },
     { value: '' },
     { value: '' },
-    { value: `${currencySymbol} ${balance}` },
+    { value: formatAmount(balance) },
     { value: '' },
   ];
   const getLinkByType = item => {
@@ -64,12 +65,12 @@ function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
         { value: item.transaction_type },
         { value: item.transaction_number },
         { value: item.reference_number },
-        { value: item.debit, link: getLinkByType(item) },
-        { value: item.credit, link: getLinkByType(item) },
-        { value: item.credit || item.debit, link: getLinkByType(item) },
+        { value: formatAmount(item.debit), link: getLinkByType(item) },
+        { value: formatAmount(item.credit), link: getLinkByType(item) },
+        { value: formatAmount(item.credit || item.debit), link: getLinkByType(item) },
       ]);
     });
-    body.push(getAccountDetailHeaders(endDate, 'Closing Balance', 'AED', data.closing_balance));
+    body.push(getAccountDetailHeaders(endDate, 'Closing Balance', '', data.closing_balance));
 
     return { body };
   };
@@ -91,11 +92,9 @@ function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
 
   const { tableBody, currencySymbol } = useMemo(() => {
     let body = [];
-    const currency = 'AED';
     if (!detailGeneralLedgerResponse?.data?.data) {
       return {
         tableBody: body,
-        currencySymbol: currency,
       };
     }
     const { start_datestart: startDate, end_date: endDate } = detailGeneralLedgerResponse.data;
@@ -106,7 +105,6 @@ function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
 
     return {
       tableBody: body,
-      currencySymbol: currency,
     };
   }, [detailGeneralLedgerResponse]);
 

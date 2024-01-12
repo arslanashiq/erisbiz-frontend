@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetBillDetailData(supplierPayableBalanceResponse) {
   const getLinkByType = item => {
@@ -7,13 +8,11 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
     }
     return false;
   };
-  const { tableBody, totalBillAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalBillAmount } = useMemo(() => {
     let billAmount = 0;
-    let currency = 'AED';
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
       billAmount += item.bcy_sales_with_tax_amount;
-      currency = item.currency_symbol;
 
       body.push([
         { value: item.status, style: { textAlign: 'start' } },
@@ -23,11 +22,11 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
           link: getLinkByType(item),
         },
         {
-          value: item.customer_name,
+          value: item.account_name || item.customer_name,
           link: getLinkByType(item),
         },
         {
-          value: `${item.currency_symbol} ${item.bcy_sales_with_tax_amount}`,
+          value: formatAmount(item.bcy_sales_with_tax_amount),
           link: getLinkByType(item),
         },
       ]);
@@ -35,7 +34,6 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
     return {
       tableBody: body,
       totalBillAmount: billAmount,
-      currencySymbol: currency,
     };
   }, [supplierPayableBalanceResponse]);
   const tableFooter = useMemo(
@@ -45,10 +43,10 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalBillAmount.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
       ],
     ],
-    [tableBody, totalBillAmount, currencySymbol]
+    [tableBody, totalBillAmount]
   );
   return { tableBody, tableFooter };
 }

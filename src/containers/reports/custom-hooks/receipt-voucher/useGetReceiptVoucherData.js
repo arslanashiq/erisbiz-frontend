@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetReceiptVoucherData(receiptVouceherResponse) {
   const getLink = item => {
@@ -18,16 +19,14 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
     }
     return item.invoices__invoice_formatted_number;
   };
-  const { tableBody, totalAmount, totalUnUsedAmount, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalUnUsedAmount } = useMemo(() => {
     let total = 0;
     let unUsedAmount = 0;
 
-    let currency = 'AED';
     const body = [];
     receiptVouceherResponse?.data?.data.forEach(item => {
       total += item.total;
       unUsedAmount += item.unused_amount;
-      currency = item.currency_symbol;
       body.push([
         {
           value: item.payment_num,
@@ -54,11 +53,11 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
         },
 
         {
-          value: `${currency} ${item.total}`,
+          value: formatAmount(item.total),
           link: getLink(item),
         },
         {
-          value: `${currency} ${item.unused_amount}`,
+          value: formatAmount(item.unused_amount),
           link: getLink(item),
         },
       ]);
@@ -67,7 +66,6 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
       tableBody: body,
       totalAmount: total,
       totalUnUsedAmount: unUsedAmount,
-      currencySymbol: currency,
     };
   }, [receiptVouceherResponse]);
 
@@ -81,11 +79,11 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount}`, style: { textAlign: 'end', fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalUnUsedAmount}`, style: { textAlign: 'end', fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { textAlign: 'end', fontWeight: 700 } },
+        { value: formatAmount(totalUnUsedAmount), style: { textAlign: 'end', fontWeight: 700 } },
       ],
     ],
-    [totalAmount, totalUnUsedAmount, currencySymbol]
+    [totalAmount, totalUnUsedAmount]
   );
   return { tableBody, tableFooter };
 }

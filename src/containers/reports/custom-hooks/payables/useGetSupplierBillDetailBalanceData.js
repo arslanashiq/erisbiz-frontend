@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) {
   const getLinkByType = item => {
@@ -9,15 +10,13 @@ function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) 
     }
     return false;
   };
-  const { tableBody, totalAmount, totalAmountDue, currencySymbol } = useMemo(() => {
+  const { tableBody, totalAmount, totalAmountDue } = useMemo(() => {
     let amountDue = 0;
     let total = 0;
-    let currency = 'AED';
     const body = [];
     supplierBillDetailBalanceResponse?.data?.data.forEach(item => {
       amountDue += item.amount_due;
       total += item.bcy_sales_with_tax_amount;
-      currency = item.currency_symbol;
       body.push([
         {
           value: moment(item.date).format(DATE_FILTER_REPORT),
@@ -30,11 +29,11 @@ function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) 
         {
           value: item.type,
         },
-        { value: `${item.currency_symbol} ${item.bcy_sales_with_tax_amount}` },
-        { value: `${item.currency_symbol} ${item.amount_due}` },
+        { value: formatAmount(item.bcy_sales_with_tax_amount) },
+        { value: formatAmount(item.amount_due) },
       ]);
     });
-    return { tableBody: body, totalAmount: total, totalAmountDue: amountDue, currencySymbol: currency };
+    return { tableBody: body, totalAmount: total, totalAmountDue: amountDue };
   }, [supplierBillDetailBalanceResponse]);
 
   const tableFooter = useMemo(
@@ -43,11 +42,11 @@ function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) 
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: '' },
-        { value: `${currencySymbol} ${totalAmount.toFixed(2)}`, style: { fontWeight: 700 } },
-        { value: `${currencySymbol} ${totalAmountDue.toFixed(2)}`, style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountDue), style: { fontWeight: 700 } },
       ],
     ],
-    [totalAmount, totalAmountDue, currencySymbol]
+    [totalAmount, totalAmountDue]
   );
   return { tableBody, tableFooter };
 }
