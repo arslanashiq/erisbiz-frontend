@@ -176,7 +176,7 @@ function SaleInvoiceDetailPage() {
         },
       });
     }
-    if (status !== 'draft') {
+    if (status !== 'draft' && status !== 'paid' && status !== 'partially paid') {
       actionsList.splice(2, 0, {
         label: 'Void',
         handleClick: () => {
