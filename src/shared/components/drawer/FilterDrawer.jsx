@@ -42,7 +42,11 @@ function FilterDrawer({ open, setOpen, children }) {
               try {
                 let searchQueryParams = '';
                 Object.keys(values).forEach(key => {
-                  searchQueryParams = `${searchQueryParams}&${key}=${values[key]}`;
+                  if (key && values[key] !== '' && values[key] !== undefined) {
+                    searchQueryParams = `${searchQueryParams}${
+                      searchQueryParams?.length > 0 ? '&' : ''
+                    }${key}=${values[key]}`;
+                  }
                 });
                 if (searchQueryParams === '') navigate(window.location.pathname);
                 else {

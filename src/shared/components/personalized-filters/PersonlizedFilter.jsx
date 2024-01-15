@@ -6,7 +6,7 @@ import FormikSelect from '../form/FormikSelect';
 import FormikDatePicker from '../form/FormikDatePicker';
 
 function PersonlizedFilter({ filtersList }) {
-  filtersList.map(filter => {
+  return filtersList.map(filter => {
     if (filter.options) {
       return (
         <FormikSelect
@@ -19,7 +19,8 @@ function PersonlizedFilter({ filtersList }) {
           className={` ${filter.fullWidth ? 'col-12' : 'col-6'}`}
         />
       );
-    } if (filter.date) {
+    }
+    if (filter.date) {
       return (
         <FormikDatePicker
           key={filter.name}
@@ -45,7 +46,6 @@ function PersonlizedFilter({ filtersList }) {
   });
 }
 PersonlizedFilter.propTypes = {
-  filterInitialValues: PropTypes.object.isRequired,
   filtersList: PropTypes.array.isRequired,
 };
 export default PersonlizedFilter;
