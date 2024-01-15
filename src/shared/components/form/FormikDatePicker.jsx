@@ -27,7 +27,7 @@ function DatePickerField({
   label,
   startIcon,
   isRequired,
-  labelClass,
+  labelClassName,
 }) {
   const handleChange = (date, e) => {
     e.preventDefault();
@@ -43,7 +43,7 @@ function DatePickerField({
   return (
     <Box className={`form__form-group ${className}`}>
       {label && (
-        <span className={`form__form-group-label ${labelClass} ${isRequired ? 'required' : ''}`}>
+        <span className={`form__form-group-label ${labelClassName} ${isRequired ? 'required' : ''}`}>
           {label}
         </span>
       )}
@@ -99,7 +99,7 @@ DatePickerField.propTypes = {
   startIcon: PropTypes.element,
   label: PropTypes.string,
   isRequired: PropTypes.bool,
-  labelClass: PropTypes.string,
+  labelClassName: PropTypes.string,
 };
 DatePickerField.defaultProps = {
   placeholder: '',
@@ -117,7 +117,7 @@ DatePickerField.defaultProps = {
   startIcon: null,
   label: '',
   isRequired: false,
-  labelClass: 'col-lg-3',
+  labelClassName: 'col-lg-3',
 };
 
 function FormikDatePicker(props) {

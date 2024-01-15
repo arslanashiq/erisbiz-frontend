@@ -54,6 +54,7 @@ function FormikSelect({
   isRequired,
   addNewButtonAction,
   addNewButtonLabel,
+  labelClassName,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
@@ -103,7 +104,7 @@ function FormikSelect({
   return (
     <Box className={`form__form-group ${className}`}>
       {label && (
-        <span className={`form__form-group-label col-lg-3 ${isRequired ? 'required' : ''}`}>{label}</span>
+        <span className={`form__form-group-label ${labelClassName} ${isRequired ? 'required' : ''}`}>{label}</span>
       )}
       <Box className="form__form-group-field">
         {startIcon && <Box className="form__form-group-icon cursor-pointer">{startIcon}</Box>}
@@ -152,6 +153,7 @@ FormikSelect.propTypes = {
   isRequired: PropTypes.bool,
   addNewButtonAction: PropTypes.func,
   addNewButtonLabel: PropTypes.string,
+  labelClassName: PropTypes.string,
 };
 
 FormikSelect.defaultProps = {
@@ -176,6 +178,7 @@ FormikSelect.defaultProps = {
   label: '',
   addNewButtonAction: null,
   addNewButtonLabel: '',
+  labelClassName: 'col-lg-3',
 };
 
 export default FormikSelect;
