@@ -13,7 +13,7 @@ import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { supplierHeadCells } from '../utilities/head-cells';
-import { supplierFilterInitialValues, supplierFiltersOptionsList } from '../utilities/constants';
+import { supplierFiltersOptionsList } from '../utilities/constants';
 
 function SupplierListing() {
   const location = useLocation();
@@ -84,12 +84,7 @@ function SupplierListing() {
         handleEdit={handleEdit}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
-        filterButton={(
-          <PersonlizedFilter
-            filterInitialValues={supplierFilterInitialValues}
-            filtersList={supplierFiltersOptionsList}
-          />
-        )}
+        filterButton={<PersonlizedFilter filtersList={supplierFiltersOptionsList} />}
       />
     </>
   );
