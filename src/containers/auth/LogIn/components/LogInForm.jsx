@@ -52,7 +52,7 @@ function LogInForm() {
             company: response.data?.user?.company,
             isAuthenticated: true,
             is_regestered_company: companyStatus,
-            is_payment: false
+            is_payment: true
           })
         );
 
