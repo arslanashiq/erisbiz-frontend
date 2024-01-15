@@ -40,6 +40,7 @@ function SupplierOverview({
         </Grid>
         <Grid item xs={12} lg={7} xl={8}>
           <SupplierOverviewPayables
+            payableTitle="Outstanding Payables"
             currencySymbol={currencySymbol}
             supplierDetail={supplierDetail}
             basicInfo={basicInfo}

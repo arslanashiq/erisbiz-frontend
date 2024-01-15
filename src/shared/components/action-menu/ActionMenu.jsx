@@ -54,7 +54,7 @@ function ActionMenu({
             className="text-capitalize"
             variant={variant}
           >
-            {buttonTitle} <KeyboardArrowDownIcon />
+            {buttonTitle} <KeyboardArrowDownIcon sx={{ fontSize: 20 }} />
           </Button>
         </Stack>
       </Tooltip>

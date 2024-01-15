@@ -6,7 +6,7 @@ import { useGetSupplierTransactionsQuery } from 'services/private/suppliers';
 import TransactionAccordionWithFilter from 'shared/components/accordion/TransactionAccordionWithFilter';
 // utilities
 // import { handleGetSortedData } from 'utilities/get-sorted-journals';
-import { quotationFilterList } from 'containers/accounting/items/utilities/filters';
+// import { quotationFilterList } from 'containers/accounting/items/utilities/filters';
 import {
   supplierBillTransactionHeadCells,
   supplierDebitNoteTransactionHeadCells,
@@ -33,7 +33,7 @@ function SupplierTransactions() {
         fetchData={useGetSupplierTransactionsQuery}
         keyName="pur_orders"
         headCells={supplierPurchaseOrderTransactionHeadCells}
-        FiltersList={quotationFilterList}
+        // FiltersList={quotationFilterList}
         addNewRoute="/pages/accounting/purchase/purchase-orders/add"
       />
       <TransactionAccordionWithFilter

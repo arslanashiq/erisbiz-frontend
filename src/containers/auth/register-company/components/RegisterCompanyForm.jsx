@@ -105,7 +105,14 @@ function RegisterCompanyForm() {
                   return;
                 }
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
-                // navigate('/payment');
+                const planId = sessionStorage.getItem('planId');
+                if (planId) {
+                  navigate(`/payment?plan_id=${planId}`);
+                  sessionStorage.clear();
+                }
+                if (planId) {
+                  navigate('/payment-plans');
+                }
                 window.location.reload();
               } catch (error) {
                 enqueueSnackbar('Somthing went wrong!', { variant: 'error' });

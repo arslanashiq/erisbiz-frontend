@@ -45,15 +45,14 @@ function LogInForm() {
 
       if (response.data) {
         localStorage.setItem('token', response.data.token);
-        const companyStatus = response.data?.user?.is_regestered_company;
+        const companyStatus = response.data?.user?.is_regestered_company || false;
         dispatch(
           setUser({
             user: response.data.user,
             company: response.data?.user?.company,
             isAuthenticated: true,
             is_regestered_company: companyStatus,
-            is_payment: true
-            // is_regestered_company: true,
+            is_payment: false
           })
         );
 

@@ -24,7 +24,7 @@ loadScript(initialValues)
 function PayPalPaymentPage() {
   const { plan_id: planId } = getSearchParamsList();
 
-  const selectedPlan = useMemo(() => plansList.find(plan => plan.plan_id === planId), [planId]);
+  const selectedPlan = useMemo(() => plansList.find(plan => plan.planId === planId), [planId]);
   return (
     <Box
       className="main__wrapper"

@@ -1,4 +1,4 @@
-import { IBAN_REGIX, INTEGER_REGEX, NAME_AND_NUMBER_REGEX, NAME_REGEX } from 'utilities/constants';
+import { IBAN_REGIX, INTEGER_REGEX, NAME_REGEX } from 'utilities/constants';
 import * as Yup from 'yup';
 
 export const chartOfAccountFormValidationSchema = Yup.object({
@@ -33,10 +33,7 @@ export const chartOfAccountFormValidationSchema = Yup.object({
   }),
   swift_code: Yup.string().when('is_bank', {
     is: true,
-    then: () => Yup.string()
-      .matches(NAME_AND_NUMBER_REGEX, 'No spaces or special character allowded')
-      .max(50, 'Cannot exceed 50 chracters')
-      .required('Swift Code is required'),
+    then: () => Yup.string().max(50, 'Cannot exceed 50 chracters').required('Swift Code is required'),
   }),
 });
 export const test = '';

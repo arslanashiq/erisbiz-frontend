@@ -11,6 +11,7 @@ import formatAmount from 'utilities/formatAmount';
 import UnusedCreditsDialog from 'shared/components/unused-credits-dialog/UnusedCreditsDialog';
 
 function SupplierOverviewPayables({
+  payableTitle,
   currencySymbol,
   supplierDetail,
   headCells,
@@ -36,7 +37,7 @@ function SupplierOverviewPayables({
       />
       <Stack className="w-100" direction="row" spacing={3}>
         <Stack className="w-100">
-          <h6 style={supplierOutstandingBalanceTitleStlye}>Outstanding Payables</h6>
+          <h6 style={supplierOutstandingBalanceTitleStlye}>{payableTitle}</h6>
           <h4 style={{ color: '#b81d1d', fontWeight: 'bold' }}>
             {currencySymbol}
             {formatAmount(supplierDetail?.payables || supplierDetail?.outstanding_payables)}
@@ -91,6 +92,7 @@ SupplierOverviewPayables.propTypes = {
   setOpenApplyToBillModal: PropTypes.func,
   setSelectedUnusedCreditObject: PropTypes.func,
   customButtonText: PropTypes.string,
+  payableTitle: PropTypes.string,
 };
 SupplierOverviewPayables.defaultProps = {
   supplierDetail: [],
@@ -99,5 +101,6 @@ SupplierOverviewPayables.defaultProps = {
   setOpenApplyToBillModal: () => {},
   setSelectedUnusedCreditObject: () => {},
   customButtonText: 'Apply To Bill',
+  payableTitle: 'Outstanding Payables',
 };
 export default SupplierOverviewPayables;

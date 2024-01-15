@@ -1,29 +1,34 @@
-/* eslint-disable quote-props */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-curly-newline */
-/* eslint-disable implicit-arrow-linebreak */
 import React from 'react';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { useSendPaymentStatusMutation } from 'services/private/paypal';
 import { useSnackbar } from 'notistack';
-import { Avatar, Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import formatAmount from 'utilities/formatAmount';
+import { useNavigate } from 'react-router';
 
+const cardHeadingFont = { fontSize: 16 };
+const planSummaryStyleBox = { justifyContent: 'space-between' };
+const paymentCardHeadingStyle = { fontSize: 16, fontWeight: 600 };
 function Checkout({ plan }) {
-  const [{ isPending }] = usePayPalScriptReducer();
-  const [sendPaymentStatus] = useSendPaymentStatusMutation();
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const [{ isPending }] = usePayPalScriptReducer();
+  const [sendPaymentStatus] = useSendPaymentStatusMutation();
+
+  const { email } = useSelector(state => state.user);
+
   const handleCreateSubscription = async (_, actions) => {
-    const subscription = await actions.subscription.create({ plan_id: plan?.plan_id });
+    const subscription = await actions.subscription.create({ plan_id: plan?.planId });
     return subscription;
   };
 
   const handleOnApprove = async (data, actions) => {
     try {
+      console.log({ data, actions });
       // CHECKING CHECKOUT TYPES
       const payload = { paypal_payment_id: data.subscriptionID };
       const response = await sendPaymentStatus(payload);
@@ -32,14 +37,11 @@ function Checkout({ plan }) {
         return;
       }
       enqueueSnackbar(response?.data?.message || 'Payment Made', { variant: 'success' });
+      navigate('/');
     } catch (error) {
       // console.log(error);
     }
   };
-  const { email } = useSelector(state => state.user);
-  const cardHeadingFont = { fontSize: 16 };
-  const planSummaryStyleBox = { justifyContent: 'space-between' };
-  const paymentCardHeadingStyle = { fontSize: 16, fontWeight: 600 };
   return (
     <SectionLoader options={[isPending]}>
       <Card>
@@ -54,7 +56,7 @@ function Checkout({ plan }) {
               </Stack>
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginTop: 2 }}>
                 <Typography sx={paymentCardHeadingStyle}>{plan?.title}</Typography>
-                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.price))}</Typography>
+                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.newPrice))}</Typography>
               </Stack>
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginBottom: 2 }}>
                 <Typography sx={cardHeadingFont}>Duration Time</Typography>
@@ -64,7 +66,7 @@ function Checkout({ plan }) {
 
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginTop: 3 }}>
                 <Typography sx={cardHeadingFont}>SubTotal</Typography>
-                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.price))}</Typography>
+                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.newPrice))}</Typography>
               </Stack>
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginBottom: 2 }}>
                 <Typography sx={cardHeadingFont}>Service Fee</Typography>
@@ -75,7 +77,7 @@ function Checkout({ plan }) {
 
               <Stack direction="row" sx={{ ...planSummaryStyleBox, marginTop: 2, marginBottom: 2 }}>
                 <Typography sx={paymentCardHeadingStyle}>Total</Typography>
-                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.price))}</Typography>
+                <Typography sx={paymentCardHeadingStyle}>$ {formatAmount(Number(plan?.newPrice))}</Typography>
               </Stack>
               <Box sx={{ height: '1px', backgroundColor: 'silver' }} />
             </Box>

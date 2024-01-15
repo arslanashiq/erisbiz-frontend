@@ -21,8 +21,10 @@ import {
   loginFormMainHeadingStyle,
   loginFormParentWrapperStyle,
 } from 'styles/mui/container/auth/login/components/login-form';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function SignUpForm() {
+  const { plan_id: planId } = getSearchParamsList();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [singUpAdmin] = useAdminSignUpMutation();
@@ -43,6 +45,9 @@ function SignUpForm() {
       }
 
       enqueueSnackbar('Credentials have been forwarded to your email', { variant: 'success' });
+
+      sessionStorage.setItem('planId', planId);
+
       navigate('/auth/login');
       resetForm();
     } catch (error) {

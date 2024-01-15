@@ -1,0 +1,13 @@
+@import './variables.scss';
+
+.plan_card_wrapper {
+  background: url('https://beyonderissolutions.com/products/wp-content/uploads/2023/09/24.png');
+  min-height: 100vh;
+  max-height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: $primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

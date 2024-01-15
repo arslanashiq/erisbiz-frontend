@@ -33,11 +33,11 @@ function BalanceSheetStatement() {
         {['asset', 'liability', 'Equity'].map(
           group => sortedResponse[group] && (
           <tbody key={uuid()}>
-            <tr>
+            {/* <tr>
               <td colSpan={2} style={balanceSheetgroupStyle}>
                 {group}
               </td>
-            </tr>
+            </tr> */}
             {Object.keys(sortedResponse[group])?.map(type => (
               <SectionLoader key={uuid()} options={[!sortedResponse[group][type]]}>
                 <tr>
@@ -54,12 +54,12 @@ function BalanceSheetStatement() {
                     getTotalAmount={getTotalAmount}
                   />
                 ))}
-                <tr>
+                {/* <tr>
                   <td style={balanceSheetTotalAmoutLabelStyle}>total For {type}</td>
                   <td style={balanceSheetTotalAmoutValueStyle}>
                     {formatAmount(totalAmount[group][type])}{' '}
                   </td>
-                </tr>
+                </tr> */}
               </SectionLoader>
             ))}
             <tr>

@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import GlobalLoader from 'containers/common/loaders/GlobalLoader';
 import PrivateRoutes from './PrivateRoutes';
 import PublicRoutes from './PublicRoutes';
+import CompanyGuardedRoute from './CompanyGuardedRoute';
 
 // AUTH
 const LoginPage = lazy(() => import('containers/auth/LogIn'));
@@ -202,13 +204,14 @@ function AppRoutes() {
               <Route path="forgot-password" element={<ForgetPasswordPage />} />
               <Route path="reset-password" element={<>resetpassword</>} />
             </Route>
+            {/* <Route path="/" element={<CompanyGuardedRoute />}> */}
             <Route path="register-company/:id/:token" element={<RegisterCompanyPage />} />
             <Route path="register-company" element={<RegisterCompanyPage />} />
             <Route path="/payment" element={<PayPalPaymentPage />} />
             <Route path="/payment-plans" element={<PayPalPaymentPlansPage />} />
+            {/* </Route> */}
 
             <Route path="/" element={<PrivateRoutes />}>
-
               <Route path="/" element={<DashboardPage />} />
               <Route path="user" element={<Outlet />}>
                 <Route path="profile" element={<UserProfilePage />} />
@@ -296,7 +299,6 @@ function AppRoutes() {
                       <Route path=":id/detail" element={<CustomerDetailPage />} />
                       <Route path=":customerId/contact/add" element={<CustomerContactAddPage />} />
                       <Route path=":customerId/contact/edit/:id" element={<CustomerContactAddPage />} />
-
                     </Route>
                     <Route path="quotations" element={<Outlet />}>
                       <Route path="" index element={<QuotationListingPage />} />

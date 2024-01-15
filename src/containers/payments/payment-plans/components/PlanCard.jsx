@@ -1,63 +1,105 @@
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
-// import StarIcon from '@mui/icons-material/StarBorder';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/system';
 import { useNavigate } from 'react-router';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
-const PricingList = styled('ul')({
-  margin: 0,
-  padding: 0,
-  listStyle: 'none',
-});
-function PlanCard({ plan, xs, sm, md }) {
+function PlanCard({ plan, xs, sm, md, lg }) {
   const navigate = useNavigate();
+
   return (
-    <Grid item key={plan.title} xs={xs} sm={sm} md={md}>
-      <Card>
-        <CardHeader title={plan.title} sx={{ textAlign: 'center' }} />
-        <CardContent>
+    <Grid item key={plan.title} xs={xs} sm={sm} md={md} lg={lg}>
+      <Stack
+        style={{
+          backgroundColor: 'white',
+          borderRadius: 10,
+          minHeight: 470,
+          justifyContent: 'space-between',
+          marginBottom: 30,
+        }}
+      >
+        <Stack>
           <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'baseline',
-              mb: 2,
+            style={{
+              position: 'relative',
+              height: '50px',
             }}
           >
-            <Typography component="h2" variant="h3" color="text.primary">
-              ${plan.price}
-            </Typography>
-            <Typography variant="h6" color="text.secondary">
-              /mo
+            <img
+              style={{
+                width: '53%',
+                maxWidth: '60%',
+                height: '59px',
+                position: 'absolute',
+                top: 10,
+                left: '-8.5%',
+              }}
+              decoding="async"
+              src="https://wordpresss-data.s3.me-south-1.amazonaws.com/Wordpress/bes_img/tag-erisbiz.png"
+              title=""
+              alt=""
+              loading="lazy"
+            />
+            <Typography
+              style={{
+                position: 'absolute',
+                top: 20,
+                color: '#F3F3F3',
+                fontWeight: 'bold',
+                // fontSize: 18,
+                textDecoration: 'underline',
+                fontFamily: '"Manrope", Sans-serif',
+              }}
+            >
+              {plan.title}
             </Typography>
           </Box>
-          <PricingList>
-            {plan.description.map(line => (
-              <Typography component="li" variant="subtitle1" align="center" key={line}>
-                {line}
-              </Typography>
-            ))}
-          </PricingList>
-        </CardContent>
-        <CardActions>
-          <Button
-            color="primary"
-            onClick={() => {
-              navigate(`/payment?plan_id=${plan.plan_id}`);
+
+          <Typography
+            style={{
+              textAlign: 'center',
+              color: '#086E99',
+              fontSize: 35,
+              fontWeight: 'bold',
             }}
-            fullWidth
           >
-            {plan.buttonText}
+            ${plan.newPrice}
+          </Typography>
+
+          <Stack p={1}>
+            {plan.planOptions?.map(option => (
+              <Stack key={`${plan.title}${option.label}`} direction="row" spacing={2} alignItems="center">
+                {option.status ? (
+                  <CheckIcon sx={{ color: 'green', fontSize: 15 }} />
+                ) : (
+                  <CloseIcon sx={{ color: 'red', fontSize: 15 }} />
+                )}
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {option.label}
+                </Typography>
+              </Stack>
+            ))}
+          </Stack>
+        </Stack>
+        <Stack pb={2} justifyContent="center" alignItems="center">
+          <Button
+            sx={{ width: 100 }}
+            onClick={() => {
+              navigate(`/payment?plan_id=${plan.planId}`);
+            }}
+          >
+            Get Now
           </Button>
-        </CardActions>
-      </Card>
+        </Stack>
+      </Stack>
     </Grid>
   );
 }
@@ -67,11 +109,13 @@ PlanCard.propTypes = {
   xs: PropTypes.number,
   sm: PropTypes.number,
   md: PropTypes.number,
+  lg: PropTypes.number,
 };
 PlanCard.defaultProps = {
   xs: 12,
-  sm: 6,
-  md: 4,
+  sm: 12,
+  md: 8,
+  lg: 4,
 };
 
 export default PlanCard;
