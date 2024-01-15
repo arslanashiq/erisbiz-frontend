@@ -16,7 +16,7 @@ const footerTotalAmountStyle = {
   fontSize: cellFontSize,
   textAlign: 'right',
   fontWeight: 'bold',
-  color: 'green',
+  // color: 'green',
 };
 
 function useGetProfitAndLossStatementData(profitAndLossStatementResponse) {

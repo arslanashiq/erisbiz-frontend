@@ -80,7 +80,7 @@ function ReportsHeader({
               </Button>
             </Tooltip>
           )}
-          <Tooltip title="Print" placement="top" arrow>
+          <Tooltip title="Back" placement="top" arrow>
             <Button onClick={() => navigate(-1)}>Back</Button>
           </Tooltip>
         </Stack>

@@ -54,13 +54,13 @@ export const journalVoucherHeadCells = [
     align: 'left',
     formatAmount: true,
   },
-  {
-    id: 'updated_by',
-    numeric: true,
-    disablePadding: false,
-    label: 'Credited By',
-    align: 'center',
-  },
+  // {
+  //   id: 'updated_by',
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: 'Credited By',
+  //   align: 'center',
+  // },
 ];
 export const journalVoucherAccountTable = [
   {
