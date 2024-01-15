@@ -78,7 +78,7 @@ function useActivityLogsData(activityLogsResponse) {
         },
         {
           value: item.module_name || 'Module',
-          link: `${window.location.pathname}/${item.id}`,
+          link: `/pages/reports/activity-logs/${item.id}`,
 
           style: {
             textAlign: 'start',
