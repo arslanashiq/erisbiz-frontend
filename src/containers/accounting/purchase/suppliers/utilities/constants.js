@@ -28,14 +28,9 @@ export const supplierFiltersOptionsList = [
     fullWidth: true,
     placeholder: 'Email',
   },
+
   {
-    name: 'primary_contact_phone',
-    fullWidth: true,
-    placeholder: 'Phone Number',
-    type: 'number',
-  },
-  {
-    name: 'primary_contact_mobile',
+    name: 'mobile_num',
     fullWidth: true,
     placeholder: 'Mobiler Number',
     type: 'number',

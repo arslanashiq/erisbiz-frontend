@@ -14,7 +14,6 @@ import PersonlizedFilter from 'shared/components/personalized-filters/Personlize
 import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
-import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
 import { purchaseInvoiceFiltersOptionsList } from '../utilities/constant';
 
@@ -22,9 +21,7 @@ function SupplierCreditListing() {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
 
-  const purchaseInvoiceResponse = useGetPurchaseInvoiceListQuery(
-    getsearchQueryOffsetAndLimitParams(location) || DEFAULT_PARAMS
-  );
+  const purchaseInvoiceResponse = useGetPurchaseInvoiceListQuery(location.search || DEFAULT_PARAMS);
 
   const [deleteInvoice] = useDeletePurchaseInvoceMutation();
 

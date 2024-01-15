@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
 // services
@@ -14,7 +15,7 @@ import { chartOfAccountDetailTableHeadCells } from '../utilities/head-cells';
 function ChartOfAccountDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const { currency_symbol: currencySymbol } = useSelector(state => state?.user?.company?.currency_detail);
   const charOfAccountDetailResponse = useGetSingleChartOfAccountDetailQuery(id);
 
   return (
@@ -25,7 +26,7 @@ function ChartOfAccountDetail() {
           <Box className="chart-of-account-detail-head">
             <Typography className="fs-14">CLOSING BALANCE</Typography>
             <Typography color="primary" className="fs-30">
-              AED {charOfAccountDetailResponse?.data?.closing_balance}
+              {currencySymbol} {charOfAccountDetailResponse?.data?.closing_balance}
             </Typography>
 
             <Typography className="mt-3" variant="body2">
