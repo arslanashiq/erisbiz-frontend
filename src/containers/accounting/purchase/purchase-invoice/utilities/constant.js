@@ -1,6 +1,15 @@
 import moment from 'moment';
 import { DATE_FORMATE_ADD, NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
 
+export const purchaseInvoiceStatusList = [
+  { label: 'All', value: '' },
+  { label: 'Draft', value: 'draft' },
+  { label: 'Due', value: 'due' },
+  { label: 'Over Due', value: 'over due' },
+  { label: 'Void', value: 'void' },
+  { label: 'Partially Paid', value: 'partially paid' },
+  { label: 'Paid', value: 'paid' },
+];
 export const purchaseInvoiceInitialValue = {
   invoice_date: moment().format(DATE_FORMATE_ADD),
   pur_order_id: '',
@@ -48,4 +57,38 @@ export const purchaseInvoiceInitialValue = {
   country: '',
 };
 
-export const test = '';
+export const purchaseInvoiceFiltersOptionsList = [
+  {
+    name: 'date',
+    date: true,
+    fullWidth: true,
+    placeholder: 'Date',
+  },
+  {
+    name: 'supplier_name',
+    // fullWidth: true,
+    placeholder: 'Supplier Name',
+  },
+  {
+    name: 'bill_num',
+    // fullWidth: true,
+    placeholder: 'invoice Number',
+  },
+  {
+    name: 'reference',
+    // fullWidth: true,
+    placeholder: 'Reference#',
+  },
+  {
+    name: 'status',
+    // fullWidth: true,
+    placeholder: 'Status',
+    options: purchaseInvoiceStatusList,
+  },
+  {
+    name: 'without_change_grand_total',
+    fullWidth: true,
+    placeholder: 'Amount',
+    type: 'number',
+  },
+];

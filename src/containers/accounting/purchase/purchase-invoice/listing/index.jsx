@@ -9,12 +9,14 @@ import {
 } from 'services/private/purchase-invoice';
 // shared
 import MuiTable from 'shared/components/table/MuiTable';
+import PersonlizedFilter from 'shared/components/personalized-filters/PersonlizedFilter';
 // utilitues and styles
 import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { purchaseInvoiceHeadCells } from '../utilities/head-cells';
+import { purchaseInvoiceFiltersOptionsList } from '../utilities/constant';
 
 function SupplierCreditListing() {
   const location = useLocation();
@@ -70,6 +72,7 @@ function SupplierCreditListing() {
         otherOptions={ListingOtherOptions({ addButtonLabel: 'New Purchase Invoice' })}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
+        filterButton={<PersonlizedFilter filtersList={purchaseInvoiceFiltersOptionsList} />}
       />
     </>
   );
