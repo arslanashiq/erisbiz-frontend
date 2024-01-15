@@ -15,7 +15,7 @@ import { DEFAULT_PARAMS } from 'utilities/constants';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import { handleDeleteResponse } from 'utilities/delete-action-handler';
 import { purchaseOrderHeadCells } from '../utilities/head-cells';
-import { purchaseOrderFilterInitialValues, purchaseOrderFiltersOptionsList } from '../utilities/constants';
+import { purchaseOrderFiltersOptionsList } from '../utilities/constants';
 
 function PurchaseOrderListing() {
   const location = useLocation();
@@ -70,12 +70,7 @@ function PurchaseOrderListing() {
         editableStatusList={['draft']}
         handleDelete={handleDelete}
         handleConfirmDelete={handleConfirmDelete}
-        filterButton={(
-          <PersonlizedFilter
-            filterInitialValues={purchaseOrderFilterInitialValues}
-            filtersList={purchaseOrderFiltersOptionsList}
-          />
-        )}
+        filterButton={<PersonlizedFilter filtersList={purchaseOrderFiltersOptionsList} />}
       />
     </>
   );
