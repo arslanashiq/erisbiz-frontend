@@ -12,6 +12,10 @@ export const FilterReportsList = [
   { value: 'previous year', label: 'Previous Year' },
   { value: '', label: 'Custom' },
 ];
+export const AgingByList = [
+  { value: 'date', label: 'Date' },
+  { value: 'due_date', label: 'Due Date' },
+];
 
 export const payableReports = {
   title: 'Payable Reports',
