@@ -35,48 +35,48 @@ export const payableReports = {
   reports: [
     {
       label: 'Supplier Balances',
-      link: '/pages/reports/supplier-balances?duration=this+month',
+      link: '/pages/reports/supplier-balances?duration=today',
     },
     {
       label: 'AP Aging Summary',
-      link: '/pages/reports/ap-aging-summary?duration=this+month',
+      link: '/pages/reports/ap-aging-summary?duration=today',
     },
     {
       label: 'AP Aging Details',
-      link: '/pages/reports/ap-aging-details?duration=this+month&date_type=date',
+      link: '/pages/reports/ap-aging-details?duration=today&date_type=date',
     },
     {
       label: 'Bill Details',
-      link: '/pages/reports/bill-details?duration=this+month',
+      link: '/pages/reports/bill-details?duration=today',
     },
     {
       label: 'Debit Note',
-      link: '/pages/reports/debit-note?duration=this+month',
+      link: '/pages/reports/debit-note?duration=today',
     },
     {
       label: 'Payment Made',
-      link: '/pages/reports/payments-made?duration=this+month',
+      link: '/pages/reports/payments-made?duration=today',
     },
     {
       label: 'Refund History',
-      link: '/pages/reports/supplier-refund-history?duration=this+month',
+      link: '/pages/reports/supplier-refund-history?duration=today',
     },
     {
       label: 'Purchase Order Details',
-      link: '/pages/reports/purchase-order-details?duration=this+month',
+      link: '/pages/reports/purchase-order-details?duration=today',
     },
     {
       label: 'Purchase Order by Supplier',
-      link: '/pages/reports/purchase-order-by-supplier?duration=this+month',
+      link: '/pages/reports/purchase-order-by-supplier?duration=today',
     },
 
     {
       label: 'Payable Summary',
-      link: '/pages/reports/payable-summary?duration=this+month',
+      link: '/pages/reports/payable-summary?duration=today',
     },
     {
       label: 'Payable Details',
-      link: '/pages/reports/payable-details?duration=this+month',
+      link: '/pages/reports/payable-details?duration=today',
     },
   ],
 };
@@ -85,28 +85,28 @@ export const receivableReports = {
   reports: [
     {
       label: 'Account Balances',
-      link: '/pages/reports/customer-balances?duration=this+month',
+      link: '/pages/reports/customer-balances?duration=today',
     },
     {
       label: 'AR Aging Summary',
-      link: '/pages/reports/ar-aging-summary?duration=this+month&date_type=date',
+      link: '/pages/reports/ar-aging-summary?duration=today&date_type=date',
     },
     {
       label: 'AR Aging Details',
-      link: '/pages/reports/ar-aging-details?duration=this+month&date_type=date',
+      link: '/pages/reports/ar-aging-details?duration=today&date_type=date',
     },
 
     {
       label: 'Invoice Details',
-      link: '/pages/reports/invoice-details?duration=this+month',
+      link: '/pages/reports/invoice-details?duration=today',
     },
     {
       label: 'Receivable Summary',
-      link: '/pages/reports/receivable-summary?duration=this+month',
+      link: '/pages/reports/receivable-summary?duration=today',
     },
     {
       label: 'Receivable Details',
-      link: '/pages/reports/receivable-details?duration=this+month',
+      link: '/pages/reports/receivable-details?duration=today',
     },
   ],
 };
@@ -137,19 +137,19 @@ export const purchaseAndExpenses = {
   reports: [
     {
       label: 'Purchases by Supplier',
-      link: '/pages/reports/purchases-by-supplier?duration=this+month',
+      link: '/pages/reports/purchases-by-supplier?duration=today',
     },
     {
       label: 'Purchases by Item',
-      link: '/pages/reports/purchases-by-item?duration=this+month',
+      link: '/pages/reports/purchases-by-item?duration=today',
     },
     {
       label: 'Expense Details',
-      link: '/pages/reports/expense-details?duration=this+month',
+      link: '/pages/reports/expense-details?duration=today',
     },
     {
       label: 'Expenses by Category',
-      link: '/pages/reports/expenses-by-category?duration=this+month',
+      link: '/pages/reports/expenses-by-category?duration=today',
     },
   ],
 };
@@ -158,19 +158,19 @@ export const sales = {
   reports: [
     {
       label: 'Sales by Customer',
-      link: '/pages/reports/sales-by-customer?duration=this+month',
+      link: '/pages/reports/sales-by-customer?duration=today',
     },
     {
       label: 'Sales by Item',
-      link: '/pages/reports/sales-by-item?duration=this+month',
+      link: '/pages/reports/sales-by-item?duration=today',
     },
     {
       label: 'Sales by Sales Person',
-      link: '/pages/reports/sales-by-sales-person?duration=this+month',
+      link: '/pages/reports/sales-by-sales-person?duration=today',
     },
     // {
     //   label: 'Sales by Sales Type',
-    //   link: '/pages/reports/sales-by-sales-type?duration=this+month',
+    //   link: '/pages/reports/sales-by-sales-type?duration=today',
     // },
   ],
 };
@@ -179,27 +179,27 @@ export const accountant = {
   reports: [
     {
       label: 'Account Transactions',
-      link: '/pages/reports/account-transactions?duration=this+month',
+      link: '/pages/reports/account-transactions?duration=today',
     },
     {
       label: 'Account Type Summary',
-      link: '/pages/reports/account-type-summary?duration=this+month',
+      link: '/pages/reports/account-type-summary?duration=today',
     },
     {
       label: 'General Ledger',
-      link: '/pages/reports/general-ledger?duration=this+month',
+      link: '/pages/reports/general-ledger?duration=today',
     },
     {
       label: 'Detailed General Ledger',
-      link: '/pages/reports/detailed-general-ledger?duration=this+month',
+      link: '/pages/reports/detailed-general-ledger?duration=today',
     },
     {
       label: 'Journal Report',
-      link: '/pages/reports/journal-report?duration=this+month',
+      link: '/pages/reports/journal-report?duration=today',
     },
     {
       label: 'Trial Balance',
-      link: '/pages/reports/trial-balance?duration=this+month',
+      link: '/pages/reports/trial-balance?duration=today',
     },
   ],
 };
@@ -208,15 +208,15 @@ export const financialReports = {
   reports: [
     {
       label: 'Profit and Loss (Income Statement)',
-      link: '/pages/reports/profit-loss?duration=this+month&filter_accounts=accounts_without_zero_balance',
+      link: '/pages/reports/profit-loss?duration=today&filter_accounts=accounts_without_zero_balance',
     },
     {
       label: 'Cash Flow Statement',
-      link: '/pages/reports/cash-flow-statement?duration=this+month&filter_accounts=accounts_without_zero_balance',
+      link: '/pages/reports/cash-flow-statement?duration=today&filter_accounts=accounts_without_zero_balance',
     },
     {
       label: 'Balance Sheet',
-      link: '/pages/reports/balance-sheet?duration=this+month&filter_accounts=accounts_without_zero_balance',
+      link: '/pages/reports/balance-sheet?duration=today&filter_accounts=accounts_without_zero_balance',
     },
   ],
 };
@@ -225,15 +225,15 @@ export const reciptVoucher = {
   reports: [
     {
       label: 'Receipt Voucehr',
-      link: '/pages/reports/receipt-voucher?duration=this+month',
+      link: '/pages/reports/receipt-voucher?duration=today',
     },
     {
       label: 'Credit Note Details',
-      link: '/pages/reports/credit-Note-detail?duration=this+month',
+      link: '/pages/reports/credit-Note-detail?duration=today',
     },
     {
       label: 'Refund History',
-      link: '/pages/reports/refund-history?duration=this+month',
+      link: '/pages/reports/refund-history?duration=today',
     },
   ],
 };

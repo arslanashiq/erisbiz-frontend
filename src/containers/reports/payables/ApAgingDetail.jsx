@@ -8,11 +8,13 @@ import { apAgingDetailReportHeadCells } from 'containers/reports/utilities/head-
 import useGetApAgingDetailData from 'containers/reports/custom-hooks/payables/useGetApAgingDetailData';
 // components
 // styles
+import getSearchParamsList from 'utilities/getSearchParamsList';
 import { AgingByList, FilterCustomReportsList } from '../utilities/constants';
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
 import 'styles/reports/reports.scss';
 
 function ApAgingDetail() {
+  const { supplier_id: supplierID } = getSearchParamsList();
   const supplierApiResponse = useGetSuppliersListQuery();
 
   const { optionsList: suppliersOptions } = useListOptions(supplierApiResponse?.data?.results, {
@@ -59,7 +61,7 @@ function ApAgingDetail() {
   }, [suppliersOptions, FilterCustomReportsList]);
   return (
     <CustomReportDetailPage
-      reportTitle="Ap Aging Detail"
+      reportTitle={supplierID ? 'Ap Aging Summary Details' : 'Ap Aging Details'}
       reportHeadCells={apAgingDetailReportHeadCells}
       useGetReportQuery={useGetApAgingDetailQuery}
       useGetReportData={useGetApAgingDetailData}

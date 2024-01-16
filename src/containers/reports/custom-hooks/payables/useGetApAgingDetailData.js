@@ -3,6 +3,7 @@ import moment from 'moment';
 import { tableCellBodyHeader } from 'styles/components/custom-hooks/use-excel-sheet';
 import formatAmount from 'utilities/formatAmount';
 import { DATE_FORMAT } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 
 const availableDateList = [
   {
@@ -46,6 +47,7 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
     const body = [];
     let amount = 0;
     let dueAmount = 0;
+
     data[keyValue].forEach(item => {
       amount += item.grand_total;
       dueAmount += item.amount_due;
@@ -96,6 +98,7 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
     let amount = 0;
     let dueAmount = 0;
     let body = [];
+
     if (!reportAPAgingDetailResponse?.data?.data) {
       return {
         tableBody: body,
@@ -117,7 +120,31 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
         dueAmount += currentDueAmount;
       }
     });
-
+    const { supplier_id: supplierID } = getSearchParamsList();
+    if (supplierID) {
+      body.splice(0, 0, [
+        {
+          value: reportAPAgingDetailResponse?.data?.customer,
+          style: { textAlign: 'start', fontWeight: 'bold' },
+        },
+        { value: '' },
+        { value: '' },
+        {
+          value: '',
+        },
+        {
+          value: '',
+        },
+        {
+          value: formatAmount(amount),
+          style: { fontWeight: 'bold' },
+        },
+        {
+          value: formatAmount(dueAmount),
+          style: { fontWeight: 'bold' },
+        },
+      ]);
+    }
     return {
       tableBody: body,
       totalAmount: amount,
