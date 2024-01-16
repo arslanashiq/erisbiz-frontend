@@ -29,9 +29,9 @@ function App() {
           isAuthenticated: true,
           email: userResponse?.data?.email,
           is_regestered_company: userResponse.data?.is_regestered_company,
-          is_payment: userResponse.data?.company?.is_payment,
+          // is_payment: userResponse.data?.company?.is_payment,
           // is_regestered_company: true,
-          // is_payment: false,
+          is_payment: true,
           profile: userResponse.data?.profile,
           company: userResponse.data?.company,
         })
