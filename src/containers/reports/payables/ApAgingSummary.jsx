@@ -7,7 +7,7 @@ import useListOptions from 'custom-hooks/useListOptions';
 import { apAgingSummaryReportHeadCells } from 'containers/reports/utilities/head-cells';
 import useGetAPAgingSummaryData from 'containers/reports/custom-hooks/payables/useGetAPAgingSummaryData';
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
-import { AgingByList, FilterReportsList } from '../utilities/constants';
+import { AgingByList, FilterCustomReportsList } from '../utilities/constants';
 
 function ApAgingSummary() {
   const supplierApiResponse = useGetSuppliersListQuery();
@@ -24,8 +24,17 @@ function ApAgingSummary() {
       name: 'duration',
       labelClassName: '',
       className: 'w-100',
-      options: FilterReportsList,
+      options: FilterCustomReportsList,
       fullWidth: true,
+    });
+    newinputList.push({
+      label: 'Select Date',
+      name: 'start_date',
+      labelClassName: '',
+      className: 'w-100',
+      isDate: true,
+      fullWidth: true,
+      hidden: true,
     });
 
     newinputList.push({
@@ -45,7 +54,7 @@ function ApAgingSummary() {
       fullWidth: true,
     });
     return newinputList;
-  }, [suppliersOptions, FilterReportsList]);
+  }, [suppliersOptions, FilterCustomReportsList]);
   return (
     <CustomReportDetailPage
       reportTitle="AP Aging Summary By Bill Date"

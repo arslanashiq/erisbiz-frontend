@@ -8,7 +8,7 @@ import { apAgingDetailReportHeadCells } from 'containers/reports/utilities/head-
 import useGetApAgingDetailData from 'containers/reports/custom-hooks/payables/useGetApAgingDetailData';
 // components
 // styles
-import { AgingByList, FilterReportsList } from '../utilities/constants';
+import { AgingByList, FilterCustomReportsList } from '../utilities/constants';
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
 import 'styles/reports/reports.scss';
 
@@ -27,10 +27,18 @@ function ApAgingDetail() {
       name: 'duration',
       labelClassName: '',
       className: 'w-100',
-      options: FilterReportsList,
+      options: FilterCustomReportsList,
       fullWidth: true,
     });
-
+    newinputList.push({
+      label: 'Select Date',
+      name: 'start_date',
+      labelClassName: '',
+      className: 'w-100',
+      isDate: true,
+      fullWidth: true,
+      hidden: true,
+    });
     newinputList.push({
       label: 'Supplier',
       options: suppliersOptions || [],
@@ -48,7 +56,7 @@ function ApAgingDetail() {
       fullWidth: true,
     });
     return newinputList;
-  }, [suppliersOptions, FilterReportsList]);
+  }, [suppliersOptions, FilterCustomReportsList]);
   return (
     <CustomReportDetailPage
       reportTitle="Ap Aging Detail"

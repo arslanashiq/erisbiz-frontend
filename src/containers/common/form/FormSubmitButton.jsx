@@ -6,7 +6,7 @@ import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import { useParams } from 'react-router';
 
 function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonAction, showSaveAndContinue }) {
-  const { isSubmitting, resetForm, setFieldValue } = useFormikContext();
+  const { isSubmitting, resetForm, setFieldValue, ...props } = useFormikContext();
   const { id } = useParams();
   return (
     <>
@@ -33,7 +33,7 @@ function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonActi
           color="secondary"
           onClick={() => {
             if (clearButtonAction) {
-              clearButtonAction();
+              clearButtonAction(props);
             }
             resetForm();
           }}

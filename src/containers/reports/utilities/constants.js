@@ -12,6 +12,19 @@ export const FilterReportsList = [
   { value: 'previous year', label: 'Previous Year' },
   { value: '', label: 'Custom' },
 ];
+export const FilterCustomReportsList = [
+  { value: 'today', label: 'Today' },
+  { value: 'this week', label: 'This Week' },
+  { value: 'this month', label: 'This Month' },
+  { value: 'this quarter', label: 'This Quarter' },
+  { value: 'this year', label: 'This Year' },
+  { value: 'yesterday', label: 'Yesterday' },
+  { value: 'previous week', label: 'Previous Week' },
+  { value: 'previous month', label: 'Previous Month' },
+  { value: 'previous quarter', label: 'Previous Quarter' },
+  { value: 'previous year', label: 'Previous Year' },
+  { value: 'custom', label: 'Custom' },
+];
 export const AgingByList = [
   { value: 'date', label: 'Date' },
   { value: 'due_date', label: 'Due Date' },

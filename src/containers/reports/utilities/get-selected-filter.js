@@ -27,10 +27,9 @@ export const getSelectedFilter = FilterReportsList => {
   } else {
     selectedFilter = FilterReportsList[FilterReportsList.length - 1];
   }
+  const filterLength = Object.keys(paramsList)?.filter(key => key?.length > 0);
 
-  return Object.keys(paramsList).length > 1
-    ? FilterReportsList[FilterReportsList.length - 1]
-    : selectedFilter;
+  return filterLength > 1 ? FilterReportsList[FilterReportsList.length - 1] : selectedFilter;
 };
 
 export const test = '';

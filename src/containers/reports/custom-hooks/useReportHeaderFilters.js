@@ -24,10 +24,10 @@ function useReportHeaderFilters() {
     }
     return newSearchQuery.slice(0, -1);
   };
-  const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose, customInputList) => {
+  const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose) => {
     let newSearchQuery = findKeyInQueryParamsAndReplace('', 'duration', null);
-    customInputList.forEach(input => {
-      newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, input.name, values[input.name] || '');
+    Object.keys(values).forEach(input => {
+      newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, input, values[input] || '');
     });
 
     navigate({
