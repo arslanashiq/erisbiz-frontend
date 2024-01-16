@@ -31,6 +31,8 @@ function CustomReportDetailPage({
   parentWrapperClassName,
   queryOptions,
   usePagination,
+  customReportCustomFilter,
+  customReportCustomerInitialValues,
 }) {
   const { name: companyName } = useSelector(state => state?.user?.company);
 
@@ -60,8 +62,10 @@ function CustomReportDetailPage({
         filterList={FilterReportsList}
         handleSubmitCustomDateFilter={handleSubmitCustomDateFilter}
         handleChangeFilter={handleChangeFilter}
-        customFilterInitialValues={PayableReportFilterInitialValues}
-        customFilterInputsList={payableReportsFilterInputList}
+        customFilterInputsList={
+          customReportCustomFilter?.length >= 0 ? customReportCustomFilter : payableReportsFilterInputList
+        }
+        customFilterInitialValues={customReportCustomerInitialValues || PayableReportFilterInitialValues}
         handleDownloadExcelSheet={async () => {
           const handleDownload = await excelSheet(
             reportTitle,
@@ -127,6 +131,8 @@ CustomReportDetailPage.propTypes = {
   parentWrapperClassName: PropTypes.string,
   queryOptions: PropTypes.object,
   usePagination: PropTypes.bool,
+  customReportCustomFilter: PropTypes.array,
+  customReportCustomerInitialValues: PropTypes.object,
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
@@ -140,5 +146,7 @@ CustomReportDetailPage.defaultProps = {
   parentWrapperClassName: 'custom-receipt-main-container',
   queryOptions: {},
   usePagination: false,
+  customReportCustomFilter: [],
+  customReportCustomerInitialValues: null,
 };
 export default CustomReportDetailPage;

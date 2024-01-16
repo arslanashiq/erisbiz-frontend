@@ -5,7 +5,7 @@ import { Button, Stack } from '@mui/material';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import { useParams } from 'react-router';
 
-function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonAction }) {
+function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonAction, showSaveAndContinue }) {
   const { isSubmitting, resetForm, setFieldValue } = useFormikContext();
   const { id } = useParams();
   return (
@@ -16,7 +16,7 @@ function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonActi
         <Button type="submit" disabled={isSubmitting} color="primary">
           {isSubmitting ? 'Saving...' : submitButtonTitle || 'Save'}
         </Button>
-        {!id && (
+        {showSaveAndContinue && !id && (
           <Button
             type="submit"
             disabled={isSubmitting}
@@ -49,10 +49,12 @@ FormSubmitButton.propTypes = {
   submitButtonTitle: PropTypes.string,
   clearButtonTitle: PropTypes.string,
   clearButtonAction: PropTypes.func,
+  showSaveAndContinue: PropTypes.bool,
 };
 FormSubmitButton.defaultProps = {
   submitButtonTitle: null,
   clearButtonTitle: 'Clear',
   clearButtonAction: null,
+  showSaveAndContinue: true,
 };
 export default FormSubmitButton;

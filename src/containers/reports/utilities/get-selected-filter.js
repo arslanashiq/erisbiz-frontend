@@ -1,8 +1,10 @@
+import getSearchParamsList from 'utilities/getSearchParamsList';
+
 export const getSelectedFilter = FilterReportsList => {
   const searchQuery = window.location.search;
   let selectedFilter = '';
+  const paramsList = getSearchParamsList();
   let filterDuration = searchQuery ? '' : 'this+month';
-
   if (searchQuery) {
     searchQuery.split('&').forEach(singleQuery => {
       if (singleQuery.includes('duration')) {
@@ -26,7 +28,9 @@ export const getSelectedFilter = FilterReportsList => {
     selectedFilter = FilterReportsList[FilterReportsList.length - 1];
   }
 
-  return selectedFilter;
+  return Object.keys(paramsList).length > 1
+    ? FilterReportsList[FilterReportsList.length - 1]
+    : selectedFilter;
 };
 
 export const test = '';

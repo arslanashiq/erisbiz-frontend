@@ -2,12 +2,14 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { Button, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
+import { Button, Grid, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
 import { Form, Formik } from 'formik';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import FormikDatePicker from '../form/FormikDatePicker';
 import 'styles/form/form.scss';
+import FormikSelect from '../form/FormikSelect';
+import FormikField from '../form/FormikField';
 
 function ActionMenu({
   buttonTitle,
@@ -34,7 +36,10 @@ function ActionMenu({
     let newValues = { ...cutomInitialValues };
     customFilterInputs?.forEach(input => {
       if (searchQueryParams[input.name]) {
-        newValues = { ...newValues, [input.name]: searchQueryParams[input.name] };
+        newValues = {
+          ...newValues,
+          [input.name]: Number(searchQueryParams[input.name]) || searchQueryParams[input.name],
+        };
       }
     });
 
@@ -59,7 +64,7 @@ function ActionMenu({
         </Stack>
       </Tooltip>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-        <Stack minWidth={130} spacing={2} direction="row">
+        <Stack minWidth={130} maxWidth={630} spacing={2} direction="row">
           <Stack width={buttonTitle === 'Custom' ? 'auto' : '100%'}>
             {actionsList.map(action => (
               <MenuItem
@@ -91,15 +96,19 @@ function ActionMenu({
                 initialValues={updatedInitialValues}
                 onSubmit={(...props) => handleSubmitCustomFilter(...props, handleClose, customFilterInputs)}
               >
-                <Form className="form" style={{ height: '100%' }}>
-                  <Stack height="100%" spacing={2}>
-                    <Stack direction="row" spacing={2}>
+                <Form className="form " style={{ height: '100%' }}>
+                  <Grid height="100%">
+                    <Grid container item>
                       {customFilterInputs.map(input => (
-                        <FormikDatePicker key={input.name} {...input} />
+                        <Grid item xs={input.fullWidth ? 12 : 6} width={100}>
+                          {input.options && <FormikSelect key={input.name} {...input} />}
+                          {input.isDate && <FormikDatePicker key={input.name} {...input} />}
+                          {!input.options && !input.isDate && <FormikField key={input.name} {...input} />}
+                        </Grid>
                       ))}
-                    </Stack>
-                    <FormSubmitButton />
-                  </Stack>
+                    </Grid>
+                    <FormSubmitButton showSaveAndContinue={false} />
+                  </Grid>
                 </Form>
               </Formik>
             </Stack>

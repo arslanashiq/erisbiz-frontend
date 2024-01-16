@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function useReportHeaderFilters() {
   const navigate = useNavigate();
@@ -24,12 +25,11 @@ function useReportHeaderFilters() {
     return newSearchQuery.slice(0, -1);
   };
   const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose, customInputList) => {
-    let newSearchQuery = '';
+    let newSearchQuery = findKeyInQueryParamsAndReplace('', 'duration', null);
     customInputList.forEach(input => {
       newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, input.name, values[input.name] || '');
     });
 
-    newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'duration', null);
     navigate({
       pathname: `${window.location.pathname}`,
       search: newSearchQuery,
@@ -41,13 +41,16 @@ function useReportHeaderFilters() {
 
   const handleChangeFilter = selectedFilterOption => {
     if (selectedFilterOption.value) {
-      let newSearchQuery = findKeyInQueryParamsAndReplace(
+      const paramsList = getSearchParamsList();
+      let newSearchQuery = '';
+      Object.keys(paramsList).forEach(key => {
+        newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, key, null);
+      });
+      newSearchQuery = findKeyInQueryParamsAndReplace(
         window.location.search,
         'duration',
         selectedFilterOption.value
       );
-      newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'custom_start_date', null);
-      newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, 'custom_end_date', null);
       navigate({
         pathname: `${window.location.pathname}`,
         search: newSearchQuery,
