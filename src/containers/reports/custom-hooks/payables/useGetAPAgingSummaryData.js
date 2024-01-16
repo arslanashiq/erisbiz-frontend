@@ -1,8 +1,15 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function useGetAPAgingSummaryData(supplierPayableBalanceResponse) {
-  const getApAgingSummaryDetailLink = interval => `/pages/reports/ap-aging-details?duration=this+month&date_type=date&interval=${interval}`;
+  const getApAgingSummaryDetailLink = (interval, item) => {
+    const { duration } = getSearchParamsList();
+    if (duration) {
+      return `/pages/reports/ap-aging-details?duration=${duration}&supplier_id=${item.supplier__id}&date_type=date&interval=${interval}`;
+    }
+    return `/pages/reports/ap-aging-details?duration=this+month&supplier_id=${item.supplier__id}&date_type=date&interval=${interval}`;
+  };
 
   const { tableBody, totalCurrent, totalDay15, totalDay30, totalDay45, totalDayAbove45, totalBalance } =
     useMemo(() => {
@@ -26,11 +33,11 @@ function useGetAPAgingSummaryData(supplierPayableBalanceResponse) {
             style: { textAlign: 'start' },
             link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
           },
-          { value: formatAmount(item.current_bcy), link: getApAgingSummaryDetailLink('current') },
-          { value: formatAmount(item.days_1_15), link: getApAgingSummaryDetailLink('1_15') },
-          { value: formatAmount(item.days_16_30), link: getApAgingSummaryDetailLink('16_30') },
-          { value: formatAmount(item.days_31_45), link: getApAgingSummaryDetailLink('31_45') },
-          { value: formatAmount(item.days_above_45), link: getApAgingSummaryDetailLink('gt_45') },
+          { value: formatAmount(item.current_bcy), link: getApAgingSummaryDetailLink('current', item) },
+          { value: formatAmount(item.days_1_15), link: getApAgingSummaryDetailLink('1_15', item) },
+          { value: formatAmount(item.days_16_30), link: getApAgingSummaryDetailLink('16_30', item) },
+          { value: formatAmount(item.days_31_45), link: getApAgingSummaryDetailLink('31_45', item) },
+          { value: formatAmount(item.days_above_45), link: getApAgingSummaryDetailLink('gt_45', item) },
           { value: formatAmount(item.total_bcy) },
         ]);
       });

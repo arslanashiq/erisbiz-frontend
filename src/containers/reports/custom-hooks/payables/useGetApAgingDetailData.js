@@ -26,7 +26,7 @@ const availableDateList = [
     keyValue: 'date_gt_45',
   },
 ];
-const headerStyle = { fontWeight: 'bold', backgroundColor: '#e2e2e2' };
+const headerStyle = { fontWeight: 'bold', backgroundColor: 'rgb(245 245 245)' };
 function useGetApAgingDetailData(reportAPAgingDetailResponse) {
   const getLinkByType = item => {
     if (item.type === 'Bill') {

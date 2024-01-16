@@ -57,7 +57,7 @@ function ApAgingSummary() {
   }, [suppliersOptions, FilterCustomReportsList]);
   return (
     <CustomReportDetailPage
-      reportTitle="AP Aging Summary By Bill Date"
+      reportTitle="AP Aging Summary"
       reportHeadCells={apAgingSummaryReportHeadCells}
       useGetReportQuery={useGetApAgingSummaryQuery}
       useGetReportData={useGetAPAgingSummaryData}
