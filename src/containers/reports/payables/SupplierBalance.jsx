@@ -45,7 +45,7 @@ function SupplierBalance() {
       useGetReportQuery={useGetSupplierPayableBalanceQuery}
       useGetReportData={useGetSupplierBalanceData}
       customReportCustomFilter={updatedPayablesSupplierBalanceCustomInputList}
-      customReportCustomerInitialValues={{ supplier_id: 68 }}
+      customReportCustomerInitialValues={{}}
     />
   );
 }

@@ -23,7 +23,7 @@ function ActionMenu({
   const searchQueryParams = getSearchParamsList();
 
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const [resetFormFilters, setResetFormFilters] = useState(false);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -34,17 +34,19 @@ function ActionMenu({
 
   const updatedInitialValues = useMemo(() => {
     let newValues = { ...cutomInitialValues };
-    customFilterInputs?.forEach(input => {
-      if (searchQueryParams[input.name]) {
-        newValues = {
-          ...newValues,
-          [input.name]: Number(searchQueryParams[input.name]) || searchQueryParams[input.name],
-        };
-      }
-    });
-
+    if (!resetFormFilters) {
+      customFilterInputs?.forEach(input => {
+        if (searchQueryParams[input.name]) {
+          const value = searchQueryParams[input.name]?.replaceAll('%20', ' ')?.replaceAll('+', ' ');
+          newValues = {
+            ...newValues,
+            [input.name]: Number(value) || value,
+          };
+        }
+      });
+    }
     return newValues;
-  }, [cutomInitialValues, searchQueryParams]);
+  }, [resetFormFilters, cutomInitialValues, searchQueryParams]);
   return (
     <>
       <Tooltip title={actionsList.length === 0 ? 'You can`t perform any action' : ''} placement="top" arrow>
@@ -93,21 +95,30 @@ function ActionMenu({
           {buttonTitle === 'Custom' && (
             <Stack justifyContent="space-between" className="pe-2">
               <Formik
+                enableReinitialize
                 initialValues={updatedInitialValues}
-                onSubmit={(...props) => handleSubmitCustomFilter(...props, handleClose, customFilterInputs)}
+                onSubmit={(...props) => {
+                  setResetFormFilters(false);
+                  handleSubmitCustomFilter(...props, handleClose, customFilterInputs);
+                }}
               >
                 <Form className="form " style={{ height: '100%' }}>
                   <Grid height="100%">
                     <Grid container item>
                       {customFilterInputs.map(input => (
-                        <Grid item xs={input.fullWidth ? 12 : 6} width={100}>
+                        <Grid key={input?.name} item xs={input.fullWidth ? 12 : 6} width={100}>
                           {input.options && <FormikSelect key={input.name} {...input} />}
                           {input.isDate && <FormikDatePicker key={input.name} {...input} />}
                           {!input.options && !input.isDate && <FormikField key={input.name} {...input} />}
                         </Grid>
                       ))}
                     </Grid>
-                    <FormSubmitButton showSaveAndContinue={false} />
+                    <FormSubmitButton
+                      clearButtonAction={() => {
+                        setResetFormFilters(true);
+                      }}
+                      showSaveAndContinue={false}
+                    />
                   </Grid>
                 </Form>
               </Formik>
