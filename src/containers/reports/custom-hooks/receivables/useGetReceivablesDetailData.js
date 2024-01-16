@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMemo } from 'react';
+import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetReceivablesDetailData(receivablesDetailResponse) {
@@ -25,7 +26,7 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
           style: { textAlign: 'start' },
           link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
-        { value: moment(item.date).format('DD MMM YYYY') },
+        { value: moment(item.date).format(DATE_FORMAT) },
         {
           value: item.formatted_number,
           link: getLinkByType(item),

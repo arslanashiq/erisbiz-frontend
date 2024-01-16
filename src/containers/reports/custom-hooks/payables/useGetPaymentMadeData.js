@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMemo } from 'react';
+import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetPaymentMadeData(paymentMadeResponse) {
@@ -11,7 +12,7 @@ function useGetPaymentMadeData(paymentMadeResponse) {
       amount += item.total;
       unUsedAmount += item.unused_amount;
       body.push([
-        { value: moment(item.payment_date).format('DD MMM YYYY'), style: { textAlign: 'start' } },
+        { value: moment(item.payment_date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         { value: item.reference_num },
         {
           value: item.bills__bill_num[0],

@@ -25,6 +25,7 @@ import {
   bankDetailPopupInfoTitleStyle,
 } from 'styles/mui/container/accounting/banking/detail/components/bank-detail-popup';
 import formatAmount from 'utilities/formatAmount';
+import { DATE_FORMAT } from 'utilities/constants';
 import {
   formDataReplaceableKeys,
   formattedNumber,
@@ -75,7 +76,7 @@ function ActivityLogsDetail() {
     data.push({ label: 'User Name', value: activityDetail?.user });
     data.push({
       label: 'Action Date',
-      value: moment(activityDetail?.datetime).format('DD-MMMM-YYYY'),
+      value: moment(activityDetail?.datetime).format(DATE_FORMAT),
     });
     data.push({ label: 'Action Time', value: moment(activityDetail?.datetime).format('hh:mm:ss A') });
 

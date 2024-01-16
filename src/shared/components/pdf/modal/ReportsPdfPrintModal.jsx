@@ -9,8 +9,9 @@ import { useSelector } from 'react-redux';
 import MainComponent from '../components/MainComponent';
 import PDFHeader from '../components/PDFHeader';
 
-const BORDER_COLOR = '#08517e';
-const BORDER_STYLE = '1px solid #08517e';
+const BORDER_COLOR = '#ccc';
+// const BORDER_STYLE = `1px solid ${BORDER_COLOR}`;
+const BORDER_STYLE = '';
 const COLN_WIDTH = 100 / 7;
 
 Font.register({
@@ -64,6 +65,7 @@ function ReportsPdfPrintModal({
   tableFooter,
   isMultiReport,
   modifiedTableHead,
+  timeInterval,
 }) {
   const { company, email } = useSelector(state => state.user);
   const { name: companyName, logo: companyLogo, trn } = company;
@@ -164,12 +166,22 @@ function ReportsPdfPrintModal({
                 companyDetail={company}
                 companyEmail={email}
                 companyTRN={trn}
+                reportTitle={reportTitle}
+                timeInterval={timeInterval}
               />
               {isMultiReport
                 ? tableBody.map((body, index) => renderReport(modifiedTableHead[index], body, tableFooter[index]))
                 : renderReport(tableHeader, tableBody, tableFooter)}
 
-              <View style={{ width: '100%', justifyContent: 'end', alignItems: 'center', marginTop: 50 }}>
+              <View
+                style={{
+                  width: '100%',
+                  justifyContent: 'end',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  bottom: 10,
+                }}
+              >
                 <Text style={{ color: palette.primary.main, fontSize: 10 }}>
                   This document has been generated electronically and does not necessitate a physical stamp or
                   signature
@@ -184,6 +196,7 @@ function ReportsPdfPrintModal({
 }
 
 ReportsPdfPrintModal.propTypes = {
+  timeInterval: PropTypes.string,
   isPrintModalOpen: PropTypes.bool,
   setIsPrintModalOpen: PropTypes.func,
   reportTitle: PropTypes.string,
@@ -202,6 +215,7 @@ ReportsPdfPrintModal.defaultProps = {
   tableFooter: [],
   isMultiReport: false,
   modifiedTableHead: [],
+  timeInterval: '',
 };
 
 export default ReportsPdfPrintModal;

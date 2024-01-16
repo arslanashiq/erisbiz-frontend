@@ -121,7 +121,7 @@ function index() {
     },
     [saleInvoiceListResponse]
   );
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     const payload = {
       ...values,
       credit_note_items: handleGetFormatedItemsData(values.credit_note_items),
@@ -135,6 +135,10 @@ function index() {
     }
     if (response.error) {
       setErrors(response.error.data);
+      return;
+    }
+    if (values.save_and_continue) {
+      resetForm();
       return;
     }
     if (saleId) {

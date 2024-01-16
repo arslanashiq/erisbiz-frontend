@@ -6,6 +6,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 import formatAmount from 'utilities/formatAmount';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { DATE_FORMAT } from 'utilities/constants';
 
 const largeFont = { fontSize: 28 };
 const topSpacing = { marginTop: 5 };
@@ -19,7 +20,7 @@ function ExpenseDetailInfo({ expense }) {
           <Typography sx={{ ...largeFont }}>
             {expense.currency_symbol} {formatAmount(expense.total)}
           </Typography>
-          <Typography>on {moment(expense?.expense_date).format('DD MMM YYYY')}</Typography>
+          <Typography>on {moment(expense?.expense_date).format(DATE_FORMAT)}</Typography>
         </Stack>
         <Typography>{expense?.status?.toUpperCase()}</Typography>
         <Stack

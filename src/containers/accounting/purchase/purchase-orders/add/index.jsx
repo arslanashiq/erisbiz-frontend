@@ -98,7 +98,7 @@ function AddPurchaseOrder() {
     [itemsListOptions]
   );
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     let response = null;
     const payload = {
       ...values,
@@ -128,6 +128,10 @@ function AddPurchaseOrder() {
     }
     if (response.error) {
       setErrors(response.error.data);
+      return;
+    }
+    if (values.save_and_continue) {
+      resetForm();
       return;
     }
     navigate(-1);

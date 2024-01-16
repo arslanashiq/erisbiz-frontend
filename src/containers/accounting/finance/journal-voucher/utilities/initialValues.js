@@ -1,9 +1,10 @@
 import moment from 'moment';
+import { DATE_FORMAT } from 'utilities/constants';
 
 export const journalVoucherInitialValues = {
   journal_num: '',
   reference_num: '',
-  journal_date: moment().format('YYYY-MM-DD'),
+  journal_date: moment().format(DATE_FORMAT),
   notes: '',
   remarks: '',
   total: 0,

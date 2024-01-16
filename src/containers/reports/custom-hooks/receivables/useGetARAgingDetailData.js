@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
+import { DATE_FORMAT } from 'utilities/constants';
 
 const availableDateList = [
   {
@@ -44,7 +45,7 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
       dueAmount += item.amount_due;
 
       body.push([
-        { value: moment(item.date).format('DD MMM YYYY'), style: { textAlign: 'start' } },
+        { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         { value: item.formatted_number, link: getLinkByType(item) },
         { value: item.type },
         {

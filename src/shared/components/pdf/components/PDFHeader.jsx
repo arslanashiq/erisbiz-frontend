@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import InfoBox from 'shared/components/pdf/components/InfoBox';
 import LogoAndCompanyInfo from 'shared/components/pdf/components/LogoAndCompanyInfo';
+import palette from 'styles/mui/theme/palette';
 import InvoiceInfoDetail from './InvoiceInfoDetail';
 
 const styles = StyleSheet.create({
@@ -30,7 +31,24 @@ const styles = StyleSheet.create({
   },
 });
 
-function PDFHeader({ orderInfo, companyName, companyLogo, companyDetail, companyEmail, companyTRN }) {
+const boldFont = {
+  fontFamily: 'Lato Bold',
+};
+
+const primaryColor = {
+  color: palette.primary.main,
+};
+
+function PDFHeader({
+  orderInfo,
+  companyName,
+  companyLogo,
+  companyDetail,
+  companyEmail,
+  companyTRN,
+  reportTitle,
+  timeInterval,
+}) {
   return (
     <View>
       <View style={styles.container}>
@@ -42,7 +60,37 @@ function PDFHeader({ orderInfo, companyName, companyLogo, companyDetail, company
           companyTRN={companyTRN}
         />
       </View>
+
       {orderInfo && <InvoiceInfoDetail orderInfo={orderInfo} />}
+      {reportTitle && (
+        <View
+          style={{
+            marginBottom: 15,
+          }}
+        >
+          <Text
+            style={{
+              textAlign: 'center',
+
+              fontSize: 20,
+              ...boldFont,
+              ...primaryColor,
+            }}
+          >
+            {reportTitle}
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 10,
+              ...boldFont,
+              ...primaryColor,
+            }}
+          >
+            {timeInterval}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -54,7 +102,8 @@ PDFHeader.propTypes = {
   companyDetail: PropTypes.object,
   companyEmail: PropTypes.string,
   companyTRN: PropTypes.string,
-  // orderDetail: PropTypes.object.isRequired,
+  reportTitle: PropTypes.string,
+  timeInterval: PropTypes.string,
 };
 PDFHeader.defaultProps = {
   orderInfo: null,
@@ -63,6 +112,8 @@ PDFHeader.defaultProps = {
   companyDetail: {},
   companyEmail: '',
   companyTRN: '',
+  reportTitle: '',
+  timeInterval: '',
   // orderDetail: PropTypes.object.isRequired,
 };
 

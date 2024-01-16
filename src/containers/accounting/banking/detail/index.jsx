@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import { Button, ButtonGroup, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
+import { Button, Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 // services
 import { useGetBankTransactionsQuery, useGetSingleBankAccountQuery } from 'services/private/banking';
 // shared
@@ -20,7 +20,7 @@ function BankDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState('1');
+  // const [activeTab, setActiveTab] = useState('1');
   const [transactionFilter, setTransactionFilter] = useState('this month');
   const [showBankDetailPopup, setShowBankDetailPopup] = useState(false);
 
@@ -35,13 +35,24 @@ function BankDetail() {
     { skip: !bankAccountDetail?.data?.chart_of_account }
   );
 
-  const handleChangeButton = useCallback(e => {
-    setActiveTab(e.target.value);
-  }, []);
+  // const handleChangeButton = useCallback(e => {
+  //   setActiveTab(e.target.value);
+  // }, []);
   const handleShowBankDetailPopup = useCallback(() => {
     setShowBankDetailPopup(true);
   }, []);
 
+  const totalCreditDebit = useMemo(
+    () => bankTransactionsResponse?.data?.data?.reduce(
+      (initialValues, newValues) => ({
+        ...initialValues,
+        bcy_debit: initialValues.bcy_debit + newValues.bcy_debit,
+        bcy_credit: initialValues.bcy_credit + newValues.bcy_credit,
+      }),
+      { bcy_credit: 0, bcy_debit: 0 }
+    ) || { bcy_credit: 0, bcy_debit: 0 },
+    [bankTransactionsResponse]
+  );
   return (
     <SectionLoader options={[bankAccountDetail.isLoading, bankTransactionsResponse.isLoading]}>
       <BankDetailPopup
@@ -92,7 +103,7 @@ function BankDetail() {
           </Grid>
           <Grid container className="mb-2 d-flex d-flex justify-content-center">
             <Grid item xs={12} md={10}>
-              <ButtonGroup onClick={handleChangeButton}>
+              {/* <ButtonGroup onClick={handleChangeButton}>
                 <Button
                   variant={activeTab === '1' ? 'contained' : 'outlined'}
                   value={1}
@@ -100,7 +111,7 @@ function BankDetail() {
                 >
                   All Transaction
                 </Button>
-              </ButtonGroup>
+              </ButtonGroup> */}
             </Grid>
             <Grid
               item
@@ -109,16 +120,16 @@ function BankDetail() {
               className="d-flex align-items-center"
               justifyContent={{ xs: 'start', md: 'end' }}
             >
-              {activeTab === '1' && (
-                <Stack direction="row">
-                  <FilterDropdown
-                    className="mt-2 mt-md-0"
-                    initialValue={transactionFilter}
-                    setFilterValue={setTransactionFilter}
-                    filterList={bankTransactionFilterList}
-                  />
-                </Stack>
-              )}
+              {/* {activeTab === '1' && ( */}
+              <Stack direction="row">
+                <FilterDropdown
+                  className="mt-2 mt-md-0"
+                  initialValue={transactionFilter}
+                  setFilterValue={setTransactionFilter}
+                  filterList={bankTransactionFilterList}
+                />
+              </Stack>
+              {/* )} */}
             </Grid>
           </Grid>
 
@@ -132,7 +143,8 @@ function BankDetail() {
                 column: [
                   { colSpan: 1 },
                   { data: 'Total Debits and Credits' },
-                  { data: formatAmount(bankTransactionsResponse?.data?.closing_balance || 0) },
+                  { data: formatAmount(totalCreditDebit?.bcy_debit || 0) },
+                  { data: formatAmount(totalCreditDebit?.bcy_credit || 0) },
                   { colSpan: 2 },
                 ],
               },
@@ -140,7 +152,11 @@ function BankDetail() {
                 column: [
                   { colSpan: 1 },
                   { data: 'Closing Balance' },
-                  { data: `${formatAmount(bankTransactionsResponse?.data?.closing_balance || 0)}` },
+                  {
+                    data: `${formatAmount(
+                      (totalCreditDebit?.bcy_debit || 0) - (totalCreditDebit?.bcy_credit || 0) || 0
+                    )}`,
+                  },
                   { colSpan: 2 },
                 ],
               },

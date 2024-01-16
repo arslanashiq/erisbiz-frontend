@@ -127,7 +127,7 @@ function AddSupplierCredit() {
     }
   }, []);
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     const supplierCreditTtems = values.supplier_credit_items.map(item => ({
       ...item,
       chart_of_account_id: values.debit_account_number,
@@ -147,6 +147,10 @@ function AddSupplierCredit() {
     }
     if (response.error) {
       setErrors(response.error.data);
+      return;
+    }
+    if (values.save_and_continue) {
+      resetForm();
       return;
     }
     if (purchaseId) {

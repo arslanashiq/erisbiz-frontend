@@ -10,6 +10,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { DATE_FORMAT } from 'utilities/constants';
 // services
 // components
 import CommentsForm from './CommentsForm';
@@ -34,7 +35,7 @@ export default function SupplierComment({ comments, addComment, deleteComment })
           comments.map(item => (
             <TimelineItem key={item.id}>
               <TimelineOppositeContent>
-                <Typography color="textSecondary">{moment(item.created_at).format('DD MMM YYYY')}</Typography>
+                <Typography color="textSecondary">{moment(item.created_at).format(DATE_FORMAT)}</Typography>
                 <Typography color="textSecondary">{moment(item.created_at).format('hh:mm A')}</Typography>
               </TimelineOppositeContent>
               <TimelineSeparator>

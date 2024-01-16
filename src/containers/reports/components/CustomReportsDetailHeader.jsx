@@ -1,16 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import OrderHeader from 'shared/components/order-document/OrderHeader';
+import { Grid, Stack, Typography } from '@mui/material';
 
 function CustomReportsDetailHeader({ reportTitle, filterInfo }) {
-  const { name: companyName } = useSelector(state => state.user.company);
+  const { email, company } = useSelector(state => state.user);
+  const { name: companyName, logo: companyLogo, trn: companyTRN } = company;
 
   return (
-    <div className="text-center mb-5 text-capitalize">
-      <h4>{companyName}</h4>
-      <h3 className="fs-24">{reportTitle}</h3>
-      <h3 className="fs-13 fw-400">{filterInfo}</h3>
-    </div>
+    <>
+      <OrderHeader
+        companyLogo={companyLogo}
+        companyName={companyName}
+        companyTRN={companyTRN}
+        email={email}
+        company={company}
+      />
+      <Grid item xs={12} mb={5}>
+        <Stack alignItems="center" width="100%">
+          <Typography color="primary" sx={{ fontWeight: 700, fontSize: 25 }}>
+            {reportTitle}
+          </Typography>
+          <Typography color="primary" sx={{ fontSize: 13 }}>
+            {filterInfo}
+          </Typography>
+        </Stack>
+      </Grid>
+    </>
   );
 }
 CustomReportsDetailHeader.propTypes = {

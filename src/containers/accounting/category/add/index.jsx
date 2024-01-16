@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Form, Formik } from 'formik';
 import { Helmet } from 'react-helmet';
-import { Button, Card, CardContent, Stack } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router';
 // services
 import {
@@ -15,6 +15,7 @@ import FormikField from 'shared/components/form/FormikField';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 // containers
+import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
 import { categoryInitialValue } from '../utilities/constants';
@@ -78,47 +79,20 @@ function AddCategory() {
             validationSchema={categoryFormValidationSchema}
             onSubmit={handleSubmitForm}
           >
-            {({ isSubmitting, setFieldValue, resetForm }) => (
-              <Form className="form form--horizontal row mt-3">
-                <FormikField
-                  name="category_name"
-                  type="text"
-                  // placeholder="Category Name"
-                  label="Category Name"
-                  isRequired
-                  className="col-12"
-                />
+            <Form className="form form--horizontal row mt-3">
+              <FormikField
+                name="category_name"
+                type="text"
+                // placeholder="Category Name"
+                label="Category Name"
+                isRequired
+                className="col-12"
+              />
 
-                <ErrorFocus />
+              <ErrorFocus />
 
-                <Stack spacing={2} direction="row">
-                  <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
-                    {isSubmitting ? 'Saving...' : 'Save'}
-                  </Button>
-
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    onClick={() => {
-                      setFieldValue('save_and_continue', true);
-                    }}
-                    color="secondary"
-                  >
-                    Save and Continue
-                  </Button>
-                  <Button
-                    color="secondary"
-                    onClick={() => {
-                      resetForm();
-                    }}
-                    disabled={isSubmitting}
-                    className="text-capitalize"
-                  >
-                    Clear
-                  </Button>
-                </Stack>
-              </Form>
-            )}
+              <FormSubmitButton />
+            </Form>
           </Formik>
         </CardContent>
       </Card>

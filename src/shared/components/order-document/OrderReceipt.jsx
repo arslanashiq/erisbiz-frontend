@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Box, Divider, Grid, Typography } from '@mui/material';
 import palette from 'styles/mui/theme/palette';
+import { DATE_FORMAT } from 'utilities/constants';
 import OrderItemsTable from './OrderItemsTable';
 import OrderVoucher from './OrderVoucher';
 import JournalVoucher from './JournalVoucher';
@@ -34,7 +35,7 @@ function OrderReceipt({
         </Grid>
         <Grid item xs={valueColumn}>
           <Typography sx={{ fontSize: 14, color: 'black' }}>
-            {isDate ? moment(data[key]).format('DD MMMM YYYY') : data[key]}
+            {isDate ? moment(data[key]).format(DATE_FORMAT) : data[key]}
           </Typography>
         </Grid>
       </Grid>

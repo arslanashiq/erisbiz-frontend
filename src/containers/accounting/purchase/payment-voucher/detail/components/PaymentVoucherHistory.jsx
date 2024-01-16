@@ -6,7 +6,7 @@ function PaymentVoucherHistory({ PaymentVoucher }) {
   return (
     <Grid container className="mt-5">
       <Grid item xs={12}>
-        <Typography>Payment History</Typography>
+        <Typography sx={{ fontSize: 14, fontWeight: 'bold' }}>Payment History</Typography>
       </Grid>
       <Grid item xs={12} sm={12} style={{ fontSize: 14 }}>
         <Grid item xs={12} style={{ width: '95%', margin: '0 auto' }}>

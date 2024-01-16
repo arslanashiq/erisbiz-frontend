@@ -1,9 +1,10 @@
 import moment from 'moment';
+import { DATE_FORMAT } from 'utilities/constants';
 
 export const receiptVoucherInitialValues = {
   account: '',
   payment_num: 1,
-  payment_date: moment().format('YYYY-MM-DD'),
+  payment_date: moment().format(DATE_FORMAT),
   payment_mode: '',
   total: 0,
   chart_of_account: '',

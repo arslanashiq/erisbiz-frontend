@@ -78,7 +78,10 @@ function AddCustomer() {
       setErrors(response.error.data);
       return;
     }
-    resetForm();
+    if (values.save_and_continue) {
+      resetForm();
+      return;
+    }
     navigate(-1);
   }, []);
 

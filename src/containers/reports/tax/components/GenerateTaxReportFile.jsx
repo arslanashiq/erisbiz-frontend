@@ -7,6 +7,7 @@ import { Button, Card, CardContent, Dialog, IconButton, Slide, Stack, Typography
 import FormikDatePicker from 'shared/components/form/FormikDatePicker';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import 'styles/form/form.scss';
+import { DATE_FORMAT } from 'utilities/constants';
 
 const Transition = forwardRef((props, ref) => <Slide direction="down" ref={ref} {...props} />);
 
@@ -46,8 +47,8 @@ function GenerateTaxReportFile({ title, useMutation }) {
             </Stack>
             <Formik
               initialValues={{
-                start_date: moment().format('YYYY-MM-DD'),
-                end_date: moment().format('YYYY-MM-DD'),
+                start_date: moment().format(DATE_FORMAT),
+                end_date: moment().format(DATE_FORMAT),
               }}
               onSubmit={async (values, { setErrors }) => {
                 const response = await addReportFile(values);

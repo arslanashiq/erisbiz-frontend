@@ -155,7 +155,7 @@ function AddPurchaseInvoice() {
     [purchaseOrdersListResponse]
   );
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     let response = null;
     const payload = {
       ...values,
@@ -190,6 +190,10 @@ function AddPurchaseInvoice() {
     }
     if (response.error) {
       setErrors(response.error.data);
+      return;
+    }
+    if (values.save_and_continue) {
+      resetForm();
       return;
     }
     if (purchaseId) {

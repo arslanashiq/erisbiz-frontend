@@ -46,7 +46,11 @@ function SignUpForm() {
 
       enqueueSnackbar('Credentials have been forwarded to your email', { variant: 'success' });
 
-      sessionStorage.setItem('planId', planId);
+      if (planId) {
+        sessionStorage.setItem('planId', planId);
+      } else {
+        sessionStorage.clear();
+      }
 
       navigate('/auth/login');
       resetForm();

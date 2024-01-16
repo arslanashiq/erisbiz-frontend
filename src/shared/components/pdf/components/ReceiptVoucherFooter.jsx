@@ -3,6 +3,7 @@ import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { Text, View } from '@react-pdf/renderer';
 import formatAmount from 'utilities/formatAmount';
+import { DATE_FORMAT } from 'utilities/constants';
 
 function ReceiptVoucherFooter({ orderDetail, keyName, styles }) {
   return (
@@ -11,7 +12,7 @@ function ReceiptVoucherFooter({ orderDetail, keyName, styles }) {
       <View key={uuid()} style={styles.tableRow}>
         <View style={styles.tableCol}>
           <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-            {moment(item?.invoice?.date).format('YYYY-MM-DD')}
+            {moment(item?.invoice?.date).format(DATE_FORMAT)}
           </Text>
         </View>
         <View style={styles.tableCol}>

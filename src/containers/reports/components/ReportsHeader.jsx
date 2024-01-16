@@ -13,6 +13,7 @@ import { iconButtonStyle } from 'utilities/mui-styles';
 
 function ReportsHeader({
   tableHeader,
+  timeInterval,
   tableBody,
   tableFooter,
   reportTitle,
@@ -46,6 +47,7 @@ function ReportsHeader({
         setIsPrintModalOpen={setIsPrintModalOpen}
         reportTitle={reportTitle}
         tableHeader={tableHeader}
+        timeInterval={timeInterval}
         tableBody={tableBody}
         tableFooter={tableFooter}
         isMultiReport={isMultiReport}
@@ -106,6 +108,7 @@ ReportsHeader.propTypes = {
     showFilter: PropTypes.bool,
     showPrint: PropTypes.bool,
   }),
+  timeInterval: PropTypes.string,
 };
 ReportsHeader.defaultProps = {
   reportTitle: '',
@@ -125,6 +128,7 @@ ReportsHeader.defaultProps = {
     showFilter: true,
     showPrint: true,
   },
+  timeInterval: '',
 };
 
 export default ReportsHeader;

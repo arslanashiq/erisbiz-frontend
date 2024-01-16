@@ -1,11 +1,11 @@
 import moment from 'moment';
-import { NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
+import { DATE_FORMAT, NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
 
 export const creditNoteInitialValues = {
   voucher_num: '',
   account_num: '',
   credit_account_num: '',
-  credit_note_date: moment().format('YYYY-MM-DD'),
+  credit_note_date: moment().format(DATE_FORMAT),
   customer_notes: '',
   invoice: '',
   credit_note_items: [NEW_PURCHASE_ITEM_OBJECT],

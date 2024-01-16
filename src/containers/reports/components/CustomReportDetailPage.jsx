@@ -52,6 +52,7 @@ function CustomReportDetailPage({
     <SectionLoader options={[reportResponse.isLoading]}>
       <ReportsHeader
         reportTitle={reportTitle}
+        timeInterval={timeInterval}
         tableHeader={replaceTableBody ? modifiedTableHead : reportHeadCells}
         tableBody={replaceTableBody ? modifiedTableBody : tableBody}
         tableFooter={tableFooter}

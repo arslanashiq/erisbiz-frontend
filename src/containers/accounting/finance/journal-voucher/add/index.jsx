@@ -102,7 +102,7 @@ function AddJournalVoucher() {
     return newData;
   }, [initialValues, latestJournalVoucher]);
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     let totalCreditDebit = 0;
     values.journal_items.forEach(item => {
       totalCreditDebit += item.credit;
@@ -116,6 +116,10 @@ function AddJournalVoucher() {
     }
     if (response.error) {
       setErrors(response.error.data);
+      return;
+    }
+    if (values.save_and_continue) {
+      resetForm();
       return;
     }
     navigate(-1);

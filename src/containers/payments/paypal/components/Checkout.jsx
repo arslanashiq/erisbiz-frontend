@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
@@ -7,13 +8,11 @@ import { Avatar, Box, Card, CardContent, Stack, Typography } from '@mui/material
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import formatAmount from 'utilities/formatAmount';
-import { useNavigate } from 'react-router';
 
 const cardHeadingFont = { fontSize: 16 };
 const planSummaryStyleBox = { justifyContent: 'space-between' };
 const paymentCardHeadingStyle = { fontSize: 16, fontWeight: 600 };
 function Checkout({ plan }) {
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   const [{ isPending }] = usePayPalScriptReducer();
@@ -28,19 +27,39 @@ function Checkout({ plan }) {
 
   const handleOnApprove = async (data, actions) => {
     try {
-      console.log({ data, actions });
+      const captureOrder = await actions.order.capture();
       // CHECKING CHECKOUT TYPES
-      const payload = { paypal_payment_id: data.subscriptionID };
+      const payload = {
+        payment_id: data.paymentID,
+        payment_type: 'subscription',
+        subscription_plan_id: plan.planId,
+      };
       const response = await sendPaymentStatus(payload);
       if (response?.error) {
-        enqueueSnackbar(response.error, { variant: 'error' });
+        enqueueSnackbar(response?.error?.data?.error || 'Somthing Went Wrong', { variant: 'error' });
         return;
       }
+      window.location.reload();
       enqueueSnackbar(response?.data?.message || 'Payment Made', { variant: 'success' });
-      navigate('/');
     } catch (error) {
-      // console.log(error);
+      enqueueSnackbar(error || 'Somthing Went Wrong', { variant: 'error' });
     }
+  };
+  const handleCreatePaypalOrder = async (data, actions) => {
+    const createOrder = await actions.order.create({
+      purchase_units: [
+        {
+          amount: {
+            value: plan.newPrice,
+            currency_code: 'USD',
+          },
+        },
+      ],
+
+      intent: 'CAPTURE',
+    });
+
+    return createOrder;
   };
   return (
     <SectionLoader options={[isPending]}>
@@ -86,7 +105,8 @@ function Checkout({ plan }) {
               style={{ height: 55 }}
               onCancel={() => {}}
               onError={() => {}}
-              createSubscription={handleCreateSubscription}
+              // createSubscription={handleCreateSubscription}
+              createOrder={handleCreatePaypalOrder}
               onApprove={handleOnApprove}
             />
           </Stack>

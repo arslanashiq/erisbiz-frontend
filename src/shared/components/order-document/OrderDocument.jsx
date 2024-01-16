@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Stack } from '@mui/material';
 import { useParams } from 'react-router';
+import useGetQRCode from 'shared/custom-hooks/useGetQRCode';
 import DraftsOutlinedIcon from '@mui/icons-material/DraftsOutlined';
 import OrderReceipt from './OrderReceipt';
 
@@ -17,6 +18,7 @@ function OrderDocument({
   customComponent,
 }) {
   const { id } = useParams();
+  const { qrCode } = useGetQRCode(orderInfo, orderDetail);
   return (
     <Box style={{ margin: '0 auto', boxShadow: 'border-box', overflow: 'auto' }}>
       {handleChangeStatus && orderDetail && orderDetail.status === 'draft' && (
@@ -49,7 +51,7 @@ function OrderDocument({
       {orderDetail && (
         <OrderReceipt
           orderDetail={orderDetail}
-          orderInfo={orderInfo}
+          orderInfo={{ ...orderInfo, QRCode: qrCode }}
           keyValue={keyValue}
           showStatus={showStatus}
           showItemsTable={showItemsTable}

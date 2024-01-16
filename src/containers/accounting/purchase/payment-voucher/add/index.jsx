@@ -198,7 +198,7 @@ function addPaymentVoucher() {
             enableReinitialize
             initialValues={updatedInitialValues}
             validationSchema={paymentVoucherFormValidationSchema}
-            onSubmit={async (values, { setErrors, errors }) => {
+            onSubmit={async (values, { setErrors, errors, resetForm }) => {
               let response = null;
 
               const billPayments = [];
@@ -230,6 +230,10 @@ function addPaymentVoucher() {
               }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
+              }
+              if (values.save_and_continue) {
+                resetForm();
                 return;
               }
               if (supplierId) {

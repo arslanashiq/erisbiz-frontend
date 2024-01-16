@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMemo } from 'react';
+import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetPayableDetailData(payableDetailResponse) {
@@ -15,7 +16,7 @@ function useGetPayableDetailData(payableDetailResponse) {
           value: item.status,
           style: { textAlign: 'start' },
         },
-        { value: moment(item.date).format('DD MMM YYYY') },
+        { value: moment(item.date).format(DATE_FORMAT) },
         {
           value: item.formatted_number,
           link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${

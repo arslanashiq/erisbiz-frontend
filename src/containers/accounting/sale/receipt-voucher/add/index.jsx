@@ -87,7 +87,7 @@ function AddReceiptVoucher() {
     }
   }, []);
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     let response = null;
 
     const updatedPayloadInvoice = [];
@@ -120,6 +120,10 @@ function AddReceiptVoucher() {
     }
     if (response.error) {
       setErrors(response.error.data);
+      return;
+    }
+    if (values.save_and_continue) {
+      resetForm();
       return;
     }
     if (customerId) {

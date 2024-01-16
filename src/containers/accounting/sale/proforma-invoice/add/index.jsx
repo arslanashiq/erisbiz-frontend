@@ -107,14 +107,22 @@ function AddProfomaInvoice() {
 
   const porformaInvoiceItemsList = useMemo(
     () => [
-      { ...PurchaseItemInputList.service_type, options: itemsListOptions || [], onChange: handleChangeSaleItem },
+      {
+        ...PurchaseItemInputList.service_type,
+        options: itemsListOptions || [],
+        onChange: handleChangeSaleItem,
+      },
       { ...PurchaseItemInputList.remaining_stock, disabled: true },
       { ...PurchaseItemInputList.num_nights, onChange: handleChangeQuantity },
       { ...PurchaseItemInputList.unit_price_ex_vat, onChange: handleChangeUnitPrice },
       { ...PurchaseItemInputList.gross_amount },
       { ...PurchaseItemInputList.discount, onChange: handleChangeDiscount },
       { ...PurchaseItemInputList.vat_rate, options: VAT_CHARGES || [], onChange: hanldeVATChange },
-      { ...PurchaseItemInputList.net_amount, options: itemsListOptions || [], onChange: handleChangeSaleItem },
+      {
+        ...PurchaseItemInputList.net_amount,
+        options: itemsListOptions || [],
+        onChange: handleChangeSaleItem,
+      },
     ],
     [itemsListOptions]
   );
@@ -139,7 +147,7 @@ function AddProfomaInvoice() {
     setSelectedCustomer(value);
   }, []);
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     const payload = {
       ...values,
       pro_invoice_docs: values.filesList || values.pro_invoice_docs,
@@ -167,6 +175,10 @@ function AddProfomaInvoice() {
     }
     if (response.error) {
       setErrors(response.error.data);
+      return;
+    }
+    if (values.save_and_continue) {
+      resetForm();
       return;
     }
     if (quotationId) {

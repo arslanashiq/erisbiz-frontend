@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
+import { DATE_FORMAT, NEW_PURCHASE_ITEM_OBJECT } from 'utilities/constants';
 
 export const saleInvoiceInitialValues = {
   // new
@@ -7,7 +7,7 @@ export const saleInvoiceInitialValues = {
   pro_invoice: '',
   quotation: '',
   invoice_formatted_number: '',
-  date: moment().format('YYYY-MM-DD'),
+  date: moment().format(DATE_FORMAT),
   sales_person: '',
   location: '',
   remarks: '',

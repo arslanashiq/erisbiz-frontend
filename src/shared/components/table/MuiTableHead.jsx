@@ -16,6 +16,7 @@ function MuiTableHead(props) {
     actionButtonKey,
     customActionButton,
     headerStyles,
+    cellStyles,
   } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
@@ -25,6 +26,7 @@ function MuiTableHead(props) {
     fontSize: '14px',
     padding: '10px',
     backgroundColor: '#E3E3E3',
+    ...cellStyles,
   };
 
   return (
@@ -98,6 +100,7 @@ MuiTableHead.propTypes = {
   actionButtonKey: PropTypes.string,
   customActionButton: PropTypes.array,
   headerStyles: PropTypes.object,
+  cellStyles: PropTypes.object,
 };
 
 MuiTableHead.defaultProps = {
@@ -111,5 +114,6 @@ MuiTableHead.defaultProps = {
   orderBy: '',
   rowCount: 0,
   headerStyles: {},
+  cellStyles: {},
 };
 export default MuiTableHead;

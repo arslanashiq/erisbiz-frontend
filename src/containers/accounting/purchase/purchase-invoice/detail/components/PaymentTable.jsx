@@ -10,11 +10,15 @@ function PaymentTable({ heading, payments, headCells, customActionButton }) {
     <Stack fontSize={13} justifyContent="center" maxWidth={900}>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-          <Typography>{heading}</Typography>
+          <Typography sx={{ fontSize: 14, fontWeight: 'bold' }}>{heading}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Table className="line-item-table border-top-bottom w-100" id="lineitems-section">
-            <MuiTableHead headCells={headCells} customActionButton={customActionButton} />
+            <MuiTableHead
+              headCells={headCells}
+              customActionButton={customActionButton}
+              cellStyles={{ backgroundColor: '#F9F9F9' }}
+            />
             <MuiTableBody
               headCells={headCells}
               dataList={payments}
@@ -32,7 +36,7 @@ function PaymentTable({ heading, payments, headCells, customActionButton }) {
 PaymentTable.propTypes = {
   heading: PropTypes.string.isRequired,
   payments: PropTypes.array.isRequired,
-  headCells: PropTypes.string.isRequired,
+  headCells: PropTypes.array.isRequired,
   customActionButton: PropTypes.array,
 };
 PaymentTable.defaultProps = {

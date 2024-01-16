@@ -3,7 +3,7 @@ import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { Text, View } from '@react-pdf/renderer';
 import formatAmount from 'utilities/formatAmount';
-import { supplierOpeningBalanceName } from 'utilities/constants';
+import { DATE_FORMAT, supplierOpeningBalanceName } from 'utilities/constants';
 
 function PurchaseVoucherFooter({ orderDetail, keyName, styles }) {
   return (
@@ -20,12 +20,12 @@ function PurchaseVoucherFooter({ orderDetail, keyName, styles }) {
         <View style={styles.tableCol}>
           {item.bill && (
             <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-              {moment(item.bill.bill_date).format('YYYY-MM-DD')}
+              {moment(item.bill.bill_date).format(DATE_FORMAT)}
             </Text>
           )}
           {item.supplier && (
             <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-              {moment(item.supplier.bill_date).format('YYYY-MM-DD')}
+              {moment(item.supplier.bill_date).format(DATE_FORMAT)}
             </Text>
           )}
         </View>
@@ -45,7 +45,7 @@ function PurchaseVoucherFooter({ orderDetail, keyName, styles }) {
         </View>
         <View style={styles.tableCol}>
           <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-            {moment(item.created_at).format('YYYY-MM-DD')}
+            {moment(item.created_at).format(DATE_FORMAT)}
           </Text>
         </View>
         <View style={styles.tableCol}>

@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import moment from 'moment';
 import { activityLogsHeadCells } from 'containers/reports/utilities/head-cells';
 import { getModuleName } from 'containers/reports/activity/utilities/constants';
+import { DATE_FORMAT } from 'utilities/constants';
 
 function useActivityLogsData(activityLogsResponse) {
   // const getActionType = (method, module) => {
@@ -31,7 +32,7 @@ function useActivityLogsData(activityLogsResponse) {
         {
           value: (
             <span>
-              {moment(item.datetime).format('DD-MMM-YY')}
+              {moment(item.datetime).format(DATE_FORMAT)}
               <br />
               {moment(item.datetime).format('hh:mm A')}
             </span>
@@ -71,7 +72,7 @@ function useActivityLogsData(activityLogsResponse) {
       ]);
       modifiedBodyForPrint.push([
         {
-          value: `${moment(item.datetime).format('DD-MMM-YY')} \n${moment(item.datetime).format('hh:mm A')}`,
+          value: `${moment(item.datetime).format(DATE_FORMAT)} \n${moment(item.datetime).format('hh:mm A')}`,
           style: {
             textAlign: 'start',
           },

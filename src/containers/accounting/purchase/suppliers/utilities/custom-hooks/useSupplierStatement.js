@@ -2,7 +2,7 @@
 import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
-import { supplierOpeningBalanceName } from 'utilities/constants';
+import { DATE_FORMAT, supplierOpeningBalanceName } from 'utilities/constants';
 // import { useLocation } from 'react-router-dom';
 
 function useSupplierStatement(supplierStatement, supplierTransactions, duration) {
@@ -82,7 +82,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
 
         return {
           id: item.id,
-          date: moment(item.transaction_date).format('DD MMM YYYY'),
+          date: moment(item.transaction_date).format(DATE_FORMAT),
           transactions: item.transaction_type || 'Bill',
           details: item.formatted_transaction_number || item.invoice_num || '-',
           amount: getAmount(item, amountTypes),
@@ -121,8 +121,8 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
     totalBilledAmount: formatAmount(amountTotal),
     totalPaymentAmount: formatAmount(paymentTotal),
     totalBalanceDue: formatAmount(balanceDue),
-    startDate: moment(supplierStatement.start_date).format('DD MMM YYYY'),
-    endDate: moment(supplierStatement.end_date).format('DD MMM YYYY'),
+    startDate: moment(supplierStatement.start_date).format(DATE_FORMAT),
+    endDate: moment(supplierStatement.end_date).format(DATE_FORMAT),
   };
   // console.log(supplierTransactions, 'asdjlkasjlk');
 

@@ -3,18 +3,31 @@ import PropTypes from 'prop-types';
 import { useFormikContext } from 'formik';
 import { Button, Stack } from '@mui/material';
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
+import { useParams } from 'react-router';
 
 function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonAction }) {
-  const { isSubmitting, resetForm } = useFormikContext();
-
+  const { isSubmitting, resetForm, setFieldValue } = useFormikContext();
+  const { id } = useParams();
   return (
     <>
       <ErrorFocus />
 
       <Stack spacing={2} direction="row">
-        <Button type="submit" disabled={isSubmitting} color="primary" className="text-capitalize">
+        <Button type="submit" disabled={isSubmitting} color="primary">
           {isSubmitting ? 'Saving...' : submitButtonTitle || 'Save'}
         </Button>
+        {!id && (
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            onClick={() => {
+              setFieldValue('save_and_continue', true);
+            }}
+            color="secondary"
+          >
+            Save and Continue
+          </Button>
+        )}
 
         <Button
           color="secondary"
@@ -25,7 +38,6 @@ function FormSubmitButton({ submitButtonTitle, clearButtonTitle, clearButtonActi
             resetForm();
           }}
           disabled={isSubmitting}
-          className="text-capitalize"
         >
           {clearButtonTitle}
         </Button>

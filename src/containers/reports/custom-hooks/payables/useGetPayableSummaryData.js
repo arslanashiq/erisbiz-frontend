@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
+import { DATE_FORMAT } from 'utilities/constants';
 
 function useGetPayableSummaryData(payableSummaryResponse) {
   const { tableBody, totalAmount, totalRemainingAmount } = useMemo(() => {
@@ -15,7 +16,7 @@ function useGetPayableSummaryData(payableSummaryResponse) {
           value: item.status,
           style: { textAlign: 'start' },
         },
-        { value: moment(item.date).format('DD MMM YYYY') },
+        { value: moment(item.date).format(DATE_FORMAT) },
         {
           value: item.number,
           link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${

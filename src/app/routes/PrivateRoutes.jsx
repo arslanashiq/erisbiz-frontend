@@ -9,12 +9,11 @@ function PrivateRoutes() {
   if (!isAuthenticated) {
     return <Navigate to="/auth/login" state={location.pathname} />;
   }
-
   if (isRegesteredCompany) {
     if (isPayment) {
       return <Layout />;
     }
-    return <Navigate to="/payment-plans" replace />;
+    return <Navigate to="/register-company/plans" replace />;
   }
 
   return <Navigate to="/register-company" replace />;

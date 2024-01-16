@@ -1,12 +1,13 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useGetSinglePurchaseOrderQuery } from 'services/private/purchase-orders';
+import { DATE_FORMAT } from 'utilities/constants';
 import copyFetchedValues from 'utilities/copyFetchedValues';
 
 function usePurchaseOrderInitialValues(id) {
   const [initialValues, setInitialValues] = useState({
     pur_order_num: '',
-    date: moment().format('yyyy-MM-DD'),
+    date: moment().format(DATE_FORMAT),
     location: '',
     supplier_id: '',
     reference_num: '',

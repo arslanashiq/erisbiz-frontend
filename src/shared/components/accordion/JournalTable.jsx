@@ -62,22 +62,31 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
   // }
 
   return (
-    <Accordion defaultExpanded={defaultValue} sx={{ boxShadow: '1px 0px 3px black' }}>
+    <Accordion defaultExpanded={defaultValue} sx={{ boxShadow: '0px 0px 3px silver' }}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-        <Typography>Display Journal</Typography>
+        <Typography sx={{ fontSize: 14, fontWeight: 'bold' }}>Display Journal</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <div className="mt-4 w-100" style={addButtonIconStyle}>
-          <table className="line-item-table border-top-bottom w-100" id="lineitems-section">
+        <div className=" w-100" style={addButtonIconStyle}>
+          <table className=" border-top-bottom w-100" id="lineitems-section">
             <thead className="line-item-header">
-              <tr className="border-top-bottom">
-                <th className="line-item-column no-border over-flow" style={{ width: '40%' }}>
+              <tr className="border-top-bottom" style={{ backgroundColor: '#F9F9F9' }}>
+                <th
+                  className="line-item-column no-border over-flow"
+                  style={{ fontSize: 15, padding: '10px 5px', width: '40%' }}
+                >
                   Account
                 </th>
-                <th className="line-item-column no-border over-flow text-right" style={{ width: '30%' }}>
+                <th
+                  className="line-item-column no-border over-flow text-right"
+                  style={{ fontSize: 15, padding: '10px 5px', width: '30%' }}
+                >
                   Debit
                 </th>
-                <th className="line-item-column no-border over-flow text-right" style={{ width: '30%' }}>
+                <th
+                  className="line-item-column no-border over-flow text-right"
+                  style={{ fontSize: 15, padding: '10px 5px', width: '30%' }}
+                >
                   Credit
                 </th>
               </tr>
@@ -85,17 +94,21 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
             <tbody className="line-item-body">
               {updatedJournalItems.map(item => (
                 <tr key={item.id} className="line-item-column line-item-row no-border">
-                  <td className="line-item-table-data">{item?.account_name}</td>
-                  <td className="line-item-table-data text-right">{formatAmount(item?.debit)}</td>
-                  <td className="line-item-table-data text-right">{formatAmount(item?.credit)}</td>
+                  <td style={{ fontSize: 15, padding: '5px 5px' }}>{item?.account_name}</td>
+                  <td style={{ fontSize: 15, padding: '5px 5px', textAlign: 'right' }}>
+                    {formatAmount(item?.debit)}
+                  </td>
+                  <td style={{ fontSize: 15, padding: '5px 5px', textAlign: 'right' }}>
+                    {formatAmount(item?.credit)}
+                  </td>
                 </tr>
               ))}
               <tr className="line-item-column line-item-row border-top-bottom">
-                <td className="line-item-table-data"> </td>
-                <td className="line-item-table-data text-right">
+                <td className=""> </td>
+                <td style={{ fontSize: 15, padding: '5px 5px', textAlign: 'right' }}>
                   <b>{formatAmount(total.debit)}</b>
                 </td>
-                <td className="line-item-table-data text-right">
+                <td style={{ fontSize: 15, padding: '5px 5px', textAlign: 'right' }}>
                   <b>{formatAmount(total.credit)}</b>
                 </td>
               </tr>

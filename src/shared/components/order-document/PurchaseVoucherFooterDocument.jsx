@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 import { v4 as uuid } from 'uuid';
 
@@ -21,7 +22,7 @@ function PurchaseVoucherFooterDocument({ orderDetail, keyValue }) {
     orderDetail[keyValue]?.length > 0 &&
     orderDetail[keyValue].map(item => (
       <div key={uuid()} className="payment-details">
-        <p>{moment(item?.bill?.bill_date || item.created_at).format('YYYY-MM-DD')}</p>
+        <p>{moment(item?.bill?.bill_date || item.created_at).format(DATE_FORMAT)}</p>
         {/* Bill Number */}
         <Link to={getLink(item)}>{getName(item)}</Link>
         {/* Purchase Order */}

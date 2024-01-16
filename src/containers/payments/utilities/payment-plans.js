@@ -1,6 +1,7 @@
 export const plansList = [
   {
-    planId: 'P-7BT90076842067520MWOV33Y',
+    // planId: 'P-7BT90076842067520MWOV33Y',
+    planId: '1',
     title: '1$ Plan',
     newPrice: '1',
     buttonText: 'Get Started',
@@ -39,6 +40,7 @@ export const plansList = [
         label: 'Branding',
         status: true,
       },
+
       {
         label: 'Add stamps to invoices and quotes',
         status: true,
@@ -51,10 +53,18 @@ export const plansList = [
         label: 'Automatic VAT return generation',
         status: true,
       },
+      {
+        label: 'Download PDFs',
+        status: false,
+      },
+      {
+        label: 'Email Invoices',
+        status: false,
+      },
     ],
   },
   {
-    planId: 'P-7BT90076842067520MWOV33Y2',
+    planId: '2',
     title: 'Monthly Plan',
     newPrice: '19.99',
     oldPrice: '100.00',
@@ -94,14 +104,7 @@ export const plansList = [
         label: 'Branding',
         status: true,
       },
-      {
-        label: 'Download PDFs',
-        status: true,
-      },
-      {
-        label: 'Email Invoices',
-        status: true,
-      },
+
       {
         label: 'Add stamps to invoices and quotes',
         status: true,
@@ -114,10 +117,18 @@ export const plansList = [
         label: 'Automatic VAT return generation',
         status: true,
       },
+      {
+        label: 'Download PDFs',
+        status: true,
+      },
+      {
+        label: 'Email Invoices',
+        status: true,
+      },
     ],
   },
   {
-    planId: 'P-7BT90076842067520MWOV33Y3',
+    planId: '3',
     title: 'Yearly Plan',
     newPrice: '99.99',
     oldPrice: '1000.00',
@@ -158,14 +169,6 @@ export const plansList = [
         status: true,
       },
       {
-        label: 'Download PDFs',
-        status: true,
-      },
-      {
-        label: 'Email Invoices',
-        status: true,
-      },
-      {
         label: 'Add stamps to invoices and quotes',
         status: true,
       },
@@ -175,6 +178,14 @@ export const plansList = [
       },
       {
         label: 'Automatic VAT return generation',
+        status: true,
+      },
+      {
+        label: 'Download PDFs',
+        status: true,
+      },
+      {
+        label: 'Email Invoices',
         status: true,
       },
     ],

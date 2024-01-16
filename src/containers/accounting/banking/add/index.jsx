@@ -46,7 +46,7 @@ function AddBankAccountPage() {
 
   const accountsWithTypeAssets = getAccountTypesOptions(accountTypeListOption, 0);
 
-  const handleSubmitForm = useCallback(async (values, { setErrors }) => {
+  const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     try {
       let response = null;
       if (id) {
@@ -54,12 +54,16 @@ function AddBankAccountPage() {
       } else {
         response = await addBankAccount(values);
       }
-      if (response.data) {
-        navigate(-1);
-      }
+
       if (response.error) {
         setErrors(response.error.data);
+        return;
       }
+      if (values.save_and_continue) {
+        resetForm();
+        return;
+      }
+      navigate(-1);
     } catch (err) {
       if (err?.response?.status === 400) {
         setErrors(err.response.data);

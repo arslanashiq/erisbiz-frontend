@@ -44,9 +44,9 @@ export const OPERATIONS_STAFF = 'operations_staff';
 // SUPER USER
 export const SUPER_USER = 'superuser';
 
-export const DATE_FORMAT = 'DD-MMMM-YYYY';
-export const DATE_FORMAT_PRINT = 'DD MMM YYYY';
-export const DATE_FILTER_REPORT = 'DD MMM YYYY';
+export const DATE_FORMAT = 'YYYY-MM-DD';
+export const DATE_FORMAT_PRINT = 'YYYY-MM-DD';
+export const DATE_FILTER_REPORT = 'YYYY-MM-DD';
 export const DATE_FORMATE_ADD = 'yyyy-MM-DD';
 
 // ITEM TYPE

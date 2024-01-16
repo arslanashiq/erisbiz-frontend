@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { DATE_FORMAT } from 'utilities/constants';
 
 export const supplierInitialValues = {
   supplier_name: '',
@@ -23,7 +24,7 @@ export const supplierInitialValues = {
   currency_id: '',
   opening_balance: 0,
   is_credit: true,
-  opening_balance_date: moment().format('YYYY-MM-DD'),
+  opening_balance_date: moment().format(DATE_FORMAT),
   exchange_rate: 1,
   payment_terms: 'Net 0',
   bill_addr_street_one: '',

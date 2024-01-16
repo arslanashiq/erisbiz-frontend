@@ -71,7 +71,7 @@ function PlanCard({ plan, xs, sm, md, lg }) {
 
           <Stack p={1}>
             {plan.planOptions?.map(option => (
-              <Stack key={`${plan.title}${option.label}`} direction="row" spacing={2} alignItems="center">
+              <Stack key={`${plan.planId}${option.label}`} direction="row" spacing={2} alignItems="center">
                 {option.status ? (
                   <CheckIcon sx={{ color: 'green', fontSize: 15 }} />
                 ) : (
@@ -93,7 +93,7 @@ function PlanCard({ plan, xs, sm, md, lg }) {
           <Button
             sx={{ width: 100 }}
             onClick={() => {
-              navigate(`/payment?plan_id=${plan.planId}`);
+              navigate(`/register-company/payment?plan_id=${plan.planId}`);
             }}
           >
             Get Now

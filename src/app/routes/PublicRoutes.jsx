@@ -9,7 +9,6 @@ function PublicRoutes({ children }) {
   const location = useLocation();
   const { isAuthenticated, isRegesteredCompany, isPayment } = useSelector(state => state.user);
 
-  console.log(location.state);
   if (isAuthenticated) {
     if (isRegesteredCompany) {
       if (isPayment) {
@@ -18,7 +17,7 @@ function PublicRoutes({ children }) {
         }
         return <Navigate to="/" replace />;
       }
-      return <Navigate to="/payment-plans" replace />;
+      return <Navigate to="/register-company/plans" replace />;
     }
 
     return <Navigate to="/register-company" replace />;

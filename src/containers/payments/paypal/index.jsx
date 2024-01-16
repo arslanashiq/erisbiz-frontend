@@ -10,8 +10,8 @@ import Checkout from './components/Checkout';
 const initialValues = {
   'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID,
   currency: 'USD',
-  intent: 'subscription',
-  vault: true,
+  // intent: 'capture',
+  // vault: true,
 };
 loadScript(initialValues)
   .then(() => {

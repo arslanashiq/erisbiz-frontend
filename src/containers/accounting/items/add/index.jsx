@@ -70,7 +70,7 @@ function AddItemPage() {
     label: 'category_name',
   });
 
-  const handleSumbitForm = useCallback(async (values, { setSubmitting, setErrors }) => {
+  const handleSumbitForm = useCallback(async (values, { setSubmitting, setErrors, resetForm }) => {
     try {
       let response = null;
       const payload = new FormData();
@@ -88,6 +88,10 @@ function AddItemPage() {
       }
       if (response.error) {
         setErrors(response.error.data);
+        return;
+      }
+      if (values.save_and_continue) {
+        resetForm();
         return;
       }
       navigate(-1);

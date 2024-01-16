@@ -7,6 +7,7 @@ import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'styles/form/date-picker.scss';
 import { Box } from '@mui/material';
+import { DATE_FORMAT } from 'utilities/constants';
 
 function DatePickerField({
   touched,
@@ -106,7 +107,7 @@ DatePickerField.defaultProps = {
   id: '',
   touched: false,
   error: '',
-  value: moment().format('YYYY-MM-DD'),
+  value: moment().format(DATE_FORMAT),
   minDate: '',
   maxDate: '',
   excludeDates: [],

@@ -74,7 +74,7 @@ function SupplierAddPage() {
   //   setFieldValue('IBAN', selectedBank.IBAN);
   // };
   const handleSubmitForm = useCallback(
-    async (values, { setSubmitting, setErrors }) => {
+    async (values, { setSubmitting, setErrors, resetForm }) => {
       let response = null;
       if (id) {
         const payload = {
@@ -94,6 +94,10 @@ function SupplierAddPage() {
       }
       if (response.erorr) {
         setErrors(response.error.data);
+        return;
+      }
+      if (values.save_and_continue) {
+        resetForm();
         return;
       }
       if (location?.state?.backUrl) {

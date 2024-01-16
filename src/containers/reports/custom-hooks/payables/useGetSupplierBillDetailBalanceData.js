@@ -1,22 +1,17 @@
+import { getLinkByType } from 'containers/reports/utilities/get-link';
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalAmount, totalAmountDue } = useMemo(() => {
     let amountDue = 0;
     let total = 0;
     const body = [];
     supplierBillDetailBalanceResponse?.data?.data.forEach(item => {
       amountDue += item.amount_due;
-      total += item.bcy_sales_with_tax_amount;
+      total += item.grand_total;
       body.push([
         {
           value: moment(item.date).format(DATE_FILTER_REPORT),
@@ -29,7 +24,7 @@ function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) 
         {
           value: item.type,
         },
-        { value: formatAmount(item.bcy_sales_with_tax_amount) },
+        { value: formatAmount(item.grand_total), link: getLinkByType(item) },
         { value: formatAmount(item.amount_due) },
       ]);
     });

@@ -20,7 +20,6 @@ function PdfPrintModal({
   const handleClose = () => {
     setIsPrintModalOpen(false);
   };
-
   const { handlePrint, component } = usePdfView(orderInfo, orderDetail, keyValue, pdfOptions);
 
   return (

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { DATE_FORMAT } from 'utilities/constants';
 
 export const customerFormInitialValues = {
   customer_name: '',
@@ -32,7 +33,7 @@ export const customerFormInitialValues = {
   credit_limit: true,
   credit_terms: true,
   is_credit: true,
-  opening_balance_date: moment().format('YYYY-MM-DD'),
+  opening_balance_date: moment().format(DATE_FORMAT),
 };
 
 export const test = '';

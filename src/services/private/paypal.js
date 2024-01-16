@@ -10,8 +10,15 @@ const brandsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['sendPaymentStatus'],
     }),
+    getPaypalPlansList: builder.query({
+      query: () => ({
+        url: '/api/payments/subscription-plans/',
+        method: 'GET',
+      }),
+      providesTags: ['getPaypalPlansList'],
+    }),
   }),
 });
 
-export const { useSendPaymentStatusMutation } = brandsApi;
+export const { useSendPaymentStatusMutation, useGetPaypalPlansListQuery } = brandsApi;
 export const test = '';

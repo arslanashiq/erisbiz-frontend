@@ -3,6 +3,7 @@ import printJS from 'print-js';
 import { saveAs } from 'file-saver';
 import { useSelector } from 'react-redux';
 import { pdf } from '@react-pdf/renderer';
+import useGetQRCode from 'shared/custom-hooks/useGetQRCode';
 import PdfDoc from '../components/PdfDoc';
 
 function usePdfView(orderInfo, orderDetail, keyValue, options) {
@@ -11,6 +12,9 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
   const [data, setData] = useState({});
   const [actionLoading, setActionLoading] = useState(false);
   const [component, setComponent] = useState(null);
+
+  const { qrCode } = useGetQRCode(orderInfo, orderDetail);
+
   const handlePrint = async () => {
     setActionLoading(true);
     const doc = component;
@@ -38,7 +42,7 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
       if (options) {
         setComponent(
           <PdfDoc
-            orderInfo={orderInfo}
+            orderInfo={{ ...orderInfo, QRCode: qrCode }}
             orderDetail={orderDetail}
             keyName={keyValue}
             showItemsTable={options.showItemsTable}
@@ -53,7 +57,7 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
         );
       }
     }
-  }, [orderInfo, orderDetail, keyValue, companyName, companyLogo]);
+  }, [qrCode, orderInfo, orderDetail, keyValue, companyName, companyLogo]);
 
   return {
     actionLoading,

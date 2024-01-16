@@ -1,8 +1,9 @@
 import moment from 'moment';
+import { DATE_FORMAT } from 'utilities/constants';
 
 export const expensesInitialValues = {
   expense_account_id: '', // expense Account
-  expense_date: moment().format('YYYY-MM-DD'),
+  expense_date: moment().format(DATE_FORMAT),
   total_without_tax: 0, // amount
   paid_through_account_id: '', // paid Through
   supplier_id: '',

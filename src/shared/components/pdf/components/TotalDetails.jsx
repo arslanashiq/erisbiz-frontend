@@ -142,7 +142,7 @@ function TotalDetails({
           )}
         </View>
 
-        <Image src="/qr.png" style={{ width: 100, objectFit: 'fill' }} alt="qr code" />
+        <Image src={orderInfo?.QRCode || '/qr.png'} style={{ width: 100, objectFit: 'fill' }} alt="qr code" />
       </View>
     </View>
   );

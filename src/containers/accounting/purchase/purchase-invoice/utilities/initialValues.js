@@ -1,9 +1,10 @@
 import moment from 'moment';
+import { DATE_FORMAT } from 'utilities/constants';
 
 export const purchaseInvoiceInitialValues = {
   supplier_id: '',
   pur_order_formatted_number: '',
-  due_date: moment().format('YYYY-MM-DD'),
+  due_date: moment().format(DATE_FORMAT),
   credit_account: '',
   location: '',
   attachment: '',

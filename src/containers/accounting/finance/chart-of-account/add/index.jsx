@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { Form, Formik } from 'formik';
 import { Helmet } from 'react-helmet';
-import { Box, Card, CardContent } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 // services
 import {
   useAddChartOfAccountMutation,
   useEditaddChartOfAccountMutation,
-  useGetChartOfAccountListQuery,
+  // useGetChartOfAccountListQuery,
   useGetChartOfAccountTypesQuery,
   useGetSingleChartOfAccountQuery,
 } from 'services/private/chart-of-account';
@@ -15,7 +15,7 @@ import {
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
-import { CheckBoxField } from 'shared/components/form/CheckBox';
+// import { CheckBoxField } from 'shared/components/form/CheckBox';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
 // custom hooks
@@ -35,7 +35,7 @@ function AddChartOfAccount() {
   const { id } = useParams();
 
   const accountTypesResponse = useGetChartOfAccountTypesQuery();
-  const chartOfAccountResponse = useGetChartOfAccountListQuery();
+  // const chartOfAccountResponse = useGetChartOfAccountListQuery();
 
   const [addChartOfAccount] = useAddChartOfAccountMutation();
   const [editChartOfAccount] = useEditaddChartOfAccountMutation();
@@ -57,10 +57,10 @@ function AddChartOfAccount() {
     true,
     true
   );
-  const { optionsList: chartOfAccountOptions } = useListOptions(chartOfAccountResponse?.data?.results, {
-    value: 'id',
-    label: 'account_name',
-  });
+  // const { optionsList: chartOfAccountOptions } = useListOptions(chartOfAccountResponse?.data?.results, {
+  //   value: 'id',
+  //   label: 'account_name',
+  // });
 
   const updatedInitialValues = useMemo(() => {
     let newData = { ...initialValues };
@@ -89,7 +89,7 @@ function AddChartOfAccount() {
             enableReinitialize
             initialValues={updatedInitialValues}
             validationSchema={chartOfAccountFormValidationSchema}
-            onSubmit={async (values, { setErrors }) => {
+            onSubmit={async (values, { setErrors, resetForm }) => {
               let response = null;
 
               let payload = { ...values };
@@ -111,6 +111,10 @@ function AddChartOfAccount() {
               }
               if (response.error) {
                 setErrors(response.error.data);
+                return;
+              }
+              if (values.save_and_continue) {
+                resetForm();
                 return;
               }
               navigate(-1);
@@ -182,7 +186,7 @@ function AddChartOfAccount() {
                 )}
 
                 <FormikField name="description" type="text" textArea label="Description" className="col-12" />
-                {!values?.is_bank && (
+                {/* {!values?.is_bank && (
                   <Box
                     className={`d-flex col-md-6 align-items-center ${values.is_parent ? '' : 'mt-3 mb-3'}`}
                   >
@@ -192,12 +196,11 @@ function AddChartOfAccount() {
                         options={chartOfAccountOptions}
                         name="parent_account"
                         type="text"
-                        // placeholder="Parent Account"
                         className="w-100"
                       />
                     )}
                   </Box>
-                )}
+                )} */}
 
                 <FormSubmitButton />
               </Form>

@@ -107,13 +107,10 @@ function RegisterCompanyForm() {
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
                 const planId = sessionStorage.getItem('planId');
                 if (planId) {
-                  navigate(`/payment?plan_id=${planId}`);
-                  sessionStorage.clear();
+                  navigate(`/register-company/payment?plan_id=${planId}`);
+                  return;
                 }
-                if (planId) {
-                  navigate('/payment-plans');
-                }
-                window.location.reload();
+                navigate('/register-company/plans');
               } catch (error) {
                 enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
               }
