@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
+import moment from 'moment';
+import { DATE_FORMAT } from 'utilities/constants';
 
 function useGetQRCode(orderInfo, orderDetail) {
   const [qrCode, setQRCode] = useState('');
@@ -23,10 +25,10 @@ function useGetQRCode(orderInfo, orderDetail) {
       let payloadString = '';
       payloadString = getQRCodeData(payloadString, 'Name', orderInfo?.type);
       payloadString = getQRCodeData(payloadString, 'Formatted Number', orderInfo?.formated_order_number);
+      payloadString = getQRCodeData(payloadString, 'Date', moment(orderInfo?.date).format(DATE_FORMAT));
       payloadString = getQRCodeData(payloadString, 'Supplier', orderInfo?.invoiceToDetail?.supplier_name);
       payloadString = getQRCodeData(payloadString, 'Customer', orderInfo?.invoiceToDetail?.customer_name);
 
-      // purchase order and invoice
       if (orderDetail?.without_change_grand_total >= 0) {
         payloadString = getQRCodeData(
           payloadString,
