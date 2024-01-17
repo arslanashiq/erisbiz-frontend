@@ -19,7 +19,7 @@ function useGetQRCode(orderInfo, orderDetail) {
     return newString;
   };
   useEffect(() => {
-    if (orderInfo && orderDetail) {
+    if (Object.keys(orderInfo)?.length > 0 && Object.keys(orderDetail)?.length > 0) {
       let payloadString = '';
       payloadString = getQRCodeData(payloadString, 'Name', orderInfo?.type);
       payloadString = getQRCodeData(payloadString, 'Formatted Number', orderInfo?.formated_order_number);
