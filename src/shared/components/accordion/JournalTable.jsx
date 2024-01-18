@@ -8,7 +8,7 @@ import formatAmount from 'utilities/formatAmount';
 import { handleGetSortedData } from 'utilities/get-sorted-journals';
 
 function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
-  const sortedJournalsArrayForPurchase = ['Accounts Payable', 'otherAccounts', 'Cost of Sales', 'Input VAT'];
+  const sortedJournalsArrayForPurchase = ['Accounts Payable', 'Input VAT', 'otherAccounts'];
   const sortedJournalsArrayForSale = [
     'Accounts Receivable',
     'Sales',

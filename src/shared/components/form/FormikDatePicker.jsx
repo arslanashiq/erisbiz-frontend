@@ -1,46 +1,45 @@
-import React from 'react';
-import moment from 'moment';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { useField, useFormikContext } from 'formik';
-
+import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
-import ReactDatePicker from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'styles/form/date-picker.scss';
-import { Box } from '@mui/material';
+import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
 
-function DatePickerField({
+function FormikDatePicker({
   name,
-  value,
+  placeholder,
+  id,
   minDate,
   maxDate,
   excludeDates,
   highlightDates,
-  placeholder,
-  id,
   disabled,
   displayFormat,
-  onBlur,
-  onChange,
   className,
-  label,
   startIcon,
+  label,
   isRequired,
   labelClassName,
-  meta,
+  onChange,
+  onBlur,
 }) {
-  const handleChange = (date, e) => {
-    e.preventDefault();
-    if (date && moment(date).isValid()) onChange(name, moment(date).format('yyyy-MM-DD'));
-    else onChange(name, null);
-  };
+  const { setFieldValue } = useFormikContext();
+  const [field, meta] = useField(name || '');
+  const { touched, error } = meta;
+  const { onBlur: onFieldBlur, value } = field;
 
-  const handleBlur = () => {
-    onBlur(name, true);
+  const handleChange = date => {
+    if (onChange) onChange(date);
+    setFieldValue(name, moment(date).format(DATE_FORMAT));
   };
-
-  const selected = value ? moment(value, 'YYYY/MM/DD').toDate() : null;
-  const { error, touched } = meta;
+  const handleBlur = event => {
+    onFieldBlur(event);
+    if (onBlur) onBlur(name, event.target.value);
+  };
   return (
     <Box className={`form__form-group ${className}`}>
       {label && (
@@ -52,43 +51,40 @@ function DatePickerField({
         {startIcon && <Box className="form__form-group-icon cursor-pointer">{startIcon}</Box>}
 
         <Box className="date-picker">
-          <ReactDatePicker
-            popperProps={{
-              strategy: 'fixed',
-            }}
-            className="form__form-group-datepicker"
+          <DatePicker
             id={id}
             name={name}
-            selected={selected}
+            className="form__form-group-datepicker"
+            selected={value ? moment(value).toDate() : new Date()}
             onChange={handleChange}
             onBlur={handleBlur}
             showYearDropdown
             dateFormat={displayFormat}
-            dropDownMode="select"
-            // popperPlacement="center"
             placeholderText={placeholder}
-            // withPortal={isMobileOnly}
             minDate={minDate}
             maxDate={maxDate}
             excludeDates={excludeDates}
             highlightDates={highlightDates}
             autoComplete="off"
             disabled={disabled}
+            dropDownMode="select"
+            popperProps={{
+              strategy: 'fixed',
+            }}
           />
+
           {touched && error && <span className="form__form-group-error">{error}</span>}
         </Box>
       </Box>
     </Box>
   );
 }
-DatePickerField.propTypes = {
+FormikDatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   id: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
   displayFormat: PropTypes.string,
   minDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
   maxDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
@@ -100,43 +96,22 @@ DatePickerField.propTypes = {
   label: PropTypes.string,
   isRequired: PropTypes.bool,
   labelClassName: PropTypes.string,
-  meta: PropTypes.object,
 };
-DatePickerField.defaultProps = {
+FormikDatePicker.defaultProps = {
   placeholder: '',
   id: '',
-  value: moment().format(DATE_FORMAT),
-  minDate: '',
-  maxDate: '',
+  minDate: null,
+  maxDate: null,
   excludeDates: [],
   highlightDates: [],
   disabled: false,
-  displayFormat: 'yyyy-mm-dd',
+  displayFormat: 'yyyy-MM-dd',
   className: 'col-md-6',
+  labelClassName: 'col-lg-3',
   startIcon: null,
   label: '',
   isRequired: false,
-  labelClassName: 'col-lg-3',
-  meta: {},
-};
-
-function FormikDatePicker(props) {
-  const [field, meta] = useField(props);
-  const { setFieldValue } = useFormikContext();
-
-  const handleOnChange = (key, value) => {
-    setFieldValue(key, value);
-  };
-  return <DatePickerField {...field} meta={meta} onChange={handleOnChange} {...props} />;
-}
-FormikDatePicker.propTypes = {
-  error: PropTypes.string,
-  displayFormat: PropTypes.string,
-  isRequired: PropTypes.bool,
-};
-FormikDatePicker.defaultProps = {
-  error: null,
-  displayFormat: 'yyyy-MM-dd',
-  isRequired: false,
+  onChange: null,
+  onBlur: null,
 };
 export default FormikDatePicker;

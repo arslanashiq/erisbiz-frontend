@@ -20,7 +20,7 @@ function SecurityQuestions({ name, form, push, remove, showLabel, useMuiField, d
                 <MuiFormikField
                   className="mt-3 pe-4"
                   name={`${name}.${index}.question`}
-                  placeholder="Question"
+                  placeholder="Question*"
                   label={showLabel ? 'Question' : ''}
                   size="small"
                   disabled={disabled}
@@ -29,7 +29,7 @@ function SecurityQuestions({ name, form, push, remove, showLabel, useMuiField, d
                 <FormikField
                   className="w-100 mt-2 pe-4"
                   name={`${name}.${index}.question`}
-                  placeholder="Question"
+                  placeholder="Question*"
                   label={showLabel ? 'Question' : ''}
                   disabled={disabled}
                 />
@@ -42,7 +42,7 @@ function SecurityQuestions({ name, form, push, remove, showLabel, useMuiField, d
                   <MuiFormikField
                     name={`${name}.${index}.answer`}
                     type="text"
-                    placeholder="Answer"
+                    placeholder="Answer*"
                     label={showLabel ? 'Answer' : ''}
                     size="small"
                     disabled={disabled}
@@ -51,7 +51,7 @@ function SecurityQuestions({ name, form, push, remove, showLabel, useMuiField, d
                   <FormikField
                     className="w-100 mt-2 pe-4"
                     name={`${name}.${index}.answer`}
-                    placeholder="Answer"
+                    placeholder="Answer*"
                     label={showLabel ? 'Answer' : ''}
                     disabled={disabled}
                   />

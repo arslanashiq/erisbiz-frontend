@@ -19,18 +19,19 @@ import palette from 'styles/mui/theme/palette';
 
 function ContactInfo({ name, form, push, remove }) {
   const color = 'rgba(224, 224, 224, 1)';
-  const tableCelStyle = { border: `1px solid ${color}` };
+  const tableCelStyle = { border: `1px solid ${color}`, paddingBottom: '0px !important' };
+  const tableHeaderCelStyle = { ...tableCelStyle, padding: '10px !important' };
   return (
     <Box sx={{ minHeight: 200 }}>
       <Table>
         <TableHead sx={{ backgroundColor: palette.primary.backgroundColor, padding: 0.1 }}>
           <TableRow>
-            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Name</TableCell>
-            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Designation</TableCell>
-            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Mobile Number</TableCell>
-            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Email</TableCell>
-            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Notes</TableCell>
-            <TableCell sx={{ width: '5%', ...tableCelStyle }}>Action</TableCell>
+            <TableCell sx={{ width: '19%', ...tableHeaderCelStyle }}>Name</TableCell>
+            <TableCell sx={{ width: '19%', ...tableHeaderCelStyle }}>Designation</TableCell>
+            <TableCell sx={{ width: '19%', ...tableHeaderCelStyle }}>Mobile Number</TableCell>
+            <TableCell sx={{ width: '19%', ...tableHeaderCelStyle }}>Email</TableCell>
+            <TableCell sx={{ width: '19%', ...tableHeaderCelStyle }}>Notes</TableCell>
+            <TableCell sx={{ width: '5%', ...tableHeaderCelStyle }}>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -88,7 +89,7 @@ function ContactInfo({ name, form, push, remove }) {
             ))
           ) : (
             <TableRow>
-              <TableCell sx={{ textAlign: 'center', ...tableCelStyle }} colSpan={6}>
+              <TableCell sx={{ textAlign: 'center', ...tableHeaderCelStyle }} colSpan={6}>
                 No Contact Available
               </TableCell>
             </TableRow>
