@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -14,8 +13,9 @@ import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHea
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
 // utilities
+import { DEFAULT_PARAMS } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
-import { DATE_FILTER_REPORT, DEFAULT_PARAMS } from 'utilities/constants';
+import { getReportInterval } from 'utilities/get-report-interval';
 // components
 import ReportsHeader from './ReportsHeader';
 import CustomReportsDetailHeader from './CustomReportsDetailHeader';
@@ -48,9 +48,11 @@ function CustomReportDetailPage({
   );
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
 
-  const startDate = moment(reportResponse?.data?.start_date).format(DATE_FILTER_REPORT);
-  const endDate = moment(reportResponse?.data?.end_date).format(DATE_FILTER_REPORT);
-  const timeInterval = `From ${startDate} To ${endDate}`;
+  const { timeInterval, startDate, endDate } = getReportInterval(
+    reportResponse?.data?.start_date,
+    reportResponse?.data?.end_date
+  );
+
   return (
     <SectionLoader options={[reportResponse.isLoading]}>
       <ReportsHeader

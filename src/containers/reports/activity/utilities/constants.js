@@ -117,6 +117,8 @@ export const inValidKeys = [
   'Customer Type',
   'Amount Total Aed',
   'Supplier Id',
+  'Signature',
+  'Stamp',
 ];
 export const invalidKeysModuleWise = {
   BankAccount: ['Chart Of Account', 'Bank Branch Address', 'Description'],

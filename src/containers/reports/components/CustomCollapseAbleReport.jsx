@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Card, CardContent } from '@mui/material';
@@ -14,18 +13,19 @@ import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHea
 import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
 import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
 // utilities
-import { DATE_FILTER_REPORT } from 'utilities/constants';
-import 'styles/reports/custom-report.scss';
+import { getReportInterval } from 'utilities/get-report-interval';
 import ReportsHeader from './ReportsHeader';
 import CustomReportsDetailHeader from './CustomReportsDetailHeader';
+import 'styles/reports/custom-report.scss';
 
 function CustomCollapseAbleReport({ reportResponse, reportTitle, reportHeadCells, tableBody, children }) {
   const { name: companyName } = useSelector(state => state?.user?.company);
 
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
-  const startDate = moment(reportResponse?.data?.start_date).format(DATE_FILTER_REPORT);
-  const endDate = moment(reportResponse?.data?.end_date).format(DATE_FILTER_REPORT);
-  const timeInterval = `From ${startDate} To ${endDate}`;
+  const { timeInterval, startDate, endDate } = getReportInterval(
+    reportResponse?.data?.start_date,
+    reportResponse?.data?.end_date
+  );
 
   return (
     <SectionLoader options={[reportResponse.isLoading]}>

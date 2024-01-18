@@ -12,6 +12,7 @@ import {
 import formatAmount from 'utilities/formatAmount';
 import { tableCellCompanyName } from 'styles/components/custom-hooks/use-excel-sheet';
 import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
+import { getReportInterval } from 'utilities/get-report-interval';
 
 function useGetVATAuditData(reportVATAuditResponse, companyName) {
   const getTotalSummary = (auditReportData, key) => {
@@ -217,7 +218,8 @@ function useGetVATAuditData(reportVATAuditResponse, companyName) {
             size="small"
             variant="text"
             onClick={async () => {
-              const timeInterval = `From ${item.start_date} To ${item.end_date}`;
+              const { timeInterval } = getReportInterval(item.start_date, item.end_date);
+
               const handleDownload = await excelSheet(
                 'Audit Report ',
                 moment(item.start_date).format(DATE_FILTER_REPORT),
