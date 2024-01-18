@@ -62,7 +62,7 @@ function GenerateTaxReportFile({ title, useMutation }) {
               <Form className="form form--horizontal row">
                 <FormikDatePicker name="start_date" label="Start Date" className="col-12" />
                 <FormikDatePicker name="end_date" label="End Date" className="col-12" />
-                <FormSubmitButton />
+                <FormSubmitButton showSaveAndContinue={false} />
               </Form>
             </Formik>
           </CardContent>

@@ -10,8 +10,6 @@ import { Box } from '@mui/material';
 import { DATE_FORMAT } from 'utilities/constants';
 
 function DatePickerField({
-  touched,
-  error,
   name,
   value,
   minDate,
@@ -29,6 +27,7 @@ function DatePickerField({
   startIcon,
   isRequired,
   labelClassName,
+  meta,
 }) {
   const handleChange = (date, e) => {
     e.preventDefault();
@@ -41,6 +40,7 @@ function DatePickerField({
   };
 
   const selected = value ? moment(value, 'YYYY/MM/DD').toDate() : null;
+  const { error, touched } = meta;
   return (
     <Box className={`form__form-group ${className}`}>
       {label && (
@@ -88,8 +88,7 @@ DatePickerField.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  touched: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  error: PropTypes.string,
+
   displayFormat: PropTypes.string,
   minDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
   maxDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
@@ -101,12 +100,11 @@ DatePickerField.propTypes = {
   label: PropTypes.string,
   isRequired: PropTypes.bool,
   labelClassName: PropTypes.string,
+  meta: PropTypes.object,
 };
 DatePickerField.defaultProps = {
   placeholder: '',
   id: '',
-  touched: false,
-  error: '',
   value: moment().format(DATE_FORMAT),
   minDate: '',
   maxDate: '',
@@ -119,16 +117,17 @@ DatePickerField.defaultProps = {
   label: '',
   isRequired: false,
   labelClassName: 'col-lg-3',
+  meta: {},
 };
 
 function FormikDatePicker(props) {
-  const [field] = useField(props);
+  const [field, meta] = useField(props);
   const { setFieldValue } = useFormikContext();
 
   const handleOnChange = (key, value) => {
     setFieldValue(key, value);
   };
-  return <DatePickerField {...field} onChange={handleOnChange} {...props} />;
+  return <DatePickerField {...field} meta={meta} onChange={handleOnChange} {...props} />;
 }
 FormikDatePicker.propTypes = {
   error: PropTypes.string,

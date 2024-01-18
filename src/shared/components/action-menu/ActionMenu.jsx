@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable indent */
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Button, Grid, Menu, MenuItem, Stack, Tooltip } from '@mui/material';
@@ -20,6 +19,7 @@ function ActionMenu({
   cutomInitialValues,
   handleSubmitCustomFilter,
   customFilterInputs,
+  customInputListValidationSchema,
 }) {
   const searchQueryParams = getSearchParamsList();
 
@@ -31,6 +31,43 @@ function ActionMenu({
     setAnchorEl(null);
   };
   const open = useMemo(() => Boolean(anchorEl), [anchorEl]);
+
+  const renderFilterInput = useCallback(
+    (input, values) => {
+      if (input.options) {
+        return <FormikSelect key={input.name} {...input} />;
+      }
+      if (input.isDate) {
+        if (values?.duration === 'custom' && input?.hidden) {
+          return <FormikDatePicker key={input.name} {...input} />;
+        }
+        if (input?.hidden) {
+          return '';
+        }
+        return <FormikDatePicker key={input.name} {...input} />;
+      }
+
+      return <FormikField key={input.name} {...input} />;
+    },
+    [customFilterInputs]
+  );
+  const handleSubmit = useCallback(
+    (...props) => {
+      const [values, { ...rest }] = props;
+      let payload = { ...values };
+      if (values.duration !== 'custom' && values.duration !== '') {
+        customFilterInputs?.forEach(input => {
+          if (input.hidden) {
+            payload = { ...payload, [input.name]: '' };
+          } else {
+            payload = { ...payload, [input.name]: values[input.name] };
+          }
+        });
+      }
+      handleSubmitCustomFilter(payload, { ...rest }, handleClose, customFilterInputs);
+    },
+    [customFilterInputs]
+  );
 
   const updatedInitialValues = useMemo(() => {
     let newValues = { ...cutomInitialValues };
@@ -53,22 +90,6 @@ function ActionMenu({
     return newValues;
   }, [cutomInitialValues, searchQueryParams]);
 
-  const renderFilterInput = (input, values) => {
-    if (input.options) {
-      return <FormikSelect key={input.name} {...input} />;
-    }
-    if (input.isDate) {
-      if (values?.duration === 'custom' && input?.hidden) {
-        return <FormikDatePicker key={input.name} {...input} />;
-      }
-      if (input?.hidden) {
-        return '';
-      }
-      return <FormikDatePicker key={input.name} {...input} />;
-    }
-
-    return <FormikField key={input.name} {...input} />;
-  };
   return (
     <>
       <Tooltip title={actionsList.length === 0 ? 'You can`t perform any action' : ''} placement="top" arrow>
@@ -96,9 +117,9 @@ function ActionMenu({
                 sx={
                   action.divider
                     ? {
-                        borderTop: 1,
-                        borderColor: 'divider',
-                      }
+                      borderTop: 1,
+                      borderColor: 'divider',
+                    }
                     : {}
                 }
                 key={action.label}
@@ -115,13 +136,17 @@ function ActionMenu({
             ))}
           </Stack>
           {buttonTitle === 'Custom' && (
-            <Stack justifyContent="space-between" className="pe-2">
+            <Stack justifyContent="space-between" className="px-2">
               <Formik
                 enableReinitialize
                 initialValues={updatedInitialValues}
-                onSubmit={(...props) => {
-                  handleSubmitCustomFilter(...props, handleClose, customFilterInputs);
-                }}
+                onSubmit={handleSubmit}
+                validationSchema={
+                  customInputListValidationSchema ||
+                  Yup.object({
+                    duration: Yup.string(),
+                  })
+                }
               >
                 {({ values }) => (
                   <Form className="form " style={{ height: '100%' }}>
@@ -165,6 +190,7 @@ ActionMenu.propTypes = {
   cutomInitialValues: PropTypes.object,
   handleSubmitCustomFilter: PropTypes.func,
   customFilterInputs: PropTypes.array,
+  customInputListValidationSchema: PropTypes.object,
 };
 ActionMenu.defaultProps = {
   buttonTitle: 'Perform Action',
@@ -174,5 +200,6 @@ ActionMenu.defaultProps = {
   cutomInitialValues: {},
   handleSubmitCustomFilter: () => {},
   customFilterInputs: [],
+  customInputListValidationSchema: null,
 };
 export default ActionMenu;

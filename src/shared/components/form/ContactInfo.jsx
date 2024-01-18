@@ -1,68 +1,101 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, IconButton, Table, TableBody, TableCell, TableRow, Tooltip } from '@mui/material';
+import {
+  Box,
+  Button,
+  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 import FormikField from 'shared/components/form/FormikField';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import 'styles/purchase-item/purchase-item.scss';
+import palette from 'styles/mui/theme/palette';
 
 function ContactInfo({ name, form, push, remove }) {
+  const color = 'rgba(224, 224, 224, 1)';
+  const tableCelStyle = { border: `1px solid ${color}` };
   return (
     <Box sx={{ minHeight: 200 }}>
       <Table>
+        <TableHead sx={{ backgroundColor: palette.primary.backgroundColor, padding: 0.1 }}>
+          <TableRow>
+            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Name</TableCell>
+            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Designation</TableCell>
+            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Mobile Number</TableCell>
+            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Email</TableCell>
+            <TableCell sx={{ width: '19%', ...tableCelStyle }}>Notes</TableCell>
+            <TableCell sx={{ width: '5%', ...tableCelStyle }}>Action</TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
-          {form.values[name].map((_, index) => (
-            <TableRow key={index} sx={{ borderBottom: 0 }}>
-              <TableCell>
-                <FormikField
-                  className="w-100"
-                  name={`${name}.${index}.${name === 'supplier_contacts' ? 'first_name' : 'name'}`}
-                  type="text"
-                  placeholder="Name"
-                />
-              </TableCell>
-              <TableCell>
-                <FormikField
-                  className="w-100"
-                  name={`${name}.${index}.designation`}
-                  type="text"
-                  placeholder="Designation"
-                />
-              </TableCell>
-              <TableCell>
-                <FormikField
-                  className="w-100"
-                  type="text"
-                  name={`${name}.${index}.mobile_num`}
-                  placeholder="Mobile Number"
-                />
-              </TableCell>
-              <TableCell>
-                <FormikField
-                  className="w-100"
-                  name={`${name}.${index}.email`}
-                  type="email"
-                  placeholder="Email"
-                />
-              </TableCell>
-              <TableCell sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <FormikField
-                  className="w-100"
-                  name={`${name}.${index}.notes`}
-                  type="text"
-                  placeholder="Notes"
-                />
-                <Tooltip title="Remove" arrow placement="top">
-                  <IconButton color="error" onClick={() => remove(index)} className="mb-2 ms-2">
-                    <HighlightOffIcon />
-                  </IconButton>
-                </Tooltip>
+          {form.values[name]?.length > 0 ? (
+            form.values[name].map((_, index) => (
+              <TableRow key={index} sx={{ borderBottom: 0 }}>
+                <TableCell sx={tableCelStyle}>
+                  <FormikField
+                    className="w-100"
+                    name={`${name}.${index}.${name === 'supplier_contacts' ? 'first_name' : 'name'}`}
+                    type="text"
+                    // placeholder="Name"
+                  />
+                </TableCell>
+                <TableCell sx={tableCelStyle}>
+                  <FormikField
+                    className="w-100"
+                    name={`${name}.${index}.designation`}
+                    type="text"
+                    // placeholder="Designation"
+                  />
+                </TableCell>
+                <TableCell sx={tableCelStyle}>
+                  <FormikField
+                    className="w-100"
+                    type="text"
+                    name={`${name}.${index}.mobile_num`}
+                    // placeholder="Mobile Number"
+                  />
+                </TableCell>
+                <TableCell sx={tableCelStyle}>
+                  <FormikField
+                    className="w-100"
+                    name={`${name}.${index}.email`}
+                    type="email"
+                    // placeholder="Email"
+                  />
+                </TableCell>
+                <TableCell sx={tableCelStyle}>
+                  <FormikField
+                    className="w-100"
+                    name={`${name}.${index}.notes`}
+                    type="text"
+                    // placeholder="Notes"
+                  />
+                </TableCell>
+                <TableCell sx={tableCelStyle}>
+                  <Tooltip title="Remove" arrow placement="top">
+                    <IconButton color="error" onClick={() => remove(index)} className="mb-2">
+                      <HighlightOffIcon />
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell sx={{ textAlign: 'center', ...tableCelStyle }} colSpan={6}>
+                No Contact Available
               </TableCell>
             </TableRow>
-          ))}
+          )}
           <TableRow>
             <TableCell>
               <Button
-                sx={{ marginLeft: 2, borderBottom: 0 }}
                 onClick={() => {
                   push({
                     name: '',

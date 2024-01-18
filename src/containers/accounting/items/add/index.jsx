@@ -150,7 +150,7 @@ function AddItemPage() {
                   //  placeholder="SKU/HS Code"
                   type="text"
                   startIcon={<ContactPhoneIcon />}
-                  label="SKU/HS Code"
+                  label="SKU/HS Code #"
                 />
 
                 <FormikSelect
@@ -200,7 +200,7 @@ function AddItemPage() {
                 <FormikField
                   name="bar_code"
                   // placeholder="Bar Code"
-                  label="Bar Code"
+                  label="Bar Code #"
                 />
 
                 <FormikSelect options={ITEM_UNIT_LIST} name="unit" label="Unit" />
@@ -237,7 +237,7 @@ function AddItemPage() {
                     name="part_number"
                     type="text"
                     //  placeholder="Part Number"
-                    label="Part Number"
+                    label="Part Number #"
                     className="col-12"
                   />
 

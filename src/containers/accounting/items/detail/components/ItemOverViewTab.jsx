@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, useMediaQuery } from '@mui/material';

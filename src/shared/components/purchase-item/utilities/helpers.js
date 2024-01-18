@@ -36,7 +36,8 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
   setFieldValue(`${name}.${index}.amount_ex_vat`, (grossTotal || 0 - values.discount || 0).toFixed(2));
 };
 
-const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsListOptions, allValues) => {
+const handleChangeItem = (...args) => {
+  const [name, index, , value, values, setFieldValue, itemsListOptions, allValues] = args;
   const selectedItem = itemsListOptions.filter(item => item.label === value);
 
   if (selectedItem[0].account_no) {
@@ -49,10 +50,7 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
   setFieldValue(`${name}.${index}.service_type_name`, `${selectedItem[0].value}${index}`);
 
   if (selectedItem[0].item_type === 'Goods') {
-    setFieldValue(
-      `${name}.${index}.cost_price`,
-      selectedItem[0].weighted_cost_price || selectedItem[0].cost_price
-    );
+    setFieldValue(`${name}.${index}.cost_price`, '');
     setFieldValue(`${name}.${index}.remaining_stock`, selectedItem[0].remaining_stock);
   } else {
     setFieldValue(`${name}.${index}.cost_price`, 0);
@@ -67,49 +65,15 @@ const handleChangeItem = (name, index, key, value, values, setFieldValue, itemsL
   };
   return { newValues, selectedItem };
 };
-export const handleChangePurchaseItem = (
-  name,
-  index,
-  key,
-  value,
-  values,
-  setFieldValue,
-  itemsListOptions,
-  allValues
-) => {
-  const { newValues, selectedItem } = handleChangeItem(
-    name,
-    index,
-    key,
-    value,
-    values,
-    setFieldValue,
-    itemsListOptions,
-    allValues
-  );
+export const handleChangePurchaseItem = (...args) => {
+  const { newValues, selectedItem } = handleChangeItem(...args);
+  const [name, index, , , , setFieldValue] = args;
   setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].cost_price);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeSaleItem = (
-  name,
-  index,
-  key,
-  value,
-  values,
-  setFieldValue,
-  itemsListOptions,
-  allValues
-) => {
-  const { newValues, selectedItem } = handleChangeItem(
-    name,
-    index,
-    key,
-    value,
-    values,
-    setFieldValue,
-    itemsListOptions,
-    allValues
-  );
+export const handleChangeSaleItem = (...args) => {
+  const { newValues, selectedItem } = handleChangeItem(...args);
+  const [name, index, , , , setFieldValue] = args;
   if (selectedItem[0].item_type === 'Goods') {
     setFieldValue(`${name}.${index}.unit_price_ex_vat`, selectedItem[0].price || selectedItem[0].sale_price);
   } else {
@@ -117,7 +81,9 @@ export const handleChangeSaleItem = (
   }
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeCostPrice = (name, index, key, value, values, setFieldValue, allValues) => {
+
+export const handleChangeCostPrice = (...args) => {
+  const [name, index, , value, values, setFieldValue, allValues] = args;
   const newValues = {
     ...values,
     cost_price: value,
@@ -126,7 +92,8 @@ export const handleChangeCostPrice = (name, index, key, value, values, setFieldV
   setFieldValue(`${name}.${index}.cost_price`, value);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeUnitPrice = (name, index, key, value, values, setFieldValue, allValues) => {
+export const handleChangeUnitPrice = (...args) => {
+  const [name, index, , value, values, setFieldValue, allValues] = args;
   const newValues = {
     ...values,
     unit_price_ex_vat: value,
@@ -135,16 +102,8 @@ export const handleChangeUnitPrice = (name, index, key, value, values, setFieldV
   setFieldValue(`${name}.${index}.unit_price_ex_vat`, value);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeQuantity = (
-  name,
-  index,
-  key,
-  value,
-  values,
-  setFieldValue,
-  allValues,
-  adjustDiscount
-) => {
+export const handleChangeQuantity = (...args) => {
+  const [name, index, , value, values, setFieldValue, allValues, adjustDiscount] = args;
   if (adjustDiscount) {
     const perUnitDiscount = allValues[name][index].discountPerItem || 0;
     if (perUnitDiscount >= 0) {
@@ -161,11 +120,13 @@ export const handleChangeQuantity = (
   setFieldValue(`${name}.${index}.num_units`, value);
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const hanldeVATChange = (name, index, key, value, values, setFieldValue, allValues) => {
+export const hanldeVATChange = (...args) => {
+  const [name, index, , value, values, setFieldValue, allValues] = args;
   const newValues = { ...values, vat_rate: value, credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
 };
-export const handleChangeDiscount = (name, index, key, value, values, setFieldValue, allValues) => {
+export const handleChangeDiscount = (...args) => {
+  const [name, index, , value, values, setFieldValue, allValues] = args;
   const newValues = { ...values, discount: value, credit_account: allValues.credit_account };
   handleChangeValues(name, index, newValues, setFieldValue);
 };

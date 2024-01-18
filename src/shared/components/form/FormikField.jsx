@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';

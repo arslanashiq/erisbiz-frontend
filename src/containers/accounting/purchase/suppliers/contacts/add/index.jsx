@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { Helmet } from 'react-helmet';
@@ -30,21 +29,21 @@ function AddSupplierContact() {
   const [initialValues, setInitialValues] = useState(
     supplierId
       ? {
-          first_name: '',
-          designation: '',
-          email: '',
-          mobile_num: '',
-          notes: '',
-          supplier_id: supplierId,
-        }
+        first_name: '',
+        designation: '',
+        email: '',
+        mobile_num: '',
+        notes: '',
+        supplier_id: supplierId,
+      }
       : {
-          name: '',
-          designation: '',
-          email: '',
-          mobile_num: '',
-          notes: '',
-          SalesCompany: customerId,
-        }
+        name: '',
+        designation: '',
+        email: '',
+        mobile_num: '',
+        notes: '',
+        SalesCompany: customerId,
+      }
   );
 
   // suppliers

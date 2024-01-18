@@ -7,14 +7,7 @@ const headerStyle = { fontWeight: 'bold', textAlign: 'start', backgroundColor: '
 
 function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
   const getAccountHeader = title => [
-    { value: title, style: { ...headerStyle } },
-    {
-      value: '',
-      style: { ...headerStyle },
-    },
-    { value: '', style: { ...headerStyle } },
-    { value: '', style: { ...headerStyle } },
-    { value: '', style: { ...headerStyle } },
+    { value: title, style: { ...headerStyle }, colSpan: 5 },
     { value: '', style: { ...headerStyle } },
     { value: '', style: { ...headerStyle } },
     { value: '', style: { ...headerStyle } },
@@ -24,9 +17,9 @@ function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
     { value: `As On ${moment(date).format(DATE_FILTER_REPORT)}`, style: { textAlign: 'start' } },
     {
       value: title,
+      colSpan: 3,
+      style: { textAlign: 'start' },
     },
-    { value: '' },
-    { value: '' },
     { value: '' },
     { value: '' },
     { value: '' },

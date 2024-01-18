@@ -5,14 +5,21 @@ import useGetBillDetailData from 'containers/reports/custom-hooks/payables/useGe
 import { payableBillDetailsReportHeadCells } from 'containers/reports/utilities/head-cells';
 // components
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
+import { supplierBalanceInitialValues } from '../utilities/initial-values';
+import { supplierBalanceFilterCustomInputsValidationSchema } from '../utilities/validation-schema';
+import useGetPayablesCustomFilterInputs from '../custom-hooks/common/useGetPayablesCustomFilterInputs';
 
 function BillDetails() {
+  const updatedCustomInputList = useGetPayablesCustomFilterInputs();
   return (
     <CustomReportDetailPage
       reportTitle="Bill Detail"
       reportHeadCells={payableBillDetailsReportHeadCells}
       useGetReportQuery={useGetPayableBillDetailsQuery}
       useGetReportData={useGetBillDetailData}
+      customReportCustomFilter={updatedCustomInputList}
+      customReportCustomerInitialValues={supplierBalanceInitialValues}
+      customReportInputListValidationSchema={supplierBalanceFilterCustomInputsValidationSchema}
     />
   );
 }

@@ -1,4 +1,3 @@
-/* eslint-disable implicit-arrow-linebreak */
 import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
@@ -60,8 +59,7 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
 
     if (supplierTransactions?.length >= 0) {
       openingBalance = supplierTransactions.find(
-        item =>
-          item.transaction_type === supplierOpeningBalanceName ||
+        item => item.transaction_type === supplierOpeningBalanceName ||
           item.transaction_type === 'Customer Opening Balance'
       );
       if (openingBalance) {

@@ -86,6 +86,7 @@ function CustomReport({
                         fontWeight: 400,
                         ...cell.style,
                       }}
+                      colSpan={cell.colSpan || 1}
                     >
                       {cell.link ? <Link to={cell.link}>{cell.value}</Link> : cell.value}
                     </td>

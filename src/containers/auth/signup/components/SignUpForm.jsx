@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { Form, Formik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Button, Grid, Stack, Typography } from '@mui/material';
@@ -25,7 +25,6 @@ import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function SignUpForm() {
   const { plan_id: planId } = getSearchParamsList();
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [singUpAdmin] = useAdminSignUpMutation();
 
@@ -52,7 +51,7 @@ function SignUpForm() {
         sessionStorage.clear();
       }
 
-      navigate('/auth/login');
+      window.location.reload();
       resetForm();
     } catch (error) {
       if (response?.error?.data?.message) {

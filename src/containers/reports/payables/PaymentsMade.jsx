@@ -5,14 +5,22 @@ import { useGetPaymentMadeDetailsQuery } from 'services/private/reports';
 import useGetPaymentMadeData from 'containers/reports/custom-hooks/payables/useGetPaymentMadeData';
 import { paymentMadeReportHeadCells } from 'containers/reports/utilities/head-cells';
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
+import { supplierBalanceInitialValues } from '../utilities/initial-values';
+import { supplierBalanceFilterCustomInputsValidationSchema } from '../utilities/validation-schema';
+import useGetPayablesCustomFilterInputs from '../custom-hooks/common/useGetPayablesCustomFilterInputs';
 
 function PaymentsMade() {
+  const updatedCustomInputList = useGetPayablesCustomFilterInputs();
+
   return (
     <CustomReportDetailPage
       reportTitle="Payment Made"
       reportHeadCells={paymentMadeReportHeadCells}
       useGetReportQuery={useGetPaymentMadeDetailsQuery}
       useGetReportData={useGetPaymentMadeData}
+      customReportCustomFilter={updatedCustomInputList}
+      customReportCustomerInitialValues={supplierBalanceInitialValues}
+      customReportInputListValidationSchema={supplierBalanceFilterCustomInputsValidationSchema}
     />
   );
 }

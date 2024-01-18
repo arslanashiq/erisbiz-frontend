@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable implicit-arrow-linebreak */
 import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
@@ -142,8 +140,7 @@ function ActivityLogsDetail() {
   }, []);
 
   const checkDataNotAllowdedToPrint = useCallback(
-    (key, data) =>
-      data.some(item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()),
+    (key, data) => data.some(item => item === key || item?.toLowerCase() === key?.replaceAll('_', ' ')?.toLowerCase()),
     [moduleName]
   );
 
@@ -303,57 +300,56 @@ function ActivityLogsDetail() {
   };
 
   const handleRenderRowColumns = useCallback(
-    (payloadOld, payloadNew) =>
-      Object.keys(payloadNew)
-        ?.sort()
-        ?.map(key => {
-          try {
-            if (checkDataNotAllowdedToPrint(key, inValidKeys)) return '';
-            if (invalidKeysModuleWise[moduleName]) {
-              if (checkDataNotAllowdedToPrint(key, invalidKeysModuleWise[moduleName])) return '';
-            }
+    (payloadOld, payloadNew) => Object.keys(payloadNew)
+      ?.sort()
+      ?.map(key => {
+        try {
+          if (checkDataNotAllowdedToPrint(key, inValidKeys)) return '';
+          if (invalidKeysModuleWise[moduleName]) {
+            if (checkDataNotAllowdedToPrint(key, invalidKeysModuleWise[moduleName])) return '';
+          }
 
-            const valueType = checkValueType(payloadNew[key] || payloadOld[key]);
-            if (valueType === 'list') {
-              if (payloadOld) {
-                if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
+          const valueType = checkValueType(payloadNew[key] || payloadOld[key]);
+          if (valueType === 'list') {
+            if (payloadOld) {
+              if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
 
-                if (payloadNew[key]?.length > payloadOld[key]?.length) {
-                  return renderList(payloadOld[key], payloadNew[key], key, true, payloadNew[key]);
-                }
-
-                return renderList(payloadOld[key], payloadNew[key], key, true, payloadOld[key]);
+              if (payloadNew[key]?.length > payloadOld[key]?.length) {
+                return renderList(payloadOld[key], payloadNew[key], key, true, payloadNew[key]);
               }
-              return renderList(payloadNew[key], payloadNew[key], key, false, payloadNew[key]);
+
+              return renderList(payloadOld[key], payloadNew[key], key, true, payloadOld[key]);
             }
-            if (valueType === 'object') {
-              if (payloadOld) {
-                if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
-              }
-              return handleObjectData(payloadOld, payloadNew, key);
+            return renderList(payloadNew[key], payloadNew[key], key, false, payloadNew[key]);
+          }
+          if (valueType === 'object') {
+            if (payloadOld) {
+              if (JSON.stringify(payloadOld[key]) === JSON.stringify(payloadNew[key])) return '';
             }
-            if (
-              payloadNew[key] !== '' &&
+            return handleObjectData(payloadOld, payloadNew, key);
+          }
+          if (
+            payloadNew[key] !== '' &&
               payloadNew[key] !== null &&
               payloadNew[key] !== 'null' &&
               payloadNew[key] !== undefined
-            ) {
-              if (payloadOld) {
-                if (
-                  payloadNew[key] !== payloadOld[key] &&
+          ) {
+            if (payloadOld) {
+              if (
+                payloadNew[key] !== payloadOld[key] &&
                   payloadNew[key]?.toString() !== payloadOld[key]?.toString()
-                ) {
-                  return renderThreeColumn(payloadOld[key], payloadNew[key], key);
-                }
-                return '';
+              ) {
+                return renderThreeColumn(payloadOld[key], payloadNew[key], key);
               }
-              return renderTwoColumn(payloadNew[key], key);
+              return '';
             }
-            return '';
-          } catch (error) {
-            return '';
+            return renderTwoColumn(payloadNew[key], key);
           }
-        }),
+          return '';
+        } catch (error) {
+          return '';
+        }
+      }),
     [moduleName]
   );
   return (

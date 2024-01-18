@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
@@ -8,17 +7,17 @@ import { supplierUnusedCreditHeadCells } from 'containers/accounting/purchase/su
 import SupplierOverviewCard from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCard';
 import SupplierOverviewCharts from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewCharts';
 import SupplierOverviewPayables from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewPayables';
-import SupplierOverviewTimeline from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewTimeline';
+// import SupplierOverviewTimeline from 'containers/accounting/purchase/suppliers/detail/components/SupplierOverviewTimeline';
 import useCustomerDetail from '../custom-hooks/useCustomerDetail';
 // components
 
 function CustomerOverview({
-  basicInfo,
-  supplierIncome,
+  // basicInfo,
+  // supplierIncome,
   activityLogDuration,
   customerDetail,
   handleClickMenu,
-  customerActivity,
+  // customerActivity,
   setOpenApplyToBillModal,
   setSelectedUnusedCreditObject,
   customerIncome,
@@ -63,12 +62,12 @@ function CustomerOverview({
   );
 }
 CustomerOverview.propTypes = {
-  supplierIncome: PropTypes.array,
+  // supplierIncome: PropTypes.array,
   activityLogDuration: PropTypes.string,
   customerDetail: PropTypes.object,
-  basicInfo: PropTypes.object,
+  // basicInfo: PropTypes.object,
   handleClickMenu: PropTypes.func,
-  customerActivity: PropTypes.array,
+  // customerActivity: PropTypes.array,
   setOpenApplyToBillModal: PropTypes.func,
   setSelectedUnusedCreditObject: PropTypes.func,
   customerIncome: PropTypes.array,
@@ -76,10 +75,10 @@ CustomerOverview.propTypes = {
 CustomerOverview.defaultProps = {
   customerDetail: null,
   activityLogDuration: '',
-  supplierIncome: [],
-  basicInfo: {},
+  // supplierIncome: [],
+  // basicInfo: {},
   handleClickMenu: () => {},
-  customerActivity: [],
+  // customerActivity: [],
   setOpenApplyToBillModal: () => {},
   setSelectedUnusedCreditObject: () => {},
   customerIncome: [],

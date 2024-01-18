@@ -10,4 +10,14 @@ export const userStatementCustomFilterInitialValues = {
   end_date: moment().format(DATE_FORMAT),
 };
 
-export const test = '';
+export const supplierBalanceInitialValues = {
+  duration: '',
+  custom_start_date: '',
+  custom_end_date: '',
+  supplier_id: '',
+};
+
+export const apAgingInitialValues = {
+  ...supplierBalanceInitialValues,
+  date_type: '',
+};

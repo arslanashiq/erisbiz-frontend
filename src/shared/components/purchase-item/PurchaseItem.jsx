@@ -118,13 +118,13 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                         placeholder={input.placeholder}
                         disabled={getFieldDisabledStatus(item, input)}
                         type={input.type || 'number'}
-                        onChange={key => {
+                        onChange={value => {
                           if (input.onChange) {
                             input.onChange(
                               name,
                               index,
                               input.name,
-                              key,
+                              value,
                               item,
                               form.setFieldValue,
                               form.values,

@@ -27,6 +27,7 @@ function ReportsHeader({
   isMultiReport,
   modifiedTableHead,
   options,
+  customReportInputListValidationSchema,
 }) {
   const { showFilter, showPrint } = options;
   const navigate = useNavigate();
@@ -64,6 +65,7 @@ function ReportsHeader({
               cutomInitialValues={customFilterInitialValues}
               customFilterInputs={customFilterInputsList}
               handleSubmitCustomFilter={handleSubmitCustomDateFilter}
+              customInputListValidationSchema={customReportInputListValidationSchema}
             />
           )}
         </Stack>
@@ -109,6 +111,7 @@ ReportsHeader.propTypes = {
     showPrint: PropTypes.bool,
   }),
   timeInterval: PropTypes.string,
+  customReportInputListValidationSchema: PropTypes.object,
 };
 ReportsHeader.defaultProps = {
   reportTitle: '',
@@ -129,6 +132,7 @@ ReportsHeader.defaultProps = {
     showPrint: true,
   },
   timeInterval: '',
+  customReportInputListValidationSchema: null,
 };
 
 export default ReportsHeader;

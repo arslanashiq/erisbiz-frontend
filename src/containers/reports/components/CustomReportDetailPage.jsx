@@ -33,6 +33,7 @@ function CustomReportDetailPage({
   usePagination,
   customReportCustomFilter,
   customReportCustomerInitialValues,
+  customReportInputListValidationSchema,
 }) {
   const { name: companyName } = useSelector(state => state?.user?.company);
 
@@ -63,7 +64,7 @@ function CustomReportDetailPage({
         handleSubmitCustomDateFilter={handleSubmitCustomDateFilter}
         handleChangeFilter={handleChangeFilter}
         customFilterInputsList={
-          customReportCustomFilter?.length >= 0 ? customReportCustomFilter : payableReportsFilterInputList
+          customReportCustomFilter?.length > 0 ? customReportCustomFilter : payableReportsFilterInputList
         }
         customFilterInitialValues={customReportCustomerInitialValues || PayableReportFilterInitialValues}
         handleDownloadExcelSheet={async () => {
@@ -83,6 +84,7 @@ function CustomReportDetailPage({
         isMultiReport={isMultiReport}
         modifiedTableHead={modifiedTableHead}
         options={options}
+        customReportInputListValidationSchema={customReportInputListValidationSchema}
       />
       <Card>
         <CardContent>
@@ -133,6 +135,7 @@ CustomReportDetailPage.propTypes = {
   usePagination: PropTypes.bool,
   customReportCustomFilter: PropTypes.array,
   customReportCustomerInitialValues: PropTypes.object,
+  customReportInputListValidationSchema: PropTypes.object,
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
@@ -148,5 +151,6 @@ CustomReportDetailPage.defaultProps = {
   usePagination: false,
   customReportCustomFilter: [],
   customReportCustomerInitialValues: null,
+  customReportInputListValidationSchema: null,
 };
 export default CustomReportDetailPage;

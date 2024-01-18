@@ -1,4 +1,3 @@
-/* eslint-disable implicit-arrow-linebreak */
 import React from 'react';
 import { Divider, Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -7,15 +6,14 @@ import palette from 'styles/mui/theme/palette';
 export const renderCompanyHeaderRow = headerRowData => (
   <Grid container spacing={5}>
     {headerRowData.map(
-      column =>
-        column.value && (
-          <Grid key={`${column.title} ${column.value}`} item xs={column.columns}>
-            <Typography noWrap={column.noWrap} sx={{ fontSize: 14, color: 'black' }}>
-              <strong style={{ color: palette.primary.main }}>{column.title}: </strong>
-              {column.value}
-            </Typography>
-          </Grid>
-        )
+      column => column.value && (
+      <Grid key={`${column.title} ${column.value}`} item xs={column.columns}>
+        <Typography noWrap={column.noWrap} sx={{ fontSize: 14, color: 'black' }}>
+          <strong style={{ color: palette.primary.main }}>{column.title}: </strong>
+          {column.value}
+        </Typography>
+      </Grid>
+      )
     )}
   </Grid>
 );

@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
-import InfoBox from 'shared/components/pdf/components/InfoBox';
 import LogoAndCompanyInfo from 'shared/components/pdf/components/LogoAndCompanyInfo';
 import palette from 'styles/mui/theme/palette';
 import InvoiceInfoDetail from './InvoiceInfoDetail';

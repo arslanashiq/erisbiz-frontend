@@ -64,7 +64,7 @@ function RegisterCompanyForm() {
     return <Navigate to="/" replace />;
   }
   return (
-    <Stack className="main__wrapper" sx={registerCompanyParentWrapperStyle}>
+    <Stack sx={registerCompanyParentWrapperStyle}>
       <Stack direction="row-reverse" width="100%">
         <Button
           variant="text"

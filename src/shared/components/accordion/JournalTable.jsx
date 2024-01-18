@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable dot-notation */
-/* eslint-disable implicit-arrow-linebreak */
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -21,15 +18,14 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
   ];
   const [updatedJournalItems, setUpdatedJournalItems] = useState([]);
   const total = useMemo(
-    () =>
-      journalItems.reduce(
-        (acc, val) => {
-          acc.debit += val.debit;
-          acc.credit += val.credit;
-          return acc;
-        },
-        { debit: 0, credit: 0 }
-      ),
+    () => journalItems.reduce(
+      (acc, val) => {
+        acc.debit += val.debit;
+        acc.credit += val.credit;
+        return acc;
+      },
+      { debit: 0, credit: 0 }
+    ),
     [journalItems]
   );
 

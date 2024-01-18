@@ -1,6 +1,3 @@
-/* eslint-disable function-paren-newline */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable no-confusing-arrow */
 /* eslint-disable react/no-array-index-key */
 import React, { useCallback, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
@@ -72,20 +69,18 @@ function UnPaidBillsList({ name, form, headCells }) {
             {values[name]?.length > 0 &&
               values[name]?.map((bill, index) => (
                 <TableRow key={`${name}.${bill.id}.${index}`}>
-                  {headCells.map(cell =>
-                    cell.isInput ? (
-                      <TableCell key={`${name}.${cell.id}.${index}`}>
-                        <FormikField
-                          name={`${name}[${index}].amount_applied`}
-                          type="number"
-                          className="col-12 text-end"
-                          onChange={value => handleChangeUsedAmount(value, index)}
-                        />
-                      </TableCell>
-                    ) : (
-                      <TableCell key={uuid()}>{renderCellValue(cell, bill)}</TableCell>
-                    )
-                  )}
+                  {headCells.map(cell => (cell.isInput ? (
+                    <TableCell key={`${name}.${cell.id}.${index}`}>
+                      <FormikField
+                        name={`${name}[${index}].amount_applied`}
+                        type="number"
+                        className="col-12 text-end"
+                        onChange={value => handleChangeUsedAmount(value, index)}
+                      />
+                    </TableCell>
+                  ) : (
+                    <TableCell key={uuid()}>{renderCellValue(cell, bill)}</TableCell>
+                  )))}
                 </TableRow>
               ))}
           </TableBody>

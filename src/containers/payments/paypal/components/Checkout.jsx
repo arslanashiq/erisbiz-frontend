@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
@@ -20,14 +19,14 @@ function Checkout({ plan }) {
 
   const { email } = useSelector(state => state.user);
 
-  const handleCreateSubscription = async (_, actions) => {
-    const subscription = await actions.subscription.create({ plan_id: plan?.planId });
-    return subscription;
-  };
+  // const handleCreateSubscription = async (_, actions) => {
+  //   const subscription = await actions.subscription.create({ plan_id: plan?.planId });
+  //   return subscription;
+  // };
 
   const handleOnApprove = async (data, actions) => {
     try {
-      const captureOrder = await actions.order.capture();
+      await actions.order.capture();
       // CHECKING CHECKOUT TYPES
       const payload = {
         payment_id: data.paymentID,
