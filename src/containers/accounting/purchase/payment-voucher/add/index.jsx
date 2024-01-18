@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
@@ -15,6 +14,7 @@ import {
   useGetLatestPaymentVouchersNumtQuery,
   useGetSinglePaymentVoucherQuery,
 } from 'services/private/payment-voucher';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 // shared
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
@@ -60,6 +60,12 @@ function addPaymentVoucher() {
     useGetSinglePaymentVoucherQuery
   );
 
+  const chartOfAccountsListResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_payable' });
+
+  const { optionsList: chartOfAccountOptions } = useListOptions(chartOfAccountsListResponse?.data?.results, {
+    label: 'account_name',
+    value: 'id',
+  });
   const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
     value: 'id',
     label: 'supplier_name',
@@ -144,7 +150,7 @@ function addPaymentVoucher() {
     };
     const newBills = [];
     const billsPayment = [];
-    newData.bill_payments.forEach((bill, index) => {
+    newData.bill_payments.forEach(bill => {
       if (!newBills.includes(bill?.supplier?.type || bill?.bill?.bill_num || bill?.bill_num)) {
         if (bill.bill) {
           billsPayment.push({
@@ -198,7 +204,7 @@ function addPaymentVoucher() {
             enableReinitialize
             initialValues={updatedInitialValues}
             validationSchema={paymentVoucherFormValidationSchema}
-            onSubmit={async (values, { setErrors, errors, resetForm }) => {
+            onSubmit={async (values, { setErrors, resetForm }) => {
               let response = null;
 
               const billPayments = [];
@@ -291,6 +297,13 @@ function addPaymentVoucher() {
                   label="Paid Through"
                   isRequired
                   options={bankAccountOptions}
+                />
+                <FormikSelect
+                  name="credit_account_id"
+                  //  placeholder="Paid Through"
+                  label="Credit Account"
+                  isRequired
+                  options={chartOfAccountOptions}
                 />
 
                 <FormikField

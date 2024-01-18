@@ -13,6 +13,7 @@ export const PurchaseVoucherInitialValues = {
   remarks: '',
   unused_amount: 0,
   used_amount: 0,
+  credit_account_id: '',
 };
 
 export const test = '';

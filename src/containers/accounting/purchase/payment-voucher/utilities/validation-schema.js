@@ -18,5 +18,6 @@ export const paymentVoucherFormValidationSchema = Yup.object({
         .required('Payment is require'),
     })
   ),
+  credit_account_id: Yup.string().required('Credit Account is required'),
 });
 export const test = '';
