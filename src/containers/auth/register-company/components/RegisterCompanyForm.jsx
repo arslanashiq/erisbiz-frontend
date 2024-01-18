@@ -110,7 +110,7 @@ function RegisterCompanyForm() {
                   navigate(`/register-company/payment?plan_id=${planId}`);
                   return;
                 }
-                navigate('/register-company/plans');
+                window.location.reload();
               } catch (error) {
                 enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
               }
