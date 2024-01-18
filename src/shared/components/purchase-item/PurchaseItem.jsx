@@ -85,6 +85,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                     key={input.name}
                     className="purchase-item-table-cell"
                     sx={{
+                      paddingBottom: '0px',
                       width: input.width || 'auto',
                       alignItems: 'center',
                     }}

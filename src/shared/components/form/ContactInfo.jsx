@@ -19,8 +19,8 @@ import palette from 'styles/mui/theme/palette';
 
 function ContactInfo({ name, form, push, remove }) {
   const color = 'rgba(224, 224, 224, 1)';
-  const tableCelStyle = { border: `1px solid ${color}`, paddingBottom: '0px !important' };
-  const tableHeaderCelStyle = { ...tableCelStyle, padding: '10px !important' };
+  const tableCelStyle = { border: `1px solid ${color}`, paddingBottom: '0px' };
+  const tableHeaderCelStyle = { ...tableCelStyle, padding: '10px' };
   return (
     <Box sx={{ minHeight: 200 }}>
       <Table>
