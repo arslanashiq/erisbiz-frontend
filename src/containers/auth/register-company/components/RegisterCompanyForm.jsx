@@ -10,7 +10,7 @@ import { useRegisterCompanyMutation } from 'services/private/user';
 import { useGetAllCountriesListQuery } from 'services/third-party/countries';
 import { useGetCurrenciesListQuery } from 'services/public/currency';
 // store
-import { isUserAuthenticated } from 'store/slices/userSlice';
+import { isUserAuthenticated, setUser } from 'store/slices/userSlice';
 // shared
 import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import MuiFormikField from 'shared/components/form/MuiFormikField';
@@ -107,7 +107,18 @@ function RegisterCompanyForm() {
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
                 const planId = sessionStorage.getItem('planId');
                 if (planId) {
-                  navigate(`/register-company/payment?plan_id=${planId}`);
+                  await dispatch(
+                    setUser({
+                      user: response?.data?.user || {},
+                      company: response.data,
+                      isAuthenticated: true,
+                      is_regestered_company: true,
+                      is_payment: false,
+                    })
+                  );
+                  setTimeout(() => {
+                    navigate(`/register-company/payment?plan_id=${planId}`);
+                  }, 10);
                   return;
                 }
                 window.location.reload();

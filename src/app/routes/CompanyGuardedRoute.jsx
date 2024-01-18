@@ -15,12 +15,13 @@ function CompanyGuardedRoute() {
     return <Navigate to="/register-company" state={location.pathname} />;
   }
   if (!isPayment) {
-    if (location.pathname?.includes('plans')) {
-      return <Outlet />;
-    }
     if (location.pathname?.includes('payment')) {
       return <Outlet />;
     }
+    if (location.pathname?.includes('plans')) {
+      return <Outlet />;
+    }
+
     return <Navigate to="/register-company/plans" state={location.pathname} />;
   }
   return <Navigate to="/" state={location.pathname} />;
