@@ -110,6 +110,7 @@ export const NEW_PURCHASE_ITEM_OBJECT = {
   vat_rate: 1,
   vat_amount: 0,
   net_amount: 0,
+  weighted_cost_price: 0,
 };
 
 export const PAYMENT_MODE = [

@@ -326,6 +326,7 @@ function AddInvoice() {
                   //  placeholder="Location"
                   label="Debit Account"
                   options={receivableChartOfAccount}
+                  isRequired
                 />
                 <FormikField
                   name="location"

@@ -299,7 +299,7 @@ function AddPurchaseInvoice() {
                   name="credit_account"
                   options={chartOfAccountOptions}
                   //  placeholder="Credit Account"
-                  label="Credit Account"
+                  label="Payable Account"
                   isRequired
                 />
 

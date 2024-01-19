@@ -45,6 +45,7 @@ const handleChangeItem = (...args) => {
     setFieldValue(`${name}.${index}.expense_account`, selectedItem[0].account_no);
   }
   setFieldValue(`${name}.${index}.item_service_type`, selectedItem[0].item_type);
+  setFieldValue(`${name}.${index}.weighted_cost_price`, selectedItem[0].weighted_cost_price);
 
   setFieldValue(`${name}.${index}.service_type`, selectedItem[0].value);
   setFieldValue(`${name}.${index}.service_type_name`, `${selectedItem[0].value}${index}`);

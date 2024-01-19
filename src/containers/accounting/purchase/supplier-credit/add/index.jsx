@@ -254,7 +254,7 @@ function AddSupplierCredit() {
                   name="debit_account_number"
                   options={bankAccountOptions}
                   //  placeholder="Debit Account"
-                  label="Debit Account"
+                  label="Payable Account"
                   isRequired
                   className="col-12"
                 />

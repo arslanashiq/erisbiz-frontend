@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import formatAmount from 'utilities/formatAmount';
-import groupItems from 'utilities/groupArrayOfItems';
+// import groupItems from 'utilities/groupArrayOfItems';
 // import palette from 'styles/mui/theme/palette';
 
 const BORDER_COLOR = 'lightgray';
@@ -150,7 +150,7 @@ function Items({ orderDetail, keyName }) {
   const headingsBgColor = '#08517e';
   // const subTotalBgColor = '#f7e18b';
   // const subTotalTxtColor = '#FFFFFF';
-  const quotationItems = groupItems(orderDetail[keyName]);
+  // const quotationItems = groupItems(orderDetail[keyName]);
   return (
     <View style={[styles.table, { border: BORDER_STYLE }]}>
       <View style={[styles.tableRow, { backgroundColor: headingsBgColor, color: '#fff' }]}>
@@ -181,10 +181,10 @@ function Items({ orderDetail, keyName }) {
         </View>
       </View>
       {/* Added to group listed services. */}
-      {quotationItems &&
-        quotationItems.map(service => (
+      {orderDetail[keyName]?.length >= 0 &&
+        orderDetail[keyName]?.map((item, index) => (
           <View key={uuid()} style={{ backgroundColor: '#f7f4f4b6' }}>
-            {service.items.map((item, index) => renderItems(item, index + 1))}
+            {renderItems(item, index + 1)}
           </View>
         ))}
     </View>

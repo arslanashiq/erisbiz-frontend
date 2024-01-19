@@ -71,7 +71,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                 </TableCell>
               ))}
               {form?.values[name].length > minRequiredItems && (
-                <TableCell key={uuid()} className="purchase-item-table-cell">
+                <TableCell key={uuid()} sx={{ border: '1px solid #999999' }}>
                   Actions
                 </TableCell>
               )}
@@ -85,8 +85,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                     key={input.name}
                     className="purchase-item-table-cell"
                     sx={{
-                      paddingBottom: '0px',
-                      width: input.width || 'auto',
+                      ...input.style,
                       alignItems: 'center',
                     }}
                   >
@@ -142,9 +141,9 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                 {form?.values[name].length > minRequiredItems && (
                   <TableCell
                     key="remove button"
-                    className="purchase-item-table-cell"
                     sx={{
                       alignItems: 'center',
+                      border: '1px solid #999999',
                     }}
                   >
                     <Tooltip arrow placement="top" title="Remove Item">

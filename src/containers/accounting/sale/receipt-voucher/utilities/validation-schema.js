@@ -9,6 +9,7 @@ export const receiptVoucherFormValidationSchema = Yup.object({
     .test('maxDecimalPoints', 'Amount can have up to two decimal points', maxDecimalPoints)
     .required('Amount is required'),
   payment_mode: Yup.string().required('Payment Mode is required'),
+  debit_account: Yup.string().required('Debit Account is required'),
   invoice_payments: Yup.array().of(
     Yup.object().shape({
       amount_applied: Yup.number()

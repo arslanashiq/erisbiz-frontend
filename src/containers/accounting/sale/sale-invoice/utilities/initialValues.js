@@ -13,6 +13,7 @@ export const saleInvoiceInitialValues = {
   remarks: '',
   invoice_docs: [],
   invoice_items: [NEW_PURCHASE_ITEM_OBJECT],
+  debit_account: '',
 };
 
 export const test = '';

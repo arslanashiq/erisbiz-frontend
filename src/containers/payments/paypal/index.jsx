@@ -27,7 +27,6 @@ function PayPalPaymentPage() {
   const selectedPlan = useMemo(() => plansList.find(plan => plan.planId === planId), [planId]);
   return (
     <Box
-      className="main__wrapper"
       width="100vw"
       height="100vh"
       display="flex"

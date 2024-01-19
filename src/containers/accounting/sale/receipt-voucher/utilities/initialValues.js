@@ -15,5 +15,6 @@ export const receiptVoucherInitialValues = {
   status: 'open',
   // extra
   used_amount: 0,
+  debit_account: '',
 };
 export const test = '';

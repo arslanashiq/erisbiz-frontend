@@ -3,7 +3,8 @@ export const PurchaseItemInputList = {
     name: 'service_type',
     placeholder: 'Item',
     isSelect: true,
-    width: '15%',
+    // width: '20% !important',
+    style: { minWidth: '200px !important' },
   },
   remaining_stock: {
     name: 'remaining_stock',

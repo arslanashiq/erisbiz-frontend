@@ -20,6 +20,9 @@ export const purchaseOrderItemsValidationschema = Yup.array().of(
 export const saleOrderItemsValidationschema = Yup.array().of(
   Yup.object().shape({
     service_type: Yup.string().required('Item is required'),
+    unit_price_ex_vat: Yup.number()
+      .min(Yup.ref('weighted_cost_price'), value => `Must be greater than cost price ${value.min}`)
+      .required('Required'),
     discount: Yup.number()
       .min(0, 'Must be greater than or equal to 0')
       .max(Yup.ref('gross_amount'), 'Must be less than gross amount'),

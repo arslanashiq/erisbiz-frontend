@@ -60,7 +60,7 @@ function AddItemPage() {
     },
     ['account_type']
   );
-  const sortedChartOfAccount = getAccountTypesOptions(bankOptions, 2, 'account_type');
+  const sortedChartOfAccount = getAccountTypesOptions(bankOptions, 1, 'account_type');
   const { optionsList: brandsOptions } = useListOptions(brandsApiResponse?.data?.results, {
     value: 'uid',
     label: 'brand_name',
