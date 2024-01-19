@@ -259,7 +259,7 @@ function AddReceiptVoucher() {
                 <FormikSelect
                   name="debit_account"
                   //  placeholder="Deposit To"
-                  label="Debit Acocunt"
+                  label="Receivable Acocunt"
                   options={chartOfAccountAgainstPaymentMode}
                   isRequired
                 />
