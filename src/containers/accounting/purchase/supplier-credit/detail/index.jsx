@@ -17,6 +17,7 @@ import {
 import OrderDocument from 'shared/components/order-document/OrderDocument';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 // containers
+import useErrorHandler from 'shared/custom-hooks/useErrorHandler';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import JournalTable from 'shared/components/accordion/JournalTable';
@@ -46,6 +47,8 @@ function SupplierCreditDetail() {
 
   const [refundSupplierCredit] = useRefundSupplierCreditsMutation();
   const [getUnpaidBills] = useGetSuppliersUpaidBillsListMutation();
+
+  const { isError } = useErrorHandler(supplierCreditResponse);
 
   const orderInfo = useMemo(
     () => ({
@@ -177,7 +180,6 @@ function SupplierCreditDetail() {
     },
     [supplierCreditResponse]
   );
-
   useEffect(() => {
     (async () => {
       if (openApplyToBillModal) {
@@ -192,7 +194,7 @@ function SupplierCreditDetail() {
   }, [openApplyToBillModal]);
 
   return (
-    <SectionLoader options={[supplierCreditResponse.isLoading]}>
+    <SectionLoader options={[supplierCreditResponse.isLoading, isError]}>
       <RefundDialog
         open={openRefundModal}
         setOpen={setOpenRefundModal}
