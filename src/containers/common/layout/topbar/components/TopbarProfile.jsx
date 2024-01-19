@@ -3,7 +3,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import { useNavigate } from 'react-router';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+// import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from 'store/slices/userSlice';
@@ -48,8 +48,14 @@ function TopbarProfile() {
 
   const getCompanyName = useCallback(companyName => {
     try {
-      if (companyName.length <= 5) return companyName;
-      return companyName.slice(0, 5);
+      const comapnyNameList = companyName.split(' ');
+      if (comapnyNameList?.length > 1) {
+        return comapnyNameList[0];
+      }
+      return companyName;
+
+      // if (companyName.length <= 5) return companyName;
+      // return companyName.slice(0, 5);
     } catch (error) {
       return companyName;
     }
@@ -61,7 +67,7 @@ function TopbarProfile() {
           <Avatar
             sx={{ objectFit: 'contain', height: 40, width: 40 }}
             alt="Remy Sharp"
-            src={companyDetail?.logo}
+            // src={companyDetail?.logo}
           />
         )}
         <Typography sx={topbarProfileName}>{getCompanyName(companyDetail?.name || 'Admin User')}</Typography>
@@ -84,12 +90,12 @@ function TopbarProfile() {
               <Typography sx={topbarProfileMenuItemOption}>My Account</Typography>
             </Stack>
           </MenuItem>
-          <MenuItem sx={topbarProfileMenuItem} onClick={() => handleNavigate('/user/calendar')}>
+          {/* <MenuItem sx={topbarProfileMenuItem} onClick={() => handleNavigate('/user/calendar')}>
             <Stack direction="row" spacing={2} alignItems="center">
               <CalendarMonthIcon sx={topbarProfileMenuItemIcon} />
               <Typography sx={topbarProfileMenuItemOption}>Calender</Typography>
             </Stack>
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem sx={topbarProfileMenuItem} onClick={handleLogout}>
             <Stack direction="row" spacing={2} alignItems="center">
               <LogoutIcon sx={topbarProfileMenuItemIcon} />

@@ -45,6 +45,9 @@ function UnPaidBillsList({ name, form, headCells }) {
     if (cell.cellValueAction) {
       return cell.cellValueAction(bill);
     }
+    if (cell.formatAmount) {
+      return formatAmount(bill[cell.id]);
+    }
     if (bill[cell.id]) return bill[cell.id];
     return cell.defaultValue;
   };

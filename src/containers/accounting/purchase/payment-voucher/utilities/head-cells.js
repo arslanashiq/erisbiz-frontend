@@ -81,12 +81,14 @@ export const UnPaidBillsHeadCells = [
     disablePadding: true,
     label: 'Bill Amount',
     defaultValue: '0',
+    formatAmount: true,
   },
   {
     id: 'amount_due',
     disablePadding: true,
     label: 'Amount Due',
     defaultValue: '0',
+    formatAmount: true,
   },
   {
     id: 'payment',

@@ -10,7 +10,7 @@ import StyledAppBar from 'styles/mui/component/StyledAppBar';
 import QuickCreateMenu from './components/QuickCreateMenu';
 import RecentActivity from './components/RecentActivity';
 import SearchBar from './components/SearchBar';
-import TopbarSettings from './components/TopbarSettings';
+// import TopbarSettings from './components/TopbarSettings';
 import TopbarProfile from './components/TopbarProfile';
 import 'styles/topbar/topbar.scss';
 
@@ -35,9 +35,9 @@ function TopBar({ open, handleToggleDrawer }) {
 
         <Box sx={{ display: 'flex' }}>
           <Box className="topbar__right">
-            <Box className="d-flex align-items-center justify-content-between">
+            {/* <Box className="d-flex align-items-center justify-content-between">
               <TopbarSettings department="hr" />
-            </Box>
+            </Box> */}
             <TopbarProfile />
           </Box>
         </Box>
