@@ -189,6 +189,7 @@ export const handleGetItemWithRemainingStock = (itemsList, itemsListOptions, add
       return {
         ...singleItem,
         remaining_stock: getRemainingStock(currentItem, singleItem, addexistingQuantity),
+        weighted_cost_price: currentItem.weighted_cost_price,
       };
     });
     return updatedItemsList;
