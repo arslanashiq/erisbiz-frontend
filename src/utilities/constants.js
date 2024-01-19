@@ -124,7 +124,7 @@ export const PAYMENT_MODE = [
   },
   {
     label: 'Bank Transfer',
-    value: 'Bank Transfer',
+    value: 'Bank',
   },
   {
     label: 'Bank',
