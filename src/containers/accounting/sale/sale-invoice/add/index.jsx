@@ -325,7 +325,6 @@ function AddInvoice() {
                   name="debit_account"
                   //  placeholder="Location"
                   label="Debit Account"
-                  startIcon={<LocationOnIcon />}
                   options={receivableChartOfAccount}
                 />
                 <FormikField
