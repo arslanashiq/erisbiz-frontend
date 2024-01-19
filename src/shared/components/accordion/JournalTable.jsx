@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -88,7 +89,7 @@ function JournalTable({ journalItems, defaultValue, isPurchaseJournal }) {
               </tr>
             </thead>
             <tbody className="line-item-body">
-              {updatedJournalItems.map(item => (
+              {journalItems?.map(item => (
                 <tr key={item.id} className="line-item-column line-item-row no-border">
                   <td style={{ fontSize: 15, padding: '5px 5px' }}>{item?.account_name}</td>
                   <td style={{ fontSize: 15, padding: '5px 5px', textAlign: 'right' }}>
