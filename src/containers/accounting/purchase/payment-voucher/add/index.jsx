@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
@@ -7,7 +8,7 @@ import TagIcon from '@mui/icons-material/Tag';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // serivces
 import { useGetSuppliersListQuery, useGetSuppliersUpaidBillsListMutation } from 'services/private/suppliers';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
+// import { useGetBankAccountsListQuery } from 'services/private/banking';
 import {
   useAddPaymentVouchserMutation,
   useEditPaymentVouchserMutation,
@@ -27,15 +28,15 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
-import { PAYMENT_MODE, supplierOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
+import { PAYMENT_MODE, supplierOpeningBalanceName } from 'utilities/constants';
 import { UnPaidBillsHeadCells } from '../utilities/head-cells';
 import { PurchaseVoucherInitialValues } from '../utilities/initialValues';
+import { paymentVoucherFormValidationSchema } from '../utilities/validation-schema';
 // components
 import UnPaidBillsList from './components/UnPaidBillsList';
 // styles
 import 'styles/form/form.scss';
-import { paymentVoucherFormValidationSchema } from '../utilities/validation-schema';
 
 function addPaymentVoucher() {
   const { id } = useParams();
@@ -43,9 +44,10 @@ function addPaymentVoucher() {
   const { supplierId, debitAmount } = getSearchParamsList();
 
   const [selectedSupplier, setSelectedSupplier] = useState(supplierId || null);
+  const [paymentMode, setPaymentMode] = useState('');
 
   const supplierListResponse = useGetSuppliersListQuery();
-  const bankAccountListResponse = useGetBankAccountsListQuery();
+  // const bankAccountListResponse = useGetBankAccountsListQuery({ account_type: paymentMode });
   const latestPaymentVoucherNum = useGetLatestPaymentVouchersNumtQuery(
     {},
     { refetchOnMountOrArgChange: true }
@@ -60,20 +62,28 @@ function addPaymentVoucher() {
     useGetSinglePaymentVoucherQuery
   );
 
-  const chartOfAccountsListResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_payable' });
+  const chartOfAccountsListResponse = useGetChartOfAccountListQuery();
 
-  const { optionsList: chartOfAccountOptions } = useListOptions(chartOfAccountsListResponse?.data?.results, {
-    label: 'account_name',
-    value: 'id',
-  });
+  const { optionsList: chartOfAccounts } = useListOptions(
+    chartOfAccountsListResponse?.data?.results,
+    {
+      label: 'account_name',
+      value: 'id',
+    },
+    ['account_type']
+  );
+  const { payableChartOfAccount, chartOfAccountAgainstPaymentMode } = useMemo(
+    () => ({
+      payableChartOfAccount: chartOfAccounts.filter(coa => coa.account_type === 'Accounts Payable'),
+      chartOfAccountAgainstPaymentMode: chartOfAccounts.filter(coa => coa.account_type === paymentMode),
+    }),
+    [chartOfAccounts, paymentMode]
+  );
   const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
     value: 'id',
     label: 'supplier_name',
   });
-  const { optionsList: bankAccountOptions } = useListOptions(bankAccountListResponse?.data?.results, {
-    value: 'chart_of_account',
-    label: 'bank_account_name',
-  });
+
   const handleGetUnpaidBills = async (initial, selectedSupplierId) => {
     const response = await getUnpaidBills(selectedSupplierId);
     const billPayment = [];
@@ -196,7 +206,7 @@ function addPaymentVoucher() {
   }, [id, initialValues, latestPaymentVoucherNum, supplierId]);
 
   return (
-    <SectionLoader options={[supplierListResponse.isLoading, bankAccountListResponse.isLoading]}>
+    <SectionLoader options={[supplierListResponse.isLoading]}>
       <Card>
         <CardContent>
           <FormHeader title="Payment Voucher" />
@@ -290,22 +300,26 @@ function addPaymentVoucher() {
                   label="Payment Mode"
                   options={PAYMENT_MODE}
                   isRequired
+                  onChange={value => {
+                    setFieldValue('chart_of_account_id', '');
+                    setPaymentMode(value);
+                  }}
                 />
                 <FormikSelect
                   name="chart_of_account_id"
                   //  placeholder="Paid Through"
                   label="Paid Through"
                   isRequired
-                  options={bankAccountOptions}
+                  disabled={!paymentMode}
+                  options={chartOfAccountAgainstPaymentMode}
                 />
                 <FormikSelect
                   name="credit_account_id"
                   //  placeholder="Paid Through"
-                  label="Credit Account"
+                  label="Payable Account"
                   isRequired
-                  options={chartOfAccountOptions}
+                  options={payableChartOfAccount}
                 />
-
                 <FormikField
                   name="reference_num"
                   type="text"

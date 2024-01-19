@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray, Form, Formik } from 'formik';
 import { Card, CardContent } from '@mui/material';
@@ -12,8 +12,8 @@ import {
   useGetSingleReceiptVoucherQuery,
   useGetUnpaidInvoicesAgainstCustomerMutation,
 } from 'services/private/receipt-voucher';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 import { useGetCustomersListQuery } from 'services/private/customers';
-import { useGetBankAccountsListQuery } from 'services/private/banking';
 // shared
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
@@ -39,8 +39,10 @@ function AddReceiptVoucher() {
   const navigate = useNavigate();
   const { customerId } = getSearchParamsList();
 
+  const [paymentMode, setPaymentMode] = useState('');
+
   const customerListResponse = useGetCustomersListQuery();
-  const bankAccountListResponse = useGetBankAccountsListQuery();
+  const chartOfAccountsListResponse = useGetChartOfAccountListQuery();
   const latestreceiptVoucherNumber = useGetLatestReceiptVoucherQuery(
     {},
     { skip: id, refetchOnMountOrArgChange: true }
@@ -50,14 +52,26 @@ function AddReceiptVoucher() {
   const [editReceiptVoucher] = useEditReceiptVoucherMutation();
   const [getUnPaidSaleInvoices] = useGetUnpaidInvoicesAgainstCustomerMutation();
 
+  const { optionsList: chartOfAccounts } = useListOptions(
+    chartOfAccountsListResponse?.data?.results,
+    {
+      label: 'account_name',
+      value: 'id',
+    },
+    ['account_type']
+  );
+  const { receivableChartOfAccount, chartOfAccountAgainstPaymentMode } = useMemo(
+    () => ({
+      receivableChartOfAccount: chartOfAccounts.filter(coa => coa.account_type === 'Accounts Receivable'),
+      chartOfAccountAgainstPaymentMode: chartOfAccounts.filter(coa => coa.account_type === paymentMode),
+    }),
+    [chartOfAccounts, paymentMode]
+  );
   const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
     value: 'id',
     label: 'customer_name',
   });
-  const { optionsList: bankAccountOptions } = useListOptions(bankAccountListResponse?.data?.results, {
-    value: 'chart_of_account',
-    label: 'bank_account_name',
-  });
+
   const { initialValues, setInitialValues } = useInitialValues(
     receiptVoucherInitialValues,
     useGetSingleReceiptVoucherQuery,
@@ -170,13 +184,7 @@ function AddReceiptVoucher() {
     return updatedData;
   }, [initialValues]);
   return (
-    <SectionLoader
-      options={[
-        latestreceiptVoucherNumber.isLoading,
-        customerListResponse.isLoading,
-        bankAccountListResponse.isLoading,
-      ]}
-    >
+    <SectionLoader options={[latestreceiptVoucherNumber.isLoading, customerListResponse.isLoading]}>
       <Card>
         <CardContent>
           <FormHeader title="Receipt Voucher" />
@@ -190,7 +198,6 @@ function AddReceiptVoucher() {
               <Form className="form form--horizontal mt-3 row">
                 <FormikField
                   name="payment_num"
-                  type="number"
                   disabled
                   //  placeholder="Payment Number"
                   startIcon={<TagIcon />}
@@ -213,14 +220,13 @@ function AddReceiptVoucher() {
                   isRequired
                 />
 
-                <FormikField
+                {/* <FormikField
                   name="last_payment_number"
-                  type="number"
                   disabled
                   //  placeholder="Last Payment Number"
                   label="Last Payment"
                   startIcon={<TagIcon />}
-                />
+                /> */}
                 <FormikField
                   name="total"
                   type="number"
@@ -243,14 +249,25 @@ function AddReceiptVoucher() {
                   //  placeholder="Payment Mode"
                   label="Payment Mode"
                   options={PAYMENT_MODE}
+                  onChange={value => {
+                    setFieldValue('chart_of_account', '');
+                    setPaymentMode(value);
+                  }}
                   isRequired
                 />
 
                 <FormikSelect
+                  name="debit_account"
+                  //  placeholder="Deposit To"
+                  label="Debit Acocunt"
+                  options={chartOfAccountAgainstPaymentMode}
+                  isRequired
+                />
+                <FormikSelect
                   name="chart_of_account"
                   //  placeholder="Deposit To"
                   label="Deposit To"
-                  options={bankAccountOptions}
+                  options={receivableChartOfAccount}
                   isRequired
                 />
 
