@@ -144,7 +144,7 @@ function AddReceiptVoucher() {
       ...prev,
       used_amount: 0,
       last_payment_number: paymentNumber,
-      payment_num: paymentNumber + 1,
+      payment_num: paymentNumber,
     }));
   }, [latestreceiptVoucherNumber]);
 
