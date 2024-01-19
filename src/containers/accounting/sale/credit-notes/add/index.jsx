@@ -219,7 +219,7 @@ function index() {
                   options={bankAccountOptions}
                   name="credit_account_num"
                   //  placeholder="Credit Account Number"
-                  label="Credit Account"
+                  label="Debit Account"
                   isRequired
                   className="col-12"
                 />
