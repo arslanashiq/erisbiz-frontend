@@ -9,6 +9,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // services
 import { useGetItemsListQuery } from 'services/private/items';
 import { useGetCustomersListQuery } from 'services/private/customers';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 import {
   useAddSaleInvoicesMutation,
   useEditSaleInvoicesMutation,
@@ -65,6 +66,8 @@ function AddInvoice() {
     {},
     { skip: id, refetchOnMountOrArgChange: true }
   );
+  const chartOfAccountsListResponse = useGetChartOfAccountListQuery({ account_type: 'accounts_receivable' });
+
   const customerListResponse = useGetCustomersListQuery();
 
   const [addSaleInvoice] = useAddSaleInvoicesMutation();
@@ -85,6 +88,13 @@ function AddInvoice() {
     true
   );
 
+  const { optionsList: receivableChartOfAccount } = useListOptions(
+    chartOfAccountsListResponse?.data?.results,
+    {
+      label: 'account_name',
+      value: 'id',
+    }
+  );
   const { optionsList: customersOptions } = useListOptions(customerListResponse?.data?.results, {
     value: 'id',
     label: 'customer_name',
@@ -311,6 +321,13 @@ function AddInvoice() {
                   startIcon={<AttachFileIcon />}
                 />
 
+                <FormikSelect
+                  name="debit_account"
+                  //  placeholder="Location"
+                  label="Debit Account"
+                  startIcon={<LocationOnIcon />}
+                  options={receivableChartOfAccount}
+                />
                 <FormikField
                   name="location"
                   type="text"
