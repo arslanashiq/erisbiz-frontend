@@ -32,6 +32,12 @@ const tableHeaderCells = [
   { label: 'Payments', styles: { minWidth: 110 } },
   { label: 'Balance', styles: { minWidth: 110 } },
 ];
+const transactionTableStyle = {
+  ...textStyle,
+  width: 100,
+  padding: '5px 5px',
+  fontSize: 9,
+};
 function StatementSummary({ statementInfo, statementTransactions }) {
   const { accountSummaryList = [] } = statementInfo;
   return (
@@ -106,23 +112,15 @@ function StatementSummary({ statementInfo, statementTransactions }) {
           style={{
             display: 'flex',
             flexDirection: 'row',
-            marginTop: 10,
             justifyContent: 'space-between',
             backgroundColor: palette.primary.main,
+            padding: '2px 5px',
+            marginTop: 10,
           }}
+          key={uuid()}
         >
           {tableHeaderCells?.map(cell => (
-            <Text
-              style={{
-                color: 'white',
-
-                padding: '5px 5px',
-                borderRadius: 10,
-                ...boldFont,
-                ...textStyle,
-              }}
-              key={cell}
-            >
+            <Text style={{ ...transactionTableStyle, ...boldFont, ...textStyle, color: 'white' }} key={cell}>
               {cell.label}
             </Text>
           ))}
@@ -140,62 +138,12 @@ function StatementSummary({ statementInfo, statementTransactions }) {
               }}
               key={uuid()}
             >
-              <Text
-                style={{
-                  fontSize: 9,
-                  padding: '5px 5px',
-                  width: 110,
-                  ...textStyle,
-                }}
-              >
-                {transaction.date}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 9,
-                  padding: '5px 5px',
-                  width: 110,
-                }}
-              >
-                {transaction.transactions}
-              </Text>
-
-              <Text
-                style={{
-                  fontSize: 9,
-                  padding: '5px 5px',
-                  width: 110,
-                }}
-              >
-                {transaction.details}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 9,
-                  padding: '5px 5px',
-                  width: 110,
-                }}
-              >
-                {formatAmount(transaction?.amount || '')}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 9,
-                  padding: '5px 5px',
-                  width: 110,
-                }}
-              >
-                {formatAmount(transaction?.payment || '')}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 9,
-                  padding: '5px 5px',
-                  width: 110,
-                }}
-              >
-                {formatAmount(transaction?.balance || '')}
-              </Text>
+              <Text style={{ ...transactionTableStyle }}>{transaction.date}</Text>
+              <Text style={{ ...transactionTableStyle }}>{transaction.transactions}</Text>
+              <Text style={{ ...transactionTableStyle }}>{transaction.details}</Text>
+              <Text style={{ ...transactionTableStyle }}>{formatAmount(transaction?.amount || '')}</Text>
+              <Text style={{ ...transactionTableStyle }}>{formatAmount(transaction?.payment || '')}</Text>
+              <Text style={{ ...transactionTableStyle }}>{formatAmount(transaction?.balance || '')}</Text>
             </View>
           ))
         ) : (
