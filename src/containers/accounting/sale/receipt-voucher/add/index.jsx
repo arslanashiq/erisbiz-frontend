@@ -63,7 +63,9 @@ function AddReceiptVoucher() {
   const { receivableChartOfAccount, chartOfAccountAgainstPaymentMode } = useMemo(
     () => ({
       receivableChartOfAccount: chartOfAccounts.filter(coa => coa.account_type === 'Accounts Receivable'),
-      chartOfAccountAgainstPaymentMode: chartOfAccounts.filter(coa => coa.account_type === paymentMode),
+      chartOfAccountAgainstPaymentMode: chartOfAccounts.filter(
+        coa => coa.account_type === paymentMode?.trim()
+      ),
     }),
     [chartOfAccounts, paymentMode]
   );
@@ -257,16 +259,17 @@ function AddReceiptVoucher() {
                 />
 
                 <FormikSelect
-                  name="debit_account"
+                  name="chart_of_account"
                   //  placeholder="Deposit To"
-                  label="Receivable Acocunt"
+                  label="Deposit To"
+                  disabled={!paymentMode}
                   options={chartOfAccountAgainstPaymentMode}
                   isRequired
                 />
                 <FormikSelect
-                  name="chart_of_account"
+                  name="debit_account"
                   //  placeholder="Deposit To"
-                  label="Deposit To"
+                  label="Receivable Acocunt"
                   options={receivableChartOfAccount}
                   isRequired
                 />

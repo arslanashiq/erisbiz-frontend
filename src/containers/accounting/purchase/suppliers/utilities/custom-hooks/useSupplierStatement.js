@@ -51,10 +51,10 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
     ];
     if (supplierStatement.is_credit) {
       amountTypes.push(supplierOpeningBalanceName);
-      amountTypes.push('Customer Opening Balance');
+      paymentTypes.push('Customer Opening Balance');
     } else {
       paymentTypes.push(supplierOpeningBalanceName);
-      paymentTypes.push('Customer Opening Balance');
+      amountTypes.push('Customer Opening Balance');
     }
 
     if (supplierTransactions?.length >= 0) {

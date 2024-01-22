@@ -38,7 +38,7 @@ const transactionTableStyle = {
   padding: '5px 5px',
   fontSize: 9,
 };
-function StatementSummary({ statementInfo, statementTransactions }) {
+function StatementSummary({ statementInfo, statementTransactions, currencySymbol }) {
   const { accountSummaryList = [] } = statementInfo;
   return (
     <View>
@@ -167,7 +167,9 @@ function StatementSummary({ statementInfo, statementTransactions }) {
       >
         <View style={{ ...containerStyle, width: 200, padding: '10px 20px' }}>
           <Text style={{ ...textStyle, ...boldFont }}>Balance Due</Text>
-          <Text style={{ ...textStyle, ...boldFont }}>{statementInfo?.totalBalanceDue}</Text>
+          <Text style={{ ...textStyle, ...boldFont }}>
+            {currencySymbol} {statementInfo?.totalBalanceDue}
+          </Text>
         </View>
       </View>
     </View>
@@ -177,9 +179,11 @@ function StatementSummary({ statementInfo, statementTransactions }) {
 StatementSummary.propTypes = {
   statementInfo: PropTypes.object,
   statementTransactions: PropTypes.array,
+  currencySymbol: PropTypes.string,
 };
 StatementSummary.defaultProps = {
   statementInfo: {},
   statementTransactions: [],
+  currencySymbol: '',
 };
 export default StatementSummary;

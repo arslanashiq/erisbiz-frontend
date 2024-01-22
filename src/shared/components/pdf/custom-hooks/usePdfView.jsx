@@ -15,13 +15,17 @@ function usePdfView(
   statementTransactions = []
 ) {
   const { company, email } = useSelector(state => state.user);
-  const { name: companyName, logo: companyLogo, trn } = company;
+  const {
+    name: companyName,
+    logo: companyLogo,
+    trn,
+    currency_detail: { currency_symbol: currencySymbol },
+  } = company;
   const [data, setData] = useState({});
   const [actionLoading, setActionLoading] = useState(false);
   const [component, setComponent] = useState(null);
 
   const { qrCode } = useGetQRCode(orderInfo, orderDetail);
-
   const handlePrint = async () => {
     setActionLoading(true);
     const doc = component;
@@ -63,6 +67,7 @@ function usePdfView(
             showStatement={options.showStatement}
             statementInfo={statementInfo}
             statementTransactions={statementTransactions}
+            currencySymbol={currencySymbol}
           />
         );
       }

@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
@@ -23,10 +24,8 @@ function CustomerOverview({
   customerIncome,
 }) {
   const { id } = useParams();
-  const currencySymbol = useMemo(
-    () => (customerDetail?.currency_symbol ? customerDetail?.currency_symbol : 'AED'),
-    []
-  );
+  const currencySymbol = useSelector(state => state?.user?.company?.currency_detail?.currency_symbol);
+
   return (
     <Box className="container-fluid w-100">
       <Grid container spacing={2}>

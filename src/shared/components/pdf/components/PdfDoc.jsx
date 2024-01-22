@@ -26,6 +26,7 @@ function PdfDoc({
   showStatement,
   statementInfo,
   statementTransactions,
+  currencySymbol,
 }) {
   return (
     <MainComponent subject={orderInfo.type || 'Statement'} title={orderInfo.type || 'Statement'}>
@@ -53,7 +54,11 @@ function PdfDoc({
         </>
       )}
       {showStatement && (
-        <StatementSummary statementInfo={statementInfo} statementTransactions={statementTransactions} />
+        <StatementSummary
+          statementInfo={statementInfo}
+          statementTransactions={statementTransactions}
+          currencySymbol={currencySymbol}
+        />
       )}
 
       {showVoucherTable && (
@@ -97,6 +102,7 @@ PdfDoc.propTypes = {
   showStatement: PropTypes.bool,
   statementInfo: PropTypes.object,
   statementTransactions: PropTypes.array,
+  currencySymbol: PropTypes.string,
 };
 PdfDoc.defaultProps = {
   orderDetail: {},
@@ -111,6 +117,7 @@ PdfDoc.defaultProps = {
   showStatement: false,
   statementInfo: {},
   statementTransactions: [],
+  currencySymbol: '',
 };
 
 export default PdfDoc;

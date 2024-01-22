@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Box, Grid } from '@mui/material';
 import { useParams } from 'react-router';
@@ -23,10 +24,7 @@ function SupplierOverview({
   setSelectedUnusedCreditObject,
 }) {
   const { id } = useParams();
-  const currencySymbol = useMemo(
-    () => (supplierDetail?.currency_symbol ? supplierDetail?.currency_symbol : 'AED'),
-    [supplierDetail]
-  );
+  const currencySymbol = useSelector(state => state?.user?.company?.currency_detail?.currency_symbol);
   return (
     <Box className="container-fluid w-100">
       <Grid container spacing={2}>

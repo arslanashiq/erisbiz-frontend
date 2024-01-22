@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -6,7 +6,7 @@ import { Form, Formik } from 'formik';
 import CloseIcon from '@mui/icons-material/Close';
 import { Stack, IconButton, Typography, Card, CardContent, Box } from '@mui/material';
 // services
-import { useGetBankAccountsListQuery } from 'services/private/banking';
+import { useGetChartOfAccountListQuery } from 'services/private/chart-of-account';
 // constiners
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
@@ -21,11 +21,21 @@ import FormikSelect from '../form/FormikSelect';
 import 'styles/form/form.scss';
 
 function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
-  const bankListResponse = useGetBankAccountsListQuery();
-  const { optionsList: bankAccountListOptions } = useListOptions(bankListResponse?.data?.results, {
-    label: 'bank_account_name',
-    value: 'chart_of_account',
-  });
+  const [paymentMode, setPaymentMode] = useState('');
+  const chartOfAccountResponse = useGetChartOfAccountListQuery();
+  const { optionsList: chartOfAccounts } = useListOptions(
+    chartOfAccountResponse?.data?.results,
+    {
+      label: 'account_name',
+      value: 'id',
+    },
+    ['account_type']
+  );
+  const chartOfAccountAgainstPaymentMode = useMemo(
+    () => chartOfAccounts?.filter(coa => coa.account_type === paymentMode?.trim()) || [],
+
+    [chartOfAccounts, paymentMode]
+  );
   const handleClose = () => {
     setOpen(false);
   };
@@ -71,63 +81,70 @@ function RefundDialog({ open, setOpen, handleRefund, maxAmount }) {
               })}
               onSubmit={handleRefund}
             >
-              <Form className="form form--horizontal row justify-content-center">
-                <div className="row col-9 justify-content-center">
-                  <FormikDatePicker
-                    name="refunded_on"
-                    label="Refunded On"
-                 //  placeholder="Refunded On"
-                    isRequired
-                    className="col-12 mb-3"
-                  />
-                  <FormikSelect
-                    name="payment_mode"
-                    options={PAYMENT_MODE}
-                    label="Payment Mode"
-                 //  placeholder="Payment Mode"
-                    className="col-12 mb-3"
-                    isRequired
-                  />
-                  <FormikField
-                    name="reference_num"
-                    label="Reference Number"
-                 //  placeholder="Reference Number"
-                    className="col-12 mb-3"
-                  />
-                  <FormikField
-                    name="amount_applied"
-                    label="Amount"
-                 //  placeholder="Amount"
-                    isRequired
-                    type="number"
-                    className="col-12 mb-3"
-                    endIconClass="ps-2 d-flex align-items-center"
-                    endIcon={(
-                      <span className="form__form-group-label align-items-center">
-                        <strong>Balance:</strong>
-                        AED{maxAmount}
-                      </span>
-                    )}
-                  />
+              {({ setFieldValue }) => (
+                <Form className="form form--horizontal row justify-content-center">
+                  <div className="row col-9 justify-content-center">
+                    <FormikDatePicker
+                      name="refunded_on"
+                      label="Refunded On"
+                      //  placeholder="Refunded On"
+                      isRequired
+                      className="col-12 mb-3"
+                    />
+                    <FormikSelect
+                      name="payment_mode"
+                      options={PAYMENT_MODE}
+                      label="Payment Mode"
+                      //  placeholder="Payment Mode"
+                      className="col-12 mb-3"
+                      onChange={value => {
+                        setFieldValue('from_account_id', '');
+                        setPaymentMode(value);
+                      }}
+                      isRequired
+                    />
+                    <FormikField
+                      name="reference_num"
+                      label="Reference Number"
+                      //  placeholder="Reference Number"
+                      className="col-12 mb-3"
+                    />
+                    <FormikField
+                      name="amount_applied"
+                      label="Amount"
+                      //  placeholder="Amount"
+                      isRequired
+                      type="number"
+                      className="col-12 mb-3"
+                      endIconClass="ps-2 d-flex align-items-center"
+                      endIcon={(
+                        <span className="form__form-group-label align-items-center">
+                          <strong>Balance:</strong>
+                          AED{maxAmount}
+                        </span>
+                      )}
+                    />
 
-                  <FormikSelect
-                    name="from_account_id"
-                    options={bankAccountListOptions}
-                    label="Deposit To"
-                 //  placeholder="Deposit To"
-                    isRequired
-                    className="col-12 mb-3"
-                  />
-                  <FormikField
-                    name="description"
-                    label="Description"
-                 //  placeholder="Description"
-                    textArea
-                    className="col-12 mb-3"
-                  />
-                  <FormSubmitButton />
-                </div>
-              </Form>
+                    <FormikSelect
+                      name="from_account_id"
+                      options={chartOfAccountAgainstPaymentMode}
+                      disabled={!paymentMode}
+                      label="Deposit To"
+                      //  placeholder="Deposit To"
+                      isRequired
+                      className="col-12 mb-3"
+                    />
+                    <FormikField
+                      name="description"
+                      label="Description"
+                      //  placeholder="Description"
+                      textArea
+                      className="col-12 mb-3"
+                    />
+                    <FormSubmitButton />
+                  </div>
+                </Form>
+              )}
             </Formik>
           </Box>
         </CardContent>

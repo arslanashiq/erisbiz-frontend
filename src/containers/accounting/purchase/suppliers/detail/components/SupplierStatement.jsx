@@ -229,12 +229,12 @@ SupplierStatement.propTypes = {
   transactions: PropTypes.array,
   basicInfo: PropTypes.object,
   personLink: PropTypes.string,
-  CustomerAccountSummary: PropTypes.func,
+  CustomerAccountSummary: PropTypes.bool,
 };
 SupplierStatement.defaultProps = {
   transactions: [],
   basicInfo: {},
-  CustomerAccountSummary: null,
+  CustomerAccountSummary: false,
   personLink: '',
 };
 export default SupplierStatement;
