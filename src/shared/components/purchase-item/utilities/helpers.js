@@ -23,7 +23,6 @@ export const handleChangeValues = (name, index, values, setFieldValue) => {
     label: selectedVatLabel,
   } = VAT_CHARGES.filter(vat => values.vat_rate === vat.value)[0] || VAT_CHARGES[0];
   const vatAmount = ((grossTotal - discount) / 100) * selectedVatPercent;
-
   const netAmount = grossTotal - discount + vatAmount;
 
   if (selectedVatValue) {
@@ -105,10 +104,11 @@ export const handleChangeUnitPrice = (...args) => {
 };
 export const handleChangeQuantity = (...args) => {
   const [name, index, , value, values, setFieldValue, allValues, adjustDiscount] = args;
+  let newAppliedDiscount = values.discount;
   if (adjustDiscount) {
     const perUnitDiscount = allValues[name][index].discountPerItem || 0;
     if (perUnitDiscount >= 0) {
-      const newAppliedDiscount = Number((perUnitDiscount * value)?.toFixed(2)) || 0;
+      newAppliedDiscount = Number((perUnitDiscount * value)?.toFixed(2)) || 0;
       setFieldValue(`${name}.${index}.discount`, newAppliedDiscount || 0);
     }
   }
@@ -116,6 +116,7 @@ export const handleChangeQuantity = (...args) => {
     ...values,
     num_nights: value,
     num_units: value,
+    discount: newAppliedDiscount,
     credit_account: allValues.credit_account,
   };
   setFieldValue(`${name}.${index}.num_units`, value);
