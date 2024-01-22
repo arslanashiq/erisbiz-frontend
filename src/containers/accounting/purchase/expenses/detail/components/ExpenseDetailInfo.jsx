@@ -18,7 +18,7 @@ function ExpenseDetailInfo({ expense }) {
         <Typography sx={{ ...textColor }}>Expense Amount</Typography>
         <Stack direction="row" spacing={3} alignItems="end">
           <Typography sx={{ ...largeFont }}>
-            {expense.currency_symbol} {formatAmount(expense.total)}
+            {expense.currency} {formatAmount(expense.total)}
           </Typography>
           <Typography>on {moment(expense?.expense_date).format(DATE_FORMAT)}</Typography>
         </Stack>
@@ -54,7 +54,7 @@ function ExpenseDetailInfo({ expense }) {
           <Stack {...topSpacing}>
             <Typography sx={textColor}>Tax Amount</Typography>
             <Typography>
-              {expense.currency_symbol}
+              {expense.currency}
               {formatAmount(expense.total - expense.total_without_tax)}
             </Typography>
           </Stack>
