@@ -42,7 +42,7 @@ function OrderReceipt({
   };
 
   const customerInfo = useMemo(
-    () => orderInfo.invoiceToDetail || orderInfo.supplier || orderInfo.customer_info || {},
+    () => orderInfo?.invoiceToDetail || orderInfo?.supplier || orderInfo?.customer_info || {},
     [orderDetail]
   );
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, CircularProgress, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
@@ -13,6 +13,7 @@ import {
   recentActivityMenuListIcon,
   recentActivityMenuListTitle,
 } from 'styles/mui/common/layouts/topbar/components/recent-activity';
+import Loader from 'shared/components/loader/Loader';
 
 function RecentActivity() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -75,7 +76,7 @@ function RecentActivity() {
               </MenuItem>
             ))
           ) : (
-            <CircularProgress />
+            <Loader />
           )}
           {recentActivity?.data?.results?.length === 0 && (
             <MenuItem disabled sx={recentActivityMenuList}>

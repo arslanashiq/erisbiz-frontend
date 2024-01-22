@@ -6,7 +6,14 @@ import { pdf } from '@react-pdf/renderer';
 import useGetQRCode from 'shared/custom-hooks/useGetQRCode';
 import PdfDoc from '../components/PdfDoc';
 
-function usePdfView(orderInfo, orderDetail, keyValue, options) {
+function usePdfView(
+  orderInfo,
+  orderDetail,
+  keyValue,
+  options,
+  statementInfo = {},
+  statementTransactions = []
+) {
   const { company, email } = useSelector(state => state.user);
   const { name: companyName, logo: companyLogo, trn } = company;
   const [data, setData] = useState({});
@@ -53,6 +60,9 @@ function usePdfView(orderInfo, orderDetail, keyValue, options) {
             companyName={companyName}
             companyLogo={companyLogo}
             companyTRN={trn}
+            showStatement={options.showStatement}
+            statementInfo={statementInfo}
+            statementTransactions={statementTransactions}
           />
         );
       }

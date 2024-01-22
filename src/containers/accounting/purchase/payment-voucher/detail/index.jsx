@@ -26,8 +26,9 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 
 // components
 import { supplierOpeningBalanceName } from 'utilities/constants';
-import PaymentVoucherHistory from './components/PaymentVoucherHistory';
+import { displayJournalActionButton } from 'utilities/display-journals';
 import { UnPaidBillsHeadCells } from '../utilities/head-cells';
+import PaymentVoucherHistory from './components/PaymentVoucherHistory';
 
 const keyValue = 'bill_payments';
 function PaymentVoucherDetail() {
@@ -41,6 +42,7 @@ function PaymentVoucherDetail() {
     open: false,
     infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
   });
+  const [defaultExpanded, setDefaultExpanded] = useState(false);
   const [openRefundModal, setOpenRefundModal] = useState(false);
 
   const PaymentVoucherDetailResponse = useGetSinglePaymentVoucherQuery(id);
@@ -115,10 +117,7 @@ function PaymentVoucherDetail() {
       },
       {
         label: 'View Journal',
-        handleClick: () => {
-          const Journal = document.getElementById('Journal');
-          Journal.scrollIntoView({ behavior: 'smooth' });
-        },
+        handleClick: () => displayJournalActionButton(setDefaultExpanded),
       },
     ];
     if (PaymentVoucherDetailResponse?.data?.over_payment > 0) {
@@ -263,7 +262,11 @@ function PaymentVoucherDetail() {
               <PaymentVoucherHistory PaymentVoucher={PaymentVoucherDetailResponse.data} />
               <Grid marginTop={4} id="Journal">
                 {paymenyVoucherJournalResponse?.data?.map(journalItems => (
-                  <JournalTable key={uuid()} journalItems={journalItems?.payment_made_journal_items} />
+                  <JournalTable
+                    key={uuid()}
+                    journalItems={journalItems?.payment_made_journal_items}
+                    defaultValue={defaultExpanded}
+                  />
                 ))}
               </Grid>
             </Grid>

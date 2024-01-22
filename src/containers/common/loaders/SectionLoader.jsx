@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
+import { loaderContainerStyle } from 'shared/components/loader/Loader';
+import LoaderSvg from './component/LoaderSvg';
 
 function SectionLoader({ options, condition, children }) {
   const checkAllConditions = () => options.some(option => option === true);
   if (condition || checkAllConditions()) {
     return (
-      <Box sx={{ position: 'absolute', top: '50%', left: '50%' }}>
-        <CircularProgress />
+      <Box sx={loaderContainerStyle}>
+        <LoaderSvg />
       </Box>
     );
   }

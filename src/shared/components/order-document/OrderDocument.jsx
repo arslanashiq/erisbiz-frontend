@@ -21,7 +21,7 @@ function OrderDocument({
   const { qrCode } = useGetQRCode(orderInfo, orderDetail);
   return (
     <Box style={{ margin: '0 auto', boxShadow: 'border-box', overflow: 'auto' }}>
-      {handleChangeStatus && orderDetail && orderDetail.status === 'draft' && (
+      {handleChangeStatus && orderDetail && orderDetail?.status === 'draft' && (
         <Box className="custom-box" style={{ maxWidth: 900 }}>
           <blockquote className="clr-blue row align-items-center justify-content-between">
             <Box className="col-md-9 d-flex align-items-center p-3">

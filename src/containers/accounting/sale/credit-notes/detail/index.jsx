@@ -21,6 +21,7 @@ import OrderDocument from 'shared/components/order-document/OrderDocument';
 import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import JournalTable from 'shared/components/accordion/JournalTable';
+import { displayJournalActionButton } from 'utilities/display-journals';
 import { DATE_FORMAT_PRINT, customerOpeningBalanceName } from 'utilities/constants';
 import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
 
@@ -38,7 +39,6 @@ function CreditNoteDetail() {
     open: false,
     infoDescription: 'You cannot delete this Purchase Order beacuse this order is used in purchase invoice',
   });
-
   const creditNoteDetailResponse = useGetSingleCreditNoteQuery(id);
   const creditNoteJournalsReponse = useGetCreditNoteJournalsQuery(id);
 
@@ -124,11 +124,7 @@ function CreditNoteDetail() {
       },
       {
         label: 'View Journal',
-        handleClick: () => {
-          setDefaultExpanded(true);
-          const Journal = document.getElementById('Journal');
-          Journal.scrollIntoView({ behavior: 'smooth' });
-        },
+        handleClick: () => displayJournalActionButton(setDefaultExpanded),
       },
     ];
     if (creditNoteDetailResponse?.data?.status === 'open') {

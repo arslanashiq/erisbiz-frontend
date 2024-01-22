@@ -58,7 +58,7 @@ function PDFHeader({
         />
       </View>
 
-      {Object.keys(orderInfo)?.length > 1 && <InvoiceInfoDetail orderInfo={orderInfo} />}
+      {orderInfo && Object.keys(orderInfo)?.length > 1 && <InvoiceInfoDetail orderInfo={orderInfo} />}
       {reportTitle && (
         <View
           style={{

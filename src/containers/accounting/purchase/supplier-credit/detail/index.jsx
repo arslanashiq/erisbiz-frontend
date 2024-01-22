@@ -23,6 +23,7 @@ import RefundDialog from 'shared/components/refund-dialog/RefundDialog';
 import JournalTable from 'shared/components/accordion/JournalTable';
 import ApplyToBill from 'shared/components/apply-to-bill-dialog/ApplyToBill';
 import { supplierOpeningBalanceName } from 'utilities/constants';
+import { displayJournalActionButton } from 'utilities/display-journals';
 import { useGetSuppliersUpaidBillsListMutation } from 'services/private/suppliers';
 import { UnPaidBillsHeadCells } from '../../payment-voucher/utilities/head-cells';
 
@@ -107,11 +108,7 @@ function SupplierCreditDetail() {
       },
       {
         label: 'View Journal',
-        handleClick: () => {
-          setDefaultExpanded(true);
-          const Journal = document.getElementById('Journal');
-          Journal.scrollIntoView({ behavior: 'smooth' });
-        },
+        handleClick: () => displayJournalActionButton(setDefaultExpanded),
       },
     ];
     if (supplierCreditResponse?.data?.status === 'open') {

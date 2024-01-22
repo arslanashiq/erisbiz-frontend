@@ -9,6 +9,7 @@ import MainComponent from './MainComponent';
 import VoucherContent from './VoucherContent';
 import VoucherFooter from './VoucherFooter';
 import JournalVoucher from './JournalVoucher';
+import StatementSummary from './StatementSummary';
 
 function PdfDoc({
   orderInfo,
@@ -22,9 +23,12 @@ function PdfDoc({
   companyDetail,
   companyEmail,
   companyTRN,
+  showStatement,
+  statementInfo,
+  statementTransactions,
 }) {
   return (
-    <MainComponent subject={orderInfo.type} title={orderInfo.type}>
+    <MainComponent subject={orderInfo.type || 'Statement'} title={orderInfo.type || 'Statement'}>
       <PDFHeader
         orderInfo={orderInfo}
         companyName={companyName}
@@ -47,6 +51,9 @@ function PdfDoc({
             subTotalName="Sub Total"
           />
         </>
+      )}
+      {showStatement && (
+        <StatementSummary statementInfo={statementInfo} statementTransactions={statementTransactions} />
       )}
 
       {showVoucherTable && (
@@ -87,6 +94,9 @@ PdfDoc.propTypes = {
   companyDetail: PropTypes.object,
   companyEmail: PropTypes.string,
   companyTRN: PropTypes.string,
+  showStatement: PropTypes.bool,
+  statementInfo: PropTypes.object,
+  statementTransactions: PropTypes.array,
 };
 PdfDoc.defaultProps = {
   orderDetail: {},
@@ -98,6 +108,9 @@ PdfDoc.defaultProps = {
   companyDetail: {},
   companyEmail: '',
   companyTRN: '',
+  showStatement: false,
+  statementInfo: {},
+  statementTransactions: [],
 };
 
 export default PdfDoc;

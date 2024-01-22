@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuid } from 'uuid';
-import { Box, Stack } from '@mui/material';
+import { Box, Button, Stack, Tooltip } from '@mui/material';
 import { useSelector } from 'react-redux';
+import PrintIcon from '@mui/icons-material/Print';
 // styles components
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
+import PdfPrintModal from 'shared/components/pdf/modal/PdfPrintModal';
+import OrderHeader from 'shared/components/order-document/OrderHeader';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
 import { userStatementCustomFilterInitialValues } from 'containers/reports/utilities/initial-values';
-import { userStatementCustomFilterInputList } from 'containers/reports/utilities/filter-input-list';
-import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
 import { getSelectedFilter } from 'containers/reports/utilities/get-selected-filter';
-import OrderHeader from 'shared/components/order-document/OrderHeader';
+import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
+import { userStatementCustomFilterInputList } from 'containers/reports/utilities/filter-input-list';
+
+// styles
+import { iconButtonStyle } from 'utilities/mui-styles';
+import 'styles/template-style/template-styles.scss';
+import 'styles/purchase-order-template/purchase-order-template.scss';
 import {
   supplierStatementHeaderRowStyles,
   supplierStatementHeaderCellStyles,
@@ -18,8 +25,6 @@ import {
   supplierStatementBodyCellStyles,
   supplierStatementTable,
 } from 'styles/mui/container/accounting/purchase/supplier/detail/components/supplier-statement';
-import 'styles/template-style/template-styles.scss';
-import 'styles/purchase-order-template/purchase-order-template.scss';
 import AccountSummary from './AccountSummary';
 
 function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccountSummary }) {
@@ -30,6 +35,8 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
     currency_detail: { currency_symbol: currencySymbol },
     trn: companyTRN,
   } = companyData;
+
+  const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(getSelectedFilter(FilterReportsList));
 
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters(
@@ -44,9 +51,41 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
     handleChangeFilter(selecteAction);
   };
   // console.log(transactions, 'transactions');
+  const accountSummaryList = useMemo(
+    () => [
+      {
+        label: 'Opening Balance',
+        value: basicInfo?.openingBalance || 0,
+      },
+      {
+        label: CustomerAccountSummary ? 'Invoiced Amount' : 'Billed Amount',
+        value: basicInfo?.totalBilledAmount || 0,
+      },
+      {
+        label: CustomerAccountSummary ? 'Amount Received' : 'Amount Paid',
+        value: basicInfo?.totalPaymentAmount || 0,
+      },
+    ],
+    [basicInfo, CustomerAccountSummary]
+  );
+
   return (
     <>
-      <Stack direction="row">
+      <PdfPrintModal
+        isPrintModalOpen={isPrintModalOpen}
+        setIsPrintModalOpen={setIsPrintModalOpen}
+        orderInfo={{}}
+        orderDetail={{}}
+        pdfOptions={{
+          showStatement: true,
+          showItemsTable: false,
+          showVoucherTable: false,
+          showJournalVoucher: false,
+        }}
+        statementInfo={{ ...basicInfo, accountSummaryList }}
+        statementTransactions={transactions}
+      />
+      <Stack direction="row" justifyContent="space-between">
         <ActionMenu
           variant="outlined"
           buttonTitle={selectedFilter.label}
@@ -56,6 +95,11 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
           customFilterInputs={userStatementCustomFilterInputList}
           handleSubmitCustomFilter={handleSubmitCustomDateFilter}
         />
+        <Tooltip title="Print" placement="top" arrow>
+          <Button onClick={() => setIsPrintModalOpen(true)}>
+            <PrintIcon sx={iconButtonStyle} />
+          </Button>
+        </Tooltip>
       </Stack>
       <Box className="statement-template do-print">
         <OrderHeader
@@ -65,15 +109,14 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
           email={email}
           company={companyData}
         />
-        {CustomerAccountSummary ? (
-          <CustomerAccountSummary
-            personLink={personLink}
-            currencySymbol={currencySymbol}
-            basicInfo={basicInfo}
-          />
-        ) : (
-          <AccountSummary personLink={personLink} currencySymbol={currencySymbol} basicInfo={basicInfo} />
-        )}
+
+        <AccountSummary
+          personLink={personLink}
+          currencySymbol={currencySymbol}
+          basicInfo={basicInfo}
+          accountSummaryList={accountSummaryList}
+        />
+
         <Box>
           <table
             style={supplierStatementTable}
@@ -155,22 +198,27 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
                   </td>
                 </tr>
               )}
-              <tr>
-                <td colSpan="4"> </td>
-                <td valign="top" style={supplierStatementHeaderCellStyles}>
-                  <b>Balance Due</b>
-                </td>
-                <td valign="top" style={{ ...supplierStatementHeaderCellStyles, textAlign: 'right' }}>
-                  <b>
-                    {currencySymbol}
-                    {basicInfo?.totalBalanceDue?.includes('-')
-                      ? ` (${basicInfo.totalBalanceDue})`
-                      : ` ${basicInfo.totalBalanceDue || 0}`}
-                  </b>
-                </td>
-              </tr>
             </tbody>
           </table>
+          <div className="row justify-content-end w-100">
+            <div
+              className="row justify-content-between"
+              style={{
+                maxWidth: 300,
+              }}
+            >
+              <div className="col d-flex justify-content-between">
+                <b>Balance Due</b>
+
+                <b>
+                  {currencySymbol}
+                  {basicInfo?.totalBalanceDue?.includes('-')
+                    ? `(${basicInfo.totalBalanceDue})`
+                    : `${basicInfo.totalBalanceDue || 0}`}
+                </b>
+              </div>
+            </div>
+          </div>
         </Box>
       </Box>
     </>

@@ -23,6 +23,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import ChangeStatusToVoid from 'containers/accounting/purchase/purchase-invoice/detail/components/ChangeStatusToVoidModal';
 // utilities
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
+import { displayJournalActionButton } from 'utilities/display-journals';
 
 const keyValue = 'invoice_items';
 const handleCheck = status => {
@@ -40,6 +41,7 @@ function SaleInvoiceDetailPage() {
     infoDescription: 'Cannot delete  this Sale Invoice because its status is not draft',
   });
   const [openVoidModal, setOpenVoidModal] = useState(false);
+  const [defaultExpanded, setDefaultExpanded] = useState(false);
 
   const saleInvoiceDetailResponse = useGetSingleSaleInvoiceQuery(id);
   const saleInvoiceJournalsResponse = useGetSaleInvoiceJournalsQuery(id, {
@@ -154,10 +156,7 @@ function SaleInvoiceDetailPage() {
     if (status !== 'void' || status !== 'draft') {
       actionsList.splice(actionsList.length, 0, {
         label: 'View Journal',
-        handleClick: () => {
-          const Journal = document.getElementById('Journal');
-          if (Journal) Journal.scrollIntoView({ behavior: 'smooth' });
-        },
+        handleClick: () => displayJournalActionButton(setDefaultExpanded),
       });
     }
     if (status !== 'paid' && status !== 'partially paid') {
@@ -244,6 +243,7 @@ function SaleInvoiceDetailPage() {
                   <JournalTable
                     key={uuid()}
                     journalItems={saleInvoiceJournalsResponse?.data?.invoice_journal_items}
+                    defaultValue={defaultExpanded}
                   />
                 </Grid>
               </Grid>

@@ -36,7 +36,6 @@ import CustomerOverview from './components/CustomerOverview';
 import CustomerTransactions from './components/CustomerTransactions';
 // styles
 import { UnPaidSaleInvoiceHeadCells } from '../../receipt-voucher/utilities/head-cells';
-import CustomerAccountSummary from './components/CustomerAccountSummary';
 import 'styles/suppliers/supplier-detail.scss';
 
 function CustomerDetail() {
@@ -245,7 +244,7 @@ function CustomerDetail() {
               basicInfo={basicInfo}
               transactions={transactions}
               personLink={`/pages/accounting/sales/customers/${id}/detail`}
-              CustomerAccountSummary={CustomerAccountSummary}
+              CustomerAccountSummary
             />
           )}
 

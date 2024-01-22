@@ -75,7 +75,9 @@ function addPaymentVoucher() {
   const { payableChartOfAccount, chartOfAccountAgainstPaymentMode } = useMemo(
     () => ({
       payableChartOfAccount: chartOfAccounts.filter(coa => coa.account_type === 'Accounts Payable'),
-      chartOfAccountAgainstPaymentMode: chartOfAccounts.filter(coa => coa.account_type === paymentMode),
+      chartOfAccountAgainstPaymentMode: chartOfAccounts.filter(
+        coa => coa.account_type === paymentMode?.trim()
+      ),
     }),
     [chartOfAccounts, paymentMode]
   );

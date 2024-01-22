@@ -22,6 +22,7 @@ import JournalTable from 'shared/components/accordion/JournalTable';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
+import { displayJournalActionButton } from 'utilities/display-journals';
 import PaymentTable from './components/PaymentTable';
 import ChangeStatusToVoid from './components/ChangeStatusToVoidModal';
 import {
@@ -175,16 +176,7 @@ function PurchaseInvoiceDetail() {
     if (invoiceStatus !== 'draft' && invoiceStatus !== 'void') {
       actionsList.push({
         label: 'View Journal',
-        handleClick: () => {
-          try {
-            const Journal = document.getElementById('Journal');
-
-            Journal.scrollIntoView({ behavior: 'smooth' });
-            setDefaultExpanded(true);
-          } catch (error) {
-            // console.log(error)
-          }
-        },
+        handleClick: () => displayJournalActionButton(setDefaultExpanded),
       });
     }
     if (invoiceStatus !== 'draft' && invoiceStatus !== 'paid' && invoiceStatus !== 'partially paid') {

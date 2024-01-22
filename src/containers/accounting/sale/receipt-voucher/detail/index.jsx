@@ -23,6 +23,7 @@ import OrderDocument from 'shared/components/order-document/OrderDocument';
 import DetailPageHeader from 'shared/components/detail-page-heaher-component/DetailPageHeader';
 import PaymentVoucherHistory from 'containers/accounting/purchase/payment-voucher/detail/components/PaymentVoucherHistory';
 import { customerOpeningBalanceName } from 'utilities/constants';
+import { displayJournalActionButton } from 'utilities/display-journals';
 import { UnPaidSaleInvoiceHeadCells } from '../utilities/head-cells';
 
 const keyValue = 'invoice_payments';
@@ -37,6 +38,8 @@ function ReceiptVoucherDetail() {
     open: false,
     infoDescription: 'You cannot delete this Payment Voucher beacuse this Voucher has debit Notes',
   });
+  const [defaultExpanded, setDefaultExpanded] = useState(false);
+
   const [openApplyToInvoiceModal, setOpenApplyToInvoiceModal] = useState(false);
   const [openRefundModal, setOpenRefundModal] = useState(false);
 
@@ -132,10 +135,7 @@ function ReceiptVoucherDetail() {
       },
       {
         label: 'View Journal',
-        handleClick: () => {
-          const Journal = document.getElementById('Journal');
-          Journal.scrollIntoView({ behavior: 'smooth' });
-        },
+        handleClick: () => displayJournalActionButton(setDefaultExpanded),
       },
     ];
     if (receiptVoucherResponse?.data?.over_payment > 0) {
@@ -265,7 +265,11 @@ function ReceiptVoucherDetail() {
               <PaymentVoucherHistory PaymentVoucher={receiptVoucherResponse?.data} />
               <Grid marginTop={4} id="Journal">
                 {receiptVoucherJournalsResponse?.data?.map(journalItems => (
-                  <JournalTable key={uuid()} journalItems={journalItems?.payment_received_journal_items} />
+                  <JournalTable
+                    key={uuid()}
+                    journalItems={journalItems?.payment_received_journal_items}
+                    defaultValue={defaultExpanded}
+                  />
                 ))}
               </Grid>
             </Grid>

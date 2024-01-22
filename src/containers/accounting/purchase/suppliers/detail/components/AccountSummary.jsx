@@ -1,8 +1,9 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 
-function AccountSummary({ currencySymbol, basicInfo, personLink }) {
+function AccountSummary({ basicInfo, personLink, accountSummaryList }) {
   return (
     <Box className="d-flex justify-content-between">
       <Box className="d-flex align-items-center">
@@ -22,50 +23,24 @@ function AccountSummary({ currencySymbol, basicInfo, personLink }) {
         <Box className="bg-grey py-2 px-2">
           <strong>Account Summary</strong>
         </Box>
-        {basicInfo.filterType !== 'outstanding' && (
-          <Box className="row ps-2">
+
+        {accountSummaryList.map(summary => (
+          <Box key={uuid()} className="row  ps-2">
             <Box className="col-sm-6">
-              <p>Opening Balance</p>
+              <p>{summary.label}</p>
             </Box>
             <Box className="col-sm-6 text-right">
-              <p>
-                {currencySymbol}
-                {` ${basicInfo.openingBalance || 0}`}
-              </p>
+              <p>{summary.value}</p>
             </Box>
           </Box>
-        )}
-        <Box className="row  ps-2">
-          <Box className="col-sm-6">
-            <p>Billed Amount</p>
-          </Box>
-          <Box className="col-sm-6 text-right">
-            <p>
-              {currencySymbol}
-              {` ${basicInfo.totalBilledAmount || 0}`}
-            </p>
-          </Box>
-        </Box>
-        <Box className="row  ps-2">
-          <Box className="col-sm-6">
-            <p>Amount Paid</p>
-          </Box>
-          <Box className="col-sm-6 text-right">
-            <p>
-              {currencySymbol}
-              {` ${basicInfo.totalPaymentAmount || 0}`}
-            </p>
-          </Box>
-        </Box>
+        ))}
+
         <Box className="row border-top  ps-2">
           <Box className="col-sm-6">
             <p>Balance Due</p>
           </Box>
           <Box className="col-sm-6 text-right">
-            <p>
-              {currencySymbol}
-              {` ${basicInfo.totalBalanceDue || 0}`}
-            </p>
+            <p>{` ${basicInfo.totalBalanceDue || 0}`}</p>
           </Box>
         </Box>
       </Box>
@@ -73,13 +48,13 @@ function AccountSummary({ currencySymbol, basicInfo, personLink }) {
   );
 }
 AccountSummary.propTypes = {
-  currencySymbol: PropTypes.string,
   basicInfo: PropTypes.object,
   personLink: PropTypes.string,
+  accountSummaryList: PropTypes.array,
 };
 AccountSummary.defaultProps = {
-  currencySymbol: 'AED',
   basicInfo: {},
   personLink: '',
+  accountSummaryList: [],
 };
 export default AccountSummary;
