@@ -55,7 +55,7 @@ function ExpenseDetailInfo({ expense }) {
             <Typography sx={textColor}>Tax Amount</Typography>
             <Typography>
               {expense.currency_symbol}
-              {formatAmount(expense.vat_total)}
+              {formatAmount(expense.total - expense.total_without_tax)}
             </Typography>
           </Stack>
         )}

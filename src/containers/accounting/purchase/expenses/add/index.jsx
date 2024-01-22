@@ -24,6 +24,7 @@ import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 // custom hooks
 import useListOptions from 'custom-hooks/useListOptions';
 // utilities
+import { getAccountTypesOptions } from 'utilities/get-account-type-options';
 import { VAT_CHARGES } from 'utilities/constants';
 import { expensesInitialValues } from '../utilities/initialValues';
 import { expensesFormValidationSchema } from '../utilities/validation-schema';
@@ -32,7 +33,7 @@ function AddExpense() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const chartOfAccountListResponse = useGetChartOfAccountListQuery({ account_type: 'expense' });
+  const chartOfAccountListResponse = useGetChartOfAccountListQuery();
 
   const supplierListResponse = useGetSuppliersListQuery();
 
@@ -41,10 +42,35 @@ function AddExpense() {
 
   const { initialValues } = useInitialValues(expensesInitialValues, useGetSingleExpenseQuery);
 
-  const { optionsList: bankOptions } = useListOptions(chartOfAccountListResponse?.data?.results, {
-    label: 'account_name',
-    value: 'id',
-  });
+  const { optionsList: chartOfAccountOptions } = useListOptions(
+    chartOfAccountListResponse?.data?.results,
+    {
+      label: 'account_name',
+      value: 'id',
+    },
+    ['account_type']
+  );
+  const { expenseChartOfAccount, chartOfAccountOptionsExcludingExpense } = useMemo(() => {
+    const expenseCOA = [];
+    const excludingExpenseCOA = [];
+    chartOfAccountOptions.forEach(account => {
+      if (account.account_type === 'Expense') {
+        expenseCOA.push(account);
+      } else {
+        excludingExpenseCOA.push(account);
+      }
+    });
+    return {
+      expenseChartOfAccount: expenseCOA,
+      chartOfAccountOptionsExcludingExpense: excludingExpenseCOA,
+    };
+  }, [chartOfAccountOptions]);
+  const sortedChartOfAcocuntExcludingExpenseOptions = getAccountTypesOptions(
+    chartOfAccountOptionsExcludingExpense,
+    3,
+    'account_type'
+  );
+
   const { optionsList: suppliersOptions } = useListOptions(supplierListResponse?.data?.results, {
     label: 'supplier_name',
     value: 'id',
@@ -110,7 +136,7 @@ function AddExpense() {
             //  placeholder="Expense Account"
             startIcon={<TagIcon />}
             label="Expense Account"
-            options={bankOptions}
+            options={expenseChartOfAccount}
             isRequired
           />
 
@@ -140,7 +166,8 @@ function AddExpense() {
             type="text"
             //  placeholder="Paid Through"
             label="Paid Through"
-            options={bankOptions}
+            isGrouped
+            options={sortedChartOfAcocuntExcludingExpenseOptions}
             isRequired
           />
 
