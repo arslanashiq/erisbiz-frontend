@@ -27,20 +27,20 @@ export const apAgingDetailReportHeadCells = [
 ];
 export const payableBillDetailsReportHeadCells = [
   { title: 'Inovice #', style: { textAlign: 'start' } },
-  { title: 'BILL DATE', style: { textAlign: 'start' } },
+  { title: 'Invoice Date', style: { textAlign: 'start' } },
   { title: 'Supplier Name', style: { textAlign: 'start' } },
-  { title: 'Supplier Invoice #,', style: { textAlign: 'start' } },
+  { title: 'Supplier Invoice #', style: { textAlign: 'start' } },
   { title: 'Gross Amount' },
   { title: 'Tax Amount' },
   { title: 'Net Amount' },
-  { title: 'Invoice Due Date', style: { textAlign: 'center' } },
+  { title: 'Due Date', style: { textAlign: 'center' } },
   { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 export const payableDebitNoteReportHeadCells = [
   { title: 'STATUS', style: { textAlign: 'start' } },
-  { title: 'SUPPLIER CREDIT DATE' },
-  { title: 'DEBIT NOTE#' },
-  { title: 'SUPPLIER NAME' },
+  { title: 'SUPPLIER CREDIT DATE', style: { textAlign: 'start' } },
+  { title: 'DEBIT NOTE#', style: { textAlign: 'start' } },
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'BALANCE AMOUNT' },
 ];

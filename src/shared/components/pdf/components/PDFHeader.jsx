@@ -69,7 +69,7 @@ function PDFHeader({
             style={{
               textAlign: 'center',
 
-              fontSize: 20,
+              fontSize: 18,
               ...boldFont,
               ...primaryColor,
             }}
@@ -78,10 +78,10 @@ function PDFHeader({
           </Text>
           <Text
             style={{
+              marginTop: 4,
               textAlign: 'center',
-              fontSize: 10,
-              ...boldFont,
-              ...primaryColor,
+              fontSize: 9,
+              color: 'black',
             }}
           >
             {timeInterval}

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { supplierOpeningBalanceName } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetBillDetailData(supplierPayableBalanceResponse) {
@@ -6,13 +7,20 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
     if (item.type === 'Bill') {
       return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
     }
+    if (item.type === supplierOpeningBalanceName) {
+      return `/pages/accounting/purchase/suppliers/${item.id}/detail`;
+    }
     return false;
   };
-  const { tableBody, totalBillAmount } = useMemo(() => {
-    let billAmount = 0;
+  const { tableBody, totalGrossAmount, totalTaxAmount, totalNetAmount } = useMemo(() => {
+    let grossAmount = 0;
+    let taxAmount = 0;
+    let netAmount = 0;
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
-      billAmount += item.bcy_sales_with_tax_amount;
+      grossAmount += item.amount_total || 0;
+      taxAmount += item.without_change_vat_total || 0;
+      netAmount += item.grand_total || 0;
 
       body.push([
         {
@@ -28,7 +36,6 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
         },
         {
           value: item.supplier_invoice_num,
-          link: getLinkByType(item),
           style: { textAlign: 'start' },
         },
         {
@@ -47,7 +54,9 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
     });
     return {
       tableBody: body,
-      totalBillAmount: billAmount,
+      totalGrossAmount: grossAmount,
+      totalTaxAmount: taxAmount,
+      totalNetAmount: netAmount,
     };
   }, [supplierPayableBalanceResponse]);
   const tableFooter = useMemo(
@@ -57,14 +66,14 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
-        { value: '' },
-        { value: '' },
+        { value: formatAmount(totalGrossAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalTaxAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalNetAmount), style: { fontWeight: 700 } },
         { value: '' },
         { value: '' },
       ],
     ],
-    [tableBody, totalBillAmount]
+    [tableBody, totalGrossAmount, totalTaxAmount, totalNetAmount]
   );
   return { tableBody, tableFooter };
 }
