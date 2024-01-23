@@ -46,7 +46,7 @@ export const payableReports = {
       link: '/pages/reports/ap-aging-details?duration=today&date_type=date',
     },
     {
-      label: 'Bill Details',
+      label: 'Purchase Invoice Register',
       link: '/pages/reports/bill-details?duration=today',
     },
     {

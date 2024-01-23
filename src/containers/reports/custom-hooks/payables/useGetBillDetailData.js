@@ -15,20 +15,34 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
       billAmount += item.bcy_sales_with_tax_amount;
 
       body.push([
-        { value: item.status, style: { textAlign: 'start' } },
-        { value: item.date },
         {
           value: item.formatted_number,
           link: getLinkByType(item),
+          style: { textAlign: 'start' },
         },
+        { value: item.date, style: { textAlign: 'start' } },
         {
           value: item.account_name || item.customer_name,
           link: getLinkByType(item),
+          style: { textAlign: 'start' },
         },
         {
-          value: formatAmount(item.bcy_sales_with_tax_amount),
+          value: item.supplier_invoice_num,
           link: getLinkByType(item),
+          style: { textAlign: 'start' },
         },
+        {
+          value: formatAmount(item.amount_total),
+        },
+        {
+          value: formatAmount(item.without_change_vat_total),
+        },
+        {
+          value: formatAmount(item.grand_total),
+        },
+        { value: item.due_date, style: { textAlign: 'center' } },
+
+        { value: item.status, style: { textAlign: 'start' } },
       ]);
     });
     return {
@@ -44,6 +58,10 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
         { value: '' },
         { value: '' },
         { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
+        { value: '' },
+        { value: '' },
+        { value: '' },
+        { value: '' },
       ],
     ],
     [tableBody, totalBillAmount]

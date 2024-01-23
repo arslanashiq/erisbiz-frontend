@@ -13,7 +13,7 @@ function BillDetails() {
   const updatedCustomInputList = useGetPayablesCustomFilterInputs();
   return (
     <CustomReportDetailPage
-      reportTitle="Bill Detail"
+      reportTitle="Purchase Invoice Register"
       reportHeadCells={payableBillDetailsReportHeadCells}
       useGetReportQuery={useGetPayableBillDetailsQuery}
       useGetReportData={useGetBillDetailData}
