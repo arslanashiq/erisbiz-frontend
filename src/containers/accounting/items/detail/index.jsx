@@ -15,6 +15,7 @@ import DetailTabsWrapper from 'shared/components/detail-tab-wrapper/DetailTabsWr
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 // utilities
 import { DATE_FORMAT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 // components
 import ItemOverViewTab from './components/ItemOverViewTab';
 import ItemTransactionsTab from './components/ItemTransactionsTab';
@@ -55,8 +56,8 @@ function ItemDetail() {
         value: item?.is_active ? 'Activated' : 'Deactivated',
         className: item?.is_active ? 'color-success' : 'color-danger',
       },
-      { label: 'Cost Price', value: item?.cost_price },
-      { label: 'Sale Price', value: item?.sale_price },
+      { label: 'Cost Price', value: formatAmount(item?.cost_price || 0) },
+      { label: 'Sale Price', value: formatAmount(item?.sale_price || 0) },
       { label: 'Supplier', value: item?.supplier_name },
       { label: 'Category', value: item?.category_name },
       { label: 'Brand', value: item?.brand_name },
