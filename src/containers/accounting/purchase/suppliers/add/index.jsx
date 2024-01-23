@@ -54,7 +54,7 @@ function SupplierAddPage() {
     true
   );
   const { optionsList: countryOptions } = useListOptions(countriesListResponse?.data?.data, {
-    value: 'iso2',
+    value: 'country',
     label: 'country',
   });
   // const { optionsList: bankAccountOptions } = useListOptions(

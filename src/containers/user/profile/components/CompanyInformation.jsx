@@ -33,7 +33,7 @@ function CompanyInformation({ companyData }) {
 
   const { optionsList: countriesList } = useListOptions(countriesResponse?.data?.data, {
     label: 'country',
-    value: 'iso2',
+    value: 'country',
   });
   const { optionsList: currenciesList } = useListOptions(activeCurrenciesResponse?.data, {
     label: 'currency_name',

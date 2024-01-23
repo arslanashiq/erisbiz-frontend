@@ -47,7 +47,7 @@ function RegisterCompanyForm() {
   const currenciesResponse = useGetCurrenciesListQuery();
 
   const CountriesOptions = countriesResponse?.data?.data?.map(country => ({
-    value: country.iso2,
+    value: country.country,
     label: country.country,
   }));
   const currenciesOption = currenciesResponse?.data?.map(currency => ({

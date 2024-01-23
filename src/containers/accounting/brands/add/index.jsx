@@ -37,7 +37,7 @@ function AddBrand() {
 
   const { optionsList: brandsRegionOptions } = useListOptions(countriesResponse?.data?.data, {
     label: 'country',
-    value: 'iso2',
+    value: 'country',
   });
 
   const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {

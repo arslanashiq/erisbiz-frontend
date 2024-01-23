@@ -54,7 +54,7 @@ function AddCustomer() {
 
   const { optionsList: countriesOption } = useListOptions(countriesResponse?.data?.data, {
     label: 'country',
-    value: 'iso2',
+    value: 'country',
   });
 
   const handleCopyValue = useCallback((values, setFieldValue) => {
