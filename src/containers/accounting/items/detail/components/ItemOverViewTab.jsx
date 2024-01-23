@@ -39,7 +39,7 @@ function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescripti
         <h2 className="item-overview-heading ">Item Information</h2>
         {itemDetail.map(key => (
           <Grid key={key.label} item container>
-            {handleRender(key.label) && (
+            {handleRender(key.label) && key?.value?.length > 0 && (
               <>
                 <Grid item xs={4} lg={4}>
                   <h5 className="item-overview-title">{key.label}</h5>
