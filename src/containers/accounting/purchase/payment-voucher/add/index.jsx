@@ -156,6 +156,12 @@ function addPaymentVoucher() {
     })();
   }, [selectedSupplier]);
 
+  useEffect(() => {
+    if (id && initialValues?.payment_mode) {
+      setPaymentMode(initialValues?.payment_mode);
+    }
+  }, [initialValues]);
+
   const updatedInitialValues = useMemo(() => {
     let newData = {
       ...initialValues,

@@ -173,6 +173,12 @@ function AddReceiptVoucher() {
     })();
   }, [customerId]);
 
+  useEffect(() => {
+    if (id && initialValues?.payment_mode) {
+      setPaymentMode(initialValues?.payment_mode);
+    }
+  }, [initialValues]);
+
   const updateInitialValues = useMemo(() => {
     const updatedData = { ...initialValues };
     if (id && updatedData?.invoice_payments.length > 0) {
@@ -185,6 +191,7 @@ function AddReceiptVoucher() {
 
     return updatedData;
   }, [initialValues]);
+
   return (
     <SectionLoader options={[latestreceiptVoucherNumber.isLoading, customerListResponse.isLoading]}>
       <Card>
