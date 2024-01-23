@@ -38,7 +38,8 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
       // sales
       'Invoice',
       'Credit Note Refund',
-      'Customer Excess Payment Refund'
+      'Customer Excess Payment Refund',
+      'Credit Notes Refund'
     ];
     const paymentTypes = [
       // purchae

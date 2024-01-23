@@ -4,7 +4,7 @@ import { Grid, useMediaQuery } from '@mui/material';
 import theme from 'styles/mui/theme';
 // import { v4 as uuid } from 'uuid';
 
-function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescription }) {
+function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescription, isService }) {
   const largeGridSpacing = useMemo(() => (itemImage ? 4 : 6), [itemImage]);
   const mediumGridSpacing = useMemo(() => (itemImage ? 6 : 6), [itemImage]);
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
@@ -53,17 +53,21 @@ function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescripti
         ))}
       </Grid>
       <Grid item container xs={12} lg={mediumGridSpacing} xl={largeGridSpacing}>
-        <h2 className="item-overview-heading ">Stocks Information</h2>
-        {itemStock.map(key => (
-          <Grid key={key.label} item container>
-            <Grid item xs={4} lg={4}>
-              <h5 className="item-overview-title">{key.label}</h5>
-            </Grid>
-            <Grid item xs={8} lg={8}>
-              <p className={`item-overview-value ${key.className}`}>{key.value}</p>
-            </Grid>
-          </Grid>
-        ))}
+        {!isService && (
+          <>
+            <h2 className="item-overview-heading ">Stocks Information</h2>
+            {itemStock.map(key => (
+              <Grid key={key.label} item container>
+                <Grid item xs={4} lg={4}>
+                  <h5 className="item-overview-title">{key.label}</h5>
+                </Grid>
+                <Grid item xs={8} lg={8}>
+                  <p className={`item-overview-value ${key.className}`}>{key.value}</p>
+                </Grid>
+              </Grid>
+            ))}
+          </>
+        )}
       </Grid>
       {itemImage && (
         <Grid item xs={12} xl={4}>
@@ -115,6 +119,7 @@ ItemOverViewTab.propTypes = {
   itemStock: PropTypes.array,
   itemImage: PropTypes.string,
   itemDescription: PropTypes.string,
+  isService: PropTypes.bool,
 };
 ItemOverViewTab.defaultProps = {
   itemDetail: [],
@@ -122,5 +127,6 @@ ItemOverViewTab.defaultProps = {
   itemImage: null,
   itemDescription: '',
   item: {},
+  isService: false,
 };
 export default ItemOverViewTab;

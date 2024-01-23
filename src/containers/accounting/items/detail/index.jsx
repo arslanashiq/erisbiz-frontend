@@ -44,7 +44,7 @@ function ItemDetail() {
     });
   }, []);
 
-  const { itemDetail, itemDetailInfo, itemStockInformation } = useMemo(() => {
+  const { itemDetail, itemDetailInfo, itemStockInformation, isService } = useMemo(() => {
     const item = itemDetailResponse?.data;
 
     const detailInfo = [
@@ -74,6 +74,7 @@ function ItemDetail() {
       itemDetail: item,
       itemDetailInfo: detailInfo,
       itemStockInformation: stockInformation,
+      isService: item?.item_type === 'Service',
     };
   }, [itemDetailResponse]);
 
@@ -158,6 +159,7 @@ function ItemDetail() {
               itemStock={itemStockInformation}
               itemImage={itemDetail?.item_image}
               itemDescription={itemDetailResponse?.data?.description}
+              isService={isService}
             />
           )}
           {activeTab === 1 && <ItemTransactionsTab />}

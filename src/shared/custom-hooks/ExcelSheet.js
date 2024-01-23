@@ -50,7 +50,7 @@ const addNewRowInExcelSheet = (targetSheet, cellsList, key, style) => {
   }
   sheet.addRow(row);
   for (let j = 0; j < cellsList.length; j += 1) {
-    if (DECIMAL_REGEX.test(cellsList[j][key])) {
+    if (cellsList[j][key]?.length > 0 && DECIMAL_REGEX.test(cellsList[j][key])) {
       sheet.getRow(selectedRow).getCell(j + 1).value = Number(cellsList[j][key]);
     }
     sheet.getRow(selectedRow).getCell(j + 1).style = cellsList[j].excelSheetStyle || style;
@@ -108,7 +108,8 @@ export const createExcelSheet = async (
     addDataInSheetAndMergeCells(header.length, sheet, '', {});
 
     // REPORT FOOTER
-    appendDataInExcelSheet(sheet, footer, 'value', tableCellFooter);
+
+    appendDataInExcelSheet(sheet, footer, 'value', tableCellFooter, true);
   }
 
   // get each column and assigning specific

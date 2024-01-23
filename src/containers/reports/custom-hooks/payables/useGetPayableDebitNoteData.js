@@ -14,14 +14,13 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
       totalAmount += item.total_supplier_credit_amount;
       dueAmount += item.balance_due_per_supplier_credit || 0;
       body.push([
-        { value: item.status, style: { textAlign: 'start' } },
-        {
-          value: moment(item.supplier_credit_date).format(DATE_FILTER_REPORT),
-          style: { textAlign: 'start' },
-        },
         {
           value: item.supplier_credit_formatted_number,
           link: getLinkByType(item),
+          style: { textAlign: 'start' },
+        },
+        {
+          value: moment(item.supplier_credit_date).format(DATE_FILTER_REPORT),
           style: { textAlign: 'start' },
         },
         {
@@ -37,6 +36,7 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
           value: formatAmount(item.balance_due_per_supplier_credit),
           link: getLinkByType(item),
         },
+        { value: item.status, style: { textAlign: 'start' } },
       ]);
     });
     return {
