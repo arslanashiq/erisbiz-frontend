@@ -38,7 +38,7 @@ export const payableBillDetailsReportHeadCells = [
 ];
 export const payableDebitNoteReportHeadCells = [
   { title: 'DEBIT NOTE#', style: { textAlign: 'start' } },
-  { title: 'SUPPLIER CREDIT DATE', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start' } },
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'BALANCE AMOUNT' },

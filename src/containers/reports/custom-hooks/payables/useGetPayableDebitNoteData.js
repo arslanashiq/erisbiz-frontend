@@ -51,9 +51,9 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: '' },
-        { value: '' },
         { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
         { value: formatAmount(totalDueAmount), style: { fontWeight: 700 } },
+        { value: '' },
       ],
     ],
     [tableBody, totalBillAmount, totalDueAmount]
