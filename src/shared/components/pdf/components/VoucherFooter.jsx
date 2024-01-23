@@ -7,7 +7,7 @@ import ReceiptVoucherFooter from './ReceiptVoucherFooter';
 
 // const BORDER_COLOR = "#D1CACB";
 // const BORDER_STYLE = "solid";
-const COL_WIDTH = 20;
+const COL_WIDTH = 100 / 6;
 
 const styles = StyleSheet.create({
   table: {
@@ -63,30 +63,34 @@ const styles = StyleSheet.create({
 function VoucherFooter({ orderInfo, orderDetail, keyName }) {
   return (
     <View style={{ marginTop: 20 }}>
-      <View>
-        <Text style={{ fontSize: 15, color: '#000000', fontWeight: '600' }}>Payment for</Text>
-      </View>
-      <View style={styles.table}>
-        <View style={[styles.tableRow, { backgroundColor: '#08517e' }]}>
-          {orderInfo.headCells.map(cell => (
-            <View key={uuid()} style={[styles.tableColHeader, { textAlign: 'center' }]}>
-              <Text style={styles.tableCellHeader}>{cell.label}</Text>
-            </View>
-          ))}
-        </View>
-        {orderInfo.showSaleSectionFooter ? (
-          <ReceiptVoucherFooter orderDetail={orderDetail} keyName={keyName} styles={styles} />
-        ) : (
-          <PurchaseVoucherFooter orderDetail={orderDetail} keyName={keyName} styles={styles} />
-        )}
-
-        {!!orderDetail.notes && (
-          <View style={{ marginTop: 10 }}>
-            <Text style={{ fontSize: 13 }}>Notes</Text>
-            <Text style={{ fontSize: 10, marginTop: 5 }}>{orderDetail.notes}</Text>
+      {orderDetail[keyName]?.length > 0 && (
+        <>
+          <View>
+            <Text style={{ fontSize: 15, color: '#000000', fontWeight: '600' }}>Payment for</Text>
           </View>
-        )}
-      </View>
+          <View style={styles.table}>
+            <View style={[styles.tableRow, { backgroundColor: '#08517e' }]}>
+              {orderInfo.headCells.map(cell => (
+                <View key={uuid()} style={[styles.tableColHeader, { textAlign: 'center' }]}>
+                  <Text style={styles.tableCellHeader}>{cell.label}</Text>
+                </View>
+              ))}
+            </View>
+            {orderInfo.showSaleSectionFooter ? (
+              <ReceiptVoucherFooter orderDetail={orderDetail} keyName={keyName} styles={styles} />
+            ) : (
+              <PurchaseVoucherFooter orderDetail={orderDetail} keyName={keyName} styles={styles} />
+            )}
+
+            {!!orderDetail.notes && (
+              <View style={{ marginTop: 10 }}>
+                <Text style={{ fontSize: 13 }}>Notes</Text>
+                <Text style={{ fontSize: 10, marginTop: 5 }}>{orderDetail.notes}</Text>
+              </View>
+            )}
+          </View>
+        </>
+      )}
     </View>
   );
 }
