@@ -73,21 +73,12 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         </Box>
       </Box>
 
-      {orderDetail && orderDetail.over_paid > 0 && (
+      {orderDetail && orderDetail.over_payment > 0 && (
         <Box className="over-payment">
           <h5>Overpayment</h5>
           <h4>
             {orderDetail.currency_symbol}
-            {formatAmount(orderDetail.over_paid)}
-          </h4>
-        </Box>
-      )}
-      {orderDetail && orderDetail?.over_payment !== orderDetail?.over_paid && (
-        <Box className="over-payment">
-          <h5>Applied Amount</h5>
-          <h4>
-            {orderDetail.currency_symbol}
-            {formatAmount(orderDetail.over_paid - orderDetail.over_payment)}
+            {formatAmount(orderDetail.over_payment - (orderDetail?.refund_payment || 0))}
           </h4>
         </Box>
       )}
@@ -97,6 +88,15 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
           <h4>
             {orderDetail.currency_symbol}
             {formatAmount(orderDetail.refund_payment)}
+          </h4>
+        </Box>
+      )}
+      {orderDetail && orderDetail.refund_payment > 0 && (
+        <Box className="over-payment">
+          <h5>Billed Amount</h5>
+          <h4>
+            {orderDetail.currency_symbol}
+            {formatAmount((orderDetail?.total || 0) - (orderDetail?.over_payment || 0))}
           </h4>
         </Box>
       )}

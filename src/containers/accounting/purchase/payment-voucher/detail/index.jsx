@@ -82,10 +82,8 @@ function PaymentVoucherDetail() {
       {
         label: 'Edit',
         handleClick: () => {
-          const cantDelete =
-            PaymentVoucherDetailResponse?.data?.over_paid >= 0 &&
-            PaymentVoucherDetailResponse?.data?.over_paid !==
-              PaymentVoucherDetailResponse?.data?.over_payment;
+          const cantDelete = PaymentVoucherDetailResponse?.data?.refund_payment > 0;
+
           if (cantDelete) {
             setOpenInfoPopup({
               ...openInfoPopup,
@@ -104,10 +102,7 @@ function PaymentVoucherDetail() {
         handleClick: () => {
           let infoDescription = 'Are you sure you want to delete?';
           let showActionButton = true;
-          const cantDelete =
-            PaymentVoucherDetailResponse?.data?.over_paid >= 0 &&
-            PaymentVoucherDetailResponse?.data?.over_paid !==
-              PaymentVoucherDetailResponse?.data?.over_payment;
+          const cantDelete = PaymentVoucherDetailResponse?.data?.refund_payment > 0;
           if (cantDelete) {
             infoDescription = 'You cannot delete this Payment Voucher beacuse this Voucher has refund';
             showActionButton = false;
@@ -201,9 +196,7 @@ function PaymentVoucherDetail() {
     }
   };
   const maxUnusedAmount = useMemo(
-    () => (PaymentVoucherDetailResponse?.data?.over_payment || 0) -
-        (PaymentVoucherDetailResponse?.data?.refund_payment || 0) || 0,
-
+    () => PaymentVoucherDetailResponse?.data?.over_payment || 0,
     [PaymentVoucherDetailResponse]
   );
   return (

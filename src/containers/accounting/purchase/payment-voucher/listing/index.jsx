@@ -36,7 +36,7 @@ function paymentVoucherListing() {
         selectedData.push(item);
       }
     });
-    const isRefunded = selectedData.some(item => item.over_paid >= 0 && item.over_paid !== item.over_payment);
+    const isRefunded = selectedData.some(item => item.refund_payment > 0);
     if (isRefunded) {
       message = selected.length === 1 ? 'Selected Voucher have Refunds or Applied to bill' : message;
       actionButton = false;

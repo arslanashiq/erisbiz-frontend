@@ -57,9 +57,7 @@ function ReceiptVoucher() {
         selectedData.push(item);
       }
     });
-    const isRefunded = selectedData.some(
-      item => item.over_payment > 0 && item.over_paid !== item.over_payment
-    );
+    const isRefunded = selectedData.some(item => item.refund_payment > 0);
     if (isRefunded) {
       message = selected.length === 1 ? 'Selected Voucher have Refunds' : message;
       actionButton = false;

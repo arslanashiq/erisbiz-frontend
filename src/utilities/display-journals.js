@@ -1,9 +1,9 @@
 export const displayJournalActionButton = setDefaultExpanded => {
   try {
-    const Journal = document.getElementById('Journal');
-
-    Journal.scrollIntoView({ behavior: 'smooth', });
     setDefaultExpanded(true);
+    setTimeout(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    }, 10);
   } catch (error) {
     // console.log(error)
   }

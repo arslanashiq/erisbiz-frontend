@@ -209,9 +209,7 @@ function ReceiptVoucherDetail() {
   };
 
   const maxUnusedAmount = useMemo(
-    () => (receiptVoucherResponse?.data?.over_payment || 0) -
-        (receiptVoucherResponse?.data?.refund_payment || 0) || 0,
-    [receiptVoucherResponse]
+    () => (receiptVoucherResponse?.data?.over_payment || 0)[receiptVoucherResponse]
   );
 
   return (
