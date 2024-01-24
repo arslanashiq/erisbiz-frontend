@@ -62,9 +62,9 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
     let dueAmount = 0;
 
     data[keyValue].forEach(item => {
-      const { link, grand_total: grandTotal, amountDue } = getLinkByType(item);
-      amount += grandTotal || 0;
-      dueAmount += amountDue;
+      const { link, grandTotal, amountDue } = getLinkByType(item);
+      amount += Number(grandTotal) || 0;
+      dueAmount += Number(amountDue) || 0;
 
       body.push([
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
