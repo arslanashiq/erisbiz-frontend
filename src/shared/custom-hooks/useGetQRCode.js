@@ -29,7 +29,11 @@ function useGetQRCode(orderInfo, orderDetail) {
     ) {
       let payloadString = '';
       payloadString = getQRCodeData(payloadString, 'Name', orderInfo?.type);
-      payloadString = getQRCodeData(payloadString, 'Formatted Number', orderInfo?.formated_order_number);
+      payloadString = getQRCodeData(
+        payloadString,
+        orderInfo?.type ? `${orderInfo?.type}#` : 'Formatted Number',
+        orderInfo?.formated_order_number
+      );
       payloadString = getQRCodeData(payloadString, 'Date', moment(orderInfo?.date).format(DATE_FORMAT));
       payloadString = getQRCodeData(payloadString, 'Supplier', orderInfo?.invoiceToDetail?.supplier_name);
       payloadString = getQRCodeData(payloadString, 'Customer', orderInfo?.invoiceToDetail?.customer_name);
