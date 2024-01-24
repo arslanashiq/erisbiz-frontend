@@ -57,10 +57,10 @@ export const payableReports = {
       label: 'Payment Made',
       link: '/pages/reports/payments-made?duration=today',
     },
-    {
-      label: 'Refund History',
-      link: '/pages/reports/supplier-refund-history?duration=today',
-    },
+    // {
+    //   label: 'Refund History',
+    //   link: '/pages/reports/supplier-refund-history?duration=today',
+    // },
     {
       label: 'Purchase Order Details',
       link: '/pages/reports/purchase-order-details?duration=today',
