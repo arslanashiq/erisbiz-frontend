@@ -200,14 +200,14 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
               )}
             </tbody>
           </table>
-          <div className="row justify-content-end w-100">
+          <div className="row justify-content-end w-100 m-0">
             <div
               className="row justify-content-between"
               style={{
                 maxWidth: 300,
               }}
             >
-              <div className="col d-flex justify-content-between">
+              <div className="col d-flex justify-content-between px-1">
                 <b>Balance Due</b>
 
                 <b>
