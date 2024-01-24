@@ -12,18 +12,20 @@ function useGetPaymentMadeData(paymentMadeResponse) {
       amount += item.total;
       unUsedAmount += item.unused_amount;
       body.push([
-        { value: moment(item.payment_date).format(DATE_FORMAT), style: { textAlign: 'start' } },
-        { value: item.reference_num },
         {
           value: item.bills__bill_num[0],
           link: `/pages/accounting/purchase/payment-voucher/${item.id}/detail`,
+          style: { textAlign: 'start' },
         },
+        { value: moment(item.payment_date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.supplier__supplier_name,
           link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
+          style: { textAlign: 'start' },
         },
-        { value: item.payment_mode__payment_mode_name },
-        { value: item.chart_of_account__account_name },
+        { value: item.reference_num, style: { textAlign: 'start' } },
+        { value: item.payment_mode__payment_mode_name, style: { textAlign: 'start' } },
+        { value: item.chart_of_account__account_name, style: { textAlign: 'start' } },
         {
           value: formatAmount(item.total),
         },

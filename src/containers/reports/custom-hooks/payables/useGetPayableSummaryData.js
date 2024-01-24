@@ -13,22 +13,21 @@ function useGetPayableSummaryData(payableSummaryResponse) {
       remainingAmount += item.amount_due;
       body.push([
         {
-          value: item.status,
-          style: { textAlign: 'start' },
-        },
-        { value: moment(item.date).format(DATE_FORMAT) },
-        {
           value: item.number,
           link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${
             item.id
           }/detail`,
+          style: { textAlign: 'start' },
         },
+        { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.account_name,
           link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
+          style: { textAlign: 'start' },
         },
         {
           value: item.type,
+          style: { textAlign: 'start' },
         },
         {
           value: formatAmount(item.bcy_sales_with_tax_amount),
@@ -41,6 +40,10 @@ function useGetPayableSummaryData(payableSummaryResponse) {
           link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${
             item.id
           }/detail`,
+        },
+        {
+          value: item.status,
+          style: { textAlign: 'start' },
         },
       ]);
     });

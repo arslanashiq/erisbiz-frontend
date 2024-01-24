@@ -26,7 +26,7 @@ export const apAgingDetailReportHeadCells = [
   { title: 'REMAINING' },
 ];
 export const payableBillDetailsReportHeadCells = [
-  { title: 'Inovice #', style: { textAlign: 'start' } },
+  { title: 'Inovice#', style: { textAlign: 'start' } },
   { title: 'Invoice Date', style: { textAlign: 'start' } },
   { title: 'Supplier Name', style: { textAlign: 'start' } },
   { title: 'Supplier Invoice #', style: { textAlign: 'start' } },
@@ -45,46 +45,47 @@ export const payableDebitNoteReportHeadCells = [
   { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 export const paymentMadeReportHeadCells = [
+  { title: 'Invoice#', style: { textAlign: 'start' } },
   { title: 'DATE', style: { textAlign: 'start' } },
-  { title: 'REFERENCE#' },
-  { title: 'BILL#' },
-  { title: 'SUPPLIER NAME' },
-  { title: 'PAYMENT MODE' },
-  { title: 'PAID THROUGH' },
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
+  { title: 'REFERENCE#', style: { textAlign: 'start' } },
+  { title: 'PAYMENT MODE', style: { textAlign: 'start' } },
+  { title: 'PAID THROUGH', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'UNUSED AMOUNT' },
 ];
 export const payablePurchaseOrderDetailReportHeadCells = [
-  { title: 'STATUS', style: { textAlign: 'start' } },
-  { title: 'DATE' },
-  { title: 'PURCHASE ORDER NUMBER' },
-  { title: 'SUPPLIER NAME' },
+  { title: 'PURCHASE ORDER#', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
+  { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 export const payablePurchaseOrderBySupplierReportHeadCells = [
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'PURCHASE ORDER COUNT' },
+  { title: 'BALANCE' },
   { title: 'AMOUNT' },
 ];
 export const payableSummaryReportHeadCells = [
-  { title: 'STATUS', style: { textAlign: 'start' } },
-  { title: 'DATE' },
-  { title: 'TRANSACTION #' },
-  { title: 'SUPPLIER NAME' },
-  { title: 'TRANSACTION TYPE' },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION TYPE', style: { textAlign: 'start' } },
   { title: 'TOTAL AMOUNT' },
-  { title: 'REMAINING Amount' },
+  { title: 'REMAINING AMOUNT' },
+  { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 export const payableDetailReportHeadCells = [
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION#' },
   { title: 'DATE' },
   { title: 'TRANSACTION #' },
   { title: 'SUPPLIER NAME' },
-  { title: 'TRANSACTION TYPE' },
   { title: 'ITEM NAME' },
   { title: 'ITEM PRICE' },
   { title: 'QUANTITY ORDERED' },
   { title: 'TOTAL AMOUNT' },
+  { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 export const supplierRefundHistoryReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
