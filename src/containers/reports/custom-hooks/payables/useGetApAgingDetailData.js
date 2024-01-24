@@ -31,30 +31,44 @@ const headerStyle = { fontWeight: 'bold', backgroundColor: 'rgb(245 245 245)' };
 function useGetApAgingDetailData(reportAPAgingDetailResponse) {
   const getLinkByType = item => {
     if (item.type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
+      return {
+        link: `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`,
+        grandTotal: item.grand_total,
+        amountDue: item.amount_due,
+      };
     }
 
     if (item.type === 'Excess Payment') {
-      return `/pages/accounting/purchase/payment-voucher/${item.id}/detail`;
+      return {
+        link: `/pages/accounting/purchase/payment-voucher/${item.id}/detail`,
+        grandTotal: -item.grand_total,
+        amountDue: -item.amount_due,
+      };
     }
     if (item.type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
+      return {
+        link: `/pages/accounting/purchase/debit-notes/${item.id}/detail`,
+        grandTotal: -item.grand_total,
+        amountDue: -item.amount_due,
+      };
     }
 
-    return false;
+    return { link: false, grandTotal: item.grand_total, amountDue: item.amount_due };
   };
+
   const getTableBodyValue = (data, keyValue) => {
     const body = [];
     let amount = 0;
     let dueAmount = 0;
 
     data[keyValue].forEach(item => {
-      amount += item.grand_total;
-      dueAmount += item.amount_due;
+      const { link, grand_total: grandTotal, amountDue } = getLinkByType(item);
+      amount += grandTotal || 0;
+      dueAmount += amountDue;
 
       body.push([
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
-        { value: item.formatted_number, link: getLinkByType(item) },
+        { value: item.formatted_number, link },
         { value: item.type },
         {
           value: item.account_name,
@@ -64,10 +78,10 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
           value: item.age,
         },
         {
-          value: formatAmount(item.grand_total),
+          value: formatAmount(grandTotal),
         },
         {
-          value: formatAmount(item.amount_due),
+          value: formatAmount(amountDue),
         },
       ]);
     });
