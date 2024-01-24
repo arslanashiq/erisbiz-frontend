@@ -128,13 +128,13 @@ function CreditNoteDetail() {
       },
     ];
     if (creditNoteDetailResponse?.data?.status === 'open') {
-      actionList.push({
-        label: 'Refund',
-        divider: true,
-        handleClick: () => {
-          setOpenRefundModal(true);
-        },
-      });
+      // actionList.push({
+      //   label: 'Refund',
+      //   divider: true,
+      //   handleClick: () => {
+      //     setOpenRefundModal(true);
+      //   },
+      // });
       actionList.push({
         label: 'Apply to Invoice',
         handleClick: () => {

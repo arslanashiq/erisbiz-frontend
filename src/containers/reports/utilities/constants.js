@@ -231,9 +231,9 @@ export const reciptVoucher = {
       label: 'Credit Note Details',
       link: '/pages/reports/credit-Note-detail?duration=today',
     },
-    {
-      label: 'Refund History',
-      link: '/pages/reports/refund-history?duration=today',
-    },
+    // {
+    //   label: 'Refund History',
+    //   link: '/pages/reports/refund-history?duration=today',
+    // },
   ],
 };

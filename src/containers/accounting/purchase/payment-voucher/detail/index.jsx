@@ -129,13 +129,13 @@ function PaymentVoucherDetail() {
           setApplyToBillInitialValues(unpaidBills);
         },
       });
-      actionsList.push({
-        label: 'Refund',
-        divider: true,
-        handleClick: () => {
-          setOpenRefundModal(true);
-        },
-      });
+      // actionsList.push({
+      //   label: 'Refund',
+      //   divider: true,
+      //   handleClick: () => {
+      //     setOpenRefundModal(true);
+      //   },
+      // });
     }
     return actionsList;
   }, [PaymentVoucherDetailResponse]);

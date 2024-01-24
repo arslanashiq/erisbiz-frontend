@@ -112,13 +112,13 @@ function SupplierCreditDetail() {
       },
     ];
     if (supplierCreditResponse?.data?.status === 'open') {
-      actionList.push({
-        label: 'Refund',
-        divider: true,
-        handleClick: () => {
-          setOpenRefundModal(true);
-        },
-      });
+      // actionList.push({
+      //   label: 'Refund',
+      //   divider: true,
+      //   handleClick: () => {
+      //     setOpenRefundModal(true);
+      //   },
+      // });
       actionList.push({
         label: 'Apply to Bill',
         handleClick: () => {

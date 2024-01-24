@@ -139,12 +139,12 @@ function ReceiptVoucherDetail() {
       },
     ];
     if (receiptVoucherResponse?.data?.over_payment > 0) {
-      actionsList.push({
-        label: 'Refund',
-        handleClick: () => {
-          setOpenRefundModal(true);
-        },
-      });
+      // actionsList.push({
+      //   label: 'Refund',
+      //   handleClick: () => {
+      //     setOpenRefundModal(true);
+      //   },
+      // });
       actionsList.push({
         label: 'Apply To Invoice',
         divider: true,
