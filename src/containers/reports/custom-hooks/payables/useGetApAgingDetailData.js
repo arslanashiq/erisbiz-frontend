@@ -68,11 +68,12 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
 
       body.push([
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
-        { value: item.formatted_number, link },
-        { value: item.type },
+        { value: item.formatted_number, link, style: { textAlign: 'start' } },
+        { value: item.type, style: { textAlign: 'start' } },
         {
-          value: item.account_name,
+          value: item.account_name || item.supplier__supplier_name,
           link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
+          style: { textAlign: 'start' },
         },
         {
           value: item.age,

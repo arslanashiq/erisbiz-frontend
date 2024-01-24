@@ -18,9 +18,9 @@ export const apAgingSummaryReportHeadCells = [
 ];
 export const apAgingDetailReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
-  { title: 'TRANSACTION#' },
-  { title: 'TYPE' },
-  { title: 'SUPPLIER NAME' },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'TYPE', style: { textAlign: 'start' } },
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'AGE' },
   { title: 'TOTAL' },
   { title: 'REMAINING' },
