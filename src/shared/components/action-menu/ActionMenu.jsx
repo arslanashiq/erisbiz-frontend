@@ -101,7 +101,6 @@ function ActionMenu({
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             onClick={handleClick}
-            className="text-capitalize"
             variant={variant}
           >
             {buttonTitle} <KeyboardArrowDownIcon sx={{ fontSize: 20 }} />

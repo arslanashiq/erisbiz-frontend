@@ -1,4 +1,4 @@
-import { AgingByList } from './constants';
+import { AgingByList, statusList } from './constants';
 
 export const payableReportsFilterInputList = [
   {
@@ -86,5 +86,13 @@ export const agingByInput = {
   labelClassName: '',
   className: 'w-100',
   options: AgingByList,
+  fullWidth: true,
+};
+export const statusInput = {
+  label: 'Status',
+  name: 'status',
+  labelClassName: '',
+  className: 'w-100',
+  options: statusList,
   fullWidth: true,
 };

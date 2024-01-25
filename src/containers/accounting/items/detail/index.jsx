@@ -114,6 +114,14 @@ function ItemDetail() {
     }
   }, [itemDetail]);
 
+  const actionsList = useMemo(
+    () => [
+      { label: 'Edit', handleClick: handleClickEdit },
+      { label: 'Delete', handleClick: handleClickDelete },
+    ],
+    []
+  );
+
   return (
     <SectionLoader options={[itemDetailResponse.isLoading]}>
       <Helmet>
@@ -128,22 +136,10 @@ function ItemDetail() {
       />
 
       <Stack direction="row" justifyContent="space-between" sx={{ margin: '10px auto' }}>
-        <Typography className="item-name-wrapper">{itemDetail?.item_name}</Typography>
+        <Typography variant="h6">{itemDetail?.item_name}</Typography>
         <Stack direction="row" spacing={2}>
-          <ActionMenu
-            actionsList={[
-              { label: 'Edit', handleClick: handleClickEdit },
-              { label: 'Delete', handleClick: handleClickDelete },
-            ]}
-          />
-          <Button
-            onClick={() => {
-              navigate(-1);
-            }}
-            className="text-capitalize"
-          >
-            Back
-          </Button>
+          <ActionMenu actionsList={actionsList} />
+          <Button onClick={() => navigate(-1)}>Back</Button>
         </Stack>
       </Stack>
       <Card className="p-2" sx={{ minHeight: '76vh', fontSize: 14 }}>

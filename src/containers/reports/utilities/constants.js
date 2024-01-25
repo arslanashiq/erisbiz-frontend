@@ -29,6 +29,15 @@ export const AgingByList = [
   { value: 'date', label: 'Date' },
   { value: 'due_date', label: 'Due Date' },
 ];
+export const statusList = [
+  { label: 'All', value: ' ' },
+  { label: 'Draft', value: 'draft' },
+  { label: 'Overdue', value: 'overdue' },
+  { label: 'Due', value: 'due today' },
+  { label: 'Partially Paid', value: 'partially paid' },
+  { label: 'Paid', value: 'paid' },
+  { label: 'Void', value: 'void' },
+];
 
 export const payableReports = {
   title: 'Payable Reports',
