@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
@@ -55,6 +56,10 @@ function CustomReportDetailPage({
 
   return (
     <SectionLoader options={[reportResponse.isLoading]}>
+      <Helmet>
+        <title>{reportTitle} Report - ErisBiz</title>
+        <meta name="description" content="ErisBiz" />
+      </Helmet>
       <ReportsHeader
         reportTitle={reportTitle}
         timeInterval={timeInterval}

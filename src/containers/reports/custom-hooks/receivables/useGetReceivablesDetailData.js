@@ -26,19 +26,19 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
           style: { textAlign: 'start' },
           link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
-        { value: moment(item.date).format(DATE_FORMAT) },
+        { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.formatted_number,
           link: getLinkByType(item),
-        },
-        {
-          value: item.status,
+          style: { textAlign: 'start' },
         },
         {
           value: item.type,
+          style: { textAlign: 'start' },
         },
         {
           value: item.service_type,
+          style: { textAlign: 'start' },
         },
         {
           value: formatAmount(item.item_price),
@@ -48,6 +48,10 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
         },
         {
           value: formatAmount(item.total_amount),
+        },
+        {
+          value: item.status,
+          style: { textAlign: 'start' },
         },
       ]);
     });

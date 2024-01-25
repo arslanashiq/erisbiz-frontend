@@ -14,7 +14,7 @@ function PaymentsMade() {
 
   return (
     <CustomReportDetailPage
-      reportTitle="Payment Made"
+      reportTitle="Payment Voucher"
       reportHeadCells={paymentMadeReportHeadCells}
       useGetReportQuery={useGetPaymentMadeDetailsQuery}
       useGetReportData={useGetPaymentMadeData}

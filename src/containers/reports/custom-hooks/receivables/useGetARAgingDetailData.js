@@ -46,11 +46,17 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
 
       body.push([
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
-        { value: item.formatted_number, link: getLinkByType(item) },
-        { value: item.type },
+        {
+          value: item.formatted_number,
+          link: getLinkByType(item),
+
+          style: { textAlign: 'start' },
+        },
+        { value: item.type, style: { textAlign: 'start' } },
         {
           value: item.customer_name,
           link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          style: { textAlign: 'start' },
         },
         {
           value: item.age,

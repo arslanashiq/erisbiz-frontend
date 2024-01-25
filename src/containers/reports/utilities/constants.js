@@ -50,11 +50,11 @@ export const payableReports = {
       link: '/pages/reports/bill-details?duration=today',
     },
     {
-      label: 'Debit Note',
+      label: 'Purchase Debit Note',
       link: '/pages/reports/debit-note?duration=today',
     },
     {
-      label: 'Payment Made',
+      label: 'Payment Voucher',
       link: '/pages/reports/payments-made?duration=today',
     },
     // {
@@ -84,7 +84,7 @@ export const receivableReports = {
   title: 'Receivable Reports',
   reports: [
     {
-      label: 'Account Balances',
+      label: 'Customer Balances',
       link: '/pages/reports/customer-balances?duration=today',
     },
     {
@@ -97,7 +97,7 @@ export const receivableReports = {
     },
 
     {
-      label: 'Invoice Details',
+      label: 'Sales Invoice Details',
       link: '/pages/reports/invoice-details?duration=today',
     },
     {

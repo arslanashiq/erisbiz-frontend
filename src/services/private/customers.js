@@ -90,7 +90,7 @@ const customersApi = privateApi.injectEndpoints({
 
     getCustomerStatement: builder.query({
       query: ({ id, params }) => ({
-        url: `api/accounting/sales/salesAccount/${id}/statement?duration=today&filter_type=all`,
+        url: `api/accounting/sales/salesAccount/${id}/statement`,
         method: 'GET',
         params,
       }),

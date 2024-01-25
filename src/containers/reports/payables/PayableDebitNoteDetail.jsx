@@ -12,7 +12,7 @@ function PayableDebitNoteDetail() {
 
   return (
     <CustomReportDetailPage
-      reportTitle="Debit Note"
+      reportTitle="Purchase Debit Note"
       reportHeadCells={payableDebitNoteReportHeadCells}
       useGetReportQuery={useGetPayableDebitNoteDetailQuery}
       useGetReportData={useGetPayableDebitNoteData}

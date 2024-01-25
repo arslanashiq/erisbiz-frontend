@@ -13,12 +13,12 @@ function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescripti
     if (!itemDescription) return '';
     return (
       <Grid item xs={12} lg={12}>
-        <Grid item container>
-          <Grid item xs={itemImage ? 1 : 2} lg={itemImage ? 1 : 2}>
+        <Grid item container xs={12} lg={12}>
+          <Grid item xs={itemImage ? 2 : 3} lg={itemImage ? 2 : 3}>
             <h5 className="item-overview-title ">Description</h5>
           </Grid>
-          <Grid item xs={itemImage ? 11 : 10} lg={itemImage ? 11 : 10}>
-            <p className={`${itemImage ? 'ps-4' : ''} item-overview-value`}>{itemDescription}</p>
+          <Grid item xs={itemImage ? 10 : 9} lg={itemImage ? 10 : 9}>
+            <p className={`${itemImage ? '' : ''} item-overview-value`}>{itemDescription}</p>
           </Grid>
         </Grid>
       </Grid>
@@ -38,14 +38,14 @@ function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescripti
       <Grid item xs={12} lg={mediumGridSpacing} xl={largeGridSpacing}>
         <h2 className="item-overview-heading ">Item Information</h2>
         {itemDetail.map(key => (
-          <Grid key={key.label} item container>
+          <Grid key={key.label} item container alignItems="center" mb={1}>
             {handleRender(key.label) && key?.value?.length > 0 && (
               <>
-                <Grid item xs={4} lg={4}>
+                <Grid item xs={6} lg={6}>
                   <h5 className="item-overview-title">{key.label}</h5>
                 </Grid>
-                <Grid item xs={8} lg={8}>
-                  <p className={`item-overview-value ${key.className}`}>{key.value}</p>
+                <Grid item xs={6} lg={6}>
+                  <p className={`item-overview-value ps-2 mb-0 ${key.className}`}>{key.value}</p>
                 </Grid>
               </>
             )}
@@ -57,12 +57,12 @@ function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescripti
           <>
             <h2 className="item-overview-heading ">Stocks Information</h2>
             {itemStock.map(key => (
-              <Grid key={key.label} item container>
-                <Grid item xs={4} lg={4}>
+              <Grid key={key.label} item container alignItems="center" mb={1}>
+                <Grid item xs={6} lg={6}>
                   <h5 className="item-overview-title">{key.label}</h5>
                 </Grid>
-                <Grid item xs={8} lg={8}>
-                  <p className={`item-overview-value ${key.className}`}>{key.value}</p>
+                <Grid item xs={6} lg={6}>
+                  <p className={`item-overview-value mb-0 ${key.className}`}>{key.value}</p>
                 </Grid>
               </Grid>
             ))}
@@ -89,10 +89,10 @@ function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescripti
       <Grid item xs={12} lg={mediumGridSpacing} xl={largeGridSpacing}>
         <h2 className="item-overview-heading ">Purchase Information</h2>
         <Grid item container>
-          <Grid item xs={4} lg={4}>
+          <Grid item xs={6} lg={6}>
             <h5 className="item-overview-title">Purchase Account</h5>
           </Grid>
-          <Grid item xs={8} lg={8}>
+          <Grid item xs={6} lg={6}>
             <p className="item-overview-value">{item.account_name}</p>
           </Grid>
         </Grid>
@@ -101,10 +101,10 @@ function ItemOverViewTab({ item, itemDetail, itemStock, itemImage, itemDescripti
         <h2 className="item-overview-heading ">Sales Information</h2>
 
         <Grid item container>
-          <Grid item xs={4} lg={4}>
+          <Grid item xs={6} lg={6}>
             <h5 className="item-overview-title">Sale Account</h5>
           </Grid>
-          <Grid item xs={8} lg={8}>
+          <Grid item xs={6} lg={6}>
             <p className="item-overview-value">{item.account_name}</p>
           </Grid>
         </Grid>

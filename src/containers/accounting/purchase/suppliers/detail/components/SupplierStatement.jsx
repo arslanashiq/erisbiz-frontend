@@ -137,7 +137,7 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
                   Details
                 </td>
                 <td align="right" style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
-                  Amount
+                  Invoice
                 </td>
                 <td align="right" style={supplierStatementHeaderCellStyles} className="pcs-taxtable-header">
                   Payments

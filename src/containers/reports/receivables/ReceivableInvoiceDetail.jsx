@@ -2,18 +2,18 @@ import React from 'react';
 // services
 import { useGetReceivableInvoiceDetailQuery } from 'services/private/reports';
 // containers
-import useGetBillDetailData from 'containers/reports/custom-hooks/payables/useGetBillDetailData';
-import { payableBillDetailsReportHeadCells } from 'containers/reports/utilities/head-cells';
+import { receivableInvoiceDetailsReportHeadCells } from 'containers/reports/utilities/head-cells';
 
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
+import useGetInvoiceDetailData from '../custom-hooks/receivables/useGetInvoiceDetailData';
 
 function ReceivableInvoiceDetail() {
   return (
     <CustomReportDetailPage
-      reportTitle="Invoice Detail"
-      reportHeadCells={payableBillDetailsReportHeadCells}
+      reportTitle="Sales Invoice Detail"
+      reportHeadCells={receivableInvoiceDetailsReportHeadCells}
       useGetReportQuery={useGetReceivableInvoiceDetailQuery}
-      useGetReportData={useGetBillDetailData}
+      useGetReportData={useGetInvoiceDetailData}
     />
   );
 }

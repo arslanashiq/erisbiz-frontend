@@ -26,16 +26,15 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
           style: { textAlign: 'start' },
           link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
-        { value: moment(item.date).format(DATE_FORMAT) },
+        { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.formatted_number,
           link: getLinkByType(item),
-        },
-        {
-          value: item.status,
+          style: { textAlign: 'start' },
         },
         {
           value: item.type,
+          style: { textAlign: 'start' },
         },
         {
           value: formatAmount(item.bcy_sales_with_tax_amount),
@@ -44,6 +43,10 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
         {
           value: formatAmount(item.amount_due),
           link: getLinkByType(item),
+        },
+        {
+          value: item.status,
+          style: { textAlign: 'start' },
         },
       ]);
     });
@@ -57,9 +60,9 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: '' },
         { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         { value: formatAmount(totalRemainingAmount), style: { fontWeight: 700 } },
+        { value: '' },
       ],
     ],
     [totalAmount, totalRemainingAmount]

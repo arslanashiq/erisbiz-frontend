@@ -7,7 +7,7 @@ import CustomReportDetailPage from '../components/CustomReportDetailPage';
 function ReceivablesInvoiceBalanceAgainstCustomer() {
   return (
     <CustomReportDetailPage
-      reportTitle="Account Balance Details"
+      reportTitle="Customer Balance Details"
       reportHeadCells={receivablesInvoiceBalanceAgainstCustomerReportHeadCells}
       useGetReportQuery={useGetReceivableInvoiceBalanceAgainstCustomerQuery}
       useGetReportData={useGetInvoiceBalanceAgainstCustomerData}

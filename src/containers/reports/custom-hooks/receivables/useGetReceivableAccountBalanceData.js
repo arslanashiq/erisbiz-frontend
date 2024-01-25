@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function useGetReceivableAccountBalanceData(receivableAccountBalanceResponse) {
+  const { duration } = getSearchParamsList();
   const { tableBody } = useMemo(() => {
     const body = [];
 
@@ -16,16 +18,16 @@ function useGetReceivableAccountBalanceData(receivableAccountBalanceResponse) {
 
           {
             value: formatAmount(item.invoice_balance),
-            link: `sale-invoice/detail?duration=this+month&customer_id=${item.customer_id}`,
+            link: `sale-invoice/detail?duration=${duration}&customer_id=${item.customer_id}`,
           },
           {
             value: formatAmount(item.credit_balance),
-            link: `credit-notes/detail?duration=this+month&customer_id=${item.customer_id}`,
+            link: `credit-notes/detail?duration=${duration}&customer_id=${item.customer_id}`,
           },
 
           {
             value: formatAmount(item.balance),
-            link: `detail?duration=this+month&customer_id=${item.customer_id}`,
+            link: `detail?duration=${duration}&customer_id=${item.customer_id}`,
           },
         ]);
       });

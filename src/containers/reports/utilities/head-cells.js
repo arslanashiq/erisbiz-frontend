@@ -119,34 +119,43 @@ export const receivablesARAgingSummaryReportHeadCells = [
   { title: '> 45 DAYS' },
   { title: 'TOTAL' },
 ];
+export const receivableInvoiceDetailsReportHeadCells = [
+  { title: 'Inovice#', style: { textAlign: 'start' } },
+  { title: 'Invoice Date', style: { textAlign: 'start' } },
+  { title: 'Customer Name', style: { textAlign: 'start' } },
+  { title: 'Gross Amount' },
+  { title: 'Tax Amount' },
+  { title: 'Net Amount' },
+  { title: 'STATUS', style: { textAlign: 'start' } },
+];
 export const receivablesARAgingDetailReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
-  { title: 'TRANSACTION#' },
-  { title: 'TYPE' },
-  { title: 'CUSTOMER NAME' },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'TYPE', style: { textAlign: 'start' } },
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
   { title: 'AGE' },
   { title: 'AMOUNT' },
   { title: 'BALANCE DUE' },
 ];
 export const receivablesSummaryReportHeadCells = [
   { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
-  { title: 'DATE' },
-  { title: 'TRANSACTION #' },
-  { title: 'STATUS' },
-  { title: 'TRANSACTION TYPE' },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION TYPE', style: { textAlign: 'start' } },
   { title: 'TOTAL AMOUNT' },
   { title: 'REMAINING Amount' },
+  { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 export const receivablesDetailReportHeadCells = [
   { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
-  { title: 'DATE' },
-  { title: 'TRANSACTION #' },
-  { title: 'STATUS' },
-  { title: 'TRANSACTION TYPE' },
-  { title: 'ITEM NAME' },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION TYPE', style: { textAlign: 'start' } },
+  { title: 'ITEM NAME', style: { textAlign: 'start' } },
   { title: 'ITEM PRICE' },
   { title: 'QUANTITY ORDERED' },
   { title: 'TOTAL AMOUNT' },
+  { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 
 // purchase and expenses
