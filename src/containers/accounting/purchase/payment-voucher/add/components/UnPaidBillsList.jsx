@@ -14,7 +14,7 @@ import {
 } from 'styles/mui/container/accounting/purchase/payment-voucher/add/components/unpaid-bills-list';
 import formatAmount from 'utilities/formatAmount';
 
-function UnPaidBillsList({ name, form, headCells }) {
+function UnPaidBillsList({ name, form, headCells, setHasError }) {
   const { values, setFieldValue } = form;
 
   const getUsedAmount = useCallback(
@@ -54,6 +54,15 @@ function UnPaidBillsList({ name, form, headCells }) {
   useEffect(() => {
     setFieldValue('used_amount', getUsedAmount(-1, -1));
   }, [values[name]?.length]);
+
+  useEffect(() => {
+    if (values.used_amount && values.total < values.used_amount) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+    }
+  }, [values]);
+
   return (
     <Box className="col-12 mb-3">
       <TableContainer>
@@ -122,6 +131,7 @@ UnPaidBillsList.propTypes = {
   name: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   headCells: PropTypes.array.isRequired,
+  setHasError: PropTypes.func.isRequired,
 };
 
 export default UnPaidBillsList;

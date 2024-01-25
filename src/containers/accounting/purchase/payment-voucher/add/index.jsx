@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FieldArray, Form, Formik } from 'formik';
 import { useNavigate, useParams } from 'react-router';
@@ -45,6 +44,7 @@ function addPaymentVoucher() {
 
   const [selectedSupplier, setSelectedSupplier] = useState(supplierId || null);
   const [paymentMode, setPaymentMode] = useState('');
+  const [hasError, setHasError] = useState(false);
 
   const supplierListResponse = useGetSuppliersListQuery();
   // const bankAccountListResponse = useGetBankAccountsListQuery({ account_type: paymentMode });
@@ -224,7 +224,7 @@ function addPaymentVoucher() {
             validationSchema={paymentVoucherFormValidationSchema}
             onSubmit={async (values, { setErrors, resetForm }) => {
               let response = null;
-
+              if (hasError) return;
               const billPayments = [];
               values.bill_payments.forEach(bill => {
                 if (bill.amount_applied > 0) {
@@ -337,7 +337,9 @@ function addPaymentVoucher() {
 
                 <FieldArray
                   name="bill_payments"
-                  render={props => <UnPaidBillsList headCells={UnPaidBillsHeadCells} {...props} />}
+                  render={props => (
+                    <UnPaidBillsList setHasError={setHasError} headCells={UnPaidBillsHeadCells} {...props} />
+                  )}
                 />
 
                 <FormikField

@@ -40,6 +40,7 @@ function AddReceiptVoucher() {
   const { customerId } = getSearchParamsList();
 
   const [paymentMode, setPaymentMode] = useState('');
+  const [hasError, setHasError] = useState(false);
 
   const customerListResponse = useGetCustomersListQuery();
   const chartOfAccountsListResponse = useGetChartOfAccountListQuery();
@@ -105,6 +106,7 @@ function AddReceiptVoucher() {
 
   const handleSubmitForm = useCallback(async (values, { setErrors, resetForm }) => {
     let response = null;
+    if (hasError) return;
 
     const updatedPayloadInvoice = [];
     values?.invoice_payments?.forEach(invoice => {
@@ -283,7 +285,13 @@ function AddReceiptVoucher() {
 
                 <FieldArray
                   name="invoice_payments"
-                  render={props => <UnPaidBillsList headCells={UnPaidSaleInvoiceHeadCells} {...props} />}
+                  render={props => (
+                    <UnPaidBillsList
+                      setHasError={setHasError}
+                      headCells={UnPaidSaleInvoiceHeadCells}
+                      {...props}
+                    />
+                  )}
                 />
 
                 <FormikField

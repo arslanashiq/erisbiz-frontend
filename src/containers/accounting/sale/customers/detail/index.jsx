@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSnackbar } from 'notistack';
-import { useLocation, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom/dist';
 // services
 import {
@@ -42,7 +42,6 @@ function CustomerDetail() {
   const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
   const { duration } = getSearchParamsList();
 
   const [activeTab, setActiveTab] = useState(0);
@@ -67,7 +66,13 @@ function CustomerDetail() {
     id,
     params: { duration: activityLogDuration },
   });
-  const customerStatementResponse = useGetCustomerStatementQuery({ id, params: location.search });
+  const customerStatementResponse = useGetCustomerStatementQuery({
+    id,
+    params: {
+      duration: duration || 'this month',
+      filter_type: 'all',
+    },
+  });
   const { basicInfo, transactions } = useSupplierStatement(
     customerStatementResponse?.data || {},
     customerStatementResponse?.data?.transactions || [],

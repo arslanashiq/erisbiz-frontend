@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { FieldArray, Form, Formik } from 'formik';
@@ -13,6 +13,8 @@ import UnPaidBillsList from 'containers/accounting/purchase/payment-voucher/add/
 import 'styles/form/form.scss';
 
 function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues, headCells, title }) {
+  const [hasError, setHasError] = useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -54,12 +56,17 @@ function ApplyToBill({ open, setOpen, handleApply, maxAmount, initialValues, hea
                   })
                 ),
               })}
-              onSubmit={handleApply}
+              onSubmit={(...props) => {
+                if (hasError) return;
+                handleApply(...props);
+              }}
             >
               <Form className="form form--horizontal row justify-content-center">
                 <FieldArray
                   name="bill_credit_notes"
-                  render={props => <UnPaidBillsList headCells={headCells} {...props} />}
+                  render={props => (
+                    <UnPaidBillsList setHasError={setHasError} headCells={headCells} {...props} />
+                  )}
                 />
                 <FormSubmitButton />
               </Form>
