@@ -1,8 +1,8 @@
-function getSearchParamsList() {
+function getSearchParamsList(location = window.location) {
   let paramsList = {};
   const list = [];
   if (!window?.location?.search) return paramsList;
-  const search = window.location.search.replace('?', '');
+  const search = location?.search?.replace('?', '');
   if (!search) return paramsList;
 
   const searchList = search.split('&') || [];

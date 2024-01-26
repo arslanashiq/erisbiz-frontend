@@ -14,6 +14,7 @@ function usegetSupplierInput() {
     options: suppliersOptions || [],
     name: 'supplier_id',
     labelClassName: '',
+    placeholder: 'Select Supplier',
     className: 'w-100',
     fullWidth: true,
   };

@@ -16,6 +16,7 @@ function useGetPurchaseOrderBySupplierData(purchaseOrderBySupplierResponse) {
         {
           value: item.pur_order_count,
           link: `detail?duration=${duration}&supplier_id=${item.supplier__id}`,
+          style: { textAlign: 'start' }
         },
         { value: formatAmount(item.amount_with_tax) },
       ]);

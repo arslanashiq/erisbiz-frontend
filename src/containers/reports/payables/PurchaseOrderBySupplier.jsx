@@ -16,7 +16,7 @@ function PurchaseOrderBySupplier() {
 
   return (
     <CustomReportDetailPage
-      reportTitle="Purchase Orders By Suppliers"
+      reportTitle="Purchase Order By Suppliers"
       reportHeadCells={payablePurchaseOrderBySupplierReportHeadCells}
       useGetReportQuery={useGetPurchaseOrderBySupplierQuery}
       useGetReportData={useGetPurchaseOrderBySupplierData}

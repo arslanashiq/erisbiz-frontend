@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
@@ -36,11 +37,12 @@ function CustomReportDetailPage({
   customReportCustomerInitialValues,
   customReportInputListValidationSchema,
 }) {
+  const location = useLocation();
   const { name: companyName } = useSelector(state => state?.user?.company);
 
   const { replaceTableBody } = options;
 
-  const searchQueryParamsData = getSearchParamsList();
+  const searchQueryParamsData = getSearchParamsList(location);
   const defaultParams = usePagination ? { ...DEFAULT_PARAMS } : {};
   const reportResponse = useGetReportQuery({ ...defaultParams, ...searchQueryParamsData }, queryOptions);
   const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } = useGetReportData(
@@ -53,7 +55,6 @@ function CustomReportDetailPage({
     reportResponse?.data?.start_date,
     reportResponse?.data?.end_date
   );
-
   return (
     <SectionLoader options={[reportResponse.isLoading]}>
       <Helmet>

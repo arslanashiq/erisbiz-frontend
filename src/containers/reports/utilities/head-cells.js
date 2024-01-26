@@ -63,7 +63,7 @@ export const payablePurchaseOrderDetailReportHeadCells = [
 ];
 export const payablePurchaseOrderBySupplierReportHeadCells = [
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
-  { title: 'PURCHASE ORDER COUNT' },
+  { title: 'PURCHASE ORDER COUNT', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
 ];
 export const payablePurchaseOrderBySupplierDetailReportHeadCells = [

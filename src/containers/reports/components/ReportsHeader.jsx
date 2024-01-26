@@ -32,13 +32,11 @@ function ReportsHeader({
   const { showFilter, showPrint } = options;
   const navigate = useNavigate();
   const [isPrintModalOpen, setIsPrintModalOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState(initialFilterValue);
 
   const handleFilter = (selecteAction, handleCloseMenu) => {
     if (selecteAction.value !== '') {
       handleCloseMenu();
     }
-    setSelectedFilter(selecteAction);
     handleChangeFilter(selecteAction);
   };
   return (
@@ -58,8 +56,9 @@ function ReportsHeader({
         <Stack>
           {showFilter && (
             <ActionMenu
+              hideFilterList
               variant="outlined"
-              buttonTitle={selectedFilter.label}
+              buttonTitle={initialFilterValue?.label || 'Custom'}
               actionsList={filterList}
               handleAction={handleFilter}
               cutomInitialValues={customFilterInitialValues}

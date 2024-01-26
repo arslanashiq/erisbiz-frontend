@@ -18,6 +18,7 @@ import {
   topbarProfileMenuItemOption,
   topbarProfileName,
 } from 'styles/mui/common/layouts/topbar/components/topbar-profile';
+import { privateApi } from 'services/private';
 
 function TopbarProfile() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function TopbarProfile() {
   };
   const handleLogout = async () => {
     localStorage.clear();
+    dispatch(privateApi.util.resetApiState());
     await dispatch(logOut());
     navigate('/auth/login');
   };
