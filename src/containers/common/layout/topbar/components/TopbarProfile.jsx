@@ -6,7 +6,7 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 // import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from 'store/slices/userSlice';
+import { logOut } from 'store/slices/userSlice';
 import { Box, Typography, Menu, MenuItem, Avatar, Stack } from '@mui/material';
 import {
   topbarIcon,
@@ -31,7 +31,7 @@ function TopbarProfile() {
   };
   const handleLogout = async () => {
     localStorage.clear();
-    await dispatch(setUser({ isAuthenticated: false, user: { email: '', groups: [], profile: {} } }));
+    await dispatch(logOut());
     navigate('/auth/login');
   };
   const handleClose = () => {

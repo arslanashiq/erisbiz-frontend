@@ -8,7 +8,7 @@ function useGetAPAgingSummaryData(supplierPayableBalanceResponse) {
     if (duration) {
       return `/pages/reports/ap-aging-details?duration=${duration}&supplier_id=${item.supplier__id}&date_type=date&interval=${interval}`;
     }
-    return `/pages/reports/ap-aging-details?duration=this+month&supplier_id=${item.supplier__id}&date_type=date&interval=${interval}`;
+    return `/pages/reports/ap-aging-details?duration=this%20month&supplier_id=${item.supplier__id}&date_type=date&interval=${interval}`;
   };
 
   const { tableBody, totalCurrent, totalDay15, totalDay30, totalDay45, totalDayAbove45, totalBalance } =

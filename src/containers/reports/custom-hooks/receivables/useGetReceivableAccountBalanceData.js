@@ -3,7 +3,7 @@ import formatAmount from 'utilities/formatAmount';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function useGetReceivableAccountBalanceData(receivableAccountBalanceResponse) {
-  const { duration } = getSearchParamsList();
+  const { duration = 'this%20month' } = getSearchParamsList();
   const { tableBody } = useMemo(() => {
     const body = [];
 

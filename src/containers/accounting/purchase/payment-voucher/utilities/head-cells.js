@@ -21,7 +21,7 @@ export const PaymentVoucherHeadCells = [
     label: 'Payment #',
     align: 'left',
     cellValueAction: (_, __, row) => (
-      <Link to={`${window.location.pathname}/${row.uuid || row.id}/detail`}>
+      <Link to={`${row.uuid || row.id}/detail`}>
         {row.payment_formatted_number || row.payment_num}
       </Link>
     ),

@@ -4,8 +4,10 @@ import moment from 'moment';
 import { activityLogsHeadCells } from 'containers/reports/utilities/head-cells';
 import { getModuleName } from 'containers/reports/activity/utilities/constants';
 import { DATE_FORMAT } from 'utilities/constants';
+import { useLocation } from 'react-router';
 
 function useActivityLogsData(activityLogsResponse) {
+  const location = useLocation();
   // const getActionType = (method, module) => {
   //   if (module === 'Login') {
   //     return '';
@@ -44,7 +46,7 @@ function useActivityLogsData(activityLogsResponse) {
 
         {
           value: getModuleName(item.module_name) || 'Module',
-          link: `${window.location.pathname}/${item.id}`,
+          link: `${location.pathname}/${item.id}`,
 
           style: {
             textAlign: 'start',

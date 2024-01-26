@@ -7,7 +7,7 @@ import CustomReportDetailPage from '../components/CustomReportDetailPage';
 function CreditNoteDetail() {
   return (
     <CustomReportDetailPage
-      reportTitle="Credit Note Detail"
+      reportTitle="Sales Credit Note Detail"
       reportHeadCells={creditNoteDetailReportHeadCells}
       useGetReportQuery={useGetCreditNoteDetailReportQuery}
       useGetReportData={useGetCreditNoteDetailData}

@@ -80,6 +80,13 @@ const reportsApi = privateApi.injectEndpoints({
       }),
       providesTags: ['getPurchaseOrderBySupplier'],
     }),
+    getPurchaseOrderBySupplierDetail: builder.query({
+      query: params => ({
+        url: 'api/payables/report/pur/order/by/vendor/detail',
+        params,
+      }),
+      providesTags: ['getPurchaseOrderBySupplier'],
+    }),
     getPayableSummary: builder.query({
       query: params => ({
         url: 'api/payables/report/summary',
@@ -484,6 +491,7 @@ export const {
   useGetPaymentMadeDetailsQuery,
   useGetPurchaseOrderDetailQuery,
   useGetPurchaseOrderBySupplierQuery,
+  useGetPurchaseOrderBySupplierDetailQuery,
   useGetPayableSummaryQuery,
   useGetPayableDetailQuery,
   useGetSupplierRefundHistoryQuery,

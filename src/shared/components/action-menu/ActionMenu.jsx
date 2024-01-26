@@ -161,7 +161,7 @@ function ActionMenu({
                       <FormSubmitButton
                         clearButtonAction={({ values: formValues, ...rest }) => {
                           handleSubmitCustomFilter(
-                            { duration: 'this%20month' },
+                            { duration: 'today' },
                             { ...rest },
                             handleClose,
                             customFilterInputs

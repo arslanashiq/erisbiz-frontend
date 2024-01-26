@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function useReportHeaderFilters() {
   const navigate = useNavigate();
+  const location = useLocation();
   const findKeyInQueryParamsAndReplace = (search, queryKey, newQuery) => {
     const searchQuery = search.replace('?', '');
     let foundQueryKey = false;
@@ -31,7 +32,7 @@ function useReportHeaderFilters() {
     });
 
     navigate({
-      pathname: `${window.location.pathname}`,
+      pathname: `${location.pathname}`,
       search: newSearchQuery,
     });
 
@@ -47,12 +48,12 @@ function useReportHeaderFilters() {
         newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, key, null);
       });
       newSearchQuery = findKeyInQueryParamsAndReplace(
-        window.location.search,
+        location.search,
         'duration',
         selectedFilterOption.value
       );
       navigate({
-        pathname: `${window.location.pathname}`,
+        pathname: `${location.pathname}`,
         search: newSearchQuery,
       });
     }

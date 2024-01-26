@@ -59,13 +59,18 @@ export const payablePurchaseOrderDetailReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 export const payablePurchaseOrderBySupplierReportHeadCells = [
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'PURCHASE ORDER COUNT' },
-  { title: 'BALANCE' },
   { title: 'AMOUNT' },
+];
+export const payablePurchaseOrderBySupplierDetailReportHeadCells = [
+  { title: 'PURCHASE Order#', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'AMOUNT' },
+  { title: 'STATUS' },
 ];
 export const payableSummaryReportHeadCells = [
   { title: 'TRANSACTION#', style: { textAlign: 'start' } },
@@ -77,15 +82,14 @@ export const payableSummaryReportHeadCells = [
   { title: 'STATUS', style: { textAlign: 'start' } },
 ];
 export const payableDetailReportHeadCells = [
-  { title: 'TRANSACTION#' },
-  { title: 'DATE' },
-  { title: 'TRANSACTION #' },
-  { title: 'SUPPLIER NAME' },
-  { title: 'ITEM NAME' },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
+  { title: 'ITEM NAME', style: { textAlign: 'start' } },
   { title: 'ITEM PRICE' },
   { title: 'QUANTITY ORDERED' },
   { title: 'TOTAL AMOUNT' },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 export const supplierRefundHistoryReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },

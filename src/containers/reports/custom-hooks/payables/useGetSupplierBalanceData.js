@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function useGetSupplierBalanceData(supplierPayableBalanceResponse) {
   const { tableBody, totalBalance, currencySymbol } = useMemo(() => {
+    const { duration } = getSearchParamsList();
     let balance = 0;
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
@@ -15,15 +17,17 @@ function useGetSupplierBalanceData(supplierPayableBalanceResponse) {
         },
         {
           value: formatAmount(item.bill_balance || 0),
-          link: `bill/detail?duration=this+month&supplier_id=${item.supplier__id}`,
+          link: `bill/detail?duration=${duration || 'this%20month'}&supplier_id=${item.supplier__id}`,
         },
         {
           value: formatAmount(item.credit_balance || 0),
-          link: `excess-payment/detail?duration=this+month&supplier_id=${item.supplier__id}`,
+          link: `excess-payment/detail?duration=${duration || 'this%20month'}&supplier_id=${
+            item.supplier__id
+          }`,
         },
         {
           value: formatAmount(item.balance_bcy || 0),
-          link: `detail?duration=this+month&supplier_id=${item.supplier__id}`,
+          link: `detail?duration=${duration || 'this%20month'}&supplier_id=${item.supplier__id}`,
         },
       ]);
     });

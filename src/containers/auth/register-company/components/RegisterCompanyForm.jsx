@@ -105,23 +105,23 @@ function RegisterCompanyForm() {
                   return;
                 }
                 enqueueSnackbar('Company Added Successfully', { variant: 'success' });
-                const planId = sessionStorage.getItem('planId');
-                if (planId) {
-                  await dispatch(
-                    setUser({
-                      user: response?.data?.user || {},
-                      company: response.data,
-                      isAuthenticated: true,
-                      is_regestered_company: true,
-                      is_payment: false,
-                    })
-                  );
-                  setTimeout(() => {
+                await dispatch(
+                  setUser({
+                    user: response?.data?.user || {},
+                    company: response.data,
+                    isAuthenticated: true,
+                    is_regestered_company: true,
+                    is_payment: false,
+                  })
+                );
+                setTimeout(() => {
+                  const planId = sessionStorage.getItem('planId');
+                  if (planId) {
                     navigate(`/register-company/payment?plan_id=${planId}`);
-                  }, 10);
-                  return;
-                }
-                window.location.reload();
+                  } else {
+                    navigate('/register-company/plans');
+                  }
+                }, 10);
               } catch (error) {
                 enqueueSnackbar('Somthing went wrong!', { variant: 'error' });
               }

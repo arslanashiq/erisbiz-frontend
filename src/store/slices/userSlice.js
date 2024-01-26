@@ -54,9 +54,22 @@ const userSlice = createSlice({
       const newData = { ...state, isAuthenticated, isRegesteredCompany, profile, company, email, isPayment };
       return newData;
     },
+    logOut: () => {
+      const newData = {
+        token: localStorage.getItem('token'),
+        email: '',
+        groups: [],
+        profile: {},
+        company: {},
+        isAuthenticated: false,
+        isPayment: false,
+        isRegesteredCompany: false,
+      };
+      return newData;
+    },
   },
 });
 
 export default userSlice.reducer;
 
-export const { setUser, isUserAuthenticated } = userSlice.actions;
+export const { logOut, setUser, isUserAuthenticated } = userSlice.actions;

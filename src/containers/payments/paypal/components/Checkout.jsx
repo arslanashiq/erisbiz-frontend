@@ -5,8 +5,9 @@ import { useSendPaymentStatusMutation } from 'services/private/paypal';
 import { useSnackbar } from 'notistack';
 import { Avatar, Box, Card, CardContent, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import formatAmount from 'utilities/formatAmount';
+import { setUser } from 'store/slices/userSlice';
 
 const cardHeadingFont = { fontSize: 16 };
 const planSummaryStyleBox = { justifyContent: 'space-between' };
@@ -15,6 +16,8 @@ function Checkout({ plan }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const [{ isPending }] = usePayPalScriptReducer();
+  const dispatch = useDispatch();
+
   const [sendPaymentStatus] = useSendPaymentStatusMutation();
 
   const { email } = useSelector(state => state.user);
@@ -38,7 +41,15 @@ function Checkout({ plan }) {
         enqueueSnackbar(response?.error?.data?.error || 'Somthing Went Wrong', { variant: 'error' });
         return;
       }
-      window.location.reload();
+      await dispatch(
+        setUser({
+          user: response?.data?.user || {},
+          company: response.data,
+          isAuthenticated: true,
+          is_regestered_company: true,
+          is_payment: true,
+        })
+      );
       enqueueSnackbar(response?.data?.message || 'Payment Made', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(error || 'Somthing Went Wrong', { variant: 'error' });

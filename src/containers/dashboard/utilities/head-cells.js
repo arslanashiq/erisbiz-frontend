@@ -27,7 +27,8 @@ export const currentMonthSalesHeadCells = [
     id: 'without_change_grand_total',
     disablePadding: false,
     label: 'Amount',
-    align: 'left',
+    align: 'right',
+    formatAmount: true,
   },
   {
     id: 'status',
@@ -87,13 +88,15 @@ export const totalReceivablesHeadCells = [
     id: 'amount_total',
     disablePadding: false,
     label: 'Amount',
-    align: 'left',
+    align: 'right',
+    formatAmount: true,
   },
   {
     id: 'amount_due',
     disablePadding: false,
     label: 'Balance',
-    align: 'left',
+    align: 'right',
+    formatAmount: true,
   },
   {
     id: 'status',

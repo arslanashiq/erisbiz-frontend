@@ -1,7 +1,7 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Box, Button, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
@@ -20,6 +20,7 @@ function MuiTableBody({
   customActionButton,
   hoverEffect,
 }) {
+  const location = useLocation();
   const companyDetail = useSelector(state => state?.user?.company);
   const {
     currency_detail: { currency_symbol: currencySymbol },
@@ -50,7 +51,7 @@ function MuiTableBody({
     if (cell.handleLink) {
       return cell.handleLink(row);
     }
-    return `${window.location.pathname}/${row.uuid || row.id}/detail`;
+    return `${location.pathname}/${row.uuid || row.id}/detail`;
   };
   const renderCellValue = (row, cell) => {
     // for custom actions based on values values

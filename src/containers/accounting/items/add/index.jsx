@@ -106,7 +106,7 @@ function AddItemPage() {
 
   const handleAddNewData = (link, values) => {
     navigate(link, {
-      state: { backUrl: window.location.pathname, initialValues: values },
+      state: { backUrl: location.pathname, initialValues: values },
       replace: true,
     });
   };

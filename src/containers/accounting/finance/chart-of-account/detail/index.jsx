@@ -47,7 +47,7 @@ function ChartOfAccountDetail() {
           <Button
             variant="text"
             onClick={() => {
-              navigate(`/pages/reports/account-transactions?duration=this%20year&chart_of_account_id=${id}`);
+              navigate(`/pages/reports/account-transactions?duration=this%20month&chart_of_account_id=${id}`);
             }}
           >
             Detail View

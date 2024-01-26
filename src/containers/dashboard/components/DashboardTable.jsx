@@ -14,16 +14,20 @@ import {
 } from '@mui/material';
 import palette from 'styles/mui/theme/palette';
 import moment from 'moment';
-import { DATE_FORMAT_PRINT } from 'utilities/constants';
+import { DATE_FORMAT } from 'utilities/constants';
+import formatAmount from 'utilities/formatAmount';
 
 function DashboardTable({ className, title, data, headCells }) {
   const renderData = useCallback((row, cell) => {
     if (cell.handleData) {
       return cell.handleData(row, cell);
     }
+    if (cell.formatAmount) {
+      return formatAmount(row[cell.id]);
+    }
 
     if (cell.isDate) {
-      return moment(row[cell.id]).format(DATE_FORMAT_PRINT);
+      return moment(row[cell.id]).format(DATE_FORMAT);
     }
     return row[cell.id];
   }, []);
@@ -52,6 +56,7 @@ function DashboardTable({ className, title, data, headCells }) {
                       color: 'white',
                       outline: '1px solid silver',
                       fontSize: 11,
+                      textAlign: cell.align || 'left',
                     }}
                   >
                     {cell.label}
@@ -64,7 +69,15 @@ function DashboardTable({ className, title, data, headCells }) {
                 data.map(row => (
                   <TableRow key={uuid()}>
                     {headCells.map(cell => (
-                      <TableCell key={uuid()} sx={{ fontSize: 11, outline: '1px solid silver' }}>
+                      <TableCell
+                        key={uuid()}
+                        sx={{
+                          fontSize: 11,
+                          outline: '1px solid silver',
+
+                          textAlign: cell.align || 'left',
+                        }}
+                      >
                         {renderData(row, cell)}
                       </TableCell>
                     ))}

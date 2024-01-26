@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, Divider, Drawer, IconButton, Stack, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 // import { Form, Formik } from 'formik';
 // import FormikField from '../form/FormikField';
 
 function FilterDrawer({ open, setOpen, children }) {
+  const location = useLocation();
   const initialValues = getSearchParamsList();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -48,9 +49,9 @@ function FilterDrawer({ open, setOpen, children }) {
                     }${key}=${values[key]}`;
                   }
                 });
-                if (searchQueryParams === '') navigate(window.location.pathname);
+                if (searchQueryParams === '') navigate(location.pathname);
                 else {
-                  navigate({ pathname: `${window.location.pathname}`, search: searchQueryParams });
+                  navigate({ pathname: `${location.pathname}`, search: searchQueryParams });
                 }
                 handleClose();
               } catch (err) {
@@ -71,7 +72,7 @@ function FilterDrawer({ open, setOpen, children }) {
                     color="secondary"
                     onClick={() => {
                       resetForm();
-                      navigate(window.location.pathname);
+                      navigate(location.pathname);
                       handleClose();
                     }}
                     //   disabled={!touched || isSubmitting}

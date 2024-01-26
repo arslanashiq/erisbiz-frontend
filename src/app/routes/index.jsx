@@ -128,6 +128,7 @@ const ReportPayableDebitNoteDetailPage = lazy(() => import('containers/reports/p
 const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/payables/PaymentsMade'));
 const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/payables/PurchaseOrderDetail'));
 const ReportPurchaseOrderBySupplierPage = lazy(() => import('containers/reports/payables/PurchaseOrderBySupplier'));
+const ReportPurchaseOrderBySupplierDetailPage = lazy(() => import('containers/reports/payables/PurchaseOrderBySupplierDetail'));
 const ReportPayableSummaryPage = lazy(() => import('containers/reports/payables/PayableSummary'));
 const ReportPayableDetailsPage = lazy(() => import('containers/reports/payables/PayableDetails'));
 const ReportSupplierRefundHistoryPage = lazy(() => import('containers/reports/payables/SupplierRefundHistory'));
@@ -369,6 +370,7 @@ function AppRoutes() {
                   <Route path="payments-made" element={<ReportPaymentsMadeDetailPage />} />
                   <Route path="purchase-order-details" element={<ReportPurchaseOrderDetailPage />} />
                   <Route path="purchase-order-by-supplier" element={<ReportPurchaseOrderBySupplierPage />} />
+                  <Route path="purchase-order-by-supplier/detail" element={<ReportPurchaseOrderBySupplierDetailPage />} />
                   <Route path="payable-summary" element={<ReportPayableSummaryPage />} />
                   <Route path="payable-details" element={<ReportPayableDetailsPage />} />
                   <Route path="supplier-refund-history" element={<ReportSupplierRefundHistoryPage />} />

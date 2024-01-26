@@ -4,7 +4,9 @@ import getSearchParamsList from 'utilities/getSearchParamsList';
 
 function useGetARAgingSummaryData(receivableARAgingReportResponse) {
   const { duration } = getSearchParamsList();
-  const getARAgingSummaryDetailLink = (item, interval) => `/pages/reports/ar-aging-details?duration=${duration}&date_type=date&customer_id=${item.customer_id}&interval=${interval}`;
+  const getARAgingSummaryDetailLink = (item, interval) => `/pages/reports/ar-aging-details?duration=${duration || 'this%20month'}&date_type=date&customer_id=${
+    item.customer_id
+  }&interval=${interval}`;
 
   const {
     tableBody,
