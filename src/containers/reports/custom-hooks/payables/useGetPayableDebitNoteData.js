@@ -36,7 +36,7 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
           value: formatAmount(item.balance_due_per_supplier_credit),
           link: getLinkByType(item),
         },
-        { value: item.status, style: { textAlign: 'start' } },
+        { value: item.status },
       ]);
     });
     return {

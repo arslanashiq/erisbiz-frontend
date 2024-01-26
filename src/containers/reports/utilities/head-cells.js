@@ -34,7 +34,7 @@ export const payableBillDetailsReportHeadCells = [
   { title: 'Tax Amount' },
   { title: 'Net Amount' },
   { title: 'Due Date', style: { textAlign: 'center' } },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 export const payableDebitNoteReportHeadCells = [
   { title: 'DEBIT NOTE#', style: { textAlign: 'start' } },
@@ -42,7 +42,7 @@ export const payableDebitNoteReportHeadCells = [
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'BALANCE AMOUNT' },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 export const paymentMadeReportHeadCells = [
   { title: 'Invoice#', style: { textAlign: 'start' } },
@@ -79,7 +79,7 @@ export const payableSummaryReportHeadCells = [
   { title: 'TRANSACTION TYPE', style: { textAlign: 'start' } },
   { title: 'TOTAL AMOUNT' },
   { title: 'REMAINING AMOUNT' },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 export const payableDetailReportHeadCells = [
   { title: 'TRANSACTION#', style: { textAlign: 'start' } },
@@ -130,7 +130,7 @@ export const receivableInvoiceDetailsReportHeadCells = [
   { title: 'Gross Amount' },
   { title: 'Tax Amount' },
   { title: 'Net Amount' },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 export const receivablesARAgingDetailReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
@@ -148,7 +148,7 @@ export const receivablesSummaryReportHeadCells = [
   { title: 'TRANSACTION TYPE', style: { textAlign: 'start' } },
   { title: 'TOTAL AMOUNT' },
   { title: 'REMAINING Amount' },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 export const receivablesDetailReportHeadCells = [
   { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
@@ -159,7 +159,7 @@ export const receivablesDetailReportHeadCells = [
   { title: 'ITEM PRICE' },
   { title: 'QUANTITY ORDERED' },
   { title: 'TOTAL AMOUNT' },
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
 ];
 
 // purchase and expenses
@@ -171,7 +171,7 @@ export const purchaseBySupplierReportHeadCells = [
   { title: 'AMOUNT' },
 ];
 export const purchaseBySupplierDetailReportHeadCells = [
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
   { title: 'DATE' },
   { title: 'TRANSACTION#' },
   { title: 'AMOUNT' },
@@ -190,7 +190,7 @@ export const purchaseByItemDetailReportHeadCells = [
   { title: 'AVERAGE PRICE' },
 ];
 export const expenseDetailReportHeadCells = [
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
   { title: 'DATE' },
   { title: 'REFERENCE#' },
   { title: 'SUPPLIER NAME' },
@@ -275,7 +275,7 @@ export const receiptVoucherReportHeadCells = [
   { title: 'UNUSED AMOUNT' },
 ];
 export const creditNoteDetailReportHeadCells = [
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
   { title: 'CREDIT DATE' },
   { title: 'CREDIT NOTE#' },
   { title: 'CUSTOMER NAME' },
@@ -337,7 +337,7 @@ export const trialBalanceReportHeadCells = [
 ];
 // tax
 export const taxReturnReportHeadCells = [
-  { title: 'STATUS', style: { textAlign: 'start' } },
+  { title: 'STATUS' },
   { title: 'TAX RETURNS' },
   { title: 'FILED ON' },
   { title: 'TOTAL TAX PAYABLE' },

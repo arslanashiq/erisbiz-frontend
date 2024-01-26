@@ -9,7 +9,7 @@ import { supplierBalanceInitialValues } from '../utilities/initial-values';
 import { supplierBalanceFilterCustomInputsValidationSchema } from '../utilities/validation-schema';
 import useGetPayablesCustomFilterInputs from '../custom-hooks/common/useGetPayablesCustomFilterInputs';
 
-function BillDetails() {
+function PurchaseInvoiceRegister() {
   const updatedCustomInputList = useGetPayablesCustomFilterInputs();
   return (
     <CustomReportDetailPage
@@ -24,4 +24,4 @@ function BillDetails() {
   );
 }
 
-export default BillDetails;
+export default PurchaseInvoiceRegister;

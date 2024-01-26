@@ -49,7 +49,7 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
         },
         { value: item.due_date, style: { textAlign: 'center' } },
 
-        { value: item.status, style: { textAlign: 'start' } },
+        { value: item.status },
       ]);
     });
     return {

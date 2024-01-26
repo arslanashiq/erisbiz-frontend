@@ -43,7 +43,6 @@ function useGetPayableSummaryData(payableSummaryResponse) {
         },
         {
           value: item.status,
-          style: { textAlign: 'start' },
         },
       ]);
     });

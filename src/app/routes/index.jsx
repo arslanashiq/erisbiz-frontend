@@ -115,15 +115,15 @@ const AddJournalVouchePage = lazy(() => import('containers/accounting/finance/jo
 const JournalVoucherDetailPage = lazy(() => import('containers/accounting/finance/journal-voucher/detail'));
 
 // Reports
-// payables
 const ReportsListPage = lazy(() => import('containers/reports/listing'));
+// payables
 const ReportSupplierBalancePage = lazy(() => import('containers/reports/payables/SupplierBalance'));
 const ReportSupplierBillBalanceReport = lazy(() => import('containers/reports/payables/SupplierBillBalance'));
 const ReportSupplierExcessPaymentBalanceReport = lazy(() => import('containers/reports/payables/SupplierExcessPaymentBalance'));
 const ReportSupplierBalanceDetailReport = lazy(() => import('containers/reports/payables/SupplierBalanceDetail'));
 const ReportApAgingSummaryPage = lazy(() => import('containers/reports/payables/ApAgingSummary'));
 const ReportApAgingDetailPage = lazy(() => import('containers/reports/payables/ApAgingDetail'));
-const ReportBillDetailsPage = lazy(() => import('containers/reports/payables/BillDetails'));
+const ReportPurchaseInvoiceRegisterPage = lazy(() => import('containers/reports/payables/PurchaseInvoiceRegisterPage'));
 const ReportPayableDebitNoteDetailPage = lazy(() => import('containers/reports/payables/PayableDebitNoteDetail'));
 const ReportPaymentsMadeDetailPage = lazy(() => import('containers/reports/payables/PaymentsMade'));
 const ReportPurchaseOrderDetailPage = lazy(() => import('containers/reports/payables/PurchaseOrderDetail'));
@@ -365,7 +365,7 @@ function AppRoutes() {
                   </Route>
                   <Route path="ap-aging-summary" element={<ReportApAgingSummaryPage />} />
                   <Route path="ap-aging-details" element={<ReportApAgingDetailPage />} />
-                  <Route path="bill-details" element={<ReportBillDetailsPage />} />
+                  <Route path="bill-details" element={<ReportPurchaseInvoiceRegisterPage />} />
                   <Route path="debit-note" element={<ReportPayableDebitNoteDetailPage />} />
                   <Route path="payments-made" element={<ReportPaymentsMadeDetailPage />} />
                   <Route path="purchase-order-details" element={<ReportPurchaseOrderDetailPage />} />
