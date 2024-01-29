@@ -294,8 +294,7 @@ export const itemBillTransactionHeadCells = [
   },
 
   {
-    id: 'bill_formated_number',
-    numeric: true,
+    id: 'bill_num',
     disablePadding: false,
     label: 'Bill #',
     align: 'left',
