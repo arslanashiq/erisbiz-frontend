@@ -17,7 +17,7 @@ function RenderCustomInputs({
   handleClose,
 }) {
   return (
-    <Stack justifyContent="space-between" className="px-4 py-3">
+    <Stack justifyContent="space-between" className="px-4 py-3" sx={{ width: 380 }}>
       <Formik
         enableReinitialize
         initialValues={updatedInitialValues}

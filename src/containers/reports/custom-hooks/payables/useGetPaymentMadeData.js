@@ -8,16 +8,16 @@ function useGetPaymentMadeData(paymentMadeResponse) {
     let billNumer = item.bills__bill_num;
     try {
       if (typeof item.bills__bill_num === 'object' && item.bills__bill_num?.length > 0) {
-        let number = '';
+        let number = null;
 
         billNumer.forEach(billNum => {
           if (number) {
-            number = billNum?.split('-')[1];
-          } else {
             number = `${number},${billNum?.split('-')[1]}`;
+          } else {
+            number = billNum?.split('-')[1];
           }
         });
-        billNumer = `PIN(${number})`;
+        billNumer = `PIN-(${number})`;
       }
     } catch (error) {
       return item.bills__bill_num[0];

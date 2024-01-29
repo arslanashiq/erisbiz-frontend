@@ -16,6 +16,16 @@ function useGetPayableSummaryData(payableSummaryResponse) {
       amountDue,
     };
   };
+  const getLinkByType = item => {
+    if (item.type === 'Bill') {
+      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
+    }
+
+    if (item.type === 'Debit Note') {
+      return `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
+    }
+    return false;
+  };
   const { tableBody, totalAmount, totalRemainingAmount } = useMemo(() => {
     let amount = 0;
     let remainingAmount = 0;
@@ -27,9 +37,7 @@ function useGetPayableSummaryData(payableSummaryResponse) {
       body.push([
         {
           value: item.formatted_number,
-          link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${
-            item.id
-          }/detail`,
+          link: getLinkByType(item),
           style: { textAlign: 'start' },
         },
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
