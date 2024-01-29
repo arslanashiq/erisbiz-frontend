@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { supplierOpeningBalanceName } from 'utilities/constants';
+// import { supplierOpeningBalanceName } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetBillDetailData(supplierPayableBalanceResponse) {
@@ -7,9 +7,9 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
     if (item.type === 'Bill') {
       return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
     }
-    if (item.type === supplierOpeningBalanceName) {
-      return `/pages/accounting/purchase/suppliers/${item.id}/detail`;
-    }
+    // if (item.type === supplierOpeningBalanceName) {
+    //   return `/pages/accounting/purchase/suppliers/${item.id}/detail`;
+    // }
     return false;
   };
   const { tableBody, totalGrossAmount, totalTaxAmount, totalNetAmount } = useMemo(() => {
@@ -31,7 +31,7 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
         { value: item.date, style: { textAlign: 'start' } },
         {
           value: item.account_name || item.customer_name,
-          link: getLinkByType(item),
+          link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
           style: { textAlign: 'start' },
         },
         {

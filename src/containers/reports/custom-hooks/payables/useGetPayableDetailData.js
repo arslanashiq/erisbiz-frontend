@@ -16,7 +16,7 @@ function useGetPayableDetailData(payableDetailResponse) {
       return `/pages/accounting/purchase/purchase-invoice/${item.bill__id}/detail`;
     }
     if (item.type === 'Debit Note') {
-      return `pages/accounting/purchase/debit-notes/${item.supplier_credit__id}/detail`;
+      return `/pages/accounting/purchase/debit-notes/${item.supplier_credit__id}/detail`;
     }
     return false;
   };
@@ -37,7 +37,7 @@ function useGetPayableDetailData(payableDetailResponse) {
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.supplier,
-          link: `/pages/accounting/purchase/suppliers/${item.supplier__id}/detail`,
+          link: `/pages/accounting/purchase/suppliers/${item.supplier_id}/detail`,
           style: { textAlign: 'start' },
         },
         // {
