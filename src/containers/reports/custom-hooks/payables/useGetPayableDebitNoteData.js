@@ -30,11 +30,11 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
         },
         {
           value: formatAmount(item.total_supplier_credit_amount),
-          link: getLinkByType(item),
+          // link: getLinkByType(item),
         },
         {
           value: formatAmount(item.balance_due_per_supplier_credit),
-          link: getLinkByType(item),
+          // link: getLinkByType(item),
         },
         { value: item.status },
       ]);
