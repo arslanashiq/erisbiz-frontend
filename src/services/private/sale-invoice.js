@@ -41,6 +41,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
       invalidatesTags: [
         'getSaleInvoiceJournals',
         'getSingleSaleInvoice',
+        'getSaleInvoicePayments',
         'getSaleInvoicesList',
         'getProformaInvoicesList',
         'getSingleProformaInvoice',
@@ -59,6 +60,8 @@ const saleInvoiceApi = privateApi.injectEndpoints({
       invalidatesTags: [
         'getSaleInvoicesList',
         'getSingleSaleInvoice',
+        'getSaleInvoicePayments',
+
         'getProformaInvoicesList',
         'getSingleProformaInvoice',
         'getLatestSaleInvoice',
@@ -81,14 +84,14 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getSingleSaleInvoice'],
+      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicePayments'],
     }),
     deleteSaleInvoiceDocuments: builder.mutation({
       query: ({ id }) => ({
         url: `api/accounting/sales/invoices/docs/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getSingleSaleInvoice'],
+      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicePayments'],
     }),
 
     getSaleInvoiceJournals: builder.query({
@@ -107,6 +110,7 @@ const saleInvoiceApi = privateApi.injectEndpoints({
       providesTags: ['changeSaleInvoiceStatusToSent'],
       invalidatesTags: [
         'getSingleSaleInvoice',
+        'getSaleInvoicePayments',
         'getSaleInvoicesList',
         'getSaleInvoiceJournals',
         'getItemsList',
@@ -118,7 +122,14 @@ const saleInvoiceApi = privateApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['changeSaleInvoiceStatusToVoid'],
-      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicesList'],
+      invalidatesTags: ['getSingleSaleInvoice', 'getSaleInvoicePayments', 'getSaleInvoicesList'],
+    }),
+    getSaleInvoicePayments: builder.query({
+      query: id => ({
+        url: `api/accounting/sales/invoices/${id}/payment`,
+        method: 'GET',
+      }),
+      providesTags: ['getSaleInvoicePayments'],
     }),
   }),
 });
@@ -135,4 +146,5 @@ export const {
   useChangeSaleInvoiceStatusToVoidMutation,
   useGetSaleInvoiceJournalsQuery,
   useGetLatestSaleInvoiceQuery,
+  useGetSaleInvoicePaymentsQuery
 } = saleInvoiceApi;

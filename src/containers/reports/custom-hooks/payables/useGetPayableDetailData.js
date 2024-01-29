@@ -4,14 +4,20 @@ import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetPayableDetailData(payableDetailResponse) {
-  const { tableBody, totalAmount, totalQuantity, totalPrice } = useMemo(() => {
+  const getAmountByType = item => {
+    let numNights = item.num_nights || 0;
+    if (item.type === 'Debit Note') {
+      numNights *= -1;
+    }
+    return numNights;
+  };
+  const { tableBody, totalAmount, totalQuantity } = useMemo(() => {
     let amount = 0;
     let quantity = 0;
-    let price = 0;
     const body = [];
     payableDetailResponse?.data?.data.forEach(item => {
-      price += item.item_price || 0;
-      quantity += item.num_nights || 0;
+      const numNights = getAmountByType(item);
+      quantity += numNights;
       amount += item.total_amount || 0;
       body.push([
         {
@@ -40,7 +46,7 @@ function useGetPayableDetailData(payableDetailResponse) {
           value: formatAmount(item.item_price),
         },
         {
-          value: formatAmount(item.num_nights),
+          value: numNights,
         },
         {
           value: formatAmount(item.total_amount),
@@ -50,7 +56,7 @@ function useGetPayableDetailData(payableDetailResponse) {
         },
       ]);
     });
-    return { tableBody: body, totalPrice: price, totalQuantity: quantity, totalAmount: amount };
+    return { tableBody: body, totalQuantity: quantity, totalAmount: amount };
   }, [payableDetailResponse]);
 
   const tableFooter = useMemo(
@@ -60,13 +66,13 @@ function useGetPayableDetailData(payableDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: formatAmount(totalPrice), style: { fontWeight: 700 } },
-        { value: formatAmount(totalQuantity), style: { fontWeight: 700 } },
+        { value: '', style: { fontWeight: 700 } },
+        { value: totalQuantity, style: { fontWeight: 700 } },
         { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         { value: '' },
       ],
     ],
-    [totalAmount, totalQuantity, totalPrice]
+    [totalAmount, totalQuantity]
   );
   return { tableBody, tableFooter };
 }

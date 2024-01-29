@@ -4,6 +4,27 @@ import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetPaymentMadeData(paymentMadeResponse) {
+  const getBillNumber = item => {
+    let billNumer = item.bills__bill_num;
+    try {
+      if (typeof item.bills__bill_num === 'object' && item.bills__bill_num?.length > 0) {
+        let number = '';
+
+        billNumer.forEach(billNum => {
+          if (number) {
+            number = billNum?.split('-')[1];
+          } else {
+            number = `${number},${billNum?.split('-')[1]}`;
+          }
+        });
+        billNumer = `PIN(${number})`;
+      }
+    } catch (error) {
+      return item.bills__bill_num[0];
+    }
+
+    return billNumer;
+  };
   const { tableBody, totalAmount, totalUnUsedAmount } = useMemo(() => {
     let amount = 0;
     let unUsedAmount = 0;
@@ -13,7 +34,7 @@ function useGetPaymentMadeData(paymentMadeResponse) {
       unUsedAmount += item.unused_amount;
       body.push([
         {
-          value: item.bills__bill_num[0],
+          value: getBillNumber(item),
           link: `/pages/accounting/purchase/payment-voucher/${item.id}/detail`,
           style: { textAlign: 'start' },
         },

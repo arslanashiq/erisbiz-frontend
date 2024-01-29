@@ -1,9 +1,10 @@
-import { Card, CardContent, Grid } from '@mui/material';
+import { Card, CardContent, Grid, IconButton, Tooltip } from '@mui/material';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { useSnackbar } from 'notistack';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import DeleteIcon from '@mui/icons-material/Delete';
 // services
 import {
   useChangeSaleInvoiceStatusToSentMutation,
@@ -11,6 +12,7 @@ import {
   useDeleteSaleInvoiceDocumentsMutation,
   useDeleteSaleInvoiceMutation,
   useGetSaleInvoiceJournalsQuery,
+  useGetSaleInvoicePaymentsQuery,
   useGetSingleSaleInvoiceQuery,
   useUploadSaleInvoiceDocumentsMutation,
 } from 'services/private/sale-invoice';
@@ -24,6 +26,8 @@ import ChangeStatusToVoid from 'containers/accounting/purchase/purchase-invoice/
 // utilities
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 import { displayJournalActionButton } from 'utilities/display-journals';
+import PaymentTable from 'containers/accounting/purchase/purchase-invoice/detail/components/PaymentTable';
+import { paymentsAgainstSaleInvoiceHeadCells, saleCreditNoteAgainstSaleInvoiceHeadCells } from 'containers/accounting/purchase/purchase-invoice/utilities/head-cells';
 
 const keyValue = 'invoice_items';
 const handleCheck = status => {
@@ -47,6 +51,7 @@ function SaleInvoiceDetailPage() {
   const saleInvoiceJournalsResponse = useGetSaleInvoiceJournalsQuery(id, {
     skip: handleCheck(saleInvoiceDetailResponse?.data?.status),
   });
+  const saleInvoicePaymentsResponse = useGetSaleInvoicePaymentsQuery(id);
 
   const [changeStatusToSent] = useChangeSaleInvoiceStatusToSentMutation();
   const [changeStatusToVoid] = useChangeSaleInvoiceStatusToVoidMutation();
@@ -231,6 +236,37 @@ function SaleInvoiceDetailPage() {
       />
       <Card>
         <CardContent>
+          {saleInvoicePaymentsResponse?.data?.payment?.length > 0 && (
+            <Grid item style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
+              <PaymentTable
+                heading="Receipt Voucher"
+                headCells={paymentsAgainstSaleInvoiceHeadCells}
+                payments={saleInvoicePaymentsResponse.data?.payment}
+              />
+            </Grid>
+          )}
+          {saleInvoicePaymentsResponse?.data?.credits_applied?.length > 0 && (
+            <Grid item style={{ maxWidth: 900, margin: '20px auto' }} md={12}>
+              <PaymentTable
+                heading="Debit Applied"
+                headCells={saleCreditNoteAgainstSaleInvoiceHeadCells}
+                payments={saleInvoicePaymentsResponse.data?.credits_applied}
+                customActionButton={[
+                  {
+                    title: 'Actions',
+                    handleClick: () => {},
+                    element: (
+                      <Tooltip title="Delete Credit" arrow placement="top">
+                        <IconButton>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    ),
+                  },
+                ]}
+              />
+            </Grid>
+          )}
           <OrderDocument
             orderInfo={orderInfo}
             keyValue={keyValue}

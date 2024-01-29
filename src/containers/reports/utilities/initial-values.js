@@ -24,7 +24,9 @@ export const duration = {
 export const supplierIdInitialValue = {
   supplier_id: '',
 };
-
+export const customerIdInitialValue = {
+  customer_id: '',
+};
 export const supplierBalanceInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
@@ -46,4 +48,15 @@ export const payableSummaryInitialValues = {
 export const payableDetailInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
+};
+
+// receivables
+
+export const customerBalanceInitialValues = {
+  ...customDuration,
+  ...customerIdInitialValue,
+};
+export const arAgingSummaryInitialValues = {
+  ...customerBalanceInitialValues,
+  date_type: '',
 };

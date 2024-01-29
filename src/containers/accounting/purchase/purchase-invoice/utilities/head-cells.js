@@ -103,6 +103,49 @@ export const paymentsAgainstPurchaseInvoiceHeadCells = [
     formatAmount: true,
   },
 ];
+export const paymentsAgainstSaleInvoiceHeadCells = [
+  {
+    id: 'payment_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    date: true,
+  },
+  {
+    id: 'payment_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Payment',
+    isLink: true,
+    align: 'left',
+    handleLink: data => `/pages/accounting/sales/receipt-voucher/${data.payment_id}/detail`,
+  },
+  {
+    id: 'reference_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Reference#',
+    align: 'left',
+  },
+
+  {
+    id: 'payment_mode',
+    numeric: true,
+    disablePadding: false,
+    label: 'Payment Mode',
+    align: 'left',
+  },
+
+  {
+    id: 'amount',
+    numeric: true,
+    disablePadding: false,
+    label: 'Amount',
+    align: 'left',
+    formatAmount: true,
+  },
+];
 export const purchaseDebitNoteAgainstPurchaseInvoiceHeadCells = [
   {
     id: 'credit_date',
@@ -120,6 +163,32 @@ export const purchaseDebitNoteAgainstPurchaseInvoiceHeadCells = [
     isLink: true,
     align: 'left',
     handleLink: data => `/pages/accounting/purchase/debit-notes/${data.supplier_credit_id}/detail`,
+  },
+  {
+    id: 'amount',
+    numeric: true,
+    disablePadding: false,
+    label: 'Debit Applied',
+    align: 'left',
+  },
+];
+export const saleCreditNoteAgainstSaleInvoiceHeadCells = [
+  {
+    id: 'credit_date',
+    numeric: false,
+    disablePadding: true,
+    label: 'Date',
+    align: 'left',
+    date: true,
+  },
+  {
+    id: 'credit_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Purchase Debit Note #',
+    isLink: true,
+    align: 'left',
+    handleLink: data => `/pages/accounting/sales/credit-notes/${data.supplier_credit_id}/detail`,
   },
   {
     id: 'amount',

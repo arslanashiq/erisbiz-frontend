@@ -32,6 +32,7 @@ export const durationValidationSchema = {
     }),
 };
 export const supplierValidationSchema = { supplier_id: Yup.string() };
+export const customerValidationSchema = { customer_id: Yup.string() };
 
 // payables validation schema
 export const supplierBalanceFilterCustomInputsValidationSchema = Yup.object({
@@ -56,4 +57,15 @@ export const payableSummaryFilterCustomInputsValidationSchema = Yup.object({
 export const payableDetailFilterCustomInputsValidationSchema = Yup.object({
   ...customDurationValidationSchema,
   ...supplierValidationSchema,
+});
+
+// receivables
+export const customerbalanceCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...customerValidationSchema,
+});
+export const arAgingSummaryCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...customerValidationSchema,
+  date_type: Yup.string(),
 });

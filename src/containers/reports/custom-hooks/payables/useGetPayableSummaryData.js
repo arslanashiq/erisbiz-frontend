@@ -65,6 +65,7 @@ function useGetPayableSummaryData(payableSummaryResponse) {
         { value: '' },
         { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         { value: formatAmount(totalRemainingAmount), style: { fontWeight: 700 } },
+        { value: '' },
       ],
     ],
     [totalAmount, totalRemainingAmount]
