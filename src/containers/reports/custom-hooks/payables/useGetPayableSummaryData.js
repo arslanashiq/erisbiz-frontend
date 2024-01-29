@@ -13,7 +13,7 @@ function useGetPayableSummaryData(payableSummaryResponse) {
       remainingAmount += item.amount_due;
       body.push([
         {
-          value: item.number,
+          value: item.formatted_number,
           link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${
             item.id
           }/detail`,

@@ -11,6 +11,7 @@ function SupplierExcessPaymentBalance() {
       reportHeadCells={receivablesInvoiceBalanceAgainstCustomerReportHeadCells}
       useGetReportQuery={useGetSupplierExcessPaymentBalanceDetailQuery}
       useGetReportData={useGetSupplierBillDetailBalanceData}
+      reportDataOptions={{ getAmountByType: false }}
     />
   );
 }

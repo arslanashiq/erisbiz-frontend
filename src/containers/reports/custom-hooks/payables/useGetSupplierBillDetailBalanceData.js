@@ -4,11 +4,12 @@ import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
-function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) {
+function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse, _, options) {
+  const { getAmountByType = true } = options;
   const getAmount = item => {
     let grandTotal = item.grand_total || 0;
     let amountDue = item.amount_due || 0;
-    if (item.type === 'Excess Payment' || item.type === 'Debit Note') {
+    if (getAmountByType && (item.type === 'Excess Payment' || item.type === 'Debit Note')) {
       grandTotal *= grandTotal > 0 ? -1 : 1;
       amountDue *= amountDue > 0 ? -1 : 1;
     }

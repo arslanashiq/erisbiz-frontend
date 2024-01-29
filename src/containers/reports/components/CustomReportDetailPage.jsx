@@ -36,6 +36,7 @@ function CustomReportDetailPage({
   customReportCustomFilter,
   customReportCustomerInitialValues,
   customReportInputListValidationSchema,
+  reportDataOptions,
 }) {
   const location = useLocation();
   const { name: companyName } = useSelector(state => state?.user?.company);
@@ -51,7 +52,8 @@ function CustomReportDetailPage({
 
   const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } = useGetReportData(
     reportResponse,
-    companyName
+    companyName,
+    reportDataOptions
   );
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
 
@@ -148,6 +150,7 @@ CustomReportDetailPage.propTypes = {
   customReportCustomFilter: PropTypes.array,
   customReportCustomerInitialValues: PropTypes.object,
   customReportInputListValidationSchema: PropTypes.object,
+  reportDataOptions: PropTypes.object,
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
@@ -164,5 +167,6 @@ CustomReportDetailPage.defaultProps = {
   customReportCustomFilter: [],
   customReportCustomerInitialValues: null,
   customReportInputListValidationSchema: null,
+  reportDataOptions: {},
 };
 export default CustomReportDetailPage;
