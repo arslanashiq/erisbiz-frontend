@@ -5,13 +5,26 @@ import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) {
+  const getAmount = item => {
+    let grandTotal = item.grand_total || 0;
+    let amountDue = item.amount_due || 0;
+    if (item.type === 'Excess Payment' || item.type === 'Debit Note') {
+      grandTotal *= -1;
+      amountDue *= -1;
+    }
+    return {
+      grandTotal,
+      amountDue,
+    };
+  };
   const { tableBody, totalAmount, totalAmountDue } = useMemo(() => {
     let amountDue = 0;
     let total = 0;
     const body = [];
     supplierBillDetailBalanceResponse?.data?.data.forEach(item => {
-      amountDue += item.amount_due;
-      total += item.grand_total;
+      const { grandTotal: currentGrandTotal, amountDue: currentAmountDue } = getAmount(item);
+      amountDue += currentAmountDue;
+      total += currentGrandTotal;
       body.push([
         {
           value: moment(item.date).format(DATE_FILTER_REPORT),
@@ -24,8 +37,8 @@ function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) 
         {
           value: item.type,
         },
-        { value: formatAmount(item.grand_total), link: getLinkByType(item) },
-        { value: formatAmount(item.amount_due) },
+        { value: formatAmount(currentGrandTotal), link: getLinkByType(item) },
+        { value: formatAmount(currentAmountDue) },
       ]);
     });
     return { tableBody: body, totalAmount: total, totalAmountDue: amountDue };
