@@ -9,8 +9,8 @@ function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse) 
     let grandTotal = item.grand_total || 0;
     let amountDue = item.amount_due || 0;
     if (item.type === 'Excess Payment' || item.type === 'Debit Note') {
-      grandTotal *= -1;
-      amountDue *= -1;
+      grandTotal *= grandTotal > 0 ? -1 : 1;
+      amountDue *= amountDue > 0 ? -1 : 1;
     }
     return {
       grandTotal,
