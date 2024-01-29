@@ -4,13 +4,26 @@ import formatAmount from 'utilities/formatAmount';
 import { DATE_FORMAT } from 'utilities/constants';
 
 function useGetPayableSummaryData(payableSummaryResponse) {
+  const getAmount = item => {
+    let saleWithTax = item.bcy_sales_with_tax_amount || 0;
+    let amountDue = item.amount_due || 0;
+    if (item.type === 'Debit Note') {
+      saleWithTax *= saleWithTax > 0 ? -1 : 1;
+      amountDue *= amountDue > 0 ? -1 : 1;
+    }
+    return {
+      saleWithTax,
+      amountDue,
+    };
+  };
   const { tableBody, totalAmount, totalRemainingAmount } = useMemo(() => {
     let amount = 0;
     let remainingAmount = 0;
     const body = [];
     payableSummaryResponse?.data?.data.forEach(item => {
-      amount += item.bcy_sales_with_tax_amount;
-      remainingAmount += item.amount_due;
+      const { saleWithTax, amountDue } = getAmount(item);
+      amount += saleWithTax;
+      remainingAmount += amountDue;
       body.push([
         {
           value: item.formatted_number,
@@ -30,10 +43,10 @@ function useGetPayableSummaryData(payableSummaryResponse) {
           style: { textAlign: 'start' },
         },
         {
-          value: formatAmount(item.bcy_sales_with_tax_amount),
+          value: formatAmount(saleWithTax),
         },
         {
-          value: formatAmount(item.amount_due),
+          value: formatAmount(amountDue),
         },
         {
           value: item.status,
