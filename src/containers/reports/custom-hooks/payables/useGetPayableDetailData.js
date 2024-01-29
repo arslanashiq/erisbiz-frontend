@@ -59,6 +59,10 @@ function useGetPayableDetailData(payableDetailResponse) {
           value: formatAmount(item.total_amount),
         },
         {
+          value: formatAmount(item.discount),
+        },
+
+        {
           value: item.status,
         },
       ]);
@@ -76,6 +80,7 @@ function useGetPayableDetailData(payableDetailResponse) {
         { value: '', style: { fontWeight: 700 } },
         { value: totalQuantity, style: { fontWeight: 700 } },
         { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: '' },
         { value: '' },
       ],
     ],

@@ -89,6 +89,7 @@ export const payableDetailReportHeadCells = [
   { title: 'ITEM PRICE' },
   { title: 'QUANTITY ORDERED' },
   { title: 'TOTAL AMOUNT' },
+  { title: 'DISCOUNT' },
   { title: 'STATUS' },
 ];
 export const supplierRefundHistoryReportHeadCells = [
