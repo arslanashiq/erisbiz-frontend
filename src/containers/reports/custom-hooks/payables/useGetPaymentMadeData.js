@@ -7,26 +7,29 @@ function useGetPaymentMadeData(paymentMadeResponse) {
   const getBillNumber = item => {
     let billNumer = item.bills__bill_num;
     try {
-      if (typeof item.bills__bill_num === 'object' && item.bills__bill_num?.length > 1) {
-        let number = null;
+      if (typeof item.bills__bill_num === 'object') {
+        if (item.bills__bill_num?.length > 1) {
+          let number = null;
 
-        billNumer.forEach(billNum => {
-          if (number) {
-            number = `${number},${billNum?.split('-')[1]}`;
-          } else {
-            number = billNum?.split('-')[1];
-          }
-        });
-        billNumer = `PIN-(${number})`;
-      } else {
-        [billNumer] = item.bills__bill_num;
+          billNumer.forEach(billNum => {
+            if (number) {
+              number = `${number},${billNum?.split('-')[1]}`;
+            } else {
+              number = billNum?.split('-')[1];
+            }
+          });
+          billNumer = `PIN-(${number})`;
+        } else {
+          [billNumer] = billNumer;
+        }
       }
     } catch (error) {
-      return item.bills__bill_num[0];
+      return item.bills__bill_num;
     }
 
     return billNumer;
   };
+
   const { tableBody, totalAmount, totalUnUsedAmount } = useMemo(() => {
     let amount = 0;
     let unUsedAmount = 0;
@@ -37,7 +40,7 @@ function useGetPaymentMadeData(paymentMadeResponse) {
       body.push([
         {
           value: getBillNumber(item),
-          link: `/pages/accounting/purchase/payment-voucher/${item.id}/detail`,
+          link: item?.id && `/pages/accounting/purchase/payment-voucher/${item.id}/detail`,
           style: { textAlign: 'start' },
         },
         { value: moment(item.payment_date).format(DATE_FORMAT), style: { textAlign: 'start' } },
