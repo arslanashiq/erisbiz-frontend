@@ -7,7 +7,7 @@ function useGetPaymentMadeData(paymentMadeResponse) {
   const getBillNumber = item => {
     let billNumer = item.bills__bill_num;
     try {
-      if (typeof item.bills__bill_num === 'object' && item.bills__bill_num?.length > 0) {
+      if (typeof item.bills__bill_num === 'object' && item.bills__bill_num?.length > 1) {
         let number = null;
 
         billNumer.forEach(billNum => {
@@ -18,6 +18,8 @@ function useGetPaymentMadeData(paymentMadeResponse) {
           }
         });
         billNumer = `PIN-(${number})`;
+      } else {
+        [billNumer] = item.bills__bill_num;
       }
     } catch (error) {
       return item.bills__bill_num[0];
