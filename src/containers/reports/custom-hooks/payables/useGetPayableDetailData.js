@@ -56,7 +56,11 @@ function useGetPayableDetailData(payableDetailResponse) {
           value: numNights,
         },
         {
-          value: formatAmount(item.total_amount - item.discount || 0),
+          value: formatAmount(
+            item.total_amount > 0
+              ? (item.total_amount || 0) - (item.discount || 0)
+              : (item.total_amount || 0) + (item.discount || 0)
+          ),
         },
 
         {
