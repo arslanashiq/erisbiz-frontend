@@ -27,7 +27,7 @@ function useGetPayableDetailData(payableDetailResponse) {
     payableDetailResponse?.data?.data.forEach(item => {
       const numNights = getAmountByType(item);
       quantity += numNights;
-      amount += item.total_amount || 0;
+      amount += item.total_amount || 0 - item.discount || 0;
       body.push([
         {
           value: item.formatted_number,
@@ -56,10 +56,7 @@ function useGetPayableDetailData(payableDetailResponse) {
           value: numNights,
         },
         {
-          value: formatAmount(item.total_amount),
-        },
-        {
-          value: formatAmount(item.discount),
+          value: formatAmount(item.total_amount - item.discount || 0),
         },
 
         {
