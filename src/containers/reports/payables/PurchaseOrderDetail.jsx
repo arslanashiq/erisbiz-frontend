@@ -8,7 +8,7 @@ import CustomReportDetailPage from '../components/CustomReportDetailPage';
 import { payablePurchaseOrderDetailInitialValues } from '../utilities/initial-values';
 import { payablePurchaseOrderFilterCustomInputsValidationSchema } from '../utilities/validation-schema';
 import useGetDurationInput from '../custom-hooks/common/useGetDurationInput';
-import { endDateInput, startDateInput } from '../utilities/filter-input-list';
+import { customEndDateInput, customStartDateInput } from '../utilities/filter-input-list';
 
 function PurchaseOrderDetail() {
   const durationInput = useGetDurationInput();
@@ -18,7 +18,7 @@ function PurchaseOrderDetail() {
       reportHeadCells={payablePurchaseOrderDetailReportHeadCells}
       useGetReportQuery={useGetPurchaseOrderDetailQuery}
       useGetReportData={useGetPurchaseOrderDetailData}
-      customReportCustomFilter={[durationInput, startDateInput, endDateInput]}
+      customReportCustomFilter={[durationInput, customStartDateInput, customEndDateInput]}
       customReportCustomerInitialValues={payablePurchaseOrderDetailInitialValues}
       customReportInputListValidationSchema={payablePurchaseOrderFilterCustomInputsValidationSchema}
     />

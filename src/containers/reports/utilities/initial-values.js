@@ -13,13 +13,13 @@ export const userStatementCustomFilterInitialValues = {
 // common initial Values
 export const customDuration = {
   duration: '',
-  custom_start_date: '',
-  custom_end_date: '',
+  custom_start_date: moment().format(DATE_FORMAT),
+  custom_end_date: moment().format(DATE_FORMAT),
 };
 export const duration = {
   duration: '',
-  start_date: '',
-  end_date: '',
+  start_date: moment().format(DATE_FORMAT),
+  end_date: moment().format(DATE_FORMAT),
 };
 export const supplierIdInitialValue = {
   supplier_id: '',
@@ -36,14 +36,14 @@ export const apAgingInitialValues = {
   date_type: '',
 };
 export const payablePurchaseOrderDetailInitialValues = {
-  ...duration,
+  ...customDuration,
 };
 export const payableSummaryInitialValues = {
-  ...duration,
+  ...customDuration,
   ...supplierIdInitialValue,
   status: ' ',
 };
 export const payableDetailInitialValues = {
-  ...duration,
+  ...customDuration,
   ...supplierIdInitialValue,
 };

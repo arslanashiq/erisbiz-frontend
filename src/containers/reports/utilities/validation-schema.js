@@ -45,15 +45,15 @@ export const apAgingFilterCustomInputsValidationSchema = Yup.object({
 });
 
 export const payablePurchaseOrderFilterCustomInputsValidationSchema = Yup.object({
-  ...durationValidationSchema,
+  ...customDurationValidationSchema,
 });
 
 export const payableSummaryFilterCustomInputsValidationSchema = Yup.object({
-  ...durationValidationSchema,
+  ...customDurationValidationSchema,
   ...supplierValidationSchema,
   status: Yup.string(),
 });
 export const payableDetailFilterCustomInputsValidationSchema = Yup.object({
-  ...durationValidationSchema,
+  ...customDurationValidationSchema,
   ...supplierValidationSchema,
 });

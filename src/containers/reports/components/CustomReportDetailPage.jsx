@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { v4 as uuid } from 'uuid';
@@ -43,8 +43,12 @@ function CustomReportDetailPage({
   const { replaceTableBody } = options;
 
   const searchQueryParamsData = getSearchParamsList(location);
-  const defaultParams = usePagination ? { ...DEFAULT_PARAMS } : {};
-  const reportResponse = useGetReportQuery({ ...defaultParams, ...searchQueryParamsData }, queryOptions);
+  const params = useMemo(
+    () => (usePagination ? { ...DEFAULT_PARAMS, ...searchQueryParamsData } : { ...searchQueryParamsData }),
+    [usePagination, searchQueryParamsData]
+  );
+  const reportResponse = useGetReportQuery(params, queryOptions);
+
   const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } = useGetReportData(
     reportResponse,
     companyName

@@ -31,15 +31,9 @@ function useGetPayableSummaryData(payableSummaryResponse) {
         },
         {
           value: formatAmount(item.bcy_sales_with_tax_amount),
-          link: `/pages/accounting/purchase/${
-            item.type === 'Bill' ? 'purchase-invoice' : 'payment-voucher'
-          }/${item.id}/detail`,
         },
         {
           value: formatAmount(item.amount_due),
-          link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${
-            item.id
-          }/detail`,
         },
         {
           value: item.status,
