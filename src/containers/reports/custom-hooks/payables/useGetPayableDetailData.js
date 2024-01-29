@@ -38,6 +38,10 @@ function useGetPayableDetailData(payableDetailResponse) {
           link: getLinkByType(item),
           style: { textAlign: 'start' },
         },
+        {
+          value: item.type,
+          style: { textAlign: 'start' },
+        },
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.supplier,
@@ -75,6 +79,7 @@ function useGetPayableDetailData(payableDetailResponse) {
     () => [
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
+        { value: '' },
         { value: '' },
         { value: '' },
         { value: '' },
