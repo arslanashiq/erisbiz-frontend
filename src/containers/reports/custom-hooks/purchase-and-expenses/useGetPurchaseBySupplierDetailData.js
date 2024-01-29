@@ -27,7 +27,6 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
       body.push([
         {
           value: item.status,
-          style: { textAlign: 'start' },
         },
         {
           value: moment(item.date).format(DATE_FILTER_REPORT),

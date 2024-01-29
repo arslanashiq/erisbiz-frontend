@@ -11,13 +11,27 @@ function useGetBalanceDetailData(balanceDetailResponse) {
     }
     return false;
   };
+  const getAmountByType = item => {
+    let currentGrandTotal = item.grand_total || 0;
+    let currentAmountDue = item.amount_due || 0;
+
+    if (item.type === 'Excess Payment' || item.type === 'Credit Note') {
+      currentAmountDue *= currentAmountDue > 0 ? -1 : 1;
+      currentGrandTotal *= currentGrandTotal > 0 ? -1 : 1;
+    }
+    return {
+      currentAmountDue,
+      currentGrandTotal,
+    };
+  };
   const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let amount = 0;
     let dueAmount = 0;
     const body = [];
     balanceDetailResponse?.data?.data.forEach(item => {
-      amount += item.grand_total;
-      dueAmount += item.amount_due;
+      const { currentAmountDue, currentGrandTotal } = getAmountByType(item);
+      amount += currentGrandTotal;
+      dueAmount += currentAmountDue;
       body.push([
         {
           value: item.customer_name,
@@ -34,10 +48,10 @@ function useGetBalanceDetailData(balanceDetailResponse) {
         },
 
         {
-          value: formatAmount(item.grand_total),
+          value: formatAmount(currentGrandTotal),
         },
         {
-          value: formatAmount(item.amount_due),
+          value: formatAmount(currentAmountDue),
         },
       ]);
     });

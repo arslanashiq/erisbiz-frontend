@@ -14,7 +14,7 @@ function useGetExpenseDetailData(expenseDetailResponse) {
       //   currency = item.currency_symbol;
 
       body.push([
-        { value: item.status, style: { textAlign: 'start' } },
+        { value: item.status },
         { value: moment(item.transaction_date).format(DATE_FILTER_REPORT) },
         {
           value: item.reference_number,

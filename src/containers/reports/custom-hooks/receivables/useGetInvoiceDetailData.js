@@ -41,7 +41,7 @@ function useGetInvoiceDetailData(supplierPayableBalanceResponse) {
           value: formatAmount(item.grand_total),
         },
 
-        { value: item.status, style: { textAlign: 'start' } },
+        { value: item.status },
       ]);
     });
     return {

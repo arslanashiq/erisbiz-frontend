@@ -21,7 +21,6 @@ function useGetTaxReturnReportData(taxReturnResponse) {
         {
           value: item.status,
           link: `${item.id}`,
-          style: { textAlign: 'start' },
         },
         {
           value: moment(item.tax_returns).format('MMMM YYYY'),

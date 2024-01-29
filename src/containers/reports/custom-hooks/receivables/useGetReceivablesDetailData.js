@@ -51,7 +51,6 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
         },
         {
           value: item.status,
-          style: { textAlign: 'start' },
         },
       ]);
     });

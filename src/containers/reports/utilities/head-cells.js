@@ -83,6 +83,7 @@ export const payableSummaryReportHeadCells = [
 ];
 export const payableDetailReportHeadCells = [
   { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION TYPE', style: { textAlign: 'start' } },
   { title: 'DATE', style: { textAlign: 'start' } },
   { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
   { title: 'ITEM NAME', style: { textAlign: 'start' } },

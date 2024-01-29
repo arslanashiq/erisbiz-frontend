@@ -15,7 +15,6 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
       body.push([
         {
           value: item.status,
-          style: { textAlign: 'start' },
         },
         {
           value: moment(item.payment_date).format(DATE_FILTER_REPORT),

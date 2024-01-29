@@ -46,7 +46,6 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
         },
         {
           value: item.status,
-          style: { textAlign: 'start' },
         },
       ]);
     });
