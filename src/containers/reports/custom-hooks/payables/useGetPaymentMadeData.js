@@ -18,7 +18,7 @@ function useGetPaymentMadeData(paymentMadeResponse) {
               number = billNum?.split('-')[1];
             }
           });
-          billNumer = `PIN-(${number})`;
+          billNumer = `PINV-(${number})`;
         } else {
           [billNumer] = billNumer;
         }

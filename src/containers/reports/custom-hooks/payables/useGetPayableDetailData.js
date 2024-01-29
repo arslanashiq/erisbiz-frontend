@@ -11,6 +11,15 @@ function useGetPayableDetailData(payableDetailResponse) {
     }
     return numNights;
   };
+  const getLinkByType = item => {
+    if (item.type === 'Bill') {
+      return `/pages/accounting/purchase/purchase-invoice/${item.bill__id}/detail`;
+    }
+    if (item.type === 'Debit Note') {
+      return `pages/accounting/purchase/debit-notes/${item.supplier_credit__id}/detail`;
+    }
+    return false;
+  };
   const { tableBody, totalAmount, totalQuantity } = useMemo(() => {
     let amount = 0;
     let quantity = 0;
@@ -22,9 +31,7 @@ function useGetPayableDetailData(payableDetailResponse) {
       body.push([
         {
           value: item.formatted_number,
-          link: `/pages/accounting/purchase/${item.type === 'Bill' ? 'purchase-invoice' : 'debit-notes'}/${
-            item.type === 'Bill' ? item.bill__id : item.supplier_credit__id
-          }/detail`,
+          link: getLinkByType(item),
           style: { textAlign: 'start' },
         },
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
