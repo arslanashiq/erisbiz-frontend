@@ -12,7 +12,7 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
     const body = [];
     supplierPayableDebitNoteResponse?.data?.data.forEach(item => {
       totalAmount += item.total_supplier_credit_amount;
-      dueAmount += item.balance_due_per_supplier_credit || 0;
+      dueAmount += item.balance_amount || 0;
       body.push([
         {
           value: item.supplier_credit_formatted_number,
@@ -33,7 +33,7 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
           // link: getLinkByType(item),
         },
         {
-          value: formatAmount(item.balance_due_per_supplier_credit),
+          value: formatAmount(item.balance_amount),
           // link: getLinkByType(item),
         },
         { value: item.status },
