@@ -185,7 +185,7 @@ function QuotationDetailPage() {
           showItemsTable: true,
           showVoucherTable: false,
         }}
-        navigateAfterDelete="pages/accounting/sales/quotations"
+        navigateAfterDelete="/pages/accounting/sales/quotations"
       />
       <Card>
         <CardContent>
