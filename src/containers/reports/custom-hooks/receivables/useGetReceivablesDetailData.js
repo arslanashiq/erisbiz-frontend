@@ -47,7 +47,7 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
           value: formatAmount(item.num_units),
         },
         {
-          value: formatAmount(item.total_amount),
+          value: item.total_amount || 0,
         },
         {
           value: item.status,
@@ -66,9 +66,9 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
         { value: '' },
         { value: '' },
         { value: '' },
-        { value: '' },
         { value: formatAmount(totalQuantity), style: { fontWeight: 700 } },
         { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: '' },
       ],
     ],
     [totalAmount, totalQuantity]
