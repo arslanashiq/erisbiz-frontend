@@ -11,7 +11,6 @@ export const purchaseOrderItemsValidationschema = Yup.array().of(
       .required('Required')
       .min(0, 'Must be greater than or equal to 0')
       .integer('Value must be an integer (without decimal)')
-      .min(0, 'Must be greater than or equal to 0')
       .test('max-digits', 'Maximum 10 digits are allowed', value => `${value}`.length <= 10),
 
     gross_amount: Yup.number().required('Required').min(0, 'Must be greater than or equal to 0'),

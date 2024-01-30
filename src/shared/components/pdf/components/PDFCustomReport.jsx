@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     border: BORDER_STYLE,
     fontWeight: 600,
-    fontSize: 7,
+    fontSize: 8,
   },
   tableRow: {
     flexDirection: 'row',

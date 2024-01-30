@@ -16,6 +16,7 @@ function OrderDocument({
   showOrderVoucher,
   showJournalVoucher,
   customComponent,
+  topStatusCard,
 }) {
   const { id } = useParams();
   const { qrCode } = useGetQRCode(orderInfo, orderDetail);
@@ -29,8 +30,8 @@ function OrderDocument({
                 <DraftsOutlinedIcon sx={{ height: 80, width: 80 }} />
               </span>
               <span>
-                <h3>Mark As Issue</h3>
-                <p>Order has been created. You can now mark as issue.</p>
+                <h3>{topStatusCard.label}</h3>
+                <p>{topStatusCard.description}</p>
               </span>
             </Box>
             <Stack className="col-md-3">
@@ -41,7 +42,7 @@ function OrderDocument({
                 onClick={() => handleChangeStatus(id)}
                 disabled={orderDetail && orderDetail.status !== 'draft'}
               >
-                Mark as Issue
+                {topStatusCard.label}
               </Button>
             </Stack>
           </blockquote>
@@ -74,6 +75,10 @@ OrderDocument.propTypes = {
   showOrderVoucher: PropTypes.bool,
   showJournalVoucher: PropTypes.bool,
   customComponent: PropTypes.node,
+  topStatusCard: PropTypes.shape({
+    label: PropTypes.string,
+    description: PropTypes.string,
+  }),
 };
 OrderDocument.defaultProps = {
   orderDetail: null,
@@ -83,6 +88,10 @@ OrderDocument.defaultProps = {
   handleChangeStatus: null,
   showJournalVoucher: false,
   customComponent: null,
+  topStatusCard: {
+    label: 'Mark as Issue',
+    description: 'Order has been created. You can now mark as issue.',
+  },
 };
 
 export default OrderDocument;

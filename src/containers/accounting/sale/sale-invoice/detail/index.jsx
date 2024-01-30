@@ -27,7 +27,10 @@ import ChangeStatusToVoid from 'containers/accounting/purchase/purchase-invoice/
 import { DATE_FORMAT_PRINT } from 'utilities/constants';
 import { displayJournalActionButton } from 'utilities/display-journals';
 import PaymentTable from 'containers/accounting/purchase/purchase-invoice/detail/components/PaymentTable';
-import { paymentsAgainstSaleInvoiceHeadCells, saleCreditNoteAgainstSaleInvoiceHeadCells } from 'containers/accounting/purchase/purchase-invoice/utilities/head-cells';
+import {
+  paymentsAgainstSaleInvoiceHeadCells,
+  saleCreditNoteAgainstSaleInvoiceHeadCells,
+} from 'containers/accounting/purchase/purchase-invoice/utilities/head-cells';
 
 const keyValue = 'invoice_items';
 const handleCheck = status => {
@@ -271,6 +274,11 @@ function SaleInvoiceDetailPage() {
             orderInfo={orderInfo}
             keyValue={keyValue}
             orderDetail={saleInvoiceDetailResponse.data}
+            topStatusCard={{
+              label: 'Mark as Sent',
+              description: 'Invoice has been created. You can mark it as sent.',
+            }}
+            handleChangeStatus={() => handleChangeStatus(changeStatusToSent, id, 'Invoice status changed')}
           />
           {saleInvoiceJournalsResponse?.data?.invoice_journal_items && (
             <Grid container>
