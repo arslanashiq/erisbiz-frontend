@@ -172,11 +172,11 @@ export const purchaseBySupplierReportHeadCells = [
   { title: 'AMOUNT' },
 ];
 export const purchaseBySupplierDetailReportHeadCells = [
-  { title: 'STATUS' },
-  { title: 'DATE' },
-  { title: 'TRANSACTION#' },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'BALANCE AMOUNT' },
+  { title: 'STATUS' },
 ];
 export const purchaseByItemReportHeadCells = [
   { title: 'ITEM NAME', style: { textAlign: 'start' } },

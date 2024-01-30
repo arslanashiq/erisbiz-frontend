@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import moment from 'moment';
-import { DATE_FILTER_REPORT } from 'utilities/constants';
+import { DATE_FILTER_REPORT, supplierOpeningBalanceName } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
@@ -16,26 +16,47 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
     }
     return false;
   };
+  const getAmount = item => {
+    let currentAmountDue = item.amount_due_bcy || 0;
+    let currenttotal = item.bcy_sales_with_tax_amount || 0;
+    if (item.type === supplierOpeningBalanceName && item.is_credit === false) {
+      currentAmountDue *= item.amount_due_bcy > 0 ? -1 : 1;
+      currenttotal *= item.bcy_sales_with_tax_amount > 0 ? -1 : 1;
+    }
+    if (item.type === 'Debit Note') {
+      currentAmountDue *= item.amount_due_bcy > 0 ? -1 : 1;
+      currenttotal *= item.bcy_sales_with_tax_amount > 0 ? -1 : 1;
+    }
+    return {
+      currentAmountDue,
+      currenttotal,
+    };
+  };
   const { tableBody, totalAmount, totalAmountDue } = useMemo(() => {
     let amountDue = 0;
     let total = 0;
     const body = [];
     purchaseBySupplierDetailResponse?.data?.data.forEach(item => {
-      amountDue += item.amount_due_bcy;
-      total += item.bcy_sales_with_tax_amount;
+      const { currentAmountDue, currenttotal } = getAmount(item);
+      if (item.status !== 'void') {
+        amountDue += currentAmountDue;
+        total += currenttotal;
+      }
       //   currency = item.currency_symbol;
       body.push([
         {
-          value: item.status,
-        },
-        {
           value: moment(item.date).format(DATE_FILTER_REPORT),
+          style: { textAlign: 'start' },
         },
         {
           value: item.formatted_number,
+          style: { textAlign: 'start' },
         },
-        { value: formatAmount(item.bcy_sales_with_tax_amount), link: getLinkByType(item) },
-        { value: formatAmount(item.amount_due_bcy), link: getLinkByType(item) },
+        { value: formatAmount(currenttotal), link: getLinkByType(item) },
+        { value: formatAmount(currentAmountDue), link: getLinkByType(item) },
+        {
+          value: item.status,
+        },
       ]);
     });
     return { tableBody: body, totalAmount: total, totalAmountDue: amountDue };
@@ -46,9 +67,9 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
-        { value: '' },
         { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
         { value: formatAmount(totalAmountDue), style: { fontWeight: 700 } },
+        { value: '' },
       ],
     ],
     [totalAmount, totalAmountDue]
