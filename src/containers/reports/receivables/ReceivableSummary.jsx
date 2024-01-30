@@ -7,8 +7,8 @@ import useGetReceivableSummaryData from 'containers/reports/custom-hooks/receiva
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
 import useGetReceivablesCustomFilterInputs from '../custom-hooks/common/useGetReceivablesCustomFilterInputs';
 import { statusInput } from '../utilities/filter-input-list';
-import { customerBalanceInitialValues } from '../utilities/initial-values';
-import { customerbalanceCustomInputsValidationSchema } from '../utilities/validation-schema';
+import { receivableSummaryInitialValues } from '../utilities/initial-values';
+import { receivableSummaryCustomInputsValidationSchema } from '../utilities/validation-schema';
 
 function ReceivableSummary() {
   const updatedCustomInputList = useGetReceivablesCustomFilterInputs();
@@ -20,8 +20,8 @@ function ReceivableSummary() {
       useGetReportQuery={useGetReceivableSummaryQuery}
       useGetReportData={useGetReceivableSummaryData}
       customReportCustomFilter={[...updatedCustomInputList, statusInput]}
-      customReportCustomerInitialValues={customerBalanceInitialValues}
-      customReportInputListValidationSchema={customerbalanceCustomInputsValidationSchema}
+      customReportCustomerInitialValues={receivableSummaryInitialValues}
+      customReportInputListValidationSchema={receivableSummaryCustomInputsValidationSchema}
     />
   );
 }

@@ -69,3 +69,8 @@ export const arAgingSummaryCustomInputsValidationSchema = Yup.object({
   ...customerValidationSchema,
   date_type: Yup.string(),
 });
+export const receivableSummaryCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...customerValidationSchema,
+  status: Yup.string(),
+});

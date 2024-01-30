@@ -43,7 +43,7 @@ export const payablePurchaseOrderDetailInitialValues = {
 export const payableSummaryInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
-  status: ' ',
+  status: '',
 };
 export const payableDetailInitialValues = {
   ...customDuration,
@@ -59,4 +59,9 @@ export const customerBalanceInitialValues = {
 export const arAgingSummaryInitialValues = {
   ...customerBalanceInitialValues,
   date_type: '',
+};
+export const receivableSummaryInitialValues = {
+  ...customDuration,
+  ...customerIdInitialValue,
+  status: '',
 };

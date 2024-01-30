@@ -30,7 +30,7 @@ export const AgingByList = [
   { value: 'due_date', label: 'Due Date' },
 ];
 export const statusList = [
-  { label: 'All', value: ' ' },
+  { label: 'All', value: '' },
   { label: 'Draft', value: 'draft' },
   { label: 'Overdue', value: 'overdue' },
   { label: 'Due', value: 'due today' },
