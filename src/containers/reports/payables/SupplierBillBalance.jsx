@@ -5,6 +5,9 @@ import useGetSupplierBillDetailBalanceData from 'containers/reports/custom-hooks
 import getSearchParamsList from 'utilities/getSearchParamsList';
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
 import usegetSupplierInput from '../custom-hooks/common/useGetSupplierInput';
+import useGetPayablesCustomFilterInputs from '../custom-hooks/common/useGetPayablesCustomFilterInputs';
+import { supplierBalanceInitialValues } from '../utilities/initial-values';
+import { supplierBalanceFilterCustomInputsValidationSchema } from '../utilities/validation-schema';
 
 function SupplierBillBalance() {
   const { supplier_id: supplierID } = getSearchParamsList();
@@ -14,6 +17,7 @@ function SupplierBillBalance() {
     () => supplierInput?.options?.find(option => option.value === Number(supplierID)),
     [supplierInput]
   );
+  const updatedCustomInputList = useGetPayablesCustomFilterInputs();
 
   return (
     <CustomReportDetailPage
@@ -21,6 +25,9 @@ function SupplierBillBalance() {
       reportHeadCells={receivablesInvoiceBalanceAgainstCustomerReportHeadCells}
       useGetReportQuery={useGetSupplierBillBalanceDetailQuery}
       useGetReportData={useGetSupplierBillDetailBalanceData}
+      customReportCustomFilter={updatedCustomInputList}
+      customReportCustomerInitialValues={supplierBalanceInitialValues}
+      customReportInputListValidationSchema={supplierBalanceFilterCustomInputsValidationSchema}
     />
   );
 }

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import moment from 'moment';
 import { tableCellBodyHeader } from 'styles/components/custom-hooks/use-excel-sheet';
 import formatAmount from 'utilities/formatAmount';
-import { DATE_FORMAT } from 'utilities/constants';
+import { DATE_FORMAT, supplierOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
 
 const availableDateList = [
@@ -48,6 +48,13 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
     if (item.type === 'Debit Note') {
       return {
         link: `/pages/accounting/purchase/debit-notes/${item.id}/detail`,
+        grandTotal: -item.grand_total,
+        amountDue: -item.amount_due,
+      };
+    }
+    if (item.type === supplierOpeningBalanceName && item?.is_credit === false) {
+      return {
+        link: false,
         grandTotal: -item.grand_total,
         amountDue: -item.amount_due,
       };
