@@ -110,8 +110,8 @@ export const receivablesAccountBalanceReportHeadCells = [
 ];
 export const receivablesInvoiceBalanceAgainstCustomerReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
-  { title: 'TRANSACTION #' },
-  { title: 'TRANSACTION TYPE' },
+  { title: 'TRANSACTION #', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION TYPE', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'BALANCE' },
 ];

@@ -6,22 +6,20 @@ import { useGetPayableDetailQuery } from 'services/private/reports';
 import { payableDetailReportHeadCells } from 'containers/reports/utilities/head-cells';
 import useGetPayableDetailData from 'containers/reports/custom-hooks/payables/useGetPayableDetailData';
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
-import useGetDurationInput from '../custom-hooks/common/useGetDurationInput';
-import usegetSupplierInput from '../custom-hooks/common/useGetSupplierInput';
-import { customEndDateInput, customStartDateInput } from '../utilities/filter-input-list';
 import { payableDetailInitialValues } from '../utilities/initial-values';
 import { payableDetailFilterCustomInputsValidationSchema } from '../utilities/validation-schema';
+import useGetPayablesCustomFilterInputs from '../custom-hooks/common/useGetPayablesCustomFilterInputs';
 
 function PayableDetails() {
-  const durationInput = useGetDurationInput();
-  const supplierInput = usegetSupplierInput();
+  const updatedCustomInputList = useGetPayablesCustomFilterInputs();
+
   return (
     <CustomReportDetailPage
       reportTitle="Payable Details"
       reportHeadCells={payableDetailReportHeadCells}
       useGetReportQuery={useGetPayableDetailQuery}
       useGetReportData={useGetPayableDetailData}
-      customReportCustomFilter={[durationInput, customStartDateInput, customEndDateInput, supplierInput]}
+      customReportCustomFilter={updatedCustomInputList}
       customReportCustomerInitialValues={payableDetailInitialValues}
       customReportInputListValidationSchema={payableDetailFilterCustomInputsValidationSchema}
     />

@@ -6,14 +6,22 @@ import { receivableInvoiceDetailsReportHeadCells } from 'containers/reports/util
 
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
 import useGetInvoiceDetailData from '../custom-hooks/receivables/useGetInvoiceDetailData';
+import useGetReceivablesCustomFilterInputs from '../custom-hooks/common/useGetReceivablesCustomFilterInputs';
+import { customerBalanceInitialValues } from '../utilities/initial-values';
+import { customerbalanceCustomInputsValidationSchema } from '../utilities/validation-schema';
 
 function ReceivableInvoiceDetail() {
+  const updatedCustomInputList = useGetReceivablesCustomFilterInputs();
+
   return (
     <CustomReportDetailPage
-      reportTitle="Sales Invoice Detail"
+      reportTitle="Sales Invoice Register"
       reportHeadCells={receivableInvoiceDetailsReportHeadCells}
       useGetReportQuery={useGetReceivableInvoiceDetailQuery}
       useGetReportData={useGetInvoiceDetailData}
+      customReportCustomFilter={updatedCustomInputList}
+      customReportCustomerInitialValues={customerBalanceInitialValues}
+      customReportInputListValidationSchema={customerbalanceCustomInputsValidationSchema}
     />
   );
 }

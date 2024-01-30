@@ -13,25 +13,27 @@ function useGetInvoiceBalanceAgainstCustomerData(invoiceBalanceResponse) {
     let dueAmount = 0;
     const body = [];
     invoiceBalanceResponse?.data?.data.forEach(item => {
-      amount += item.amount_total;
+      amount += item.grand_total;
       dueAmount += item.amount_due;
       body.push([
         {
-          value: item.customer_name,
+          value: item.date,
           style: { textAlign: 'start' },
-          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          // link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
 
         {
           value: item.formatted_number,
           link: getLinkByType(item),
+          style: { textAlign: 'start' },
         },
         {
           value: item.type,
+          style: { textAlign: 'start' },
         },
 
         {
-          value: formatAmount(item.amount_total),
+          value: formatAmount(item.grand_total),
         },
         {
           value: formatAmount(item.amount_due),

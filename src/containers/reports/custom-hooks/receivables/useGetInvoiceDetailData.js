@@ -61,7 +61,6 @@ function useGetInvoiceDetailData(supplierPayableBalanceResponse) {
         { value: formatAmount(totalTaxAmount), style: { fontWeight: 700 } },
         { value: formatAmount(totalNetAmount), style: { fontWeight: 700 } },
         { value: '' },
-        { value: '' },
       ],
     ],
     [tableBody, totalGrossAmount, totalTaxAmount, totalNetAmount]

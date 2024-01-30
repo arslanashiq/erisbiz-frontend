@@ -11,7 +11,7 @@ function useGetCustomerInput() {
 
   return {
     label: 'Customer',
-    options: customersOptions || [],
+    options: [{ label: 'All', value: '' }, ...customersOptions] || [],
     name: 'customer_id',
     labelClassName: '',
     placeholder: 'Select Customer',

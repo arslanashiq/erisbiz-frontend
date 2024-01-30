@@ -106,7 +106,7 @@ export const receivableReports = {
     },
 
     {
-      label: 'Sales Invoice Details',
+      label: 'Sales Invoice Register',
       link: '/pages/reports/invoice-details?duration=this%20month',
     },
     {

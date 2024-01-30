@@ -9,6 +9,9 @@ function useGetBalanceDetailData(balanceDetailResponse) {
     if (item.type === 'Excess Payment') {
       return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
     }
+    if (item.type === 'Credit Note') {
+      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
+    }
     return false;
   };
   const getAmountByType = item => {
@@ -34,17 +37,19 @@ function useGetBalanceDetailData(balanceDetailResponse) {
       dueAmount += currentAmountDue;
       body.push([
         {
-          value: item.customer_name,
+          value: item.date,
           style: { textAlign: 'start' },
-          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          // link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
         },
 
         {
           value: item.formatted_number,
           link: getLinkByType(item),
+          style: { textAlign: 'start' },
         },
         {
           value: item.type,
+          style: { textAlign: 'start' },
         },
 
         {
