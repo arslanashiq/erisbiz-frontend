@@ -99,14 +99,6 @@ function VoucherContent({ orderDetail }) {
       <View style={styles.container}>
         <View style={styles.content}>
           <View>
-            <View style={styles.info}>
-              <View style={styles.infoHeader}>
-                <Text style={styles.headingText}>Payment Date</Text>
-              </View>
-              <View style={styles.infoValue}>
-                <Text style={styles.valueText}>{orderDetail.payment_date}</Text>
-              </View>
-            </View>
             {orderDetail.reference_num !== '' && (
               <View style={styles.info}>
                 <View style={styles.infoHeader}>
