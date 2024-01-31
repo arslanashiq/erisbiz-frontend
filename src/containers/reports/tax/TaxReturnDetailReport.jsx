@@ -126,7 +126,7 @@ function TaxReturnDetailReport() {
             />
             <TaxReturnDetailTable
               taxReturnResponse={taxResturnDetailResponse?.data}
-              mainTitle="Net VAT due"
+              mainTitle="Net VAT Due"
               headCells={taxReturnDetailTableHeadCellsWithoutTablableAmount}
               tableBody={vatReturnDetailTable3Body}
               tableStyles={{ maxWidth: 900 }}

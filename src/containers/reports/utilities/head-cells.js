@@ -338,7 +338,7 @@ export const trialBalanceReportHeadCells = [
 ];
 // tax
 export const taxReturnReportHeadCells = [
-  { title: 'STATUS' },
+  { title: 'STATUS', style: { textAlign: 'start' } },
   { title: 'TAX RETURNS' },
   { title: 'FILED ON' },
   { title: 'TOTAL TAX PAYABLE' },

@@ -112,7 +112,7 @@ function useGetVATAuditData(reportVATAuditResponse, companyName) {
         { value: item.currency_symbol || '' },
       ]) || [];
 
-    // gaterData
+    // gatherData
     const excelSheetData = [
       // sales invoice
       [
