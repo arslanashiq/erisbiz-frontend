@@ -54,7 +54,7 @@ function OrderReceipt({
         </Box>
       )}
 
-      <Box style={{ padding: '0px 20px 20px 20px' }}>
+      <Box style={{ padding: '10px 20px 20px 20px' }}>
         <Grid
           container
           justifyContent="space-between"

@@ -46,7 +46,6 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
           </Box>
           <Box className="col-sm-9 invoice-details">
             <p>
-              {orderDetail.currency_symbol}
               {formatAmount(orderDetail.total)}
             </p>
             <hr />
@@ -58,7 +57,6 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         <Box className="amount float-end">
           <p>Amount Paid</p>
           <p style={{ fontSize: 25 }}>
-            {orderDetail.currency_symbol}
             {formatAmount(orderDetail.total)}
           </p>
         </Box>
@@ -68,7 +66,6 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         <Box className="over-payment">
           <h5>Overpayment</h5>
           <h4>
-            {orderDetail.currency_symbol}
             {formatAmount(orderDetail.over_payment - (orderDetail?.refund_payment || 0))}
           </h4>
         </Box>
@@ -77,7 +74,6 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         <Box className="over-payment">
           <h5>Refunded</h5>
           <h4>
-            {orderDetail.currency_symbol}
             {formatAmount(orderDetail.refund_payment)}
           </h4>
         </Box>
@@ -86,7 +82,6 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
         <Box className="over-payment">
           <h5>Billed Amount</h5>
           <h4>
-            {orderDetail.currency_symbol}
             {formatAmount((orderDetail?.total || 0) - (orderDetail?.over_payment || 0))}
           </h4>
         </Box>

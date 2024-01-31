@@ -63,6 +63,7 @@ function PDFHeader({
         <View
           style={{
             marginBottom: 15,
+            marginTop: 15,
           }}
         >
           <Text

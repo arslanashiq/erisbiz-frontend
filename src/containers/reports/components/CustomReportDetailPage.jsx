@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { Card, CardContent } from '@mui/material';
+import { Box, Card, CardContent } from '@mui/material';
 // shared
 import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
 import CustomReport from 'shared/components/custom-report/CustomReport';
@@ -102,32 +102,36 @@ function CustomReportDetailPage({
       />
       <Card>
         <CardContent>
-          {CustomComponent && CustomComponent}
-          <CustomReportsDetailHeader reportTitle={reportTitle} filterInfo={timeInterval} />
-          <div className="reports overflow-auto">
-            {isMultiReport ? (
-              tableBody.map((item, index) => (
+          <Box>
+            {CustomComponent && CustomComponent}
+            <Box className="mt-5 px-4">
+              <CustomReportsDetailHeader reportTitle={reportTitle} filterInfo={timeInterval} />
+            </Box>
+            <div className="reports overflow-auto">
+              {isMultiReport ? (
+                tableBody.map((item, index) => (
+                  <CustomReport
+                    key={uuid()}
+                    tableHeader={modifiedTableHead[index]}
+                    tableBody={item}
+                    tableFooter={tableFooter[index]}
+                    parentWrapperClassName={parentWrapperClassName}
+                    usePagination={usePagination}
+                    rowCount={reportResponse?.data?.count || 100}
+                  />
+                ))
+              ) : (
                 <CustomReport
-                  key={uuid()}
-                  tableHeader={modifiedTableHead[index]}
-                  tableBody={item}
-                  tableFooter={tableFooter[index]}
+                  tableHeader={reportHeadCells}
+                  tableBody={tableBody}
+                  tableFooter={tableFooter}
                   parentWrapperClassName={parentWrapperClassName}
                   usePagination={usePagination}
                   rowCount={reportResponse?.data?.count || 100}
                 />
-              ))
-            ) : (
-              <CustomReport
-                tableHeader={reportHeadCells}
-                tableBody={tableBody}
-                tableFooter={tableFooter}
-                parentWrapperClassName={parentWrapperClassName}
-                usePagination={usePagination}
-                rowCount={reportResponse?.data?.count || 100}
-              />
-            )}
-          </div>
+              )}
+            </div>
+          </Box>
         </CardContent>
       </Card>
     </SectionLoader>

@@ -47,7 +47,7 @@ function InvoiceInfoDetail({ orderInfo }) {
 
   const customerInfo = useMemo(() => orderInfo.invoiceToDetail || {}, [orderInfo]);
   return (
-    <View style={{ marginTop: 40 }}>
+    <View style={{ marginTop: 20 }}>
       {orderInfo && (
         <View>
           <View

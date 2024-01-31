@@ -33,7 +33,7 @@ function OrderHeader({ companyLogo, companyName, companyTRN, email, company }) {
       <Grid item xs={4} lg={4}>
         <img src={companyLogo} alt="" style={{ maxHeight: 150, maxWidth: 250 }} />
       </Grid>
-      <Grid item xs={7} justifyContent="space-around" mb={7} mt={2}>
+      <Grid item xs={7} justifyContent="space-around">
         <Typography color="primary" sx={{ fontWeight: 'bold', fontSize: 18 }}>
           {companyName}
         </Typography>
