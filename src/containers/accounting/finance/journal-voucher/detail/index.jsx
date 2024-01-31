@@ -89,7 +89,7 @@ function DetailJournalVoucher() {
   return (
     <SectionLoader options={[journalVoucherResponse.isLoading]}>
       <DetailPageHeader
-        title={`Journal: #${journalVoucherResponse?.data?.journal_formatted_number}`}
+        title={`Journal Voucher : ${orderInfo?.formated_order_number || ''}`}
         filesList={journalVoucherDocumentsResponse?.data}
         keyValue={keyValue}
         orderInfo={orderInfo}

@@ -207,7 +207,7 @@ function SupplierCreditDetail() {
         headCells={UnPaidBillsHeadCells}
       />
       <DetailPageHeader
-        title={`Purchase Debit Note:${supplierCreditResponse?.data?.supplier_credit_formatted_number}`}
+        title={`Purchase Debit Note : ${orderInfo?.formated_order_number || ''}`}
         filesList={SupplierCreditDocumentsResponse?.data}
         keyValue={keyValue}
         orderInfo={orderInfo}

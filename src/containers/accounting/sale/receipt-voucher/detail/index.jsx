@@ -231,7 +231,7 @@ function ReceiptVoucherDetail() {
         title="Apply To Invoice"
       />
       <DetailPageHeader
-        title={`Receipt Voucher: #${receiptVoucherResponse?.data?.payment_num}`}
+        title={`Receipt Voucher : ${orderInfo?.formated_order_number || ''}`}
         filesList={receiptVoucherDocumentsList?.data}
         keyValue={keyValue}
         orderInfo={orderInfo}

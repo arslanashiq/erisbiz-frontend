@@ -219,10 +219,7 @@ function PaymentVoucherDetail() {
         maxAmount={maxUnusedAmount}
       />
       <DetailPageHeader
-        title={`Payment Voucher: #${
-          PaymentVoucherDetailResponse?.data?.payment_formatted_number ||
-          PaymentVoucherDetailResponse?.data?.payment_num
-        }`}
+        title={`Payment Voucher : ${orderInfo?.formated_order_number || ''}`}
         filesList={paymentVoucherDocumentsResponse?.data}
         keyValue={keyValue}
         orderInfo={orderInfo}

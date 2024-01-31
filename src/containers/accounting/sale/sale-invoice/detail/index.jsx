@@ -220,7 +220,7 @@ function SaleInvoiceDetailPage() {
         handleChangeStatus={handleChangeStatusToVoid}
       />
       <DetailPageHeader
-        title={`Sales Invoice: #${saleInvoiceDetailResponse?.data?.invoice_num}`}
+        title={`Sales Invoice : ${orderInfo?.formated_order_number || ''}`}
         filesList={saleInvoiceDetailResponse?.data?.invoice_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}

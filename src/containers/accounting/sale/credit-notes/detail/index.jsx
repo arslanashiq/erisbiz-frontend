@@ -222,7 +222,7 @@ function CreditNoteDetail() {
         title="Apply To Invoice"
       />
       <DetailPageHeader
-        title={`Credit Note: #${creditNoteDetailResponse?.data?.credit_note_formatted_number}`}
+        title={`Sales Credit Note : ${orderInfo?.formated_order_number || ''}`}
         keyValue={keyValue}
         orderInfo={orderInfo}
         orderDetail={creditNoteDetailResponse?.data}

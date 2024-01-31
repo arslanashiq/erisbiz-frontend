@@ -103,7 +103,7 @@ function PurchaseOrderDetail() {
   return (
     <SectionLoader options={[purchaseOrderResponse.isLoading]}>
       <DetailPageHeader
-        title={`PO : ${purchaseOrderResponse?.data?.pur_order_num}`}
+        title={`Purchase Order : ${orderInfo?.formated_order_number || ''}`}
         filesList={purchaseOrderResponse?.data?.pur_order_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}

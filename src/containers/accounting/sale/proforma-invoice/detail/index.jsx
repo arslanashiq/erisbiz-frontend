@@ -167,7 +167,7 @@ function ProfomaInvoiceDetail() {
   return (
     <SectionLoader options={[proformaInvoiceDetailResponse.isLoading]}>
       <DetailPageHeader
-        title={`Po:#${proformaInvoiceDetailResponse?.data?.pro_invoice_formatted_number}`}
+        title={`Proforma Invoice : ${orderInfo?.formated_order_number || ''}`}
         filesList={proformaInvoiceDetailResponse?.data?.pro_invoice_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}

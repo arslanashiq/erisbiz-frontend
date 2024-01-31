@@ -170,7 +170,7 @@ function QuotationDetailPage() {
   return (
     <SectionLoader options={[quotationsDetailResponse.isLoading]}>
       <DetailPageHeader
-        title={`Quotation: #${quotationsDetailResponse?.data?.quotation_num}`}
+        title={`Quotation : ${orderInfo?.formated_order_number || ''}`}
         filesList={quotationsDetailResponse?.data?.quotation_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}

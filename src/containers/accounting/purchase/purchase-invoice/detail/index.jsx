@@ -224,7 +224,7 @@ function PurchaseInvoiceDetail() {
         handleChangeStatus={handleChangeStatusToVoid}
       />
       <DetailPageHeader
-        title={`Bill:${purchaseInvoiceResponse?.data?.bill_num}`}
+        title={`Purchase Invoice : ${orderInfo?.formated_order_number || ''}`}
         filesList={purchaseInvoiceResponse?.data?.bill_docs}
         keyValue={keyValue}
         orderInfo={orderInfo}
