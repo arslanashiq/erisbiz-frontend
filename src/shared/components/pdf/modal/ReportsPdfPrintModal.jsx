@@ -19,7 +19,7 @@ function ReportsPdfPrintModal({
   timeInterval,
 }) {
   const { company, email } = useSelector(state => state.user);
-  const { name: companyName, logo: companyLogo, trn } = company;
+  const { name: companyName, logo: companyLogo, trade_license_number: TRN } = company;
 
   const handleClose = () => {
     setIsPrintModalOpen(false);
@@ -67,7 +67,7 @@ function ReportsPdfPrintModal({
             companyLogo={companyLogo}
             company={company}
             email={email}
-            trn={trn}
+            TRN={TRN}
             timeInterval={timeInterval}
             isMultiReport={isMultiReport}
             tableBody={tableBody}

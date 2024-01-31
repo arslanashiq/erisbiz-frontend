@@ -7,60 +7,60 @@ import ReceiptVoucherFooter from './ReceiptVoucherFooter';
 
 // const BORDER_COLOR = "#D1CACB";
 // const BORDER_STYLE = "solid";
-const COL_WIDTH = 100 / 6;
-
-const styles = StyleSheet.create({
-  table: {
-    display: 'table',
-    width: 'auto',
-    // borderStyle: BORDER_STYLE,
-    // borderRightWidth: 0,
-    // borderBottomWidth: 0,
-    marginTop: 15,
-    color: '#000000',
-    // fontStyle: "light",
-    // fontWeight: 200,
-  },
-  tableRow: {
-    margin: 'auto',
-    flexDirection: 'row',
-    padding: 2,
-    borderBottom: '1px solid #D1CACB',
-    borderLeft: '1px solid #D1CACB',
-    borderRight: '1px solid #D1CACB',
-    backgroundColor: '#FAFAFA',
-  },
-  tableColHeader: {
-    width: `${COL_WIDTH}'%`,
-    // borderStyle: BORDER_STYLE,
-    // borderLeftWidth: 0,
-    // borderTopWidth: 0,
-  },
-  tableCol: {
-    width: `${COL_WIDTH}'%`,
-    // borderStyle: BORDER_STYLE,
-    // borderLeftWidth: 0,
-    // borderTopWidth: 0,
-    // borderBottomColor: BORDER_COLOR,
-    // borderBottomWidth: 1,
-    flexDirection: 'column',
-  },
-  tableCellHeader: {
-    margin: 5,
-    paddingTop: 3,
-    paddingBottom: 3,
-    fontSize: 10,
-    fontWeight: 900,
-    color: '#ffffff',
-    // backgroundColor:"#000000",
-  },
-  tableCell: {
-    margin: 5,
-    fontSize: 10,
-  },
-});
 
 function VoucherFooter({ orderInfo, orderDetail, keyName }) {
+  const COL_WIDTH = 100 / (orderInfo?.headCells?.length || 6);
+
+  const styles = StyleSheet.create({
+    table: {
+      display: 'table',
+      width: 'auto',
+      // borderStyle: BORDER_STYLE,
+      // borderRightWidth: 0,
+      // borderBottomWidth: 0,
+      marginTop: 15,
+      color: '#000000',
+      // fontStyle: "light",
+      // fontWeight: 200,
+    },
+    tableRow: {
+      margin: 'auto',
+      flexDirection: 'row',
+      padding: 2,
+      borderBottom: '1px solid #D1CACB',
+      borderLeft: '1px solid #D1CACB',
+      borderRight: '1px solid #D1CACB',
+      backgroundColor: '#FAFAFA',
+    },
+    tableColHeader: {
+      width: `${COL_WIDTH}'%`,
+      // borderStyle: BORDER_STYLE,
+      // borderLeftWidth: 0,
+      // borderTopWidth: 0,
+    },
+    tableCol: {
+      width: `${COL_WIDTH}'%`,
+      // borderStyle: BORDER_STYLE,
+      // borderLeftWidth: 0,
+      // borderTopWidth: 0,
+      // borderBottomColor: BORDER_COLOR,
+      // borderBottomWidth: 1,
+      flexDirection: 'column',
+    },
+    tableCellHeader: {
+      margin: 5,
+      paddingTop: 3,
+      paddingBottom: 3,
+      fontSize: 10,
+      fontWeight: 900,
+      color: '#ffffff',
+      // backgroundColor:"#000000",
+    },
+    tableCell: {
+      margin: 5,
+      fontSize: 10,
+    },
+  });
   return (
     <View style={{ marginTop: 20 }}>
       {orderDetail[keyName]?.length > 0 && (

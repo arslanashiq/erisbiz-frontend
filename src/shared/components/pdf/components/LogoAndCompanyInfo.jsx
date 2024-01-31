@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
@@ -35,21 +36,45 @@ const primaryColor = {
   color: palette.primary.main,
 };
 function LogoAndCompanyInfo({ companyName, companyLogo, companyDetail, companyEmail, companyTRN }) {
-  const renderCompanyInfoData = (title, value, containerStyle = {}, titleStyle = {}, valueStyles = {}) => (
-    <View style={{ flexDirection: 'row', ...containerStyle }}>
+  const renderCompanyInfoData = ({ title, value, containerStyle = {}, titleStyle = {}, valueStyle = {} }) => (
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        minWidth: 130,
+        alignItems: 'center',
+        ...containerStyle,
+      }}
+    >
       <Text
         style={{
+          paddingRight: 4,
+          ...titleStyle,
           ...styles.subtitle,
           ...boldFont,
           ...primaryColor,
-          ...titleStyle,
         }}
       >
-        {title} :{' '}
+        {title} :
       </Text>
-      <Text style={{ ...styles.subtitle, overflow: 'hidden', ...valueStyles }}>{value}</Text>
+      <Text style={{ ...valueStyle, ...styles.subtitle }}>{value}</Text>
     </View>
   );
+
+  const { isTRNAndEmailFitInRow, isPhoneAndLocationFitInRow } = useMemo(() => {
+    let TRNAndEmail = false;
+    let PhoneAndLocation = false;
+    if (companyTRN && companyEmail) {
+      TRNAndEmail = companyTRN.length + companyEmail.length <= 80;
+    }
+    if (companyDetail?.phone && companyDetail.location) {
+      PhoneAndLocation = companyDetail.phone.length + companyDetail.location.length <= 45;
+    }
+    return {
+      isTRNAndEmailFitInRow: TRNAndEmail,
+      isPhoneAndLocationFitInRow: PhoneAndLocation,
+    };
+  }, [companyTRN, companyEmail, companyDetail]);
   return (
     <View style={styles.header}>
       <Image
@@ -88,35 +113,36 @@ function LogoAndCompanyInfo({ companyName, companyLogo, companyDetail, companyEm
           <View
             style={{
               marginTop: 5,
-              flexDirection: 'row',
+              display: 'flex',
+              flexDirection: isTRNAndEmailFitInRow ? 'row' : 'column',
               width: 350,
             }}
           >
-            {companyTRN &&
-              renderCompanyInfoData(
-                'TRN',
-                companyTRN,
-                {
-                  width: 145,
-                },
-                {},
-                { maxWidth: 90 }
-              )}
-            {companyEmail && renderCompanyInfoData('Email', companyEmail, {}, {}, { maxWidth: 170 })}
+            {companyTRN && renderCompanyInfoData({ title: 'TRN', value: companyTRN })}
+            {companyEmail &&
+              renderCompanyInfoData({
+                title: 'Email',
+                value: companyEmail,
+                containerStyle: isTRNAndEmailFitInRow ? {} : { marginTop: 5 },
+              })}
           </View>
-          <View style={{ flexDirection: 'row' }}>
-            {companyDetail.phone &&
-              renderCompanyInfoData(
-                'Phone',
-                companyDetail.phone,
-                {
-                  width: 145,
-                },
-                {},
-                { maxWidth: 90 }
-              )}
-            {companyDetail.location &&
-              renderCompanyInfoData('Address', companyDetail.location, {}, {}, { maxWidth: 170 })}
+          <View
+            style={{
+              marginTop: 5,
+              display: 'flex',
+              flexDirection: isPhoneAndLocationFitInRow ? 'row' : 'column',
+              width: 350,
+            }}
+          >
+            {companyDetail?.phone && renderCompanyInfoData({ title: 'Phone', value: companyDetail?.phone })}
+            {companyDetail?.location &&
+              renderCompanyInfoData({
+                title: 'Address',
+                value: companyDetail?.location,
+                containerStyle: isPhoneAndLocationFitInRow ? {} : { marginTop: 5 },
+                titleStyle: { minWidth: 45 },
+                valueStyle: isPhoneAndLocationFitInRow ? { maxWidth: 150 } : { maxWidth: 280 },
+              })}
           </View>
         </View>
       </View>

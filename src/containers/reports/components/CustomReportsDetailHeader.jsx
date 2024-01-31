@@ -6,7 +6,7 @@ import { Grid, Stack, Typography } from '@mui/material';
 
 function CustomReportsDetailHeader({ reportTitle, filterInfo }) {
   const { email, company } = useSelector(state => state.user);
-  const { name: companyName, logo: companyLogo, trn: companyTRN } = company;
+  const { name: companyName, logo: companyLogo, trade_license_number: companyTRN } = company;
 
   return (
     <>

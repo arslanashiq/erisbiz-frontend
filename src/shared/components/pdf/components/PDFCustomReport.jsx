@@ -60,7 +60,7 @@ function PDFCustomReport({
   companyLogo,
   company,
   email,
-  trn,
+  TRN,
   timeInterval,
   isMultiReport,
   tableBody,
@@ -87,44 +87,51 @@ function PDFCustomReport({
 
       {/* table Body */}
 
-      <View>
-        {body.map(tableRow => (
-          <View key={uuid()} style={styles.tableRow}>
-            {tableRow.map(tableCell => (
-              <View
-                key={uuid()}
-                style={{
-                  ...styles.tableBody,
-                  width: `${100 - tableRow.length}%`,
-                  ...tableCell.style,
-                }}
-              >
-                <Text style={styles.tableCell}>{tableCell.value}</Text>
+      {body.length > 0 ? (
+        <>
+          <View>
+            {body.map(tableRow => (
+              <View key={uuid()} style={styles.tableRow}>
+                {tableRow.map(tableCell => (
+                  <View
+                    key={uuid()}
+                    style={{
+                      ...styles.tableBody,
+                      width: `${100 - tableRow.length}%`,
+                      ...tableCell.style,
+                    }}
+                  >
+                    <Text style={styles.tableCell}>{tableCell.value}</Text>
+                  </View>
+                ))}
               </View>
             ))}
           </View>
-        ))}
-      </View>
-
-      {/* table Footer */}
-      <View>
-        {footer.map(tableRow => (
-          <View key={uuid()} style={styles.tableRow}>
-            {tableRow.map(tableCell => (
-              <View
-                key={uuid()}
-                style={{
-                  ...styles.tableBody,
-                  width: `${100 - tableRow.length}%`,
-                  ...tableCell.style,
-                }}
-              >
-                <Text style={styles.tableCell}>{tableCell.value}</Text>
+          {/* table Footer */}
+          <View>
+            {footer.map(tableRow => (
+              <View key={uuid()} style={styles.tableRow}>
+                {tableRow.map(tableCell => (
+                  <View
+                    key={uuid()}
+                    style={{
+                      ...styles.tableBody,
+                      width: `${100 - tableRow.length}%`,
+                      ...tableCell.style,
+                    }}
+                  >
+                    <Text style={styles.tableCell}>{tableCell.value}</Text>
+                  </View>
+                ))}
               </View>
             ))}
           </View>
-        ))}
-      </View>
+        </>
+      ) : (
+        <View style={{ width: '100%', textAlign: 'center' }}>
+          <Text style={{ fontSize: 12, padding: 10 }}>No Data Available</Text>
+        </View>
+      )}
     </View>
   );
   return (
@@ -136,7 +143,7 @@ function PDFCustomReport({
           companyLogo={companyLogo}
           companyDetail={company}
           companyEmail={email}
-          companyTRN={trn}
+          companyTRN={TRN}
           reportTitle={reportTitle}
           timeInterval={timeInterval}
         />

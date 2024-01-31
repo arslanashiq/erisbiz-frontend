@@ -21,7 +21,7 @@ function OrderReceipt({
   showJournalVoucher,
 }) {
   const { company, email } = useSelector(state => state.user);
-  const { name: companyName, logo: companyLogo, trn: companyTRN } = company;
+  const { name: companyName, logo: companyLogo, trade_license_number: companyTRN } = company;
 
   const renderOrderInfo = (data, key, title, isDate, titleColumn = 4, valueColumn = 7) => {
     if (!data[key]) return '';

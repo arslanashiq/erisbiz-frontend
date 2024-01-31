@@ -18,7 +18,7 @@ function usePdfView(
   const {
     name: companyName,
     logo: companyLogo,
-    trn,
+    trade_license_number: TRN,
     currency_detail: { currency_symbol: currencySymbol },
   } = company;
   const [data, setData] = useState({});
@@ -63,7 +63,7 @@ function usePdfView(
             companyEmail={email}
             companyName={companyName}
             companyLogo={companyLogo}
-            companyTRN={trn}
+            companyTRN={TRN}
             showStatement={options.showStatement}
             statementInfo={statementInfo}
             statementTransactions={statementTransactions}

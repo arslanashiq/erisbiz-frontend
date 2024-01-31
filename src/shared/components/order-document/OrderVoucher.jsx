@@ -11,15 +11,6 @@ function OrderVoucher({ orderDetail, keyValue, orderInfo }) {
     <>
       {/* Payment Voucher */}
       <Box style={{ marginTop: 60 }}>
-        <Box className="row">
-          <Box className="col-sm-3 invoice-headings">
-            <p>Payment Date</p>
-          </Box>
-          <Box className="col-sm-9 invoice-details">
-            <p>{orderDetail.payment_date}</p>
-            <hr />
-          </Box>
-        </Box>
         {orderDetail.reference_num && (
           <Box className="row">
             <Box className="col-sm-3 invoice-headings">
