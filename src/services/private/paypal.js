@@ -9,6 +9,7 @@ const brandsApi = privateApi.injectEndpoints({
         body: payload,
       }),
       providesTags: ['sendPaymentStatus'],
+      invalidatesTags: ['loadUser'],
     }),
     getPaypalPlansList: builder.query({
       query: () => ({
