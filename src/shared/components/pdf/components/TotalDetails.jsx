@@ -93,7 +93,7 @@ function TotalDetails({
       >
         <View style={{ minWidth: 230, maxWidth: 230 }}>
           <Text style={{ ...primaryColor, ...boldFont, fontSize: 13 }}>Total Amount in Words</Text>
-          <Text style={{ ...primaryColor, fontSize: 11, marginTop: 20 }}>
+          <Text style={{ ...primaryColor, fontSize: 11, marginTop: 5 }}>
             {currencySymbol} - {handleGetAmountInWords(grandTotal)}
           </Text>
         </View>
