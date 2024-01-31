@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Typography } from '@mui/material';
+import formatAmount from 'utilities/formatAmount';
 
 function PaymentVoucherHistory({ PaymentVoucher }) {
   return (
@@ -25,14 +26,12 @@ function PaymentVoucherHistory({ PaymentVoucher }) {
             <Grid item sm={9}>
               {PaymentVoucher?.bill_numbers ? (
                 <Typography>
-                  Payment of amount {PaymentVoucher?.currency_symbol}
-                  {PaymentVoucher?.total} paid and applied for {PaymentVoucher?.bill_numbers} by{' '}
-                  {PaymentVoucher?.supplier_name}
+                  Payment of amount {formatAmount(PaymentVoucher?.total)} paid and applied for{' '}
+                  {PaymentVoucher?.bill_numbers} by {PaymentVoucher?.supplier_name}
                 </Typography>
               ) : (
                 <Typography>
-                  Payment of amount {PaymentVoucher?.currency_symbol}
-                  {PaymentVoucher?.total} paid by{' '}
+                  Payment of amount {formatAmount(PaymentVoucher?.total)} paid by{' '}
                   {PaymentVoucher?.supplier_name || PaymentVoucher?.customer_info?.customer_name}
                 </Typography>
               )}

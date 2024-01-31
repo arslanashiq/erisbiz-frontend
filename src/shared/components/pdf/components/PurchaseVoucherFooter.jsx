@@ -29,19 +29,16 @@ function PurchaseVoucherFooter({ orderDetail, keyName, styles }) {
         </View>
         <View style={styles.tableCol}>
           <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-            {orderDetail.currency_symbol}
             {formatAmount(item?.bill?.grand_total || item.supplier?.grand_total)}
           </Text>
         </View>
         <View style={styles.tableCol}>
           <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-            {orderDetail.currency_symbol}
             {formatAmount(item?.bill?.amount_due || item.supplier?.amount_due)}
           </Text>
         </View>
         <View style={styles.tableCol}>
           <Text style={[styles.tableCell, { textAlign: 'center' }]}>
-            {orderDetail.currency_symbol}
             {formatAmount(item.amount_applied)}
           </Text>
         </View>

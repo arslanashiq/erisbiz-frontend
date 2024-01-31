@@ -29,18 +29,15 @@ function PurchaseVoucherFooterDocument({ orderDetail, keyValue }) {
         <p>{item?.bill?.pur_order_num || '-'}</p>
         {/* grandTotal */}
         <p>
-          {orderDetail.currency_symbol}
           {formatAmount(item?.bill?.grand_total || item.supplier?.grand_total)}
         </p>
         {/* Item amount Due */}
         <p>
-          {orderDetail.currency_symbol}
           {formatAmount(item?.bill?.amount_due || item.supplier?.amount_due)}
         </p>
 
         {/* payment applied */}
         <p>
-          {orderDetail.currency_symbol}
           {formatAmount(item.amount_applied)}
         </p>
       </div>

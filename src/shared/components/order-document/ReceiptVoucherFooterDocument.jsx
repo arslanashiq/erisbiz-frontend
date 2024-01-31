@@ -30,16 +30,10 @@ function ReceiptVoucherFooterDocument({ orderDetail, keyValue }) {
       <div key={uuid()} className="payment-details">
         <p>{moment(item?.invoice?.date).format(DATE_FORMAT)}</p>
         <Link to={getLink(item)}>{getName(item)}</Link>
-        <p>{`${orderDetail.currency_symbol} ${formatAmount(getAmount(item, 'grand_total'))}`}</p>
-        <p>
-          {orderDetail.currency_symbol}
-          {formatAmount(getAmount(item, 'amount_due'))}
-        </p>
+        <p>{formatAmount(getAmount(item, 'grand_total'))}</p>
+        <p>{formatAmount(getAmount(item, 'amount_due'))}</p>
 
-        <p>
-          {orderDetail.currency_symbol}
-          {formatAmount(item?.amount_applied)}
-        </p>
+        <p>{formatAmount(item?.amount_applied)}</p>
       </div>
     ))
   );

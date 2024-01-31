@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
+import formatAmount from 'utilities/formatAmount';
 
 const styles = StyleSheet.create({
   container: {
@@ -137,10 +138,7 @@ function VoucherContent({ orderDetail }) {
                 <Text style={{ ...styles.headingText }}>Amount Paid</Text>
               </View>
               <View style={styles.infoValue}>
-                <Text style={[styles.valueText, { width: 348 }]}>
-                  {orderDetail.currency_symbol}
-                  {orderDetail.total}
-                </Text>
+                <Text style={[styles.valueText, { width: 348 }]}>{formatAmount(orderDetail.total)}</Text>
               </View>
             </View>
           </View>
@@ -149,18 +147,14 @@ function VoucherContent({ orderDetail }) {
           <View style={styles.amountBox}>
             <Text style={{ fontSize: 12, fontWeight: 600, color: '#FFFFFF' }}>Amount Paid</Text>
             <Text style={{ fontSize: 17, fontWeight: 600, color: '#FFFFFF' }}>
-              {orderDetail.currency_symbol}
-              {orderDetail.total}
+              {formatAmount(orderDetail.total)}
             </Text>
           </View>
         </View>
         {orderDetail.over_payment > 0 && (
           <View style={styles.overPaymentContainer}>
             <Text style={styles.overPaymentText}>Overpayment</Text>
-            <Text>
-              {orderDetail.currency_symbol}
-              {orderDetail.over_payment}
-            </Text>
+            <Text>{formatAmount(orderDetail.over_payment)}</Text>
           </View>
         )}
       </View>
