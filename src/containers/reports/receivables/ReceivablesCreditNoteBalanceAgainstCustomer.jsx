@@ -17,8 +17,7 @@ function ReceivablesCreditNoteBalanceAgainstCustomer() {
   const updatedCustomInputList = useGetReceivablesCustomFilterInputs();
 
   const selectedCustomer = useMemo(
-    () => customerInput?.options?.find(option => option.value === Number(customerID)),
-    [customerInput]
+    [customerInput, customerID]
   );
   return (
     <CustomReportDetailPage
