@@ -29,7 +29,7 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
         },
 
         {
-          value: formatAmount(item.amount_total),
+          value: formatAmount(item.grand_total),
         },
         {
           value: formatAmount(item.amount_due),
