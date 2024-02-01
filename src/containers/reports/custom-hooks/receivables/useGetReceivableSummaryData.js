@@ -9,7 +9,7 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
       return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
     }
     if (item.type === 'Credit Note') {
-      return `/pages/accounting/sales/credit-notes/${item.number}/detail`;
+      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
     }
     return false;
   };

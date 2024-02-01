@@ -7,7 +7,7 @@ import CustomReportDetailPage from '../components/CustomReportDetailPage';
 function ReceiptVoucherReport() {
   return (
     <CustomReportDetailPage
-      reportTitle="Sales By Sales Person"
+      reportTitle="Sales Receipt Voucher"
       reportHeadCells={receiptVoucherReportHeadCells}
       useGetReportQuery={useGetReceiptVoucherReportQuery}
       useGetReportData={useGetReceiptVoucherData}
