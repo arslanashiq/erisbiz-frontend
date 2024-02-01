@@ -18,7 +18,11 @@ function useGetBalanceDetailData(balanceDetailResponse) {
     let currentGrandTotal = item.grand_total || 0;
     let currentAmountDue = item.amount_due || 0;
 
-    if (item.type === 'Excess Payment' || item.type === 'Credit Note') {
+    if (
+      (item.type === 'Account Opening Balance' && item.is_credit === true) ||
+      item.type === 'Excess Payment' ||
+      item.type === 'Credit Note'
+    ) {
       currentAmountDue *= currentAmountDue > 0 ? -1 : 1;
       currentGrandTotal *= currentGrandTotal > 0 ? -1 : 1;
     }
