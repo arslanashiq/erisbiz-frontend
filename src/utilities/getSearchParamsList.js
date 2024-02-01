@@ -10,8 +10,10 @@ function getSearchParamsList(location = window.location) {
   paramsList = searchList.forEach(item => {
     const [key, value] = item.split('=');
 
-    paramsList[key] = value;
-    list.push(paramsList);
+    if (key) {
+      paramsList[key] = value;
+      list.push(paramsList);
+    }
   });
 
   return list[list.length - 1];

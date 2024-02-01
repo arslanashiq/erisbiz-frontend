@@ -48,7 +48,17 @@ function CustomReportDetailPage({
     () => (usePagination ? { ...DEFAULT_PARAMS, ...searchQueryParamsData } : { ...searchQueryParamsData }),
     [usePagination, searchQueryParamsData]
   );
-  const reportResponse = useGetReportQuery(params, queryOptions);
+
+  const paramsObject = useMemo(() => {
+    const newParamsObject = {};
+    if (Object.keys(params)?.length > 0) {
+      Object.keys(params).forEach(key => {
+        newParamsObject[key] = params[key]?.replaceAll('%20', ' ');
+      });
+    }
+    return newParamsObject;
+  }, [params]);
+  const reportResponse = useGetReportQuery(paramsObject, queryOptions);
 
   const { isMultiReport, modifiedTableHead, tableBody, modifiedTableBody, tableFooter } = useGetReportData(
     reportResponse,
