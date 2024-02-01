@@ -34,6 +34,9 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
     if (item.type === 'Excess Payment') {
       return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
     }
+    if (item.type === 'Credit Note') {
+      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
+    }
     return false;
   };
   const getAmountByType = item => {
