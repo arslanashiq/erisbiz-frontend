@@ -87,3 +87,10 @@ export const purchaseByItemInitialValues = {
   ...chartOfAccountNameInitialValue,
   ...itemNameInitialValue,
 };
+
+// sales
+
+export const salesByItemInitialValues = {
+  ...customDuration,
+  ...itemNameInitialValue,
+};

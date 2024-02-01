@@ -37,13 +37,15 @@ export const customerValidationSchema = { customer_id: Yup.string() };
 export const accountValidationSchema = { account_name: Yup.string() };
 export const comparisonValidationSchema = { comparison: Yup.string() };
 export const comparisonSpanValidationSchema = {
-  number_of_periods: Yup.string().when('comparison', {
-    is: 'yearly',
-    then: () => Yup.string().required('Number Of Period is required'),
-  }).when('comparison', {
-    is: 'yearly',
-    then: () => Yup.string().required('Number Of Period is required'),
-  }),
+  number_of_periods: Yup.string()
+    .when('comparison', {
+      is: 'yearly',
+      then: () => Yup.string().required('Number Of Period is required'),
+    })
+    .when('comparison', {
+      is: 'yearly',
+      then: () => Yup.string().required('Number Of Period is required'),
+    }),
 };
 
 // payables validation schema
@@ -94,5 +96,12 @@ export const purchaseByItemCustomInputsValidationSchema = Yup.object({
   ...accountValidationSchema,
   ...comparisonValidationSchema,
   ...comparisonSpanValidationSchema,
+  ...itemNameValidationSchema,
+});
+
+// sales
+
+export const salesByItemFilterCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
   ...itemNameValidationSchema,
 });

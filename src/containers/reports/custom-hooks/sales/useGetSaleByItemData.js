@@ -29,11 +29,9 @@ function useGetSaleByItemData(saleByItemResponse) {
         },
         {
           value: formatAmount(item.amount),
-          link: getLink(item),
         },
         {
           value: formatAmount(item.average),
-          link: getLink(item),
         },
       ]);
     });
