@@ -265,13 +265,12 @@ export const saleBySalePersonDetailReportHeadCells = [
 // receipt voucher
 
 export const receiptVoucherReportHeadCells = [
-  { title: 'PAYMENT#', style: { textAlign: 'start' } },
-  { title: 'DATE' },
-  { title: 'REFERENCE#' },
-  { title: 'CUSTOMER NAME' },
-  { title: 'PAYMENT MODE' },
-  { title: 'INVOICE#' },
-  { title: 'DEPOSIT TO' },
+  { title: 'INVOICE#', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
+  { title: 'REFERENCE#', style: { textAlign: 'start' } },
+  { title: 'PAYMENT MODE', style: { textAlign: 'start' } },
+  { title: 'DEPOSIT TO', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'UNUSED AMOUNT' },
 ];

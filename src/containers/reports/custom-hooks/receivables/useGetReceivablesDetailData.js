@@ -18,8 +18,8 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
     let quantity = 0;
     const body = [];
     receivablesDetailResponse?.data?.data.forEach(item => {
-      amount += item.total_amount;
-      quantity += item.num_units;
+      amount += item.total_amount || 0;
+      quantity += item.num_units || 0;
       body.push([
         {
           value: item.customer_name,
@@ -44,7 +44,7 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
           value: formatAmount(item.item_price),
         },
         {
-          value: formatAmount(item.num_units),
+          value: item.num_units,
         },
         {
           value: item.total_amount || 0,
