@@ -43,7 +43,7 @@ function RenderCustomInputs({
               <FormSubmitButton
                 clearButtonAction={({ values: formValues, ...rest }) => {
                   handleSubmitCustomFilter(
-                    { duration: 'today' },
+                    { duration: 'this month' },
                     { ...rest },
                     handleClose,
                     customFilterInputs

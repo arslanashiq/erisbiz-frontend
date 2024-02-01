@@ -32,7 +32,19 @@ export const durationValidationSchema = {
     }),
 };
 export const supplierValidationSchema = { supplier_id: Yup.string() };
+export const itemNameValidationSchema = { item_name: Yup.string() };
 export const customerValidationSchema = { customer_id: Yup.string() };
+export const accountValidationSchema = { account_name: Yup.string() };
+export const comparisonValidationSchema = { comparison: Yup.string() };
+export const comparisonSpanValidationSchema = {
+  number_of_periods: Yup.string().when('comparison', {
+    is: 'yearly',
+    then: () => Yup.string().required('Number Of Period is required'),
+  }).when('comparison', {
+    is: 'yearly',
+    then: () => Yup.string().required('Number Of Period is required'),
+  }),
+};
 
 // payables validation schema
 export const supplierBalanceFilterCustomInputsValidationSchema = Yup.object({
@@ -73,4 +85,14 @@ export const receivableSummaryCustomInputsValidationSchema = Yup.object({
   ...customDurationValidationSchema,
   ...customerValidationSchema,
   status: Yup.string(),
+});
+
+// purchase and expenses
+
+export const purchaseByItemCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...accountValidationSchema,
+  ...comparisonValidationSchema,
+  ...comparisonSpanValidationSchema,
+  ...itemNameValidationSchema,
 });

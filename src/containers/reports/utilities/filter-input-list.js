@@ -1,4 +1,4 @@
-import { AgingByList, statusList } from './constants';
+import { AgingByList, comparisonList, comparisonSpanDuration, groupBy, statusList } from './constants';
 
 export const payableReportsFilterInputList = [
   {
@@ -48,6 +48,8 @@ export const startDateInput = {
   isRequired: true,
   fullWidth: false,
   hidden: true,
+  displayKey: 'duration',
+  displayKeyValue: ['custom'],
 };
 export const endDateInput = {
   label: 'End Date',
@@ -58,6 +60,8 @@ export const endDateInput = {
   isRequired: true,
   fullWidth: false,
   hidden: true,
+  displayKey: 'duration',
+  displayKeyValue: ['custom'],
 };
 export const customStartDateInput = {
   label: 'Start Date',
@@ -68,6 +72,8 @@ export const customStartDateInput = {
   isRequired: true,
   fullWidth: false,
   hidden: true,
+  displayKey: 'duration',
+  displayKeyValue: ['custom'],
 };
 export const customEndDateInput = {
   label: 'End Date',
@@ -78,6 +84,8 @@ export const customEndDateInput = {
   isRequired: true,
   fullWidth: false,
   hidden: true,
+  displayKey: 'duration',
+  displayKeyValue: ['custom'],
 };
 
 export const agingByInput = {
@@ -94,5 +102,34 @@ export const statusInput = {
   labelClassName: '',
   className: 'w-100',
   options: statusList,
+  fullWidth: true,
+};
+export const comparisonInput = {
+  label: 'Comparison',
+  name: 'comparison',
+  labelClassName: '',
+  className: 'w-100',
+  options: comparisonList,
+  fullWidth: true,
+};
+
+export const comparisonSpanInput = {
+  label: 'No of Periods',
+  name: 'number_of_periods',
+  labelClassName: '',
+  className: 'w-100',
+  options: comparisonSpanDuration,
+  isRequired: true,
+  fullWidth: true,
+  hidden: true,
+  displayKey: 'comparison',
+  displayKeyValue: ['monthly', 'yearly'],
+};
+export const groupByInput = {
+  label: 'Group By',
+  name: 'group_by',
+  labelClassName: '',
+  className: 'w-100',
+  options: groupBy,
   fullWidth: true,
 };

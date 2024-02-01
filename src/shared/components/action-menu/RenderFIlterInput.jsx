@@ -5,16 +5,14 @@ import FormikDatePicker from '../form/FormikDatePicker';
 import FormikField from '../form/FormikField';
 
 function RenderFIlterInput({ input, values }) {
+  if (input?.hidden && !input.displayKeyValue.includes(values[input.displayKey])) {
+    return '';
+  }
+
   if (input.options) {
     return <FormikSelect key={input.name} {...input} />;
   }
   if (input.isDate) {
-    if (values?.duration === 'custom' && input?.hidden) {
-      return <FormikDatePicker key={input.name} {...input} />;
-    }
-    if (input?.hidden) {
-      return '';
-    }
     return <FormikDatePicker key={input.name} {...input} />;
   }
 

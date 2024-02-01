@@ -55,6 +55,7 @@ function FormikSelect({
   addNewButtonAction,
   addNewButtonLabel,
   labelClassName,
+  isMulti,
   ...restProps
 }) {
   const [field, meta] = useField(name || '');
@@ -66,8 +67,13 @@ function FormikSelect({
   const handleChange = selectedOption => {
     // Do not change anything if custom button is clicked
     if (selectedOption && selectedOption.value === CUSTOM_BUTTON_VALUE) return;
-
-    const fieldValue = selectedOption ? selectedOption.value : null;
+    let fieldValue = '';
+    if (isMulti) {
+      fieldValue = [];
+      selectedOption?.forEach(option => fieldValue.push(option.value));
+    } else {
+      fieldValue = selectedOption ? selectedOption.value : null;
+    }
     setFieldValue(name, fieldValue);
     if (onChange) onChange(fieldValue);
   };
@@ -78,7 +84,17 @@ function FormikSelect({
   };
 
   const allOptions = isGrouped ? options.map(item => item.options).flatMap(item => item) : [...options];
-  const selectedOption = allOptions.find(option => option.value === value);
+  const selectedOption = useMemo(() => {
+    let selectedValue = '';
+
+    if (isMulti) {
+      selectedValue = allOptions.filter(option => value.includes(option.value));
+    } else {
+      selectedValue = allOptions.find(option => value === option.value);
+    }
+
+    return selectedValue;
+  }, [value, allOptions]);
 
   const modifiedOptions = useMemo(() => {
     let newValues = [...options];
@@ -104,7 +120,9 @@ function FormikSelect({
   return (
     <Box className={`form__form-group ${className}`}>
       {label && (
-        <span className={`form__form-group-label ${labelClassName} ${isRequired ? 'required' : ''}`}>{label}</span>
+        <span className={`form__form-group-label ${labelClassName} ${isRequired ? 'required' : ''}`}>
+          {label}
+        </span>
       )}
       <Box className="form__form-group-field">
         {startIcon && <Box className="form__form-group-icon cursor-pointer">{startIcon}</Box>}
@@ -114,6 +132,7 @@ function FormikSelect({
             id="select"
             options={modifiedOptions}
             multi
+            isMulti={isMulti}
             onChange={handleChange}
             onBlur={handleBlur}
             value={selectedOption || null}
@@ -154,6 +173,7 @@ FormikSelect.propTypes = {
   addNewButtonAction: PropTypes.func,
   addNewButtonLabel: PropTypes.string,
   labelClassName: PropTypes.string,
+  isMulti: PropTypes.bool,
 };
 
 FormikSelect.defaultProps = {
@@ -179,6 +199,7 @@ FormikSelect.defaultProps = {
   addNewButtonAction: null,
   addNewButtonLabel: '',
   labelClassName: 'col-lg-3',
+  isMulti: false,
 };
 
 export default FormikSelect;

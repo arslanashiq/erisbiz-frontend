@@ -35,7 +35,7 @@ function useGetInvoiceDetailData(supplierPayableBalanceResponse) {
           value: formatAmount(item.amount_total),
         },
         {
-          value: formatAmount(item.without_change_vat_total),
+          value: formatAmount(item.grand_total - item.amount_total),
         },
         {
           value: formatAmount(item.grand_total),

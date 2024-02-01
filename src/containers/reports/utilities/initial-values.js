@@ -27,6 +27,19 @@ export const supplierIdInitialValue = {
 export const customerIdInitialValue = {
   customer_id: '',
 };
+export const itemNameInitialValue = {
+  item_name: '',
+};
+export const comparisonInitialValue = {
+  comparison: '',
+};
+export const comparisonSpanInitialValue = {
+  number_of_periods: '',
+};
+
+export const chartOfAccountNameInitialValue = {
+  coa_name: '',
+};
 export const supplierBalanceInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
@@ -64,4 +77,13 @@ export const receivableSummaryInitialValues = {
   ...customDuration,
   ...customerIdInitialValue,
   status: '',
+};
+
+// purchase and expenses
+export const purchaseByItemInitialValues = {
+  ...customDuration,
+  ...comparisonInitialValue,
+  ...comparisonSpanInitialValue,
+  ...chartOfAccountNameInitialValue,
+  ...itemNameInitialValue,
 };

@@ -15,7 +15,7 @@ function ReceivableAccountBalance() {
 
   return (
     <CustomReportDetailPage
-      reportTitle="Customer Balance"
+      reportTitle="Customer Balances"
       reportHeadCells={receivablesAccountBalanceReportHeadCells}
       useGetReportQuery={useGetReceivableAccountBalanceQuery}
       useGetReportData={useGetReceivableAccountBalanceData}
