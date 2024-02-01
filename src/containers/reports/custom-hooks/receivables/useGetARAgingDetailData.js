@@ -36,13 +36,31 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
     }
     return false;
   };
+  const getAmountByType = item => {
+    let currentGrandTotal = item.grand_total || 0;
+    let currentAmountDue = item.amount_due || 0;
+
+    if (
+      (item.type === 'Account Opening Balance' && item.is_credit === true) ||
+      item.type === 'Excess Payment' ||
+      item.type === 'Credit Note'
+    ) {
+      currentAmountDue *= currentAmountDue > 0 ? -1 : 1;
+      currentGrandTotal *= currentGrandTotal > 0 ? -1 : 1;
+    }
+    return {
+      currentAmountDue,
+      currentGrandTotal,
+    };
+  };
   const getTableBodyValue = (data, keyValue) => {
     const body = [];
     let amount = 0;
     let dueAmount = 0;
     data[keyValue].forEach(item => {
-      amount += item.grand_total;
-      dueAmount += item.amount_due;
+      const { currentAmountDue, currentGrandTotal } = getAmountByType(item);
+      amount += currentGrandTotal;
+      dueAmount += currentAmountDue;
 
       body.push([
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
@@ -55,19 +73,17 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
         { value: item.type, style: { textAlign: 'start' } },
         {
           value: item.customer_name,
-          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          link: `/pages/accounting/sales/customers/${item.customer_id || item.id}/detail`,
           style: { textAlign: 'start' },
         },
         {
           value: item.age,
         },
         {
-          value: formatAmount(item.grand_total),
-          link: getLinkByType(item),
+          value: formatAmount(currentGrandTotal),
         },
         {
-          value: formatAmount(item.amount_due),
-          link: getLinkByType(item),
+          value: formatAmount(currentAmountDue),
         },
       ]);
     });
