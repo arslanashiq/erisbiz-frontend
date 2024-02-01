@@ -38,11 +38,11 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
         },
         {
           value: formatAmount(item.bcy_sales_with_tax_amount),
-          link: getLinkByType(item),
+          // link: getLinkByType(item),
         },
         {
           value: formatAmount(item.amount_due),
-          link: getLinkByType(item),
+          // link: getLinkByType(item),
         },
         {
           value: item.status,
