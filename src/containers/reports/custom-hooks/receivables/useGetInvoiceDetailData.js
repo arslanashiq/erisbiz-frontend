@@ -16,7 +16,8 @@ function useGetInvoiceDetailData(supplierPayableBalanceResponse) {
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
       grossAmount += item.amount_total || 0;
-      taxAmount += item.without_change_vat_total || 0;
+      const currentTax = (item.grand_total || 0) - (item.amount_total || 0) || 0;
+      taxAmount += currentTax;
       netAmount += item.grand_total || 0;
 
       body.push([
