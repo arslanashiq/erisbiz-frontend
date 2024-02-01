@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
 import { DATE_FORMAT } from 'utilities/constants';
+import getSearchParamsList from 'utilities/getSearchParamsList';
 
 const availableDateList = [
   {
@@ -137,6 +138,32 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
         dueAmount += currentDueAmount;
       }
     });
+
+    const { customer_id: customerId } = getSearchParamsList();
+    if (customerId) {
+      body.splice(0, 0, [
+        {
+          value: receivableARAgingDetailResponse?.data?.customer,
+          style: { textAlign: 'start', fontWeight: 'bold' },
+        },
+        { value: '' },
+        { value: '' },
+        {
+          value: '',
+        },
+        {
+          value: '',
+        },
+        {
+          value: formatAmount(amount),
+          style: { fontWeight: 'bold' },
+        },
+        {
+          value: formatAmount(dueAmount),
+          style: { fontWeight: 'bold' },
+        },
+      ]);
+    }
 
     return {
       tableBody: body,
