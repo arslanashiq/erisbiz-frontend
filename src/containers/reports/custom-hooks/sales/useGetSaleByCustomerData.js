@@ -22,14 +22,13 @@ function useGetSaleByCustomerData(saleByCustomerResponse) {
         },
         {
           value: item.invoice_count,
+          link: `detail${location.search}&customer_id=${item.sales_account__id}`,
         },
         {
           value: formatAmount(item.sales),
-          link: `detail${location.search}&customer_id=${item.sales_account__id}`,
         },
         {
           value: formatAmount(item.sales_with_tax),
-          link: `detail${location.search}&customer_id=${item.sales_account__id}`,
         },
       ]);
     });
