@@ -52,7 +52,6 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: '' },
-        { value: '' },
         { value: formatAmount(totalAmount), style: { textAlign: 'end', fontWeight: 700 } },
         { value: formatAmount(totalDueAmount), style: { textAlign: 'end', fontWeight: 700 } },
       ],
