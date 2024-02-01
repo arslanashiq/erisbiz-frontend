@@ -22,7 +22,7 @@ function ReceivableBalanceDetailAgainstCustomer() {
   );
   return (
     <CustomReportDetailPage
-      reportTitle={`Balance Detail for ${selectedCustomer?.label || ''}`}
+      reportTitle={`Balance Details for ${selectedCustomer?.label || ''}`}
       reportHeadCells={receivablesInvoiceBalanceAgainstCustomerReportHeadCells}
       useGetReportQuery={useGetReceivableBalanceDetailAgainstCustomerQuery}
       useGetReportData={useGetBalanceDetailData}

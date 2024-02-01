@@ -15,13 +15,13 @@ function SupplierBalanceDetail() {
 
   const selectedSupplier = useMemo(
     () => supplierInput?.options?.find(option => option.value === Number(supplierID)),
-    [supplierInput]
+    [supplierInput, supplierID]
   );
   const updatedCustomInputList = useGetPayablesCustomFilterInputs();
 
   return (
     <CustomReportDetailPage
-      reportTitle={`Balance Detail for ${selectedSupplier?.label || ''}`}
+      reportTitle={`Balance Details for ${selectedSupplier?.label || ''}`}
       reportHeadCells={receivablesInvoiceBalanceAgainstCustomerReportHeadCells}
       useGetReportQuery={useGetSupplierBalanceDetailQuery}
       useGetReportData={useGetSupplierBillDetailBalanceData}
