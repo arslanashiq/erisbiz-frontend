@@ -6,7 +6,7 @@ function useGetSalesBySalePersonData(saleBySalePersonResponse) {
   const location = useLocation();
   const getLink = item => {
     if (item) {
-      return `detail${location.search}&sales_person_id=${item.customer_id}`;
+      return `detail${location.search}&sales_person_id=${item.sales_person_id}`;
     }
     return false;
   };

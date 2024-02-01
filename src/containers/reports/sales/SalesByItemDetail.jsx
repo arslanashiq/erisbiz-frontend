@@ -11,6 +11,7 @@ function SalesByItemDetail() {
       reportHeadCells={saleByItemDetailReportHeadCells}
       useGetReportQuery={useGetSaleByItemDetailQuery}
       useGetReportData={useGetSalesByItemDetailData}
+      options={{ showFilter: false }}
     />
   );
 }
