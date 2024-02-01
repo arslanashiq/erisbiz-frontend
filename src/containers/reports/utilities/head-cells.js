@@ -220,13 +220,13 @@ export const saleByCustomerReportHeadCells = [
   { title: 'SALES WITH TAX' },
 ];
 export const saleByCustomerDetailReportHeadCells = [
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
   { title: 'DATE', style: { textAlign: 'start' } },
-  { title: 'TYPE' },
-  { title: 'STATUS' },
-  { title: 'TRANSACTION NUMBER' },
+  { title: 'TYPE', style: { textAlign: 'start' } },
   { title: 'SALES' },
   { title: 'SALES WITH TAX' },
   { title: 'BALANCE DUE' },
+  { title: 'STATUS' },
 ];
 export const saleByItemReportHeadCells = [
   { title: 'ITEM NAME', style: { textAlign: 'start' } },
