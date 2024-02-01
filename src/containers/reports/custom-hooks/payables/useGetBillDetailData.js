@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { supplierOpeningBalanceName } from 'utilities/constants';
 // import { supplierOpeningBalanceName } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
@@ -18,7 +19,8 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
     let netAmount = 0;
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
-      grossAmount += item.amount_total || 0;
+      grossAmount +=
+        item.type === supplierOpeningBalanceName ? item.grand_total || 0 : item.amount_total || 0;
       taxAmount += item.without_change_vat_total || 0;
       netAmount += item.grand_total || 0;
 
@@ -39,13 +41,15 @@ function useGetBillDetailData(supplierPayableBalanceResponse) {
           style: { textAlign: 'start' },
         },
         {
-          value: formatAmount(item.amount_total),
+          value: formatAmount(
+            item.type === supplierOpeningBalanceName ? item.grand_total || 0 : item.amount_total || 0
+          ),
         },
         {
           value: formatAmount(item.without_change_vat_total),
         },
         {
-          value: formatAmount(item.grand_total),
+          value: formatAmount(item?.grand_total || 0),
         },
         { value: item.due_date, style: { textAlign: 'center' } },
 

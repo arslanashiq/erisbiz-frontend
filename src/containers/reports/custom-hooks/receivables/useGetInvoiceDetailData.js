@@ -15,24 +15,24 @@ function useGetInvoiceDetailData(supplierPayableBalanceResponse) {
     let netAmount = 0;
     const body = [];
     supplierPayableBalanceResponse?.data?.data.forEach(item => {
-      grossAmount += item.amount_total || 0;
+      grossAmount += item.formatted_number ? item.amount_total || 0 : item.grand_total || 0;
       taxAmount += item.without_change_vat_total || 0;
       netAmount += item.grand_total || 0;
 
       body.push([
         {
-          value: item.formatted_number,
+          value: item.formatted_number || item.type || '',
           link: getLinkByType(item),
           style: { textAlign: 'start' },
         },
         { value: item.date, style: { textAlign: 'start' } },
         {
           value: item.account_name || item.customer_name,
-          link: `/pages/accounting/sales/customers/${item.customer_id}/detail`,
+          link: `/pages/accounting/sales/customers/${item.customer_id || item.id}/detail`,
           style: { textAlign: 'start' },
         },
         {
-          value: formatAmount(item.amount_total || 0),
+          value: formatAmount(item.formatted_number ? item.amount_total || 0 : item.grand_total || 0),
         },
         {
           value: formatAmount(item.without_change_vat_total || 0),

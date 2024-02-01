@@ -275,12 +275,12 @@ export const receiptVoucherReportHeadCells = [
   { title: 'UNUSED AMOUNT' },
 ];
 export const creditNoteDetailReportHeadCells = [
-  { title: 'STATUS' },
-  { title: 'CREDIT DATE' },
-  { title: 'CREDIT NOTE#' },
-  { title: 'CUSTOMER NAME' },
+  { title: 'CREDIT NOTE#', style: { textAlign: 'start' } },
+  { title: 'CREDIT DATE', style: { textAlign: 'start' } },
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
   { title: 'CREDIT NOTE AMOUNT' },
   { title: 'BALANCE AMOUNT' },
+  { title: 'STATUS' },
 ];
 export const customerRefundReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },

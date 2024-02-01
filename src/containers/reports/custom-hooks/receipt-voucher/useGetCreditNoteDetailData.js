@@ -14,18 +14,18 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
       dueAmount += item.amount_due;
       body.push([
         {
-          value: item.status,
+          value: item.formatted_number,
+          link: `/pages/accounting/sales/credit-notes/${item.id}/detail`,
+          style: { textAlign: 'left' },
         },
         {
           value: moment(item.payment_date).format(DATE_FILTER_REPORT),
-        },
-        {
-          value: item.formatted_number,
-          link: `/pages/accounting/sales/credit-notes/${item.id}/detail`,
+          style: { textAlign: 'left' },
         },
         {
           value: item.customer_name,
           link: `/pages/accounting/sales/customers/${item.sales_account__id}/detail`,
+          style: { textAlign: 'left' },
         },
 
         {
@@ -33,6 +33,9 @@ function useGetCreditNoteDetailData(creditNoteDetailResponse) {
         },
         {
           value: formatAmount(item.amount_due),
+        },
+        {
+          value: item.status,
         },
       ]);
     });

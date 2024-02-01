@@ -262,7 +262,7 @@ export const reciptVoucher = {
       link: '/pages/reports/receipt-voucher?duration=this%20month',
     },
     {
-      label: 'Sales Credit Note Details',
+      label: 'Sales Credit Note',
       link: '/pages/reports/credit-Note-detail?duration=this%20month',
     },
     // {
