@@ -1,4 +1,11 @@
-import { AgingByList, comparisonList, comparisonSpanDuration, groupBy, statusList } from './constants';
+import {
+  AgingByList,
+  comparisonList,
+  comparisonSpanDuration,
+  entities,
+  groupBy,
+  statusList,
+} from './constants';
 
 export const payableReportsFilterInputList = [
   {
@@ -132,4 +139,13 @@ export const groupByInput = {
   className: 'w-100',
   options: groupBy,
   fullWidth: true,
+};
+export const entitiesInput = {
+  label: 'Entities',
+  name: 'entities',
+  labelClassName: '',
+  className: 'w-100',
+  options: entities,
+  fullWidth: true,
+  isMulti: true,
 };

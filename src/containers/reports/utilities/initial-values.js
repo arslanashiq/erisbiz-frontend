@@ -43,6 +43,12 @@ export const chartOfAccountNameInitialValue = {
 export const salesPersonInitialValue = {
   sales_person: '',
 };
+export const groupByInitialValue = {
+  group_by: '',
+};
+export const entitiesInitialValue = {
+  entities: [],
+};
 export const supplierBalanceInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
@@ -89,6 +95,11 @@ export const purchaseByItemInitialValues = {
   ...comparisonSpanInitialValue,
   ...chartOfAccountNameInitialValue,
   ...itemNameInitialValue,
+};
+export const expenseDetailInitialValues = {
+  ...customDuration,
+  ...groupByInitialValue,
+  ...entitiesInitialValue,
 };
 
 // sales
