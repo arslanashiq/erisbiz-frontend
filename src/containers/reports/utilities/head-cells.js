@@ -191,13 +191,13 @@ export const purchaseByItemDetailReportHeadCells = [
   { title: 'AVERAGE PRICE' },
 ];
 export const expenseDetailReportHeadCells = [
-  { title: 'STATUS' },
-  { title: 'DATE' },
-  { title: 'REFERENCE#' },
-  { title: 'SUPPLIER NAME' },
-  { title: 'EXPENSE ACCOUNT' },
+  { title: 'SUPPLIER NAME', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'REFERENCE#', style: { textAlign: 'start' } },
+  { title: 'EXPENSE ACCOUNT', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
   { title: 'AMOUNT WITH TAX' },
+  { title: 'STATUS' },
 ];
 export const expenseByCategoryReportHeadCells = [
   { title: 'CATEGORY NAME', style: { textAlign: 'start' } },

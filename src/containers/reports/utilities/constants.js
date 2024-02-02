@@ -63,6 +63,11 @@ export const groupBy = [
   { label: 'Transaction Type', value: 'transaction-type' },
   { label: 'SupplierName', value: 'supplier_name' },
 ];
+export const entities = [
+  { label: 'Expense', value: 'Expense' },
+  { label: 'Purchase Invoice', value: 'Bill' },
+  { label: 'Purchase Debit Note', value: 'Debit Note' },
+];
 
 export const payableReports = {
   title: 'Payable Reports',
@@ -198,10 +203,10 @@ export const sales = {
       label: 'Sales by Item',
       link: '/pages/reports/sales-by-item?duration=this%20month',
     },
-    {
-      label: 'Sales by Sales Person',
-      link: '/pages/reports/sales-by-sales-person?duration=this%20month',
-    },
+    // {
+    //   label: 'Sales by Sales Person',
+    //   link: '/pages/reports/sales-by-sales-person?duration=this%20month',
+    // },
     // {
     //   label: 'Sales by Sales Type',
     //   link: '/pages/reports/sales-by-sales-type?duration=this%20month',
