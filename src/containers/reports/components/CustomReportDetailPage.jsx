@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSnackbar } from 'notistack';
 import { useLocation } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { v4 as uuid } from 'uuid';
@@ -39,6 +40,7 @@ function CustomReportDetailPage({
   reportDataOptions,
 }) {
   const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
   const { name: companyName } = useSelector(state => state?.user?.company);
 
   const { replaceTableBody } = options;
@@ -71,6 +73,12 @@ function CustomReportDetailPage({
     reportResponse?.data?.start_date,
     reportResponse?.data?.end_date
   );
+  useEffect(() => {
+    if (reportResponse?.isError) {
+      enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
+    }
+  }, [reportResponse]);
+
   return (
     <SectionLoader options={[reportResponse.isLoading]}>
       <Helmet>
