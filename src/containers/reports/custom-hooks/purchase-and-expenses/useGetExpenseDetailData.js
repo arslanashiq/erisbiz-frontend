@@ -14,17 +14,19 @@ function useGetExpenseDetailData(expenseDetailResponse) {
       //   currency = item.currency_symbol;
 
       body.push([
-        { value: item.status },
-        { value: moment(item.transaction_date).format(DATE_FILTER_REPORT) },
-        {
-          value: item.reference_number,
-        },
         {
           value: item.transaction_detail,
+          style: { textAlign: 'start' },
           link: `/pages/accounting/purchase/suppliers/${item.supplier_id}/detail`,
+        },
+        { value: moment(item.transaction_date).format(DATE_FILTER_REPORT), style: { textAlign: 'start' } },
+        {
+          value: item.reference_number,
+          style: { textAlign: 'start' },
         },
         {
           value: item.chart_of_account__account_name,
+          style: { textAlign: 'start' },
         },
         {
           value: formatAmount(item.amount_without_tax),
@@ -34,6 +36,7 @@ function useGetExpenseDetailData(expenseDetailResponse) {
           value: formatAmount(item.total_amount),
           link: `/pages/accounting/purchase/expenses/${item.object_id}/detail`,
         },
+        { value: item.status },
       ]);
     });
     return {
