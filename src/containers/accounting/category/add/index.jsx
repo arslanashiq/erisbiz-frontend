@@ -13,7 +13,6 @@ import {
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
-import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
 import SectionLoader from 'containers/common/loaders/SectionLoader';
@@ -88,8 +87,6 @@ function AddCategory() {
                 isRequired
                 className="col-12"
               />
-
-              <ErrorFocus />
 
               <FormSubmitButton />
             </Form>

@@ -17,7 +17,6 @@ import useInitialValues from 'shared/custom-hooks/useInitialValues';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
-import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import FormikImageInput from 'shared/components/form/FormikImageInput';
 // containers
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
@@ -282,7 +281,6 @@ function AddItemPage() {
 
                 {/* ============================================================================================ */}
 
-                <ErrorFocus />
                 <FormSubmitButton />
               </Form>
             )}

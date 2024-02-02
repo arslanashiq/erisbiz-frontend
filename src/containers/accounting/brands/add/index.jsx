@@ -11,7 +11,6 @@ import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 import FormikSelect from 'shared/components/form/FormikSelect';
 import useInitialValues from 'shared/custom-hooks/useInitialValues';
-import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 // containers
 import SectionLoader from 'containers/common/loaders/SectionLoader';
 import FormSubmitButton from 'containers/common/form/FormSubmitButton';
@@ -106,8 +105,6 @@ function AddBrand() {
                 label="Brand Region"
                 isRequired
               />
-
-              <ErrorFocus />
 
               <FormSubmitButton />
             </Form>

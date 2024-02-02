@@ -10,7 +10,6 @@ import {
   useGetSupplierSingleContactQuery,
 } from 'services/private/suppliers';
 // shared
-import ErrorFocus from 'shared/components/error-focus/ErrorFocus';
 import FormHeader from 'shared/components/form-header/FormHeader';
 import FormikField from 'shared/components/form/FormikField';
 // styles
@@ -153,7 +152,6 @@ function AddSupplierContact() {
                 className="col-12"
               />
 
-              <ErrorFocus />
               <FormSubmitButton />
             </Form>
           </Formik>
