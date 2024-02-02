@@ -12,7 +12,7 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { getItemSearchQueryParams } from 'utilities/filters';
 import ListingOtherOptions from 'utilities/other-options-listing';
 import checkSelectedDataUsed from 'utilities/checkSelectedDataUsed';
-import { handleDeleteResponse } from 'utilities/delete-action-handler';
+import { handleBulkDelete } from 'utilities/delete-action-handler';
 import { categoryHeadCells } from '../utilities/head-cells';
 
 function CategoryListing() {
@@ -46,9 +46,7 @@ function CategoryListing() {
     });
   }, []);
   const handleConfirmDelete = useCallback(list => {
-    list.forEach(id => {
-      handleDeleteResponse(deleteSingleCategory, id, enqueueSnackbar, 'Category Deleted Successfully');
-    });
+    handleBulkDelete(list, deleteSingleCategory, enqueueSnackbar, 'Category Deleted Successfully');
   }, []);
 
   return (
