@@ -38,6 +38,7 @@ function CustomReportDetailPage({
   customReportCustomerInitialValues,
   customReportInputListValidationSchema,
   reportDataOptions,
+  paramsFilter,
 }) {
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
@@ -52,13 +53,10 @@ function CustomReportDetailPage({
   );
 
   const paramsObject = useMemo(() => {
-    const newParamsObject = {};
-    if (Object.keys(params)?.length > 0) {
-      Object.keys(params).forEach(key => {
-        newParamsObject[key] = params[key]?.replaceAll('%20', ' ');
-      });
+    if (paramsFilter) {
+      return paramsFilter(params);
     }
-    return newParamsObject;
+    return params;
   }, [params]);
   const reportResponse = useGetReportQuery(paramsObject, queryOptions);
 
@@ -173,6 +171,7 @@ CustomReportDetailPage.propTypes = {
   customReportCustomerInitialValues: PropTypes.object,
   customReportInputListValidationSchema: PropTypes.object,
   reportDataOptions: PropTypes.object,
+  paramsFilter: PropTypes.func,
 };
 CustomReportDetailPage.defaultProps = {
   reportTitle: '',
@@ -190,5 +189,6 @@ CustomReportDetailPage.defaultProps = {
   customReportCustomerInitialValues: null,
   customReportInputListValidationSchema: null,
   reportDataOptions: {},
+  paramsFilter: null,
 };
 export default CustomReportDetailPage;

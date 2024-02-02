@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useGetSaleByItemQuery } from 'services/private/reports';
 import { saleByItemReportHeadCells } from 'containers/reports/utilities/head-cells';
 import useGetSaleByItemData from 'containers/reports/custom-hooks/sales/useGetSaleByItemData';
@@ -12,6 +12,21 @@ import { salesByItemFilterCustomInputsValidationSchema } from '../utilities/vali
 function SalesByItem() {
   const durationInput = useGetDurationInput();
   const itemInput = useGetItemInput();
+
+  const customParamsFilter = useCallback(params => {
+    try {
+      const newParamsObject = {};
+      if (Object.keys(params)?.length > 0) {
+        Object.keys(params).forEach(key => {
+          newParamsObject[key] = params[key]?.replaceAll('%20', ' ');
+        });
+      }
+      return newParamsObject;
+    } catch (error) {
+      return params;
+    }
+  }, []);
+
   return (
     <CustomReportDetailPage
       reportTitle="Sales By Item"
@@ -21,6 +36,7 @@ function SalesByItem() {
       customReportCustomFilter={[durationInput, customStartDateInput, customEndDateInput, itemInput]}
       customReportCustomerInitialValues={salesByItemInitialValues}
       customReportInputListValidationSchema={salesByItemFilterCustomInputsValidationSchema}
+      paramsFilter={customParamsFilter}
     />
   );
 }
