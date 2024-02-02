@@ -91,7 +91,7 @@ function ChangePassword({ userData }) {
           endIconClick={() => setShowConfirmPassword(!showConfirmPassword)}
           isRequired
         />
-        <FormSubmitButton />
+        <FormSubmitButton showSaveAndContinue={false} />
       </Form>
     </Formik>
   );
