@@ -48,6 +48,10 @@ export const comparisonSpanValidationSchema = {
     }),
 };
 
+export const salesPersonValidationSchema = {
+  sales_person: Yup.string(),
+};
+
 // payables validation schema
 export const supplierBalanceFilterCustomInputsValidationSchema = Yup.object({
   ...supplierValidationSchema,
@@ -104,4 +108,8 @@ export const purchaseByItemCustomInputsValidationSchema = Yup.object({
 export const salesByItemFilterCustomInputsValidationSchema = Yup.object({
   ...customDurationValidationSchema,
   ...itemNameValidationSchema,
+});
+export const salesBySalesPersonmFilterCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...salesPersonValidationSchema,
 });

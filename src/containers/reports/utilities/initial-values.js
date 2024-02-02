@@ -40,6 +40,9 @@ export const comparisonSpanInitialValue = {
 export const chartOfAccountNameInitialValue = {
   coa_name: '',
 };
+export const salesPersonInitialValue = {
+  sales_person: '',
+};
 export const supplierBalanceInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
@@ -93,4 +96,8 @@ export const purchaseByItemInitialValues = {
 export const salesByItemInitialValues = {
   ...customDuration,
   ...itemNameInitialValue,
+};
+export const salesBySalePersonInitialValues = {
+  ...customDuration,
+  ...salesPersonInitialValue,
 };
