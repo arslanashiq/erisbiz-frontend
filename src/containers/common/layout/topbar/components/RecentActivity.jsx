@@ -14,17 +14,20 @@ import {
   recentActivityMenuListTitle,
 } from 'styles/mui/common/layouts/topbar/components/recent-activity';
 import Loader from 'shared/components/loader/Loader';
+import { useNavigate } from 'react-router';
 
 function RecentActivity() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const recentActivity = useGetRecentActivityQuery({}, { refetchOnMountOrArgChange: Boolean(anchorEl) });
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-    if (recentActivity) {
-      recentActivity.refetch();
-    }
+  const handleClick = () => {
+    navigate('/pages/reports/activity-logs?duration=this+month');
+    // setAnchorEl(event.currentTarget);
+    // if (recentActivity) {
+    //   recentActivity.refetch();
+    // }
   };
   const handleClose = () => {
     setAnchorEl(null);
