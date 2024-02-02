@@ -124,3 +124,8 @@ export const salesBySalesPersonmFilterCustomInputsValidationSchema = Yup.object(
   ...customDurationValidationSchema,
   ...salesPersonValidationSchema,
 });
+
+// activity logs
+export const activityLogsFilterCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+});
