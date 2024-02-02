@@ -41,13 +41,13 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
           style: { textAlign: 'start' },
         },
         {
-          value: formatAmount(item.item_price),
+          value: formatAmount(item.item_price || 0),
         },
         {
           value: item.num_units,
         },
         {
-          value: item.total_amount || 0,
+          value: formatAmount(item.total_amount || 0),
         },
         {
           value: item.status,

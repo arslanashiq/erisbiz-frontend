@@ -40,27 +40,27 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
         },
 
         {
-          value: item.current_bcy,
+          value: formatAmount(item.current_bcy || 0),
           link: getARAgingSummaryDetailLink(item, 'current'),
         },
         {
-          value: item.days_1_15,
+          value: formatAmount(item.days_1_15 || 0),
           link: getARAgingSummaryDetailLink(item, '1_15'),
         },
         {
-          value: item.days_16_30,
+          value: formatAmount(item.days_16_30 || 0),
           link: getARAgingSummaryDetailLink(item, '16_30'),
         },
         {
-          value: item.days_31_45,
+          value: formatAmount(item.days_31_45 || 0),
           link: getARAgingSummaryDetailLink(item, '31_45'),
         },
         {
-          value: item.days_above_45,
+          value: formatAmount(item.days_above_45 || 0),
           link: getARAgingSummaryDetailLink(item, 'gt_45'),
         },
         {
-          value: item.total_bcy,
+          value: formatAmount(item.total_bcy || 0),
         },
       ]);
     });
@@ -80,12 +80,12 @@ function useGetARAgingSummaryData(receivableARAgingReportResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
 
-        { value: formatAmount(totalCurrentBalance), style: { fontWeight: 700 } },
-        { value: formatAmount(totalDays1To15Balance), style: { fontWeight: 700 } },
-        { value: formatAmount(totalDays16To30Balance), style: { fontWeight: 700 } },
-        { value: formatAmount(totalDays31To45Balance), style: { fontWeight: 700 } },
-        { value: formatAmount(totalAbove45Balance), style: { fontWeight: 700 } },
-        { value: formatAmount(totalBalance), style: { fontWeight: 700 } },
+        { value: formatAmount(totalCurrentBalance || 0), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDays1To15Balance || 0), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDays16To30Balance || 0), style: { fontWeight: 700 } },
+        { value: formatAmount(totalDays31To45Balance || 0), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAbove45Balance || 0), style: { fontWeight: 700 } },
+        { value: formatAmount(totalBalance || 0), style: { fontWeight: 700 } },
       ],
     ],
     [
