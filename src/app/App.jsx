@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { ThemeProvider } from '@mui/material';
-import { SnackbarProvider } from 'notistack';
+import { ThemeProvider, styled } from '@mui/material';
+import { SnackbarProvider, MaterialDesignContent } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLoadUserQuery } from 'services/private/user';
 import { isUserAuthenticated } from 'store/slices/userSlice';
@@ -8,6 +8,11 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import AppRoutes from './routes';
 import theme from '../styles/mui/theme';
 
+const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
+  '&.notistack-MuiContent-success': {
+    backgroundColor: theme.palette.primary.main,
+  },
+}));
 function App() {
   const { isAuthenticated, token } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -48,6 +53,9 @@ function App() {
         transitionDuration={100}
         autoHideDuration={3000}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        Components={{
+          success: StyledMaterialDesignContent,
+        }}
       >
         <SectionLoader options={[userResponse.isLoading, isAuthenticated === null]}>
           <AppRoutes />
