@@ -9,6 +9,7 @@ import useGetDurationInput from '../custom-hooks/common/useGetDurationInput';
 import { customEndDateInput, customStartDateInput } from '../utilities/filter-input-list';
 import useGetCustomerInput from '../custom-hooks/common/useGetCustomerInput';
 import useGetItemInput from '../custom-hooks/common/useGetItemInput';
+import { CustomFilterForReportParams } from '../utilities/custom-filter-for-report';
 
 function ReceivableDetails() {
   const durationInput = useGetDurationInput();
@@ -30,6 +31,7 @@ function ReceivableDetails() {
       ]}
       customReportCustomerInitialValues={receivableDetailInitialValues}
       customReportInputListValidationSchema={customerbalanceCustomInputsValidationSchema}
+      paramsFilter={CustomFilterForReportParams}
     />
   );
 }

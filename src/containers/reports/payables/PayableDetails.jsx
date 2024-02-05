@@ -12,6 +12,7 @@ import useGetDurationInput from '../custom-hooks/common/useGetDurationInput';
 import { customEndDateInput, customStartDateInput } from '../utilities/filter-input-list';
 import useGetItemInput from '../custom-hooks/common/useGetItemInput';
 import usegetSupplierInput from '../custom-hooks/common/useGetSupplierInput';
+import { CustomFilterForReportParams } from '../utilities/custom-filter-for-report';
 
 function PayableDetails() {
   const durationInput = useGetDurationInput();
@@ -33,6 +34,7 @@ function PayableDetails() {
       ]}
       customReportCustomerInitialValues={payableDetailInitialValues}
       customReportInputListValidationSchema={payableDetailFilterCustomInputsValidationSchema}
+      paramsFilter={CustomFilterForReportParams}
     />
   );
 }
