@@ -10,7 +10,7 @@ import {
   customEndDateInput,
   customStartDateInput,
   entitiesInput,
-  groupByInput,
+  // groupByInput,
 } from '../utilities/filter-input-list';
 
 function ExpenseDetails() {
@@ -26,7 +26,7 @@ function ExpenseDetails() {
         durationInput,
         customStartDateInput,
         customEndDateInput,
-        groupByInput,
+        // groupByInput,
         entitiesInput,
       ]}
       customReportCustomerInitialValues={expenseDetailInitialValues}
