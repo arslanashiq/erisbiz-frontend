@@ -27,8 +27,12 @@ function useReportHeaderFilters() {
   };
   const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose) => {
     let newSearchQuery = findKeyInQueryParamsAndReplace('', 'duration', null);
+
     Object.keys(values).forEach(input => {
-      if (values[input]?.length > 0) {
+      if (
+        (typeof values[input] === 'object' && values[input]?.length > 0) ||
+        (typeof values[input] !== 'object')
+      ) {
         newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, input, values[input] || '');
       }
     });
