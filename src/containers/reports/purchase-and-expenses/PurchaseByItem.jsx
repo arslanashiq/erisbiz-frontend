@@ -16,6 +16,7 @@ import { purchaseByItemInitialValues } from '../utilities/initial-values';
 import { purchaseByItemCustomInputsValidationSchema } from '../utilities/validation-schema';
 import useGetChartOfAccountInput from '../custom-hooks/common/useGetChartOfAccountInput';
 import { groupBy } from '../utilities/constants';
+import { CustomFilterForReportParams } from '../utilities/custom-filter-for-report';
 
 function PurchaseByItem() {
   const durationInput = useGetDurationInput();
@@ -39,6 +40,7 @@ function PurchaseByItem() {
       ]}
       customReportCustomerInitialValues={purchaseByItemInitialValues}
       customReportInputListValidationSchema={purchaseByItemCustomInputsValidationSchema}
+      paramsFilter={CustomFilterForReportParams}
     />
   );
 }
