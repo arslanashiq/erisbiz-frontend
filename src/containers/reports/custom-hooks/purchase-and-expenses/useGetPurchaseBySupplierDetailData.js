@@ -55,12 +55,13 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
           style: { textAlign: 'start' },
         },
         {
-          value: item.formatted_number,
+          value: item.formatted_number || item.type,
+          link: getLinkByType(item),
           style: { textAlign: 'start' },
         },
-        { value: formatAmount(currenttotal), link: getLinkByType(item) },
-        { value: formatAmount(currentTotalWithTax), link: getLinkByType(item) },
-        { value: formatAmount(currentAmountDue), link: getLinkByType(item) },
+        { value: formatAmount(currenttotal) },
+        { value: formatAmount(currentTotalWithTax) },
+        { value: formatAmount(currentAmountDue) },
         {
           value: item.status,
         },

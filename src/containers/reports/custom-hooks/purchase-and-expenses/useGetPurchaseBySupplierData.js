@@ -34,22 +34,21 @@ function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
         },
         {
           value: item.expense_count,
-          link: `detail${location.search}&supplier_id=${item.supplier__id}&supplier_name=${item.supplier__supplier_name}`,
         },
 
         {
           value: item.bill_count,
-          link: `detail${location.search}&supplier_id=${item.supplier__id}&supplier_name=${item.supplier__supplier_name}`,
         },
         {
           value: item.supplier_credit_count,
-          link: `detail${location.search}&supplier_id=${item.supplier__id}&supplier_name=${item.supplier__supplier_name}`,
         },
         {
           value: formatAmount(item.amount),
+          link: `detail${location.search}&supplier_id=${item.supplier__id}&supplier_name=${item.supplier__supplier_name}`,
         },
         {
           value: formatAmount(item.amount_with_tax),
+          link: `detail${location.search}&supplier_id=${item.supplier__id}&supplier_name=${item.supplier__supplier_name}`,
         },
       ]);
     });
@@ -67,7 +66,7 @@ function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: totalExpenseCount },
-        { value: totalBillAmount },
+        { value: totalBillCount },
         { value: totalSupplierCreditCount },
         { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
         { value: formatAmount(totalBillAmountWithTax), style: { fontWeight: 700 } },
