@@ -22,7 +22,7 @@ function useGetPurchaseByItemData(PurchaseByItemResponse) {
         },
         {
           value: formatAmount(item.average),
-          link: `detail${location.search}&supplier_id=${item.item}`,
+          link: `detail${location.search}&item_name=${item.item}`,
         },
       ]);
     });
