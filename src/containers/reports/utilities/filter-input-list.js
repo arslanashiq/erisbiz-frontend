@@ -1,8 +1,10 @@
 import {
   AgingByList,
+  accountTypes,
   comparisonList,
   comparisonSpanDuration,
   entities,
+  filterBy,
   groupBy,
   statusList,
 } from './constants';
@@ -140,6 +142,14 @@ export const groupByInput = {
   options: groupBy,
   fullWidth: true,
 };
+export const filterByInput = {
+  label: 'Filter By',
+  name: 'filter_by',
+  labelClassName: '',
+  className: 'w-100',
+  options: filterBy,
+  fullWidth: true,
+};
 export const entitiesInput = {
   label: 'Entities',
   name: 'entities',
@@ -148,4 +158,12 @@ export const entitiesInput = {
   options: entities,
   fullWidth: true,
   isMulti: true,
+};
+export const accountTypeInput = {
+  label: 'Account Type',
+  name: 'account_type',
+  labelClassName: '',
+  className: 'w-100',
+  options: accountTypes,
+  fullWidth: true,
 };

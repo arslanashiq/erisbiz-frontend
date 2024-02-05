@@ -35,6 +35,8 @@ export const supplierValidationSchema = { supplier_id: Yup.string() };
 export const itemNameValidationSchema = { item_name: Yup.string() };
 export const customerValidationSchema = { customer_id: Yup.string() };
 export const accountValidationSchema = { account_name: Yup.string() };
+export const accountTypeValidationSchema = { account_type: Yup.string() };
+export const filterByValidationSchema = { filter_by: Yup.string() };
 export const comparisonValidationSchema = { comparison: Yup.string() };
 export const comparisonSpanValidationSchema = {
   number_of_periods: Yup.string()
@@ -112,6 +114,11 @@ export const expenseDetailInputsValidationSchema = Yup.object({
   ...customDurationValidationSchema,
   ...groupByValidationSchema,
   ...entitiesValidationSchema,
+});
+export const expenseDetailByCategotyCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...accountTypeValidationSchema,
+  ...filterByValidationSchema,
 });
 
 // sales

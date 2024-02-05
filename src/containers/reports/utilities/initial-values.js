@@ -49,6 +49,12 @@ export const groupByInitialValue = {
 export const entitiesInitialValue = {
   entities: '',
 };
+export const filterByInitialValue = {
+  filter_by: '',
+};
+export const accountTypeInitialValues = {
+  account_type: '',
+};
 export const supplierBalanceInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
@@ -100,6 +106,11 @@ export const expenseDetailInitialValues = {
   ...customDuration,
   ...groupByInitialValue,
   ...entitiesInitialValue,
+};
+export const purchaseByCategoryInitialValues = {
+  ...customDuration,
+  ...filterByInitialValue,
+  ...accountTypeInitialValues,
 };
 
 // sales

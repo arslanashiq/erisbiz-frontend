@@ -68,6 +68,18 @@ export const entities = [
   { label: 'Purchase Invoice', value: 'Bill' },
   { label: 'Purchase Debit Note', value: 'Debit Note' },
 ];
+export const filterBy = [
+  { label: 'All', value: '' },
+  { label: 'Expense', value: 'Expense' },
+  { label: 'Purchase Invoice', value: 'Bill' },
+  { label: 'Journal', value: 'Journal' },
+];
+export const accountTypes = [
+  { label: 'All', value: '' },
+  { label: 'Asset', value: 'asset' },
+  { label: 'Liability', value: 'liability' },
+  { label: 'Expense', value: 'expense' },
+];
 
 export const payableReports = {
   title: 'Payable Reports',
