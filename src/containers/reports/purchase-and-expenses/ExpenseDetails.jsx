@@ -9,12 +9,14 @@ import useGetDurationInput from '../custom-hooks/common/useGetDurationInput';
 import {
   customEndDateInput,
   customStartDateInput,
-  entitiesInput,
+  // entitiesInput,
   // groupByInput,
 } from '../utilities/filter-input-list';
+import usegetSupplierInput from '../custom-hooks/common/useGetSupplierInput';
 
 function ExpenseDetails() {
   const durationInput = useGetDurationInput();
+  const supplierInput = usegetSupplierInput();
 
   return (
     <CustomReportDetailPage
@@ -26,8 +28,8 @@ function ExpenseDetails() {
         durationInput,
         customStartDateInput,
         customEndDateInput,
-        // groupByInput,
-        entitiesInput,
+        supplierInput,
+        // entitiesInput,
       ]}
       customReportCustomerInitialValues={expenseDetailInitialValues}
       customReportInputListValidationSchema={expenseDetailInputsValidationSchema}

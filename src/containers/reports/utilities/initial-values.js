@@ -111,7 +111,7 @@ export const purchaseByItemInitialValues = {
 export const expenseDetailInitialValues = {
   ...customDuration,
   ...groupByInitialValue,
-  ...entitiesInitialValue,
+  ...supplierIdInitialValue,
 };
 export const purchaseByCategoryInitialValues = {
   ...customDuration,

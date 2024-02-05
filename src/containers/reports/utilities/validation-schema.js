@@ -119,7 +119,7 @@ export const purchaseByItemCustomInputsValidationSchema = Yup.object({
 export const expenseDetailInputsValidationSchema = Yup.object({
   ...customDurationValidationSchema,
   ...groupByValidationSchema,
-  ...entitiesValidationSchema,
+  ...supplierValidationSchema,
 });
 export const expenseDetailByCategotyCustomInputsValidationSchema = Yup.object({
   ...customDurationValidationSchema,

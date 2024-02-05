@@ -214,7 +214,7 @@ const reportsApi = privateApi.injectEndpoints({
     }),
     getExpenseDetails: builder.query({
       query: params => ({
-        url: 'api/expense/detail/report',
+        url: 'api/expense/detail/report?entities=Expense',
         params,
       }),
       providesTags: ['getExpenseDetails'],
