@@ -18,29 +18,35 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
   };
   const getAmount = item => {
     let currentAmountDue = item.amount_due_bcy || 0;
-    let currenttotal = item.bcy_sales_with_tax_amount || 0;
+    let currenttotal = item.bcy_sales_amount || 0;
+    let currentTotalWithTax = item.bcy_sales_with_tax_amount || 0;
     if (item.type === supplierOpeningBalanceName && item.is_credit === false) {
-      currentAmountDue *= item.amount_due_bcy > 0 ? -1 : 1;
-      currenttotal *= item.bcy_sales_with_tax_amount > 0 ? -1 : 1;
+      currentAmountDue *= currentAmountDue > 0 ? -1 : 1;
+      currenttotal *= currenttotal > 0 ? -1 : 1;
+      currentTotalWithTax *= currentTotalWithTax > 0 ? -1 : 1;
     }
     if (item.type === 'Debit Note') {
-      currentAmountDue *= item.amount_due_bcy > 0 ? -1 : 1;
-      currenttotal *= item.bcy_sales_with_tax_amount > 0 ? -1 : 1;
+      currentAmountDue *= currentAmountDue > 0 ? -1 : 1;
+      currenttotal *= currenttotal > 0 ? -1 : 1;
+      currentTotalWithTax *= currentTotalWithTax > 0 ? -1 : 1;
     }
     return {
       currentAmountDue,
       currenttotal,
+      currentTotalWithTax,
     };
   };
-  const { tableBody, totalAmount, totalAmountDue } = useMemo(() => {
+  const { tableBody, totalAmount, totalAmountDue, totalAmountWithTax } = useMemo(() => {
     let amountDue = 0;
     let total = 0;
+    let amountWithTax = 0 || 0;
     const body = [];
     purchaseBySupplierDetailResponse?.data?.data.forEach(item => {
-      const { currentAmountDue, currenttotal } = getAmount(item);
+      const { currentAmountDue, currenttotal, currentTotalWithTax } = getAmount(item);
       if (item.status !== 'void') {
         amountDue += currentAmountDue;
         total += currenttotal;
+        amountWithTax += currentTotalWithTax;
       }
       //   currency = item.currency_symbol;
       body.push([
@@ -53,13 +59,19 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
           style: { textAlign: 'start' },
         },
         { value: formatAmount(currenttotal), link: getLinkByType(item) },
+        { value: formatAmount(currentTotalWithTax), link: getLinkByType(item) },
         { value: formatAmount(currentAmountDue), link: getLinkByType(item) },
         {
           value: item.status,
         },
       ]);
     });
-    return { tableBody: body, totalAmount: total, totalAmountDue: amountDue };
+    return {
+      tableBody: body,
+      totalAmount: total,
+      totalAmountDue: amountDue,
+      totalAmountWithTax: amountWithTax,
+    };
   }, [purchaseBySupplierDetailResponse]);
 
   const tableFooter = useMemo(
@@ -68,11 +80,12 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
         { value: '' },
         { value: formatAmount(totalAmount), style: { fontWeight: 700 } },
+        { value: formatAmount(totalAmountWithTax), style: { fontWeight: 700 } },
         { value: formatAmount(totalAmountDue), style: { fontWeight: 700 } },
         { value: '' },
       ],
     ],
-    [totalAmount, totalAmountDue]
+    [totalAmount, totalAmountDue, totalAmountWithTax]
   );
   return { tableBody, tableFooter };
 }
