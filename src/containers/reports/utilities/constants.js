@@ -105,7 +105,7 @@ export const payableReports = {
       link: '/pages/reports/debit-note?duration=this%20month',
     },
     {
-      label: 'Payment Voucher',
+      label: 'Invoice wise Payments',
       link: '/pages/reports/payments-made?duration=this%20month',
     },
     // {
@@ -120,7 +120,10 @@ export const payableReports = {
       label: 'Purchase Order by Supplier',
       link: '/pages/reports/purchase-order-by-supplier?duration=this%20month',
     },
-
+    {
+      label: 'Expense Details',
+      link: '/pages/reports/expense-details?duration=this%20month',
+    },
     {
       label: 'Payable Summary',
       link: '/pages/reports/payable-summary?duration=this%20month',
@@ -150,6 +153,14 @@ export const receivableReports = {
     {
       label: 'Sales Invoice Register',
       link: '/pages/reports/invoice-details?duration=this%20month',
+    },
+    {
+      label: 'Sales Credit Note',
+      link: '/pages/reports/credit-Note-detail?duration=this%20month',
+    },
+    {
+      label: 'Receipt Voucher',
+      link: '/pages/reports/receipt-voucher?duration=this%20month',
     },
     {
       label: 'Receivable Summary',

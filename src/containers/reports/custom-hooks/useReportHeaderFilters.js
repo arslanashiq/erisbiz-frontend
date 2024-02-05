@@ -35,8 +35,6 @@ function useReportHeaderFilters() {
   };
   const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose) => {
     let newSearchQuery = findKeyInQueryParamsAndReplace('', 'duration', null);
-
-    console.log(values, 'values');
     Object.keys(values).forEach(input => {
       if (validateValue(values, input)) {
         newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, input, values[input] || '');
