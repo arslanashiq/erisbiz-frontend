@@ -101,6 +101,11 @@ export const receivableSummaryCustomInputsValidationSchema = Yup.object({
   ...customerValidationSchema,
   status: Yup.string(),
 });
+export const receivableDetailCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...itemNameValidationSchema,
+  ...customerValidationSchema,
+});
 
 // purchase and expenses
 

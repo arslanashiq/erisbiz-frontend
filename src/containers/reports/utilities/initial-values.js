@@ -94,6 +94,11 @@ export const receivableSummaryInitialValues = {
   ...customerIdInitialValue,
   status: '',
 };
+export const receivableDetailInitialValues = {
+  ...customDuration,
+  ...itemNameInitialValue,
+  ...customerIdInitialValue,
+};
 
 // purchase and expenses
 export const purchaseByItemInitialValues = {

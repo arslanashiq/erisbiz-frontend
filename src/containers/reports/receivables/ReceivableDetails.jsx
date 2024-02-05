@@ -3,12 +3,17 @@ import { receivablesDetailReportHeadCells } from 'containers/reports/utilities/h
 import { useGetReceivableDetailQuery } from 'services/private/reports';
 import useGetReceivablesDetailData from 'containers/reports/custom-hooks/receivables/useGetReceivablesDetailData';
 import CustomReportDetailPage from '../components/CustomReportDetailPage';
-import useGetReceivablesCustomFilterInputs from '../custom-hooks/common/useGetReceivablesCustomFilterInputs';
-import { customerBalanceInitialValues } from '../utilities/initial-values';
+import { receivableDetailInitialValues } from '../utilities/initial-values';
 import { customerbalanceCustomInputsValidationSchema } from '../utilities/validation-schema';
+import useGetDurationInput from '../custom-hooks/common/useGetDurationInput';
+import { customEndDateInput, customStartDateInput } from '../utilities/filter-input-list';
+import useGetCustomerInput from '../custom-hooks/common/useGetCustomerInput';
+import useGetItemInput from '../custom-hooks/common/useGetItemInput';
 
 function ReceivableDetails() {
-  const updatedCustomInputList = useGetReceivablesCustomFilterInputs();
+  const durationInput = useGetDurationInput();
+  const itemInput = useGetItemInput();
+  const customerInput = useGetCustomerInput();
 
   return (
     <CustomReportDetailPage
@@ -16,8 +21,14 @@ function ReceivableDetails() {
       reportHeadCells={receivablesDetailReportHeadCells}
       useGetReportQuery={useGetReceivableDetailQuery}
       useGetReportData={useGetReceivablesDetailData}
-      customReportCustomFilter={updatedCustomInputList}
-      customReportCustomerInitialValues={customerBalanceInitialValues}
+      customReportCustomFilter={[
+        durationInput,
+        customStartDateInput,
+        customEndDateInput,
+        itemInput,
+        customerInput,
+      ]}
+      customReportCustomerInitialValues={receivableDetailInitialValues}
       customReportInputListValidationSchema={customerbalanceCustomInputsValidationSchema}
     />
   );
