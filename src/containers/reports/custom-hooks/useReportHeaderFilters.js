@@ -4,6 +4,14 @@ import getSearchParamsList from 'utilities/getSearchParamsList';
 function useReportHeaderFilters() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const validateValue = (values, input) => {
+    if (values[input] === '') return false;
+    if (typeof values[input] === 'undefined') return false;
+    if (typeof values[input] === 'object' && values[input]?.length > 0) return true;
+    return true;
+  };
+
   const findKeyInQueryParamsAndReplace = (search, queryKey, newQuery) => {
     const searchQuery = search.replace('?', '');
     let foundQueryKey = false;
@@ -28,11 +36,9 @@ function useReportHeaderFilters() {
   const handleSubmitCustomDateFilter = async (values, { setSubmitting }, handleClose) => {
     let newSearchQuery = findKeyInQueryParamsAndReplace('', 'duration', null);
 
+    console.log(values, 'values');
     Object.keys(values).forEach(input => {
-      if (
-        (typeof values[input] === 'object' && values[input]?.length > 0) ||
-        (typeof values[input] !== 'object')
-      ) {
+      if (validateValue(values, input)) {
         newSearchQuery = findKeyInQueryParamsAndReplace(newSearchQuery, input, values[input] || '');
       }
     });

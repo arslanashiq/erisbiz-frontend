@@ -32,15 +32,22 @@ function ActionMenu({
     (...props) => {
       const [values, { ...rest }] = props;
       let payload = { ...values };
-      if (values.duration !== 'custom' && values.duration !== '') {
+      try {
         customFilterInputs?.forEach(input => {
           if (input.hidden) {
-            payload = { ...payload, [input.name]: '' };
+            if (input.displayKeyValue?.includes(values[input.displayKey])) {
+              payload = { ...payload, [input.name]: values[input.name] };
+            } else {
+              payload = { ...payload, [input.name]: '' };
+            }
           } else {
             payload = { ...payload, [input.name]: values[input.name] };
           }
         });
+      } catch (error) {
+        payload = { ...values };
       }
+
       handleSubmitCustomFilter(payload, { ...rest }, handleClose, customFilterInputs);
     },
     [customFilterInputs]

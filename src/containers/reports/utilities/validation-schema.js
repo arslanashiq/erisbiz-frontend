@@ -45,7 +45,7 @@ export const comparisonSpanValidationSchema = {
       then: () => Yup.string().required('Number Of Period is required'),
     })
     .when('comparison', {
-      is: 'yearly',
+      is: 'monthly',
       then: () => Yup.string().required('Number Of Period is required'),
     }),
 };
