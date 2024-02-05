@@ -4,13 +4,27 @@ import formatAmount from 'utilities/formatAmount';
 
 function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
   const location = useLocation();
-  const { tableBody, totalBillAmount, totalBillAmountWithTax } = useMemo(() => {
+  const {
+    tableBody,
+    totalBillAmount,
+    totalBillAmountWithTax,
+
+    totalExpenseCount,
+    totalBillCount,
+    totalSupplierCreditCount,
+  } = useMemo(() => {
     let billAmount = 0;
     let billAmountWithTax = 0;
+    let expenseCount = 0;
+    let billCount = 0;
+    let supplierCreditCount = 0;
     const body = [];
     PurchaseBySupplierResponse?.data?.data.forEach(item => {
       billAmount += item.amount || 0;
       billAmountWithTax += item.amount_with_tax || 0;
+      expenseCount += item.expense_count || 0;
+      billCount += item.bill_count || 0;
+      supplierCreditCount += item.supplier_credit_count || 0;
 
       body.push([
         {
@@ -43,20 +57,31 @@ function useGetPurchaseBySupplierData(PurchaseBySupplierResponse) {
       tableBody: body,
       totalBillAmount: billAmount,
       totalBillAmountWithTax: billAmountWithTax,
+      totalExpenseCount: expenseCount,
+      totalBillCount: billCount,
+      totalSupplierCreditCount: supplierCreditCount,
     };
   }, [PurchaseBySupplierResponse]);
   const tableFooter = useMemo(
     () => [
       [
         { value: 'Total', style: { textAlign: 'start', fontWeight: 700 } },
-        { value: '' },
-        { value: '' },
-        { value: '' },
+        { value: totalExpenseCount },
+        { value: totalBillAmount },
+        { value: totalSupplierCreditCount },
         { value: formatAmount(totalBillAmount), style: { fontWeight: 700 } },
         { value: formatAmount(totalBillAmountWithTax), style: { fontWeight: 700 } },
       ],
     ],
-    [tableBody, totalBillAmount, totalBillAmountWithTax]
+    [
+      tableBody,
+      totalBillAmount,
+      totalBillAmountWithTax,
+
+      totalExpenseCount,
+      totalBillCount,
+      totalSupplierCreditCount,
+    ]
   );
   return { tableBody, tableFooter };
 }

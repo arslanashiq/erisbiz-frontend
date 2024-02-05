@@ -47,7 +47,7 @@ export const groupByInitialValue = {
   group_by: '',
 };
 export const entitiesInitialValue = {
-  entities: [],
+  entities: '',
 };
 export const supplierBalanceInitialValues = {
   ...customDuration,

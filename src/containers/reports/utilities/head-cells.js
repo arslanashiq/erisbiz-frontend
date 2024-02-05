@@ -170,11 +170,13 @@ export const purchaseBySupplierReportHeadCells = [
   { title: 'BILL COUNT' },
   { title: 'DEBIT NOTE COUNT' },
   { title: 'AMOUNT' },
+  { title: 'AMOUNT WITH TAX' },
 ];
 export const purchaseBySupplierDetailReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
   { title: 'TRANSACTION#', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
+  { title: 'AMOUNT WITH TAX' },
   { title: 'BALANCE AMOUNT' },
   { title: 'STATUS' },
 ];
