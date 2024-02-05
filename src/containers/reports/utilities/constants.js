@@ -116,10 +116,10 @@ export const payableReports = {
       label: 'Purchase Order Details',
       link: '/pages/reports/purchase-order-details?duration=this%20month',
     },
-    {
-      label: 'Purchase Order by Supplier',
-      link: '/pages/reports/purchase-order-by-supplier?duration=this%20month',
-    },
+    // {
+    //   label: 'Purchase Order by Supplier',
+    //   link: '/pages/reports/purchase-order-by-supplier?duration=this%20month',
+    // },
     {
       label: 'Expense Details',
       link: '/pages/reports/expense-details?duration=this%20month',
