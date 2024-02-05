@@ -81,6 +81,7 @@ export const payableSummaryFilterCustomInputsValidationSchema = Yup.object({
   status: Yup.string(),
 });
 export const payableDetailFilterCustomInputsValidationSchema = Yup.object({
+  ...itemNameValidationSchema,
   ...customDurationValidationSchema,
   ...supplierValidationSchema,
 });

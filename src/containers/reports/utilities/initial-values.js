@@ -76,6 +76,7 @@ export const payableSummaryInitialValues = {
 export const payableDetailInitialValues = {
   ...customDuration,
   ...supplierIdInitialValue,
+  ...itemNameInitialValue,
 };
 
 // receivables

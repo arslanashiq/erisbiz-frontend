@@ -12,7 +12,7 @@ function ReceiptVoucherReport() {
 
   return (
     <CustomReportDetailPage
-      reportTitle="Receipt Voucher"
+      reportTitle="Invoice wise Receivables"
       reportHeadCells={receiptVoucherReportHeadCells}
       useGetReportQuery={useGetReceiptVoucherReportQuery}
       useGetReportData={useGetReceiptVoucherData}

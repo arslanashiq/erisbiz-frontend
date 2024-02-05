@@ -159,7 +159,7 @@ export const receivableReports = {
       link: '/pages/reports/credit-Note-detail?duration=this%20month',
     },
     {
-      label: 'Receipt Voucher',
+      label: 'Invoice wise Receivables',
       link: '/pages/reports/receipt-voucher?duration=this%20month',
     },
     {
