@@ -2,6 +2,7 @@ import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetReceiptVoucherData(receiptVouceherResponse) {
   const getFormatedNumber = item => {
@@ -13,12 +14,7 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
     }
     return item.invoices__invoice_formatted_number;
   };
-  const getLinkByType = item => {
-    if (item.id) {
-      return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
-    }
-    return false;
-  };
+
   const { tableBody, totalAmount, totalUnUsedAmount } = useMemo(() => {
     let total = 0;
     let unUsedAmount = 0;
@@ -30,7 +26,7 @@ function useGetReceiptVoucherData(receiptVouceherResponse) {
       body.push([
         {
           value: item?.payment_num || getFormatedNumber(item),
-          link: getLinkByType(item),
+          link: getLinkByTransactionType('Customer Receipt', item.id),
           style: { textAlign: 'start' },
         },
         {

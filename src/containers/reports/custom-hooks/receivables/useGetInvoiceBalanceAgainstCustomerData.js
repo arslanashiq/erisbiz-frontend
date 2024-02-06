@@ -1,13 +1,8 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetInvoiceBalanceAgainstCustomerData(invoiceBalanceResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let amount = 0;
     let dueAmount = 0;
@@ -24,7 +19,7 @@ function useGetInvoiceBalanceAgainstCustomerData(invoiceBalanceResponse) {
 
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
           style: { textAlign: 'start' },
         },
         {

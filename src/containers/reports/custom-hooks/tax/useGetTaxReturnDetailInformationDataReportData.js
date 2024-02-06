@@ -1,19 +1,8 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetTaxReturnDetailInformationDataReportData(taxReturnDetailInformationResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Expense') {
-      return `/pages/accounting/purchase/expenses/${item.id}/detail`;
-    }
-    if (item.type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalTabableAmount, totalTaxAmount } = useMemo(() => {
     let taxableAmount = 0;
     let taxAmount = 0;
@@ -29,7 +18,7 @@ function useGetTaxReturnDetailInformationDataReportData(taxReturnDetailInformati
         },
         {
           value: item.number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
         },
         {
           value: item.type,

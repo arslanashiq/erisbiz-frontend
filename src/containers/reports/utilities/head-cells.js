@@ -295,7 +295,7 @@ export const customerRefundReportHeadCells = [
 
 // accountant
 export const accountTransactionReportHeadCells = [
-  { title: 'DATE', style: { textAlign: 'start' } },
+  { title: 'DATE', style: { textAlign: 'start', minWidth: 130 } },
   { title: 'ACCOUNT', style: { textAlign: 'start' } },
   { title: 'Sub Account', style: { textAlign: 'start' } },
   { title: 'TYPE', style: { textAlign: 'start' } },

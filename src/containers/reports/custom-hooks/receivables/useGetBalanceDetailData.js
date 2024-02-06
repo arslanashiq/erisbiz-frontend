@@ -1,19 +1,8 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import { salesTransactionTypeLink } from 'utilities/get-link-by-type';
 
 function useGetBalanceDetailData(balanceDetailResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Excess Payment') {
-      return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
-    }
-    if (item.type === 'Credit Note') {
-      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const getAmountByType = item => {
     let currentGrandTotal = item.grand_total || 0;
     let currentAmountDue = item.amount_due || 0;
@@ -48,7 +37,7 @@ function useGetBalanceDetailData(balanceDetailResponse) {
 
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: salesTransactionTypeLink(item.type, item.id),
           style: { textAlign: 'start' },
         },
         {

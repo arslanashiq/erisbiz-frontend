@@ -2,6 +2,7 @@ import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 const headerStyle = { fontWeight: 'bold', textAlign: 'start', backgroundColor: '#EDEDED' };
 
@@ -26,16 +27,6 @@ function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
     { value: formatAmount(balance) },
     { value: '' },
   ];
-  const getLinkByType = item => {
-    if (item.transaction_type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.object_id}/detail`;
-    }
-    if (item.transaction_type === 'Supplier Payment') {
-      return `/pages/accounting/purchase/payment-voucher/${item.object_id}/detail`;
-    }
-
-    return false;
-  };
   const getTableBodyValue = (data, startDate, endDate) => {
     const body = [];
     const key = Object.keys(data)[2];
@@ -58,9 +49,18 @@ function useGetDetailGeneralLedgerData(detailGeneralLedgerResponse) {
         { value: item.transaction_type },
         { value: item.transaction_number },
         { value: item.reference_number },
-        { value: formatAmount(item.debit), link: getLinkByType(item) },
-        { value: formatAmount(item.credit), link: getLinkByType(item) },
-        { value: formatAmount(item.credit || item.debit), link: getLinkByType(item) },
+        {
+          value: formatAmount(item.debit),
+          link: getLinkByTransactionType(item?.transaction_type, item.object_id),
+        },
+        {
+          value: formatAmount(item.credit),
+          link: getLinkByTransactionType(item?.transaction_type, item.object_id),
+        },
+        {
+          value: formatAmount(item.credit || item.debit),
+          link: getLinkByTransactionType(item?.transaction_type, item.object_id),
+        },
       ]);
     });
     body.push(getAccountDetailHeaders(endDate, 'Closing Balance', '', data.closing_balance));

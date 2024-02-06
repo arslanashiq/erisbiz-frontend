@@ -1,8 +1,8 @@
-import { getLinkByType } from 'containers/reports/utilities/get-link';
-import moment from 'moment';
 import { useMemo } from 'react';
+import moment from 'moment';
 import { DATE_FILTER_REPORT, supplierOpeningBalanceName } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse, _, options) {
   const { getAmountByType = true } = options;
@@ -39,12 +39,12 @@ function useGetSupplierBillDetailBalanceData(supplierBillDetailBalanceResponse, 
         },
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
         },
         {
           value: item.type,
         },
-        { value: formatAmount(currentGrandTotal), link: getLinkByType(item) },
+        { value: formatAmount(currentGrandTotal), link: getLinkByTransactionType(item.type, item.id) },
         { value: formatAmount(currentAmountDue) },
       ]);
     });

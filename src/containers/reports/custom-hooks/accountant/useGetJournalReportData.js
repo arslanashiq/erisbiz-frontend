@@ -3,20 +3,9 @@ import { journalReportHeadCells } from 'containers/reports/utilities/head-cells'
 import moment from 'moment';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetJournalReportData(journalReportResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Supplier Payment') {
-      return `/pages/accounting/purchase/payment-voucher/${item.id}/detail`;
-    }
-    if (item.type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const getEntries = data => {
     const body = [];
     let currentDebit = 0;
@@ -69,8 +58,8 @@ function useGetJournalReportData(journalReportResponse) {
       footer.push([
         [
           { value: '' },
-          { value: currentDebit, link: getLinkByType(item) },
-          { value: currentCredit, link: getLinkByType(item) },
+          { value: currentDebit, link: getLinkByTransactionType(item.type, item.id) },
+          { value: currentCredit, link: getLinkByTransactionType(item.type, item.id) },
         ],
       ]);
     });

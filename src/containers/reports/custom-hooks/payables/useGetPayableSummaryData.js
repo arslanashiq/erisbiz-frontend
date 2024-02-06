@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
 import { DATE_FORMAT } from 'utilities/constants';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetPayableSummaryData(payableSummaryResponse) {
   const getAmount = item => {
@@ -16,16 +17,7 @@ function useGetPayableSummaryData(payableSummaryResponse) {
       amountDue,
     };
   };
-  const getLinkByType = item => {
-    if (item.type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
-    }
 
-    if (item.type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalAmount, totalRemainingAmount } = useMemo(() => {
     let amount = 0;
     let remainingAmount = 0;
@@ -37,7 +29,7 @@ function useGetPayableSummaryData(payableSummaryResponse) {
       body.push([
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
           style: { textAlign: 'start' },
         },
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },

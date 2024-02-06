@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import moment from 'moment';
 import formatAmount from 'utilities/formatAmount';
-import { DATE_FORMAT } from 'utilities/constants';
+import { DATE_FORMAT, customerOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
+import { getLinkByTransactionType, salesTransactionTypeLink } from 'utilities/get-link-by-type';
 
 const availableDateList = [
   {
@@ -28,18 +29,6 @@ const availableDateList = [
 ];
 const headerStyle = { fontWeight: 'bold', backgroundColor: '#e2e2e2' };
 function useGetARAgingDetailData(receivableARAgingDetailResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Excess Payment') {
-      return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
-    }
-    if (item.type === 'Credit Note') {
-      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const getAmountByType = item => {
     let currentGrandTotal = item.grand_total || 0;
     let currentAmountDue = item.amount_due || 0;
@@ -70,14 +59,14 @@ function useGetARAgingDetailData(receivableARAgingDetailResponse) {
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: salesTransactionTypeLink(item.type, item.id),
 
           style: { textAlign: 'start' },
         },
         { value: item.type, style: { textAlign: 'start' } },
         {
           value: item.customer_name,
-          link: `/pages/accounting/sales/customers/${item.customer_id || item.id}/detail`,
+          link: getLinkByTransactionType(customerOpeningBalanceName, item.customer_id || item.id),
           style: { textAlign: 'start' },
         },
         {

@@ -1,19 +1,8 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import { salesTransactionTypeLink } from 'utilities/get-link-by-type';
 
 function useGetReceivableCreditNoteBalanceData(creditNoteBalanceResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Excess Payment') {
-      return `/pages/accounting/sales/receipt-voucher/${item.id}/detail`;
-    }
-    if (item.type === 'Credit Note') {
-      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
     let amount = 0;
     let dueAmount = 0;
@@ -30,7 +19,7 @@ function useGetReceivableCreditNoteBalanceData(creditNoteBalanceResponse) {
 
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: salesTransactionTypeLink(item.type, item.id),
           style: { textAlign: 'start' },
         },
         {

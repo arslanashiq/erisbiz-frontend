@@ -2,17 +2,9 @@ import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetReceivableSummaryData(receivableSummaryResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Credit Note') {
-      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalAmount, totalRemainingAmount } = useMemo(() => {
     let amount = 0;
     let remainingAmount = 0;
@@ -29,7 +21,7 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
           style: { textAlign: 'start' },
         },
         {
@@ -38,11 +30,9 @@ function useGetReceivableSummaryData(receivableSummaryResponse) {
         },
         {
           value: formatAmount(item.bcy_sales_with_tax_amount),
-          // link: getLinkByType(item),
         },
         {
           value: formatAmount(item.amount_due),
-          // link: getLinkByType(item),
         },
         {
           value: item.status,

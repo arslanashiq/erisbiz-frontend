@@ -2,17 +2,9 @@ import { useMemo } from 'react';
 import moment from 'moment';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetSaleByCustomerDetailData(saleByCustomerDetailResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Credit Note') {
-      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const getAmount = item => {
     let currentGrandTotal = item.grand_total || 0;
     let currentAmountTotal = item.amount_total || 0;
@@ -41,7 +33,7 @@ function useGetSaleByCustomerDetailData(saleByCustomerDetailResponse) {
       body.push([
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
           style: { textAlign: 'start' },
         },
         {

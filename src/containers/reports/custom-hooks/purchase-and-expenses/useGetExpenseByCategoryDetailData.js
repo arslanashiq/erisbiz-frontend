@@ -1,21 +1,10 @@
 import moment from 'moment';
 import { useMemo } from 'react';
-import { DATE_FILTER_REPORT } from 'utilities/constants';
+import { DATE_FILTER_REPORT, supplierOpeningBalanceName } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetExpenseByCategoryDetailData(expenseByCategoryDetailResponse) {
-  const getLinkByType = item => {
-    if (item.transaction_type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.object_id}/detail`;
-    }
-    if (item.transaction_type === 'Supplier Payment') {
-      return `/pages/accounting/purchase/payment-voucher/${item.object_id}/detail`;
-    }
-    if (item.transaction_type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.object_id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalAmountWithoutTax, totalAmountWithTax } = useMemo(() => {
     let amountWithoutTax = 0;
     let amountWithTax = 0;
@@ -32,11 +21,11 @@ function useGetExpenseByCategoryDetailData(expenseByCategoryDetailResponse) {
         },
         {
           value: item.transaction_detail,
-          link: `/pages/accounting/purchase/suppliers/${item.supplier_id}/detail`,
+          link: getLinkByTransactionType(supplierOpeningBalanceName, item.supplier_id),
         },
         {
           value: formatAmount(item.amount_without_tax),
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.transaction_type, item.object_id),
         },
         {
           value: formatAmount(item.total_amount),

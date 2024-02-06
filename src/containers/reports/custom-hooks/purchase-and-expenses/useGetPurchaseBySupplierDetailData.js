@@ -2,20 +2,9 @@ import { useMemo } from 'react';
 import moment from 'moment';
 import { DATE_FILTER_REPORT, supplierOpeningBalanceName } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
-    }
-    if (item.type === 'Expense') {
-      return `/pages/accounting/purchase/expenses/${item.id}/detail`;
-    }
-    return false;
-  };
   const getAmount = item => {
     let currentAmountDue = item.amount_due_bcy || 0;
     let currenttotal = item.bcy_sales_amount || 0;
@@ -56,7 +45,7 @@ function useGetPurchaseBySupplierDetailData(purchaseBySupplierDetailResponse) {
         },
         {
           value: item.formatted_number || item.type,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
           style: { textAlign: 'start' },
         },
         { value: formatAmount(currenttotal) },

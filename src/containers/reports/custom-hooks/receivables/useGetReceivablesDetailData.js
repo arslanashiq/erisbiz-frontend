@@ -2,17 +2,9 @@ import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FORMAT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetReceivablesDetailData(receivablesDetailResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-    if (item.type === 'Credit Note') {
-      return `/pages/accounting/sales/credit-notes/${item.id}/detail`;
-    }
-    return false;
-  };
   const { tableBody, totalAmount, totalQuantity } = useMemo(() => {
     let amount = 0;
     let quantity = 0;
@@ -29,7 +21,7 @@ function useGetReceivablesDetailData(receivablesDetailResponse) {
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
         {
           value: item.formatted_number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
           style: { textAlign: 'start' },
         },
         {

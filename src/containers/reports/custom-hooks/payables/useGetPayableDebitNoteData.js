@@ -2,10 +2,9 @@ import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
-  const getLinkByType = item => `/pages/accounting/purchase/debit-notes/${item.id}/detail`;
-
   const { tableBody, totalBillAmount, totalDueAmount } = useMemo(() => {
     let totalAmount = 0;
     let dueAmount = 0;
@@ -16,7 +15,7 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
       body.push([
         {
           value: item.supplier_credit_formatted_number,
-          link: getLinkByType(item),
+          link: getLinkByTransactionType('Debit Note', item.id),
           style: { textAlign: 'start' },
         },
         {
@@ -30,11 +29,9 @@ function useGetPayableDebitNoteData(supplierPayableDebitNoteResponse) {
         },
         {
           value: formatAmount(item.total_supplier_credit_amount),
-          // link: getLinkByType(item),
         },
         {
           value: formatAmount(item.balance_amount),
-          // link: getLinkByType(item),
         },
         { value: item.status },
       ]);

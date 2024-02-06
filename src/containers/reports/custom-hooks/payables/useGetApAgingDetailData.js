@@ -4,6 +4,7 @@ import { tableCellBodyHeader } from 'styles/components/custom-hooks/use-excel-sh
 import formatAmount from 'utilities/formatAmount';
 import { DATE_FORMAT, supplierOpeningBalanceName } from 'utilities/constants';
 import getSearchParamsList from 'utilities/getSearchParamsList';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 const availableDateList = [
   {
@@ -29,10 +30,9 @@ const availableDateList = [
 ];
 const headerStyle = { fontWeight: 'bold', backgroundColor: 'rgb(245 245 245)' };
 function useGetApAgingDetailData(reportAPAgingDetailResponse) {
-  const getLinkByType = item => {
+  const getAmount = item => {
     if (item.type === 'Bill') {
       return {
-        link: `/pages/accounting/purchase/purchase-invoice/${item.id}/detail`,
         grandTotal: item.grand_total,
         amountDue: item.amount_due,
       };
@@ -40,14 +40,12 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
 
     if (item.type === 'Excess Payment') {
       return {
-        link: `/pages/accounting/purchase/payment-voucher/${item.id}/detail`,
         grandTotal: -item.grand_total,
         amountDue: -item.amount_due,
       };
     }
     if (item.type === 'Debit Note') {
       return {
-        link: `/pages/accounting/purchase/debit-notes/${item.id}/detail`,
         grandTotal: -item.grand_total,
         amountDue: -item.amount_due,
       };
@@ -69,13 +67,17 @@ function useGetApAgingDetailData(reportAPAgingDetailResponse) {
     let dueAmount = 0;
 
     data[keyValue].forEach(item => {
-      const { link, grandTotal, amountDue } = getLinkByType(item);
+      const { grandTotal, amountDue } = getAmount(item);
       amount += Number(grandTotal) || 0;
       dueAmount += Number(amountDue) || 0;
 
       body.push([
         { value: moment(item.date).format(DATE_FORMAT), style: { textAlign: 'start' } },
-        { value: item.formatted_number, link, style: { textAlign: 'start' } },
+        {
+          value: item.formatted_number,
+          link: getLinkByTransactionType(item.type, item.id),
+          style: { textAlign: 'start' },
+        },
         { value: item.type, style: { textAlign: 'start' } },
         {
           value: item.account_name || item.supplier__supplier_name,

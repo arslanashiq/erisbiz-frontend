@@ -1,14 +1,8 @@
 import { useMemo } from 'react';
 import formatAmount from 'utilities/formatAmount';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetInvoiceDetailData(supplierPayableBalanceResponse) {
-  const getLinkByType = item => {
-    if (item.type === 'Invoice') {
-      return `/pages/accounting/sales/sale-invoice/${item.id}/detail`;
-    }
-
-    return false;
-  };
   const { tableBody, totalGrossAmount, totalTaxAmount, totalNetAmount } = useMemo(() => {
     let grossAmount = 0;
     let taxAmount = 0;
@@ -22,7 +16,7 @@ function useGetInvoiceDetailData(supplierPayableBalanceResponse) {
       body.push([
         {
           value: item.formatted_number || item.type || '',
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.type, item.id),
           style: { textAlign: 'start' },
         },
         { value: item.date, style: { textAlign: 'start' } },
