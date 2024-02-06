@@ -36,7 +36,10 @@ function useGetAccountTypeSummaryData(accountTypeSummaryResponse) {
       dueAmount += item.amount_due;
 
       body.push([
-        { value: item.chart_of_account__account_type__account_type, style: { textAlign: 'start' } },
+        {
+          value: item.chart_of_account__account_type__account_type?.replaceAll('_', ' '),
+          style: { textAlign: 'start' },
+        },
         { value: formatAmount(item.debit) },
         { value: formatAmount(item.credit) },
       ]);

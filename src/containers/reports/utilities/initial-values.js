@@ -148,3 +148,7 @@ export const accountTransactionInitialValues = {
   receipt_voucher_id: '',
   sales_credit_note_id: '',
 };
+export const generalLedgerInitialValues = {
+  ...customDuration,
+  ...accountTypeInitialValues,
+};

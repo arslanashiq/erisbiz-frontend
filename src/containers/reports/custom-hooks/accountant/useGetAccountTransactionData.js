@@ -50,7 +50,7 @@ function useGetAccountTransactionData(accountTransactionResponse) {
           link: getLinkByTransactionType(item.transaction_type, item.object_id),
         },
         {
-          value: item.reference_number,
+          value: item.remarks || '',
           style: { textAlign: 'start' },
         },
 

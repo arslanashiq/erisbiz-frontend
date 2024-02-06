@@ -142,3 +142,12 @@ export const salesBySalesPersonmFilterCustomInputsValidationSchema = Yup.object(
 export const activityLogsFilterCustomInputsValidationSchema = Yup.object({
   ...customDurationValidationSchema,
 });
+
+// accountant
+export const generalLedgerCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+  ...accountTypeValidationSchema,
+});
+export const trialBalanceCustomInputsValidationSchema = Yup.object({
+  ...customDurationValidationSchema,
+});

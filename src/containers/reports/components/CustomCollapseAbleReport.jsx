@@ -10,17 +10,23 @@ import SectionLoader from 'containers/common/loaders/SectionLoader';
 import { FilterReportsList } from 'containers/reports/utilities/constants';
 import { getSelectedFilter } from 'containers/reports/utilities/get-selected-filter';
 import useReportHeaderFilters from 'containers/reports/custom-hooks/useReportHeaderFilters';
-import { PayableReportFilterInitialValues } from 'containers/reports/utilities/initial-values';
-import { payableReportsFilterInputList } from 'containers/reports/utilities/filter-input-list';
 // utilities
 import { getReportInterval } from 'utilities/get-report-interval';
 import ReportsHeader from './ReportsHeader';
 import CustomReportsDetailHeader from './CustomReportsDetailHeader';
 import 'styles/reports/custom-report.scss';
 
-function CustomCollapseAbleReport({ reportResponse, reportTitle, reportHeadCells, tableBody, children }) {
+function CustomCollapseAbleReport({
+  reportResponse,
+  reportTitle,
+  reportHeadCells,
+  tableBody,
+  customReportCustomFilter,
+  customReportCustomerInitialValues,
+  customReportInputListValidationSchema,
+  children,
+}) {
   const { name: companyName } = useSelector(state => state?.user?.company);
-
   const { handleSubmitCustomDateFilter, handleChangeFilter } = useReportHeaderFilters();
   const { timeInterval, startDate, endDate } = getReportInterval(
     reportResponse?.data?.start_date,
@@ -52,8 +58,9 @@ function CustomCollapseAbleReport({ reportResponse, reportTitle, reportHeadCells
         filterList={FilterReportsList}
         handleSubmitCustomDateFilter={handleSubmitCustomDateFilter}
         handleChangeFilter={handleChangeFilter}
-        customFilterInitialValues={PayableReportFilterInitialValues}
-        customFilterInputsList={payableReportsFilterInputList}
+        customFilterInputsList={customReportCustomFilter}
+        customFilterInitialValues={customReportCustomerInitialValues}
+        customReportInputListValidationSchema={customReportInputListValidationSchema}
       />
       <Card className="custom-receipt-main-container">
         <CardContent>
@@ -76,11 +83,17 @@ CustomCollapseAbleReport.propTypes = {
   reportResponse: PropTypes.object,
   tableBody: PropTypes.array,
   children: PropTypes.node,
+  customReportCustomFilter: PropTypes.array,
+  customReportCustomerInitialValues: PropTypes.object,
+  customReportInputListValidationSchema: PropTypes.object,
 };
 CustomCollapseAbleReport.defaultProps = {
   children: null,
   reportResponse: { data: {} },
   tableBody: [],
+  customReportCustomFilter: [],
+  customReportCustomerInitialValues: {},
+  customReportInputListValidationSchema: null,
 };
 
 export default CustomCollapseAbleReport;
