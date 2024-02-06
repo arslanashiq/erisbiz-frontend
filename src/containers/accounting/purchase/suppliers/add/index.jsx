@@ -92,7 +92,7 @@ function SupplierAddPage() {
 
         response = await addSupplier(payload);
       }
-      if (response.errorr) {
+      if (response?.error) {
         setErrors(response.error.data);
         return;
       }
