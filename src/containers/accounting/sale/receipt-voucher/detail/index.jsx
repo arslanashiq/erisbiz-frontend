@@ -57,7 +57,7 @@ function ReceiptVoucherDetail() {
       order_number: `#${receiptVoucherResponse?.data?.payment_num}`,
       formated_order_number: receiptVoucherResponse?.data?.payment_num,
       sale_person: receiptVoucherResponse?.data?.sale_person || '',
-      currency_symbol: receiptVoucherResponse?.data?.currency_symbol,
+      currency_symbol: receiptVoucherResponse?.data?.currency_symbol || '',
       bankDetail: '',
 
       date: receiptVoucherResponse?.data?.payment_date,
