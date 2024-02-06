@@ -7,6 +7,7 @@ import {
   filterBy,
   groupBy,
   statusList,
+  transactionType,
 } from './constants';
 
 export const payableReportsFilterInputList = [
@@ -119,6 +120,15 @@ export const comparisonInput = {
   labelClassName: '',
   className: 'w-100',
   options: comparisonList,
+  fullWidth: true,
+};
+
+export const transactionTypeInput = {
+  label: 'Transaction Type',
+  name: 'transaction_type',
+  labelClassName: '',
+  className: 'w-100',
+  options: transactionType,
   fullWidth: true,
 };
 

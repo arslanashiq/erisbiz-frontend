@@ -24,6 +24,9 @@ export const duration = {
 export const supplierIdInitialValue = {
   supplier_id: '',
 };
+export const transactionTypeInitialValue = {
+  transaction_type: '',
+};
 export const customerIdInitialValue = {
   customer_id: '',
 };
@@ -128,4 +131,20 @@ export const salesByItemInitialValues = {
 export const salesBySalePersonInitialValues = {
   ...customDuration,
   ...salesPersonInitialValue,
+};
+
+// accounttant
+export const accountTransactionInitialValues = {
+  ...customDuration,
+  ...transactionTypeInitialValue,
+  ...supplierIdInitialValue,
+  purchase_invoice_id: '',
+  payment_voucher_id: '',
+  purchase_debit_note_id: '',
+  expense_id: '',
+
+  ...customerIdInitialValue,
+  sales_invoice_id: '',
+  receipt_voucher_id: '',
+  sales_credit_note_id: '',
 };

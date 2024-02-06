@@ -80,6 +80,17 @@ export const accountTypes = [
   { label: 'Liability', value: 'liability' },
   { label: 'Expense', value: 'expense' },
 ];
+export const transactionType = [
+  { label: 'All', value: '' },
+  { label: 'Purchase Invoice', value: 'Bill' },
+  { label: 'Payment Voucher', value: 'Supplier Payment' },
+  { label: 'Purchase Debit Note', value: 'Debit Note' },
+  { label: 'Expense', value: 'Expense' },
+  { label: 'Sales Invoice', value: 'Invoice' },
+  { label: 'Receipt Voucher', value: 'Customer Receipt' },
+  { label: 'Sales Credit Note', value: 'Credit Note' },
+  { label: 'Journal Voucher', value: 'Journal' },
+];
 
 export const payableReports = {
   title: 'Payable Reports',

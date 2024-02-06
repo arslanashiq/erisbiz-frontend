@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { useField, useFormikContext } from 'formik';
@@ -202,4 +202,4 @@ FormikSelect.defaultProps = {
   isMulti: false,
 };
 
-export default FormikSelect;
+export default memo(FormikSelect);

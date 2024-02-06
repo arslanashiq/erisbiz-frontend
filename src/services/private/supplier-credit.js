@@ -3,7 +3,7 @@ import { privateApi } from './index';
 const debitNotesApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getSupplierCreditsList: builder.query({
-      query: params => ({
+      query: (params = {}) => ({
         url: 'api/accounting/purchases/list/supplierCredits',
         method: 'GET',
         params: {

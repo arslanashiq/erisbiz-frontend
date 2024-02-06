@@ -3,7 +3,7 @@ import { privateApi } from './index';
 const expensesApi = privateApi.injectEndpoints({
   endpoints: builder => ({
     getExpensesList: builder.query({
-      query: params => ({
+      query: (params = {}) => ({
         url: 'api/accounting/purchases/list/expenses',
         method: 'GET',
         params: {

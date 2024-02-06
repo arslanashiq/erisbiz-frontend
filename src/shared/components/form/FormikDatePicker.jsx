@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useField, useFormikContext } from 'formik';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -114,4 +114,4 @@ FormikDatePicker.defaultProps = {
   onChange: null,
   onBlur: null,
 };
-export default FormikDatePicker;
+export default memo(FormikDatePicker);

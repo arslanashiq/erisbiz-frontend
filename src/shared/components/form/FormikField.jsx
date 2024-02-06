@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 import { Box } from '@mui/material';
@@ -133,4 +133,4 @@ FormikField.defaultProps = {
   endIconClass: 'form__form-group-icon cursor-pointer',
 };
 
-export default FormikField;
+export default memo(FormikField);

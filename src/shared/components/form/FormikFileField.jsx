@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop */
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useField, useFormikContext } from 'formik';
 import { Box, Button, Stack } from '@mui/material';
@@ -146,4 +146,4 @@ FormikFileField.defaultProps = {
   onRemoveFile: () => {},
 };
 
-export default FormikFileField;
+export default memo(FormikFileField);

@@ -89,7 +89,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                       alignItems: 'center',
                     }}
                   >
-                    {input.isSelect ? (
+                    {input?.isSelect ? (
                       <FormikSelect
                         disabled={input.disabled || false}
                         options={input.options}
@@ -138,7 +138,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                     )}
                   </TableCell>
                 ))}
-                {form?.values[name].length > minRequiredItems && (
+                {form?.values[name]?.length > minRequiredItems && (
                   <TableCell
                     key="remove button"
                     sx={{

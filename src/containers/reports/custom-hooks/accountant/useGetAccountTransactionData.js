@@ -1,9 +1,23 @@
+import { transactionType } from 'containers/reports/utilities/constants';
 import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
 
 function useGetAccountTransactionData(accountTransactionResponse) {
+  const getTransactionType = type => {
+    try {
+      let transactionTypeName = type;
+      transactionType.forEach(transaction => {
+        if (transaction.value === type) {
+          transactionTypeName = transaction.label;
+        }
+      });
+      return transactionTypeName;
+    } catch (error) {
+      return type;
+    }
+  };
   const getLinkByType = item => {
     if (item.transaction_type === 'Expense' || item.transaction_type === 'Expense Paid') {
       return `/pages/accounting/purchase/expenses/${item.object_id}/detail`;
@@ -22,14 +36,14 @@ function useGetAccountTransactionData(accountTransactionResponse) {
     }
     return false;
   };
-  const { tableBody, totalAmount, totalDueAmount } = useMemo(() => {
-    let total = 0;
-    let dueAmount = 0;
+  const { tableBody, totalDebitAmount, totalCreditAmount } = useMemo(() => {
+    let totalDebit = 0;
+    let totalCredit = 0;
 
     const body = [];
     accountTransactionResponse?.data?.data.forEach(item => {
-      total += item.amount_total;
-      dueAmount += item.amount_due;
+      totalDebit += item.bcy_debit || 0;
+      totalCredit += item.bcy_credit;
       body.push([
         {
           value: moment(item.transaction_date).format(DATE_FILTER_REPORT),
@@ -37,42 +51,56 @@ function useGetAccountTransactionData(accountTransactionResponse) {
         },
         {
           value: item.account_name,
+          style: { textAlign: 'start' },
         },
         {
           value: item.transaction_detail,
+          style: { textAlign: 'start' },
         },
         {
-          value: item.transaction_type,
+          value: getTransactionType(item.transaction_type),
+          style: { textAlign: 'start' },
         },
         {
           value: item.transaction_number,
+          style: { textAlign: 'start' },
+          link: getLinkByType(item),
         },
         {
           value: item.reference_number,
+          style: { textAlign: 'start' },
         },
 
         {
           value: formatAmount(item.bcy_debit),
-          link: getLinkByType(item),
         },
         {
           value: formatAmount(item.bcy_credit),
-          link: getLinkByType(item),
-        },
-        {
-          value: formatAmount(item.bcy_credit - item.bcy_debit),
-          link: getLinkByType(item),
         },
       ]);
     });
     return {
       tableBody: body,
-      totalAmount: total,
-      totalDueAmount: dueAmount,
+      totalDebitAmount: totalDebit,
+      totalCreditAmount: totalCredit,
     };
   }, [accountTransactionResponse]);
 
-  const tableFooter = useMemo(() => [[]], [totalAmount, totalDueAmount]);
+  const tableFooter = useMemo(
+    () => [
+      [
+        { value: 'Total', style: { textAlign: 'start' } },
+        { value: '' },
+        { value: '' },
+        { value: '' },
+        { value: '' },
+        { value: '' },
+        { value: formatAmount(totalDebitAmount) },
+        { value: formatAmount(totalCreditAmount) },
+      ],
+    ],
+    [totalDebitAmount, totalCreditAmount]
+  );
   return { tableBody, tableFooter };
 }
 
