@@ -17,18 +17,21 @@ function useGetRefundHistoryData(refundHistoryResponse) {
         },
         {
           value: item.reference_num,
+          style: { textAlign: 'start' },
         },
         {
           value: item.formatted_number,
-          // link: `/pages/accounting/sales/credit-notes/${item.id}/detail`,
+          style: { textAlign: 'start' },
         },
         {
           value: item.customer_name,
           link: `/pages/accounting/sales/customers/${item.sales_account__id}/detail`,
+          style: { textAlign: 'start' },
         },
 
         {
           value: item.payment_mode,
+          style: { textAlign: 'start' },
         },
         {
           value: formatAmount(item.amount_applied),

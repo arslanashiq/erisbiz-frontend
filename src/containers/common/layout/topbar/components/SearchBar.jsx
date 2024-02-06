@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -72,11 +72,10 @@ function SearchBar() {
     }
   }, [pathname]);
 
-  const handleSelect = item => {
+  const handleSelect = useCallback(item => {
     setSelectedPage(item);
     handleClose();
-  };
-
+  }, []);
   const handleSearch = keyCode => {
     if (keyCode === 13) {
       if (searchText) {
@@ -149,4 +148,4 @@ function SearchBar() {
   );
 }
 
-export default SearchBar;
+export default memo(SearchBar);

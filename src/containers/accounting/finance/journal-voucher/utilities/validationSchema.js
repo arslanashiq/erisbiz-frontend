@@ -11,7 +11,16 @@ export const journalVoucherValidationSchema = Yup.object({
   journal_items: Yup.array().of(
     Yup.object({
       chart_of_account: Yup.string().required('Account is required'),
-      debit: Yup.number('Must be a number').min(0, 'Must be greater than 0').required('Required'),
+
+      debit: Yup.number('Must be a number')
+        .min(0, 'Must be greater than 0')
+        .when('credit', {
+          is: value => value > 0,
+          then: () => Yup.number()
+            .min(0, 'Debit must be 0 when credit is greater than 0')
+            .max(0, 'Debit must be 0 when credit is greater than 0 '),
+        })
+        .required('Required'),
       credit: Yup.number('Must be a number').min(0, 'Must be greater than 0').required('Required'),
       description: Yup.string(),
     })

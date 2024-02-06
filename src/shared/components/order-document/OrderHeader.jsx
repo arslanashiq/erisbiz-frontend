@@ -29,9 +29,9 @@ function OrderHeader({ companyLogo, companyName, companyTRN, email, company }) {
     };
   }, [companyTRN, email, company]);
   return (
-    <Grid item container minHeight={180} justifyContent="space-between">
+    <Grid item container minHeight={150} justifyContent="space-between">
       <Grid item xs={4} lg={4}>
-        <img src={companyLogo} alt="" style={{ maxHeight: 150, maxWidth: 250 }} />
+        <img src={companyLogo} alt="" style={{ maxHeight: 145, maxWidth: 250 }} />
       </Grid>
       <Grid item xs={7} justifyContent="space-around">
         <Typography color="primary" sx={{ fontWeight: 'bold', fontSize: 18 }}>

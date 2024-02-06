@@ -286,16 +286,16 @@ export const creditNoteDetailReportHeadCells = [
 ];
 export const customerRefundReportHeadCells = [
   { title: 'DATE', style: { textAlign: 'start' } },
-  { title: 'REFERENCE#' },
-  { title: 'TRANSACTION#' },
-  { title: 'CUSTOMER NAME' },
-  { title: 'MODE' },
+  { title: 'REFERENCE#', style: { textAlign: 'start' } },
+  { title: 'TRANSACTION#', style: { textAlign: 'start' } },
+  { title: 'CUSTOMER NAME', style: { textAlign: 'start' } },
+  { title: 'MODE', style: { textAlign: 'start' } },
   { title: 'AMOUNT' },
 ];
 
 // accountant
 export const accountTransactionReportHeadCells = [
-  { title: 'DATE', style: { textAlign: 'start', minWidth: 130 } },
+  { title: 'DATE', style: { textAlign: 'start' } },
   { title: 'ACCOUNT', style: { textAlign: 'start' } },
   { title: 'Sub Account', style: { textAlign: 'start' } },
   { title: 'TYPE', style: { textAlign: 'start' } },

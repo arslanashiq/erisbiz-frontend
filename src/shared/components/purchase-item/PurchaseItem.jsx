@@ -89,7 +89,7 @@ function PurchaseItem({ name, inputList, form, push, newList, showItemsAmount, m
                       alignItems: 'center',
                     }}
                   >
-                    {input?.isSelect ? (
+                    {input.isSelect ? (
                       <FormikSelect
                         disabled={input.disabled || false}
                         options={input.options}

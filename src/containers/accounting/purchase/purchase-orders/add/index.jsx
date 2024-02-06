@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { FieldArray } from 'formik';
 import { Card, CardContent } from '@mui/material';
@@ -232,4 +232,4 @@ function AddPurchaseOrder() {
   );
 }
 
-export default AddPurchaseOrder;
+export default memo(AddPurchaseOrder);
