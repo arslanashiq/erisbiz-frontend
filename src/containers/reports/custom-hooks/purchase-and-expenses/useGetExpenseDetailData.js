@@ -52,7 +52,6 @@ function useGetExpenseDetailData(expenseDetailResponse) {
         { value: '', style: { fontWeight: 700 } },
         { value: '', style: { fontWeight: 700 } },
         { value: '', style: { fontWeight: 700 } },
-        { value: '', style: { fontWeight: 700 } },
         { value: formatAmount(totalAmountWithoutTax), style: { fontWeight: 700 } },
         { value: formatAmount(totalAmountWithTax), style: { fontWeight: 700 } },
       ],
