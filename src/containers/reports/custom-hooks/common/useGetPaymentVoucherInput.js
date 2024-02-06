@@ -18,7 +18,7 @@ function useGetPaymentVoucherInput() {
     fullWidth: true,
     hidden: true,
     displayKey: 'transaction_type',
-    displayKeyValue: ['Payment Voucher'],
+    displayKeyValue: ['Supplier Payment'],
   };
 }
 

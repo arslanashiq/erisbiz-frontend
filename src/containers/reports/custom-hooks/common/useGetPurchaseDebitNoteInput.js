@@ -18,7 +18,7 @@ function useGetPurchaseDebitNoteInput() {
     fullWidth: true,
     hidden: true,
     displayKey: 'transaction_type',
-    displayKeyValue: ['Purchase Debit Note'],
+    displayKeyValue: ['Debit Note'],
   };
 }
 

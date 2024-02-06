@@ -18,7 +18,7 @@ function useGetReceiptVoucherInput() {
     fullWidth: true,
     hidden: true,
     displayKey: 'transaction_type',
-    displayKeyValue: ['Receipt Voucher'],
+    displayKeyValue: ['Customer Receipt'],
   };
 }
 

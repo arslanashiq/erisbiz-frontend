@@ -18,7 +18,7 @@ function useGetSalesInvoiceInput() {
     fullWidth: true,
     hidden: true,
     displayKey: 'transaction_type',
-    displayKeyValue: ['Sales Invoice'],
+    displayKeyValue: ['Invoice'],
   };
 }
 

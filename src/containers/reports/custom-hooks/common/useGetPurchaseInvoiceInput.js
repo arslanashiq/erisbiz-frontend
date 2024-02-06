@@ -18,7 +18,7 @@ function useGetPurchaseInvoiceInput() {
     fullWidth: true,
     hidden: true,
     displayKey: 'transaction_type',
-    displayKeyValue: ['Purchase Invoice'],
+    displayKeyValue: ['Bill'],
   };
 }
 

@@ -18,7 +18,7 @@ function useGetSalesCreditNoteInput() {
     fullWidth: true,
     hidden: true,
     displayKey: 'transaction_type',
-    displayKeyValue: ['Sales Credit Note'],
+    displayKeyValue: ['Credit Note'],
   };
 }
 
