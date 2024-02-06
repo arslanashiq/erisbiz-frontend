@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useMemo } from 'react';
 import { DATE_FILTER_REPORT } from 'utilities/constants';
 import formatAmount from 'utilities/formatAmount';
-// import getLinkByTransactionType from 'utilities/get-link-by-type';
+import { getLinkByTransactionType } from 'utilities/get-link-by-type';
 
 function useGetAccountTransactionData(accountTransactionResponse) {
   const getTransactionType = type => {
@@ -18,24 +18,6 @@ function useGetAccountTransactionData(accountTransactionResponse) {
     } catch (error) {
       return type;
     }
-  };
-  const getLinkByType = item => {
-    if (item.transaction_type === 'Expense' || item.transaction_type === 'Expense Paid') {
-      return `/pages/accounting/purchase/expenses/${item.object_id}/detail`;
-    }
-    if (item.transaction_type === 'Bill') {
-      return `/pages/accounting/purchase/purchase-invoice/${item.object_id}/detail`;
-    }
-    if (item.transaction_type === 'Debit Note') {
-      return `/pages/accounting/purchase/debit-notes/${item.object_id}/detail`;
-    }
-    if (item.transaction_type === 'Supplier Payment') {
-      return `/pages/accounting/purchase/payment-voucher/${item.object_id}/detail`;
-    }
-    if (item.transaction_type === 'Customer Receipt') {
-      return `/pages/accounting/sales/receipt-voucher/${item.object_id}/detail`;
-    }
-    return false;
   };
   const { tableBody, totalDebitAmount, totalCreditAmount } = useMemo(() => {
     let totalDebit = 0;
@@ -65,7 +47,7 @@ function useGetAccountTransactionData(accountTransactionResponse) {
         {
           value: item.transaction_number,
           style: { textAlign: 'start' },
-          link: getLinkByType(item),
+          link: getLinkByTransactionType(item.transaction_type, item.object_id),
         },
         {
           value: item.reference_number,
