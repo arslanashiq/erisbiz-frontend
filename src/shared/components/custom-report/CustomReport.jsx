@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Stack, TablePagination } from '@mui/material';
+import { Stack, TablePagination, Tooltip } from '@mui/material';
 import { getsearchQueryOffsetAndLimitParams } from 'utilities/filters';
 import { ROWS_PER_PAGE, ROWS_PER_PAGE_OPTIONS } from 'utilities/constants';
 import { getStableSort } from 'utilities/sort';
@@ -57,6 +57,17 @@ function CustomReport({
     }
     return tableBody;
   }, [tableBody, order, orderBy, page, rowsPerPage]);
+
+  const renderCellValue = cell => {
+    if (cell.toolTip) {
+      return (
+        <Tooltip title={cell.toolTipContent} arrow placement="top">
+          {cell.link ? <Link to={cell.link}>{cell.value}</Link> : cell.value || '-'}
+        </Tooltip>
+      );
+    }
+    return cell.link ? <Link to={cell.link}>{cell.value}</Link> : cell.value || '-';
+  };
   return (
     <div className={parentWrapperClassName} style={{ minWidth: 900 }}>
       <div style={{ padding: '0px 20px' }}>
@@ -88,7 +99,7 @@ function CustomReport({
                       }}
                       colSpan={cell.colSpan || 1}
                     >
-                      {cell.link ? <Link to={cell.link}>{cell.value}</Link> : cell.value}
+                      {renderCellValue(cell)}
                     </td>
                   ))}
                 </tr>
