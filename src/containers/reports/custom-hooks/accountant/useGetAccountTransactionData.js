@@ -50,8 +50,11 @@ function useGetAccountTransactionData(accountTransactionResponse) {
           link: getLinkByTransactionType(item.transaction_type, item.object_id),
         },
         {
-          value: item.remarks || '',
-          style: { textAlign: 'start' },
+          value: item.remarks?.substring(0, 180) || item.remarks || '',
+
+          style: { textAlign: 'start', maxWidth: 300 },
+          toolTip: true,
+          toolTipContent: item.remarks || '',
         },
 
         {
