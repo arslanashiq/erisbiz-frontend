@@ -4,9 +4,10 @@ import { useLocation } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Card, CardContent } from '@mui/material';
 // shared
+import { closeSideBar, openSideBar } from 'store/slices/sideBarSlice';
 import { excelSheet } from 'shared/custom-hooks/ExcelSheet';
 import CustomReport from 'shared/components/custom-report/CustomReport';
 // constainers
@@ -40,6 +41,7 @@ function CustomReportDetailPage({
   reportDataOptions,
   paramsFilter,
 }) {
+  const dispatch = useDispatch();
   const location = useLocation();
   const { enqueueSnackbar } = useSnackbar();
   const { name: companyName } = useSelector(state => state?.user?.company);
@@ -75,6 +77,11 @@ function CustomReportDetailPage({
     if (reportResponse?.isError) {
       enqueueSnackbar('Somthing Went Wrong', { variant: 'error' });
     }
+    dispatch(closeSideBar());
+
+    return () => {
+      dispatch(openSideBar());
+    };
   }, [reportResponse]);
 
   return (

@@ -1,13 +1,26 @@
-import React, { useEffect, useState } from 'react';
-// import { getMenuState } from 'utilities/helpers';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeSideBar, openSideBar } from 'store/slices/sideBarSlice';
 import Sidebar from './sidebar';
 import TopBar from './topbar';
 
 function Layout() {
-  const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
+  const { sideBarStatus: open } = useSelector(state => state.sideBar);
 
   const handleToggleDrawer = () => {
-    setOpen(!open);
+    if (open) {
+      dispatch(closeSideBar());
+    } else {
+      dispatch(openSideBar());
+    }
+  };
+  const setOpen = value => {
+    if (value) {
+      dispatch(openSideBar());
+    } else {
+      dispatch(closeSideBar());
+    }
   };
 
   useEffect(() => {
