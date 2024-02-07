@@ -19,5 +19,6 @@ export const receiptVoucherFormValidationSchema = Yup.object({
         .required('Payment is required'),
     })
   ),
+  remarks: Yup.string().max(255, 'Must be less than 255 characters'),
 });
 export const test = '';

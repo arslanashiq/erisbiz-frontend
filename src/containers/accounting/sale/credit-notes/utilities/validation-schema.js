@@ -13,6 +13,7 @@ export const creditNoteValidationSchema = Yup.object({
         .test('max-digits', 'Maximum 10 digits are allowed', value => `${value}`.length <= 10),
     })
   ),
+  customer_notes: Yup.string().max(255, 'Must be less than 255 characters'),
 });
 
 export const test = '';

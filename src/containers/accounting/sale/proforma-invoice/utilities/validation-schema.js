@@ -6,5 +6,6 @@ export const proformaInvoiceValidationSchema = Yup.object({
   quotation: Yup.string().required('Quotation is required'),
   sales_person: Yup.string().required('Sales Person is required'),
   pro_invoice_items: saleOrderItemsValidationschema,
+  remarks: Yup.string().max(255, 'Must be less than 255 characters'),
 });
 export const test = '';

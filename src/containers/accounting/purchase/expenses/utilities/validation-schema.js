@@ -8,5 +8,6 @@ export const expensesFormValidationSchema = Yup.object({
   paid_through_account_id: Yup.string().required('Paid Through is required'),
   tax_rate_id: Yup.string().required('Tax Rate is required'),
   supplier_id: Yup.string().required('Supplier is required'),
+  notes: Yup.string().max(255, 'Must be less than 255 characters'),
 });
 export const test = '';

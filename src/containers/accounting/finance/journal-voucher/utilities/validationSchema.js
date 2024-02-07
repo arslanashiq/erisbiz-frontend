@@ -5,7 +5,7 @@ export const journalVoucherValidationSchema = Yup.object({
   reference_num: Yup.string().required('Reference No is required'),
   journal_date: Yup.date('Required').required('Required'),
   notes: Yup.string(),
-  remarks: Yup.string(),
+  remarks: Yup.string().max(255, 'Must be less than 255 characters'),
   total: Yup.number().min(0),
 
   journal_items: Yup.array().of(

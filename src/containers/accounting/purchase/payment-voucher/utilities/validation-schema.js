@@ -19,5 +19,7 @@ export const paymentVoucherFormValidationSchema = Yup.object({
     })
   ),
   credit_account_id: Yup.string().required('Credit Account is required'),
+  notes: Yup.string().max(255, 'Must be less than 255 characters'),
+
 });
 export const test = '';

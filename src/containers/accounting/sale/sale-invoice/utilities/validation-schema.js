@@ -7,5 +7,6 @@ export const saleInvoiceValidationSchema = Yup.object({
   sales_person: Yup.string().required('Sales Person is required'),
   debit_account: Yup.string().required('Debit Account is required'),
   invoice_items: saleOrderItemsValidationschema,
+  remarks: Yup.string().max(255, 'Must be less than 255 characters'),
 });
 export const test = '';

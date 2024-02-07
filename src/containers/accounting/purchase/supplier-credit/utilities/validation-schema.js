@@ -15,5 +15,6 @@ export const supplierCreditFormValidationSchema = Yup.object({
         .test('max-digits', 'Maximum 10 digits are allowed', value => `${value}`.length <= 10),
     })
   ),
+  remarks: Yup.string().max(255, 'Must be less than 255 characters'),
 });
 export const test = '';

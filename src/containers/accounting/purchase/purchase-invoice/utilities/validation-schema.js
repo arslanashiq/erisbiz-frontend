@@ -9,6 +9,6 @@ export const purchaseInvoiceFormValidationSchema = Yup.object({
   supplier_invoice_num: Yup.string().required('Supplier Invoice Number is required'),
 
   bill_items: purchaseOrderItemsValidationschema,
-  notes: Yup.string(''),
+  notes: Yup.string().max(255, 'Must be less than 255 characters'),
 });
 export const test = '';
