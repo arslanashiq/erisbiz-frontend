@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { Box, Divider, Drawer, List } from '@mui/material';
 import SideBarListItem from 'styles/mui/component/SideBarListItem';
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
-import { DRAWER_WIDTH } from 'utilities/constants';
 import SideBarChildLinks from './SideBarChildLinks';
 import SideBarListItemButton from './SideBarListItemButton';
 
@@ -25,7 +24,7 @@ function SmallScreenDrawer({
     >
       <DrawerHeader />
       <Divider />
-      <List sx={{ width: DRAWER_WIDTH, paddingTop: 2 }}>
+      <List sx={{ width: '100%', paddingTop: 2 }}>
         {AccountantSideBarLinks.map(sideBar => {
           if (sideBar.name === 'space') {
             return (

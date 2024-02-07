@@ -13,7 +13,6 @@ import StyledDrawer from 'styles/mui/component/StyledDrawer';
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
 import SideBarListItem from 'styles/mui/component/SideBarListItem';
 // components
-import { DRAWER_WIDTH } from 'utilities/constants';
 import SideBarChildLinks from './SideBarChildLinks';
 import SideBarListItemButton from './SideBarListItemButton';
 
@@ -35,7 +34,7 @@ function LargeScreenDrawer({
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List sx={{ width: DRAWER_WIDTH, paddingTop: 2 }}>
+      <List sx={{ width: '100%', paddingTop: 2 }}>
         {AccountantSideBarLinks.map(sideBar => {
           if (sideBar.name === 'space') {
             return (
