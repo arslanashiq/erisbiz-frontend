@@ -47,7 +47,7 @@ function InvoiceInfoDetail({ orderInfo }) {
 
   const customerInfo = useMemo(() => orderInfo.invoiceToDetail || {}, [orderInfo]);
   return (
-    <View style={{ marginTop: 20 }}>
+    <View>
       {orderInfo && (
         <View>
           <View
@@ -58,7 +58,7 @@ function InvoiceInfoDetail({ orderInfo }) {
           >
             <Text
               style={{
-                fontSize: 35,
+                fontSize: 28,
                 ...boldFont,
                 ...primaryColor,
               }}

@@ -53,12 +53,12 @@ function useGetAccountTypeSummaryData(accountTypeSummaryResponse) {
       style: { textAlign: 'start', ...headerStyle },
     },
     {
-      value: '',
-      style: { textAlign: 'start', ...headerStyle },
+      value: ' ',
+      style: { textAlign: 'end', ...headerStyle },
     },
     {
-      value: '',
-      style: { textAlign: 'start', ...headerStyle },
+      value: ' ',
+      style: { textAlign: ' ', ...headerStyle },
     },
   ];
 
