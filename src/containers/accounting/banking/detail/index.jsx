@@ -143,9 +143,9 @@ function BankDetail() {
                 column: [
                   { colSpan: 1 },
                   { data: 'Total Debits and Credits' },
-                  { data: formatAmount(totalCreditDebit?.bcy_debit || 0) },
-                  { data: formatAmount(totalCreditDebit?.bcy_credit || 0) },
-                  { colSpan: 2 },
+                  { data: formatAmount(totalCreditDebit?.bcy_debit || 0), style: { textAlign: 'right', padding: '10px' } },
+                  { data: formatAmount(totalCreditDebit?.bcy_credit || 0), style: { textAlign: 'right', padding: '10px' } },
+                  { colSpan: 1 },
                 ],
               },
               {
@@ -156,6 +156,7 @@ function BankDetail() {
                     data: `${formatAmount(
                       (totalCreditDebit?.bcy_debit || 0) - (totalCreditDebit?.bcy_credit || 0) || 0
                     )}`,
+                    style: { textAlign: 'right', padding: '10px' },
                   },
                   { colSpan: 2 },
                 ],

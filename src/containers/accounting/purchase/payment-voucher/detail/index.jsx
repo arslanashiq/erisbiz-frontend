@@ -75,6 +75,7 @@ function PaymentVoucherDetail() {
         country: PaymentVoucherDetailResponse?.data?.supplier?.country || '',
       },
       currency_symbol: PaymentVoucherDetailResponse?.data?.currency || '',
+      showSaleSectionFooter: false,
     }),
     [PaymentVoucherDetailResponse]
   );

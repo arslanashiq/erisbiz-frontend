@@ -45,15 +45,20 @@ export const bankTransactionsHeadCells = [
     id: 'bcy_debit',
     disablePadding: false,
     label: 'Debit',
+    formatAmount: true,
+    align: 'right',
   },
   {
     id: 'bcy_credit',
     disablePadding: false,
     label: 'Credit',
+    formatAmount: true,
+    align: 'right',
   },
   {
     id: 'amount_without_tax',
     disablePadding: false,
     label: 'Amount',
+    align: 'right',
   },
 ];

@@ -8,7 +8,7 @@ import { v4 as uuid } from 'uuid';
 function PurchaseVoucherFooterDocument({ orderDetail, keyValue }) {
   const getLink = item => {
     if (item?.bill) {
-      return `/pages/accounting/sales/sale-invoice/${item?.bill?.id}/detail`;
+      return `/pages/accounting/purchase/purchase-invoice/${item?.bill?.id}/detail`;
     }
     return `/pages/accounting/purchase/suppliers/${item?.supplier?.id}/detail`;
   };

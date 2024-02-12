@@ -45,7 +45,13 @@ export const itemInventoryStockPosition = [
     label: 'Item Name',
     align: 'left',
     isLink: true,
+    handleData: (row, cell) => (
+      <Link style={{ textDecoration: 'none' }} to={`/pages/accounting/items/${row.item_id}/detail`}>
+        {row[cell.id]}
+      </Link>
+    ),
   },
+
   {
     id: 'remaining_stock',
     disablePadding: false,
@@ -62,17 +68,17 @@ export const totalReceivablesHeadCells = [
     align: 'left',
     isDate: true,
   },
-  {
-    id: 'payer_name',
-    disablePadding: false,
-    label: 'Payer Name',
-    align: 'left',
-    handleData: (row, cell) => (
-      <Link style={{ textDecoration: 'none' }} to={row.payer_link}>
-        {row[cell.id]}
-      </Link>
-    ),
-  },
+  // {
+  //   id: 'payer_name',
+  //   disablePadding: false,
+  //   label: 'Payer Name',
+  //   align: 'left',
+  //   handleData: (row, cell) => (
+  //     <Link style={{ textDecoration: 'none' }} to={row.payer_link}>
+  //       {row[cell.id]}
+  //     </Link>
+  //   ),
+  // },
   {
     id: 'payment_num',
     disablePadding: false,
