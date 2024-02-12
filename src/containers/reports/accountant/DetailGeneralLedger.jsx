@@ -7,7 +7,7 @@ import CustomReportDetailPage from '../components/CustomReportDetailPage';
 function DetailGeneralLedger() {
   return (
     <CustomReportDetailPage
-      reportTitle="Account Type Summary"
+      reportTitle="Detail General Ledger"
       reportHeadCells={detailGeneralLedgerReportHeadCells}
       useGetReportQuery={useGetDetailGeneralLedgerQuery}
       useGetReportData={useGetDetailGeneralLedgerData}
