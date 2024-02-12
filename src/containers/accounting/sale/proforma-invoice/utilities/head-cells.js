@@ -10,20 +10,20 @@ export const proformaInvoiceHeadCell = [
     date: true,
   },
   {
-    id: 'pro_invoice_formatted_number',
-    numeric: false,
-    disablePadding: true,
-    label: 'Invoice Number',
-    align: 'left',
-    isLink: true,
-  },
-  {
     id: 'customer_info',
     numeric: true,
     disablePadding: false,
     label: 'Customer',
     align: 'left',
     cellValueAction: customerInfo => customerInfo.customer_name,
+  },
+  {
+    id: 'pro_invoice_formatted_number',
+    numeric: false,
+    disablePadding: true,
+    label: 'Invoice Number',
+    align: 'left',
+    isLink: true,
   },
 
   // {

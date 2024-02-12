@@ -10,20 +10,20 @@ export const quotationsHeadCell = [
     date: true,
   },
   {
-    id: 'quotation_formatted_number',
-    numeric: false,
-    disablePadding: true,
-    label: 'Quotation Number',
-    align: 'left',
-    isLink: true,
-  },
-  {
     id: 'customer_info',
     numeric: true,
     disablePadding: false,
     label: 'Customer',
     align: 'left',
     cellValueAction: customerInfo => customerInfo.customer_name,
+  },
+  {
+    id: 'quotation_formatted_number',
+    numeric: false,
+    disablePadding: true,
+    label: 'Quotation Number',
+    align: 'left',
+    isLink: true,
   },
   // {
   //   id: 'sales_person',

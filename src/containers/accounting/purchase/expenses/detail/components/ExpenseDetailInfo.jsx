@@ -63,7 +63,7 @@ function ExpenseDetailInfo({ expense }) {
           <Stack {...topSpacing}>
             <Typography sx={textColor}>Paid To</Typography>
             <Typography>
-              <Link to={`/pages/accounting/purchases/suppliers/${expense.supplier.id}/detail`}>
+              <Link to={`/pages/accounting/purchase/suppliers/${expense.supplier.id}/detail`}>
                 {expense.supplier.supplier_name}
               </Link>
             </Typography>

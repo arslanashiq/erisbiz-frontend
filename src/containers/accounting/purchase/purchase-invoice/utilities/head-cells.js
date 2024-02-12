@@ -26,13 +26,13 @@ export const purchaseInvoiceHeadCells = [
     isLink: true,
   },
 
-  {
-    id: 'bill_formated_number',
-    numeric: true,
-    disablePadding: false,
-    label: 'Reference #',
-    align: 'left',
-  },
+  // {
+  //   id: 'bill_formated_number',
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: 'Reference #',
+  //   align: 'left',
+  // },
 
   {
     id: 'due_date',
