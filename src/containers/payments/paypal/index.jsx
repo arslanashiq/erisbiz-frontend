@@ -15,10 +15,10 @@ const initialValues = {
 };
 loadScript(initialValues)
   .then(() => {
-    // console.log(paypal);
+    // console.log("Success")
   })
   .catch(() => {
-    // console.error('failed to load the PayPal JS SDK script', err);
+    // console.log("Error")
   });
 
 function PayPalPaymentPage() {
@@ -26,13 +26,7 @@ function PayPalPaymentPage() {
 
   const selectedPlan = useMemo(() => plansList.find(plan => plan.planId === planId), [planId]);
   return (
-    <Box
-      width="100vw"
-      height="100vh"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Box width="100vw" height="100vh" display="flex" justifyContent="center" alignItems="center">
       <PayPalScriptProvider options={initialValues}>
         <Stack direction="row">
           <Checkout plan={selectedPlan} />

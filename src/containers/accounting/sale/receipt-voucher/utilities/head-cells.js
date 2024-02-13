@@ -22,7 +22,7 @@ export const receiptVoucherHeadCells = [
     id: 'payment_num',
     numeric: true,
     disablePadding: false,
-    label: 'Payment Number',
+    label: 'Payment #',
     align: 'left',
     isLink: true,
   },

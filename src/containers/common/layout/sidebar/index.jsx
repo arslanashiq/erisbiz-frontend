@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Outlet, useLocation } from 'react-router';
+import { Outlet } from 'react-router';
 import { useTheme } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -10,49 +10,16 @@ import DrawerHeader from 'styles/mui/component/DrawerHeader';
 import { DRAWER_WIDTH } from 'utilities/constants';
 import LargeScreenDrawer from './components/LargeScreenDrawer';
 import SmallScreenDrawer from './components/SmallScreenDrawer';
-import SideBarLinksList from './utilities/SideBarLinksList';
+import useGetSideBarLinksList from './custom-hooks/useGetSideBarLinksList';
 
 function Sidebar({ open, setOpen, handleToggleDrawer }) {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
-  const location = useLocation();
 
-  const [showSideBarChildLink, setShowSideBarChildLink] = useState([false, false, false]);
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  const checkActive = link => {
-    // if (location.pathname === link) return true;
-    // return false;
-
-    // // for parent also selected
-    if (location.pathname === '/' && link === '/') return true;
-    if (location.pathname === '/' || link === '/') return false;
-    if (location.pathname.includes(link)) return true;
-    return false;
-  };
+  const { SideBarLinksList, checkActive, handleChnageSideBarChildDisplay } = useGetSideBarLinksList();
   useEffect(() => {
     setOpen(isLargeScreen);
   }, [isLargeScreen]);
-
-  useEffect(() => {
-    try {
-      SideBarLinksList.forEach(sideBarItem => {
-        if (sideBarItem?.children?.length > 0) {
-          sideBarItem?.children.forEach(childItem => {
-            if (checkActive(childItem.link)) {
-              showSideBarChildLink[sideBarItem.index] = true;
-              setShowSideBarChildLink([...showSideBarChildLink]);
-            }
-          });
-        }
-      });
-    } catch (error) {
-      //
-    }
-  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -61,25 +28,21 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
         <LargeScreenDrawer
           open={open}
           setOpen={setOpen}
-          showSideBarChildLink={showSideBarChildLink}
-          setShowSideBarChildLink={setShowSideBarChildLink}
-          handleToggleDrawer={handleToggleDrawer}
-          handleDrawerClose={handleDrawerClose}
           checkActive={checkActive}
-          AccountantSideBarLinks={SideBarLinksList}
           DrawerHeader={DrawerHeader}
+          handleToggleDrawer={handleToggleDrawer}
+          AccountantSideBarLinks={SideBarLinksList}
+          handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
         />
       ) : (
         <SmallScreenDrawer
           open={open}
           setOpen={setOpen}
-          showSideBarChildLink={showSideBarChildLink}
-          setShowSideBarChildLink={setShowSideBarChildLink}
-          handleToggleDrawer={handleToggleDrawer}
-          handleDrawerClose={handleDrawerClose}
           checkActive={checkActive}
-          AccountantSideBarLinks={SideBarLinksList}
           DrawerHeader={DrawerHeader}
+          handleToggleDrawer={handleToggleDrawer}
+          AccountantSideBarLinks={SideBarLinksList}
+          handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
         />
       )}
 

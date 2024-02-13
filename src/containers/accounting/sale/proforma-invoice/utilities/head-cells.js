@@ -21,7 +21,7 @@ export const proformaInvoiceHeadCell = [
     id: 'pro_invoice_formatted_number',
     numeric: false,
     disablePadding: true,
-    label: 'Invoice Number',
+    label: 'Proforma Invoice #',
     align: 'left',
     isLink: true,
   },

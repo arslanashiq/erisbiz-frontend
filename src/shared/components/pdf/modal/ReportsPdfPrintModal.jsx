@@ -26,7 +26,6 @@ function ReportsPdfPrintModal({
   };
 
   // const handlePrint = async () => {
-  //   console.log('first');
   //   const doc = component;
   //   const asPdf = pdf();
   //   asPdf.updateContainer(doc);

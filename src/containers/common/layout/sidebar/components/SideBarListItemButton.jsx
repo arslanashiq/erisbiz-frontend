@@ -8,9 +8,9 @@ function SideBarListItemButton({
   sideBarListItem,
   open,
   setOpen,
-  showSideBarChildLink,
-  setShowSideBarChildLink,
+  handleChnageSideBarChildDisplay,
   isParent,
+  nestingLevel,
 }) {
   return (
     <SideBarListItemButtonWrapper open={open} title={sideBarListItem.name}>
@@ -20,14 +20,12 @@ function SideBarListItemButton({
           height: 45,
           justifyContent: open ? 'initial' : 'center',
           px: isParent ? 2 : 0,
-          paddingLeft: isParent ? 2 : 6,
+          paddingLeft: nestingLevel >= 1 ? nestingLevel * 6 : 2,
         }}
         onClick={() => {
           if (sideBarListItem.children) {
             setOpen(true);
-            const temp = showSideBarChildLink;
-            temp[sideBarListItem.index] = !showSideBarChildLink[sideBarListItem.index];
-            setShowSideBarChildLink([...showSideBarChildLink]);
+            handleChnageSideBarChildDisplay(sideBarListItem.name);
           }
         }}
       >
@@ -45,7 +43,7 @@ function SideBarListItemButton({
         {open && <ListItemText primary={sideBarListItem.name} sx={{ fontWeight: 500 }} />}
         {sideBarListItem.children && open && (
           <KeyboardArrowRightIcon
-            className={showSideBarChildLink[sideBarListItem.index] ? 'sidebar-parent-list-icon' : ''}
+            className={sideBarListItem.showChildren ? 'sidebar-parent-list-icon' : ''}
           />
         )}
       </ListItemButton>
@@ -56,11 +54,12 @@ SideBarListItemButton.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   sideBarListItem: PropTypes.object.isRequired,
-  showSideBarChildLink: PropTypes.array.isRequired,
-  setShowSideBarChildLink: PropTypes.func.isRequired,
+  handleChnageSideBarChildDisplay: PropTypes.func.isRequired,
   isParent: PropTypes.bool,
+  nestingLevel: PropTypes.number,
 };
 SideBarListItemButton.defaultProps = {
   isParent: true,
+  nestingLevel: 0,
 };
 export default SideBarListItemButton;

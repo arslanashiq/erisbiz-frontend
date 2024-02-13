@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 import List from '@mui/material/List';
 import { NavLink } from 'react-router-dom';
 import Divider from '@mui/material/Divider';
-import { useTheme } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 // styled components
 import StyledDrawer from 'styles/mui/component/StyledDrawer';
 import DrawerHeader from 'styles/mui/component/DrawerHeader';
@@ -19,20 +15,13 @@ import SideBarListItemButton from './SideBarListItemButton';
 function LargeScreenDrawer({
   open,
   setOpen,
-  handleDrawerClose,
   checkActive,
-  showSideBarChildLink,
-  setShowSideBarChildLink,
   AccountantSideBarLinks,
+  handleChnageSideBarChildDisplay,
 }) {
-  const theme = useTheme();
   return (
     <StyledDrawer className="no-print d-none d-md-block" variant="permanent" open={open}>
-      <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-        </IconButton>
-      </DrawerHeader>
+      <DrawerHeader />
       <Divider />
       <List sx={{ width: '100%', paddingTop: 2 }}>
         {AccountantSideBarLinks.map(sideBar => {
@@ -57,8 +46,7 @@ function LargeScreenDrawer({
                     sideBarListItem={sideBar}
                     open={open}
                     setOpen={setOpen}
-                    showSideBarChildLink={showSideBarChildLink}
-                    setShowSideBarChildLink={setShowSideBarChildLink}
+                    handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
                   />
                 ) : (
                   <NavLink
@@ -69,8 +57,7 @@ function LargeScreenDrawer({
                       sideBarListItem={sideBar}
                       open={open}
                       setOpen={setOpen}
-                      showSideBarChildLink={showSideBarChildLink}
-                      setShowSideBarChildLink={setShowSideBarChildLink}
+                      handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
                     />
                   </NavLink>
                 )}
@@ -78,13 +65,11 @@ function LargeScreenDrawer({
 
               {sideBar?.children?.length > 0 && (
                 <SideBarChildLinks
-                  childList={sideBar.children}
                   open={open}
                   setOpen={setOpen}
-                  index={sideBar.index}
+                  sideBar={sideBar}
                   checkActive={checkActive}
-                  showSideBarChildLink={showSideBarChildLink}
-                  setShowSideBarChildLink={setShowSideBarChildLink}
+                  handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
                 />
               )}
             </div>
@@ -99,9 +84,7 @@ LargeScreenDrawer.propTypes = {
   setOpen: PropTypes.func.isRequired,
   AccountantSideBarLinks: PropTypes.array.isRequired,
   checkActive: PropTypes.func.isRequired,
-  showSideBarChildLink: PropTypes.array.isRequired,
-  setShowSideBarChildLink: PropTypes.func.isRequired,
-  handleDrawerClose: PropTypes.func.isRequired,
+  handleChnageSideBarChildDisplay: PropTypes.func.isRequired,
 };
 
 export default LargeScreenDrawer;

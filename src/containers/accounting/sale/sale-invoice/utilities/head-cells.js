@@ -21,7 +21,7 @@ export const invoiceHeadCell = [
     id: 'invoice_formatted_number',
     numeric: false,
     disablePadding: true,
-    label: 'Invoice Number',
+    label: 'Sales Invoice #',
     align: 'left',
     isLink: true,
   },

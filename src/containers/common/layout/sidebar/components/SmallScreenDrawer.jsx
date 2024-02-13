@@ -10,10 +10,9 @@ import SideBarListItemButton from './SideBarListItemButton';
 function SmallScreenDrawer({
   open,
   setOpen,
-  AccountantSideBarLinks,
   checkActive,
-  showSideBarChildLink,
-  setShowSideBarChildLink,
+  AccountantSideBarLinks,
+  handleChnageSideBarChildDisplay,
 }) {
   return (
     <Drawer
@@ -46,8 +45,7 @@ function SmallScreenDrawer({
                     sideBarListItem={sideBar}
                     open={open}
                     setOpen={setOpen}
-                    showSideBarChildLink={showSideBarChildLink}
-                    setShowSideBarChildLink={setShowSideBarChildLink}
+                    handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
                   />
                 ) : (
                   <NavLink
@@ -58,21 +56,18 @@ function SmallScreenDrawer({
                       sideBarListItem={sideBar}
                       open={open}
                       setOpen={setOpen}
-                      showSideBarChildLink={showSideBarChildLink}
-                      setShowSideBarChildLink={setShowSideBarChildLink}
+                      handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
                     />
                   </NavLink>
                 )}
               </SideBarListItem>
               {sideBar?.children?.length > 0 && (
                 <SideBarChildLinks
-                  childList={sideBar.children}
                   open={open}
                   setOpen={setOpen}
-                  index={sideBar.index}
+                  sideBar={sideBar}
                   checkActive={checkActive}
-                  showSideBarChildLink={showSideBarChildLink}
-                  setShowSideBarChildLink={setShowSideBarChildLink}
+                  handleChnageSideBarChildDisplay={handleChnageSideBarChildDisplay}
                 />
               )}
             </div>
@@ -88,8 +83,7 @@ SmallScreenDrawer.propTypes = {
   setOpen: PropTypes.func.isRequired,
   AccountantSideBarLinks: PropTypes.array.isRequired,
   checkActive: PropTypes.func.isRequired,
-  showSideBarChildLink: PropTypes.array.isRequired,
-  setShowSideBarChildLink: PropTypes.func.isRequired,
+  handleChnageSideBarChildDisplay: PropTypes.func.isRequired,
 };
 
 export default SmallScreenDrawer;

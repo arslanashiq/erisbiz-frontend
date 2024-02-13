@@ -21,7 +21,7 @@ export const quotationsHeadCell = [
     id: 'quotation_formatted_number',
     numeric: false,
     disablePadding: true,
-    label: 'Quotation Number',
+    label: 'Quotation #',
     align: 'left',
     isLink: true,
   },

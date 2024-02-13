@@ -125,7 +125,6 @@ function useSupplierStatement(supplierStatement, supplierTransactions, duration)
     startDate: moment(supplierStatement.start_date).format(DATE_FORMAT),
     endDate: moment(supplierStatement.end_date).format(DATE_FORMAT),
   };
-  // console.log(supplierTransactions, 'asdjlkasjlk');
 
   return {
     basicInfo,

@@ -158,7 +158,7 @@ function ActivityLogsDetail() {
       payloadData = activityDetail?.payload?.length > 0 ? JSON.parse(activityDetail?.payload) : '';
       oldPayloadData = activityDetail?.old_payload?.length > 0 ? JSON.parse(activityDetail?.old_payload) : '';
     } catch (error) {
-      // console.log(first)
+      // console.log(Error)
     }
 
     if (payloadData) {

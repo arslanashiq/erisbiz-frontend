@@ -50,7 +50,6 @@ function SupplierStatement({ basicInfo, transactions, personLink, CustomerAccoun
     setSelectedFilter(selecteAction);
     handleChangeFilter(selecteAction);
   };
-  // console.log(transactions, 'transactions');
   const accountSummaryList = useMemo(
     () => [
       {
