@@ -14,7 +14,7 @@ export const receiptVoucherHeadCells = [
     id: 'customer_info',
     numeric: true,
     disablePadding: false,
-    label: 'Customer Name',
+    label: 'Customer',
     align: 'left',
     cellValueAction: customerInfo => customerInfo.customer_name,
   },

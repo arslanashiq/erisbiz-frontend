@@ -57,7 +57,19 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      {isLargeScreen === false && (
+      {isLargeScreen ? (
+        <LargeScreenDrawer
+          open={open}
+          setOpen={setOpen}
+          showSideBarChildLink={showSideBarChildLink}
+          setShowSideBarChildLink={setShowSideBarChildLink}
+          handleToggleDrawer={handleToggleDrawer}
+          handleDrawerClose={handleDrawerClose}
+          checkActive={checkActive}
+          AccountantSideBarLinks={SideBarLinksList}
+          DrawerHeader={DrawerHeader}
+        />
+      ) : (
         <SmallScreenDrawer
           open={open}
           setOpen={setOpen}
@@ -70,17 +82,7 @@ function Sidebar({ open, setOpen, handleToggleDrawer }) {
           DrawerHeader={DrawerHeader}
         />
       )}
-      <LargeScreenDrawer
-        open={open}
-        setOpen={setOpen}
-        showSideBarChildLink={showSideBarChildLink}
-        setShowSideBarChildLink={setShowSideBarChildLink}
-        handleToggleDrawer={handleToggleDrawer}
-        handleDrawerClose={handleDrawerClose}
-        checkActive={checkActive}
-        AccountantSideBarLinks={SideBarLinksList}
-        DrawerHeader={DrawerHeader}
-      />
+
       <Box
         component="main"
         sx={{

@@ -45,6 +45,9 @@ export const itemInventoryStockPosition = [
     label: 'Item Name',
     align: 'left',
     isLink: true,
+    style: {
+      width: '50% !important',
+    },
     handleData: (row, cell) => (
       <Link style={{ textDecoration: 'none' }} to={`/pages/accounting/items/${row.item_id}/detail`}>
         {row[cell.id]}

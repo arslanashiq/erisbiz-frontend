@@ -57,6 +57,7 @@ function DashboardTable({ className, title, data, headCells }) {
                       outline: '1px solid silver',
                       fontSize: 11,
                       textAlign: cell.align || 'left',
+                      ...cell.style,
                     }}
                   >
                     {cell.label}
@@ -74,8 +75,8 @@ function DashboardTable({ className, title, data, headCells }) {
                         sx={{
                           fontSize: 11,
                           outline: '1px solid silver',
-
                           textAlign: cell.align || 'left',
+                          ...cell.style,
                         }}
                       >
                         {renderData(row, cell)}
