@@ -60,9 +60,7 @@ function useGetSideBarLinksList() {
         { name: 'Purchase Debit Notes', link: '/pages/accounting/purchase/debit-notes' },
         {
           name: 'Expense',
-          showChildren: false,
-          children: [{ name: 'Expense1', link: '/pages/accounting/purchase/expenses/expenses1' }],
-          // link: '/pages/accounting/purchase/expenses',
+          link: '/pages/accounting/purchase/expenses',
         },
       ],
     },
