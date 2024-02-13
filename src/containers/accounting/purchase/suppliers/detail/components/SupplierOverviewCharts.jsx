@@ -5,7 +5,13 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Toolti
 // components
 import ActionMenu from 'shared/components/action-menu/ActionMenu';
 
-function SupplierOverviewCharts({ supplierIncome, activityLogDuration, handleClickMenu, currencySymbol }) {
+function SupplierOverviewCharts({
+  supplierIncome,
+  activityLogDuration,
+  handleClickMenu,
+  currencySymbol,
+  chartTitle,
+}) {
   const graphData = useMemo(
     () => (supplierIncome
       ? supplierIncome.map(item => ({
@@ -20,7 +26,7 @@ function SupplierOverviewCharts({ supplierIncome, activityLogDuration, handleCli
   return (
     <Grid sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: 4, paddingBottom: 3 }}>
       <Stack direction="row" justifyContent="space-between">
-        <Typography>Expenses</Typography>
+        <Typography>{chartTitle}</Typography>
 
         <ActionMenu
           buttonTitle={activityLogDuration}
@@ -57,9 +63,11 @@ SupplierOverviewCharts.propTypes = {
   activityLogDuration: PropTypes.string.isRequired,
   supplierIncome: PropTypes.array.isRequired,
   handleClickMenu: PropTypes.func.isRequired,
+  chartTitle: PropTypes.string,
 };
 SupplierOverviewCharts.defaultProps = {
   currencySymbol: 'AED',
+  chartTitle: 'Expenses',
 };
 
 export default SupplierOverviewCharts;

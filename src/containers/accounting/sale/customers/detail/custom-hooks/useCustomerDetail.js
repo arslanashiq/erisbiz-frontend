@@ -15,7 +15,7 @@ function useCustomerDetail(customerDetail) {
             { label: 'Address 1', value: customerDetail.invoice_address_line1 || '' },
             { label: 'Address 2', value: customerDetail.invoice_address_line2 || '' },
             { label: 'Country', value: customerDetail.invoice_country || '' },
-            { label: 'City', value: customerDetail.invoice_country || '' },
+            { label: 'City', value: customerDetail.invoice_city || '' },
           ],
         },
         {
@@ -24,7 +24,7 @@ function useCustomerDetail(customerDetail) {
             { label: 'Address 1', value: customerDetail.delivery_address_line1 || '' },
             { label: 'Address 2', value: customerDetail.delivery_address_line2 || '' },
             { label: 'Country', value: customerDetail.delivery_country || '' },
-            { label: 'City', value: customerDetail.delivery_country || '' },
+            { label: 'City', value: customerDetail.delivery_city || '' },
           ],
         },
       ];

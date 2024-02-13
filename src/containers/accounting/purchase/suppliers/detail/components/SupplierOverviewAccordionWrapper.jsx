@@ -40,7 +40,7 @@ function SupplierOverviewAccordionWrapper({ title, addNewContactLink, children }
               </IconButton>
             </Tooltip>
           )}
-        </Stack>{' '}
+        </Stack>
       </AccordionSummary>
       <AccordionDetails>{children}</AccordionDetails>
     </Accordion>
