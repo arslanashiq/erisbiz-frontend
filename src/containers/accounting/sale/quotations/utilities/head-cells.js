@@ -15,6 +15,7 @@ export const quotationsHeadCell = [
     disablePadding: false,
     label: 'Customer',
     align: 'left',
+    noWrap: true,
     cellValueAction: customerInfo => customerInfo.customer_name,
   },
   {

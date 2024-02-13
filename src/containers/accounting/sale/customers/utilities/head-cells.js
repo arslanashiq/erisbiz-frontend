@@ -6,6 +6,8 @@ export const customersHeadCell = [
     label: 'Customer',
     align: 'left',
     isLink: true,
+    noWrap: true,
+    toolTipValue: value => value,
   },
   {
     id: 'email',

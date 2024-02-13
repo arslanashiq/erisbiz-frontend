@@ -2,11 +2,20 @@ import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Button, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
+import { Box, Button, Checkbox, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
 import { useSelector } from 'react-redux';
 import formatAmount from 'utilities/formatAmount';
+
+// constants
+const tableCellFontSize = 14;
+const tableBodyDefaultStyle = {
+  fontSize: tableCellFontSize,
+  padding: '10px',
+  borderBottom: '1px solid rgba(224, 224, 224, 1)',
+  lineSpacing: '0.01071em',
+};
 
 function MuiTableBody({
   dataList,
@@ -69,8 +78,6 @@ function MuiTableBody({
     if (typeof row[cell.id] === 'boolean') {
       return row[cell.id] ? 'Active' : 'Inactive';
     }
-
-    // simple value
     return cell.isLink ? (
       <Link className="text-decoration-none" to={handleLinkClick(row, cell)}>
         {getValue(row, cell)}
@@ -79,15 +86,18 @@ function MuiTableBody({
       getValue(row, cell)
     );
   };
+  const getToolTipTitle = (cell, row) => {
+    if (cell.noWrap) {
+      if (cell?.toolTipValue) {
+        return cell?.toolTipValue(row[cell.id]);
+      }
+      return renderCellValue(row, cell);
+    }
+    return '';
+  };
 
   const isSelected = id => selected.indexOf(id) !== -1;
 
-  const tableBodyDefaultStyle = {
-    fontSize: '14px',
-    padding: '10px',
-    borderBottom: '1px solid rgba(224, 224, 224, 1)',
-    lineSpacing: '0.01071em',
-  };
   return (
     <TableBody>
       {dataList.length === 0 ? (
@@ -152,11 +162,22 @@ function MuiTableBody({
                   align={cell.align || 'left'}
                   className={`text-capitalize ${handlegetCellClass(cell, row[cell.id])}`}
                   style={{
+                    width: cell.noWrap ? cell.width || 200 : 'auto',
                     ...tableBodyDefaultStyle,
                     ...handlegetCellStyle(cell, row[cell.id]),
                   }}
                 >
-                  {renderCellValue(row, cell)}
+                  <Typography
+                    noWrap={cell.noWrap || false}
+                    sx={{
+                      fontSize: tableCellFontSize,
+                      width: cell.noWrap ? cell.width || 200 : 'auto',
+                    }}
+                  >
+                    <Tooltip title={getToolTipTitle(cell, row)} arrow placement="top">
+                      {renderCellValue(row, cell)}
+                    </Tooltip>
+                  </Typography>
                 </TableCell>
               ))}
 

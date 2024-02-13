@@ -15,6 +15,7 @@ export const creditNoteHeadCells = [
     disablePadding: true,
     label: 'Customer',
     align: 'left',
+    noWrap: true,
     cellValueAction: (_, __, row) => row?.invoice?.customer_info?.customer_name || '-',
   },
   {
