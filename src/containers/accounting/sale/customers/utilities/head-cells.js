@@ -34,7 +34,7 @@ export const customersHeadCell = [
     id: 'vat_reg_no',
     numeric: true,
     disablePadding: false,
-    label: 'VAT Registration',
+    label: 'VAT Reg#',
     align: 'left',
   },
   {

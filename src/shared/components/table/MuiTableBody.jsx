@@ -162,7 +162,7 @@ function MuiTableBody({
                   align={cell.align || 'left'}
                   className={`text-capitalize ${handlegetCellClass(cell, row[cell.id])}`}
                   style={{
-                    width: cell.noWrap ? cell.width || 200 : 'auto',
+                    width: cell.noWrap ? cell.width || 200 : cell.width || 'auto',
                     ...tableBodyDefaultStyle,
                     ...handlegetCellStyle(cell, row[cell.id]),
                   }}
@@ -171,7 +171,7 @@ function MuiTableBody({
                     noWrap={cell.noWrap || false}
                     sx={{
                       fontSize: tableCellFontSize,
-                      width: cell.noWrap ? cell.width || 200 : 'auto',
+                      width: cell.noWrap ? cell.width || 200 : cell.width || 'auto',
                     }}
                   >
                     <Tooltip title={getToolTipTitle(cell, row)} arrow placement="top">
