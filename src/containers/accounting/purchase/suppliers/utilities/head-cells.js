@@ -6,19 +6,20 @@ export const supplierHeadCells = [
     label: 'Supplier ',
     align: 'left',
     isLink: true,
-  },
-  {
-    id: 'contact_person',
-    numeric: true,
-    disablePadding: false,
-    label: 'Contact Person',
-    align: 'left',
+    sliceLength: 30,
   },
   {
     id: 'email',
     numeric: true,
     disablePadding: false,
     label: 'Email',
+    align: 'left',
+  },
+  {
+    id: 'contact_person',
+    numeric: true,
+    disablePadding: false,
+    label: 'Contact Person',
     align: 'left',
   },
 

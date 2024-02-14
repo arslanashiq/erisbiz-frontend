@@ -16,12 +16,13 @@ export const supplierCreditHeadCells = [
     disablePadding: false,
     label: 'Supplier ',
     align: 'left',
+    sliceLength: 30,
   },
   {
     id: 'supplier_credit_formatted_number',
     numeric: true,
     disablePadding: false,
-    label: 'Debit Note Number',
+    label: 'Debit Note#',
     align: 'left',
     isLink: true,
   },
@@ -29,7 +30,7 @@ export const supplierCreditHeadCells = [
     id: 'bill_num',
     numeric: true,
     disablePadding: false,
-    label: 'Bill Number',
+    label: 'Purchase Invoice#',
     align: 'left',
   },
 
