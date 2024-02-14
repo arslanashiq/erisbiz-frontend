@@ -21,8 +21,7 @@ function useGetSideBarLinksList() {
     },
 
     {
-      name: 'space',
-      link: '/',
+      space: true,
       divider: true,
     },
     {

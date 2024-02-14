@@ -25,7 +25,7 @@ function LargeScreenDrawer({
       <Divider />
       <List sx={{ width: '100%', paddingTop: 2 }}>
         {AccountantSideBarLinks.map(sideBar => {
-          if (sideBar.name === 'space') {
+          if (sideBar.space) {
             return (
               <Box key={sideBar.name} sx={{ padding: '10px 0px' }}>
                 <Box sx={{ borderBottom: 1, borderBottomColor: 'silver' }} />
