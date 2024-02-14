@@ -14,7 +14,6 @@ export const customersHeadCell = [
     disablePadding: false,
     label: 'Email',
     align: 'left',
-    sliceLength: 30,
   },
   {
     id: 'contact_person',
@@ -50,7 +49,6 @@ export const customersHeadCell = [
     disablePadding: false,
     label: 'Country',
     align: 'left',
-    sliceLength: 15,
 
   },
 ];
