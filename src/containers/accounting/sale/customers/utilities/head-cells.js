@@ -6,8 +6,7 @@ export const customersHeadCell = [
     label: 'Customer',
     align: 'left',
     isLink: true,
-    noWrap: true,
-    toolTipValue: value => value,
+    sliceLength: 30,
   },
   {
     id: 'email',
@@ -15,6 +14,7 @@ export const customersHeadCell = [
     disablePadding: false,
     label: 'Email',
     align: 'left',
+    sliceLength: 30,
   },
   {
     id: 'contact_person',
@@ -50,6 +50,8 @@ export const customersHeadCell = [
     disablePadding: false,
     label: 'Country',
     align: 'left',
+    sliceLength: 15,
+
   },
 ];
 export const customerContactHeadCells = [

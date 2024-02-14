@@ -86,7 +86,7 @@ export const VAT_CHARGES = [
   // { label: 'Tax Exempt (0%)', value: 3, percent: 0 },
   // { label: 'Out of Scope (0%)', value: 4, percent: 0 },
 ];
-export const DRAWER_WIDTH = 240;
+export const DRAWER_WIDTH = 230;
 
 export const DEFAULT_IMG = 'https://stagingcrm.beyonderissolutions.com/img/avatar.png';
 

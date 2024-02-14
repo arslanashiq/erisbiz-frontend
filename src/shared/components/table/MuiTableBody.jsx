@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
-import { Box, Button, Checkbox, TableBody, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Checkbox, TableBody, TableCell, TableRow, Tooltip } from '@mui/material';
 import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
 import { useSelector } from 'react-redux';
@@ -65,7 +66,7 @@ function MuiTableBody({
   const renderCellValue = (row, cell) => {
     // for custom actions based on values values
     if (cell.cellValueAction) {
-      return cell.cellValueAction(row[cell.id], currencySymbol, row);
+      return <span>{cell.cellValueAction(row[cell.id], currencySymbol, row)}</span>;
     }
     if (cell.formatAmount) {
       return formatAmount(row[cell.id]);
@@ -86,18 +87,39 @@ function MuiTableBody({
       getValue(row, cell)
     );
   };
-  const getToolTipTitle = (cell, row) => {
-    if (cell.noWrap) {
-      if (cell?.toolTipValue) {
-        return cell?.toolTipValue(row[cell.id]);
-      }
-      return renderCellValue(row, cell);
-    }
-    return '';
-  };
 
   const isSelected = id => selected.indexOf(id) !== -1;
 
+  const renderTooltip = (row, newRow, cell) => (
+    <Tooltip title={row[cell.id]} arrow placement="top">
+      {renderCellValue(newRow, cell)}
+    </Tooltip>
+  );
+  const renderCell = (row, cell) => {
+    if (cell.sliceLength) {
+      if (cell.cellValueAction || cell.sliceValueAction) {
+        if (cell.cellValueAction && cell.sliceValueAction) {
+          const { newValueForRender, newValueForTooltip } = cell.sliceValueAction(
+            row[cell.id],
+            cell,
+            row,
+            cell.sliceLength
+          );
+
+          const newRowForRender = { ...row, [cell.id]: newValueForRender };
+          const newRowForTooltip = { ...row, [cell.id]: newValueForTooltip };
+
+          return renderTooltip(newRowForTooltip, newRowForRender, cell);
+        }
+        return renderCellValue(row, cell);
+      }
+      if (row?.[cell.id] && row?.[cell.id]?.length > cell.sliceLength) {
+        const newRowForRender = { ...row, [cell.id]: `${row[cell.id]?.slice(0, cell.sliceLength)}..` };
+        return renderTooltip(row, newRowForRender, cell);
+      }
+    }
+    return renderCellValue(row, cell);
+  };
   return (
     <TableBody>
       {dataList.length === 0 ? (
@@ -162,22 +184,11 @@ function MuiTableBody({
                   align={cell.align || 'left'}
                   className={`text-capitalize ${handlegetCellClass(cell, row[cell.id])}`}
                   style={{
-                    width: cell.noWrap ? cell.width || 200 : cell.width || 'auto',
                     ...tableBodyDefaultStyle,
                     ...handlegetCellStyle(cell, row[cell.id]),
                   }}
                 >
-                  <Typography
-                    noWrap={cell.noWrap || false}
-                    sx={{
-                      fontSize: tableCellFontSize,
-                      width: cell.noWrap ? cell.width || 200 : cell.width || 'auto',
-                    }}
-                  >
-                    <Tooltip title={getToolTipTitle(cell, row)} arrow placement="top">
-                      {renderCellValue(row, cell)}
-                    </Tooltip>
-                  </Typography>
+                  {renderCell(row, cell)}
                 </TableCell>
               ))}
 

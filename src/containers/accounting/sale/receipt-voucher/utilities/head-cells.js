@@ -1,4 +1,5 @@
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
+import { customerSliceValueAction } from '../../quotations/utilities/head-cells';
 
 export const receiptVoucherHeadCells = [
   {
@@ -16,7 +17,8 @@ export const receiptVoucherHeadCells = [
     disablePadding: false,
     label: 'Customer',
     align: 'left',
-    noWrap: true,
+    sliceLength: 30,
+    sliceValueAction: customerSliceValueAction,
     cellValueAction: customerInfo => customerInfo.customer_name,
   },
   {

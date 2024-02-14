@@ -10,13 +10,27 @@ export const creditNoteHeadCells = [
     date: true,
   },
   {
-    id: 'invoice_num_with_suffix',
+    id: 'invoice',
     numeric: false,
     disablePadding: true,
     label: 'Customer',
     align: 'left',
-    noWrap: true,
-    cellValueAction: (_, __, row) => row?.invoice?.customer_info?.customer_name || '-',
+    sliceLength: 30,
+    sliceValueAction: (value, cell, row, sliceLength) => ({
+      newValueForRender: {
+        ...value,
+        customer_info: {
+          ...value.customer_info,
+          customer_name:
+            value?.customer_info?.customer_name?.length > sliceLength
+              ? `${value?.customer_info?.customer_name?.slice(0, 30)}..`
+              : value?.customer_info?.customer_name,
+        },
+      },
+      newValueForTooltip:
+        value?.customer_info?.customer_name?.length > sliceLength ? value?.customer_info?.customer_name : '',
+    }),
+    cellValueAction: value => value?.customer_info?.customer_name || '-',
   },
   {
     id: 'invoice_num_with_suffix',

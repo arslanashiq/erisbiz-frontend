@@ -1,5 +1,15 @@
 import { handleGetStatusBaseClass } from 'utilities/status-base-style';
 
+export const customerSliceValueAction = (value, cell, row, sliceLength) => ({
+  newValueForRender: {
+    ...value,
+    customer_name:
+      value?.customer_name?.length > sliceLength
+        ? `${value?.customer_name?.slice(0, 30)}..`
+        : value?.customer_name,
+  },
+  newValueForTooltip: value?.customer_name?.length > sliceLength ? value?.customer_name : '',
+});
 export const quotationsHeadCell = [
   {
     id: 'date',
@@ -16,7 +26,9 @@ export const quotationsHeadCell = [
     label: 'Customer',
     align: 'left',
     noWrap: true,
-    cellValueAction: customerInfo => customerInfo.customer_name,
+    sliceLength: 30,
+    sliceValueAction: customerSliceValueAction,
+    cellValueAction: customerInfo => customerInfo?.customer_name,
   },
   {
     id: 'quotation_formatted_number',
@@ -73,5 +85,3 @@ export const quotationsHeadCell = [
     formatAmount: true,
   },
 ];
-
-export const test = '';
