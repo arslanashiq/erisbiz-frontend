@@ -52,7 +52,7 @@ function useGetAccountTransactionData(accountTransactionResponse) {
         {
           value: item.remarks?.substring(0, 180) || item.remarks || '',
 
-          style: { textAlign: 'start', maxWidth: 300 },
+          style: { textAlign: 'start', maxWidth: 300, textTransform: 'none' },
           toolTip: true,
           toolTipContent: item.remarks || '',
         },
