@@ -24,6 +24,7 @@ export const expensesHeadCells = [
     disablePadding: false,
     label: 'Expense #',
     align: 'left',
+    isLink: true,
   },
 
   {
@@ -32,7 +33,6 @@ export const expensesHeadCells = [
     disablePadding: false,
     label: 'Expense Account',
     align: 'left',
-    isLink: true,
   },
 
   // {
