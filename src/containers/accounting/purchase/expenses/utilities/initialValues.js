@@ -2,6 +2,7 @@ import moment from 'moment';
 import { DATE_FORMAT } from 'utilities/constants';
 
 export const expensesInitialValues = {
+  expense_formatted_number: '',
   expense_account_id: '', // expense Account
   expense_date: moment().format(DATE_FORMAT),
   total_without_tax: 0, // amount

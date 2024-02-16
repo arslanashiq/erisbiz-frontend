@@ -17,6 +17,15 @@ export const expensesHeadCells = [
     label: 'Supplier ',
     align: 'left',
   },
+
+  {
+    id: 'expense_formatted_number',
+    numeric: true,
+    disablePadding: false,
+    label: 'Expense #',
+    align: 'left',
+  },
+
   {
     id: 'expense_account_name',
     numeric: true,
@@ -26,13 +35,13 @@ export const expensesHeadCells = [
     isLink: true,
   },
 
-  {
-    id: 'reference_num',
-    numeric: true,
-    disablePadding: false,
-    label: 'Reference #',
-    align: 'left',
-  },
+  // {
+  //   id: 'reference_num',
+  //   numeric: true,
+  //   disablePadding: false,
+  //   label: 'Reference #',
+  //   align: 'left',
+  // },
   {
     id: 'paid_through_account_name',
     numeric: true,

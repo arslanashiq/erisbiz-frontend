@@ -26,7 +26,7 @@ const expensesApi = privateApi.injectEndpoints({
         method: 'POST',
         body: payload,
       }),
-      invalidatesTags: ['getExpensesList', 'getSupplierTransactions'],
+      invalidatesTags: ['getExpensesList', 'getSupplierTransactions', 'getLatestExpensesNumber'],
     }),
     editExpense: builder.mutation({
       query: ({ id, payload }) => ({
@@ -34,14 +34,14 @@ const expensesApi = privateApi.injectEndpoints({
         method: 'PATCH',
         body: payload,
       }),
-      invalidatesTags: ['getSingleExpense', 'getExpensesList', 'getSupplierTransactions'],
+      invalidatesTags: ['getSingleExpense', 'getExpensesList', 'getSupplierTransactions', 'getLatestExpensesNumber'],
     }),
     deleteExpense: builder.mutation({
       query: id => ({
         url: `api/accounting/purchases/expenses/${id}/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['getExpensesList', 'getSupplierTransactions'],
+      invalidatesTags: ['getExpensesList', 'getSupplierTransactions', 'getLatestExpensesNumber'],
     }),
     getExpenseJournals: builder.query({
       query: id => ({
@@ -64,6 +64,14 @@ const expensesApi = privateApi.injectEndpoints({
       }),
       invalidatesTags: ['getSingleExpense'],
     }),
+
+    getLatestExpensesNumber: builder.query({
+      query: () => ({
+        url: 'api/accounting/purchases/expenses/latest',
+        method: 'GET',
+      }),
+      providesTags: ['getLatestExpensesNumber'],
+    }),
   }),
 });
 
@@ -76,4 +84,5 @@ export const {
   useGetExpenseJournalsQuery,
   useUploadExpensesDocumentMutation,
   useDeleteExpensesDocumentMutation,
+  useGetLatestExpensesNumberQuery,
 } = expensesApi;

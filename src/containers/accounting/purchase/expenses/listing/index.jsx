@@ -46,7 +46,7 @@ function ExpensesListing() {
       <MuiTable
         data={expensesResponse?.data?.results}
         totalDataCount={expensesResponse?.data?.count}
-        TableHeading="Expenses "
+        TableHeading="Expenses"
         showCheckbox
         headCells={expensesHeadCells}
         handleEdit={handleEdit}

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import PersonIcon from '@mui/icons-material/Person';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -8,6 +8,7 @@ import { Card, CardContent } from '@mui/material';
 import {
   useAddExpenseMutation,
   useEditExpenseMutation,
+  useGetLatestExpensesNumberQuery,
   useGetSingleExpenseQuery,
 } from 'services/private/expenses';
 import { useGetSuppliersListQuery } from 'services/private/suppliers';
@@ -37,10 +38,18 @@ function AddExpense() {
 
   const supplierListResponse = useGetSuppliersListQuery();
 
+  const latestExpensesNumber = useGetLatestExpensesNumberQuery(
+    {},
+    { skip: id, refetchOnMountOrArgChange: true }
+  );
+
   const [addExpense] = useAddExpenseMutation();
   const [editExpense] = useEditExpenseMutation();
 
-  const { initialValues } = useInitialValues(expensesInitialValues, useGetSingleExpenseQuery);
+  const { initialValues, setInitialValues } = useInitialValues(
+    expensesInitialValues,
+    useGetSingleExpenseQuery
+  );
 
   const { optionsList: chartOfAccountOptions } = useListOptions(
     chartOfAccountListResponse?.data?.results,
@@ -119,6 +128,18 @@ function AddExpense() {
     }
   }, []);
 
+  // EFFECT
+  useEffect(() => {
+    if (!id) {
+      setInitialValues({
+        ...initialValues,
+        expense_formatted_number: latestExpensesNumber?.data?.latest_num
+          ? latestExpensesNumber.data.latest_num
+          : 1000,
+      });
+    }
+  }, [latestExpensesNumber]);
+
   return (
     <Card>
       <CardContent>
@@ -128,16 +149,14 @@ function AddExpense() {
           validationSchema={expensesFormValidationSchema}
           onSubmit={handleSumbitForm}
         >
-          {/* Bank Name */}
+          {/* Expense Number */}
 
-          <FormikSelect
-            name="expense_account_id"
-            type="text"
-            //  placeholder="Expense Account"
+          <FormikField
+            name="expense_formatted_number"
+            //  placeholder="Purchase Order Number"
+            disabled
+            label="Exp Number"
             startIcon={<TagIcon />}
-            label="Expense Account"
-            options={expenseChartOfAccount}
-            isRequired
           />
 
           {/* date */}
@@ -149,6 +168,18 @@ function AddExpense() {
             label="Date"
             startIcon={<CalendarMonthIcon />}
           />
+
+          {/* Bank Name */}
+
+          <FormikSelect
+            name="expense_account_id"
+            type="text"
+            //  placeholder="Expense Account"
+            label="Expense Account"
+            options={expenseChartOfAccount}
+            isRequired
+          />
+
           {/* AMount */}
 
           <FormikField
@@ -196,7 +227,6 @@ function AddExpense() {
             name="reference_num"
             //  placeholder="Reference"
             label="Reference"
-            className="col-12"
           />
 
           {/* remarks */}
