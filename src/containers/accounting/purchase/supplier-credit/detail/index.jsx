@@ -66,6 +66,7 @@ function SupplierCreditDetail() {
         city: supplierCreditResponse?.data?.supplier?.city || '',
         country: supplierCreditResponse?.data?.supplier?.country || '',
       },
+      currency_symbol: supplierCreditResponse?.data?.currency_symbol || '',
       bankDetail: {
         bank_name: supplierCreditResponse?.data?.supplier?.bank_name,
         account_holder_name: supplierCreditResponse?.data?.supplier?.account_payee,
