@@ -49,7 +49,7 @@ function ExpenseDetail() {
   return (
     <SectionLoader options={[expenseDetail.isLoading, expenseJournals.isLoading]}>
       <DetailPageHeader
-        title={expenseDetail.data ? `Expense:${expenseDetail.data.expense_formatted_number}` : ''}
+        title={expenseDetail.data ? `Expense : ${expenseDetail.data.expense_formatted_number}` : ''}
         filesList={expenseDetail?.data?.expense_docs}
         orderDetail={expenseDetail?.data}
         actionsList={ExpenseActionList}
